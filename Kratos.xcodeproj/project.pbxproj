@@ -1,0 +1,581 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AF89745F1D4D80E500C19020 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89745E1D4D80E500C19020 /* AppDelegate.swift */; };
+		AF8974611D4D80E500C19020 /* MainApplicationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974601D4D80E500C19020 /* MainApplicationViewController.swift */; };
+		AF8974641D4D80E500C19020 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8974621D4D80E500C19020 /* Main.storyboard */; };
+		AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF8974651D4D80E500C19020 /* Assets.xcassets */; };
+		AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8974671D4D80E500C19020 /* LaunchScreen.storyboard */; };
+		AF8974741D4D80E500C19020 /* KratosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974731D4D80E500C19020 /* KratosTests.swift */; };
+		AF89747F1D4D80E500C19020 /* KratosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89747E1D4D80E500C19020 /* KratosUITests.swift */; };
+		AF8974941D4D887100C19020 /* SubmitAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974931D4D887100C19020 /* SubmitAddressViewController.swift */; };
+		AF8974961D4D88C500C19020 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974951D4D88C500C19020 /* MainViewController.swift */; };
+		AF8974981D4D88D900C19020 /* RepresentativeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974971D4D88D900C19020 /* RepresentativeDetailViewController.swift */; };
+		AF89749A1D4D88F600C19020 /* LegislationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974991D4D88F600C19020 /* LegislationDetailViewController.swift */; };
+		AF89749C1D4D8ADC00C19020 /* Legislation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89749B1D4D8ADC00C19020 /* Legislation.swift */; };
+		AF89749E1D4D8B2700C19020 /* Representative.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89749D1D4D8B2700C19020 /* Representative.swift */; };
+		AF8974A21D4D8ED500C19020 /* RepresentativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974A11D4D8ED500C19020 /* RepresentativeView.swift */; };
+		AF8974A41D4D8F6400C19020 /* RepresentativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF8974A31D4D8F6400C19020 /* RepresentativeView.xib */; };
+		AF8974A61D4D93E600C19020 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974A51D4D93E600C19020 /* UIView+Extensions.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AF8974701D4D80E500C19020 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF8974531D4D80E500C19020 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF89745A1D4D80E500C19020;
+			remoteInfo = Kratos;
+		};
+		AF89747B1D4D80E500C19020 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF8974531D4D80E500C19020 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF89745A1D4D80E500C19020;
+			remoteInfo = Kratos;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AF89745B1D4D80E500C19020 /* Kratos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kratos.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF89745E1D4D80E500C19020 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AF8974601D4D80E500C19020 /* MainApplicationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainApplicationViewController.swift; path = ../MainApplicationViewController.swift; sourceTree = "<group>"; };
+		AF8974631D4D80E500C19020 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AF8974651D4D80E500C19020 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AF8974681D4D80E500C19020 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AF89746A1D4D80E500C19020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF89746F1D4D80E500C19020 /* KratosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KratosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF8974731D4D80E500C19020 /* KratosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KratosTests.swift; sourceTree = "<group>"; };
+		AF8974751D4D80E500C19020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF89747A1D4D80E500C19020 /* KratosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KratosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF89747E1D4D80E500C19020 /* KratosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KratosUITests.swift; sourceTree = "<group>"; };
+		AF8974801D4D80E500C19020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF8974931D4D887100C19020 /* SubmitAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitAddressViewController.swift; sourceTree = "<group>"; };
+		AF8974951D4D88C500C19020 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		AF8974971D4D88D900C19020 /* RepresentativeDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeDetailViewController.swift; sourceTree = "<group>"; };
+		AF8974991D4D88F600C19020 /* LegislationDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegislationDetailViewController.swift; sourceTree = "<group>"; };
+		AF89749B1D4D8ADC00C19020 /* Legislation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Legislation.swift; sourceTree = "<group>"; };
+		AF89749D1D4D8B2700C19020 /* Representative.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Representative.swift; sourceTree = "<group>"; };
+		AF8974A11D4D8ED500C19020 /* RepresentativeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeView.swift; sourceTree = "<group>"; };
+		AF8974A31D4D8F6400C19020 /* RepresentativeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepresentativeView.xib; sourceTree = "<group>"; };
+		AF8974A51D4D93E600C19020 /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AF8974581D4D80E500C19020 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF89746C1D4D80E500C19020 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF8974771D4D80E500C19020 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AF8974521D4D80E500C19020 = {
+			isa = PBXGroup;
+			children = (
+				AF89745D1D4D80E500C19020 /* Kratos */,
+				AF8974721D4D80E500C19020 /* KratosTests */,
+				AF89747D1D4D80E500C19020 /* KratosUITests */,
+				AF89745C1D4D80E500C19020 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AF89745C1D4D80E500C19020 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AF89745B1D4D80E500C19020 /* Kratos.app */,
+				AF89746F1D4D80E500C19020 /* KratosTests.xctest */,
+				AF89747A1D4D80E500C19020 /* KratosUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AF89745D1D4D80E500C19020 /* Kratos */ = {
+			isa = PBXGroup;
+			children = (
+				AF89745E1D4D80E500C19020 /* AppDelegate.swift */,
+				AF8974621D4D80E500C19020 /* Main.storyboard */,
+				AF89748E1D4D862B00C19020 /* Extensions */,
+				AF89748F1D4D862B00C19020 /* Models */,
+				AF8974901D4D862B00C19020 /* ViewControllers */,
+				AF8974911D4D862B00C19020 /* Views */,
+				AF8974651D4D80E500C19020 /* Assets.xcassets */,
+				AF8974671D4D80E500C19020 /* LaunchScreen.storyboard */,
+				AF89746A1D4D80E500C19020 /* Info.plist */,
+			);
+			path = Kratos;
+			sourceTree = "<group>";
+		};
+		AF8974721D4D80E500C19020 /* KratosTests */ = {
+			isa = PBXGroup;
+			children = (
+				AF8974731D4D80E500C19020 /* KratosTests.swift */,
+				AF8974751D4D80E500C19020 /* Info.plist */,
+			);
+			path = KratosTests;
+			sourceTree = "<group>";
+		};
+		AF89747D1D4D80E500C19020 /* KratosUITests */ = {
+			isa = PBXGroup;
+			children = (
+				AF89747E1D4D80E500C19020 /* KratosUITests.swift */,
+				AF8974801D4D80E500C19020 /* Info.plist */,
+			);
+			path = KratosUITests;
+			sourceTree = "<group>";
+		};
+		AF89748E1D4D862B00C19020 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AF8974A51D4D93E600C19020 /* UIView+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		AF89748F1D4D862B00C19020 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AF89749B1D4D8ADC00C19020 /* Legislation.swift */,
+				AF89749D1D4D8B2700C19020 /* Representative.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AF8974901D4D862B00C19020 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				AF8974601D4D80E500C19020 /* MainApplicationViewController.swift */,
+				AF8974931D4D887100C19020 /* SubmitAddressViewController.swift */,
+				AF8974951D4D88C500C19020 /* MainViewController.swift */,
+				AF8974971D4D88D900C19020 /* RepresentativeDetailViewController.swift */,
+				AF8974991D4D88F600C19020 /* LegislationDetailViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		AF8974911D4D862B00C19020 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AF8974921D4D862B00C19020 /* TableViewCells */,
+				AF8974A11D4D8ED500C19020 /* RepresentativeView.swift */,
+				AF8974A31D4D8F6400C19020 /* RepresentativeView.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AF8974921D4D862B00C19020 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TableViewCells;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AF89745A1D4D80E500C19020 /* Kratos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF8974831D4D80E500C19020 /* Build configuration list for PBXNativeTarget "Kratos" */;
+			buildPhases = (
+				AF8974571D4D80E500C19020 /* Sources */,
+				AF8974581D4D80E500C19020 /* Frameworks */,
+				AF8974591D4D80E500C19020 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Kratos;
+			productName = Kratos;
+			productReference = AF89745B1D4D80E500C19020 /* Kratos.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AF89746E1D4D80E500C19020 /* KratosTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF8974861D4D80E500C19020 /* Build configuration list for PBXNativeTarget "KratosTests" */;
+			buildPhases = (
+				AF89746B1D4D80E500C19020 /* Sources */,
+				AF89746C1D4D80E500C19020 /* Frameworks */,
+				AF89746D1D4D80E500C19020 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AF8974711D4D80E500C19020 /* PBXTargetDependency */,
+			);
+			name = KratosTests;
+			productName = KratosTests;
+			productReference = AF89746F1D4D80E500C19020 /* KratosTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		AF8974791D4D80E500C19020 /* KratosUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF8974891D4D80E500C19020 /* Build configuration list for PBXNativeTarget "KratosUITests" */;
+			buildPhases = (
+				AF8974761D4D80E500C19020 /* Sources */,
+				AF8974771D4D80E500C19020 /* Frameworks */,
+				AF8974781D4D80E500C19020 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AF89747C1D4D80E500C19020 /* PBXTargetDependency */,
+			);
+			name = KratosUITests;
+			productName = KratosUITests;
+			productReference = AF89747A1D4D80E500C19020 /* KratosUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AF8974531D4D80E500C19020 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Dylan Straughan";
+				TargetAttributes = {
+					AF89745A1D4D80E500C19020 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					AF89746E1D4D80E500C19020 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = AF89745A1D4D80E500C19020;
+					};
+					AF8974791D4D80E500C19020 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = AF89745A1D4D80E500C19020;
+					};
+				};
+			};
+			buildConfigurationList = AF8974561D4D80E500C19020 /* Build configuration list for PBXProject "Kratos" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AF8974521D4D80E500C19020;
+			productRefGroup = AF89745C1D4D80E500C19020 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AF89745A1D4D80E500C19020 /* Kratos */,
+				AF89746E1D4D80E500C19020 /* KratosTests */,
+				AF8974791D4D80E500C19020 /* KratosUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AF8974591D4D80E500C19020 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */,
+				AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */,
+				AF8974641D4D80E500C19020 /* Main.storyboard in Resources */,
+				AF8974A41D4D8F6400C19020 /* RepresentativeView.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF89746D1D4D80E500C19020 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF8974781D4D80E500C19020 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AF8974571D4D80E500C19020 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF89749E1D4D8B2700C19020 /* Representative.swift in Sources */,
+				AF8974941D4D887100C19020 /* SubmitAddressViewController.swift in Sources */,
+				AF8974611D4D80E500C19020 /* MainApplicationViewController.swift in Sources */,
+				AF8974981D4D88D900C19020 /* RepresentativeDetailViewController.swift in Sources */,
+				AF89749C1D4D8ADC00C19020 /* Legislation.swift in Sources */,
+				AF8974A21D4D8ED500C19020 /* RepresentativeView.swift in Sources */,
+				AF89749A1D4D88F600C19020 /* LegislationDetailViewController.swift in Sources */,
+				AF89745F1D4D80E500C19020 /* AppDelegate.swift in Sources */,
+				AF8974961D4D88C500C19020 /* MainViewController.swift in Sources */,
+				AF8974A61D4D93E600C19020 /* UIView+Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF89746B1D4D80E500C19020 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF8974741D4D80E500C19020 /* KratosTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF8974761D4D80E500C19020 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF89747F1D4D80E500C19020 /* KratosUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AF8974711D4D80E500C19020 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF89745A1D4D80E500C19020 /* Kratos */;
+			targetProxy = AF8974701D4D80E500C19020 /* PBXContainerItemProxy */;
+		};
+		AF89747C1D4D80E500C19020 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF89745A1D4D80E500C19020 /* Kratos */;
+			targetProxy = AF89747B1D4D80E500C19020 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		AF8974621D4D80E500C19020 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AF8974631D4D80E500C19020 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AF8974671D4D80E500C19020 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AF8974681D4D80E500C19020 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AF8974811D4D80E500C19020 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AF8974821D4D80E500C19020 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AF8974841D4D80E500C19020 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Kratos/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Volcan.Kratos;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AF8974851D4D80E500C19020 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Kratos/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Volcan.Kratos;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		AF8974871D4D80E500C19020 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = KratosTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Volcan.KratosTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kratos.app/Kratos";
+			};
+			name = Debug;
+		};
+		AF8974881D4D80E500C19020 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = KratosTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Volcan.KratosTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kratos.app/Kratos";
+			};
+			name = Release;
+		};
+		AF89748A1D4D80E500C19020 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = KratosUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Volcan.KratosUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Kratos;
+			};
+			name = Debug;
+		};
+		AF89748B1D4D80E500C19020 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = KratosUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Volcan.KratosUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Kratos;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AF8974561D4D80E500C19020 /* Build configuration list for PBXProject "Kratos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF8974811D4D80E500C19020 /* Debug */,
+				AF8974821D4D80E500C19020 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AF8974831D4D80E500C19020 /* Build configuration list for PBXNativeTarget "Kratos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF8974841D4D80E500C19020 /* Debug */,
+				AF8974851D4D80E500C19020 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		AF8974861D4D80E500C19020 /* Build configuration list for PBXNativeTarget "KratosTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF8974871D4D80E500C19020 /* Debug */,
+				AF8974881D4D80E500C19020 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		AF8974891D4D80E500C19020 /* Build configuration list for PBXNativeTarget "KratosUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF89748A1D4D80E500C19020 /* Debug */,
+				AF89748B1D4D80E500C19020 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AF8974531D4D80E500C19020 /* Project object */;
+}
