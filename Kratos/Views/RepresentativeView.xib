@@ -10,6 +10,7 @@
             <connections>
                 <outlet property="firstNameLabel" destination="XMD-G8-zpS" id="Xcm-yZ-k2I"/>
                 <outlet property="lastNameLabel" destination="UTW-XW-qC3" id="uTA-66-LoL"/>
+                <outlet property="legislationTableView" destination="Paz-Vw-IAt" id="BDV-OW-ZSA"/>
                 <outlet property="representativeLabel" destination="N09-Mb-rb0" id="GBM-co-whm"/>
                 <outlet property="representativeViewContentView" destination="iN0-l3-epB" id="snJ-aE-9z0"/>
                 <outlet property="stateLabel" destination="Tj4-96-ELQ" id="Wpg-1T-1x8"/>

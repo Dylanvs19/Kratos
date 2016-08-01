@@ -23,6 +23,12 @@
 		AF8974A21D4D8ED500C19020 /* RepresentativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974A11D4D8ED500C19020 /* RepresentativeView.swift */; };
 		AF8974A41D4D8F6400C19020 /* RepresentativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF8974A31D4D8F6400C19020 /* RepresentativeView.xib */; };
 		AF8974A61D4D93E600C19020 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974A51D4D93E600C19020 /* UIView+Extensions.swift */; };
+		AF8974A81D4E784E00C19020 /* LegislationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974A71D4E784E00C19020 /* LegislationTableViewCell.swift */; };
+		AF8974AA1D4E786E00C19020 /* LegislationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF8974A91D4E786E00C19020 /* LegislationTableViewCell.xib */; };
+		AF8974AD1D4E969000C19020 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974AC1D4E969000C19020 /* APIClient.swift */; };
+		AF8974AF1D4E98C700C19020 /* StreetAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974AE1D4E98C700C19020 /* StreetAddress.swift */; };
+		AF8974B21D4E999C00C19020 /* InputValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B11D4E999C00C19020 /* InputValidation.swift */; };
+		AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B31D4EB71800C19020 /* UIViewController+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +71,12 @@
 		AF8974A11D4D8ED500C19020 /* RepresentativeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeView.swift; sourceTree = "<group>"; };
 		AF8974A31D4D8F6400C19020 /* RepresentativeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepresentativeView.xib; sourceTree = "<group>"; };
 		AF8974A51D4D93E600C19020 /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		AF8974A71D4E784E00C19020 /* LegislationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegislationTableViewCell.swift; sourceTree = "<group>"; };
+		AF8974A91D4E786E00C19020 /* LegislationTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LegislationTableViewCell.xib; sourceTree = "<group>"; };
+		AF8974AC1D4E969000C19020 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		AF8974AE1D4E98C700C19020 /* StreetAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreetAddress.swift; sourceTree = "<group>"; };
+		AF8974B11D4E999C00C19020 /* InputValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValidation.swift; sourceTree = "<group>"; };
+		AF8974B31D4EB71800C19020 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +129,8 @@
 			children = (
 				AF89745E1D4D80E500C19020 /* AppDelegate.swift */,
 				AF8974621D4D80E500C19020 /* Main.storyboard */,
+				AF8974AB1D4E965600C19020 /* APIClient */,
+				AF8974B01D4E997D00C19020 /* Utilites */,
 				AF89748E1D4D862B00C19020 /* Extensions */,
 				AF89748F1D4D862B00C19020 /* Models */,
 				AF8974901D4D862B00C19020 /* ViewControllers */,
@@ -150,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				AF8974A51D4D93E600C19020 /* UIView+Extensions.swift */,
+				AF8974B31D4EB71800C19020 /* UIViewController+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -159,6 +174,7 @@
 			children = (
 				AF89749B1D4D8ADC00C19020 /* Legislation.swift */,
 				AF89749D1D4D8B2700C19020 /* Representative.swift */,
+				AF8974AE1D4E98C700C19020 /* StreetAddress.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -188,8 +204,26 @@
 		AF8974921D4D862B00C19020 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				AF8974A71D4E784E00C19020 /* LegislationTableViewCell.swift */,
+				AF8974A91D4E786E00C19020 /* LegislationTableViewCell.xib */,
 			);
 			path = TableViewCells;
+			sourceTree = "<group>";
+		};
+		AF8974AB1D4E965600C19020 /* APIClient */ = {
+			isa = PBXGroup;
+			children = (
+				AF8974AC1D4E969000C19020 /* APIClient.swift */,
+			);
+			path = APIClient;
+			sourceTree = "<group>";
+		};
+		AF8974B01D4E997D00C19020 /* Utilites */ = {
+			isa = PBXGroup;
+			children = (
+				AF8974B11D4E999C00C19020 /* InputValidation.swift */,
+			);
+			path = Utilites;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -298,6 +332,7 @@
 			files = (
 				AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */,
 				AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */,
+				AF8974AA1D4E786E00C19020 /* LegislationTableViewCell.xib in Resources */,
 				AF8974641D4D80E500C19020 /* Main.storyboard in Resources */,
 				AF8974A41D4D8F6400C19020 /* RepresentativeView.xib in Resources */,
 			);
@@ -325,15 +360,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF89749E1D4D8B2700C19020 /* Representative.swift in Sources */,
+				AF8974B21D4E999C00C19020 /* InputValidation.swift in Sources */,
 				AF8974941D4D887100C19020 /* SubmitAddressViewController.swift in Sources */,
 				AF8974611D4D80E500C19020 /* MainApplicationViewController.swift in Sources */,
 				AF8974981D4D88D900C19020 /* RepresentativeDetailViewController.swift in Sources */,
+				AF8974AF1D4E98C700C19020 /* StreetAddress.swift in Sources */,
 				AF89749C1D4D8ADC00C19020 /* Legislation.swift in Sources */,
+				AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */,
 				AF8974A21D4D8ED500C19020 /* RepresentativeView.swift in Sources */,
 				AF89749A1D4D88F600C19020 /* LegislationDetailViewController.swift in Sources */,
 				AF89745F1D4D80E500C19020 /* AppDelegate.swift in Sources */,
 				AF8974961D4D88C500C19020 /* MainViewController.swift in Sources */,
 				AF8974A61D4D93E600C19020 /* UIView+Extensions.swift in Sources */,
+				AF8974A81D4E784E00C19020 /* LegislationTableViewCell.swift in Sources */,
+				AF8974AD1D4E969000C19020 /* APIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
