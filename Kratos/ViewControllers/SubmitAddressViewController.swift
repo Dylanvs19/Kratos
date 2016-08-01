@@ -37,6 +37,17 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var kratosOnScreen: NSLayoutConstraint!
     @IBOutlet var kratosOffScreen: NSLayoutConstraint!
     
+    @IBOutlet var addressTextField: UITextField!
+    @IBOutlet var cityTextField: UITextField!
+    @IBOutlet var zipCodeTextField: UITextField!
+    @IBOutlet var stateTextField: UITextField!
+    @IBOutlet var kratosLabel: UILabel!
+    
+    @IBOutlet var stateUnderlineView: UIView!
+    @IBOutlet var cityUnderlineView: UIView!
+    @IBOutlet var zipcodeUnderlineView: UIView!
+    @IBOutlet var addressUnderlineView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -79,6 +90,14 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     
     func handleTapOutside(recognizer: UITapGestureRecognizer) {
         view.endEditing(true)
+        if textFieldsValid() {
+            UIView.animateWithDuration(2, animations: {
+                self.enterOffScreen.active = false
+                self.kratosLabel.alpha = 0
+                self.enterOnScreen.active = true
+                self.view.layoutIfNeeded()
+            })
+        }
     }
     
     private func setupGestureRecognizer() {
@@ -86,7 +105,41 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(tapRecognizer)
     }
     
+    @IBAction func enterButtonPressed(sender: AnyObject) {
+        
+    }
     
+    func textFieldsValid() -> Bool {
+        
+        if InputValidation.validateAddress(addressTextField.text) == false {
+            UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: [.CurveEaseInOut, .Autoreverse], animations: {
+                    self.addressTextFieldFullWidth.constant += 5
+                    self.addressUnderlineView.backgroundColor = UIColor.kratosRed
+                    self.view.layoutIfNeeded()
+                }, completion: nil)
+            return false
+        } else {
+            UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: [.CurveEaseInOut, .Autoreverse], animations: {
+                self.addressTextFieldFullWidth.constant -= 5
+                self.addressUnderlineView.backgroundColor = UIColor.kratosBlue
+                self.view.layoutIfNeeded()
+                }, completion: nil)
+        }
+            
+        if InputValidation.validateCity(cityTextField.text) == false {
+            UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: [.CurveEaseInOut, .Autoreverse], animations: {
+                self.cityTextFieldNoWidth.constant += 5
+                self.addressUnderlineView.backgroundColor = UIColor.redColor()
+                }, completion: nil)
+            return false
+        }
+        return false
+
+    }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
+    }
     
 }

@@ -139,7 +139,7 @@
                                     <constraint firstAttribute="width" id="dbl-jb-6Jy"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CITY" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iyj-gM-SzM" userLabel="cityTextField">
                                 <rect key="frame" x="150" y="301" width="0.0" height="28"/>
@@ -147,7 +147,7 @@
                                     <constraint firstAttribute="width" id="IN2-hi-ZCu"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="ZIPCODE" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Sv-Ph-hu4" userLabel="zipCodeTextField">
                                 <rect key="frame" x="450" y="301" width="0.0" height="28"/>
@@ -155,7 +155,7 @@
                                     <constraint firstAttribute="width" id="iPk-Ik-ESA"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="STATE" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oq0-xk-aoB" userLabel="stateTextField">
                                 <rect key="frame" x="300" y="301" width="0.0" height="28"/>
@@ -164,7 +164,7 @@
                                     <constraint firstAttribute="width" id="kE9-hz-k35"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="0cJ-4R-7pV"/>
@@ -184,25 +184,26 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="K R A T O S" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y50-xW-4Hm">
-                                <rect key="frame" x="222" y="507" width="156" height="53"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="30"/>
-                                <color key="textColor" red="0.56025641029999995" green="0.56025641029999995" blue="0.56025641029999995" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lhu-sf-kLq" userLabel="enterButton">
                                 <rect key="frame" x="252" y="627" width="96" height="53"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="30"/>
                                 <state key="normal" title="ENTER">
                                     <color key="titleColor" red="0.0" green="0.24313725490196078" blue="0.59215686274509804" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="enterButtonPressed:" destination="rg2-ob-v9M" eventType="touchUpInside" id="Iws-qH-vXe"/>
+                                </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="K R A T O S" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y50-xW-4Hm">
+                                <rect key="frame" x="222" y="507" width="156" height="53"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="30"/>
+                                <color key="textColor" red="0.56025641029999995" green="0.56025641029999995" blue="0.56025641029999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Lhu-sf-kLq" firstAttribute="height" secondItem="y50-xW-4Hm" secondAttribute="height" id="2c1-Wi-KP2"/>
                             <constraint firstItem="3Sv-Ph-hu4" firstAttribute="centerY" secondItem="gDS-Z8-ZZA" secondAttribute="centerY" multiplier="1.05" id="4iH-4j-S5l"/>
-                            <constraint firstItem="ANp-nJ-QIP" firstAttribute="centerX" secondItem="gDS-Z8-ZZA" secondAttribute="centerX" id="7XQ-c9-pEb"/>
                             <constraint firstItem="3Sv-Ph-hu4" firstAttribute="centerX" secondItem="gDS-Z8-ZZA" secondAttribute="centerX" multiplier="1.5" id="8YE-KA-qoY"/>
                             <constraint firstItem="iyj-gM-SzM" firstAttribute="centerX" secondItem="gDS-Z8-ZZA" secondAttribute="centerX" multiplier="0.5" id="A37-Ax-IIV"/>
                             <constraint firstItem="Hpq-xF-7uS" firstAttribute="centerY" secondItem="gDS-Z8-ZZA" secondAttribute="centerY" multiplier="0.85" id="DDs-JJ-IAn"/>
@@ -227,6 +228,7 @@
                             <constraint firstItem="oq0-xk-aoB" firstAttribute="centerY" secondItem="gDS-Z8-ZZA" secondAttribute="centerY" multiplier="1.05" id="etQ-fz-Sg4"/>
                             <constraint firstItem="BOA-v2-FeD" firstAttribute="top" secondItem="Hpq-xF-7uS" secondAttribute="bottom" constant="1" id="evW-ko-DtP"/>
                             <constraint firstItem="Hpq-xF-7uS" firstAttribute="centerX" secondItem="gDS-Z8-ZZA" secondAttribute="centerX" id="jLG-9x-uda"/>
+                            <constraint firstItem="ANp-nJ-QIP" firstAttribute="centerX" secondItem="gDS-Z8-ZZA" secondAttribute="centerX" id="jRY-Wi-Yo1"/>
                             <constraint firstItem="iyj-gM-SzM" firstAttribute="centerY" secondItem="gDS-Z8-ZZA" secondAttribute="centerY" multiplier="1.05" id="kh7-Em-dJ4"/>
                             <constraint firstItem="jbd-P1-kMe" firstAttribute="top" secondItem="y50-xW-4Hm" secondAttribute="bottom" constant="-80" id="ldg-0I-2h2"/>
                             <constraint firstItem="peA-LR-Zon" firstAttribute="top" secondItem="oq0-xk-aoB" secondAttribute="bottom" constant="1" id="mtv-cZ-nbi"/>
@@ -250,11 +252,15 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="addressTextField" destination="Hpq-xF-7uS" id="Krl-AD-h9Y"/>
                         <outlet property="addressTextFieldFullWidth" destination="Oyn-M4-xOY" id="tis-az-LDg"/>
                         <outlet property="addressTextFieldNoWidth" destination="dbl-jb-6Jy" id="jer-0Y-m9n"/>
+                        <outlet property="addressUnderlineView" destination="BOA-v2-FeD" id="1Pq-6Y-Le7"/>
+                        <outlet property="cityTextField" destination="iyj-gM-SzM" id="V4G-gf-tuc"/>
                         <outlet property="cityTextFieldLeadingAddressTextField" destination="Yxx-C7-TvK" id="GPA-oW-Ecj"/>
                         <outlet property="cityTextFieldLeadingStateTextField" destination="KAw-nZ-wgC" id="QyT-BF-kxK"/>
                         <outlet property="cityTextFieldNoWidth" destination="IN2-hi-ZCu" id="wvI-ct-NUD"/>
+                        <outlet property="cityUnderlineView" destination="vrd-ll-ULl" id="7Dw-qw-YVo"/>
                         <outlet property="cityXAxisLeft" destination="A37-Ax-IIV" id="cpj-kj-INN"/>
                         <outlet property="enterOffScreen" destination="EvL-P9-dIl" id="FTj-BJ-d9n"/>
                         <outlet property="enterOnScreen" destination="epc-Hc-2Qe" id="YyN-fg-mgh"/>
@@ -262,14 +268,19 @@
                         <outlet property="kratosImageViewLarge" destination="jez-I3-dee" id="9d5-g8-FAe"/>
                         <outlet property="kratosImageViewSmall" destination="T1C-J9-LuB" id="deb-C2-fko"/>
                         <outlet property="kratosImageViewTop" destination="ZLw-vo-nJW" id="q0v-ge-fHH"/>
+                        <outlet property="kratosLabel" destination="y50-xW-4Hm" id="tSR-9e-4Hd"/>
                         <outlet property="kratosOffScreen" destination="ldg-0I-2h2" id="ljX-bL-kO1"/>
                         <outlet property="kratosOnScreen" destination="csO-rD-g7y" id="iaF-md-g01"/>
+                        <outlet property="stateTextField" destination="oq0-xk-aoB" id="9dH-eQ-oxV"/>
                         <outlet property="stateTextFieldFullWidth" destination="0cJ-4R-7pV" id="B2b-6q-eHc"/>
                         <outlet property="stateTextFieldNoWidth" destination="kE9-hz-k35" id="42V-1I-ukO"/>
+                        <outlet property="stateUnderlineView" destination="peA-LR-Zon" id="Q2z-aF-bwW"/>
+                        <outlet property="zipCodeTextField" destination="3Sv-Ph-hu4" id="Hv5-sH-tGf"/>
                         <outlet property="zipCodeTextFieldNoWidth" destination="iPk-Ik-ESA" id="9NA-8p-VRy"/>
                         <outlet property="zipCodeTextFieldTrailingAddressTextField" destination="ucZ-Hn-mlm" id="SLj-SQ-or4"/>
                         <outlet property="zipCodeTextFieldTrailingStateTextField" destination="xge-W1-058" id="iOE-Ct-7fv"/>
                         <outlet property="zipCodeXAxisRight" destination="8YE-KA-qoY" id="hxz-f6-4Sp"/>
+                        <outlet property="zipcodeUnderlineView" destination="wJF-nU-OD7" id="sf1-3E-9yK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cbt-Fl-I71" userLabel="First Responder" sceneMemberID="firstResponder"/>

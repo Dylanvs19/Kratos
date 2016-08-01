@@ -29,6 +29,8 @@
 		AF8974AF1D4E98C700C19020 /* StreetAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974AE1D4E98C700C19020 /* StreetAddress.swift */; };
 		AF8974B21D4E999C00C19020 /* InputValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B11D4E999C00C19020 /* InputValidation.swift */; };
 		AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B31D4EB71800C19020 /* UIViewController+Extensions.swift */; };
+		AF8974B61D4EF39900C19020 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B51D4EF39900C19020 /* String+Extensions.swift */; };
+		AF8974B81D4F058E00C19020 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B71D4F058E00C19020 /* UIColor+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,8 @@
 		AF8974AE1D4E98C700C19020 /* StreetAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreetAddress.swift; sourceTree = "<group>"; };
 		AF8974B11D4E999C00C19020 /* InputValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValidation.swift; sourceTree = "<group>"; };
 		AF8974B31D4EB71800C19020 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		AF8974B51D4EF39900C19020 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		AF8974B71D4F058E00C19020 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +169,8 @@
 			children = (
 				AF8974A51D4D93E600C19020 /* UIView+Extensions.swift */,
 				AF8974B31D4EB71800C19020 /* UIViewController+Extensions.swift */,
+				AF8974B51D4EF39900C19020 /* String+Extensions.swift */,
+				AF8974B71D4F058E00C19020 /* UIColor+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -363,6 +369,8 @@
 				AF8974B21D4E999C00C19020 /* InputValidation.swift in Sources */,
 				AF8974941D4D887100C19020 /* SubmitAddressViewController.swift in Sources */,
 				AF8974611D4D80E500C19020 /* MainApplicationViewController.swift in Sources */,
+				AF8974B81D4F058E00C19020 /* UIColor+Extension.swift in Sources */,
+				AF8974B61D4EF39900C19020 /* String+Extensions.swift in Sources */,
 				AF8974981D4D88D900C19020 /* RepresentativeDetailViewController.swift in Sources */,
 				AF8974AF1D4E98C700C19020 /* StreetAddress.swift in Sources */,
 				AF89749C1D4D8ADC00C19020 /* Legislation.swift in Sources */,
