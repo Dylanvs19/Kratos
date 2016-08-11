@@ -41,6 +41,11 @@ class RepresentativeView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func configure(with representative:Representative) {
+        lastNameLabel.text = representative.lastName
+        firstNameLabel.text = representative.firstName
+        stateLabel.text = representative.state
+        representativeLabel.text = representative.roleType
+
         switch size {
         case .expanded:
             legislationTableView.alpha = 1

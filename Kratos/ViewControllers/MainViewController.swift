@@ -37,12 +37,12 @@ class MainViewController: UIViewController {
     @IBOutlet var threeRepViewExpanded: NSLayoutConstraint!
     
     var representatives: [Representative] = []
-   
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadData()
-        setupRepresentatives()  
+        setupRepresentatives()
     }
     
     func loadData() {
