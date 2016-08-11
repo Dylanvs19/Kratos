@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -42,7 +42,7 @@
         <!--Main View Controller-->
         <scene sceneID="8jX-Uw-Dgr">
             <objects>
-                <viewController storyboardIdentifier="MainViewController" id="QKU-al-IF6" customClass="MainViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="QKU-al-IF6" customClass="MainViewController" customModule="Kratos" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="c8R-kk-oJB"/>
                         <viewControllerLayoutGuide type="bottom" id="bYI-sq-mZl"/>
@@ -50,12 +50,82 @@
                     <view key="view" contentMode="scaleToFill" id="E3f-Eb-QiT">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PZQ-Io-4PY" userLabel="OneRepView" customClass="RepresentativeView" customModule="Kratos" customModuleProvider="target">
+                                <rect key="frame" x="10" y="12" width="580" height="180"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1ZW-eW-LYk" userLabel="SecondRepView" customClass="RepresentativeView" customModule="Kratos" customModuleProvider="target">
+                                <rect key="frame" x="10" y="210" width="580" height="180"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VyV-Pv-TjC" userLabel="ThirdRepView" customClass="RepresentativeView" customModule="Kratos" customModuleProvider="target">
+                                <rect key="frame" x="10" y="412" width="580" height="180"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="centerX" secondItem="E3f-Eb-QiT" secondAttribute="centerX" id="0yR-7J-ahC"/>
+                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" multiplier="0.3" id="19t-au-FMi"/>
+                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" id="3Tz-sS-WOf"/>
+                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="0.34" id="8Xt-te-tke"/>
+                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" constant="-20" id="8fC-pp-xQE"/>
+                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="width" secondItem="E3f-Eb-QiT" secondAttribute="width" constant="-20" id="9gP-ms-YLz"/>
+                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="leading" secondItem="E3f-Eb-QiT" secondAttribute="leading" constant="10" id="A4I-km-3C3"/>
+                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="1.66" id="ARX-Vg-z2o"/>
+                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" constant="-20" id="LYh-3k-Exf"/>
+                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" id="Ny3-2G-4Xg"/>
+                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="1.66" id="SfQ-at-9hR"/>
+                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="0.34" id="TwM-Gk-Kfg"/>
+                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" multiplier="0.3" id="W1A-0j-Ent"/>
+                            <constraint firstAttribute="trailing" secondItem="1ZW-eW-LYk" secondAttribute="trailing" constant="10" id="W2B-n7-tRh"/>
+                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" multiplier="0.3" id="Zp4-nD-Fv5"/>
+                            <constraint firstAttribute="trailing" secondItem="VyV-Pv-TjC" secondAttribute="trailing" constant="10" id="bgD-9W-Tsm"/>
+                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" id="cc9-q7-Xas"/>
+                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="0.34" id="mv1-rS-8ke"/>
+                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="leading" secondItem="E3f-Eb-QiT" secondAttribute="leading" constant="10" id="oKk-AW-fzt"/>
+                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" constant="-20" id="oTM-AM-AxI"/>
+                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="1.66" id="wX8-ds-Yh7"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="8fC-pp-xQE"/>
+                                <exclude reference="Ny3-2G-4Xg"/>
+                                <exclude reference="SfQ-at-9hR"/>
+                                <exclude reference="TwM-Gk-Kfg"/>
+                                <exclude reference="oTM-AM-AxI"/>
+                                <exclude reference="wX8-ds-Yh7"/>
+                                <exclude reference="LYh-3k-Exf"/>
+                                <exclude reference="cc9-q7-Xas"/>
+                                <exclude reference="mv1-rS-8ke"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="oneRepView" destination="PZQ-Io-4PY" id="Rdo-jr-Zfj"/>
+                        <outlet property="oneRepViewBottomPosition" destination="SfQ-at-9hR" id="H8z-E0-GNL"/>
+                        <outlet property="oneRepViewCompact" destination="Zp4-nD-Fv5" id="pLV-9n-1uF"/>
+                        <outlet property="oneRepViewExpanded" destination="8fC-pp-xQE" id="Zwe-Tb-HuW"/>
+                        <outlet property="oneRepViewMiddlePosition" destination="Ny3-2G-4Xg" id="Odm-T1-Nbo"/>
+                        <outlet property="oneRepViewTopPosition" destination="8Xt-te-tke" id="o3m-UM-pMR"/>
+                        <outlet property="threeRepView" destination="VyV-Pv-TjC" id="9Zh-ij-6yQ"/>
+                        <outlet property="threeRepViewBottomPosition" destination="ARX-Vg-z2o" id="XNY-Os-YVo"/>
+                        <outlet property="threeRepViewCompact" destination="W1A-0j-Ent" id="feV-Fb-c7q"/>
+                        <outlet property="threeRepViewExpanded" destination="LYh-3k-Exf" id="ZRX-Ys-3yq"/>
+                        <outlet property="threeRepViewMiddlePosition" destination="cc9-q7-Xas" id="afC-Qe-ZOz"/>
+                        <outlet property="threeRepViewTopPosition" destination="mv1-rS-8ke" id="nok-ou-MfJ"/>
+                        <outlet property="twoRepView" destination="1ZW-eW-LYk" id="jPI-Gp-H8S"/>
+                        <outlet property="twoRepViewBottomPosition" destination="wX8-ds-Yh7" id="aXC-2m-9Qo"/>
+                        <outlet property="twoRepViewCompact" destination="19t-au-FMi" id="S5C-4I-7wv"/>
+                        <outlet property="twoRepViewExpanded" destination="oTM-AM-AxI" id="Xcd-XE-KAu"/>
+                        <outlet property="twoRepViewMiddlePosition" destination="3Tz-sS-WOf" id="gpf-i2-Bus"/>
+                        <outlet property="twoRepViewTopPosition" destination="TwM-Gk-Kfg" id="QsW-O7-wD8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w82-rh-d94" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1429" y="157"/>
+            <point key="canvasLocation" x="1429" y="163"/>
         </scene>
         <!--Legislation Detail View Controller-->
         <scene sceneID="d9u-gY-q1r">
@@ -188,7 +258,7 @@
                                 <rect key="frame" x="252" y="627" width="96" height="53"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="30"/>
                                 <state key="normal" title="ENTER">
-                                    <color key="titleColor" red="0.0" green="0.24313725490196078" blue="0.59215686274509804" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.81176470588235294" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="enterButtonPressed:" destination="rg2-ob-v9M" eventType="touchUpInside" id="Iws-qH-vXe"/>

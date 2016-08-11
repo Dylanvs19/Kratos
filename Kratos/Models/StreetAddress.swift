@@ -14,25 +14,19 @@ struct StreetAddress {
     var city: String?
     var state: String?
     var zipCode: String?
+    var district: Int?
     
     
-    static func dictionaryFormat(streetAddress: StreetAddress) -> [String : [String:String]] {
+    var dictionaryFormat: [String: String] {
+        var returnDictionary: [String: String] = [:]
         if let
-            street = streetAddress.street,
-            city = streetAddress.city,
-            state = streetAddress.state,
-            zipCode = streetAddress.zipCode {
+            street = self.street,
+            city = self.city,
+            state = self.state,
+            zipCode = self.zipCode {
             
-            let returnDictionary = [ "address" : [ "street" : street,
-                                                   "city" : city,
-                                                   "state" : state,
-                                                   "zipCode" : zipCode ]
-                                    ]
-            
-            return returnDictionary
-            
-        } else {
-            fatalError("Could not obtain Street Address")
+            returnDictionary = [ "address" : "\(street) \(city) \(state) \(zipCode)" ]
         }
+        return returnDictionary
     }
 }

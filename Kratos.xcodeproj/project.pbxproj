@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF2843991D5AD4D3007B3F18 /* Contstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2843981D5AD4D3007B3F18 /* Contstants.swift */; };
+		AF28439B1D5AD686007B3F18 /* Datastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF28439A1D5AD686007B3F18 /* Datastore.swift */; };
+		AF28439D1D5ADAD9007B3F18 /* Pager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF28439C1D5ADAD9007B3F18 /* Pager.swift */; };
 		AF89745F1D4D80E500C19020 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89745E1D4D80E500C19020 /* AppDelegate.swift */; };
 		AF8974611D4D80E500C19020 /* MainApplicationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974601D4D80E500C19020 /* MainApplicationViewController.swift */; };
 		AF8974641D4D80E500C19020 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8974621D4D80E500C19020 /* Main.storyboard */; };
@@ -31,6 +34,7 @@
 		AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B31D4EB71800C19020 /* UIViewController+Extensions.swift */; };
 		AF8974B61D4EF39900C19020 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B51D4EF39900C19020 /* String+Extensions.swift */; };
 		AF8974B81D4F058E00C19020 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B71D4F058E00C19020 /* UIColor+Extension.swift */; };
+		AF8974BA1D5036DA00C19020 /* NSCharacterSet+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B91D5036DA00C19020 /* NSCharacterSet+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +55,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AF2843981D5AD4D3007B3F18 /* Contstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contstants.swift; sourceTree = "<group>"; };
+		AF28439A1D5AD686007B3F18 /* Datastore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Datastore.swift; sourceTree = "<group>"; };
+		AF28439C1D5ADAD9007B3F18 /* Pager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pager.swift; sourceTree = "<group>"; };
 		AF89745B1D4D80E500C19020 /* Kratos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kratos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF89745E1D4D80E500C19020 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF8974601D4D80E500C19020 /* MainApplicationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainApplicationViewController.swift; path = ../MainApplicationViewController.swift; sourceTree = "<group>"; };
@@ -81,6 +88,7 @@
 		AF8974B31D4EB71800C19020 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		AF8974B51D4EF39900C19020 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		AF8974B71D4F058E00C19020 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		AF8974B91D5036DA00C19020 /* NSCharacterSet+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSCharacterSet+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				AF89745E1D4D80E500C19020 /* AppDelegate.swift */,
+				AF28439A1D5AD686007B3F18 /* Datastore.swift */,
 				AF8974621D4D80E500C19020 /* Main.storyboard */,
 				AF8974AB1D4E965600C19020 /* APIClient */,
 				AF8974B01D4E997D00C19020 /* Utilites */,
@@ -171,6 +180,7 @@
 				AF8974B31D4EB71800C19020 /* UIViewController+Extensions.swift */,
 				AF8974B51D4EF39900C19020 /* String+Extensions.swift */,
 				AF8974B71D4F058E00C19020 /* UIColor+Extension.swift */,
+				AF8974B91D5036DA00C19020 /* NSCharacterSet+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -228,6 +238,8 @@
 			isa = PBXGroup;
 			children = (
 				AF8974B11D4E999C00C19020 /* InputValidation.swift */,
+				AF2843981D5AD4D3007B3F18 /* Contstants.swift */,
+				AF28439C1D5ADAD9007B3F18 /* Pager.swift */,
 			);
 			path = Utilites;
 			sourceTree = "<group>";
@@ -366,16 +378,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF89749E1D4D8B2700C19020 /* Representative.swift in Sources */,
+				AF8974BA1D5036DA00C19020 /* NSCharacterSet+Extensions.swift in Sources */,
 				AF8974B21D4E999C00C19020 /* InputValidation.swift in Sources */,
 				AF8974941D4D887100C19020 /* SubmitAddressViewController.swift in Sources */,
 				AF8974611D4D80E500C19020 /* MainApplicationViewController.swift in Sources */,
 				AF8974B81D4F058E00C19020 /* UIColor+Extension.swift in Sources */,
+				AF28439D1D5ADAD9007B3F18 /* Pager.swift in Sources */,
+				AF2843991D5AD4D3007B3F18 /* Contstants.swift in Sources */,
 				AF8974B61D4EF39900C19020 /* String+Extensions.swift in Sources */,
 				AF8974981D4D88D900C19020 /* RepresentativeDetailViewController.swift in Sources */,
 				AF8974AF1D4E98C700C19020 /* StreetAddress.swift in Sources */,
 				AF89749C1D4D8ADC00C19020 /* Legislation.swift in Sources */,
 				AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */,
 				AF8974A21D4D8ED500C19020 /* RepresentativeView.swift in Sources */,
+				AF28439B1D5AD686007B3F18 /* Datastore.swift in Sources */,
 				AF89749A1D4D88F600C19020 /* LegislationDetailViewController.swift in Sources */,
 				AF89745F1D4D80E500C19020 /* AppDelegate.swift in Sources */,
 				AF8974961D4D88C500C19020 /* MainViewController.swift in Sources */,
@@ -606,6 +622,7 @@
 				AF8974851D4D80E500C19020 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AF8974861D4D80E500C19020 /* Build configuration list for PBXNativeTarget "KratosTests" */ = {
 			isa = XCConfigurationList;
@@ -614,6 +631,7 @@
 				AF8974881D4D80E500C19020 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AF8974891D4D80E500C19020 /* Build configuration list for PBXNativeTarget "KratosUITests" */ = {
 			isa = XCConfigurationList;
@@ -622,6 +640,7 @@
 				AF89748B1D4D80E500C19020 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -21,5 +21,7 @@ struct Legislation {
     var currentStatusDescription: String?
     var title: String?
     
-    
+    init(json: [String: AnyObject]?) {
+        
+    }
 }
