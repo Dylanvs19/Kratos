@@ -15,7 +15,13 @@ class MainApplicationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleToMainVC(_:)), name: "toMainVC", object: nil)
+        
         embedSubmitAddressViewController()
+    }
+    
+    func handleToMainVC(notification: NSNotification) {
+        embedMainViewController()
     }
     
     func embedSubmitAddressViewController() {
@@ -44,6 +50,7 @@ class MainApplicationViewController: UIViewController {
         }
         
         addChildViewController(controller)
+        controller.loadViewIfNeeded()
         mainAppContainerView.addSubview(controller.view)
         controller.view.translatesAutoresizingMaskIntoConstraints = false
         controller.view.topAnchor.constraintEqualToAnchor(view.topAnchor).active = true

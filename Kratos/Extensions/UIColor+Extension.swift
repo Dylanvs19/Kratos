@@ -11,7 +11,7 @@ import UIKit
 extension UIColor {
     
     static var kratosBlue: UIColor {
-        return UIColor(red: 0, green: 62, blue: 151, alpha: 1)
+        return UIColor(red: 0, green: 0, blue: 100, alpha: 1)
     }
     
     static var kratosRed: UIColor {

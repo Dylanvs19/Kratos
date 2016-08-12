@@ -56,6 +56,14 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
         super.viewDidAppear(animated)
         beginningAnimations()
         setupGestureRecognizer()
+        testData()  
+    }
+    
+    private func testData() {
+        addressTextField.text = "700 Grand Street"
+        cityTextField.text = "Brooklyn"
+        stateTextField.text = "NY"
+        zipCodeTextField.text = "11211"
     }
     
     private func beginningAnimations() {
@@ -97,6 +105,14 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
                 self.enterOnScreen.active = true
                 self.view.layoutIfNeeded()
             })
+        } else {
+            UIView.animateWithDuration(2, animations: {
+                self.kratosLabel.alpha = 1
+                self.enterOnScreen.active = false
+                self.enterOffScreen.active = true
+
+                self.view.layoutIfNeeded()
+            })
         }
     }
     
@@ -106,40 +122,55 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func enterButtonPressed(sender: AnyObject) {
-        
+        if textFieldsValid() {
+            Datastore.sharedDatastore.streetAdress = StreetAddress()
+            Datastore.sharedDatastore.streetAdress?.street = addressTextField.text
+            Datastore.sharedDatastore.streetAdress?.city = cityTextField.text
+            Datastore.sharedDatastore.streetAdress?.state = stateTextField.text
+            Datastore.sharedDatastore.streetAdress?.zipCode = zipCodeTextField.text
+        }
+
+        Datastore.sharedDatastore.getDistrict { (success) -> (Void) in
+            if success {
+                NSNotificationCenter.defaultCenter().postNotificationName("toMainVC", object: nil)
+            } else {
+               let alert = UIAlertController.init(title: "Submission Error", message: "Your Address was not recognized", preferredStyle: .Alert)
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+        }
     }
     
     func textFieldsValid() -> Bool {
+        var valid = true
+        let collection = [
+                           (InputValidation.validateAddress(addressTextField.text), addressUnderlineView),
+                           (InputValidation.validateCity(cityTextField.text), cityUnderlineView),
+                           (InputValidation.validateState(stateTextField.text), stateUnderlineView),
+                           (InputValidation.validateZipCode(zipCodeTextField.text), zipcodeUnderlineView)
+                         ]
+        for (isValid, view) in collection {
+            animate(view, with: isValid)
+            if !isValid {
+                valid = false
+            }
+        }
         
-        if InputValidation.validateAddress(addressTextField.text) == false {
-            UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: [.CurveEaseInOut, .Autoreverse], animations: {
-                    self.addressTextFieldFullWidth.constant += 5
-                    self.addressUnderlineView.backgroundColor = UIColor.kratosRed
-                    self.view.layoutIfNeeded()
-                }, completion: nil)
-            return false
-        } else {
-            UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: [.CurveEaseInOut, .Autoreverse], animations: {
-                self.addressTextFieldFullWidth.constant -= 5
-                self.addressUnderlineView.backgroundColor = UIColor.kratosBlue
-                self.view.layoutIfNeeded()
-                }, completion: nil)
-        }
-            
-        if InputValidation.validateCity(cityTextField.text) == false {
-            UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: [.CurveEaseInOut, .Autoreverse], animations: {
-                self.cityTextFieldNoWidth.constant += 5
-                self.addressUnderlineView.backgroundColor = UIColor.redColor()
-                }, completion: nil)
-            return false
-        }
-        return false
-
+        return valid
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        textField.layoutIfNeeded()
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        return false
+        return true 
     }
     
+    func animate(underlineView: UIView, with validation: Bool) {
+        UIView.animateWithDuration(1, animations: {
+            underlineView.backgroundColor = validation ? UIColor.kratosBlue : UIColor.kratosRed
+            self.view.layoutIfNeeded()
+        })
+    }
 }
