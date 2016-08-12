@@ -9,7 +9,10 @@
 import UIKit
 
 class RepresentativeView: UIView, UITableViewDelegate, UITableViewDataSource {
-
+    
+    @IBOutlet var representativeImageView: UIImageView!
+    @IBOutlet var dividerView: UIView!
+    @IBOutlet var legislationLabel: UILabel!
     @IBOutlet var representativeViewContentView: UIView!
     @IBOutlet var firstNameLabel: UILabel!
     @IBOutlet var lastNameLabel: UILabel!
@@ -45,12 +48,18 @@ class RepresentativeView: UIView, UITableViewDelegate, UITableViewDataSource {
         firstNameLabel.text = representative.firstName
         stateLabel.text = representative.state
         representativeLabel.text = representative.roleType
+        representativeImageView = UIImageView.
+        
 
         switch size {
         case .expanded:
             legislationTableView.alpha = 1
+            dividerView.alpha = 1
+            legislationLabel.alpha = 1
         case .contracted:
             legislationTableView.alpha = 0
+            dividerView.alpha = 0
+            legislationLabel.alpha = 0
         }
     }
     

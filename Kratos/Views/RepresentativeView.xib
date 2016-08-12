@@ -8,9 +8,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RepresentativeView" customModule="Kratos" customModuleProvider="target">
             <connections>
+                <outlet property="dividerView" destination="h1I-kd-36M" id="VLi-ml-zTN"/>
                 <outlet property="firstNameLabel" destination="XMD-G8-zpS" id="Xcm-yZ-k2I"/>
                 <outlet property="lastNameLabel" destination="UTW-XW-qC3" id="uTA-66-LoL"/>
+                <outlet property="legislationLabel" destination="CJo-Vv-izh" id="Wsf-qg-3xy"/>
                 <outlet property="legislationTableView" destination="Paz-Vw-IAt" id="BDV-OW-ZSA"/>
+                <outlet property="representativeImageView" destination="3ss-b8-esg" id="4dI-w0-wTb"/>
                 <outlet property="representativeLabel" destination="N09-Mb-rb0" id="GBM-co-whm"/>
                 <outlet property="representativeViewContentView" destination="iN0-l3-epB" id="snJ-aE-9z0"/>
                 <outlet property="stateLabel" destination="Tj4-96-ELQ" id="Wpg-1T-1x8"/>
@@ -34,18 +37,6 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LAST" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UTW-XW-qC3">
-                    <rect key="frame" x="374" y="18" width="42" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="State" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tj4-96-ELQ">
-                    <rect key="frame" x="374" y="55" width="41" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Representative" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N09-Mb-rb0">
                     <rect key="frame" x="146" y="55" width="115" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -62,23 +53,37 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h1I-kd-36M">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h1I-kd-36M" userLabel="dividerView">
                     <rect key="frame" x="8" y="139" width="584" height="1"/>
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="wZf-bu-EZd"/>
                     </constraints>
                 </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LAST" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UTW-XW-qC3">
+                    <rect key="frame" x="374" y="18" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="State" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tj4-96-ELQ">
+                    <rect key="frame" x="374" y="55" width="41" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="N09-Mb-rb0" firstAttribute="leading" secondItem="3ss-b8-esg" secondAttribute="trailing" constant="38" id="0bJ-VK-bv2"/>
                 <constraint firstItem="Paz-Vw-IAt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="1QN-5g-ey8"/>
                 <constraint firstItem="Tj4-96-ELQ" firstAttribute="leading" secondItem="N09-Mb-rb0" secondAttribute="trailing" constant="113" id="1XM-Cd-u34"/>
+                <constraint firstItem="Tj4-96-ELQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="55" id="35e-Xy-evB"/>
                 <constraint firstItem="N09-Mb-rb0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="55" id="372-Fz-zeN"/>
                 <constraint firstItem="Paz-Vw-IAt" firstAttribute="top" secondItem="h1I-kd-36M" secondAttribute="bottom" constant="8" id="4ry-xe-0QD"/>
                 <constraint firstItem="h1I-kd-36M" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" constant="-16" id="7cY-Rw-CLW"/>
                 <constraint firstItem="Paz-Vw-IAt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="148" id="Fdz-cp-A02"/>
+                <constraint firstItem="UTW-XW-qC3" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="18" id="Lbo-h7-gfx"/>
                 <constraint firstItem="XMD-G8-zpS" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="18" id="UP2-cJ-E25"/>
                 <constraint firstAttribute="bottom" secondItem="Paz-Vw-IAt" secondAttribute="bottom" constant="8" id="WBr-KK-REz"/>
                 <constraint firstAttribute="trailing" secondItem="Paz-Vw-IAt" secondAttribute="trailing" constant="8" id="Y8e-VS-rE0"/>
@@ -87,8 +92,6 @@
                 <constraint firstItem="XMD-G8-zpS" firstAttribute="leading" secondItem="3ss-b8-esg" secondAttribute="trailing" constant="38" id="bwT-nl-gZQ"/>
                 <constraint firstItem="UTW-XW-qC3" firstAttribute="leading" secondItem="XMD-G8-zpS" secondAttribute="trailing" constant="182" id="i9h-bk-3e1"/>
                 <constraint firstItem="CJo-Vv-izh" firstAttribute="leading" secondItem="Paz-Vw-IAt" secondAttribute="leading" id="q2E-hG-iWW"/>
-                <constraint firstItem="UTW-XW-qC3" firstAttribute="centerY" secondItem="XMD-G8-zpS" secondAttribute="centerY" id="qda-vE-C0g"/>
-                <constraint firstItem="Tj4-96-ELQ" firstAttribute="centerY" secondItem="N09-Mb-rb0" secondAttribute="centerY" id="sWA-Nb-4B5"/>
                 <constraint firstItem="Paz-Vw-IAt" firstAttribute="top" secondItem="CJo-Vv-izh" secondAttribute="bottom" constant="11" id="ui0-bf-4Ko"/>
                 <constraint firstItem="3ss-b8-esg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="zm1-YO-dgu"/>
             </constraints>

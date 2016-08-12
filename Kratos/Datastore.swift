@@ -21,16 +21,21 @@ class Datastore {
     }
     var streetAdress: StreetAddress?
     
-    func getDistrict() {
+    func getDistrict( onCompletion: (Bool) -> (Void)) {
         if let streetAdress = streetAdress {
-            APIClient().loadRepresentatives(from: streetAdress) { (representativesArray) -> (Void) in
+            APIClient().loadRepresentatives(from: streetAdress, onCompletion: { (representativesArray) -> (Void) in
                 self.representatives = []
                 var array : [Representative] = []
                 for rep in representativesArray {
                     array.append((Representative(repDictionary: rep)))
                 }
                 self.representatives = array
-            }
+
+                onCompletion(true)
+                
+                }, errorCompletion: { (error) -> (Void) in
+                    onCompletion(false)
+            })
         }
     }
     

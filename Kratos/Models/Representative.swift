@@ -35,6 +35,8 @@ struct Representative {
     }
     
     init(repDictionary: [String: AnyObject]) {
+       
+        self.state = repDictionary["state"] as? String
         self.website = repDictionary["website"] as? String
         self.roleType = repDictionary["role_type_label"] as? String
         if let roleType = roleType {
@@ -47,10 +49,10 @@ struct Representative {
         self.title = repDictionary["title"] as? String
         self.website = repDictionary["website"] as? String
         self.party = repDictionary["party"] as? String
-        self.id = repDictionary["Person"]?["id"] as? Int
-        self.firstName = repDictionary["Person"]?["firstname"] as? String
-        self.lastName = repDictionary["Person"]?["lastname"] as? String
-        self.twitterHandle = repDictionary["Person"]?["twitterid"] as? String
+        self.id = repDictionary["person"]?["id"] as? Int
+        self.firstName = repDictionary["person"]?["firstname"] as? String
+        self.lastName = repDictionary["person"]?["lastname"] as? String
+        self.twitterHandle = repDictionary["person"]?["twitterid"] as? String
         self.imageURL = repDictionary["image"] as? String
     }
 }

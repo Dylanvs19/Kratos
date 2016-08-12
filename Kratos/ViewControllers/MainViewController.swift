@@ -52,20 +52,10 @@ class MainViewController: UIViewController {
     }
     
     func setupRepresentatives() {
-        let views = [
-            oneRepView,
-            twoRepView,
-            threeRepView
-        ]
-        
-        if representatives.count == 3 {
-            let array = zip(views, representatives)
-            for repTuple in array {
-                repTuple.0.configure(with: repTuple.1)
-            }
-            
-        }
+        oneRepView.configure(with: representatives[0])
+        twoRepView.configure(with: representatives[1])
+        threeRepView.configure(with: representatives[2])
+
     }
-    
 }
 

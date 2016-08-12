@@ -56,6 +56,14 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
         super.viewDidAppear(animated)
         beginningAnimations()
         setupGestureRecognizer()
+        testData()  
+    }
+    
+    private func testData() {
+        addressTextField.text = "700 Grand Street"
+        cityTextField.text = "Brooklyn"
+        stateTextField.text = "NY"
+        zipCodeTextField.text = "11211"
     }
     
     private func beginningAnimations() {
@@ -122,8 +130,14 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
             Datastore.sharedDatastore.streetAdress?.zipCode = zipCodeTextField.text
         }
 
-        Datastore.sharedDatastore.getDistrict()
-        NSNotificationCenter.defaultCenter().postNotificationName("toMainVC", object: nil)
+        Datastore.sharedDatastore.getDistrict { (success) -> (Void) in
+            if success {
+                NSNotificationCenter.defaultCenter().postNotificationName("toMainVC", object: nil)
+            } else {
+               let alert = UIAlertController.init(title: "Submission Error", message: "Your Address was not recognized", preferredStyle: .Alert)
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+        }
     }
     
     func textFieldsValid() -> Bool {
