@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol RepViewDelegate {
+    func panGestureYPosition(float: CGFloat, for position: RepresentativeView.Position)
+    func shouldExpand(bool: Bool, for position: RepresentativeView.Position)
+}
+
 class RepresentativeView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var representativeImageView: UIImageView!
@@ -15,18 +20,31 @@ class RepresentativeView: UIView, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet var legislationLabel: UILabel!
     @IBOutlet var representativeViewContentView: UIView!
     @IBOutlet var firstNameLabel: UILabel!
-    @IBOutlet var lastNameLabel: UILabel!
     @IBOutlet var representativeLabel: UILabel!
     @IBOutlet var stateLabel: UILabel!
     @IBOutlet var legislationTableView: UITableView!
     
+    @IBOutlet var nameLabelLeadingToImageView: NSLayoutConstraint!
+    @IBOutlet var imageViewContractedHeight: NSLayoutConstraint!
+    @IBOutlet var imageViewExpandedHeight: NSLayoutConstraint!
+    @IBOutlet var imageViewCenterY: NSLayoutConstraint!
+    @IBOutlet var imageViewToTop: NSLayoutConstraint!
+    
+    var repViewDelegate: RepViewDelegate?
     var representative: Representative?
     var legislationArray: [Legislation]?
     var size: Size = .contracted
+    var position: Position = .top
     
-    enum Size {
-        case expanded
-        case contracted
+    enum Size: Int {
+        case expanded = 1
+        case contracted = 0
+    }
+    
+    enum Position: Int {
+        case top = 0
+        case middle = 1
+        case bottom = 2
     }
     
     override func awakeFromNib() {
@@ -44,37 +62,96 @@ class RepresentativeView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func configure(with representative:Representative) {
-        lastNameLabel.text = representative.lastName
-        firstNameLabel.text = representative.firstName
+        guard let firstName = representative.firstName,
+            let lastName = representative.lastName else { return }
+        firstNameLabel.text = "\(firstName) \(lastName)"
         stateLabel.text = representative.state
         representativeLabel.text = representative.roleType
-        representativeImageView = UIImageView.
+        transform(size)
         
-
-        switch size {
-        case .expanded:
-            legislationTableView.alpha = 1
-            dividerView.alpha = 1
-            legislationLabel.alpha = 1
-        case .contracted:
-            legislationTableView.alpha = 0
-            dividerView.alpha = 0
-            legislationLabel.alpha = 0
+        if let imageURL = representative.imageURL {
+            UIImage.downloadedFrom(imageURL, onCompletion: { (image) -> (Void) in
+                guard let image = image else { return }
+                self.representativeImageView.image = image
+                self.representativeImageView.contentMode = .ScaleAspectFill
+                self.representativeImageView.layer.cornerRadius = 3.0
+                self.representativeImageView.layer.borderWidth = 2.0
+                if let party = representative.party {
+                    var color = UIColor()
+                    switch party {
+                    case "Democrat":
+                        color = UIColor.borderBlue
+                    case "Republican":
+                        color = UIColor.borderRed
+                    default:
+                        color = UIColor.whiteColor()
+                    }
+                    self.representativeImageView.layer.borderColor = color.CGColor
+                } else {
+                    self.representativeImageView.layer.borderColor = UIColor.whiteColor().CGColor
+                }
+                self.representativeViewContentView.reloadInputViews()
+            })
         }
     }
     
-    func commonInit() {
+    private func transform(size: Size) {
+        switch size {
+        case .expanded:
+            UIView.animateWithDuration(1, animations: {
+                self.legislationTableView.alpha = 1
+                self.dividerView.alpha = 1
+                self.legislationLabel.alpha = 1
+                self.imageViewContractedHeight.active = false
+                self.imageViewCenterY.active = false
+                self.imageViewToTop.active = true
+                self.imageViewExpandedHeight.active = true
+                self.imageViewToTop.active = true
+                self.layoutIfNeeded()
+            })
+        case .contracted:
+            UIView.animateWithDuration(1, animations: {
+                self.legislationTableView.alpha = 0
+                self.dividerView.alpha = 0
+                self.legislationLabel.alpha = 0
+                self.imageViewToTop.active = false
+                self.imageViewExpandedHeight.active = false
+                self.imageViewToTop.active = false
+                self.imageViewContractedHeight.active = true
+                self.imageViewCenterY.active = true
+                self.layoutIfNeeded()
+            })
+        }
+    }
+    
+    private func commonInit() {
         NSBundle.mainBundle().loadNibNamed("RepresentativeView", owner: self, options: nil)
         addSubview(representativeViewContentView)
-        pin(representativeViewContentView)
+        representativeViewContentView.translatesAutoresizingMaskIntoConstraints = false
+        representativeViewContentView.topAnchor.constraintEqualToAnchor(topAnchor).active = true
+        representativeViewContentView.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
+        representativeViewContentView.leftAnchor.constraintEqualToAnchor(leftAnchor).active = true
+        representativeViewContentView.rightAnchor.constraintEqualToAnchor(rightAnchor).active = true
+        layoutIfNeeded()
+        
         legislationTableView.registerClass(LegislationTableViewCell.self, forCellReuseIdentifier: "LegislationTableViewCell")
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         representativeViewContentView.addGestureRecognizer(tapRecognizer)
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        representativeViewContentView.addGestureRecognizer(panRecognizer)
     }
     
-    func handleTap(sender: AnyObject) {
+    //MARK: 
+    func handleTap(gesture: UITapGestureRecognizer) {
         size = size == .contracted ? .expanded : .contracted
+        transform(size)
+        repViewDelegate?.shouldExpand(Bool(size.rawValue), for: self.position)
+        print(Bool(size.rawValue))
+    }
+    
+    func handlePan(gesture: UIPanGestureRecognizer) {
+        repViewDelegate?.panGestureYPosition(gesture.translationInView(self).y, for: self.position)
     }
     
     //MARK: UITableViewDelegate & Datasource

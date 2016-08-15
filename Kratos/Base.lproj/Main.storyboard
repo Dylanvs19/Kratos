@@ -51,42 +51,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VyV-Pv-TjC" userLabel="ThirdRepView" customClass="RepresentativeView" customModule="Kratos" customModuleProvider="target">
+                                <rect key="frame" x="10" y="402" width="580" height="180"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PZQ-Io-4PY" userLabel="OneRepView" customClass="RepresentativeView" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="10" y="12" width="580" height="180"/>
+                                <rect key="frame" x="10" y="18" width="580" height="180"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1ZW-eW-LYk" userLabel="SecondRepView" customClass="RepresentativeView" customModule="Kratos" customModuleProvider="target">
                                 <rect key="frame" x="10" y="210" width="580" height="180"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VyV-Pv-TjC" userLabel="ThirdRepView" customClass="RepresentativeView" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="10" y="412" width="580" height="180"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="centerX" secondItem="E3f-Eb-QiT" secondAttribute="centerX" id="01t-KP-trK"/>
                             <constraint firstItem="PZQ-Io-4PY" firstAttribute="centerX" secondItem="E3f-Eb-QiT" secondAttribute="centerX" id="0yR-7J-ahC"/>
                             <constraint firstItem="1ZW-eW-LYk" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" multiplier="0.3" id="19t-au-FMi"/>
                             <constraint firstItem="1ZW-eW-LYk" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" id="3Tz-sS-WOf"/>
-                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="0.34" id="8Xt-te-tke"/>
+                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="0.36" id="8Xt-te-tke"/>
                             <constraint firstItem="PZQ-Io-4PY" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" constant="-20" id="8fC-pp-xQE"/>
                             <constraint firstItem="PZQ-Io-4PY" firstAttribute="width" secondItem="E3f-Eb-QiT" secondAttribute="width" constant="-20" id="9gP-ms-YLz"/>
-                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="leading" secondItem="E3f-Eb-QiT" secondAttribute="leading" constant="10" id="A4I-km-3C3"/>
-                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="1.66" id="ARX-Vg-z2o"/>
+                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="1.64" id="ARX-Vg-z2o"/>
+                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="centerX" secondItem="E3f-Eb-QiT" secondAttribute="centerX" id="BUK-eI-f7z"/>
                             <constraint firstItem="VyV-Pv-TjC" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" constant="-20" id="LYh-3k-Exf"/>
                             <constraint firstItem="PZQ-Io-4PY" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" id="Ny3-2G-4Xg"/>
-                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="1.66" id="SfQ-at-9hR"/>
-                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="0.34" id="TwM-Gk-Kfg"/>
+                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="1.64" id="SfQ-at-9hR"/>
+                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="width" secondItem="E3f-Eb-QiT" secondAttribute="width" constant="-20" id="Szy-TT-GdX"/>
+                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="0.36" id="TwM-Gk-Kfg"/>
+                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="width" secondItem="E3f-Eb-QiT" secondAttribute="width" constant="-20" id="UUn-kZ-XBh"/>
                             <constraint firstItem="VyV-Pv-TjC" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" multiplier="0.3" id="W1A-0j-Ent"/>
-                            <constraint firstAttribute="trailing" secondItem="1ZW-eW-LYk" secondAttribute="trailing" constant="10" id="W2B-n7-tRh"/>
                             <constraint firstItem="PZQ-Io-4PY" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" multiplier="0.3" id="Zp4-nD-Fv5"/>
-                            <constraint firstAttribute="trailing" secondItem="VyV-Pv-TjC" secondAttribute="trailing" constant="10" id="bgD-9W-Tsm"/>
                             <constraint firstItem="VyV-Pv-TjC" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" id="cc9-q7-Xas"/>
-                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="0.34" id="mv1-rS-8ke"/>
-                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="leading" secondItem="E3f-Eb-QiT" secondAttribute="leading" constant="10" id="oKk-AW-fzt"/>
+                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="0.36" id="mv1-rS-8ke"/>
                             <constraint firstItem="1ZW-eW-LYk" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" constant="-20" id="oTM-AM-AxI"/>
-                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="1.66" id="wX8-ds-Yh7"/>
+                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="1.64" id="wX8-ds-Yh7"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">

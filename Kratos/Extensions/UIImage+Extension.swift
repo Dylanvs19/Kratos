@@ -8,21 +8,28 @@
 
 import UIKit
 
-extension UIImageView {
+extension UIImage {
     
-    class func downloadedFrom(link: String, contentMode mode: UIViewContentMode = .ScaleAspectFit) -> UIImageView? {
-        let imageView = UIImageView()
-        guard let url = NSURL(string: link) else { return nil}
-        imageView.contentMode = mode
+    class func downloadedFrom(link: String, onCompletion: (UIImage?)-> (Void)) {
+        var image = UIImage()
+        guard let url = NSURL(string: link) else {
+            onCompletion(nil)
+            return
+        }
         NSURLSession.sharedSession().dataTaskWithURL(url){ (data, response, error) in
             guard
                 let httpURLResponse = response as? NSHTTPURLResponse where httpURLResponse.statusCode == 200,
                 let data = data where error == nil,
-                let image = UIImage(data: data)
-                else { return }
+                let returnImage = UIImage(data: data)
+                else {
+                    onCompletion(nil)
+                    return
+            }
             dispatch_async(dispatch_get_main_queue()) {
-                imageView.image = image
+                image = returnImage
+                onCompletion(image)
             }
             }.resume()
-        return imageView
-    }}
+        onCompletion(nil)
+    }
+}
