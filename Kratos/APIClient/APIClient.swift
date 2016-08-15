@@ -37,9 +37,9 @@ struct APIClient {
                                     onCompletion(obj)
                                 })
                             }
-                            if let httpResponse = response as? NSHTTPURLResponse {
-                                print("status code: \(httpResponse.statusCode)")
-                            }
+//                            if let httpResponse = response as? NSHTTPURLResponse {
+//                                debugPrint("status code: \(httpResponse.statusCode)")
+//                            }
                         } catch let error as NSError {
                             errorCompletion(error)
                         }

@@ -28,7 +28,12 @@ class LegislationTableViewCell: UITableViewCell {
     }
     
     func commonInit() {
-        pin(LegislationTableViewCellContentView)
+        addSubview(LegislationTableViewCellContentView)
+        LegislationTableViewCellContentView.translatesAutoresizingMaskIntoConstraints = false
+        LegislationTableViewCellContentView.topAnchor.constraintEqualToAnchor(topAnchor).active = true
+        LegislationTableViewCellContentView.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
+        LegislationTableViewCellContentView.leftAnchor.constraintEqualToAnchor(leftAnchor).active = true
+        LegislationTableViewCellContentView.rightAnchor.constraintEqualToAnchor(rightAnchor).active = true
     }
 
 }
