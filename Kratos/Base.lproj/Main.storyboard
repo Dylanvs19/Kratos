@@ -40,92 +40,37 @@
             <point key="canvasLocation" x="788" y="494"/>
         </scene>
         <!--Main View Controller-->
-        <scene sceneID="8jX-Uw-Dgr">
+        <scene sceneID="bUK-XL-s16">
             <objects>
-                <viewController storyboardIdentifier="MainViewController" id="QKU-al-IF6" customClass="MainViewController" customModule="Kratos" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="WYL-YE-z0R" customClass="MainViewController" customModule="Kratos" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="c8R-kk-oJB"/>
-                        <viewControllerLayoutGuide type="bottom" id="bYI-sq-mZl"/>
+                        <viewControllerLayoutGuide type="top" id="Ar6-tW-jRl"/>
+                        <viewControllerLayoutGuide type="bottom" id="QyT-xK-9h2"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="E3f-Eb-QiT">
+                    <view key="view" contentMode="scaleToFill" id="xKU-Va-iMI">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VyV-Pv-TjC" userLabel="ThirdRepView" customClass="RepresentativeView" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="10" y="402" width="580" height="180"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZoF-Zp-1vn">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PZQ-Io-4PY" userLabel="OneRepView" customClass="RepresentativeView" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="10" y="18" width="580" height="180"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1ZW-eW-LYk" userLabel="SecondRepView" customClass="RepresentativeView" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="10" y="210" width="580" height="180"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
+                            </tableView>
                         </subviews>
-                        <color key="backgroundColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="centerX" secondItem="E3f-Eb-QiT" secondAttribute="centerX" id="01t-KP-trK"/>
-                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="centerX" secondItem="E3f-Eb-QiT" secondAttribute="centerX" id="0yR-7J-ahC"/>
-                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" multiplier="0.3" id="19t-au-FMi"/>
-                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" id="3Tz-sS-WOf"/>
-                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="0.36" id="8Xt-te-tke"/>
-                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" constant="-20" id="8fC-pp-xQE"/>
-                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="width" secondItem="E3f-Eb-QiT" secondAttribute="width" constant="-20" id="9gP-ms-YLz"/>
-                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="1.64" id="ARX-Vg-z2o"/>
-                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="centerX" secondItem="E3f-Eb-QiT" secondAttribute="centerX" id="BUK-eI-f7z"/>
-                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" constant="-20" id="LYh-3k-Exf"/>
-                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" id="Ny3-2G-4Xg"/>
-                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="1.64" id="SfQ-at-9hR"/>
-                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="width" secondItem="E3f-Eb-QiT" secondAttribute="width" constant="-20" id="Szy-TT-GdX"/>
-                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="0.36" id="TwM-Gk-Kfg"/>
-                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="width" secondItem="E3f-Eb-QiT" secondAttribute="width" constant="-20" id="UUn-kZ-XBh"/>
-                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" multiplier="0.3" id="W1A-0j-Ent"/>
-                            <constraint firstItem="PZQ-Io-4PY" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" multiplier="0.3" id="Zp4-nD-Fv5"/>
-                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" id="cc9-q7-Xas"/>
-                            <constraint firstItem="VyV-Pv-TjC" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="0.36" id="mv1-rS-8ke"/>
-                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="height" secondItem="E3f-Eb-QiT" secondAttribute="height" constant="-20" id="oTM-AM-AxI"/>
-                            <constraint firstItem="1ZW-eW-LYk" firstAttribute="centerY" secondItem="E3f-Eb-QiT" secondAttribute="centerY" multiplier="1.64" id="wX8-ds-Yh7"/>
+                            <constraint firstItem="ZoF-Zp-1vn" firstAttribute="top" secondItem="Ar6-tW-jRl" secondAttribute="bottom" id="Agg-va-H49"/>
+                            <constraint firstAttribute="trailing" secondItem="ZoF-Zp-1vn" secondAttribute="trailing" id="Igg-et-qMh"/>
+                            <constraint firstItem="QyT-xK-9h2" firstAttribute="top" secondItem="ZoF-Zp-1vn" secondAttribute="bottom" id="h3F-8R-GYz"/>
+                            <constraint firstItem="ZoF-Zp-1vn" firstAttribute="leading" secondItem="xKU-Va-iMI" secondAttribute="leading" id="xdd-38-co2"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="8fC-pp-xQE"/>
-                                <exclude reference="Ny3-2G-4Xg"/>
-                                <exclude reference="SfQ-at-9hR"/>
-                                <exclude reference="TwM-Gk-Kfg"/>
-                                <exclude reference="oTM-AM-AxI"/>
-                                <exclude reference="wX8-ds-Yh7"/>
-                                <exclude reference="LYh-3k-Exf"/>
-                                <exclude reference="cc9-q7-Xas"/>
-                                <exclude reference="mv1-rS-8ke"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
-                        <outlet property="oneRepView" destination="PZQ-Io-4PY" id="Rdo-jr-Zfj"/>
-                        <outlet property="oneRepViewBottomPosition" destination="SfQ-at-9hR" id="H8z-E0-GNL"/>
-                        <outlet property="oneRepViewCompact" destination="Zp4-nD-Fv5" id="pLV-9n-1uF"/>
-                        <outlet property="oneRepViewExpanded" destination="8fC-pp-xQE" id="Zwe-Tb-HuW"/>
-                        <outlet property="oneRepViewMiddlePosition" destination="Ny3-2G-4Xg" id="Odm-T1-Nbo"/>
-                        <outlet property="oneRepViewTopPosition" destination="8Xt-te-tke" id="o3m-UM-pMR"/>
-                        <outlet property="threeRepView" destination="VyV-Pv-TjC" id="9Zh-ij-6yQ"/>
-                        <outlet property="threeRepViewBottomPosition" destination="ARX-Vg-z2o" id="XNY-Os-YVo"/>
-                        <outlet property="threeRepViewCompact" destination="W1A-0j-Ent" id="feV-Fb-c7q"/>
-                        <outlet property="threeRepViewExpanded" destination="LYh-3k-Exf" id="ZRX-Ys-3yq"/>
-                        <outlet property="threeRepViewMiddlePosition" destination="cc9-q7-Xas" id="afC-Qe-ZOz"/>
-                        <outlet property="threeRepViewTopPosition" destination="mv1-rS-8ke" id="nok-ou-MfJ"/>
-                        <outlet property="twoRepView" destination="1ZW-eW-LYk" id="jPI-Gp-H8S"/>
-                        <outlet property="twoRepViewBottomPosition" destination="wX8-ds-Yh7" id="aXC-2m-9Qo"/>
-                        <outlet property="twoRepViewCompact" destination="19t-au-FMi" id="S5C-4I-7wv"/>
-                        <outlet property="twoRepViewExpanded" destination="oTM-AM-AxI" id="Xcd-XE-KAu"/>
-                        <outlet property="twoRepViewMiddlePosition" destination="3Tz-sS-WOf" id="gpf-i2-Bus"/>
-                        <outlet property="twoRepViewTopPosition" destination="TwM-Gk-Kfg" id="QsW-O7-wD8"/>
+                        <outlet property="tableView" destination="ZoF-Zp-1vn" id="b4n-aG-oGC"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="w82-rh-d94" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TQi-yJ-elx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1429" y="163"/>
+            <point key="canvasLocation" x="1429" y="145"/>
         </scene>
         <!--Legislation Detail View Controller-->
         <scene sceneID="d9u-gY-q1r">
