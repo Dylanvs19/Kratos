@@ -42,7 +42,7 @@
         <!--Main View Controller-->
         <scene sceneID="bUK-XL-s16">
             <objects>
-                <viewController id="WYL-YE-z0R" customClass="MainViewController" customModule="Kratos" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="WYL-YE-z0R" customClass="MainViewController" customModule="Kratos" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ar6-tW-jRl"/>
                         <viewControllerLayoutGuide type="bottom" id="QyT-xK-9h2"/>

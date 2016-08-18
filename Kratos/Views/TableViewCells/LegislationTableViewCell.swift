@@ -28,6 +28,7 @@ class LegislationTableViewCell: UITableViewCell {
     }
     
     func commonInit() {
+        
         addSubview(LegislationTableViewCellContentView)
         LegislationTableViewCellContentView.translatesAutoresizingMaskIntoConstraints = false
         LegislationTableViewCellContentView.topAnchor.constraintEqualToAnchor(topAnchor).active = true

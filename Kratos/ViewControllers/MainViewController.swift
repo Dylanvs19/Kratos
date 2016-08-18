@@ -9,16 +9,21 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RepViewDelegate {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var tableView: UITableView!
     var representatives: [Representative] = []
+    let representativeCellIdentifier = "representativeCellIdentifier"
+    var currentOpenRow = 0
+    var currentSectionShouldClose = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.registerNib(UINib(nibName: "RepresentativeTableViewCell", bundle: nil), forCellReuseIdentifier: representativeCellIdentifier)
         loadData()
+        
     }
     
     func loadData() {
@@ -28,27 +33,39 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // MARK: RepViewDelegate Methods
-    func shouldExpand(shouldExpand: Bool, for position: RepresentativeView.Position) {
-            switch position {
-            case .top:
-                break
-            case .middle:
-                break
-            case .bottom:
-                break
-            }
-    }
-    
-    func panGestureYPosition(float: CGFloat, for position: RepresentativeView.Position) {
-        
-    }
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return representatives.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCellWithIdentifier(representativeCellIdentifier, forIndexPath: indexPath) as? RepresentativeTableViewCell else { return UITableViewCell() }
+        
+        let rep = representatives[indexPath.row]
+        cell.configure(with: rep)
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if indexPath.row + 1 == currentOpenRow {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            currentSectionShouldClose = true
+        } else {
+            currentOpenRow = indexPath.row + 1
+        }
+        
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.row + 1 == currentOpenRow {
+            currentOpenRow = 0
+            currentSectionShouldClose = false
+            return self.view.frame.size.height/3
+        } else {
+            return self.view.frame.size.height
+        }
     }
 }
 
