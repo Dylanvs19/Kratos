@@ -10,6 +10,6 @@ import Foundation
 
 struct Constants {
 
-    static let ADDRESS_API_CONSTANT = "http://198.199.73.246/api/district"
+    static let ADDRESS_API_CONSTANT = "http://198.199.73.246/api/districts"
     
 }

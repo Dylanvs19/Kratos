@@ -10,7 +10,6 @@ import UIKit
 
 class LegislationTableViewCell: UITableViewCell {
 
-    @IBOutlet var LegislationTableViewCellContentView: UIView!
     @IBOutlet var voteLabel: UILabel!
     @IBOutlet var legislationTitleLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
@@ -24,16 +23,6 @@ class LegislationTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        commonInit()
     }
     
-    func commonInit() {
-        
-        addSubview(LegislationTableViewCellContentView)
-        LegislationTableViewCellContentView.translatesAutoresizingMaskIntoConstraints = false
-        LegislationTableViewCellContentView.topAnchor.constraintEqualToAnchor(topAnchor).active = true
-        LegislationTableViewCellContentView.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
-        LegislationTableViewCellContentView.leftAnchor.constraintEqualToAnchor(leftAnchor).active = true
-        LegislationTableViewCellContentView.rightAnchor.constraintEqualToAnchor(rightAnchor).active = true
-    }
 }
