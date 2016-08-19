@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RepresentativeTableViewCell: UITableViewCell {
+class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var repView: UIView!
     @IBOutlet var representativeImageView: UIImageView!
@@ -34,10 +34,9 @@ class RepresentativeTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         legislationTableView.registerClass(LegislationTableViewCell.self, forCellReuseIdentifier: "LegislationTableViewCell")
-    }
-    
-    func commonInit() {
-        
+        selectionStyle = .None
+        legislationTableView.delegate = self
+        legislationTableView.dataSource = self
     }
     
     func configure(with representative:Representative) {
@@ -79,26 +78,26 @@ class RepresentativeTableViewCell: UITableViewCell {
     
     override func setSelected(selected: Bool, animated: Bool) {
         if selected {
-            UIView.animateWithDuration(1, animations: {
+            UIView.animateWithDuration(0.5, animations: {
                 self.legislationTableView.alpha = 1
                 self.dividerView.alpha = 1
                 self.legislationLabel.alpha = 1
-                self.imageViewContractedHeight.active = false
+                self.imageViewExpandedHeight.active = false
+                self.imageViewContractedHeight.active = true
                 self.imageViewCenterY.active = false
                 self.imageViewToTop.active = true
-                self.imageViewExpandedHeight.active = true
                 self.imageViewToTop.active = true
                 self.layoutIfNeeded()
             })
         } else {
-            UIView.animateWithDuration(1, animations: {
+            UIView.animateWithDuration(0.3, animations: {
                 self.legislationTableView.alpha = 0
                 self.dividerView.alpha = 0
                 self.legislationLabel.alpha = 0
                 self.imageViewToTop.active = false
-                self.imageViewExpandedHeight.active = false
+                self.imageViewContractedHeight.active = false
+                self.imageViewExpandedHeight.active = true
                 self.imageViewToTop.active = false
-                self.imageViewContractedHeight.active = true
                 self.imageViewCenterY.active = true
                 self.layoutIfNeeded()
             })
@@ -108,6 +107,12 @@ class RepresentativeTableViewCell: UITableViewCell {
     //MARK: UITableViewDelegate & Datasource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
+    }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+//        cell.backgroundView = nil
+        cell.backgroundColor = UIColor.clearColor()
+
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

@@ -21,6 +21,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.backgroundView = nil
+        tableView.backgroundColor = UIColor.clearColor()
         tableView.registerNib(UINib(nibName: "RepresentativeTableViewCell", bundle: nil), forCellReuseIdentifier: representativeCellIdentifier)
         loadData()
         
@@ -48,23 +50,26 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if indexPath.row + 1 == currentOpenRow {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
-            currentSectionShouldClose = true
+            currentSectionShouldClose = !currentSectionShouldClose
         } else {
             currentOpenRow = indexPath.row + 1
         }
-        
         tableView.beginUpdates()
         tableView.endUpdates()
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row + 1 == currentOpenRow {
-            currentOpenRow = 0
-            currentSectionShouldClose = false
-            return self.view.frame.size.height/3
+            if currentSectionShouldClose {
+                currentOpenRow = 0
+                currentSectionShouldClose = false
+                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                return self.view.frame.size.height/3.1
+            }
+            return self.view.frame.size.height * 0.95
         } else {
-            return self.view.frame.size.height
+            return self.view.frame.size.height/3.1
+            
         }
     }
 }

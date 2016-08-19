@@ -36,5 +36,4 @@ class LegislationTableViewCell: UITableViewCell {
         LegislationTableViewCellContentView.leftAnchor.constraintEqualToAnchor(leftAnchor).active = true
         LegislationTableViewCellContentView.rightAnchor.constraintEqualToAnchor(rightAnchor).active = true
     }
-
 }
