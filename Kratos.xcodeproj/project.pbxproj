@@ -26,8 +26,6 @@
 		AF89749A1D4D88F600C19020 /* LegislationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974991D4D88F600C19020 /* LegislationDetailViewController.swift */; };
 		AF89749C1D4D8ADC00C19020 /* Legislation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89749B1D4D8ADC00C19020 /* Legislation.swift */; };
 		AF89749E1D4D8B2700C19020 /* Representative.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89749D1D4D8B2700C19020 /* Representative.swift */; };
-		AF8974A21D4D8ED500C19020 /* RepresentativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974A11D4D8ED500C19020 /* RepresentativeView.swift */; };
-		AF8974A41D4D8F6400C19020 /* RepresentativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF8974A31D4D8F6400C19020 /* RepresentativeView.xib */; };
 		AF8974A81D4E784E00C19020 /* LegislationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974A71D4E784E00C19020 /* LegislationTableViewCell.swift */; };
 		AF8974AA1D4E786E00C19020 /* LegislationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF8974A91D4E786E00C19020 /* LegislationTableViewCell.xib */; };
 		AF8974AD1D4E969000C19020 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974AC1D4E969000C19020 /* APIClient.swift */; };
@@ -82,8 +80,6 @@
 		AF8974991D4D88F600C19020 /* LegislationDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegislationDetailViewController.swift; sourceTree = "<group>"; };
 		AF89749B1D4D8ADC00C19020 /* Legislation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Legislation.swift; sourceTree = "<group>"; };
 		AF89749D1D4D8B2700C19020 /* Representative.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Representative.swift; sourceTree = "<group>"; };
-		AF8974A11D4D8ED500C19020 /* RepresentativeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeView.swift; sourceTree = "<group>"; };
-		AF8974A31D4D8F6400C19020 /* RepresentativeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepresentativeView.xib; sourceTree = "<group>"; };
 		AF8974A71D4E784E00C19020 /* LegislationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegislationTableViewCell.swift; sourceTree = "<group>"; };
 		AF8974A91D4E786E00C19020 /* LegislationTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LegislationTableViewCell.xib; sourceTree = "<group>"; };
 		AF8974AC1D4E969000C19020 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
@@ -215,8 +211,6 @@
 			isa = PBXGroup;
 			children = (
 				AF8974921D4D862B00C19020 /* TableViewCells */,
-				AF8974A11D4D8ED500C19020 /* RepresentativeView.swift */,
-				AF8974A31D4D8F6400C19020 /* RepresentativeView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -359,7 +353,6 @@
 				AF2B8C6E1D62D22600C31FA9 /* RepresentativeTableViewCell.xib in Resources */,
 				AF8974AA1D4E786E00C19020 /* LegislationTableViewCell.xib in Resources */,
 				AF8974641D4D80E500C19020 /* Main.storyboard in Resources */,
-				AF8974A41D4D8F6400C19020 /* RepresentativeView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,7 +391,6 @@
 				AF8974AF1D4E98C700C19020 /* StreetAddress.swift in Sources */,
 				AF89749C1D4D8ADC00C19020 /* Legislation.swift in Sources */,
 				AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */,
-				AF8974A21D4D8ED500C19020 /* RepresentativeView.swift in Sources */,
 				AF28439B1D5AD686007B3F18 /* Datastore.swift in Sources */,
 				AF89749A1D4D88F600C19020 /* LegislationDetailViewController.swift in Sources */,
 				AF89745F1D4D80E500C19020 /* AppDelegate.swift in Sources */,

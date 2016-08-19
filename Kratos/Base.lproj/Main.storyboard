@@ -42,7 +42,7 @@
         <!--Main View Controller-->
         <scene sceneID="bUK-XL-s16">
             <objects>
-                <viewController id="WYL-YE-z0R" customClass="MainViewController" customModule="Kratos" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="WYL-YE-z0R" customClass="MainViewController" customModule="Kratos" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ar6-tW-jRl"/>
                         <viewControllerLayoutGuide type="bottom" id="QyT-xK-9h2"/>
@@ -56,7 +56,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.81176470590000005" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="ZoF-Zp-1vn" firstAttribute="top" secondItem="Ar6-tW-jRl" secondAttribute="bottom" id="Agg-va-H49"/>
                             <constraint firstAttribute="trailing" secondItem="ZoF-Zp-1vn" secondAttribute="trailing" id="Igg-et-qMh"/>

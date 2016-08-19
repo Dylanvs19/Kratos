@@ -99,14 +99,14 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     func handleTapOutside(recognizer: UITapGestureRecognizer) {
         view.endEditing(true)
         if textFieldsValid() {
-            UIView.animateWithDuration(2, animations: {
+            UIView.animateWithDuration(1, animations: {
                 self.enterOffScreen.active = false
                 self.kratosLabel.alpha = 0
                 self.enterOnScreen.active = true
                 self.view.layoutIfNeeded()
             })
         } else {
-            UIView.animateWithDuration(2, animations: {
+            UIView.animateWithDuration(1, animations: {
                 self.kratosLabel.alpha = 1
                 self.enterOnScreen.active = false
                 self.enterOffScreen.active = true
