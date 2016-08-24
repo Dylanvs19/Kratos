@@ -33,26 +33,27 @@ struct Representative {
         case representative
         case sentator
     }
+    var votes: [Vote]?
     
-    init(repDictionary: [String: AnyObject]) {
+    init(json: [String: AnyObject]) {
        
-        self.state = repDictionary["state"] as? String
-        self.website = repDictionary["website"] as? String
-        self.roleType = repDictionary["role_type_label"] as? String
+        self.state = json["state"] as? String
+        self.website = json["website"] as? String
+        self.roleType = json["role_type_label"] as? String
         if let roleType = roleType {
            self.type = roleType == "Representative" ? .representative : .sentator
         }
-        self.leadershipTitle = repDictionary["leadership_title"] as? String
-        self.description = repDictionary["description"] as? String
-        self.district = repDictionary["district"] as? Int
-        self.phoneNumber = repDictionary["phone"] as? String
-        self.title = repDictionary["title"] as? String
-        self.website = repDictionary["website"] as? String
-        self.party = repDictionary["party"] as? String
-        self.id = repDictionary["person"]?["id"] as? Int
-        self.firstName = repDictionary["person"]?["firstname"] as? String
-        self.lastName = repDictionary["person"]?["lastname"] as? String
-        self.twitterHandle = repDictionary["person"]?["twitterid"] as? String
-        self.imageURL = repDictionary["image"] as? String
+        self.leadershipTitle = json["leadership_title"] as? String
+        self.description = json["description"] as? String
+        self.district = json["district"] as? Int
+        self.phoneNumber = json["phone"] as? String
+        self.title = json["title"] as? String
+        self.website = json["website"] as? String
+        self.party = json["party"] as? String
+        self.id = json["person"]?["id"] as? Int
+        self.firstName = json["person"]?["firstname"] as? String
+        self.lastName = json["person"]?["lastname"] as? String
+        self.twitterHandle = json["person"]?["twitterid"] as? String
+        self.imageURL = json["image"] as? String
     }
 }

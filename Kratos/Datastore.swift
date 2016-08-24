@@ -16,6 +16,7 @@ class Datastore {
         didSet {
             if let reps = representatives {
                 determineDistrictNumber(from: reps)
+                
             }
         }
     }
@@ -23,24 +24,24 @@ class Datastore {
     
     func getDistrict( onCompletion: (Bool) -> (Void)) {
         if let streetAdress = streetAdress {
-            APIClient().loadRepresentatives(from: streetAdress, onCompletion: { (representativesArray) -> (Void) in
+            APIClient().loadRepresentatives(from: streetAdress, success: { (representativesArray) -> (Void) in
                 self.representatives = []
                 var array : [Representative] = []
-                for rep in representativesArray {
-                    array.append((Representative(repDictionary: rep)))
+                for repDict in representativesArray {
+                    var rep = Representative(json: repDict)
+                    APIClient().loadVotes(for: rep, success: { (votes) -> (Void) in
+                        rep.votes = votes
+                        array.append(rep)
+                        }, failure: { (error) in
+                            array.append(rep)
+                    })
                 }
                 self.representatives = array
-
                 onCompletion(true)
-                
-                }, errorCompletion: { (error) -> (Void) in
+                }, failure: { (error) in
                     onCompletion(false)
             })
         }
-    }
-    
-    func getLegislation(for representative: Representative) {
-
     }
     
     func determineDistrictNumber(from repArray: [Representative]) {

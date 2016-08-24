@@ -11,5 +11,7 @@ import Foundation
 struct Constants {
 
     static let ADDRESS_API_CONSTANT = "http://198.199.73.246/api/districts"
+    static let REPRESENTATIVE_LEGISLATION_CONSTANT = "http://198.199.73.246/api/representatives/"
     
+    static let VOTE_TABLEVIEWCELL_IDENTIFIER = "VoteTableViewCellIdentifier"
 }

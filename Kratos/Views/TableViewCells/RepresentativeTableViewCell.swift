@@ -25,7 +25,6 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
     @IBOutlet var imageViewToTop: NSLayoutConstraint!
     
     var representative: Representative?
-    var legislationArray: [Legislation]?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -33,10 +32,11 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        legislationTableView.registerClass(LegislationTableViewCell.self, forCellReuseIdentifier: "LegislationTableViewCell")
         selectionStyle = .None
         legislationTableView.delegate = self
         legislationTableView.dataSource = self
+        legislationTableView.registerNib(UINib(nibName: "VoteTableViewCell", bundle: nil), forCellReuseIdentifier: Constants.VOTE_TABLEVIEWCELL_IDENTIFIER)
+        
     }
     
     func configure(with representative:Representative) {
@@ -106,22 +106,20 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
     
     //MARK: UITableViewDelegate & Datasource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return representative?.votes?.count ?? 0
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-//        cell.backgroundView = nil
+        cell.backgroundView = nil
         cell.backgroundColor = UIColor.clearColor()
 
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCellWithIdentifier("LegislationTableViewCell", forIndexPath: indexPath) as? LegislationTableViewCell else {
-            fatalError("Why are you returning something other than a LegislationTableViewCell??")
-        }
-        guard let legislationArray = legislationArray else { return UITableViewCell() }
-        let legislation = legislationArray[indexPath.row]
-        cell.legislation = legislation
+        guard let cell = tableView.dequeueReusableCellWithIdentifier(Constants.VOTE_TABLEVIEWCELL_IDENTIFIER, forIndexPath: indexPath) as? VoteTableViewCell else { return UITableViewCell() }
+        guard let votesArray = representative?.votes else { return UITableViewCell()}
+        let vote = votesArray[indexPath.row]
+        cell.vote = vote
         return cell
     }
 }
