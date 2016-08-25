@@ -4,7 +4,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -19,12 +18,6 @@
                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mxs-8f-Dzt">
                         <rect key="frame" x="8" y="8" width="331" height="440"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="FIRST" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ijn-fF-jb0">
-                                <rect key="frame" x="161" y="15" width="53" height="28"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xfn-gJ-Kju" userLabel="dividerView">
                                 <rect key="frame" x="-8" y="220" width="347" height="1"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -45,9 +38,9 @@
                                 <nil key="highlightedColor"/>
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zvm-U7-qIv">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zvm-U7-qIv">
                                 <rect key="frame" x="-8" y="255" width="347" height="163"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Representative" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wtp-UD-vjq">
                                 <rect key="frame" x="161" y="46" width="116" height="24"/>
@@ -68,6 +61,12 @@
                                     </mask>
                                 </variation>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="FIRST" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ijn-fF-jb0">
+                                <rect key="frame" x="161" y="15" width="53" height="28"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -78,9 +77,9 @@
                             <constraint firstItem="Ijn-fF-jb0" firstAttribute="top" secondItem="I2c-Eu-prj" secondAttribute="top" id="Etc-ni-g3m"/>
                             <constraint firstItem="Xfn-gJ-Kju" firstAttribute="width" secondItem="Mxs-8f-Dzt" secondAttribute="width" id="OHx-Fa-ghA"/>
                             <constraint firstAttribute="trailing" secondItem="zvm-U7-qIv" secondAttribute="trailing" id="QWW-mi-Bcw"/>
-                            <constraint firstItem="Wtp-UD-vjq" firstAttribute="leading" secondItem="I2c-Eu-prj" secondAttribute="trailing" constant="3" id="T7n-UH-YQY"/>
+                            <constraint firstItem="Wtp-UD-vjq" firstAttribute="leading" secondItem="I2c-Eu-prj" secondAttribute="trailing" constant="5" id="T7n-UH-YQY"/>
                             <constraint firstItem="I2c-Eu-prj" firstAttribute="centerY" secondItem="Mxs-8f-Dzt" secondAttribute="centerY" id="U2f-ld-boE"/>
-                            <constraint firstItem="Ijn-fF-jb0" firstAttribute="leading" secondItem="I2c-Eu-prj" secondAttribute="trailing" constant="3" id="ZHh-wp-Iz6"/>
+                            <constraint firstItem="Ijn-fF-jb0" firstAttribute="leading" secondItem="I2c-Eu-prj" secondAttribute="trailing" constant="5" id="ZHh-wp-Iz6"/>
                             <constraint firstItem="Xfn-gJ-Kju" firstAttribute="top" secondItem="SL3-8w-W8i" secondAttribute="bottom" constant="8" id="ae6-lk-NT8"/>
                             <constraint firstItem="zvm-U7-qIv" firstAttribute="leading" secondItem="Mxs-8f-Dzt" secondAttribute="leading" id="fNJ-EB-so7"/>
                             <constraint firstAttribute="bottom" secondItem="zvm-U7-qIv" secondAttribute="bottom" id="lRq-oN-lZQ"/>
@@ -98,10 +97,10 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Mxs-8f-Dzt" firstAttribute="top" secondItem="GNt-YH-4xl" secondAttribute="topMargin" id="5u8-hE-YxV"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="Mxs-8f-Dzt" secondAttribute="trailing" id="6ZZ-Nf-pEC"/>
+                    <constraint firstItem="Mxs-8f-Dzt" firstAttribute="top" secondItem="GNt-YH-4xl" secondAttribute="top" constant="8" id="5u8-hE-YxV"/>
+                    <constraint firstAttribute="trailing" secondItem="Mxs-8f-Dzt" secondAttribute="trailing" id="6ZZ-Nf-pEC"/>
                     <constraint firstAttribute="bottom" secondItem="Mxs-8f-Dzt" secondAttribute="bottom" constant="8" id="B7T-Cs-Jr0"/>
-                    <constraint firstItem="Mxs-8f-Dzt" firstAttribute="leading" secondItem="GNt-YH-4xl" secondAttribute="leadingMargin" id="v6I-yU-8WD"/>
+                    <constraint firstItem="Mxs-8f-Dzt" firstAttribute="leading" secondItem="GNt-YH-4xl" secondAttribute="leading" id="v6I-yU-8WD"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

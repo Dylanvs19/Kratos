@@ -12,9 +12,25 @@ import UIKit
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var tableView: UITableView!
-    var representatives: [Representative] = []
-    let representativeCellIdentifier = "representativeCellIdentifier"
-    var currentOpenRow = 0
+    var representatives: [Representative] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
+    var currentOpenRow = 0 {
+        didSet {
+            if currentOpenRow != 0 {
+                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.26 * Double(NSEC_PER_SEC)))
+                dispatch_after(delayTime, dispatch_get_main_queue()) {
+                    self.tableView.scrollToNearestSelectedRowAtScrollPosition(.Top, animated: true)
+                    self.tableView.scrollEnabled = false
+                }
+                            } else {
+                tableView.scrollEnabled = true
+            }
+        }
+    }
     var currentSectionShouldClose = false
     
     override func viewDidLoad() {
@@ -23,14 +39,17 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.dataSource = self
         tableView.backgroundView = nil
         tableView.backgroundColor = UIColor.clearColor()
-        tableView.registerNib(UINib(nibName: "RepresentativeTableViewCell", bundle: nil), forCellReuseIdentifier: representativeCellIdentifier)
+        tableView.registerNib(UINib(nibName: "RepresentativeTableViewCell", bundle: nil), forCellReuseIdentifier: Constants.REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER)
         loadData()
-        
     }
     
     func loadData() {
-        if let reps = Datastore.sharedDatastore.representatives {
-            representatives = reps
+        if Datastore.sharedDatastore.representatives != nil {
+            Datastore.sharedDatastore.getVotesForRepresentatives({ (success) in
+                if success {
+                    self.representatives = Datastore.sharedDatastore.representatives!
+                }
+            })
         }
     }
     
@@ -39,8 +58,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return representatives.count
     }
     
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        cell.backgroundView = nil
+        cell.backgroundColor = UIColor.clearColor()
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCellWithIdentifier(representativeCellIdentifier, forIndexPath: indexPath) as? RepresentativeTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCellWithIdentifier(Constants.REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER, forIndexPath: indexPath) as? RepresentativeTableViewCell else { return UITableViewCell() }
         
         let rep = representatives[indexPath.row]
         cell.configure(with: rep)
@@ -54,8 +78,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             currentOpenRow = indexPath.row + 1
         }
+        
         tableView.beginUpdates()
         tableView.endUpdates()
+
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -66,10 +92,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 tableView.deselectRowAtIndexPath(indexPath, animated: true)
                 return self.view.frame.size.height/3.1
             }
-            return self.view.frame.size.height * 0.95
+            return self.view.frame.size.height
         } else {
             return self.view.frame.size.height/3.1
-            
         }
     }
 }

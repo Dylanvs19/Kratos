@@ -10,7 +10,7 @@ import Foundation
 
 struct APIClient {
     
-    func loadVotes(for representative: Representative, success: ([Vote]) -> (Void), failure: (NSError?) -> (Void)) {
+    static func loadVotes(for representative: Representative, success: ([Vote]) -> (Void), failure: (NSError?) -> (Void)) {
         
         let session: NSURLSession = NSURLSession.sharedSession()
         
@@ -22,23 +22,23 @@ struct APIClient {
         
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        //        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let task: NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) in
             if let data = data {
                 do {
                     let obj = try NSJSONSerialization.JSONObjectWithData(data, options: [])
                     if let obj = obj as? [[String: AnyObject]] {
-                        let legislationArray = obj.map({
+                        let votes = obj.map({
                             Vote(json: $0)
                         })
                         dispatch_async(dispatch_get_main_queue(), {
-                            success(legislationArray)
+                            success(votes)
                         })
                     }
-                    //                            if let httpResponse = response as? NSHTTPURLResponse {
-                    //                                debugPrint("status code: \(httpResponse.statusCode)")
-                    //                            }
+                    if let httpResponse = response as? NSHTTPURLResponse {
+                        print("status code: \(httpResponse.statusCode)")
+                    }
                 } catch let error as NSError {
                     failure(error)
                 }
@@ -50,7 +50,7 @@ struct APIClient {
         task.resume()
     }
     
-    func loadRepresentatives(from streetAddress: StreetAddress, success: ([[String: AnyObject]]) -> (Void), failure: (NSError?) -> (Void)) {
+    static func loadRepresentatives(from streetAddress: StreetAddress, success: ([[String: AnyObject]]) -> (Void), failure: (NSError?) -> (Void)) {
         
         let session: NSURLSession = NSURLSession.sharedSession()
         let url = NSURL(string: Constants.ADDRESS_API_CONSTANT)!

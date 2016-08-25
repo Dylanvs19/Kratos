@@ -14,9 +14,8 @@ class Datastore {
     
     var representatives: [Representative]? {
         didSet {
-            if let reps = representatives {
-                determineDistrictNumber(from: reps)
-                
+            if representatives != nil && streetAdress?.district == nil {
+                determineDistrictNumber(from: representatives!)
             }
         }
     }
@@ -24,23 +23,34 @@ class Datastore {
     
     func getDistrict( onCompletion: (Bool) -> (Void)) {
         if let streetAdress = streetAdress {
-            APIClient().loadRepresentatives(from: streetAdress, success: { (representativesArray) -> (Void) in
+            APIClient.loadRepresentatives(from: streetAdress, success: { (representativesArray) in
                 self.representatives = []
                 var array : [Representative] = []
                 for repDict in representativesArray {
-                    var rep = Representative(json: repDict)
-                    APIClient().loadVotes(for: rep, success: { (votes) -> (Void) in
-                        rep.votes = votes
-                        array.append(rep)
-                        }, failure: { (error) in
-                            array.append(rep)
-                    })
+                    array.append(Representative(json: repDict))
                 }
                 self.representatives = array
                 onCompletion(true)
                 }, failure: { (error) in
                     onCompletion(false)
             })
+        }
+    }
+    
+    func getVotesForRepresentatives(success: (Bool) -> ()) {
+        if let representatives = representatives {
+            for (index, rep) in representatives.enumerate() {
+                APIClient.loadVotes(for: rep, success: { (votes) in
+                    self.representatives![index].votes = votes
+                    if self.representatives![0].votes != nil &&
+                       self.representatives![1].votes != nil &&
+                       self.representatives![2].votes != nil {
+                        success(true)
+                    }
+                    }, failure: { (error) in
+                        success(false)
+                })
+            }
         }
     }
     

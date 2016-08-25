@@ -12,14 +12,13 @@ extension NSDateFormatter {
     
     static var longDateFormatter: NSDateFormatter {
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-ddThh:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         return dateFormatter
     }
     
     static var presentationDateFormatter: NSDateFormatter {
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "MM d, yyyy"
+        dateFormatter.dateFormat = "MMM d, yyyy"
         return dateFormatter
     }
-    
 }

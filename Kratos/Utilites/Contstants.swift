@@ -14,4 +14,5 @@ struct Constants {
     static let REPRESENTATIVE_LEGISLATION_CONSTANT = "http://198.199.73.246/api/representatives/"
     
     static let VOTE_TABLEVIEWCELL_IDENTIFIER = "VoteTableViewCellIdentifier"
+    static let REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER = "representativeCellIdentifier"
 }

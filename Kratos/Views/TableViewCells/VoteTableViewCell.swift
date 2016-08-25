@@ -31,8 +31,20 @@ class VoteTableViewCell: UITableViewCell {
     }
     
     func configureWith(vote: Vote) {
-        voteTitleLabel.text = vote.question ?? ""
-        voteLabel.text = vote.vote ?? ""
+        voteTitleLabel.text = vote.questionTitle ?? ""
+        if let voteType = vote.vote {
+            switch voteType {
+            case .yea:
+                voteLabel.textColor = UIColor.greenColor()
+                voteLabel.text = voteType.rawValue
+            case .nay:
+                voteLabel.textColor = UIColor.kratosRed
+                voteLabel.text = voteType.rawValue
+            case .abstain:
+                voteLabel.textColor = UIColor.kratosBlue
+                voteLabel.text = voteType.rawValue
+            }
+        }
         if let date = vote.date {
         dateLabel.text = NSDateFormatter.presentationDateFormatter.stringFromDate(date)
         } else {

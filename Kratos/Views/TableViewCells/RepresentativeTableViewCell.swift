@@ -17,6 +17,7 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
     @IBOutlet var firstNameLabel: UILabel!
     @IBOutlet var representativeLabel: UILabel!
     @IBOutlet var stateLabel: UILabel!
+    
     @IBOutlet var legislationTableView: UITableView!
     
     @IBOutlet var imageViewContractedHeight: NSLayoutConstraint!
@@ -24,7 +25,11 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
     @IBOutlet var imageViewCenterY: NSLayoutConstraint!
     @IBOutlet var imageViewToTop: NSLayoutConstraint!
     
-    var representative: Representative?
+    var representative: Representative? {
+        didSet {
+            legislationTableView.reloadData()
+        }
+    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -36,10 +41,15 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
         legislationTableView.delegate = self
         legislationTableView.dataSource = self
         legislationTableView.registerNib(UINib(nibName: "VoteTableViewCell", bundle: nil), forCellReuseIdentifier: Constants.VOTE_TABLEVIEWCELL_IDENTIFIER)
+        legislationTableView.estimatedRowHeight = 80
+        legislationTableView.rowHeight = UITableViewAutomaticDimension
+        legislationTableView.setNeedsLayout()
+        legislationTableView.layoutIfNeeded()
         
     }
     
     func configure(with representative:Representative) {
+        self.representative = representative
         guard let firstName = representative.firstName,
             let lastName = representative.lastName else { return }
         repView.layer.shadowColor = UIColor.blackColor().CGColor
@@ -78,6 +88,7 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
     
     override func setSelected(selected: Bool, animated: Bool) {
         if selected {
+            legislationTableView.reloadData()
             UIView.animateWithDuration(0.5, animations: {
                 self.legislationTableView.alpha = 1
                 self.dividerView.alpha = 1
