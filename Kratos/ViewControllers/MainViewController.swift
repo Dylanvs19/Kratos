@@ -26,7 +26,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     self.tableView.scrollToNearestSelectedRowAtScrollPosition(.Top, animated: true)
                     self.tableView.scrollEnabled = false
                 }
-                            } else {
+            } else {
                 tableView.scrollEnabled = true
             }
         }

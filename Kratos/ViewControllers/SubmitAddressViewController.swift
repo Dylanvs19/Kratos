@@ -56,6 +56,10 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
         super.viewDidAppear(animated)
         beginningAnimations()
         setupGestureRecognizer()
+        addressTextField.delegate = self
+        cityTextField.delegate = self
+        zipCodeTextField.delegate = self
+        stateTextField.delegate = self
         testData()  
     }
     
@@ -67,6 +71,12 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func beginningAnimations() {
+        
+        addressTextField.alpha = 0.01
+        cityTextField.alpha = 0.01
+        stateTextField.alpha = 0.01
+        zipCodeTextField.alpha = 0.01
+        
         UIView.animateWithDuration(1, delay: 1, options: [], animations: {
             self.kratosImageViewLarge.active = false
             self.kratosImageViewSmall.active = true
@@ -94,6 +104,14 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
             self.view.layoutIfNeeded()
             
             }, completion: nil)
+        
+        UIView.animateWithDuration(0.5, delay: 4, options: [UIViewAnimationOptions.TransitionCrossDissolve], animations: {
+            self.addressTextField.alpha = 1
+            self.cityTextField.alpha = 1
+            self.stateTextField.alpha = 1
+            self.zipCodeTextField.alpha = 1
+            self.view.layoutIfNeeded()
+            }, completion: nil)
     }
     
     func handleTapOutside(recognizer: UITapGestureRecognizer) {
@@ -110,7 +128,6 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
                 self.kratosLabel.alpha = 1
                 self.enterOnScreen.active = false
                 self.enterOffScreen.active = true
-
                 self.view.layoutIfNeeded()
             })
         }
@@ -135,6 +152,9 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
                 NSNotificationCenter.defaultCenter().postNotificationName("toMainVC", object: nil)
             } else {
                let alert = UIAlertController.init(title: "Submission Error", message: "Your Address was not recognized", preferredStyle: .Alert)
+//                alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: { (action) in 
+//                    self.dismissViewControllerAnimated(true, completion: nil)
+//                }))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
         }
@@ -154,7 +174,6 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
                 valid = false
             }
         }
-        
         return valid
     }
     
@@ -170,7 +189,7 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     func animate(underlineView: UIView, with validation: Bool) {
         UIView.animateWithDuration(1, animations: {
             underlineView.backgroundColor = validation ? UIColor.kratosBlue : UIColor.kratosRed
-            self.view.layoutIfNeeded()
+            underlineView.layoutIfNeeded()
         })
     }
 }

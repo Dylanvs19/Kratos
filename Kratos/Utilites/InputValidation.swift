@@ -23,7 +23,7 @@ struct InputValidation {
     static func validateState(state:String?) -> Bool {
         guard let state = state else { return false }
         let sanitizedState = state.removeWhiteSpace()
-        return stateSet.containsObject(sanitizedState.uppercaseString)
+        return Constants.stateSet.containsObject(sanitizedState.uppercaseString)
     }
     
     static func validateZipCode(zipcode: String?) -> Bool {
@@ -32,66 +32,4 @@ struct InputValidation {
         return sanitizedzipcode.containsOnlyCharacters(in: NSCharacterSet.decimalDigitCharacterSet())
             && sanitizedzipcode.characterCountIs(5) ? true : false
     }
-    
-    private static let stateSet = NSSet(array: [
-        "AL",
-        "AK",
-        "AS",
-        "AZ",
-        "AR",
-        "CA",
-        "CO",
-        "CT",
-        "DE",
-        "DC",
-        "FM",
-        "FL",
-        "GA",
-        "GU",
-        "HI",
-        "ID",
-        "IL",
-        "IN",
-        "IA",
-        "KS",
-        "KY",
-        "LA",
-        "ME",
-        "MH",
-        "MD",
-        "MA",
-        "MI",
-        "MN",
-        "MS",
-        "MO",
-        "MT",
-        "NE",
-        "NV",
-        "NH",
-        "NJ",
-        "NM",
-        "NY",
-        "NC",
-        "ND",
-        "MP",
-        "OH",
-        "OK",
-        "OR",
-        "PW",
-        "PA",
-        "PR",
-        "RI",
-        "SC",
-        "SD",
-        "TN",
-        "TX",
-        "UT",
-        "VT",
-        "VI",
-        "VA",
-        "WA",
-        "WV",
-        "WI",
-        "WY",
-    ])
 }

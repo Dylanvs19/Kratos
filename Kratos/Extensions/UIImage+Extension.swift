@@ -32,4 +32,9 @@ extension UIImage {
             }.resume()
         onCompletion(nil)
     }
+    
+    class func imageForState(state: String) -> UIImage? {
+        guard let stateName = Constants.statePictureDict[state] else { return nil }
+            return UIImage(named: stateName)
+    }
 }

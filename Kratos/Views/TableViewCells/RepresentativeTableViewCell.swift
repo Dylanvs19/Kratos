@@ -12,18 +12,25 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
     
     @IBOutlet var repView: UIView!
     @IBOutlet var representativeImageView: UIImageView!
-    @IBOutlet var dividerView: UIView!
-    @IBOutlet var legislationLabel: UILabel!
     @IBOutlet var firstNameLabel: UILabel!
     @IBOutlet var representativeLabel: UILabel!
-    @IBOutlet var stateLabel: UILabel!
+    @IBOutlet var stateImageView: UIImageView!
     
     @IBOutlet var legislationTableView: UITableView!
     
-    @IBOutlet var imageViewContractedHeight: NSLayoutConstraint!
-    @IBOutlet var imageViewExpandedHeight: NSLayoutConstraint!
     @IBOutlet var imageViewCenterY: NSLayoutConstraint!
-    @IBOutlet var imageViewToTop: NSLayoutConstraint!
+    
+    @IBOutlet var repViewDeselectedWidth: NSLayoutConstraint!
+    @IBOutlet var repViewSelectedWidth: NSLayoutConstraint!
+    
+    @IBOutlet var repViewTopWithSpacing: NSLayoutConstraint!
+    @IBOutlet var repViewToTop: NSLayoutConstraint!
+    
+    @IBOutlet var repViewToBottomWithSpacing: NSLayoutConstraint!
+    @IBOutlet var repViewContractedHeight: NSLayoutConstraint!
+    
+    @IBOutlet var legislationTableViewToBottom: NSLayoutConstraint!
+    @IBOutlet var tableViewHeightEnabled: NSLayoutConstraint!
     
     var representative: Representative? {
         didSet {
@@ -57,7 +64,9 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
         repView.layer.shadowOpacity = 0.4
         repView.layer.shadowRadius = 2
         firstNameLabel.text = "\(firstName) \(lastName)"
-        stateLabel.text = representative.state
+        if let state = representative.state {
+            stateImageView.image = UIImage.imageForState(state)
+        }
         representativeLabel.text = representative.roleType
         
         if let imageURL = representative.imageURL {
@@ -65,21 +74,19 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
                 guard let image = image else { return }
                 self.representativeImageView.image = image
                 self.representativeImageView.contentMode = .ScaleAspectFill
-                self.representativeImageView.layer.cornerRadius = 3.0
-                self.representativeImageView.layer.borderWidth = 2.0
                 if let party = representative.party {
                     var color = UIColor()
                     switch party {
                     case "Democrat":
-                        color = UIColor.borderBlue
+                        color = UIColor.kratosRed
                     case "Republican":
-                        color = UIColor.borderRed
+                        color = UIColor.kratosRed
                     default:
                         color = UIColor.whiteColor()
                     }
-                    self.representativeImageView.layer.borderColor = color.CGColor
+                    self.repView.backgroundColor = color
                 } else {
-                    self.representativeImageView.layer.borderColor = UIColor.whiteColor().CGColor
+                    self.repView.backgroundColor = UIColor.whiteColor()
                 }
                 self.reloadInputViews()
             })
@@ -89,27 +96,37 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
     override func setSelected(selected: Bool, animated: Bool) {
         if selected {
             legislationTableView.reloadData()
-            UIView.animateWithDuration(0.5, animations: {
-                self.legislationTableView.alpha = 1
-                self.dividerView.alpha = 1
-                self.legislationLabel.alpha = 1
-                self.imageViewExpandedHeight.active = false
-                self.imageViewContractedHeight.active = true
-                self.imageViewCenterY.active = false
-                self.imageViewToTop.active = true
-                self.imageViewToTop.active = true
+            UIView.animateWithDuration(0.2, animations: {
+                
+                self.repViewDeselectedWidth.active = false
+                self.repViewSelectedWidth.active = true
+                
+                self.repViewTopWithSpacing.active = false
+                self.repViewToTop.active = true
+                
+                self.tableViewHeightEnabled.active = false
+                self.legislationTableViewToBottom.active = true
+                
+                self.repViewToBottomWithSpacing.active = false
+                self.repViewContractedHeight.active = true
+                
                 self.layoutIfNeeded()
             })
         } else {
-            UIView.animateWithDuration(0.3, animations: {
-                self.legislationTableView.alpha = 0
-                self.dividerView.alpha = 0
-                self.legislationLabel.alpha = 0
-                self.imageViewToTop.active = false
-                self.imageViewContractedHeight.active = false
-                self.imageViewExpandedHeight.active = true
-                self.imageViewToTop.active = false
-                self.imageViewCenterY.active = true
+            UIView.animateWithDuration(0.2, animations: {
+                
+                self.repViewSelectedWidth.active = false
+                self.repViewDeselectedWidth.active = true
+                
+                self.repViewToTop.active = false
+                self.repViewTopWithSpacing.active = true
+
+                self.legislationTableViewToBottom.active = false
+                self.tableViewHeightEnabled.active = true
+
+                self.repViewContractedHeight.active = false
+                self.repViewToBottomWithSpacing.active = true
+
                 self.layoutIfNeeded()
             })
         }
