@@ -7,3 +7,16 @@
 //
 
 import Foundation
+
+
+
+struct Bill {
+    var committees: [Committee]?
+    
+}
+
+struct Committee {
+    var name: String?
+    var id: Int?
+    
+}

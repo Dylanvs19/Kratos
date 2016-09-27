@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		71FC9AF49B0EB5820A301DE4 /* Pods_KratosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE4ABF9591E077E906036EA /* Pods_KratosTests.framework */; };
+		A0DD548B75376A90182B6EFF /* Pods_Kratos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EC5E845D25026904F837F7 /* Pods_Kratos.framework */; };
 		AF2843991D5AD4D3007B3F18 /* Contstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2843981D5AD4D3007B3F18 /* Contstants.swift */; };
 		AF28439B1D5AD686007B3F18 /* Datastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF28439A1D5AD686007B3F18 /* Datastore.swift */; };
 		AF28439D1D5ADAD9007B3F18 /* Pager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF28439C1D5ADAD9007B3F18 /* Pager.swift */; };
@@ -31,12 +33,14 @@
 		AF8974A81D4E784E00C19020 /* VoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974A71D4E784E00C19020 /* VoteTableViewCell.swift */; };
 		AF8974AA1D4E786E00C19020 /* VoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF8974A91D4E786E00C19020 /* VoteTableViewCell.xib */; };
 		AF8974AD1D4E969000C19020 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974AC1D4E969000C19020 /* APIClient.swift */; };
-		AF8974AF1D4E98C700C19020 /* StreetAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974AE1D4E98C700C19020 /* StreetAddress.swift */; };
+		AF8974AF1D4E98C700C19020 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974AE1D4E98C700C19020 /* User.swift */; };
 		AF8974B21D4E999C00C19020 /* InputValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B11D4E999C00C19020 /* InputValidation.swift */; };
 		AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B31D4EB71800C19020 /* UIViewController+Extensions.swift */; };
 		AF8974B61D4EF39900C19020 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B51D4EF39900C19020 /* String+Extensions.swift */; };
 		AF8974B81D4F058E00C19020 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B71D4F058E00C19020 /* UIColor+Extension.swift */; };
 		AF8974BA1D5036DA00C19020 /* NSCharacterSet+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B91D5036DA00C19020 /* NSCharacterSet+Extensions.swift */; };
+		AFD82F921D88FBFA00AEB559 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */; };
+		E0BAAA2EC661D1AE55726E1A /* Pods_KratosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3106BBC49F4921A587E0B9 /* Pods_KratosUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +61,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0B3106BBC49F4921A587E0B9 /* Pods_KratosUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KratosUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BFF11366D212637D2B6765E /* Pods-KratosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KratosTests/Pods-KratosTests.release.xcconfig"; sourceTree = "<group>"; };
+		6BE4ABF9591E077E906036EA /* Pods_KratosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KratosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		76680437267A207995EC63FD /* Pods-KratosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KratosUITests/Pods-KratosUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		86EC5E845D25026904F837F7 /* Pods_Kratos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kratos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E2C0D1F0BFAA77B0FD2EA1F /* Pods-Kratos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.debug.xcconfig"; sourceTree = "<group>"; };
 		AF2843981D5AD4D3007B3F18 /* Contstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contstants.swift; sourceTree = "<group>"; };
 		AF28439A1D5AD686007B3F18 /* Datastore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Datastore.swift; sourceTree = "<group>"; };
 		AF28439C1D5ADAD9007B3F18 /* Pager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pager.swift; sourceTree = "<group>"; };
@@ -87,12 +97,16 @@
 		AF8974A71D4E784E00C19020 /* VoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteTableViewCell.swift; sourceTree = "<group>"; };
 		AF8974A91D4E786E00C19020 /* VoteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteTableViewCell.xib; sourceTree = "<group>"; };
 		AF8974AC1D4E969000C19020 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		AF8974AE1D4E98C700C19020 /* StreetAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreetAddress.swift; sourceTree = "<group>"; };
+		AF8974AE1D4E98C700C19020 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AF8974B11D4E999C00C19020 /* InputValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValidation.swift; sourceTree = "<group>"; };
 		AF8974B31D4EB71800C19020 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		AF8974B51D4EF39900C19020 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		AF8974B71D4F058E00C19020 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		AF8974B91D5036DA00C19020 /* NSCharacterSet+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSCharacterSet+Extensions.swift"; sourceTree = "<group>"; };
+		AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		CC1513D8F9B156933DC665E0 /* Pods-Kratos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.release.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.release.xcconfig"; sourceTree = "<group>"; };
+		D3612F895CFC028A6B2F2353 /* Pods-KratosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KratosUITests/Pods-KratosUITests.release.xcconfig"; sourceTree = "<group>"; };
+		F565D52ED48E5392122D4225 /* Pods-KratosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KratosTests/Pods-KratosTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0DD548B75376A90182B6EFF /* Pods_Kratos.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71FC9AF49B0EB5820A301DE4 /* Pods_KratosTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,12 +130,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0BAAA2EC661D1AE55726E1A /* Pods_KratosUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9BDD09C5B80C45181E127B0C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9E2C0D1F0BFAA77B0FD2EA1F /* Pods-Kratos.debug.xcconfig */,
+				CC1513D8F9B156933DC665E0 /* Pods-Kratos.release.xcconfig */,
+				F565D52ED48E5392122D4225 /* Pods-KratosTests.debug.xcconfig */,
+				4BFF11366D212637D2B6765E /* Pods-KratosTests.release.xcconfig */,
+				76680437267A207995EC63FD /* Pods-KratosUITests.debug.xcconfig */,
+				D3612F895CFC028A6B2F2353 /* Pods-KratosUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		AF8974521D4D80E500C19020 = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +157,8 @@
 				AF8974721D4D80E500C19020 /* KratosTests */,
 				AF89747D1D4D80E500C19020 /* KratosUITests */,
 				AF89745C1D4D80E500C19020 /* Products */,
+				9BDD09C5B80C45181E127B0C /* Pods */,
+				B7ADC5350DE4F250004F089B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -195,7 +227,7 @@
 			children = (
 				AF89749B1D4D8ADC00C19020 /* Vote.swift */,
 				AF89749D1D4D8B2700C19020 /* Representative.swift */,
-				AF8974AE1D4E98C700C19020 /* StreetAddress.swift */,
+				AF8974AE1D4E98C700C19020 /* User.swift */,
 				AF5793171D6D440400D86B73 /* Bill.swift */,
 			);
 			path = Models;
@@ -205,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				AF8974601D4D80E500C19020 /* MainApplicationViewController.swift */,
+				AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */,
 				AF8974931D4D887100C19020 /* SubmitAddressViewController.swift */,
 				AF8974951D4D88C500C19020 /* MainViewController.swift */,
 				AF8974971D4D88D900C19020 /* RepresentativeDetailViewController.swift */,
@@ -250,6 +283,16 @@
 			path = Utilites;
 			sourceTree = "<group>";
 		};
+		B7ADC5350DE4F250004F089B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				86EC5E845D25026904F837F7 /* Pods_Kratos.framework */,
+				6BE4ABF9591E077E906036EA /* Pods_KratosTests.framework */,
+				0B3106BBC49F4921A587E0B9 /* Pods_KratosUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -257,9 +300,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AF8974831D4D80E500C19020 /* Build configuration list for PBXNativeTarget "Kratos" */;
 			buildPhases = (
+				8C9F6FCE6472038FF337D5B0 /* [CP] Check Pods Manifest.lock */,
 				AF8974571D4D80E500C19020 /* Sources */,
 				AF8974581D4D80E500C19020 /* Frameworks */,
 				AF8974591D4D80E500C19020 /* Resources */,
+				D349B98149137EB81C7BD1E8 /* [CP] Embed Pods Frameworks */,
+				C5AB08A7A7C5752E17B8258B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -274,9 +320,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AF8974861D4D80E500C19020 /* Build configuration list for PBXNativeTarget "KratosTests" */;
 			buildPhases = (
+				7121E2C1255755E0C3C95423 /* [CP] Check Pods Manifest.lock */,
 				AF89746B1D4D80E500C19020 /* Sources */,
 				AF89746C1D4D80E500C19020 /* Frameworks */,
 				AF89746D1D4D80E500C19020 /* Resources */,
+				22CFD80268793A624624E452 /* [CP] Embed Pods Frameworks */,
+				629AE4BF8DB9C890E6817B13 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -292,9 +341,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AF8974891D4D80E500C19020 /* Build configuration list for PBXNativeTarget "KratosUITests" */;
 			buildPhases = (
+				E14933D5F7A024F3767DD1E7 /* [CP] Check Pods Manifest.lock */,
 				AF8974761D4D80E500C19020 /* Sources */,
 				AF8974771D4D80E500C19020 /* Frameworks */,
 				AF8974781D4D80E500C19020 /* Resources */,
+				1A316714F7B6F2E50994ED14 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -378,6 +429,129 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1A316714F7B6F2E50994ED14 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KratosUITests/Pods-KratosUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		22CFD80268793A624624E452 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KratosTests/Pods-KratosTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		629AE4BF8DB9C890E6817B13 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KratosTests/Pods-KratosTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7121E2C1255755E0C3C95423 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8C9F6FCE6472038FF337D5B0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C5AB08A7A7C5752E17B8258B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Kratos/Pods-Kratos-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D349B98149137EB81C7BD1E8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Kratos/Pods-Kratos-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E14933D5F7A024F3767DD1E7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AF8974571D4D80E500C19020 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -395,7 +569,7 @@
 				AF57931A1D6D4C0000D86B73 /* NSDateFormatter+Extensions.swift in Sources */,
 				AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */,
 				AF8974981D4D88D900C19020 /* RepresentativeDetailViewController.swift in Sources */,
-				AF8974AF1D4E98C700C19020 /* StreetAddress.swift in Sources */,
+				AF8974AF1D4E98C700C19020 /* User.swift in Sources */,
 				AF89749C1D4D8ADC00C19020 /* Vote.swift in Sources */,
 				AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */,
 				AF5793181D6D440400D86B73 /* Bill.swift in Sources */,
@@ -403,6 +577,7 @@
 				AF89749A1D4D88F600C19020 /* LegislationDetailViewController.swift in Sources */,
 				AF89745F1D4D80E500C19020 /* AppDelegate.swift in Sources */,
 				AF8974961D4D88C500C19020 /* MainViewController.swift in Sources */,
+				AFD82F921D88FBFA00AEB559 /* LoginViewController.swift in Sources */,
 				AF8974A81D4E784E00C19020 /* VoteTableViewCell.swift in Sources */,
 				AF2B8C6C1D62D21300C31FA9 /* RepresentativeTableViewCell.swift in Sources */,
 				AF8974AD1D4E969000C19020 /* APIClient.swift in Sources */,
@@ -545,6 +720,7 @@
 		};
 		AF8974841D4D80E500C19020 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E2C0D1F0BFAA77B0FD2EA1F /* Pods-Kratos.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Kratos/Info.plist;
@@ -556,6 +732,7 @@
 		};
 		AF8974851D4D80E500C19020 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CC1513D8F9B156933DC665E0 /* Pods-Kratos.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Kratos/Info.plist;
@@ -567,6 +744,7 @@
 		};
 		AF8974871D4D80E500C19020 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F565D52ED48E5392122D4225 /* Pods-KratosTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = KratosTests/Info.plist;
@@ -579,6 +757,7 @@
 		};
 		AF8974881D4D80E500C19020 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4BFF11366D212637D2B6765E /* Pods-KratosTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = KratosTests/Info.plist;
@@ -591,6 +770,7 @@
 		};
 		AF89748A1D4D80E500C19020 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 76680437267A207995EC63FD /* Pods-KratosUITests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = KratosUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -602,6 +782,7 @@
 		};
 		AF89748B1D4D80E500C19020 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D3612F895CFC028A6B2F2353 /* Pods-KratosUITests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = KratosUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

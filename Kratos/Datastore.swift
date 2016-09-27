@@ -14,12 +14,13 @@ class Datastore {
     
     var representatives: [Representative]? {
         didSet {
-            if representatives != nil && streetAdress?.district == nil {
+            if representatives != nil && user?.district == nil {
                 determineDistrictNumber(from: representatives!)
             }
         }
     }
     var streetAdress: StreetAddress?
+    var user: User?
     
     func getDistrict( onCompletion: (Bool) -> (Void)) {
         if let streetAdress = streetAdress {

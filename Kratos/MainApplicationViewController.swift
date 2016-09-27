@@ -42,7 +42,6 @@ class MainApplicationViewController: UIViewController {
         
         for vc in childViewControllers {
             vc.willMoveToParentViewController(nil)
-            
             if vc.isViewLoaded() {
                 vc.view.removeFromSuperview()
             }

@@ -144,7 +144,10 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
             Datastore.sharedDatastore.streetAdress?.street = addressTextField.text
             Datastore.sharedDatastore.streetAdress?.city = cityTextField.text
             Datastore.sharedDatastore.streetAdress?.state = stateTextField.text
-            Datastore.sharedDatastore.streetAdress?.zipCode = zipCodeTextField.text
+            if let stringZip = zipCodeTextField.text,
+                let zip = Int(stringZip) {
+                Datastore.sharedDatastore.streetAdress?.zipCode = zip
+            }
         }
 
         Datastore.sharedDatastore.getDistrict { (success) -> (Void) in

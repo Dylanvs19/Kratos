@@ -32,4 +32,12 @@ struct InputValidation {
         return sanitizedzipcode.containsOnlyCharacters(in: NSCharacterSet.decimalDigitCharacterSet())
             && sanitizedzipcode.characterCountIs(5) ? true : false
     }
+    
+    static func validatePhoneNumber(phoneNumber: String?) -> Bool {
+        guard let phoneNumber = phoneNumber else { return false }
+        let sanitizedzipcode = phoneNumber.removeWhiteSpace()
+        return sanitizedzipcode.containsOnlyCharacters(in: NSCharacterSet.decimalDigitCharacterSet())
+            && sanitizedzipcode.characterCountIs(10) ? true : false
+
+    }
 }
