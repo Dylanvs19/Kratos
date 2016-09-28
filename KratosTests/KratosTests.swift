@@ -7,7 +7,6 @@
 //
 
 import XCTest
-@testable import Kratos
 
 class KratosTests: XCTestCase {
     
