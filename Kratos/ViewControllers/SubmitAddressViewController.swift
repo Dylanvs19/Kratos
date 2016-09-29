@@ -140,17 +140,18 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func enterButtonPressed(sender: AnyObject) {
         if textFieldsValid() {
-            Datastore.sharedDatastore.streetAdress = StreetAddress()
-            Datastore.sharedDatastore.streetAdress?.street = addressTextField.text
-            Datastore.sharedDatastore.streetAdress?.city = cityTextField.text
-            Datastore.sharedDatastore.streetAdress?.state = stateTextField.text
+            var address = StreetAddress()
+            address.street = addressTextField.text
+            address.city = cityTextField.text
+            address.state = stateTextField.text
             if let stringZip = zipCodeTextField.text,
                 let zip = Int(stringZip) {
-                Datastore.sharedDatastore.streetAdress?.zipCode = zip
+                address.zipCode = zip
             }
+            Datastore.sharedDatastore.user?.streetAddress = address
         }
 
-        Datastore.sharedDatastore.getDistrict { (success) -> (Void) in
+        Datastore.sharedDatastore.getRepresentatives({ (success) -> (Void) in
             if success {
                 NSNotificationCenter.defaultCenter().postNotificationName("toMainVC", object: nil)
             } else {
@@ -160,7 +161,7 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
 //                }))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
-        }
+        })
     }
     
     func textFieldsValid() -> Bool {
