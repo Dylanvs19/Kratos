@@ -7,30 +7,73 @@
 //
 
 import Foundation
+import Locksmith
 
 class Datastore {
     
     static let sharedDatastore = Datastore()
     
-    var representatives: [Representative]? {
-        didSet {
-            if representatives != nil && user?.district == nil {
-                determineDistrictNumber(from: representatives!)
-            }
-        }
-    }
-    var streetAdress: StreetAddress?
+    var representatives: [Representative]?
     var user: User?
     
-    func getDistrict( onCompletion: (Bool) -> (Void)) {
-        if let streetAdress = streetAdress {
-            APIClient.loadRepresentatives(from: streetAdress, success: { (representativesArray) in
-                self.representatives = []
-                var array : [Representative] = []
-                for repDict in representativesArray {
-                    array.append(Representative(json: repDict))
+    //MARK: Registration
+    func registerWith(password: String, onCompletion: (Bool) -> ()) {
+        if let user = user {
+            APIClient.register(user, with: password, success: { (user) -> (Void) in
+                if let _ = user.token {
+                    do{
+                        try user.createInSecureStore()
+                    } catch {
+                        onCompletion(false)
+                    }
+                    self.user = user
+                    onCompletion(true)
                 }
-                self.representatives = array
+                onCompletion(false)
+                }, failure: { (error) -> (Void) in
+                    debugPrint(error)
+                    onCompletion(false)
+            })
+        }
+    }
+    
+    func loginWith(phone: Int, and password: String, onCompletion: (Bool) -> ()) {
+        APIClient.logIn(with: phone, password: password, success: { (user) in
+            if let _ = user.token {
+                do{
+                    try user.updateInSecureStore()
+                } catch {
+                    onCompletion(false)
+                }
+                self.user = user
+                onCompletion(true)
+            }
+            }) { (error) in
+                debugPrint(error)
+                onCompletion(false)
+        }
+    }
+    
+    func getUser(onCompletion: (Bool) -> ()) {
+        if let _ = user?.token {
+            APIClient.fetchUser({ (user) in
+                self.user = user
+                onCompletion(true)
+                }, failure: { (error) in
+                    debugPrint(error)
+                    onCompletion(false)
+            })
+        }
+    }
+    
+    //MARK: Representatives & Votes
+    func getRepresentatives(onCompletion: (Bool) -> ()) {
+        if let user = user,
+            let state = user.streetAddress?.state,
+            let district = user.district {
+            
+            APIClient.loadRepresentatives(for: state, and: district, success: { (representativesArray) in
+                self.representatives = representativesArray
                 onCompletion(true)
                 }, failure: { (error) in
                     onCompletion(false)
@@ -39,7 +82,7 @@ class Datastore {
     }
     
     func getVotesForRepresentatives(success: (Bool) -> ()) {
-        if let representatives = representatives {
+        if let representatives = representatives where representatives.count == 3 {
             for (index, rep) in representatives.enumerate() {
                 APIClient.loadVotes(for: rep, success: { (votes) in
                     self.representatives![index].votes = votes
@@ -54,14 +97,5 @@ class Datastore {
             }
         }
     }
-    
-    func determineDistrictNumber(from repArray: [Representative]) {
-        for rep in repArray {
-            if rep.type == .representative {
-                if let district = rep.district {
-                    streetAdress?.district = district
-                }
-            }
-        }
-    }
+
 }

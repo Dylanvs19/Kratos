@@ -9,12 +9,14 @@
 import Foundation
 
 struct Constants {
-
-    static let ADDRESS_API_CONSTANT = "http://198.199.73.246/api/districts"
-    static let REPRESENTATIVE_URL = "http://198.199.73.246/api/representatives/"
-    static let REGISTRATION_URL = "http://198.199.73.246/api/registrations"
-    static let LOGIN_URL = "http://198.199.73.246/api/login"
-    static let BILL_URL = "http://198.199.73.246/api/bills/336967"
+    
+    static let REGISTRATION_URL = "https://kratos.website/api/registrations"
+    static let LOGIN_URL = "https://kratos.website/api/login"
+    static let USER_URL = "https://kratos.website/api/me"
+    
+    static let REPRESENTATIVES_URL = "https://kratos.website/api/districts/"
+    static let VOTES_URL = "https://kratos.website/api/representatives/"
+    static let BILL_URL = "https://kratos.website/api/bills/"
     
     static let VOTE_TABLEVIEWCELL_IDENTIFIER = "VoteTableViewCellIdentifier"
     static let REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER = "representativeCellIdentifier"

@@ -13,6 +13,10 @@ import Foundation
 struct Bill {
     var committees: [Committee]?
     
+    init?(json: [String: AnyObject]) {
+
+    }
+    
 }
 
 struct Committee {

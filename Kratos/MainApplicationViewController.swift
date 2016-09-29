@@ -20,6 +20,16 @@ class MainApplicationViewController: UIViewController {
         embedSubmitAddressViewController()
     }
     
+    func retrieveToken(success: (Bool) -> ()) {
+        let user = User()
+        user.readFromSecureStore()
+        if let _ = user.data["token"] {
+            success(true)
+        } else {
+            success(false)
+        }
+    }
+    
     func handleToMainVC(notification: NSNotification) {
         embedMainViewController()
     }

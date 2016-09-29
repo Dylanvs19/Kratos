@@ -77,11 +77,11 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
                 if let party = representative.party {
                     var color = UIColor()
                     switch party {
-                    case "Democrat":
+                    case .democrat:
                         color = UIColor.kratosRed
-                    case "Republican":
+                    case .republican:
                         color = UIColor.kratosRed
-                    default:
+                    case .independent:
                         color = UIColor.whiteColor()
                     }
                     self.repView.backgroundColor = color

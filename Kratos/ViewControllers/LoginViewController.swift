@@ -54,19 +54,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             self.passwordConfirmationNoWidthConstraint.active = false
             self.passwordConfirmationFullWIdthConstraint.active = true
             
-        })
+        }, completion: nil)
         UIView.animateWithDuration(0.5, delay: 4, options: [UIViewAnimationOptions.TransitionCrossDissolve], animations: {
             self.phoneNumberTextField.alpha = 1
             self.passwordTextField.alpha = 1
             self.passwordConfirmationTextField.alpha = 1
-        })
+        }, completion: nil)
 
     }
     
     func textFieldsValid() -> Bool {
         var valid = true
         let collection = [
-            InputValidation.validatePhoneNumber(phoneNumberTextField.text)
+            (InputValidation.validatePhoneNumber(phoneNumberTextField.text), phoneNumberUnderlineView)
         ]
         for (isValid, view) in collection {
             animate(view, with: isValid)
@@ -75,6 +75,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
         }
         return valid
+    }
+    
+    func animate(underlineView: UIView, with validation: Bool) {
+        UIView.animateWithDuration(1, animations: {
+            underlineView.backgroundColor = validation ? UIColor.kratosBlue : UIColor.kratosRed
+            underlineView.layoutIfNeeded()
+        })
     }
     
 }
