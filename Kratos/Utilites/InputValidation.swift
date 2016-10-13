@@ -38,6 +38,22 @@ struct InputValidation {
         let sanitizedzipcode = phoneNumber.removeWhiteSpace()
         return sanitizedzipcode.containsOnlyCharacters(in: NSCharacterSet.decimalDigitCharacterSet())
             && sanitizedzipcode.characterCountIs(10) ? true : false
-
+    }
+    
+    static func validatePasswordConfirmation(password: String?, passwordConfirmation: String?) -> Bool {
+        guard let password = password,
+              let passwordConfirmation = passwordConfirmation else { return false }
+        return password == passwordConfirmation ? true : false
+    }
+    
+    static func validatePassword(password: String?) -> Bool {
+        guard let password = password else { return false }
+        if password.characters.count > 7 &&
+        password.containsCharacters(in: NSCharacterSet.decimalDigitCharacterSet()) &&
+            password.containsCharacters(in: NSCharacterSet.letterCharacterSet()) {
+            return true
+        } else {
+            return false 
+        }
     }
 }

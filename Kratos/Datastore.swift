@@ -21,11 +21,7 @@ class Datastore {
         if let user = user {
             APIClient.register(user, with: password, success: { (user) -> (Void) in
                 if let _ = user.token {
-                    do{
-                        try user.createInSecureStore()
-                    } catch {
-                        onCompletion(false)
-                    }
+                    // store token in keychain***
                     self.user = user
                     onCompletion(true)
                 }
@@ -40,11 +36,11 @@ class Datastore {
     func loginWith(phone: Int, and password: String, onCompletion: (Bool) -> ()) {
         APIClient.logIn(with: phone, password: password, success: { (user) in
             if let _ = user.token {
-                do{
-                    try user.updateInSecureStore()
-                } catch {
-                    onCompletion(false)
-                }
+                KeychainManager.update(user, success: { (success) in
+                    if !success {
+                        print ("KeychainManager update:_ not succeding")
+                    }
+                })
                 self.user = user
                 onCompletion(true)
             }

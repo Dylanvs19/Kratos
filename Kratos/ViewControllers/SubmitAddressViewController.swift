@@ -31,12 +31,20 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var zipCodeTextFieldTrailingStateTextField: NSLayoutConstraint!
     @IBOutlet var zipCodeTextFieldTrailingAddressTextField: NSLayoutConstraint!
     
+    @IBOutlet var firstNameTextFieldNoWidth: NSLayoutConstraint!
+    @IBOutlet var firstNameTextFieldFullWidth: NSLayoutConstraint!
+    
+    @IBOutlet var lastNameTextFieldNoWidth: NSLayoutConstraint!
+    @IBOutlet var lastNameTextFieldFullWidth: NSLayoutConstraint!
+    
     @IBOutlet var enterOnScreen: NSLayoutConstraint!
     @IBOutlet var enterOffScreen: NSLayoutConstraint!
     
     @IBOutlet var kratosOnScreen: NSLayoutConstraint!
     @IBOutlet var kratosOffScreen: NSLayoutConstraint!
     
+    @IBOutlet var firstNameTextField: UITextField!
+    @IBOutlet var lastNameTextField: UITextField!
     @IBOutlet var addressTextField: UITextField!
     @IBOutlet var cityTextField: UITextField!
     @IBOutlet var zipCodeTextField: UITextField!
@@ -56,6 +64,8 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
         super.viewDidAppear(animated)
         beginningAnimations()
         setupGestureRecognizer()
+        firstNameTextField.delegate = self
+        lastNameTextField.delegate = self
         addressTextField.delegate = self
         cityTextField.delegate = self
         zipCodeTextField.delegate = self
@@ -64,7 +74,7 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func testData() {
-        addressTextField.text = "700 Grand Street"
+        addressTextField.text = "331 Keap Street"
         cityTextField.text = "Brooklyn"
         stateTextField.text = "NY"
         zipCodeTextField.text = "11211"
@@ -72,6 +82,8 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     
     private func beginningAnimations() {
         
+        firstNameTextField.alpha = 0.01
+        lastNameTextField.alpha = 0.01
         addressTextField.alpha = 0.01
         cityTextField.alpha = 0.01
         stateTextField.alpha = 0.01
@@ -87,8 +99,15 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
         
         UIView.animateWithDuration(1, delay: 3, options: [], animations: {
             
+            self.firstNameTextFieldNoWidth.active = false
+            self.firstNameTextFieldFullWidth.active = true
+            
+            self.lastNameTextFieldNoWidth.active = false
+            self.firstNameTextFieldFullWidth.active = true
+            
             self.addressTextFieldNoWidth.active = false
             self.addressTextFieldFullWidth.active = true
+            
             self.stateTextFieldNoWidth.active = false
             self.stateTextFieldFullWidth.active = true
             
@@ -106,6 +125,8 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
             }, completion: nil)
         
         UIView.animateWithDuration(0.5, delay: 4, options: [UIViewAnimationOptions.TransitionCrossDissolve], animations: {
+            self.firstNameTextField.alpha = 1
+            self.lastNameTextField.alpha = 1
             self.addressTextField.alpha = 1
             self.cityTextField.alpha = 1
             self.stateTextField.alpha = 1
@@ -139,6 +160,7 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func enterButtonPressed(sender: AnyObject) {
+
         if textFieldsValid() {
             var address = StreetAddress()
             address.street = addressTextField.text
@@ -148,20 +170,18 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
                 let zip = Int(stringZip) {
                 address.zipCode = zip
             }
+            Datastore.sharedDatastore.user?.firstName = firstNameTextField.text
+            Datastore.sharedDatastore.user?.lastName = lastNameTextField.text
             Datastore.sharedDatastore.user?.streetAddress = address
         }
-
-        Datastore.sharedDatastore.getRepresentatives({ (success) -> (Void) in
+        guard let password = Datastore.sharedDatastore.user?.password else { return }
+        Datastore.sharedDatastore.registerWith(password) { (success) in
             if success {
                 NSNotificationCenter.defaultCenter().postNotificationName("toMainVC", object: nil)
             } else {
-               let alert = UIAlertController.init(title: "Submission Error", message: "Your Address was not recognized", preferredStyle: .Alert)
-//                alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: { (action) in 
-//                    self.dismissViewControllerAnimated(true, completion: nil)
-//                }))
-                self.presentViewController(alert, animated: true, completion: nil)
+                print("SubmitAddressViewController registerWith(password) unsucessful")
             }
-        })
+        }
     }
     
     func textFieldsValid() -> Bool {

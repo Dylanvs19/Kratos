@@ -29,4 +29,8 @@ extension String {
         }
         return false
     }
+    
+    func containsCharacters(in set: NSCharacterSet) -> Bool {
+        return self.characters.count == self.stringByTrimmingCharactersInSet(set).characters.count ? false : true
+    }
 }

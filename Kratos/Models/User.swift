@@ -7,32 +7,8 @@
 //
 
 import Foundation
-import Locksmith
 
-struct User: ReadableSecureStorable,
-             CreateableSecureStorable,
-             DeleteableSecureStorable,
-             GenericPasswordSecureStorable {
-    
-    var service: String = "Kratos"
-    var account: String {
-        if let phoneNumber = phoneNumber {
-            return String(phoneNumber)
-        } else {
-            fatalError()
-        }
-    }
-    
-    var data: [String : AnyObject] {
-        var dict = [String : AnyObject]()
-        if let token = token {
-            dict["token"] = token
-        }
-        if let phoneNumber = phoneNumber {
-            dict["phoneNumber"] = phoneNumber
-        }
-        return dict
-    }
+struct User {
     
     var firstName: String?
     var lastName: String?
@@ -40,6 +16,7 @@ struct User: ReadableSecureStorable,
     var streetAddress: StreetAddress?
     var district: Int?
     var id: Int?
+    var password: String?
     var token: String?
     
     init() {
@@ -55,9 +32,9 @@ struct User: ReadableSecureStorable,
     
     init?(json: [String: AnyObject]) {
         guard let first = json["user"]?["first_name"] as? String,
-            let last = json["user"]?["first_name"] as? String,
+            let last = json["user"]?["last_name"] as? String,
             let phone = json["user"]?["phone"] as? Int,
-            let street = json["user"]?["string"] as? String,
+            let street = json["user"]?["address"] as? String,
             let city = json["user"]?["city"] as? String,
             let state = json["user"]?["state"] as? String,
             let district = json["user"]?["district"] as? Int,

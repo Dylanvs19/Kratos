@@ -39,7 +39,6 @@ struct APIClient {
                         if let httpResponse = response as? NSHTTPURLResponse {
                             debugPrint("status code: \(httpResponse.statusCode)")
                         }
-                        failure(nil)
                     } catch let error as NSError {
                         failure(error)
                     }
@@ -57,36 +56,42 @@ struct APIClient {
         guard let url = NSURL(string: Constants.USER_URL) else {
             fatalError()
         }
-        let session: NSURLSession = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest()
-        do {
-            try request.setAuthentication(url, requestType: .get, body: nil)
-        } catch let error as NSError {
-            failure(error)
-        }
         
-        let task: NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) in
-            if let data = data {
-                do {
-                    let obj = try NSJSONSerialization.JSONObjectWithData(data, options: [])
-                    if let obj = obj as? [String: [String: AnyObject]],
-                        let user = User(json: obj) {
-                        dispatch_async(dispatch_get_main_queue(), {
-                            success(user)
-                        })
-                    }
-                    if let httpResponse = response as? NSHTTPURLResponse {
-                        debugPrint("status code: \(httpResponse.statusCode)")
-                    }
-                } catch let error as NSError {
-                    failure(error)
-                }
-            }
-            if error != nil {
+        if let token = KeychainManager.fetchToken() {
+            
+            let session: NSURLSession = NSURLSession.sharedSession()
+            let request = NSMutableURLRequest()
+            do {
+                try request.setAuthentication(url, requestType: .get, body: ["token": token])
+            } catch let error as NSError {
                 failure(error)
             }
-        })
-        task.resume()
+            
+            
+            
+            let task: NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) in
+                if let data = data {
+                    do {
+                        let obj = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+                        if let obj = obj as? [String: [String: AnyObject]],
+                            let user = User(json: obj) {
+                            dispatch_async(dispatch_get_main_queue(), {
+                                success(user)
+                            })
+                        }
+                        if let httpResponse = response as? NSHTTPURLResponse {
+                            debugPrint("status code: \(httpResponse.statusCode)")
+                        }
+                    } catch let error as NSError {
+                        failure(error)
+                    }
+                }
+                if error != nil {
+                    failure(error)
+                }
+            })
+            task.resume()
+        }
     }
     
     static func logIn(with phone: Int, password: String, success: (User) -> (), failure: (NSError?) -> ()) {

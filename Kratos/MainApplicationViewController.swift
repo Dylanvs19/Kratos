@@ -9,39 +9,60 @@
 import UIKit
 
 class MainApplicationViewController: UIViewController {
-
+    
     @IBOutlet var mainAppContainerView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleToMainVC(_:)), name: "toMainVC", object: nil)
-        
-        embedSubmitAddressViewController()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleLoginFlow), name: "toMainVC", object: nil)
+        handleLoginFlow()
     }
     
-    func retrieveToken(success: (Bool) -> ()) {
-        let user = User()
-        user.readFromSecureStore()
-        if let _ = user.data["token"] {
-            success(true)
+    func hasToken() -> Bool {
+        return KeychainManager.fetchToken() == nil ? false : true
+    }
+    
+    func handleLoginFlow() {
+        if hasToken() {
+            APIClient.fetchUser({ (user) in
+                Datastore.sharedDatastore.user = user
+                Datastore.sharedDatastore.getRepresentatives({ (repSuccess) in
+                    if repSuccess {
+                        self.embedMainViewController()
+                    } else {
+                        debugPrint("could not get representative for User")
+                    }
+                })
+                }, failure: { (error) in
+                    self.embedLoginViewController()
+                    debugPrint(error)
+            })
         } else {
-            success(false)
+            self.embedLoginViewController()
         }
     }
+    
     
     func handleToMainVC(notification: NSNotification) {
         embedMainViewController()
     }
     
     func embedSubmitAddressViewController() {
-        let vc: SubmitAddressViewController = SubmitAddressViewController.fromStoryBoard("Main")
+        let vc: SubmitAddressViewController = SubmitAddressViewController.instantiate()
         embedViewController(vc)
     }
     
     func embedMainViewController() {
-        let vc: MainViewController = MainViewController.fromStoryBoard("Main")
+        let vc: MainViewController = MainViewController.instantiate()
         embedViewController(vc)
+    }
+    
+    func embedLoginViewController() {
+        let navVC = UINavigationController()
+        let vc: LoginViewController = LoginViewController.instantiate()
+        navVC.setViewControllers([vc], animated: false)
+        embedViewController(navVC)
     }
     
     func embedViewController(controller: UIViewController) {

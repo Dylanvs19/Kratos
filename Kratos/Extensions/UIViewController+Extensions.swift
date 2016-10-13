@@ -10,8 +10,8 @@ import UIKit
 
 extension UIViewController {
 
-    static func fromStoryBoard <ViewController where ViewController: UIViewController> (storyBoard: String) -> ViewController {
-        if let viewController = UIStoryboard(name: storyBoard, bundle: nil).instantiateViewControllerWithIdentifier(String(ViewController)) as? ViewController {
+    static func instantiate <ViewController where ViewController: UIViewController> () -> ViewController {
+        if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(String(ViewController)) as? ViewController {
             return viewController
         }
         fatalError("\(String(ViewController)) was not able to load")

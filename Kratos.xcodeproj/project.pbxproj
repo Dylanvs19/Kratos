@@ -40,6 +40,7 @@
 		AF8974BA1D5036DA00C19020 /* NSCharacterSet+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B91D5036DA00C19020 /* NSCharacterSet+Extensions.swift */; };
 		AFD5AA971D9C3D0C00A5714C /* KratosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974731D4D80E500C19020 /* KratosTests.swift */; };
 		AFD5AA9B1D9C618800A5714C /* NSMutableURLRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5AA9A1D9C618800A5714C /* NSMutableURLRequest+Extension.swift */; };
+		AFD5AA9E1DAF4A3A00A5714C /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5AA9D1DAF4A3A00A5714C /* KeychainManager.swift */; };
 		AFD82F921D88FBFA00AEB559 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */; };
 		E0BAAA2EC661D1AE55726E1A /* Pods_KratosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3106BBC49F4921A587E0B9 /* Pods_KratosUITests.framework */; };
 /* End PBXBuildFile section */
@@ -105,6 +106,8 @@
 		AF8974B71D4F058E00C19020 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		AF8974B91D5036DA00C19020 /* NSCharacterSet+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSCharacterSet+Extensions.swift"; sourceTree = "<group>"; };
 		AFD5AA9A1D9C618800A5714C /* NSMutableURLRequest+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+Extension.swift"; sourceTree = "<group>"; };
+		AFD5AA9D1DAF4A3A00A5714C /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kratos.entitlements; sourceTree = "<group>"; };
 		AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CC1513D8F9B156933DC665E0 /* Pods-Kratos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.release.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.release.xcconfig"; sourceTree = "<group>"; };
 		D3612F895CFC028A6B2F2353 /* Pods-KratosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KratosUITests/Pods-KratosUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -177,10 +180,12 @@
 		AF89745D1D4D80E500C19020 /* Kratos */ = {
 			isa = PBXGroup;
 			children = (
+				AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */,
 				AF89745E1D4D80E500C19020 /* AppDelegate.swift */,
 				AF28439A1D5AD686007B3F18 /* Datastore.swift */,
 				AF8974621D4D80E500C19020 /* Main.storyboard */,
 				AF8974AB1D4E965600C19020 /* APIClient */,
+				AFD5AA9C1DAF4A1F00A5714C /* Managers */,
 				AF8974B01D4E997D00C19020 /* Utilites */,
 				AF89748E1D4D862B00C19020 /* Extensions */,
 				AF89748F1D4D862B00C19020 /* Models */,
@@ -286,6 +291,14 @@
 			path = Utilites;
 			sourceTree = "<group>";
 		};
+		AFD5AA9C1DAF4A1F00A5714C /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				AFD5AA9D1DAF4A3A00A5714C /* KeychainManager.swift */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
 		B7ADC5350DE4F250004F089B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -372,6 +385,12 @@
 				TargetAttributes = {
 					AF89745A1D4D80E500C19020 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = R2XL2EPM9B;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					AF89746E1D4D80E500C19020 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -573,6 +592,7 @@
 				AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */,
 				AF8974981D4D88D900C19020 /* RepresentativeDetailViewController.swift in Sources */,
 				AF8974AF1D4E98C700C19020 /* User.swift in Sources */,
+				AFD5AA9E1DAF4A3A00A5714C /* KeychainManager.swift in Sources */,
 				AF89749C1D4D8ADC00C19020 /* Vote.swift in Sources */,
 				AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */,
 				AF5793181D6D440400D86B73 /* Bill.swift in Sources */,
@@ -737,6 +757,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Kratos/Kratos.entitlements;
+				DEVELOPMENT_TEAM = R2XL2EPM9B;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = Kratos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -752,6 +774,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Kratos/Kratos.entitlements;
+				DEVELOPMENT_TEAM = R2XL2EPM9B;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = Kratos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
