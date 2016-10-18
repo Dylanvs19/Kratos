@@ -14,5 +14,6 @@ class LegislationDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    var billId: Int?
     
 }

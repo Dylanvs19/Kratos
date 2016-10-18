@@ -11,11 +11,11 @@ import UIKit
 extension UIColor {
     
     static var kratosBlue: UIColor {
-        return UIColor(red: 0, green: 0, blue: 100, alpha: 1)
+        return UIColor(red: 0, green: 0, blue: 100/255, alpha: 1)
     }
     
     static var darkBlue: UIColor {
-        return UIColor(red: 25, green: 25, blue: 112, alpha: 1)
+        return UIColor(red: 25/255, green: 25/255, blue: 112/255, alpha: 1)
     }
     
     static var kratosRed: UIColor {

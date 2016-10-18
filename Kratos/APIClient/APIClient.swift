@@ -57,24 +57,20 @@ struct APIClient {
             fatalError()
         }
         
-        if let token = KeychainManager.fetchToken() {
-            
             let session: NSURLSession = NSURLSession.sharedSession()
             let request = NSMutableURLRequest()
             do {
-                try request.setAuthentication(url, requestType: .get, body: ["token": token])
+                try request.setAuthentication(url, requestType: .get, body: nil)
             } catch let error as NSError {
                 failure(error)
             }
-            
-            
             
             let task: NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) in
                 if let data = data {
                     do {
                         let obj = try NSJSONSerialization.JSONObjectWithData(data, options: [])
-                        if let obj = obj as? [String: [String: AnyObject]],
-                            let user = User(json: obj) {
+                        if let obj = obj as? [String: AnyObject],
+                            let user = User(json: obj, pureUser: true) {
                             dispatch_async(dispatch_get_main_queue(), {
                                 success(user)
                             })
@@ -91,7 +87,6 @@ struct APIClient {
                 }
             })
             task.resume()
-        }
     }
     
     static func logIn(with phone: Int, password: String, success: (User) -> (), failure: (NSError?) -> ()) {

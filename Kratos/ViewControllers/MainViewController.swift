@@ -9,7 +9,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RepresentativeTableViewCellDelegate {
     
     @IBOutlet var tableView: UITableView!
     var representatives: [Representative] = [] {
@@ -35,10 +35,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Representatives"
+        navigationController?.navigationBar.translucent = false
+        navigationController?.navigationBar.tintColor = UIColor.kratosBlue
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(handleActionButtonPressed(_:)))
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundView = nil
-        tableView.backgroundColor = UIColor.clearColor()
         tableView.registerNib(UINib(nibName: "RepresentativeTableViewCell", bundle: nil), forCellReuseIdentifier: Constants.REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER)
         loadData()
     }
@@ -51,6 +53,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
             })
         }
+    }
+    
+    func handleActionButtonPressed(sender: AnyObject) {
+        print("buttonPressed")
     }
     
     // MARK: RepViewDelegate Methods
@@ -67,21 +73,19 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         guard let cell = tableView.dequeueReusableCellWithIdentifier(Constants.REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER, forIndexPath: indexPath) as? RepresentativeTableViewCell else { return UITableViewCell() }
         
         let rep = representatives[indexPath.row]
+        cell.delegate = self
         cell.configure(with: rep)
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
         if indexPath.row + 1 == currentOpenRow {
             currentSectionShouldClose = !currentSectionShouldClose
         } else {
             currentOpenRow = indexPath.row + 1
         }
-        
         tableView.beginUpdates()
         tableView.endUpdates()
-
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -96,6 +100,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             return self.view.frame.size.height/3.1
         }
+    }
+    
+    // MARK: Representative TableView Cell Delegate
+    
+    func didSelectBill(id: Int) {
+        let vc: LegislationDetailViewController = LegislationDetailViewController.instantiate()
+        vc.billId = id
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

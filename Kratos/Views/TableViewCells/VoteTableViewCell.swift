@@ -10,9 +10,10 @@ import UIKit
 
 class VoteTableViewCell: UITableViewCell {
 
-    @IBOutlet var voteLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var voteTitleLabel: UILabel!
+    
+    @IBOutlet var voteImageView: UIImageView!
     
     var vote: Vote? {
         didSet {
@@ -35,14 +36,11 @@ class VoteTableViewCell: UITableViewCell {
         if let voteType = vote.vote {
             switch voteType {
             case .yea:
-                voteLabel.textColor = UIColor.greenColor()
-                voteLabel.text = voteType.rawValue
+                voteImageView.image = UIImage(named: "Yes")
             case .nay:
-                voteLabel.textColor = UIColor.kratosRed
-                voteLabel.text = voteType.rawValue
+                voteImageView.image = UIImage(named: "No")
             case .abstain:
-                voteLabel.textColor = UIColor.kratosBlue
-                voteLabel.text = voteType.rawValue
+                voteImageView.image = UIImage(named: "Abstain")
             }
         }
         if let date = vote.date {

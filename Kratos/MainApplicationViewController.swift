@@ -26,36 +26,32 @@ class MainApplicationViewController: UIViewController {
     func handleLoginFlow() {
         if hasToken() {
             APIClient.fetchUser({ (user) in
-                Datastore.sharedDatastore.user = user
-                Datastore.sharedDatastore.getRepresentatives({ (repSuccess) in
-                    if repSuccess {
-                        self.embedMainViewController()
-                    } else {
-                        debugPrint("could not get representative for User")
-                    }
+                    Datastore.sharedDatastore.user = user
+                    Datastore.sharedDatastore.getRepresentatives({ (repSuccess) in
+                        if repSuccess {
+                            dispatch_async(dispatch_get_main_queue(), {
+                                self.embedMainViewController()
+                            })
+                        } else {
+                            debugPrint("could not get representative for User")
+                        }
+                    })
+                    }, failure: { (error) in
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.embedLoginViewController()
+                        })
+                        debugPrint(error)
                 })
-                }, failure: { (error) in
-                    self.embedLoginViewController()
-                    debugPrint(error)
-            })
         } else {
-            self.embedLoginViewController()
+                self.embedLoginViewController()
         }
     }
     
-    
-    func handleToMainVC(notification: NSNotification) {
-        embedMainViewController()
-    }
-    
-    func embedSubmitAddressViewController() {
-        let vc: SubmitAddressViewController = SubmitAddressViewController.instantiate()
-        embedViewController(vc)
-    }
-    
     func embedMainViewController() {
+        let navVC = UINavigationController()
         let vc: MainViewController = MainViewController.instantiate()
-        embedViewController(vc)
+        navVC.setViewControllers([vc], animated: false)
+        embedViewController(navVC)
     }
     
     func embedLoginViewController() {

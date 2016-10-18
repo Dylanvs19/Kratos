@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol RepresentativeTableViewCellDelegate {
+    func didSelectBill(id: Int)
+}
+
 class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var repView: UIView!
@@ -18,7 +22,8 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
     
     @IBOutlet var legislationTableView: UITableView!
     
-    @IBOutlet var imageViewCenterY: NSLayoutConstraint!
+    @IBOutlet var repImageViewCenterY: NSLayoutConstraint!
+    @IBOutlet var repImageViewToTop: NSLayoutConstraint!
     
     @IBOutlet var repViewDeselectedWidth: NSLayoutConstraint!
     @IBOutlet var repViewSelectedWidth: NSLayoutConstraint!
@@ -37,6 +42,7 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
             legislationTableView.reloadData()
         }
     }
+    var delegate: RepresentativeTableViewCellDelegate?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -60,9 +66,12 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
         guard let firstName = representative.firstName,
             let lastName = representative.lastName else { return }
         repView.layer.shadowColor = UIColor.blackColor().CGColor
-        repView.layer.shadowOffset = CGSize(width: 0, height: 5)
-        repView.layer.shadowOpacity = 0.4
-        repView.layer.shadowRadius = 2
+        repView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        repView.layer.shadowOpacity = 0.3
+        repView.layer.shadowRadius = 1
+        representativeImageView?.layer.borderColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.3).CGColor
+        representativeImageView?.layer.borderWidth = 3.0
+        representativeImageView?.layer.cornerRadius = 3.0
         firstNameLabel.text = "\(firstName) \(lastName)"
         if let state = representative.state {
             stateImageView.image = UIImage.imageForState(state)
@@ -78,15 +87,15 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
                     var color = UIColor()
                     switch party {
                     case .democrat:
-                        color = UIColor.kratosRed
+                        color = UIColor.kratosBlue
                     case .republican:
                         color = UIColor.kratosRed
                     case .independent:
-                        color = UIColor.whiteColor()
+                        color = UIColor.grayColor()
                     }
                     self.repView.backgroundColor = color
                 } else {
-                    self.repView.backgroundColor = UIColor.whiteColor()
+                    self.repView.backgroundColor = UIColor.grayColor()
                 }
                 self.reloadInputViews()
             })
@@ -107,11 +116,15 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
                 self.tableViewHeightEnabled.active = false
                 self.legislationTableViewToBottom.active = true
                 
+                self.repImageViewToTop.active = true
+                self.repImageViewCenterY.active = false
+                
                 self.repViewToBottomWithSpacing.active = false
                 self.repViewContractedHeight.active = true
                 
                 self.layoutIfNeeded()
             })
+            
         } else {
             UIView.animateWithDuration(0.2, animations: {
                 
@@ -123,6 +136,9 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
 
                 self.legislationTableViewToBottom.active = false
                 self.tableViewHeightEnabled.active = true
+                
+                self.repImageViewCenterY.active = true
+                self.repImageViewToTop.active = false
 
                 self.repViewContractedHeight.active = false
                 self.repViewToBottomWithSpacing.active = true
@@ -149,5 +165,15 @@ class RepresentativeTableViewCell: UITableViewCell, UITableViewDelegate, UITable
         let vote = votesArray[indexPath.row]
         cell.vote = vote
         return cell
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 100
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        guard let votesArray = representative?.votes,
+              let billID = votesArray[indexPath.row].relatedBill else { return }
+        delegate?.didSelectBill(billID)
     }
 }

@@ -30,16 +30,23 @@ struct User {
         self.streetAddress = streetAddress
     }
     
-    init?(json: [String: AnyObject]) {
-        guard let first = json["user"]?["first_name"] as? String,
-            let last = json["user"]?["last_name"] as? String,
-            let phone = json["user"]?["phone"] as? Int,
-            let street = json["user"]?["address"] as? String,
-            let city = json["user"]?["city"] as? String,
-            let state = json["user"]?["state"] as? String,
-            let district = json["user"]?["district"] as? Int,
-            let id = json["user"]?["id"] as? Int,
-            let zip = json["user"]?["zip"] as? Int else { return nil }
+    init?(json: [String: AnyObject], pureUser: Bool = false) {
+        var jsonDict = json
+        if pureUser {
+            jsonDict = ["user": jsonDict]
+        } else {
+            self.token = jsonDict["token"] as? String
+        }
+        
+        guard let first = jsonDict["user"]?["first_name"] as? String,
+            let last = jsonDict["user"]?["last_name"] as? String,
+            let phone = jsonDict["user"]?["phone"] as? Int,
+            let street = jsonDict["user"]?["address"] as? String,
+            let city = jsonDict["user"]?["city"] as? String,
+            let state = jsonDict["user"]?["state"] as? String,
+            let district = jsonDict["user"]?["district"] as? Int,
+            let id = jsonDict["user"]?["id"] as? Int,
+            let zip = jsonDict["user"]?["zip"] as? Int else { return nil }
         
         self.firstName = first
         self.lastName = last
@@ -53,7 +60,6 @@ struct User {
         streetAddress.state = state
         self.streetAddress = streetAddress
         
-        self.token = json["token"] as? String
     }
     
     func toJson(with password: String) -> [String: AnyObject]? {

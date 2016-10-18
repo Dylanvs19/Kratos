@@ -55,6 +55,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGestureRecognizer()
+        navigationController?.navigationBar.translucent = false
+        navigationController?.navigationBar.tintColor = UIColor.kratosBlue
     }
     
     override func viewDidAppear(animated: Bool) {

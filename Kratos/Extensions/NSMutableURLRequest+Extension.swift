@@ -14,8 +14,7 @@ enum URLRequestType: String {
 }
 
 extension NSMutableURLRequest {
-    
-    
+
     ///Convenience Method that sets major components of initialized NSMutableURLRequest and throws error if body cannot be serialized into JSON
     ///@param - url: NSURL - URL
     ///@param - requestType: URLRequestType - HTTPMethod
@@ -24,8 +23,8 @@ extension NSMutableURLRequest {
         URL = url
         HTTPMethod = requestType.rawValue
         addValue("application/json", forHTTPHeaderField: "Content-Type")
-        if let token = Datastore.sharedDatastore.user?.token {
-            addValue("authorization", forHTTPHeaderField: "Bearer <\(token)>")
+        if let token = KeychainManager.fetchToken() {
+            addValue("Bearer \(token)", forHTTPHeaderField:"Authorization")
         }
         if let body = body {
             do {

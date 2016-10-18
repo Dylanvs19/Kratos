@@ -21,11 +21,13 @@ class Datastore {
         if let user = user {
             APIClient.register(user, with: password, success: { (user) -> (Void) in
                 if let _ = user.token {
-                    // store token in keychain***
                     self.user = user
-                    onCompletion(true)
+                    KeychainManager.create(user, success: { (success) in
+                        onCompletion(success)
+                    })
+                } else {
+                    onCompletion(false)
                 }
-                onCompletion(false)
                 }, failure: { (error) -> (Void) in
                     debugPrint(error)
                     onCompletion(false)
@@ -93,5 +95,4 @@ class Datastore {
             }
         }
     }
-
 }

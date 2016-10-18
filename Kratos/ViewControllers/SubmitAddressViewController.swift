@@ -51,6 +51,8 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var stateTextField: UITextField!
     @IBOutlet var kratosLabel: UILabel!
     
+    @IBOutlet var firstNameUnderlineView: UIView!
+    @IBOutlet var lastNameUnderlineView: UIView!
     @IBOutlet var stateUnderlineView: UIView!
     @IBOutlet var cityUnderlineView: UIView!
     @IBOutlet var zipcodeUnderlineView: UIView!
@@ -103,7 +105,7 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
             self.firstNameTextFieldFullWidth.active = true
             
             self.lastNameTextFieldNoWidth.active = false
-            self.firstNameTextFieldFullWidth.active = true
+            self.lastNameTextFieldFullWidth.active = true
             
             self.addressTextFieldNoWidth.active = false
             self.addressTextFieldFullWidth.active = true
@@ -187,17 +189,21 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     func textFieldsValid() -> Bool {
         var valid = true
         let collection = [
-                           (InputValidation.validateAddress(addressTextField.text), addressUnderlineView),
-                           (InputValidation.validateCity(cityTextField.text), cityUnderlineView),
-                           (InputValidation.validateState(stateTextField.text), stateUnderlineView),
-                           (InputValidation.validateZipCode(zipCodeTextField.text), zipcodeUnderlineView)
-                         ]
-        for (isValid, view) in collection {
+            (InputValidation.validateAddress, addressTextField.text, addressUnderlineView),
+            (InputValidation.validateCity, cityTextField.text, cityUnderlineView),
+            (InputValidation.validateState, stateTextField.text, stateUnderlineView),
+            (InputValidation.validateZipCode, zipCodeTextField.text, zipcodeUnderlineView),
+            (InputValidation.validateAddress, firstNameTextField.text, firstNameUnderlineView),
+            (InputValidation.validateAddress, lastNameTextField.text, lastNameUnderlineView)
+        ]
+        
+        collection.forEach({ validation, textField, view in
+            let isValid = validation(textField)
             animate(view, with: isValid)
             if !isValid {
                 valid = false
             }
-        }
+        })
         return valid
     }
     

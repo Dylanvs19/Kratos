@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,51 +13,50 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Peb-mR-4qD" id="79S-mA-NSj">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
+                <frame key="frameInset" width="320" height="63"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IGh-MC-dn5">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
-                        <color key="backgroundColor" red="0.39813701923076927" green="0.39813701923076927" blue="0.39813701923076927" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.61992976016245749" green="0.62210877845517643" blue="0.62864583333333335" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="zRX-1b-GgB"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="March, 12 2019" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g22-o6-z2g" userLabel="currentStatusLabel">
-                        <rect key="frame" x="8" y="0.0" width="99" height="20"/>
+                        <frame key="frameInset" minX="8" width="99" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBold" family="Avenir Next Condensed" pointSize="14"/>
-                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="YEA" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NWR-xc-tMN">
-                        <rect key="frame" x="276" y="27" width="36" height="24"/>
-                        <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
-                        <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OxP-Ao-Xii" userLabel="Vote Title Label">
-                        <rect key="frame" x="8" y="27" width="35" height="24"/>
+                        <frame key="frameInset" minX="8" minY="27" width="35" height="24"/>
                         <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="14"/>
-                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Taa-kW-tPu">
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="9zE-Tf-Sgn"/>
+                            <constraint firstAttribute="height" constant="30" id="FuC-GY-5ed"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
-                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
-                    <constraint firstItem="NWR-xc-tMN" firstAttribute="top" secondItem="OxP-Ao-Xii" secondAttribute="top" id="95d-dB-rca"/>
                     <constraint firstAttribute="leading" secondItem="OxP-Ao-Xii" secondAttribute="leading" constant="-10" id="KsD-7E-cLB"/>
                     <constraint firstItem="IGh-MC-dn5" firstAttribute="width" secondItem="79S-mA-NSj" secondAttribute="width" id="RCM-Ba-xyR"/>
                     <constraint firstItem="IGh-MC-dn5" firstAttribute="top" secondItem="79S-mA-NSj" secondAttribute="top" id="Rkd-xK-ctF"/>
+                    <constraint firstAttribute="trailing" secondItem="Taa-kW-tPu" secondAttribute="trailing" constant="3" id="ThY-45-oT4"/>
                     <constraint firstAttribute="bottom" secondItem="OxP-Ao-Xii" secondAttribute="bottom" constant="10" id="YfT-pZ-Bw2"/>
                     <constraint firstItem="IGh-MC-dn5" firstAttribute="centerX" secondItem="79S-mA-NSj" secondAttribute="centerX" id="Ys1-I2-2gq"/>
                     <constraint firstItem="OxP-Ao-Xii" firstAttribute="top" secondItem="IGh-MC-dn5" secondAttribute="bottom" constant="7" id="gYf-tN-WZn"/>
                     <constraint firstAttribute="trailingMargin" secondItem="OxP-Ao-Xii" secondAttribute="trailing" constant="70" id="tcZ-kN-KTP"/>
-                    <constraint firstAttribute="trailing" secondItem="NWR-xc-tMN" secondAttribute="trailing" constant="10" id="yQZ-mJ-wCv"/>
+                    <constraint firstItem="Taa-kW-tPu" firstAttribute="centerY" secondItem="OxP-Ao-Xii" secondAttribute="centerY" id="xtv-w3-Vbi"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="dateLabel" destination="g22-o6-z2g" id="jvE-qd-s6e"/>
-                <outlet property="voteLabel" destination="NWR-xc-tMN" id="eX3-RX-wua"/>
+                <outlet property="voteImageView" destination="Taa-kW-tPu" id="3v1-q7-uau"/>
                 <outlet property="voteTitleLabel" destination="OxP-Ao-Xii" id="y0T-Hg-8En"/>
             </connections>
             <point key="canvasLocation" x="159" y="56"/>
