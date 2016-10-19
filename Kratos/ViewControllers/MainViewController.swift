@@ -35,14 +35,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Representatives"
-        navigationController?.navigationBar.translucent = false
-        navigationController?.navigationBar.tintColor = UIColor.kratosBlue
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(handleActionButtonPressed(_:)))
+        navigationController?.navigationBarHidden = true 
         tableView.delegate = self
         tableView.dataSource = self
         tableView.registerNib(UINib(nibName: "RepresentativeTableViewCell", bundle: nil), forCellReuseIdentifier: Constants.REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER)
         loadData()
+        setUpSwipe()
     }
     
     func loadData() {
@@ -57,6 +55,16 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func handleActionButtonPressed(sender: AnyObject) {
         print("buttonPressed")
+    }
+    
+    func setUpSwipe() {
+        let swipeGR = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeRight(_:)))
+        swipeGR.direction = .Right
+        view.addGestureRecognizer(swipeGR)
+    }
+    
+    func handleSwipeRight(gestureRecognizer: UIGestureRecognizer) {
+            //Notification Center to pop in Account View From left.
     }
     
     // MARK: RepViewDelegate Methods
