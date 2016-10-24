@@ -11,26 +11,26 @@ import Foundation
 extension String {
     
     func removeWhiteSpace() -> String {
-        return stringByReplacingOccurrencesOfString(" ", withString: "")
+        return replacingOccurrences(of: " ", with: "")
     }
     
     func trimWhiteSpaces() -> String {
-        return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        return trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
     
-    func characterCountIs(count:Int) -> Bool {
+    func characterCountIs(_ count:Int) -> Bool {
         return count == characters.count
     }
     
-    func containsOnlyCharacters(in set: NSCharacterSet) -> Bool {
+    func containsOnlyCharacters(in set: CharacterSet) -> Bool {
         
-        if self.stringByTrimmingCharactersInSet(set) == "" {
+        if self.trimmingCharacters(in: set) == "" {
             return true
         }
         return false
     }
     
-    func containsCharacters(in set: NSCharacterSet) -> Bool {
-        return self.characters.count == self.stringByTrimmingCharactersInSet(set).characters.count ? false : true
+    func containsCharacters(in set: CharacterSet) -> Bool {
+        return self.characters.count == self.trimmingCharacters(in: set).characters.count ? false : true
     }
 }

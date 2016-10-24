@@ -15,7 +15,7 @@ class MainApplicationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleLoginFlow), name: "toMainVC", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleLoginFlow), name: NSNotification.Name(rawValue: "toMainVC"), object: nil)
         handleLoginFlow()
     }
     
@@ -29,7 +29,7 @@ class MainApplicationViewController: UIViewController {
                     Datastore.sharedDatastore.user = user
                     Datastore.sharedDatastore.getRepresentatives({ (repSuccess) in
                         if repSuccess {
-                            dispatch_async(dispatch_get_main_queue(), {
+                            DispatchQueue.main.async(execute: {
                                 self.embedMainViewController()
                             })
                         } else {
@@ -37,7 +37,7 @@ class MainApplicationViewController: UIViewController {
                         }
                     })
                     }, failure: { (error) in
-                        dispatch_async(dispatch_get_main_queue(), {
+                        DispatchQueue.main.async(execute: {
                             self.embedLoginViewController()
                         })
                         debugPrint(error)
@@ -61,15 +61,15 @@ class MainApplicationViewController: UIViewController {
         embedViewController(navVC)
     }
     
-    func embedViewController(controller: UIViewController) {
+    func embedViewController(_ controller: UIViewController) {
         
         if childViewControllers.contains(controller) {
             return
         }
         
         for vc in childViewControllers {
-            vc.willMoveToParentViewController(nil)
-            if vc.isViewLoaded() {
+            vc.willMove(toParentViewController: nil)
+            if vc.isViewLoaded {
                 vc.view.removeFromSuperview()
             }
             vc.removeFromParentViewController()
@@ -79,11 +79,11 @@ class MainApplicationViewController: UIViewController {
         controller.loadViewIfNeeded()
         mainAppContainerView.addSubview(controller.view)
         controller.view.translatesAutoresizingMaskIntoConstraints = false
-        controller.view.topAnchor.constraintEqualToAnchor(view.topAnchor).active = true
-        controller.view.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
-        controller.view.leftAnchor.constraintEqualToAnchor(view.leftAnchor).active = true
-        controller.view.rightAnchor.constraintEqualToAnchor(view.rightAnchor).active = true
-        controller.didMoveToParentViewController(self)
+        controller.view.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        controller.view.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        controller.view.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        controller.didMove(toParentViewController: self)
     }
     
 }

@@ -42,24 +42,24 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     var isLogin = true {
         didSet {
-            UIView.animateWithDuration(0.15) {
+            UIView.animate(withDuration: 0.15, animations: {
                 let registerOrSignIn = self.isLogin ? "REGISTER" : "SIGN IN"
                 let nextOrSubmit = self.isLogin ? "LOG IN" : "NEXT"
-                self.registerOrSignInButton.setTitle(registerOrSignIn, forState: .Normal)
-                self.nextOrSubmitButton.setTitle(nextOrSubmit, forState: .Normal)
+                self.registerOrSignInButton.setTitle(registerOrSignIn, for: UIControlState())
+                self.nextOrSubmitButton.setTitle(nextOrSubmit, for: UIControlState())
                 self.view.layoutIfNeeded()
-            }
+            }) 
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGestureRecognizer()
-        navigationController?.navigationBar.translucent = false
+        navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = UIColor.kratosBlue
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         phoneNumberTextField.delegate = self
         passwordTextField.delegate = self
@@ -69,28 +69,28 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func beginningAnimations() {
         nextButton.alpha = 0
-        UIView.animateWithDuration(1, delay: 0, options: [], animations: {
-            self.kratosImageViewLarge.active = false
-            self.kratosImageViewSmall.active = true
-            self.kratosImageViewCentered.active = false
-            self.kratosImageViewTop.active = true
+        UIView.animate(withDuration: 1, delay: 0, options: [], animations: {
+            self.kratosImageViewLarge.isActive = false
+            self.kratosImageViewSmall.isActive = true
+            self.kratosImageViewCentered.isActive = false
+            self.kratosImageViewTop.isActive = true
             self.view.layoutIfNeeded()
             }, completion: nil)
         
         phoneNumberTextField.alpha = 0.01
         passwordTextField.alpha = 0.01
         
-        UIView.animateWithDuration(1, delay: 1, options: [], animations: {
-            self.phoneNumberNoWidthConstraint.active = false
-            self.phoneNumberFullWidthConstraint.active = true
+        UIView.animate(withDuration: 1, delay: 1, options: [], animations: {
+            self.phoneNumberNoWidthConstraint.isActive = false
+            self.phoneNumberFullWidthConstraint.isActive = true
             
-            self.passwordNoWidthConstraint.active = false
-            self.passwordFullWidthConstraint.active = true
+            self.passwordNoWidthConstraint.isActive = false
+            self.passwordFullWidthConstraint.isActive = true
 
             self.view.layoutIfNeeded()
         }, completion: nil)
         
-        UIView.animateWithDuration(0.5, delay: 1.5, options: [UIViewAnimationOptions.TransitionCrossDissolve], animations: {
+        UIView.animate(withDuration: 0.5, delay: 1.5, options: [UIViewAnimationOptions.transitionCrossDissolve], animations: {
             self.phoneNumberTextField.alpha = 1
             self.passwordTextField.alpha = 1
             self.view.layoutIfNeeded()
@@ -122,29 +122,29 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return valid
     }
     
-    @IBAction func registerButtonPressed(sender: AnyObject) {
+    @IBAction func registerButtonPressed(_ sender: AnyObject) {
         isLogin = !isLogin
         if isLogin {
             passwordConfirmationTextField.alpha = 1
-            UIView.animateWithDuration(0.5, delay: 0, options: [UIViewAnimationOptions.TransitionCrossDissolve], animations: {
+            UIView.animate(withDuration: 0.5, delay: 0, options: [UIViewAnimationOptions.transitionCrossDissolve], animations: {
                 self.passwordConfirmationTextField.alpha = 0.01
                 self.view.layoutIfNeeded()
                 }, completion: nil)
             
-            UIView.animateWithDuration(0.5, delay: 0.5, options: [], animations: {
-                self.passwordConfirmationFullWIdthConstraint.active = false
-                self.passwordConfirmationNoWidthConstraint.active = true
+            UIView.animate(withDuration: 0.5, delay: 0.5, options: [], animations: {
+                self.passwordConfirmationFullWIdthConstraint.isActive = false
+                self.passwordConfirmationNoWidthConstraint.isActive = true
                 self.view.layoutIfNeeded()
                 }, completion: nil)
         } else {
             passwordConfirmationTextField.alpha = 0.01
-            UIView.animateWithDuration(1, delay: 0, options: [], animations: {
-                self.passwordConfirmationNoWidthConstraint.active = false
-                self.passwordConfirmationFullWIdthConstraint.active = true
+            UIView.animate(withDuration: 1, delay: 0, options: [], animations: {
+                self.passwordConfirmationNoWidthConstraint.isActive = false
+                self.passwordConfirmationFullWIdthConstraint.isActive = true
                 self.view.layoutIfNeeded()
                 }, completion: nil)
             
-            UIView.animateWithDuration(0.5, delay: 1, options: [UIViewAnimationOptions.TransitionCrossDissolve], animations: {
+            UIView.animate(withDuration: 0.5, delay: 1, options: [UIViewAnimationOptions.transitionCrossDissolve], animations: {
                 self.passwordConfirmationTextField.alpha = 1
                 self.view.layoutIfNeeded()
                 }, completion: nil)
@@ -152,28 +152,28 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    @IBAction func nextButtonPressed(sender: AnyObject) {
+    @IBAction func nextButtonPressed(_ sender: AnyObject) {
         if isLogin {
             if let phone = phoneNumberTextField.text,
                 let phoneInt = Int(phone),
-                let password = passwordTextField.text where textFieldsValid() {
+                let password = passwordTextField.text , textFieldsValid() {
                 Datastore.sharedDatastore.loginWith(phoneInt, and: password, onCompletion: { (success) in
                     if success {
-                        NSNotificationCenter.defaultCenter().postNotificationName("toMainVC", object: nil)
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
                     } else {
-                        let alertVC = UIAlertController(title: "Invalid Credentials", message: "Your phone number and password combination do not match our records", preferredStyle: .Alert)
-                        alertVC.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) in
-                            self.dismissViewControllerAnimated(false, completion: nil)
+                        let alertVC = UIAlertController(title: "Invalid Credentials", message: "Your phone number and password combination do not match our records", preferredStyle: .alert)
+                        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                            self.dismiss(animated: false, completion: nil)
                         }))
-                        self.presentViewController(alertVC, animated: true, completion: nil)
+                        self.present(alertVC, animated: true, completion: nil)
                     }
                 })
             } else {
-                let alertVC = UIAlertController(title: "Invalid Input", message: "Your phone and/or password are invalid", preferredStyle: .Alert)
-                alertVC.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) in
-                    self.dismissViewControllerAnimated(false, completion: nil)
+                let alertVC = UIAlertController(title: "Invalid Input", message: "Your phone and/or password are invalid", preferredStyle: .alert)
+                alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                    self.dismiss(animated: false, completion: nil)
                 }))
-                self.presentViewController(alertVC, animated: true, completion: nil)
+                self.present(alertVC, animated: true, completion: nil)
             }
         } else {
             let viewController: SubmitAddressViewController = SubmitAddressViewController.instantiate()
@@ -187,32 +187,32 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    func animate(underlineView: UIView, with validation: Bool) {
-        UIView.animateWithDuration(0.5, animations: {
+    func animate(_ underlineView: UIView, with validation: Bool) {
+        UIView.animate(withDuration: 0.5, animations: {
             underlineView.backgroundColor = validation ? UIColor.kratosBlue : UIColor.kratosRed
             underlineView.layoutIfNeeded()
         })
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         textField.layoutIfNeeded()
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
-    func handleTapOutside(recognizer: UITapGestureRecognizer) {
+    func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
         view.endEditing(true)
         if textFieldsValid() {
-            UIView.animateWithDuration(1, animations: {
+            UIView.animate(withDuration: 1, animations: {
                 self.nextButton.alpha = 1
                 self.kratosLabel.alpha = 0
                 self.view.layoutIfNeeded()
             })
         } else {
-            UIView.animateWithDuration(1, animations: {
+            UIView.animate(withDuration: 1, animations: {
                 self.kratosLabel.alpha = 1
                 self.nextButton.alpha = 0
                 self.view.layoutIfNeeded()
@@ -220,7 +220,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    private func setupGestureRecognizer() {
+    fileprivate func setupGestureRecognizer() {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(SubmitAddressViewController.handleTapOutside(_:)))
         view.addGestureRecognizer(tapRecognizer)
     }

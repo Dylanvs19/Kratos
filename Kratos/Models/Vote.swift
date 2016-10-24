@@ -12,9 +12,8 @@ struct Vote {
     
     var vote: Vote?
     var id: Int?
-    var billResolutionType: String?
     var result: String?
-    var date: NSDate?
+    var date: Date?
     var votesFor: Int?
     var votesAgainst: Int?
     var votesAbstain: Int?
@@ -68,7 +67,7 @@ struct Vote {
         self.result = json["result"] as? String
         let holdDate = json["created"] as? String
         if let holdDate = holdDate {
-            self.date = NSDateFormatter.longDateFormatter.dateFromString(holdDate)
+            self.date = DateFormatter.longDateFormatter.date(from: holdDate)
         }
         self.questionTitle = json["question_title"] as? String
         self.questionCode = json["question_code"] as? String

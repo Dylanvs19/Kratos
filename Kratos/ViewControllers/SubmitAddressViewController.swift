@@ -62,7 +62,7 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         beginningAnimations()
         setupGestureRecognizer()
@@ -75,14 +75,14 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
         testData()  
     }
     
-    private func testData() {
+    fileprivate func testData() {
         addressTextField.text = "331 Keap Street"
         cityTextField.text = "Brooklyn"
         stateTextField.text = "NY"
         zipCodeTextField.text = "11211"
     }
     
-    private func beginningAnimations() {
+    fileprivate func beginningAnimations() {
         
         firstNameTextField.alpha = 0.01
         lastNameTextField.alpha = 0.01
@@ -91,42 +91,42 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
         stateTextField.alpha = 0.01
         zipCodeTextField.alpha = 0.01
         
-        UIView.animateWithDuration(1, delay: 1, options: [], animations: {
-            self.kratosImageViewLarge.active = false
-            self.kratosImageViewSmall.active = true
-            self.kratosImageViewCentered.active = false
-            self.kratosImageViewTop.active = true
+        UIView.animate(withDuration: 1, delay: 1, options: [], animations: {
+            self.kratosImageViewLarge.isActive = false
+            self.kratosImageViewSmall.isActive = true
+            self.kratosImageViewCentered.isActive = false
+            self.kratosImageViewTop.isActive = true
             self.view.layoutIfNeeded()
         }, completion: nil)
         
-        UIView.animateWithDuration(1, delay: 3, options: [], animations: {
+        UIView.animate(withDuration: 1, delay: 3, options: [], animations: {
             
-            self.firstNameTextFieldNoWidth.active = false
-            self.firstNameTextFieldFullWidth.active = true
+            self.firstNameTextFieldNoWidth.isActive = false
+            self.firstNameTextFieldFullWidth.isActive = true
             
-            self.lastNameTextFieldNoWidth.active = false
-            self.lastNameTextFieldFullWidth.active = true
+            self.lastNameTextFieldNoWidth.isActive = false
+            self.lastNameTextFieldFullWidth.isActive = true
             
-            self.addressTextFieldNoWidth.active = false
-            self.addressTextFieldFullWidth.active = true
+            self.addressTextFieldNoWidth.isActive = false
+            self.addressTextFieldFullWidth.isActive = true
             
-            self.stateTextFieldNoWidth.active = false
-            self.stateTextFieldFullWidth.active = true
+            self.stateTextFieldNoWidth.isActive = false
+            self.stateTextFieldFullWidth.isActive = true
             
-            self.cityTextFieldNoWidth.active = false
-            self.cityXAxisLeft.active = false
-            self.cityTextFieldLeadingStateTextField.active = true
-            self.cityTextFieldLeadingAddressTextField.active = true
+            self.cityTextFieldNoWidth.isActive = false
+            self.cityXAxisLeft.isActive = false
+            self.cityTextFieldLeadingStateTextField.isActive = true
+            self.cityTextFieldLeadingAddressTextField.isActive = true
             
-            self.zipCodeTextFieldNoWidth.active = false
-            self.zipCodeXAxisRight.active = false
-            self.zipCodeTextFieldTrailingStateTextField.active = true
-            self.zipCodeTextFieldTrailingAddressTextField.active = true
+            self.zipCodeTextFieldNoWidth.isActive = false
+            self.zipCodeXAxisRight.isActive = false
+            self.zipCodeTextFieldTrailingStateTextField.isActive = true
+            self.zipCodeTextFieldTrailingAddressTextField.isActive = true
             self.view.layoutIfNeeded()
             
             }, completion: nil)
         
-        UIView.animateWithDuration(0.5, delay: 4, options: [UIViewAnimationOptions.TransitionCrossDissolve], animations: {
+        UIView.animate(withDuration: 0.5, delay: 4, options: [UIViewAnimationOptions.transitionCrossDissolve], animations: {
             self.firstNameTextField.alpha = 1
             self.lastNameTextField.alpha = 1
             self.addressTextField.alpha = 1
@@ -137,31 +137,31 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
             }, completion: nil)
     }
     
-    func handleTapOutside(recognizer: UITapGestureRecognizer) {
+    func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
         view.endEditing(true)
         if textFieldsValid() {
-            UIView.animateWithDuration(1, animations: {
-                self.enterOffScreen.active = false
+            UIView.animate(withDuration: 1, animations: {
+                self.enterOffScreen.isActive = false
                 self.kratosLabel.alpha = 0
-                self.enterOnScreen.active = true
+                self.enterOnScreen.isActive = true
                 self.view.layoutIfNeeded()
             })
         } else {
-            UIView.animateWithDuration(1, animations: {
+            UIView.animate(withDuration: 1, animations: {
                 self.kratosLabel.alpha = 1
-                self.enterOnScreen.active = false
-                self.enterOffScreen.active = true
+                self.enterOnScreen.isActive = false
+                self.enterOffScreen.isActive = true
                 self.view.layoutIfNeeded()
             })
         }
     }
     
-    private func setupGestureRecognizer() {
+    fileprivate func setupGestureRecognizer() {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(SubmitAddressViewController.handleTapOutside(_:)))
         view.addGestureRecognizer(tapRecognizer)
     }
     
-    @IBAction func enterButtonPressed(sender: AnyObject) {
+    @IBAction func enterButtonPressed(_ sender: AnyObject) {
 
         if textFieldsValid() {
             var address = StreetAddress()
@@ -179,7 +179,7 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
         guard let password = Datastore.sharedDatastore.user?.password else { return }
         Datastore.sharedDatastore.registerWith(password) { (success) in
             if success {
-                NSNotificationCenter.defaultCenter().postNotificationName("toMainVC", object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
             } else {
                 print("SubmitAddressViewController registerWith(password) unsucessful")
             }
@@ -207,17 +207,17 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
         return valid
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         textField.layoutIfNeeded()
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true 
     }
     
-    func animate(underlineView: UIView, with validation: Bool) {
-        UIView.animateWithDuration(1, animations: {
+    func animate(_ underlineView: UIView, with validation: Bool) {
+        UIView.animate(withDuration: 1, animations: {
             underlineView.backgroundColor = validation ? UIColor.kratosBlue : UIColor.kratosRed
             underlineView.layoutIfNeeded()
         })

@@ -5,8 +5,7 @@ use_frameworks!
 
 target 'Kratos' do
 
-pod 'Locksmith', '2.0.8'
-pod 'Charts/Realm', '2.3.0'
+pod 'Locksmith'
 
 end
 

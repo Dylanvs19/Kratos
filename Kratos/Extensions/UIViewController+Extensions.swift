@@ -10,11 +10,21 @@ import UIKit
 
 extension UIViewController {
 
-    static func instantiate <ViewController where ViewController: UIViewController> () -> ViewController {
-        if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(String(ViewController)) as? ViewController {
+    static func instantiate <ViewController: UIViewController> () -> ViewController {
+        if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: String(describing: ViewController.self)) as? ViewController {
             return viewController
         }
-        fatalError("\(String(ViewController)) was not able to load")
+        fatalError("\(String(describing: ViewController.self)) was not able to load")
     }
     
+    func setUpSwipe() {
+        let swipeGR = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeRight(_:)))
+        swipeGR.direction = .right
+        view.addGestureRecognizer(swipeGR)
+    }
+    
+    func handleSwipeRight(_ gestureRecognizer: UIGestureRecognizer) {
+        _ = navigationController?.popViewController(animated: true)
+        
+    }
 }

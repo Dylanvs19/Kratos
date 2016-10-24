@@ -31,7 +31,7 @@ class VoteTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
-    func configureWith(vote: Vote) {
+    func configureWith(_ vote: Vote) {
         voteTitleLabel.text = vote.questionTitle ?? ""
         if let voteType = vote.vote {
             switch voteType {
@@ -44,7 +44,7 @@ class VoteTableViewCell: UITableViewCell {
             }
         }
         if let date = vote.date {
-        dateLabel.text = NSDateFormatter.presentationDateFormatter.stringFromDate(date)
+        dateLabel.text = DateFormatter.presentationDateFormatter.string(from: date)
         } else {
             dateLabel.text = ""
         }

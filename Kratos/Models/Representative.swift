@@ -40,7 +40,7 @@ struct Representative {
     var representativeType : RepresentativeType?
     var votes: [Vote]?
     
-    init(json: [String: AnyObject]) {
+    init(from json: [String: AnyObject]) {
        
         self.state = json["state"] as? String
         self.website = json["website"] as? String
@@ -75,32 +75,21 @@ struct Representative {
 
 struct LightRepresentative {
     
-    var state: String?
+    var firstName: String?
+    var lastName: String?
     var id: Int?
+    var name: String?
     var imageURL: String?
-    var district: Int?
+    var district: String?
+    var state: String?
     var party: Party?
     var representativeType: RepresentativeType?
 
-    init(json: [String: AnyObject]) {
-         self.state = json["state"] as? String
-        self.district = json["district"] as? Int
-        self.id = json["person"]?["id"] as? Int
+    init(from json: [String: AnyObject]) {
+        self.firstName = json["firstname"] as? String
+        self.lastName = json["lastname"] as? String
+        self.id = json["id"] as? Int
+        self.name = json["name"] as? String
         self.imageURL = json["image"] as? String
-        if let roleType = json["role_type_label"] as? String {
-            self.representativeType = roleType == "Representative" ? .representative : .sentator
-        }
-        if let repParty = json["party"] as? String {
-            switch repParty {
-            case "Republican":
-                party = .republican
-            case "Democrat":
-                party = .democrat
-            case "Independent":
-                party = .independent
-            default:
-                break
-            }
-        }
     }
 }

@@ -19,17 +19,17 @@ extension NSMutableURLRequest {
     ///@param - url: NSURL - URL
     ///@param - requestType: URLRequestType - HTTPMethod
     ///@param - body: [String: AnyObject]? - HTTPBody
-    func setAuthentication(url: NSURL, requestType: URLRequestType, body: [String: AnyObject]?) throws {
-        URL = url
-        HTTPMethod = requestType.rawValue
+    func setAuthentication(for url: URL, requestType: URLRequestType, body: [String: AnyObject]?) throws {
+        self.url = url
+        httpMethod = requestType.rawValue
         addValue("application/json", forHTTPHeaderField: "Content-Type")
         if let token = KeychainManager.fetchToken() {
             addValue("Bearer \(token)", forHTTPHeaderField:"Authorization")
         }
         if let body = body {
             do {
-                let jsonData = try NSJSONSerialization.dataWithJSONObject(body, options: [.PrettyPrinted])
-                HTTPBody = jsonData
+                let jsonData = try JSONSerialization.data(withJSONObject: body, options: [.prettyPrinted])
+                httpBody = jsonData
             } catch let error as NSError {
                 throw error
             }

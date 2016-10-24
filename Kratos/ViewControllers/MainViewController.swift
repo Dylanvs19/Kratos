@@ -21,13 +21,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var currentOpenRow = 0 {
         didSet {
             if currentOpenRow != 0 {
-                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.26 * Double(NSEC_PER_SEC)))
-                dispatch_after(delayTime, dispatch_get_main_queue()) {
-                    self.tableView.scrollToNearestSelectedRowAtScrollPosition(.Top, animated: true)
-                    self.tableView.scrollEnabled = false
+                let delayTime = DispatchTime.now() + Double(Int64(0.26 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                DispatchQueue.main.asyncAfter(deadline: delayTime) {
+                    self.tableView.scrollToNearestSelectedRow(at: .top, animated: true)
+                    self.tableView.isScrollEnabled = false
                 }
             } else {
-                tableView.scrollEnabled = true
+                tableView.isScrollEnabled = true
             }
         }
     }
@@ -35,10 +35,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBarHidden = true 
+        navigationController?.isNavigationBarHidden = true 
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.registerNib(UINib(nibName: "RepresentativeTableViewCell", bundle: nil), forCellReuseIdentifier: Constants.REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER)
+        tableView.register(UINib(nibName: "RepresentativeTableViewCell", bundle: nil), forCellReuseIdentifier: Constants.REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER)
         loadData()
         setUpSwipe()
     }
@@ -53,55 +53,45 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    func handleActionButtonPressed(sender: AnyObject) {
-        print("buttonPressed")
-    }
-    
-    func setUpSwipe() {
-        let swipeGR = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeRight(_:)))
-        swipeGR.direction = .Right
-        view.addGestureRecognizer(swipeGR)
-    }
-    
-    func handleSwipeRight(gestureRecognizer: UIGestureRecognizer) {
+    override func handleSwipeRight(_ gestureRecognizer: UIGestureRecognizer) {
             //Notification Center to pop in Account View From left.
     }
     
     // MARK: RepViewDelegate Methods
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return representatives.count
     }
     
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundView = nil
-        cell.backgroundColor = UIColor.clearColor()
+        cell.backgroundColor = UIColor.clear
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCellWithIdentifier(Constants.REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER, forIndexPath: indexPath) as? RepresentativeTableViewCell else { return UITableViewCell() }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER, for: indexPath) as? RepresentativeTableViewCell else { return UITableViewCell() }
         
-        let rep = representatives[indexPath.row]
+        let rep = representatives[(indexPath as NSIndexPath).row]
         cell.delegate = self
         cell.configure(with: rep)
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row + 1 == currentOpenRow {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).row + 1 == currentOpenRow {
             currentSectionShouldClose = !currentSectionShouldClose
         } else {
-            currentOpenRow = indexPath.row + 1
+            currentOpenRow = (indexPath as NSIndexPath).row + 1
         }
         tableView.beginUpdates()
         tableView.endUpdates()
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row + 1 == currentOpenRow {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath as NSIndexPath).row + 1 == currentOpenRow {
             if currentSectionShouldClose {
                 currentOpenRow = 0
                 currentSectionShouldClose = false
-                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                tableView.deselectRow(at: indexPath, animated: true)
                 return self.view.frame.size.height/3.1
             }
             return self.view.frame.size.height
@@ -112,9 +102,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: Representative TableView Cell Delegate
     
-    func didSelectBill(id: Int) {
-        let vc: LegislationDetailViewController = LegislationDetailViewController.instantiate()
-        vc.billId = id
+    func didSelectVote(_ vote: Vote) {
+        let vc: VoteViewController = VoteViewController.instantiate()
+        vc.vote = vote
+        if let first = representatives[currentOpenRow].firstName,
+            let last = representatives[currentOpenRow].lastName {
+            vc.representativeName = first + " " + last
+        }
+        vc.loadViewIfNeeded()
         navigationController?.pushViewController(vc, animated: true)
     }
 }

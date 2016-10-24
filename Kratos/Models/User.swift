@@ -33,7 +33,7 @@ struct User {
     init?(json: [String: AnyObject], pureUser: Bool = false) {
         var jsonDict = json
         if pureUser {
-            jsonDict = ["user": jsonDict]
+            jsonDict = ["user": jsonDict as AnyObject]
         } else {
             self.token = jsonDict["token"] as? String
         }
@@ -72,17 +72,17 @@ struct User {
             let phoneNumber = self.phoneNumber else { return nil }
         
         let dict:[String:[String:AnyObject]] = ["user":[
-                                                "first_name": first,
-                                                "last_name": last,
-                                                "phone": phoneNumber,
-                                                "password": password,
-                                                "address": street,
-                                                "city": city,
-                                                "state": state,
-                                                "zip": zip
+                                                "first_name": first as AnyObject,
+                                                "last_name": last as AnyObject,
+                                                "phone": phoneNumber as AnyObject,
+                                                "password": password as AnyObject,
+                                                "address": street as AnyObject,
+                                                "city": city as AnyObject,
+                                                "state": state as AnyObject,
+                                                "zip": zip as AnyObject
                                                 ]
                                                 ]
-        return dict
+        return dict as [String : AnyObject]?
     }
 }
 
@@ -96,9 +96,9 @@ struct StreetAddress {
         var returnDictionary: [String: String]?
         if let
             street = self.street,
-            city = self.city,
-            state = self.state,
-            zipCode = self.zipCode {
+            let city = self.city,
+            let state = self.state,
+            let zipCode = self.zipCode {
             
             returnDictionary = [ "address" : "\(street) \(city) \(state) \(zipCode)" ]
         }

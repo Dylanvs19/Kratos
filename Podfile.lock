@@ -1,25 +1,12 @@
 PODS:
-  - Charts/Core (2.3.0)
-  - Charts/Realm (2.3.0):
-    - Charts/Core
-    - RealmSwift (~> 1.1)
-  - Locksmith (2.0.8)
-  - Realm (1.1.0):
-    - Realm/Headers (= 1.1.0)
-  - Realm/Headers (1.1.0)
-  - RealmSwift (1.1.0):
-    - Realm (= 1.1.0)
+  - Locksmith (3.0.0)
 
 DEPENDENCIES:
-  - Charts/Realm (= 2.3.0)
-  - Locksmith (= 2.0.8)
+  - Locksmith
 
 SPEC CHECKSUMS:
-  Charts: 55d7fd9af175b500208601bea872f0fc72c1d19e
-  Locksmith: a8ed41ac4c06506ea8cb199d8ec8a8d3d108eb2a
-  Realm: ceecf1a4540c4ce9efe196fe73fa9855bce05bd8
-  RealmSwift: 838058b2db95b12cb86bd0cf209df642c33fb60a
+  Locksmith: 310b4cc5031af5728bf4db5d4de547a5100c6a3b
 
-PODFILE CHECKSUM: a7539618f61acd3259ec2372660af46744d5868d
+PODFILE CHECKSUM: 40f7744430668d393facb6af94c3dcc54db8d17b
 
 COCOAPODS: 1.0.1

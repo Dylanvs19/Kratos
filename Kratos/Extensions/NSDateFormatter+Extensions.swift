@@ -8,17 +8,23 @@
 
 import Foundation
 
-extension NSDateFormatter {
+extension DateFormatter {
     
-    static var longDateFormatter: NSDateFormatter {
-        let dateFormatter = NSDateFormatter()
+    static var longDateFormatter: DateFormatter {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         return dateFormatter
     }
     
-    static var presentationDateFormatter: NSDateFormatter {
-        let dateFormatter = NSDateFormatter()
+    static var presentationDateFormatter: DateFormatter {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, yyyy"
+        return dateFormatter
+    }
+    
+    static var billDateFormatter: DateFormatter {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-dd"
         return dateFormatter
     }
 }

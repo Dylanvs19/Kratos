@@ -8,12 +8,12 @@
 
 import Foundation
 
-extension NSCharacterSet {
+extension CharacterSet {
     
-    static var letterPunctuationSet: NSCharacterSet {
-        let set = NSMutableCharacterSet.alphanumericCharacterSet()
-        set.formUnionWithCharacterSet(NSCharacterSet.punctuationCharacterSet())
-        set.formUnionWithCharacterSet(NSCharacterSet(charactersInString: " "))
-        return set
+    static var letterPunctuationSet: CharacterSet {
+        let set = NSMutableCharacterSet.alphanumeric()
+        set.formUnion(with: CharacterSet.punctuationCharacters)
+        set.formUnion(with: CharacterSet(charactersIn: " "))
+        return set as CharacterSet
     }
 }

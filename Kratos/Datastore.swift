@@ -17,7 +17,7 @@ class Datastore {
     var user: User?
     
     //MARK: Registration
-    func registerWith(password: String, onCompletion: (Bool) -> ()) {
+    func registerWith(_ password: String, onCompletion: @escaping (Bool) -> ()) {
         if let user = user {
             APIClient.register(user, with: password, success: { (user) -> (Void) in
                 if let _ = user.token {
@@ -35,7 +35,7 @@ class Datastore {
         }
     }
     
-    func loginWith(phone: Int, and password: String, onCompletion: (Bool) -> ()) {
+    func loginWith(_ phone: Int, and password: String, onCompletion: @escaping (Bool) -> ()) {
         APIClient.logIn(with: phone, password: password, success: { (user) in
             if let _ = user.token {
                 KeychainManager.update(user, success: { (success) in
@@ -52,7 +52,7 @@ class Datastore {
         }
     }
     
-    func getUser(onCompletion: (Bool) -> ()) {
+    func getUser(_ onCompletion: @escaping (Bool) -> ()) {
         if let _ = user?.token {
             APIClient.fetchUser({ (user) in
                 self.user = user
@@ -65,7 +65,7 @@ class Datastore {
     }
     
     //MARK: Representatives & Votes
-    func getRepresentatives(onCompletion: (Bool) -> ()) {
+    func getRepresentatives(_ onCompletion: @escaping (Bool) -> ()) {
         if let user = user,
             let state = user.streetAddress?.state,
             let district = user.district {
@@ -79,9 +79,9 @@ class Datastore {
         }
     }
     
-    func getVotesForRepresentatives(success: (Bool) -> ()) {
-        if let representatives = representatives where representatives.count == 3 {
-            for (index, rep) in representatives.enumerate() {
+    func getVotesForRepresentatives(_ success: @escaping (Bool) -> ()) {
+        if let representatives = representatives , representatives.count == 3 {
+            for (index, rep) in representatives.enumerated() {
                 APIClient.loadVotes(for: rep, success: { (votes) in
                     self.representatives![index].votes = votes
                     if self.representatives![0].votes != nil &&

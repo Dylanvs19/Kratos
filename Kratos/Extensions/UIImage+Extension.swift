@@ -10,30 +10,30 @@ import UIKit
 
 extension UIImage {
     
-    class func downloadedFrom(link: String, onCompletion: (UIImage?)-> (Void)) {
+    class func downloadedFrom(_ link: String, onCompletion: @escaping (UIImage?)-> (Void)) {
         var image = UIImage()
-        guard let url = NSURL(string: link) else {
+        guard let url = URL(string: link) else {
             onCompletion(nil)
             return
         }
-        NSURLSession.sharedSession().dataTaskWithURL(url){ (data, response, error) in
+        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
             guard
-                let httpURLResponse = response as? NSHTTPURLResponse where httpURLResponse.statusCode == 200,
-                let data = data where error == nil,
+                let httpURLResponse = response as? HTTPURLResponse , httpURLResponse.statusCode == 200,
+                let data = data , error == nil,
                 let returnImage = UIImage(data: data)
                 else {
                     onCompletion(nil)
                     return
             }
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 image = returnImage
                 onCompletion(image)
             }
-            }.resume()
+            }).resume()
         onCompletion(nil)
     }
     
-    class func imageForState(state: String) -> UIImage? {
+    class func imageForState(_ state: String) -> UIImage? {
         guard let stateName = Constants.statePictureDict[state] else { return nil }
             return UIImage(named: stateName)
     }
