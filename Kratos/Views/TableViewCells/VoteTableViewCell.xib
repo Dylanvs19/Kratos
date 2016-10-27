@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -46,7 +46,7 @@
                     <constraint firstAttribute="leading" secondItem="OxP-Ao-Xii" secondAttribute="leading" constant="-10" id="KsD-7E-cLB"/>
                     <constraint firstItem="IGh-MC-dn5" firstAttribute="width" secondItem="79S-mA-NSj" secondAttribute="width" id="RCM-Ba-xyR"/>
                     <constraint firstItem="IGh-MC-dn5" firstAttribute="top" secondItem="79S-mA-NSj" secondAttribute="top" id="Rkd-xK-ctF"/>
-                    <constraint firstAttribute="trailing" secondItem="Taa-kW-tPu" secondAttribute="trailing" constant="3" id="ThY-45-oT4"/>
+                    <constraint firstAttribute="trailing" secondItem="Taa-kW-tPu" secondAttribute="trailing" constant="5" id="ThY-45-oT4"/>
                     <constraint firstAttribute="bottom" secondItem="OxP-Ao-Xii" secondAttribute="bottom" constant="10" id="YfT-pZ-Bw2"/>
                     <constraint firstItem="IGh-MC-dn5" firstAttribute="centerX" secondItem="79S-mA-NSj" secondAttribute="centerX" id="Ys1-I2-2gq"/>
                     <constraint firstItem="OxP-Ao-Xii" firstAttribute="top" secondItem="IGh-MC-dn5" secondAttribute="bottom" constant="7" id="gYf-tN-WZn"/>

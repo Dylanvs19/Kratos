@@ -10,23 +10,31 @@
 import UIKit
 
 
-class LegislationDetailViewController: UIViewController {
+class LegislationDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var billId: Int?
     var bill: Bill? {
         didSet {
-            if bill != nil {
-                setUpView(with: bill!)
-            }
+            tableView.reloadData()
         }
     }
     
-    @IBOutlet var billTitleLabel: UILabel!
-
+    var cellMap: [(cellType: cellType, data: AnyObject)]?
+    
+    enum cellType {
+        case header
+        case committee
+        case sponsor
+        case action
+        case misc
+    }
+    
+    @IBOutlet var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
-        setUpSwipe()
+        enableSwipeBack()
         loadData()
     }
     
@@ -40,8 +48,35 @@ class LegislationDetailViewController: UIViewController {
         }
     }
     
+    func configureCellMap(with bill:Bill) {
+        
+    }
+    
     func setUpView(with bill: Bill) {
-        billTitleLabel.text = bill.title
+        configureCellMap(with: bill)
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return cellMap?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+        
+        guard let cellType = cellMap?[indexPath.row].cellType else { return UITableViewCell() }
+        
+        switch cellType {
+        case .header:
+            break
+        case .committee:
+            break
+        case .sponsor:
+            break
+        case .action:
+            break
+        case .misc:
+            break
+        }
     }
     
 }

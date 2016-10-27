@@ -17,7 +17,7 @@ extension UIViewController {
         fatalError("\(String(describing: ViewController.self)) was not able to load")
     }
     
-    func setUpSwipe() {
+    func enableSwipeBack() {
         let swipeGR = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeRight(_:)))
         swipeGR.direction = .right
         view.addGestureRecognizer(swipeGR)

@@ -40,7 +40,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.dataSource = self
         tableView.register(UINib(nibName: "RepresentativeTableViewCell", bundle: nil), forCellReuseIdentifier: Constants.REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER)
         loadData()
-        setUpSwipe()
+        enableSwipeBack()
     }
     
     func loadData() {
@@ -105,10 +105,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func didSelectVote(_ vote: Vote) {
         let vc: VoteViewController = VoteViewController.instantiate()
         vc.vote = vote
-        if let first = representatives[currentOpenRow].firstName,
-            let last = representatives[currentOpenRow].lastName {
-            vc.representativeName = first + " " + last
-        }
+        vc.representative = representatives[currentOpenRow - 1].toLightRepresentative()
         vc.loadViewIfNeeded()
         navigationController?.pushViewController(vc, animated: true)
     }

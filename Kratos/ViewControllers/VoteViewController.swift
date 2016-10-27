@@ -9,22 +9,23 @@ import UIKit
 
 class VoteViewController: UIViewController {
     
-    var vote: Vote? 
-    var representativeName: String?
+    var vote: Vote?
+    var representative: LightRepresentative?
     
     @IBOutlet var voteTitleLabel: UILabel!
     @IBOutlet var totalForLabel: UILabel!
     @IBOutlet var totalAgainstLabel: UILabel!
     @IBOutlet var totalAbstainLabel: UILabel!
     
+    @IBOutlet var repVoteImageView: UIImageView!
+    @IBOutlet var repImageView: UIImageView!
     @IBOutlet var representativeLabel: UILabel!
-    @IBOutlet var repVoteLabel: UILabel!
     @IBOutlet var relatedBillLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
-        setUpSwipe()
+        enableSwipeBack()
         setupView()
     }
     
@@ -36,10 +37,29 @@ class VoteViewController: UIViewController {
             totalForLabel.text = String(votesFor)
             totalAgainstLabel.text = String(against)
             totalAbstainLabel.text = String(abstain)
-            representativeLabel.text = representativeName
+            if let first = representative?.firstName,
+                let last = representative?.lastName {
+                representativeLabel.text = first + " " + last 
+            }
         }
-        
-        repVoteLabel.text = vote?.vote?.rawValue
+            if let voteType = vote?.vote {
+                switch voteType {
+                case .yea:
+                    repVoteImageView.image = UIImage(named: "Yes")
+                case .nay:
+                    repVoteImageView.image = UIImage(named: "No")
+                case .abstain:
+                    repVoteImageView.image = UIImage(named: "Abstain")
+                }
+            }
+        if let imageURL = representative?.imageURL {
+            UIImage.downloadedFrom(imageURL, onCompletion: { (image) -> (Void) in
+                guard let image = image else { return }
+                self.repImageView.image = image
+                self.repImageView.contentMode = .scaleAspectFill
+                })
+        }
+        relatedBillLabel.text = vote?.questionTitle
     }
     
     @IBAction func relatedBillButtonPressed(_ sender: AnyObject) {

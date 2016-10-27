@@ -38,6 +38,12 @@
 		AF8974B61D4EF39900C19020 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B51D4EF39900C19020 /* String+Extensions.swift */; };
 		AF8974B81D4F058E00C19020 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B71D4F058E00C19020 /* UIColor+Extension.swift */; };
 		AF8974BA1D5036DA00C19020 /* NSCharacterSet+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B91D5036DA00C19020 /* NSCharacterSet+Extensions.swift */; };
+		AF9F04861DC03BEF00A8BB74 /* BillHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9F04851DC03BEF00A8BB74 /* BillHeaderTableViewCell.swift */; };
+		AF9F04891DC03C1200A8BB74 /* BillHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9F04881DC03C1200A8BB74 /* BillHeaderTableViewCell.xib */; };
+		AF9F048E1DC245E100A8BB74 /* CommitteesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9F048C1DC245E100A8BB74 /* CommitteesTableViewCell.swift */; };
+		AF9F048F1DC245E100A8BB74 /* CommitteesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9F048D1DC245E100A8BB74 /* CommitteesTableViewCell.xib */; };
+		AF9F04921DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9F04901DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift */; };
+		AF9F04931DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9F04911DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib */; };
 		AFD5AA971D9C3D0C00A5714C /* KratosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974731D4D80E500C19020 /* KratosTests.swift */; };
 		AFD5AA9B1D9C618800A5714C /* NSMutableURLRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5AA9A1D9C618800A5714C /* NSMutableURLRequest+Extension.swift */; };
 		AFD5AA9E1DAF4A3A00A5714C /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5AA9D1DAF4A3A00A5714C /* KeychainManager.swift */; };
@@ -105,6 +111,12 @@
 		AF8974B51D4EF39900C19020 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		AF8974B71D4F058E00C19020 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		AF8974B91D5036DA00C19020 /* NSCharacterSet+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSCharacterSet+Extensions.swift"; sourceTree = "<group>"; };
+		AF9F04851DC03BEF00A8BB74 /* BillHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BillHeaderTableViewCell.swift; path = ../BillHeaderTableViewCell.swift; sourceTree = "<group>"; };
+		AF9F04881DC03C1200A8BB74 /* BillHeaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BillHeaderTableViewCell.xib; path = ../BillHeaderTableViewCell.xib; sourceTree = "<group>"; };
+		AF9F048C1DC245E100A8BB74 /* CommitteesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitteesTableViewCell.swift; sourceTree = "<group>"; };
+		AF9F048D1DC245E100A8BB74 /* CommitteesTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommitteesTableViewCell.xib; sourceTree = "<group>"; };
+		AF9F04901DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleCommitteeTableViewCell.swift; sourceTree = "<group>"; };
+		AF9F04911DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SingleCommitteeTableViewCell.xib; sourceTree = "<group>"; };
 		AFD5AA9A1D9C618800A5714C /* NSMutableURLRequest+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+Extension.swift"; sourceTree = "<group>"; };
 		AFD5AA9D1DAF4A3A00A5714C /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kratos.entitlements; sourceTree = "<group>"; };
@@ -265,10 +277,16 @@
 		AF8974921D4D862B00C19020 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				AF9F04851DC03BEF00A8BB74 /* BillHeaderTableViewCell.swift */,
+				AF9F04881DC03C1200A8BB74 /* BillHeaderTableViewCell.xib */,
+				AF9F048C1DC245E100A8BB74 /* CommitteesTableViewCell.swift */,
+				AF9F048D1DC245E100A8BB74 /* CommitteesTableViewCell.xib */,
 				AF8974A71D4E784E00C19020 /* VoteTableViewCell.swift */,
 				AF8974A91D4E786E00C19020 /* VoteTableViewCell.xib */,
 				AF2B8C6B1D62D21300C31FA9 /* RepresentativeTableViewCell.swift */,
 				AF2B8C6D1D62D22600C31FA9 /* RepresentativeTableViewCell.xib */,
+				AF9F04901DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift */,
+				AF9F04911DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -430,9 +448,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF9F04891DC03C1200A8BB74 /* BillHeaderTableViewCell.xib in Resources */,
+				AF9F048F1DC245E100A8BB74 /* CommitteesTableViewCell.xib in Resources */,
 				AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */,
 				AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */,
 				AF2B8C6E1D62D22600C31FA9 /* RepresentativeTableViewCell.xib in Resources */,
+				AF9F04931DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib in Resources */,
 				AF8974AA1D4E786E00C19020 /* VoteTableViewCell.xib in Resources */,
 				AF8974641D4D80E500C19020 /* Main.storyboard in Resources */,
 			);
@@ -585,6 +606,7 @@
 				AF6C29111DB9B94E004AA104 /* VoteViewController.swift in Sources */,
 				AF89749E1D4D8B2700C19020 /* Representative.swift in Sources */,
 				AF8974BA1D5036DA00C19020 /* NSCharacterSet+Extensions.swift in Sources */,
+				AF9F04921DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift in Sources */,
 				AF8974B21D4E999C00C19020 /* InputValidation.swift in Sources */,
 				AF8974941D4D887100C19020 /* SubmitAddressViewController.swift in Sources */,
 				AF8974611D4D80E500C19020 /* MainApplicationViewController.swift in Sources */,
@@ -594,6 +616,7 @@
 				AF8974B61D4EF39900C19020 /* String+Extensions.swift in Sources */,
 				AF57931A1D6D4C0000D86B73 /* NSDateFormatter+Extensions.swift in Sources */,
 				AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */,
+				AF9F04861DC03BEF00A8BB74 /* BillHeaderTableViewCell.swift in Sources */,
 				AF8974AF1D4E98C700C19020 /* User.swift in Sources */,
 				AFD5AA9E1DAF4A3A00A5714C /* KeychainManager.swift in Sources */,
 				AF89749C1D4D8ADC00C19020 /* Vote.swift in Sources */,
@@ -606,6 +629,7 @@
 				AFD82F921D88FBFA00AEB559 /* LoginViewController.swift in Sources */,
 				AF8974A81D4E784E00C19020 /* VoteTableViewCell.swift in Sources */,
 				AF2B8C6C1D62D21300C31FA9 /* RepresentativeTableViewCell.swift in Sources */,
+				AF9F048E1DC245E100A8BB74 /* CommitteesTableViewCell.swift in Sources */,
 				AF8974AD1D4E969000C19020 /* APIClient.swift in Sources */,
 				AFD5AA9B1D9C618800A5714C /* NSMutableURLRequest+Extension.swift in Sources */,
 			);

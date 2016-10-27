@@ -8,8 +8,6 @@
 
 import Foundation
 
-
-
 struct Bill {
     var title: String?
     var officialTitle: String?
@@ -22,7 +20,7 @@ struct Bill {
     var detailedSponsor: Representative?
     var isCurrent: Bool?
     var currentStatus: String?
-    var currentStatusDate: NSDate?
+    var currentStatusDate: Date?
     var isAlive: Bool?
     var terms: [String]?
     var introductionDate: NSDate?
@@ -76,7 +74,7 @@ struct Bill {
         
         let statusDate = json["current_status_date"] as? String
         if let statusDate = statusDate {
-            self.currentStatusDate = DateFormatter.billDateFormatter.date(from: statusDate) as NSDate?
+            self.currentStatusDate = DateFormatter.billDateFormatter.date(from: statusDate) as Date?
         }
         
         let introduction = json["introduced_date"] as? String

@@ -71,6 +71,17 @@ struct Representative {
         self.twitterHandle = json["person"]?["twitterid"] as? String
         self.imageURL = json["image"] as? String
     }
+    
+    func toLightRepresentative() -> LightRepresentative {
+        var lightRep = LightRepresentative()
+        lightRep.firstName = self.firstName
+        lightRep.lastName = self.lastName
+        lightRep.district = self.district
+        lightRep.imageURL = self.imageURL
+        lightRep.party = self.party
+        lightRep.representativeType = self.representativeType
+        return lightRep
+    }
 }
 
 struct LightRepresentative {
@@ -80,7 +91,7 @@ struct LightRepresentative {
     var id: Int?
     var name: String?
     var imageURL: String?
-    var district: String?
+    var district: Int?
     var state: String?
     var party: Party?
     var representativeType: RepresentativeType?
@@ -92,4 +103,6 @@ struct LightRepresentative {
         self.name = json["name"] as? String
         self.imageURL = json["image"] as? String
     }
+    
+    init() {}
 }
