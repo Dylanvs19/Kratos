@@ -8,6 +8,17 @@
 
 import Foundation
 
+protocol Representative {
+    var firstName: String? { get set }
+    var lastName: String? { get set }
+    var id: Int? { get set }
+    var imageURL: String? { get set }
+    var district: Int? { get set }
+    var state: String? { get set }
+    var party: Party? { get set }
+    var representativeType: RepresentativeType? { get set }
+}
+
 enum Party: String {
     case republican = "Republican"
     case democrat = "Democrat"
@@ -18,7 +29,7 @@ enum RepresentativeType {
     case sentator
 }
 
-struct Representative {
+struct DetailedRepresentative: Representative {
     
     // From Role API
     var state: String?
@@ -84,7 +95,7 @@ struct Representative {
     }
 }
 
-struct LightRepresentative {
+struct LightRepresentative: Representative {
     
     var firstName: String?
     var lastName: String?

@@ -61,21 +61,28 @@ class LegislationDetailViewController: UIViewController, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
         
-        guard let cellType = cellMap?[indexPath.row].cellType else { return UITableViewCell() }
+        guard let row = cellMap?[indexPath.row] else { return UITableViewCell() }
         
-        switch cellType {
+        switch row.cellType {
         case .header:
-            break
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "BillHeaderViewTableViewCell", for: indexPath) as? BillHeaderTableViewCell,
+            let bill = row.data as? Bill else { return UITableViewCell() }
+            cell.configure(with: bill)
+            return cell
         case .committee:
-            break
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommitteesTableViewCell", for: indexPath) as? CommitteesTableViewCell,
+                let committees = row.data as? [Committee] else { return UITableViewCell() }
+            cell.configure(with: committees)
+            return cell
         case .sponsor:
             break
         case .action:
             break
         case .misc:
             break
+        default:
+            return UITableViewCell()
         }
     }
     

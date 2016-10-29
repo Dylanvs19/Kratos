@@ -44,6 +44,10 @@
 		AF9F048F1DC245E100A8BB74 /* CommitteesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9F048D1DC245E100A8BB74 /* CommitteesTableViewCell.xib */; };
 		AF9F04921DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9F04901DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift */; };
 		AF9F04931DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9F04911DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib */; };
+		AF9F04961DC27DC000A8BB74 /* SponsorsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9F04941DC27DC000A8BB74 /* SponsorsTableViewCell.swift */; };
+		AF9F04971DC27DC000A8BB74 /* SponsorsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9F04951DC27DC000A8BB74 /* SponsorsTableViewCell.xib */; };
+		AF9F049A1DC2813800A8BB74 /* LeadSponsorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9F04981DC2813800A8BB74 /* LeadSponsorTableViewCell.swift */; };
+		AF9F049B1DC2813800A8BB74 /* LeadSponsorTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9F04991DC2813800A8BB74 /* LeadSponsorTableViewCell.xib */; };
 		AFD5AA971D9C3D0C00A5714C /* KratosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974731D4D80E500C19020 /* KratosTests.swift */; };
 		AFD5AA9B1D9C618800A5714C /* NSMutableURLRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5AA9A1D9C618800A5714C /* NSMutableURLRequest+Extension.swift */; };
 		AFD5AA9E1DAF4A3A00A5714C /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5AA9D1DAF4A3A00A5714C /* KeychainManager.swift */; };
@@ -117,6 +121,10 @@
 		AF9F048D1DC245E100A8BB74 /* CommitteesTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommitteesTableViewCell.xib; sourceTree = "<group>"; };
 		AF9F04901DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleCommitteeTableViewCell.swift; sourceTree = "<group>"; };
 		AF9F04911DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SingleCommitteeTableViewCell.xib; sourceTree = "<group>"; };
+		AF9F04941DC27DC000A8BB74 /* SponsorsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorsTableViewCell.swift; sourceTree = "<group>"; };
+		AF9F04951DC27DC000A8BB74 /* SponsorsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SponsorsTableViewCell.xib; sourceTree = "<group>"; };
+		AF9F04981DC2813800A8BB74 /* LeadSponsorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeadSponsorTableViewCell.swift; sourceTree = "<group>"; };
+		AF9F04991DC2813800A8BB74 /* LeadSponsorTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeadSponsorTableViewCell.xib; sourceTree = "<group>"; };
 		AFD5AA9A1D9C618800A5714C /* NSMutableURLRequest+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+Extension.swift"; sourceTree = "<group>"; };
 		AFD5AA9D1DAF4A3A00A5714C /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kratos.entitlements; sourceTree = "<group>"; };
@@ -287,6 +295,10 @@
 				AF2B8C6D1D62D22600C31FA9 /* RepresentativeTableViewCell.xib */,
 				AF9F04901DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift */,
 				AF9F04911DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib */,
+				AF9F04941DC27DC000A8BB74 /* SponsorsTableViewCell.swift */,
+				AF9F04951DC27DC000A8BB74 /* SponsorsTableViewCell.xib */,
+				AF9F04981DC2813800A8BB74 /* LeadSponsorTableViewCell.swift */,
+				AF9F04991DC2813800A8BB74 /* LeadSponsorTableViewCell.xib */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -449,8 +461,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF9F04891DC03C1200A8BB74 /* BillHeaderTableViewCell.xib in Resources */,
+				AF9F04971DC27DC000A8BB74 /* SponsorsTableViewCell.xib in Resources */,
 				AF9F048F1DC245E100A8BB74 /* CommitteesTableViewCell.xib in Resources */,
 				AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */,
+				AF9F049B1DC2813800A8BB74 /* LeadSponsorTableViewCell.xib in Resources */,
 				AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */,
 				AF2B8C6E1D62D22600C31FA9 /* RepresentativeTableViewCell.xib in Resources */,
 				AF9F04931DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib in Resources */,
@@ -616,6 +630,7 @@
 				AF8974B61D4EF39900C19020 /* String+Extensions.swift in Sources */,
 				AF57931A1D6D4C0000D86B73 /* NSDateFormatter+Extensions.swift in Sources */,
 				AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */,
+				AF9F049A1DC2813800A8BB74 /* LeadSponsorTableViewCell.swift in Sources */,
 				AF9F04861DC03BEF00A8BB74 /* BillHeaderTableViewCell.swift in Sources */,
 				AF8974AF1D4E98C700C19020 /* User.swift in Sources */,
 				AFD5AA9E1DAF4A3A00A5714C /* KeychainManager.swift in Sources */,
@@ -623,6 +638,7 @@
 				AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */,
 				AF5793181D6D440400D86B73 /* Bill.swift in Sources */,
 				AF28439B1D5AD686007B3F18 /* Datastore.swift in Sources */,
+				AF9F04961DC27DC000A8BB74 /* SponsorsTableViewCell.swift in Sources */,
 				AF89749A1D4D88F600C19020 /* LegislationDetailViewController.swift in Sources */,
 				AF89745F1D4D80E500C19020 /* AppDelegate.swift in Sources */,
 				AF8974961D4D88C500C19020 /* MainViewController.swift in Sources */,
