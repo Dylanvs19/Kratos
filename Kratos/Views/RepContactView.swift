@@ -12,6 +12,10 @@ class RepContactView: UIView {
     
     @IBOutlet var contentView: UIView!
     
+    @IBOutlet var phoneButton: UIButton!
+    @IBOutlet var websiteButton: UIButton!
+    @IBOutlet var twitterButton: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -24,11 +28,10 @@ class RepContactView: UIView {
     func customInit() {
         Bundle.main.loadNibNamed("RepContactView", owner: self, options: nil)
         addSubview(contentView)
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.topAnchor.constraint(equalTo: topAnchor)
-        self.contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
-        self.contentView.leftAnchor.constraint(equalTo: leftAnchor)
-        self.contentView.rightAnchor.constraint(equalTo: rightAnchor)
+        contentView.frame = bounds
+        translatesAutoresizingMaskIntoConstraints = false
+        self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        
     }
     
     func configure(with representative: DetailedRepresentative) {
@@ -36,7 +39,7 @@ class RepContactView: UIView {
     }
     
     func animateIn() {
-        
+      
     }
     
     func animateOut() {

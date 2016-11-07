@@ -8,9 +8,15 @@
 
 import Foundation
 
+enum VoteType: String {
+    case yea = "Yea"
+    case nay = "Nay"
+    case abstain = "Abstain"
+}
+
 struct Vote {
     
-    var vote: Vote?
+    var vote: VoteType?
     var id: Int?
     var result: String?
     var date: Date?
@@ -40,12 +46,6 @@ struct Vote {
         case passage = "Passage"
         case nomination = "Nomination"
         case procedural = "Procedural"
-    }
-    
-    enum Vote: String {
-        case yea = "Yea"
-        case nay = "Nay"
-        case abstain = "Abstain"
     }
     
     init(json: [String: AnyObject]) {

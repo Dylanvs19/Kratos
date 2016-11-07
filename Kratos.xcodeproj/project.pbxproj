@@ -54,9 +54,10 @@
 		AFD82F921D88FBFA00AEB559 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */; };
 		AFF748101DC97FF500F519AE /* RepContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF7480F1DC97FF500F519AE /* RepContactView.swift */; };
 		AFF748121DC9800100F519AE /* RepContactView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF748111DC9800100F519AE /* RepContactView.xib */; };
-		AFF748151DCFF2E400F519AE /* PieChartView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF748141DCFF2E400F519AE /* PieChartView.xib */; };
 		AFF748171DCFF2F100F519AE /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF748161DCFF2F100F519AE /* PieChartView.swift */; };
 		AFF748191DCFF37700F519AE /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF748181DCFF37700F519AE /* UIView+Extension.swift */; };
+		AFF7481B1DD0081D00F519AE /* PieChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF7481A1DD0081D00F519AE /* PieChartData.swift */; };
+		AFF7481D1DD0203B00F519AE /* PieChartView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF7481C1DD0203B00F519AE /* PieChartView.xib */; };
 		E0BAAA2EC661D1AE55726E1A /* Pods_KratosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3106BBC49F4921A587E0B9 /* Pods_KratosUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -136,9 +137,10 @@
 		AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AFF7480F1DC97FF500F519AE /* RepContactView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepContactView.swift; sourceTree = "<group>"; };
 		AFF748111DC9800100F519AE /* RepContactView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepContactView.xib; sourceTree = "<group>"; };
-		AFF748141DCFF2E400F519AE /* PieChartView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PieChartView.xib; sourceTree = "<group>"; };
 		AFF748161DCFF2F100F519AE /* PieChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
 		AFF748181DCFF37700F519AE /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		AFF7481A1DD0081D00F519AE /* PieChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartData.swift; sourceTree = "<group>"; };
+		AFF7481C1DD0203B00F519AE /* PieChartView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PieChartView.xib; sourceTree = "<group>"; };
 		CC1513D8F9B156933DC665E0 /* Pods-Kratos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.release.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.release.xcconfig"; sourceTree = "<group>"; };
 		D3612F895CFC028A6B2F2353 /* Pods-KratosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KratosUITests/Pods-KratosUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F565D52ED48E5392122D4225 /* Pods-KratosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KratosTests/Pods-KratosTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -356,7 +358,8 @@
 			isa = PBXGroup;
 			children = (
 				AFF748161DCFF2F100F519AE /* PieChartView.swift */,
-				AFF748141DCFF2E400F519AE /* PieChartView.xib */,
+				AFF7481C1DD0203B00F519AE /* PieChartView.xib */,
+				AFF7481A1DD0081D00F519AE /* PieChartData.swift */,
 			);
 			name = PieChart;
 			sourceTree = "<group>";
@@ -500,7 +503,7 @@
 				AFF748121DC9800100F519AE /* RepContactView.xib in Resources */,
 				AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */,
 				AF2B8C6E1D62D22600C31FA9 /* RepresentativeView.xib in Resources */,
-				AFF748151DCFF2E400F519AE /* PieChartView.xib in Resources */,
+				AFF7481D1DD0203B00F519AE /* PieChartView.xib in Resources */,
 				AF9F04931DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib in Resources */,
 				AF8974AA1D4E786E00C19020 /* VoteTableViewCell.xib in Resources */,
 				AF8974641D4D80E500C19020 /* Main.storyboard in Resources */,
@@ -663,6 +666,7 @@
 				AF2843991D5AD4D3007B3F18 /* Contstants.swift in Sources */,
 				AF8974B61D4EF39900C19020 /* String+Extensions.swift in Sources */,
 				AF57931A1D6D4C0000D86B73 /* NSDateFormatter+Extensions.swift in Sources */,
+				AFF7481B1DD0081D00F519AE /* PieChartData.swift in Sources */,
 				AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */,
 				AF9F049A1DC2813800A8BB74 /* LeadSponsorTableViewCell.swift in Sources */,
 				AF9F04861DC03BEF00A8BB74 /* BillHeaderTableViewCell.swift in Sources */,

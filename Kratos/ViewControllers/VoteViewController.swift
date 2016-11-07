@@ -13,9 +13,9 @@ class VoteViewController: UIViewController {
     var representative: LightRepresentative?
     
     @IBOutlet var voteTitleLabel: UILabel!
-    @IBOutlet var totalForLabel: UILabel!
-    @IBOutlet var totalAgainstLabel: UILabel!
-    @IBOutlet var totalAbstainLabel: UILabel!
+    @IBOutlet var pieChartView: PieChartView!
+    @IBOutlet var statusLabel: UILabel!
+    @IBOutlet var dateLabel: UILabel!
     
     @IBOutlet var repVoteImageView: UIImageView!
     @IBOutlet var repImageView: UIImageView!
@@ -31,12 +31,18 @@ class VoteViewController: UIViewController {
     
     func setupView() {
         voteTitleLabel.text = vote?.questionTitle
+        statusLabel.text = vote?.result
+        if let date = vote?.date {
+            dateLabel.text = DateFormatter.presentationDateFormatter.string(from:date)
+        }
         if let votesFor = vote?.votesFor,
            let against = vote?.votesAgainst,
            let abstain = vote?.votesAbstain {
-            totalForLabel.text = String(votesFor)
-            totalAgainstLabel.text = String(against)
-            totalAbstainLabel.text = String(abstain)
+            let data = [PieChartData(with: votesFor, and: .yea),
+                        PieChartData(with: abstain, and: .abstain),
+                        PieChartData(with: against, and: .nay)
+                       ]
+                pieChartView.configure(with: data)  
             if let first = representative?.firstName,
                 let last = representative?.lastName {
                 representativeLabel.text = first + " " + last 
