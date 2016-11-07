@@ -157,7 +157,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             if let phone = phoneNumberTextField.text,
                 let phoneInt = Int(phone),
                 let password = passwordTextField.text , textFieldsValid() {
-                Datastore.sharedDatastore.loginWith(phoneInt, and: password, onCompletion: { (success) in
+                Datastore.sharedDatastore.login(with: phoneInt, and: password, onCompletion: { (success) in
                     if success {
                         NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
                     } else {

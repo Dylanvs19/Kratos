@@ -34,8 +34,7 @@ class CommitteesTableViewCell: UITableViewCell, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SingleCommitteeTableViewCell", for: indexPath) as? SingleCommitteeTableViewCell,
-        let committee = committeeArray?[indexPath.row]
-        else { return UITableViewCell() }
+        let committee = committeeArray?[indexPath.row] else { return UITableViewCell() }
         
         cell.configure(with: committee)
         

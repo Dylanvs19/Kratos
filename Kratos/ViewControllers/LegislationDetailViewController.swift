@@ -84,6 +84,7 @@ class LegislationDetailViewController: UIViewController, UITableViewDataSource, 
         default:
             return UITableViewCell()
         }
+        return UITableViewCell() 
     }
     
 }

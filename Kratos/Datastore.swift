@@ -13,11 +13,11 @@ class Datastore {
     
     static let sharedDatastore = Datastore()
     
-    var representatives: [Representative]?
+    var representatives: [DetailedRepresentative]?
     var user: User?
     
     //MARK: Registration
-    func registerWith(_ password: String, onCompletion: @escaping (Bool) -> ()) {
+    func register(with password: String, onCompletion: @escaping (Bool) -> ()) {
         if let user = user {
             APIClient.register(user, with: password, success: { (user) -> (Void) in
                 if let _ = user.token {
@@ -29,13 +29,13 @@ class Datastore {
                     onCompletion(false)
                 }
                 }, failure: { (error) -> (Void) in
-                    debugPrint(error)
+                    debugPrint(error ?? "registerWith Failure")
                     onCompletion(false)
             })
         }
     }
     
-    func loginWith(_ phone: Int, and password: String, onCompletion: @escaping (Bool) -> ()) {
+    func login(with phone: Int, and password: String, onCompletion: @escaping (Bool) -> ()) {
         APIClient.logIn(with: phone, password: password, success: { (user) in
             if let _ = user.token {
                 KeychainManager.update(user, success: { (success) in
@@ -47,7 +47,7 @@ class Datastore {
                 onCompletion(true)
             }
             }) { (error) in
-                debugPrint(error)
+                debugPrint(error ?? "loginWith Failure")
                 onCompletion(false)
         }
     }
@@ -58,7 +58,7 @@ class Datastore {
                 self.user = user
                 onCompletion(true)
                 }, failure: { (error) in
-                    debugPrint(error)
+                    debugPrint(error ?? "get User Failure")
                     onCompletion(false)
             })
         }

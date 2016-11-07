@@ -9,36 +9,49 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RepresentativeTableViewCellDelegate {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RepViewDelegate {
     
+    @IBOutlet var repViewOne: RepresentativeView!
+    @IBOutlet var repViewTwo: RepresentativeView!
+    @IBOutlet var repViewThree: RepresentativeView!
+    
+    @IBOutlet var repOneSelectedHeight: NSLayoutConstraint!
+    @IBOutlet var repTwoSelectedHeight: NSLayoutConstraint!
+    @IBOutlet var repThreeSelectedHeight: NSLayoutConstraint!
+    
+    @IBOutlet var repOneSelectedYPosition: NSLayoutConstraint!
+    @IBOutlet var repTwoSelectedYPosition: NSLayoutConstraint!
+    @IBOutlet var repThreeSelectedYPosition: NSLayoutConstraint!
+    
+    @IBOutlet var repOneWidth: NSLayoutConstraint!
+    @IBOutlet var repTwoWidth: NSLayoutConstraint!
+    @IBOutlet var repThreeWidth: NSLayoutConstraint!
+    
+    @IBOutlet var tableViewTopToRepContactView: NSLayoutConstraint!
+    @IBOutlet var tableViewBottomToBottom: NSLayoutConstraint!
+    @IBOutlet var tableViewHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet var repOneToTopContracted: NSLayoutConstraint!
+    @IBOutlet var repTwoToRepOneBottomContracted: NSLayoutConstraint!
+    @IBOutlet var repThreeToRepTwoBottomContracted: NSLayoutConstraint!
+    @IBOutlet var repThreeToBottomContracted: NSLayoutConstraint!
+    
+    @IBOutlet var repContactView: RepContactView!
     @IBOutlet var tableView: UITableView!
-    var representatives: [Representative] = [] {
+    
+    var representatives: [DetailedRepresentative] = []
+    var selectedRepresentative: DetailedRepresentative? {
         didSet {
             tableView.reloadData()
         }
     }
     
-    var currentOpenRow = 0 {
-        didSet {
-            if currentOpenRow != 0 {
-                let delayTime = DispatchTime.now() + Double(Int64(0.26 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-                DispatchQueue.main.asyncAfter(deadline: delayTime) {
-                    self.tableView.scrollToNearestSelectedRow(at: .top, animated: true)
-                    self.tableView.isScrollEnabled = false
-                }
-            } else {
-                tableView.isScrollEnabled = true
-            }
-        }
-    }
-    var currentSectionShouldClose = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true 
+        navigationController?.isNavigationBarHidden = true
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "RepresentativeTableViewCell", bundle: nil), forCellReuseIdentifier: Constants.REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER)
+        tableView.register(UINib(nibName: "VoteTableViewCell", bundle: nil), forCellReuseIdentifier: Constants.VOTE_TABLEVIEWCELL_IDENTIFIER)
         loadData()
         enableSwipeBack()
     }
@@ -48,65 +61,204 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             Datastore.sharedDatastore.getVotesForRepresentatives({ (success) in
                 if success {
                     self.representatives = Datastore.sharedDatastore.representatives!
+                    self.configureRepViews()
+                    
                 }
             })
         }
     }
     
+    func configureRepViews() {
+        if representatives.count == 0 {
+            // Show Error Message
+        } else if representatives.count == 1 {
+            let rep = representatives[0]
+            repViewOne.configure(with: rep)
+            repViewTapped(is: true, at: 0)
+            repViewOne.isUserInteractionEnabled = false
+        } else if representatives.count == 3 {
+            let views = [repViewOne, repViewTwo, repViewThree]
+            var count = 0
+            views.forEach { (repView) in
+                let rep = representatives[count]
+                repView?.viewPosition = count
+                repView?.configure(with: rep)
+                count += 1
+            }
+        }
+        repViewOne.repViewDelegate = self
+        repViewTwo.repViewDelegate = self
+        repViewTwo.layoutIfNeeded()
+        repViewThree.repViewDelegate = self
+        repViewThree.layoutIfNeeded()
+        
+        repViewDeselected()
+    }
+    
     override func handleSwipeRight(_ gestureRecognizer: UIGestureRecognizer) {
-            //Notification Center to pop in Account View From left.
+        //Notification Center to pop in Account View From left.
     }
     
-    // MARK: RepViewDelegate Methods
+    //MARK: RepViewDelegate Method
+    func repViewTapped(is selected: Bool, at position: Int) {
+        if selected && position < representatives.count {
+            selectedRepresentative = representatives[position]
+            switch position {
+            case 0:
+                self.contractedRepConstraints(active: false)
+
+                UIView.animate(withDuration: 0.25, animations: {
+                    
+                    self.repViewTwo.alpha = 0
+                    self.repViewTwo.isHidden = true
+                    
+                    self.repViewThree.alpha = 0
+                    self.repViewThree.isHidden = true
+                    self.repViewOne.reloadInputViews()
+                    
+                    self.repOneSelectedYPosition.isActive = true
+                    self.repOneSelectedHeight.isActive = true
+                    self.repOneWidth.constant = 0
+                    
+                    self.view.layoutIfNeeded()
+                })
+                
+                
+                UIView.animate(withDuration: 0.25, delay: 0.25, options: [], animations: {
+                    self.tableViewTopToRepContactView.constant = 10
+                    self.view.layoutIfNeeded()
+
+                }, completion: nil)
+                self.repViewOne.layoutSubviews()
+
+                repContactView.animateIn()
+                
+            case 1:
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.contractedRepConstraints(active: false)
+                    
+                    self.repViewOne.alpha = 0
+                    self.repViewOne.isHidden = true
+                    self.repViewThree.alpha = 0
+                    self.repViewThree.isHidden = true
+                    
+                    self.repTwoSelectedHeight.isActive = true
+                    self.repTwoWidth.constant = 0
+                    self.repTwoSelectedYPosition.isActive = true
+                    self.view.layoutIfNeeded()
+                })
+                
+                UIView.animate(withDuration: 0.25, delay: 0.25, options: [], animations: {
+                    self.tableViewTopToRepContactView.constant = 10
+                    self.view.layoutIfNeeded()
+                }, completion: nil)
+                
+                repContactView.animateIn()
+                
+            case 2:
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.contractedRepConstraints(active: false)
+                    
+                    self.repViewOne.alpha = 0
+                    self.repViewTwo.isHidden = true
+                    
+                    self.repViewTwo.alpha = 0
+                    self.repViewTwo.isHidden = true
+                    
+                    self.repThreeSelectedYPosition.isActive = true
+                    self.repThreeSelectedHeight.isActive = true
+                    self.repThreeWidth.constant = 0
+                    
+                    self.view.layoutIfNeeded()
+                    
+                })
+                
+                UIView.animate(withDuration: 0.25, delay: 0.25, options: [], animations: {
+                    
+                    self.tableViewTopToRepContactView.constant = 10
+                    self.view.layoutIfNeeded()
+                }, completion: nil)
+                
+                repContactView.animateIn()
+                
+            default:
+                break
+            }
+        } else {
+            repViewDeselected()
+            selectedRepresentative = nil
+        }
+        repViewOne.layoutIfNeeded()
+        repViewTwo.layoutIfNeeded()
+        repViewThree.layoutIfNeeded()
+    }
+    
+    func repViewDeselected() {
+        let views = [repViewOne, repViewTwo, repViewThree]
+        
+        repContactView.animateOut()
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            views.forEach { (repView) in
+                repView?.isHidden = false
+                repView?.alpha = 1
+            }
+            self.repOneSelectedYPosition.isActive = false
+            self.repTwoSelectedYPosition.isActive = false
+            self.repThreeSelectedYPosition.isActive = false
+            
+            self.repOneSelectedHeight.isActive = false
+            self.repTwoSelectedHeight.isActive = false
+            self.repThreeSelectedHeight.isActive = false
+            
+            self.tableViewBottomToBottom.isActive = false
+            self.tableViewHeightConstraint.isActive = true
+            self.tableViewTopToRepContactView.constant = 500
+            
+            self.repOneWidth.constant = -20
+            self.repTwoWidth.constant = -20
+            self.repThreeWidth.constant = -20
+            
+            self.view.layoutIfNeeded()
+        })
+        
+        contractedRepConstraints(active: true)
+    }
+    
+    func contractedRepConstraints(active: Bool) {
+        UIView.animate(withDuration: 0.25, animations: {
+            self.repOneToTopContracted.isActive = active
+            self.repTwoToRepOneBottomContracted.isActive = active
+            self.repThreeToRepTwoBottomContracted.isActive = active
+            self.repThreeToBottomContracted.isActive = active
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    // MARK: TableViewDelegate & Datasource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return representatives.count
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.backgroundView = nil
-        cell.backgroundColor = UIColor.clear
+        return selectedRepresentative?.votes?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER, for: indexPath) as? RepresentativeTableViewCell else { return UITableViewCell() }
-        
-        let rep = representatives[(indexPath as NSIndexPath).row]
-        cell.delegate = self
-        cell.configure(with: rep)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.VOTE_TABLEVIEWCELL_IDENTIFIER, for: indexPath) as? VoteTableViewCell else { return UITableViewCell() }
+        guard let votesArray = selectedRepresentative?.votes else { return UITableViewCell()}
+        let vote = votesArray[(indexPath as IndexPath).row]
+        cell.vote = vote
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).row + 1 == currentOpenRow {
-            currentSectionShouldClose = !currentSectionShouldClose
-        } else {
-            currentOpenRow = (indexPath as NSIndexPath).row + 1
-        }
-        tableView.beginUpdates()
-        tableView.endUpdates()
-    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).row + 1 == currentOpenRow {
-            if currentSectionShouldClose {
-                currentOpenRow = 0
-                currentSectionShouldClose = false
-                tableView.deselectRow(at: indexPath, animated: true)
-                return self.view.frame.size.height/3.1
-            }
-            return self.view.frame.size.height
-        } else {
-            return self.view.frame.size.height/3.1
-        }
+        return 100
     }
     
-    // MARK: Representative TableView Cell Delegate
-    
-    func didSelectVote(_ vote: Vote) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let votesArray = selectedRepresentative?.votes,
+              let rep = selectedRepresentative else { return }
+        let vote = votesArray[(indexPath as IndexPath).row]
         let vc: VoteViewController = VoteViewController.instantiate()
         vc.vote = vote
-        vc.representative = representatives[currentOpenRow - 1].toLightRepresentative()
-        vc.loadViewIfNeeded()
+        vc.representative = rep.toLightRepresentative()
         navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -177,7 +177,7 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
             Datastore.sharedDatastore.user?.streetAddress = address
         }
         guard let password = Datastore.sharedDatastore.user?.password else { return }
-        Datastore.sharedDatastore.registerWith(password) { (success) in
+        Datastore.sharedDatastore.register(with: password) { (success) in
             if success {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
             } else {

@@ -131,7 +131,7 @@ struct APIClient {
         task.resume()
     }
     
-    static func loadRepresentatives(for state: String, and district: Int, success: @escaping ([Representative]) -> (), failure: @escaping (NSError?) -> ()) {
+    static func loadRepresentatives(for state: String, and district: Int, success: @escaping ([DetailedRepresentative]) -> (), failure: @escaping (NSError?) -> ()) {
         
         let session: URLSession = URLSession.shared
         guard let url = URL(string: "\(Constants.REPRESENTATIVES_URL)\(state)/\(district)") else {
@@ -150,7 +150,7 @@ struct APIClient {
                 do {
                     let obj = try JSONSerialization.jsonObject(with: data, options: [])
                     if let obj = obj as? [[String: AnyObject]] {
-                        let reps = obj.map { return Representative(from: $0) }
+                        let reps = obj.map { return DetailedRepresentative(from: $0) }
                         DispatchQueue.main.async(execute: {
                             success(reps)
                         })
