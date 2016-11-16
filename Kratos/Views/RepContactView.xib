@@ -14,49 +14,72 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RepContactView" customModule="Kratos" customModuleProvider="target">
             <connections>
                 <outlet property="contentView" destination="iN0-l3-epB" id="Emh-8k-fA3"/>
-                <outlet property="phoneButton" destination="DJf-2s-hMU" id="Qj0-IM-abB"/>
-                <outlet property="twitterButton" destination="KHM-kl-BfL" id="aFY-kK-Xmg"/>
-                <outlet property="websiteButton" destination="LIt-Pj-XNp" id="yfV-YX-jRR"/>
+                <outlet property="homeButton" destination="KHM-kl-BfL" id="ies-li-6Ky"/>
+                <outlet property="homeHeightConstraint" destination="uq3-eh-3FB" id="Vig-Yp-sWR"/>
+                <outlet property="phoneButton" destination="peN-7j-M6Q" id="BeH-n6-HVu"/>
+                <outlet property="phoneHeightConstraint" destination="WPc-9b-xQ9" id="aNJ-vu-Vbo"/>
+                <outlet property="twitterButton" destination="LIt-Pj-XNp" id="iaj-42-L8A"/>
+                <outlet property="twitterHeightConstraint" destination="2W7-aD-dIN" id="zaC-NO-B5Z"/>
+                <outlet property="websiteButton" destination="DJf-2s-hMU" id="l7F-ID-pyF"/>
+                <outlet property="websiteHeightConstraint" destination="Fku-O2-VpJ" id="1b8-4k-hnw"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
+        <view clipsSubviews="YES" contentMode="scaleAspectFit" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="375" height="46"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DJf-2s-hMU" userLabel="PhoneButton">
-                    <rect key="frame" x="71" y="0.0" width="46" height="46"/>
+                <button clipsSubviews="YES" contentMode="scaleAspectFit" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DJf-2s-hMU" userLabel="websiteButton">
+                    <rect key="frame" x="130" y="3" width="40" height="40"/>
                     <constraints>
+                        <constraint firstAttribute="height" constant="40" id="Fku-O2-VpJ"/>
                         <constraint firstAttribute="width" secondItem="DJf-2s-hMU" secondAttribute="height" multiplier="1:1" id="WLf-DV-xLP"/>
                     </constraints>
+                    <connections>
+                        <action selector="websiteButtonPressed:" destination="-1" eventType="touchUpInside" id="BVo-gl-yVa"/>
+                    </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KHM-kl-BfL" userLabel="TwitterButton">
-                    <rect key="frame" x="258.5" y="0.0" width="46" height="46"/>
+                <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KHM-kl-BfL" userLabel="homeButton">
+                    <rect key="frame" x="280" y="3" width="40" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="KHM-kl-BfL" secondAttribute="height" multiplier="1:1" id="5IL-MK-Gbp"/>
+                        <constraint firstAttribute="height" constant="40" id="uq3-eh-3FB"/>
                     </constraints>
+                    <connections>
+                        <action selector="homeButtonPressed:" destination="-1" eventType="touchUpInside" id="tpx-sd-1Ti"/>
+                    </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LIt-Pj-XNp" userLabel="WebsiteButton">
-                    <rect key="frame" x="164" y="0.0" width="46" height="46"/>
+                <button clipsSubviews="YES" contentMode="scaleAspectFit" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LIt-Pj-XNp" userLabel="twitterButton">
+                    <rect key="frame" x="205" y="3" width="40" height="40"/>
                     <constraints>
+                        <constraint firstAttribute="height" constant="40" id="2W7-aD-dIN"/>
                         <constraint firstAttribute="width" secondItem="LIt-Pj-XNp" secondAttribute="height" multiplier="1:1" id="gP7-0I-lM2"/>
                     </constraints>
+                    <connections>
+                        <action selector="twitterButtonPressed:" destination="-1" eventType="touchUpInside" id="fzy-Ru-P1G"/>
+                    </connections>
+                </button>
+                <button clipsSubviews="YES" contentMode="scaleAspectFit" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="peN-7j-M6Q" userLabel="phoneButton">
+                    <rect key="frame" x="55" y="3" width="40" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="peN-7j-M6Q" secondAttribute="height" multiplier="1:1" id="FDF-iS-6ok"/>
+                        <constraint firstAttribute="height" constant="40" id="WPc-9b-xQ9"/>
+                    </constraints>
+                    <connections>
+                        <action selector="phoneButtonPressed:" destination="-1" eventType="touchUpInside" id="7Jk-99-SN8"/>
+                    </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="peN-7j-M6Q" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="0CY-CA-2m2"/>
                 <constraint firstItem="DJf-2s-hMU" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="2TO-4j-FZ3"/>
-                <constraint firstItem="KHM-kl-BfL" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="ATt-p2-V6h"/>
-                <constraint firstItem="DJf-2s-hMU" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" multiplier="0.5" id="B9N-QQ-OHK"/>
+                <constraint firstItem="DJf-2s-hMU" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" multiplier="0.8" id="B9N-QQ-OHK"/>
                 <constraint firstItem="LIt-Pj-XNp" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="EHa-Y4-OlE"/>
-                <constraint firstItem="KHM-kl-BfL" firstAttribute="width" secondItem="KHM-kl-BfL" secondAttribute="height" multiplier="1:1" id="IgU-bG-3aA"/>
-                <constraint firstItem="LIt-Pj-XNp" firstAttribute="width" secondItem="LIt-Pj-XNp" secondAttribute="height" multiplier="1:1" id="Ma0-Eq-xfo"/>
-                <constraint firstItem="KHM-kl-BfL" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" multiplier="1.5" id="NS6-X4-qbI"/>
-                <constraint firstItem="KHM-kl-BfL" firstAttribute="width" secondItem="KHM-kl-BfL" secondAttribute="height" multiplier="1:1" id="QHB-WT-rVR"/>
-                <constraint firstItem="LIt-Pj-XNp" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="ikE-mx-g8x"/>
-                <constraint firstItem="LIt-Pj-XNp" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="jY5-yq-YVm"/>
+                <constraint firstItem="KHM-kl-BfL" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" multiplier="1.6" id="NS6-X4-qbI"/>
+                <constraint firstItem="LIt-Pj-XNp" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" multiplier="1.2" id="jY5-yq-YVm"/>
+                <constraint firstItem="peN-7j-M6Q" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" multiplier="0.4" id="nJl-Xf-rIt"/>
                 <constraint firstItem="KHM-kl-BfL" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="sJZ-5u-OtL"/>
-                <constraint firstItem="DJf-2s-hMU" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="sMS-3F-AU9"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="9" y="-250"/>

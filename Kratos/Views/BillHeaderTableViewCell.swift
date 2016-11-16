@@ -10,13 +10,32 @@ import UIKit
 
 class BillHeaderTableViewCell: UITableViewCell {
     
-    @IBOutlet var billTitle: UILabel!
+    var bill: Bill? {
+        didSet {
+            if bill != nil {
+                configure(with: bill!)
+            }
+        }
+    }
     
+    @IBOutlet var billTitle: UILabel!
     @IBOutlet var staticStatusLabel: UILabel!
     @IBOutlet var currentStatusLabel: UILabel!
     @IBOutlet var currentStatusDateLabel: UILabel!
     
     @IBOutlet var billSummaryTextView: UITextView!
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
     func configure(with bill: Bill) {
         billTitle.text = bill.title
@@ -25,6 +44,5 @@ class BillHeaderTableViewCell: UITableViewCell {
         if let date = bill.currentStatusDate {
             currentStatusDateLabel.text = DateFormatter.presentationDateFormatter.string(from: date)
         }
-        
     }
 }

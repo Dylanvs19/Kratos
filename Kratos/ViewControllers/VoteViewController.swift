@@ -10,7 +10,7 @@ import UIKit
 class VoteViewController: UIViewController {
     
     var vote: Vote?
-    var representative: LightRepresentative?
+    var representative: DetailedRepresentative?
     
     @IBOutlet var voteTitleLabel: UILabel!
     @IBOutlet var pieChartView: PieChartView!
@@ -65,14 +65,13 @@ class VoteViewController: UIViewController {
                 self.repImageView.contentMode = .scaleAspectFill
                 })
         }
-        relatedBillLabel.text = vote?.questionTitle
+        relatedBillLabel.text = vote?.questionDetails
     }
     
     @IBAction func relatedBillButtonPressed(_ sender: AnyObject) {
         let vc: LegislationDetailViewController = LegislationDetailViewController.instantiate()
         if let relatedBill = vote?.relatedBill {
             vc.billId = relatedBill
-            vc.loadViewIfNeeded()
             navigationController?.pushViewController(vc, animated: true)
         }
     }

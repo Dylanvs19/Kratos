@@ -24,9 +24,9 @@ enum Party: String {
     case democrat = "Democrat"
     case independent = "Independent"
 }
-enum RepresentativeType {
-    case representative
-    case sentator
+enum RepresentativeType: String {
+    case representative = "Representative"
+    case sentator = "Senator"
 }
 
 struct DetailedRepresentative: Representative {

@@ -54,7 +54,7 @@ import UIKit
             switch datum.type {
             case .yea:
                 forLabel.text = "\(Int(datum.value))"
-                forLabel.textColor = UIColor.green
+                forLabel.textColor = UIColor.yeaVoteGreen
             case .nay:
                 againstLabel.text = "\(Int(datum.value))"
                 againstLabel.textColor = UIColor.kratosRed
@@ -99,7 +99,7 @@ import UIKit
             path.lineWidth = arcWidth
             switch datum.type {
             case .yea:
-                UIColor.green.setStroke()
+                UIColor.yeaVoteGreen.setStroke()
             case .nay:
                 UIColor.kratosRed.setStroke()
             case .abstain:
@@ -110,5 +110,4 @@ import UIKit
             startAngle = endAngle
         }
     }
-    
 }

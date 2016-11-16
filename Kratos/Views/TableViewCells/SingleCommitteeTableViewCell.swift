@@ -11,6 +11,7 @@ import UIKit
 class SingleCommitteeTableViewCell: UITableViewCell {
 
     @IBOutlet var committeeLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }

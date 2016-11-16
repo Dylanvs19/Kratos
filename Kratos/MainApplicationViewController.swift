@@ -16,6 +16,7 @@ class MainApplicationViewController: UIViewController {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleLoginFlow), name: NSNotification.Name(rawValue: "toMainVC"), object: nil)
+        
         handleLoginFlow()
     }
     
@@ -40,7 +41,7 @@ class MainApplicationViewController: UIViewController {
                         DispatchQueue.main.async(execute: {
                             self.embedLoginViewController()
                         })
-                        debugPrint(error)
+                        debugPrint(error as Any)
                 })
         } else {
                 self.embedLoginViewController()

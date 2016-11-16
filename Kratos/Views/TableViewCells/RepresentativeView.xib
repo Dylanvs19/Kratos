@@ -44,22 +44,22 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FIRST" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ijn-fF-jb0">
-                    <rect key="frame" x="120" y="6" width="245" height="28"/>
-                    <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
+                    <rect key="frame" x="120" y="6" width="245" height="26"/>
+                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="20"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="u5M-yx-1UD" firstAttribute="top" secondItem="wGR-1k-ox6" secondAttribute="top" constant="18" id="0dv-U3-YI7"/>
                 <constraint firstItem="Ijn-fF-jb0" firstAttribute="top" secondItem="wGR-1k-ox6" secondAttribute="top" constant="6" id="1SZ-zv-wBB"/>
                 <constraint firstAttribute="trailing" secondItem="u5M-yx-1UD" secondAttribute="trailing" constant="15" id="1bx-9L-V8p"/>
                 <constraint firstAttribute="trailing" secondItem="Wtp-UD-vjq" secondAttribute="trailing" constant="7" id="7Sq-3j-f24"/>
                 <constraint firstItem="I2c-Eu-prj" firstAttribute="leading" secondItem="wGR-1k-ox6" secondAttribute="leading" constant="10" id="9cn-Em-flo"/>
                 <constraint firstItem="I2c-Eu-prj" firstAttribute="centerY" secondItem="wGR-1k-ox6" secondAttribute="centerY" id="Dgs-2C-G7M"/>
-                <constraint firstAttribute="bottom" secondItem="u5M-yx-1UD" secondAttribute="bottom" constant="18" id="IjI-fJ-Sny"/>
                 <constraint firstItem="Ijn-fF-jb0" firstAttribute="leading" secondItem="I2c-Eu-prj" secondAttribute="trailing" constant="10" id="Kci-tA-ogG"/>
+                <constraint firstItem="u5M-yx-1UD" firstAttribute="centerY" secondItem="wGR-1k-ox6" secondAttribute="centerY" id="Umu-eZ-aav"/>
+                <constraint firstItem="u5M-yx-1UD" firstAttribute="height" secondItem="wGR-1k-ox6" secondAttribute="height" constant="-36" id="WbV-UB-ivY"/>
                 <constraint firstAttribute="bottom" secondItem="Wtp-UD-vjq" secondAttribute="bottom" constant="6" id="epq-uA-pZW"/>
                 <constraint firstAttribute="trailing" secondItem="Ijn-fF-jb0" secondAttribute="trailing" constant="10" id="w4d-yB-dPP"/>
             </constraints>

@@ -10,22 +10,21 @@ import Foundation
 
 struct User {
     
-    var firstName: String?
-    var lastName: String?
     var phoneNumber: Int?
     var streetAddress: StreetAddress?
     var district: Int?
     var id: Int?
     var password: String?
     var token: String?
+    var dob: Date?
+    var party: Party?
     
     init() {
         
     }
     
     init(firstName: String, lastName: String, phoneNumber: Int, streetAddress: StreetAddress) {
-        self.firstName = firstName
-        self.lastName = lastName
+
         self.phoneNumber = phoneNumber
         self.streetAddress = streetAddress
     }
@@ -38,18 +37,27 @@ struct User {
             self.token = jsonDict["token"] as? String
         }
         
-        guard let first = jsonDict["user"]?["first_name"] as? String,
-            let last = jsonDict["user"]?["last_name"] as? String,
-            let phone = jsonDict["user"]?["phone"] as? Int,
-            let street = jsonDict["user"]?["address"] as? String,
-            let city = jsonDict["user"]?["city"] as? String,
-            let state = jsonDict["user"]?["state"] as? String,
-            let district = jsonDict["user"]?["district"] as? Int,
-            let id = jsonDict["user"]?["id"] as? Int,
-            let zip = jsonDict["user"]?["zip"] as? Int else { return nil }
+        guard let phone = jsonDict["user"]?["phone"] as? Int,
+              let street = jsonDict["user"]?["address"] as? String,
+              let city = jsonDict["user"]?["city"] as? String,
+              let state = jsonDict["user"]?["state"] as? String,
+              let district = jsonDict["user"]?["district"] as? Int,
+              let id = jsonDict["user"]?["id"] as? Int,
+              let zip = jsonDict["user"]?["zip"] as? Int else { return nil }
         
-        self.firstName = first
-        self.lastName = last
+        if let repParty = json["party"] as? String {
+            switch repParty {
+            case "Republican":
+                party = .republican
+            case "Democrat":
+                party = .democrat
+            case "Independent":
+                party = .independent
+            default:
+                break
+            }
+        }
+        
         self.phoneNumber = phone
         self.district = district
         self.id = id
@@ -67,13 +75,9 @@ struct User {
             let city = self.streetAddress?.city,
             let state = self.streetAddress?.state,
             let zip = self.streetAddress?.zipCode,
-            let first = self.firstName,
-            let last = self.lastName,
             let phoneNumber = self.phoneNumber else { return nil }
         
         let dict:[String:[String:AnyObject]] = ["user":[
-                                                "first_name": first as AnyObject,
-                                                "last_name": last as AnyObject,
                                                 "phone": phoneNumber as AnyObject,
                                                 "password": password as AnyObject,
                                                 "address": street as AnyObject,

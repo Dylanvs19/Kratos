@@ -25,6 +25,5 @@ extension UIViewController {
     
     func handleSwipeRight(_ gestureRecognizer: UIGestureRecognizer) {
         _ = navigationController?.popViewController(animated: true)
-        
     }
 }

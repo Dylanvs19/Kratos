@@ -39,12 +39,28 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet var repContactView: RepContactView!
     @IBOutlet var tableView: UITableView!
     
+    @IBOutlet var menuBarContainerView: UIView!
+    @IBOutlet var menuBarTrailingConstraint: NSLayoutConstraint!
+    var menuViewController: MenuViewController?
+    var disableSwipe = false
+    
     var representatives: [DetailedRepresentative] = []
     var selectedRepresentative: DetailedRepresentative? {
         didSet {
-            tableView.reloadData()
+            if let selectedRepresentative = selectedRepresentative {
+                repContactView.configure(with: selectedRepresentative)
+            }
+            if let votes = selectedRepresentative?.votes {
+                cellMap = votes.groupedBySection(groupBy: { (data) -> (Date) in
+                    // group votes by day of vote
+                    return data.date?.computedDayFromDate ?? Date()
+                })
+                tableView.reloadData()
+            }
         }
     }
+    var cellMap = [Int: [Vote]]()
+    var tapView: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,8 +68,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "VoteTableViewCell", bundle: nil), forCellReuseIdentifier: Constants.VOTE_TABLEVIEWCELL_IDENTIFIER)
+        
+        tableView.register(UINib(nibName: "VoteDateHeaderView", bundle: nil), forHeaderFooterViewReuseIdentifier: "VoteDateHeaderView")
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableViewAutomaticDimension
         loadData()
-        enableSwipeBack()
+        let swipeGR = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeRightToMenu(_:)))
+        swipeGR.direction = .right
+        view.addGestureRecognizer(swipeGR)
+        configureMenuBar()
     }
     
     func loadData() {
@@ -62,7 +85,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 if success {
                     self.representatives = Datastore.sharedDatastore.representatives!
                     self.configureRepViews()
-                    
                 }
             })
         }
@@ -88,15 +110,16 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         repViewOne.repViewDelegate = self
         repViewTwo.repViewDelegate = self
-        repViewTwo.layoutIfNeeded()
         repViewThree.repViewDelegate = self
-        repViewThree.layoutIfNeeded()
         
         repViewDeselected()
     }
     
-    override func handleSwipeRight(_ gestureRecognizer: UIGestureRecognizer) {
-        //Notification Center to pop in Account View From left.
+    func handleSwipeRightToMenu(_ gestureRecognizer: UIGestureRecognizer) {
+        if !disableSwipe {
+            pushMenuBar()
+            disableSwipe = true
+        }
     }
     
     //MARK: RepViewDelegate Method
@@ -221,7 +244,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             self.view.layoutIfNeeded()
         })
-        
         contractedRepConstraints(active: true)
     }
     
@@ -235,30 +257,109 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         })
     }
     
+    // MARK: Menu Bar
+    func configureMenuBar() {
+        menuBarContainerView.layer.shadowColor = UIColor.black.cgColor
+        menuBarContainerView.layer.shadowOffset = CGSize(width: 3, height: 0)
+        menuBarContainerView.layer.shadowOpacity = 0.3
+        menuBarContainerView.layer.shadowRadius = 1
+    }
+    
+    func pushMenuBar() {
+        tapView = UIView(frame: view.frame)
+        view.addSubview(tapView ?? UIView())
+        view.bringSubview(toFront: menuBarContainerView)
+        tapView?.backgroundColor = UIColor.black
+        tapView?.alpha = 0
+        if let menuViewController = menuViewController {
+            menuViewController.animateIn()
+        }
+        
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
+            self.tapView?.alpha = 0.3
+            self.menuBarTrailingConstraint.constant = 150
+            self.view.layoutIfNeeded()
+        }, completion: { _ in
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissTapView(_:)))
+            self.tapView?.addGestureRecognizer(tap)
+            let swipe = UISwipeGestureRecognizer(target: self, action: #selector(self.dismissTapView(_:)))
+            swipe.direction = .left
+            self.tapView?.addGestureRecognizer(swipe)
+        })
+    }
+    
+    func popMenuBar() {
+        if let menuViewController = menuViewController {
+            menuViewController.animateOut() 
+        }
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
+            self.menuBarTrailingConstraint.constant = 0
+            self.tapView?.alpha = 0
+            self.view.layoutIfNeeded()
+        }, completion: { _ in
+           self.tapView?.removeFromSuperview()
+           self.tapView = nil
+        })
+        disableSwipe = false 
+    }
+    
+    func dismissTapView(_ gestureRecognizer: UIGestureRecognizer) {
+        popMenuBar()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        menuViewController = segue.destination as? MenuViewController
+    }
+    
     // MARK: TableViewDelegate & Datasource
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return cellMap.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return selectedRepresentative?.votes?.count ?? 0
+        guard let count = cellMap[section]?.count else { return 0 }
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.VOTE_TABLEVIEWCELL_IDENTIFIER, for: indexPath) as? VoteTableViewCell else { return UITableViewCell() }
-        guard let votesArray = selectedRepresentative?.votes else { return UITableViewCell()}
-        let vote = votesArray[(indexPath as IndexPath).row]
+        guard let vote = cellMap[indexPath.section]?[indexPath.row] else { return UITableViewCell()}
         cell.vote = vote
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "VoteDateHeaderView") as? VoteDateHeaderView,
+              let date = cellMap[section]?.first?.date else { return nil }
+        view.awakeFromNib()
+        view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 25)
+        view.configure(with: date)
+        view.contentView.backgroundColor = UIColor.lightGray
+        return view
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.separatorInset = .zero
+        cell.layoutMargins = .zero
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 20
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.01    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let votesArray = selectedRepresentative?.votes,
+        guard let vote = cellMap[indexPath.section]?[indexPath.row],
               let rep = selectedRepresentative else { return }
-        let vote = votesArray[(indexPath as IndexPath).row]
         let vc: VoteViewController = VoteViewController.instantiate()
         vc.vote = vote
-        vc.representative = rep.toLightRepresentative()
+        vc.representative = rep
         navigationController?.pushViewController(vc, animated: true)
     }
 }

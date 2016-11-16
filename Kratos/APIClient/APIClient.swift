@@ -36,9 +36,9 @@ struct APIClient {
                                 success(user)
                             })
                         }
-                        if let httpResponse = response as? HTTPURLResponse {
-                            debugPrint("status code: \(httpResponse.statusCode)")
-                        }
+                     //   if let httpResponse = response as? HTTPURLResponse {
+                     //       debugPrint("status code: \(httpResponse.statusCode)")
+                     //   }
                     } catch let error as NSError {
                         failure(error)
                     }
@@ -75,9 +75,9 @@ struct APIClient {
                                 success(user)
                             })
                         }
-                        if let httpResponse = response as? HTTPURLResponse {
-                            debugPrint("status code: \(httpResponse.statusCode)")
-                        }
+                      //  if let httpResponse = response as? HTTPURLResponse {
+                      //      debugPrint("status code: \(httpResponse.statusCode)")
+                      //  }
                     } catch let error as NSError {
                         failure(error)
                     }
@@ -117,9 +117,9 @@ struct APIClient {
                             success(user)
                         })
                     }
-                    if let httpResponse = response as? HTTPURLResponse {
-                        debugPrint("status code: \(httpResponse.statusCode)")
-                    }
+                  //  if let httpResponse = response as? HTTPURLResponse {
+                  //      debugPrint("status code: \(httpResponse.statusCode)")
+                  //  }
                 } catch let error as NSError {
                     failure(error)
                 }
@@ -155,9 +155,9 @@ struct APIClient {
                             success(reps)
                         })
                     }
-                    if let httpResponse = response as? HTTPURLResponse {
-                        print("status code: \(httpResponse.statusCode)")
-                    }
+                  //  if let httpResponse = response as? HTTPURLResponse {
+                  //      print("status code: \(httpResponse.statusCode)")
+                  // }
                 } catch let error as NSError {
                     failure(error)
                 }
@@ -194,9 +194,9 @@ struct APIClient {
                             success(bill)
                         })
                     }
-                    if let httpResponse = response as? HTTPURLResponse {
-                        print("status code: \(httpResponse.statusCode)")
-                    }
+                   // if let httpResponse = response as? HTTPURLResponse {
+                   //     print("status code: \(httpResponse.statusCode)")
+                   // }
                 } catch let error as NSError {
                     failure(error)
                 }
@@ -237,9 +237,9 @@ struct APIClient {
                             success(votes)
                         })
                     }
-                    if let httpResponse = response as? HTTPURLResponse {
-                        print("status code: \(httpResponse.statusCode)")
-                    }
+                  //  if let httpResponse = response as? HTTPURLResponse {
+                  //    print("status code: \(httpResponse.statusCode)")
+                  //  }
                 } catch let error as NSError {
                     failure(error)
                 }

@@ -31,11 +31,11 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var zipCodeTextFieldTrailingStateTextField: NSLayoutConstraint!
     @IBOutlet var zipCodeTextFieldTrailingAddressTextField: NSLayoutConstraint!
     
-    @IBOutlet var firstNameTextFieldNoWidth: NSLayoutConstraint!
-    @IBOutlet var firstNameTextFieldFullWidth: NSLayoutConstraint!
+    @IBOutlet var partyTextFieldNoWidth: NSLayoutConstraint!
+    @IBOutlet var partyTextFieldFullWidth: NSLayoutConstraint!
     
-    @IBOutlet var lastNameTextFieldNoWidth: NSLayoutConstraint!
-    @IBOutlet var lastNameTextFieldFullWidth: NSLayoutConstraint!
+    @IBOutlet var dobTextFieldNoWidth: NSLayoutConstraint!
+    @IBOutlet var dobTextFieldFullWidth: NSLayoutConstraint!
     
     @IBOutlet var enterOnScreen: NSLayoutConstraint!
     @IBOutlet var enterOffScreen: NSLayoutConstraint!
@@ -43,16 +43,16 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var kratosOnScreen: NSLayoutConstraint!
     @IBOutlet var kratosOffScreen: NSLayoutConstraint!
     
-    @IBOutlet var firstNameTextField: UITextField!
-    @IBOutlet var lastNameTextField: UITextField!
+    @IBOutlet var partyTextField: UITextField!
+    @IBOutlet var dobTextField: UITextField!
     @IBOutlet var addressTextField: UITextField!
     @IBOutlet var cityTextField: UITextField!
     @IBOutlet var zipCodeTextField: UITextField!
     @IBOutlet var stateTextField: UITextField!
     @IBOutlet var kratosLabel: UILabel!
     
-    @IBOutlet var firstNameUnderlineView: UIView!
-    @IBOutlet var lastNameUnderlineView: UIView!
+    @IBOutlet var partyUnderlineView: UIView!
+    @IBOutlet var dobUnderlineView: UIView!
     @IBOutlet var stateUnderlineView: UIView!
     @IBOutlet var cityUnderlineView: UIView!
     @IBOutlet var zipcodeUnderlineView: UIView!
@@ -66,8 +66,8 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
         super.viewDidAppear(animated)
         beginningAnimations()
         setupGestureRecognizer()
-        firstNameTextField.delegate = self
-        lastNameTextField.delegate = self
+        partyTextField.delegate = self
+        dobTextField.delegate = self
         addressTextField.delegate = self
         cityTextField.delegate = self
         zipCodeTextField.delegate = self
@@ -84,8 +84,8 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     
     fileprivate func beginningAnimations() {
         
-        firstNameTextField.alpha = 0.01
-        lastNameTextField.alpha = 0.01
+        partyTextField.alpha = 0.01
+        dobTextField.alpha = 0.01
         addressTextField.alpha = 0.01
         cityTextField.alpha = 0.01
         stateTextField.alpha = 0.01
@@ -101,11 +101,11 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
         
         UIView.animate(withDuration: 1, delay: 3, options: [], animations: {
             
-            self.firstNameTextFieldNoWidth.isActive = false
-            self.firstNameTextFieldFullWidth.isActive = true
+            self.partyTextFieldNoWidth.isActive = false
+            self.partyTextFieldFullWidth.isActive = true
             
-            self.lastNameTextFieldNoWidth.isActive = false
-            self.lastNameTextFieldFullWidth.isActive = true
+            self.dobTextFieldNoWidth.isActive = false
+            self.dobTextFieldFullWidth.isActive = true
             
             self.addressTextFieldNoWidth.isActive = false
             self.addressTextFieldFullWidth.isActive = true
@@ -127,8 +127,8 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
             }, completion: nil)
         
         UIView.animate(withDuration: 0.5, delay: 4, options: [UIViewAnimationOptions.transitionCrossDissolve], animations: {
-            self.firstNameTextField.alpha = 1
-            self.lastNameTextField.alpha = 1
+            self.partyTextField.alpha = 1
+            self.dobTextField.alpha = 1
             self.addressTextField.alpha = 1
             self.cityTextField.alpha = 1
             self.stateTextField.alpha = 1
@@ -172,8 +172,21 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
                 let zip = Int(stringZip) {
                 address.zipCode = zip
             }
-            Datastore.sharedDatastore.user?.firstName = firstNameTextField.text
-            Datastore.sharedDatastore.user?.lastName = lastNameTextField.text
+            if let repParty = partyTextField.text {
+            switch repParty {
+            case "Republican":
+                Datastore.sharedDatastore.user?.party = .republican
+            case "Democrat":
+                Datastore.sharedDatastore.user?.party = .democrat
+            case "Independent":
+                Datastore.sharedDatastore.user?.party = .independent
+            default:
+                break
+            }
+            }
+            if let dob = dobTextField.text {
+                Datastore.sharedDatastore.user?.dob = DateFormatter.presentationDateFormatter.date(from: dob)
+            }
             Datastore.sharedDatastore.user?.streetAddress = address
         }
         guard let password = Datastore.sharedDatastore.user?.password else { return }
@@ -193,8 +206,8 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
             (InputValidation.validateCity, cityTextField.text, cityUnderlineView),
             (InputValidation.validateState, stateTextField.text, stateUnderlineView),
             (InputValidation.validateZipCode, zipCodeTextField.text, zipcodeUnderlineView),
-            (InputValidation.validateAddress, firstNameTextField.text, firstNameUnderlineView),
-            (InputValidation.validateAddress, lastNameTextField.text, lastNameUnderlineView)
+            (InputValidation.validateAddress, partyTextField.text, partyUnderlineView),
+            (InputValidation.validateAddress, dobTextField.text, dobUnderlineView)
         ]
         
         collection.forEach({ validation, textField, view in

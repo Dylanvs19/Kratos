@@ -46,7 +46,7 @@ class RepresentativeView: UIView {
         addSubview(contentView)
         contentView.frame = bounds
         translatesAutoresizingMaskIntoConstraints = false
-        self.autoresizingMask = [.flexibleHeight, .flexibleWidth, .flexibleLeftMargin, .flexibleRightMargin]
+        self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
     }
     
     func setGestureRecognizer() {
@@ -67,14 +67,14 @@ class RepresentativeView: UIView {
         layer.shadowOffset = CGSize(width: 0, height: 3)
         layer.shadowOpacity = 0.3
         layer.shadowRadius = 1
-        representativeImageView?.layer.borderColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.3).cgColor
-        representativeImageView?.layer.borderWidth = 3.0
-        representativeImageView?.layer.cornerRadius = 3.0
+        representativeImageView?.layer.borderColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.2).cgColor
+        representativeImageView?.layer.borderWidth = 2.0
+        representativeImageView?.layer.cornerRadius = 2.0
         firstNameLabel.text = "\(firstName) \(lastName)"
         if let state = representative.state {
             stateImageView.image = UIImage.imageForState(state)
         }
-        representativeLabel.text = representative.roleType
+        representativeLabel.text = representative.representativeType?.rawValue
         
         if let imageURL = representative.imageURL {
             UIImage.downloadedFrom(imageURL, onCompletion: { (image) -> (Void) in
@@ -100,6 +100,7 @@ class RepresentativeView: UIView {
     }
     
     override func layoutSubviews() {
+        super.layoutSubviews()
         contentView.frame = bounds
     }
     

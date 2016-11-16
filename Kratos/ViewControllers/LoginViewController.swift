@@ -55,7 +55,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGestureRecognizer()
-        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.isNavigationBarHidden = true
         navigationController?.navigationBar.tintColor = UIColor.kratosBlue
     }
     
@@ -184,7 +184,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             Datastore.sharedDatastore.user = user
             self.navigationController?.pushViewController(viewController, animated: true)
         }
-        
     }
     
     func animate(_ underlineView: UIView, with validation: Bool) {
@@ -200,6 +199,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        if textFieldsValid() {
+            UIView.animate(withDuration: 1, animations: {
+                self.nextButton.alpha = 1
+                self.kratosLabel.alpha = 0
+                self.view.layoutIfNeeded()
+            })
+        } else {
+            UIView.animate(withDuration: 1, animations: {
+                self.kratosLabel.alpha = 1
+                self.nextButton.alpha = 0
+                self.view.layoutIfNeeded()
+            })
+        }
         return true
     }
     

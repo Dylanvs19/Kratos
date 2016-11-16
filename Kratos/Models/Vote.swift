@@ -25,6 +25,7 @@ struct Vote {
     var votesAbstain: Int?
     var questionCode: String?
     var questionTitle: String?
+    var questionDetails: String?
     var chamber: String?
     var relatedBill: Int?
     var category: Category = .unknown
@@ -70,6 +71,7 @@ struct Vote {
             self.date = DateFormatter.longDateFormatter.date(from: holdDate)
         }
         self.questionTitle = json["question_title"] as? String
+        self.questionDetails = json["question_details"] as? String
         self.questionCode = json["question_code"] as? String
         self.votesFor = json["total_plus"] as? Int
         self.votesAbstain = json["total_other"] as? Int

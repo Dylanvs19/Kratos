@@ -29,4 +29,8 @@ extension UIColor {
     static var borderRed: UIColor {
         return UIColor(red: 207/255, green: 0, blue:0, alpha: 0.3)
     }
+    
+    static var yeaVoteGreen: UIColor {
+        return UIColor(red: 106/255, green: 231/255, blue: 119/255, alpha: 1)
+    }
 }

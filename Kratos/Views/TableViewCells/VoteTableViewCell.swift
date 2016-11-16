@@ -10,7 +10,6 @@ import UIKit
 
 class VoteTableViewCell: UITableViewCell {
 
-    @IBOutlet var dateLabel: UILabel!
     @IBOutlet var voteTitleLabel: UILabel!
     
     @IBOutlet var voteImageView: UIImageView!
@@ -43,11 +42,5 @@ class VoteTableViewCell: UITableViewCell {
                 voteImageView.image = UIImage(named: "Abstain")
             }
         }
-        if let date = vote.date {
-        dateLabel.text = DateFormatter.presentationDateFormatter.string(from: date)
-        } else {
-            dateLabel.text = ""
-        }
     }
-    
 }
