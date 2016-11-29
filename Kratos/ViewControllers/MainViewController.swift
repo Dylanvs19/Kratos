@@ -11,9 +11,14 @@ import UIKit
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RepViewDelegate {
     
+    @IBOutlet var stateImageView: UIImageView!
+    
     @IBOutlet var repViewOne: RepresentativeView!
     @IBOutlet var repViewTwo: RepresentativeView!
     @IBOutlet var repViewThree: RepresentativeView!
+    
+    @IBOutlet var stateLabel: UILabel!
+    @IBOutlet var districtLabel: UILabel!
     
     @IBOutlet var repOneSelectedHeight: NSLayoutConstraint!
     @IBOutlet var repTwoSelectedHeight: NSLayoutConstraint!
@@ -41,6 +46,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet var menuBarContainerView: UIView!
     @IBOutlet var menuBarTrailingConstraint: NSLayoutConstraint!
+    
     var menuViewController: MenuViewController?
     var disableSwipe = false
     
@@ -77,6 +83,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         swipeGR.direction = .right
         view.addGestureRecognizer(swipeGR)
         configureMenuBar()
+        
+        if let state =  Datastore.sharedDatastore.user?.streetAddress?.state {
+            stateImageView.image = UIImage.imageForState(state)
+            stateLabel.text = Constants.abbreviationToFullStateNameDict[state] ?? ""
+            if let district = Datastore.sharedDatastore.user?.district {
+                districtLabel.text = "District \(district)"
+            }
+        }
     }
     
     func loadData() {
@@ -108,6 +122,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 count += 1
             }
         }
+    
         repViewOne.repViewDelegate = self
         repViewTwo.repViewDelegate = self
         repViewThree.repViewDelegate = self
@@ -221,7 +236,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         repContactView.animateOut()
         
-        UIView.animate(withDuration: 0.25, animations: {
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: [], animations: {
             views.forEach { (repView) in
                 repView?.isHidden = false
                 repView?.alpha = 1
@@ -244,11 +259,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             self.view.layoutIfNeeded()
         })
+        
         contractedRepConstraints(active: true)
     }
     
     func contractedRepConstraints(active: Bool) {
-        UIView.animate(withDuration: 0.25, animations: {
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: [], animations: {
             self.repOneToTopContracted.isActive = active
             self.repTwoToRepOneBottomContracted.isActive = active
             self.repThreeToRepTwoBottomContracted.isActive = active
@@ -293,7 +309,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             menuViewController.animateOut() 
         }
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
-            self.menuBarTrailingConstraint.constant = 0
+            self.menuBarTrailingConstraint.constant = -3
             self.tapView?.alpha = 0
             self.view.layoutIfNeeded()
         }, completion: { _ in
@@ -352,7 +368,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0.01    }
+        return 0.01
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let vote = cellMap[indexPath.section]?[indexPath.row],

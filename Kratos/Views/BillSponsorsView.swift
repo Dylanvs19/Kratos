@@ -1,0 +1,106 @@
+//
+//  BillSponsorsView.swift
+//  Kratos
+//
+//  Created by Dylan Straughan on 11/19/16.
+//  Copyright © 2016 Dylan Straughan. All rights reserved.
+//
+
+import UIKit
+
+class BillSponsorsView: UIView, UITableViewDelegate, UITableViewDataSource {
+    
+    @IBOutlet var contentView: UIView!
+    @IBOutlet var stateImageView: UIImageView!
+    @IBOutlet var repImageView: UIImageView!
+    @IBOutlet var repNameLabel: UILabel!
+    @IBOutlet var repStateLabel: UILabel!
+    
+    @IBOutlet var coSponsorsLabel: UILabel!
+    @IBOutlet var tableView: UITableView!
+    
+    @IBOutlet var tableViewHeightConstraint: NSLayoutConstraint!
+    
+    var coSponsors: [LightRepresentative]? {
+        didSet {
+            if coSponsors != nil {
+                tableView.reloadData()
+            }
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        customInit()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        customInit()
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        customInit()
+    }
+    
+    func customInit() {
+        Bundle.main.loadNibNamed("BillSponsorsView", owner: self, options: nil)
+        addSubview(contentView)
+        contentView.frame = bounds
+        translatesAutoresizingMaskIntoConstraints = false
+        self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UINib(nibName: "CoSponsorsTableViewCell", bundle: nil) , forCellReuseIdentifier: "CoSponsorsTableViewCell")
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 1.2)
+        layer.shadowOpacity = 0.3
+        layer.shadowRadius = 0.2
+    }
+    
+    func configure(with sponsor: LightRepresentative, and coSponsors: [LightRepresentative]) {
+        if !coSponsors.isEmpty {
+            self.coSponsors = coSponsors
+        } else {
+            coSponsorsLabel.text = ""
+        }
+        if let first = sponsor.firstName,
+           let last = sponsor.lastName {
+            repNameLabel.text = "\(first) \(last)"
+        }
+        
+        if let repType = sponsor.representativeType {
+            repStateLabel.text = repType.rawValue
+        }
+        
+        if let repImageURL = sponsor.imageURL {
+            UIImage.downloadedFrom(repImageURL, onCompletion: { (image) -> (Void) in
+                guard let image = image else { return }
+                self.repImageView.image = image
+                self.repImageView.contentMode = .scaleAspectFill
+            })
+        }
+        
+        if let state = sponsor.state {
+            stateImageView.image = UIImage.imageForState(state)
+        }
+        
+        tableViewHeightConstraint.constant = CGFloat(coSponsors.count * 30)
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return coSponsors?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CoSponsorsTableViewCell", for: indexPath) as? CoSponsorsTableViewCell,
+            let coSponsor = coSponsors?[indexPath.row] else { return UITableViewCell() }
+        cell.configure(with: coSponsor)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 30
+    }
+}

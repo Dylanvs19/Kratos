@@ -18,7 +18,6 @@ class RepresentativeView: UIView {
     @IBOutlet var representativeImageView: UIImageView!
     @IBOutlet var firstNameLabel: UILabel!
     @IBOutlet var representativeLabel: UILabel!
-    @IBOutlet var stateImageView: UIImageView!
     
     var representative: DetailedRepresentative?
     var selected = false
@@ -44,9 +43,8 @@ class RepresentativeView: UIView {
     func customInit() {
         Bundle.main.loadNibNamed("RepresentativeView", owner: self, options: nil)
         addSubview(contentView)
-        contentView.frame = bounds
         translatesAutoresizingMaskIntoConstraints = false
-        self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        contentView.frame = bounds
     }
     
     func setGestureRecognizer() {
@@ -71,9 +69,7 @@ class RepresentativeView: UIView {
         representativeImageView?.layer.borderWidth = 2.0
         representativeImageView?.layer.cornerRadius = 2.0
         firstNameLabel.text = "\(firstName) \(lastName)"
-        if let state = representative.state {
-            stateImageView.image = UIImage.imageForState(state)
-        }
+        
         representativeLabel.text = representative.representativeType?.rawValue
         
         if let imageURL = representative.imageURL {

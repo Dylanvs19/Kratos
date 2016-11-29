@@ -16,4 +16,10 @@ extension CharacterSet {
         set.formUnion(with: CharacterSet(charactersIn: " "))
         return set as CharacterSet
     }
+    
+    static var numbers: CharacterSet {
+        let set = NSMutableCharacterSet(charactersIn: "1234567890")
+        return set as CharacterSet
+    }
+
 }

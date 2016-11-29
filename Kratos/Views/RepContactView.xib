@@ -70,7 +70,6 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="peN-7j-M6Q" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="0CY-CA-2m2"/>
                 <constraint firstItem="DJf-2s-hMU" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="2TO-4j-FZ3"/>

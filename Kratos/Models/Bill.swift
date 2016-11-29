@@ -17,7 +17,7 @@ struct Bill {
     var committees: [Committee]?
     var coSponsors: [LightRepresentative]
     var lightSponsor: LightRepresentative?
-    var detailedSponsor: Representative?
+    var detailedSponsor: DetailedRepresentative?
     var isCurrent: Bool?
     var currentStatus: String?
     var currentStatusDate: Date?

@@ -57,6 +57,14 @@ class MenuViewController: UIViewController {
     }
     
     @IBAction func signOutButtonPressed(_ sender: Any) {
-        // to main app vc after deleting token
+        KeychainManager.delete { (success) in
+            if success {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
+            } else {
+                let alertVC = UIAlertController(title: "Error", message: "There was an issue loging out of Kratos", preferredStyle: .alert)
+                alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                present(alertVC, animated: true, completion: nil)
+            }
+        }
     }
 }

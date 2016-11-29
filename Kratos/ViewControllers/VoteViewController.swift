@@ -12,64 +12,31 @@ class VoteViewController: UIViewController {
     var vote: Vote?
     var representative: DetailedRepresentative?
     
-    @IBOutlet var voteTitleLabel: UILabel!
-    @IBOutlet var pieChartView: PieChartView!
-    @IBOutlet var statusLabel: UILabel!
-    @IBOutlet var dateLabel: UILabel!
-    
-    @IBOutlet var repVoteImageView: UIImageView!
-    @IBOutlet var repImageView: UIImageView!
-    @IBOutlet var representativeLabel: UILabel!
-    @IBOutlet var relatedBillLabel: UILabel!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         enableSwipeBack()
-        setupView()
+        if let vote = vote,
+            let representative = representative {
+            configureView(with: vote, and: representative)
+        }
+        
     }
-    
-    func setupView() {
-        voteTitleLabel.text = vote?.questionTitle
-        statusLabel.text = vote?.result
-        if let date = vote?.date {
-            dateLabel.text = DateFormatter.presentationDateFormatter.string(from:date)
+
+    func configureView(with vote: Vote, and representative: DetailedRepresentative) {
+        // add headerView
+        let headerView = VoteHeaderView()
+        headerView.configure(with: vote)
+        
+        if let _ = vote.vote {
+            let view = RepVoteView()
+            view.configure(with: representative, and: vote)
         }
-        if let votesFor = vote?.votesFor,
-           let against = vote?.votesAgainst,
-           let abstain = vote?.votesAbstain {
-            let data = [PieChartData(with: votesFor, and: .yea),
-                        PieChartData(with: abstain, and: .abstain),
-                        PieChartData(with: against, and: .nay)
-                       ]
-                pieChartView.configure(with: data)  
-            if let first = representative?.firstName,
-                let last = representative?.lastName {
-                representativeLabel.text = first + " " + last 
-            }
-        }
-            if let voteType = vote?.vote {
-                switch voteType {
-                case .yea:
-                    repVoteImageView.image = UIImage(named: "Yes")
-                case .nay:
-                    repVoteImageView.image = UIImage(named: "No")
-                case .abstain:
-                    repVoteImageView.image = UIImage(named: "Abstain")
-                }
-            }
-        if let imageURL = representative?.imageURL {
-            UIImage.downloadedFrom(imageURL, onCompletion: { (image) -> (Void) in
-                guard let image = image else { return }
-                self.repImageView.image = image
-                self.repImageView.contentMode = .scaleAspectFill
-                })
-        }
-        relatedBillLabel.text = vote?.questionDetails
+        
     }
     
     @IBAction func relatedBillButtonPressed(_ sender: AnyObject) {
-        let vc: LegislationDetailViewController = LegislationDetailViewController.instantiate()
+        let vc: BillViewController = BillViewController.instantiate()
         if let relatedBill = vote?.relatedBill {
             vc.billId = relatedBill
             navigationController?.pushViewController(vc, animated: true)

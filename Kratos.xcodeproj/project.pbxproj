@@ -30,7 +30,7 @@
 		AF89747F1D4D80E500C19020 /* KratosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89747E1D4D80E500C19020 /* KratosUITests.swift */; };
 		AF8974941D4D887100C19020 /* SubmitAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974931D4D887100C19020 /* SubmitAddressViewController.swift */; };
 		AF8974961D4D88C500C19020 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974951D4D88C500C19020 /* MainViewController.swift */; };
-		AF89749A1D4D88F600C19020 /* LegislationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974991D4D88F600C19020 /* LegislationDetailViewController.swift */; };
+		AF89749A1D4D88F600C19020 /* BillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974991D4D88F600C19020 /* BillViewController.swift */; };
 		AF89749C1D4D8ADC00C19020 /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89749B1D4D8ADC00C19020 /* Vote.swift */; };
 		AF89749E1D4D8B2700C19020 /* Representative.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89749D1D4D8B2700C19020 /* Representative.swift */; };
 		AF8974A81D4E784E00C19020 /* VoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974A71D4E784E00C19020 /* VoteTableViewCell.swift */; };
@@ -42,17 +42,25 @@
 		AF8974B61D4EF39900C19020 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B51D4EF39900C19020 /* String+Extensions.swift */; };
 		AF8974B81D4F058E00C19020 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B71D4F058E00C19020 /* UIColor+Extension.swift */; };
 		AF8974BA1D5036DA00C19020 /* NSCharacterSet+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B91D5036DA00C19020 /* NSCharacterSet+Extensions.swift */; };
-		AF9F04861DC03BEF00A8BB74 /* BillHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9F04851DC03BEF00A8BB74 /* BillHeaderTableViewCell.swift */; };
-		AF9F04891DC03C1200A8BB74 /* BillHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9F04881DC03C1200A8BB74 /* BillHeaderTableViewCell.xib */; };
-		AF9F048E1DC245E100A8BB74 /* CommitteesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9F048C1DC245E100A8BB74 /* CommitteesTableViewCell.swift */; };
-		AF9F048F1DC245E100A8BB74 /* CommitteesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9F048D1DC245E100A8BB74 /* CommitteesTableViewCell.xib */; };
 		AF9F04921DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9F04901DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift */; };
 		AF9F04931DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9F04911DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib */; };
-		AF9F04961DC27DC000A8BB74 /* SponsorsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9F04941DC27DC000A8BB74 /* SponsorsTableViewCell.swift */; };
-		AF9F04971DC27DC000A8BB74 /* SponsorsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9F04951DC27DC000A8BB74 /* SponsorsTableViewCell.xib */; };
-		AF9F049A1DC2813800A8BB74 /* LeadSponsorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9F04981DC2813800A8BB74 /* LeadSponsorTableViewCell.swift */; };
-		AF9F049B1DC2813800A8BB74 /* LeadSponsorTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9F04991DC2813800A8BB74 /* LeadSponsorTableViewCell.xib */; };
+		AF9F04961DC27DC000A8BB74 /* CoSponsorsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9F04941DC27DC000A8BB74 /* CoSponsorsTableViewCell.swift */; };
+		AF9F04971DC27DC000A8BB74 /* CoSponsorsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9F04951DC27DC000A8BB74 /* CoSponsorsTableViewCell.xib */; };
 		AFAC56EA1DDB3E5A007C1629 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC56E91DDB3E5A007C1629 /* MenuViewController.swift */; };
+		AFB5CCA21DE0B595006E51A2 /* VoteHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCA11DE0B595006E51A2 /* VoteHeaderView.swift */; };
+		AFB5CCA41DE0B5BB006E51A2 /* VoteHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCA31DE0B5BB006E51A2 /* VoteHeaderView.xib */; };
+		AFB5CCA61DE0B6CF006E51A2 /* RepVoteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCA51DE0B6CF006E51A2 /* RepVoteView.xib */; };
+		AFB5CCA81DE0B6DD006E51A2 /* RepVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCA71DE0B6DD006E51A2 /* RepVoteView.swift */; };
+		AFB5CCAA1DE0B6ED006E51A2 /* RelatedBillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCA91DE0B6ED006E51A2 /* RelatedBillView.swift */; };
+		AFB5CCAC1DE0B6FF006E51A2 /* RelatedBillView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCAB1DE0B6FF006E51A2 /* RelatedBillView.xib */; };
+		AFB5CCAE1DE0B716006E51A2 /* VoteDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCAD1DE0B716006E51A2 /* VoteDetailsView.xib */; };
+		AFB5CCB01DE0B725006E51A2 /* VoteDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCAF1DE0B725006E51A2 /* VoteDetailsView.swift */; };
+		AFB5CCB21DE0B7F5006E51A2 /* BillHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCB11DE0B7F5006E51A2 /* BillHeaderView.swift */; };
+		AFB5CCB41DE0B7FE006E51A2 /* BillHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCB31DE0B7FE006E51A2 /* BillHeaderView.xib */; };
+		AFB5CCB61DE0B812006E51A2 /* BillCommitteesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCB51DE0B812006E51A2 /* BillCommitteesView.xib */; };
+		AFB5CCB81DE0B821006E51A2 /* BillCommitteesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCB71DE0B821006E51A2 /* BillCommitteesView.swift */; };
+		AFB5CCBA1DE0B834006E51A2 /* BillSponsorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCB91DE0B834006E51A2 /* BillSponsorsView.swift */; };
+		AFB5CCBC1DE0B83F006E51A2 /* BillSponsorsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCBB1DE0B83F006E51A2 /* BillSponsorsView.xib */; };
 		AFD5AA971D9C3D0C00A5714C /* KratosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974731D4D80E500C19020 /* KratosTests.swift */; };
 		AFD5AA9B1D9C618800A5714C /* NSMutableURLRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5AA9A1D9C618800A5714C /* NSMutableURLRequest+Extension.swift */; };
 		AFD5AA9E1DAF4A3A00A5714C /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5AA9D1DAF4A3A00A5714C /* KeychainManager.swift */; };
@@ -118,7 +126,7 @@
 		AF8974801D4D80E500C19020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF8974931D4D887100C19020 /* SubmitAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitAddressViewController.swift; sourceTree = "<group>"; };
 		AF8974951D4D88C500C19020 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		AF8974991D4D88F600C19020 /* LegislationDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegislationDetailViewController.swift; sourceTree = "<group>"; };
+		AF8974991D4D88F600C19020 /* BillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillViewController.swift; sourceTree = "<group>"; };
 		AF89749B1D4D8ADC00C19020 /* Vote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
 		AF89749D1D4D8B2700C19020 /* Representative.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Representative.swift; sourceTree = "<group>"; };
 		AF8974A71D4E784E00C19020 /* VoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteTableViewCell.swift; sourceTree = "<group>"; };
@@ -130,17 +138,25 @@
 		AF8974B51D4EF39900C19020 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		AF8974B71D4F058E00C19020 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		AF8974B91D5036DA00C19020 /* NSCharacterSet+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSCharacterSet+Extensions.swift"; sourceTree = "<group>"; };
-		AF9F04851DC03BEF00A8BB74 /* BillHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillHeaderTableViewCell.swift; sourceTree = "<group>"; };
-		AF9F04881DC03C1200A8BB74 /* BillHeaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillHeaderTableViewCell.xib; sourceTree = "<group>"; };
-		AF9F048C1DC245E100A8BB74 /* CommitteesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommitteesTableViewCell.swift; path = TableViewCells/CommitteesTableViewCell.swift; sourceTree = "<group>"; };
-		AF9F048D1DC245E100A8BB74 /* CommitteesTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CommitteesTableViewCell.xib; path = TableViewCells/CommitteesTableViewCell.xib; sourceTree = "<group>"; };
 		AF9F04901DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SingleCommitteeTableViewCell.swift; path = TableViewCells/SingleCommitteeTableViewCell.swift; sourceTree = "<group>"; };
 		AF9F04911DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SingleCommitteeTableViewCell.xib; path = TableViewCells/SingleCommitteeTableViewCell.xib; sourceTree = "<group>"; };
-		AF9F04941DC27DC000A8BB74 /* SponsorsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SponsorsTableViewCell.swift; path = TableViewCells/SponsorsTableViewCell.swift; sourceTree = "<group>"; };
-		AF9F04951DC27DC000A8BB74 /* SponsorsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SponsorsTableViewCell.xib; path = TableViewCells/SponsorsTableViewCell.xib; sourceTree = "<group>"; };
-		AF9F04981DC2813800A8BB74 /* LeadSponsorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LeadSponsorTableViewCell.swift; path = TableViewCells/LeadSponsorTableViewCell.swift; sourceTree = "<group>"; };
-		AF9F04991DC2813800A8BB74 /* LeadSponsorTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LeadSponsorTableViewCell.xib; path = TableViewCells/LeadSponsorTableViewCell.xib; sourceTree = "<group>"; };
+		AF9F04941DC27DC000A8BB74 /* CoSponsorsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoSponsorsTableViewCell.swift; path = TableViewCells/CoSponsorsTableViewCell.swift; sourceTree = "<group>"; };
+		AF9F04951DC27DC000A8BB74 /* CoSponsorsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CoSponsorsTableViewCell.xib; path = TableViewCells/CoSponsorsTableViewCell.xib; sourceTree = "<group>"; };
 		AFAC56E91DDB3E5A007C1629 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		AFB5CCA11DE0B595006E51A2 /* VoteHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteHeaderView.swift; sourceTree = "<group>"; };
+		AFB5CCA31DE0B5BB006E51A2 /* VoteHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteHeaderView.xib; sourceTree = "<group>"; };
+		AFB5CCA51DE0B6CF006E51A2 /* RepVoteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepVoteView.xib; sourceTree = "<group>"; };
+		AFB5CCA71DE0B6DD006E51A2 /* RepVoteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepVoteView.swift; sourceTree = "<group>"; };
+		AFB5CCA91DE0B6ED006E51A2 /* RelatedBillView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatedBillView.swift; sourceTree = "<group>"; };
+		AFB5CCAB1DE0B6FF006E51A2 /* RelatedBillView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RelatedBillView.xib; sourceTree = "<group>"; };
+		AFB5CCAD1DE0B716006E51A2 /* VoteDetailsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteDetailsView.xib; sourceTree = "<group>"; };
+		AFB5CCAF1DE0B725006E51A2 /* VoteDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteDetailsView.swift; sourceTree = "<group>"; };
+		AFB5CCB11DE0B7F5006E51A2 /* BillHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillHeaderView.swift; sourceTree = "<group>"; };
+		AFB5CCB31DE0B7FE006E51A2 /* BillHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillHeaderView.xib; sourceTree = "<group>"; };
+		AFB5CCB51DE0B812006E51A2 /* BillCommitteesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillCommitteesView.xib; sourceTree = "<group>"; };
+		AFB5CCB71DE0B821006E51A2 /* BillCommitteesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillCommitteesView.swift; sourceTree = "<group>"; };
+		AFB5CCB91DE0B834006E51A2 /* BillSponsorsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillSponsorsView.swift; sourceTree = "<group>"; };
+		AFB5CCBB1DE0B83F006E51A2 /* BillSponsorsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillSponsorsView.xib; sourceTree = "<group>"; };
 		AFD5AA9A1D9C618800A5714C /* NSMutableURLRequest+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+Extension.swift"; sourceTree = "<group>"; };
 		AFD5AA9D1DAF4A3A00A5714C /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kratos.entitlements; sourceTree = "<group>"; };
@@ -303,7 +319,7 @@
 				AF8974931D4D887100C19020 /* SubmitAddressViewController.swift */,
 				AF8974951D4D88C500C19020 /* MainViewController.swift */,
 				AF6C29101DB9B94E004AA104 /* VoteViewController.swift */,
-				AF8974991D4D88F600C19020 /* LegislationDetailViewController.swift */,
+				AF8974991D4D88F600C19020 /* BillViewController.swift */,
 				AFAC56E91DDB3E5A007C1629 /* MenuViewController.swift */,
 			);
 			path = ViewControllers;
@@ -312,12 +328,11 @@
 		AF8974911D4D862B00C19020 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AFB5CCA01DE0B512006E51A2 /* MainViews */,
 				AF3DBCEA1DD21BFB006B146F /* HeaderViews */,
 				AFF748131DCFF27300F519AE /* PieChart */,
-				AF2B8C6B1D62D21300C31FA9 /* RepresentativeView.swift */,
-				AF2B8C6D1D62D22600C31FA9 /* RepresentativeView.xib */,
-				AFF7480F1DC97FF500F519AE /* RepContactView.swift */,
-				AFF748111DC9800100F519AE /* RepContactView.xib */,
+				AFB5CC9F1DE0B4F3006E51A2 /* BillViews */,
+				AFB5CC9E1DE0B4E4006E51A2 /* VoteViews */,
 				AF8974921D4D862B00C19020 /* TableViewCells */,
 			);
 			path = Views;
@@ -326,9 +341,8 @@
 		AF8974921D4D862B00C19020 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
-				AFF7480E1DC97F9500F519AE /* BillViews */,
-				AF8974A71D4E784E00C19020 /* VoteTableViewCell.swift */,
-				AF8974A91D4E786E00C19020 /* VoteTableViewCell.xib */,
+				AFF7480E1DC97F9500F519AE /* BillTableViewCells */,
+				AFB5CCBD1DE55C5E006E51A2 /* MainViewTableViewCells */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -351,6 +365,54 @@
 			path = Utilites;
 			sourceTree = "<group>";
 		};
+		AFB5CC9E1DE0B4E4006E51A2 /* VoteViews */ = {
+			isa = PBXGroup;
+			children = (
+				AFB5CCA11DE0B595006E51A2 /* VoteHeaderView.swift */,
+				AFB5CCA31DE0B5BB006E51A2 /* VoteHeaderView.xib */,
+				AFB5CCA71DE0B6DD006E51A2 /* RepVoteView.swift */,
+				AFB5CCA51DE0B6CF006E51A2 /* RepVoteView.xib */,
+				AFB5CCA91DE0B6ED006E51A2 /* RelatedBillView.swift */,
+				AFB5CCAB1DE0B6FF006E51A2 /* RelatedBillView.xib */,
+				AFB5CCAF1DE0B725006E51A2 /* VoteDetailsView.swift */,
+				AFB5CCAD1DE0B716006E51A2 /* VoteDetailsView.xib */,
+			);
+			name = VoteViews;
+			sourceTree = "<group>";
+		};
+		AFB5CC9F1DE0B4F3006E51A2 /* BillViews */ = {
+			isa = PBXGroup;
+			children = (
+				AFB5CCB11DE0B7F5006E51A2 /* BillHeaderView.swift */,
+				AFB5CCB31DE0B7FE006E51A2 /* BillHeaderView.xib */,
+				AFB5CCB71DE0B821006E51A2 /* BillCommitteesView.swift */,
+				AFB5CCB51DE0B812006E51A2 /* BillCommitteesView.xib */,
+				AFB5CCB91DE0B834006E51A2 /* BillSponsorsView.swift */,
+				AFB5CCBB1DE0B83F006E51A2 /* BillSponsorsView.xib */,
+			);
+			name = BillViews;
+			sourceTree = "<group>";
+		};
+		AFB5CCA01DE0B512006E51A2 /* MainViews */ = {
+			isa = PBXGroup;
+			children = (
+				AF2B8C6B1D62D21300C31FA9 /* RepresentativeView.swift */,
+				AF2B8C6D1D62D22600C31FA9 /* RepresentativeView.xib */,
+				AFF7480F1DC97FF500F519AE /* RepContactView.swift */,
+				AFF748111DC9800100F519AE /* RepContactView.xib */,
+			);
+			name = MainViews;
+			sourceTree = "<group>";
+		};
+		AFB5CCBD1DE55C5E006E51A2 /* MainViewTableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				AF8974A71D4E784E00C19020 /* VoteTableViewCell.swift */,
+				AF8974A91D4E786E00C19020 /* VoteTableViewCell.xib */,
+			);
+			name = MainViewTableViewCells;
+			sourceTree = "<group>";
+		};
 		AFD5AA9C1DAF4A1F00A5714C /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -359,21 +421,15 @@
 			name = Managers;
 			sourceTree = "<group>";
 		};
-		AFF7480E1DC97F9500F519AE /* BillViews */ = {
+		AFF7480E1DC97F9500F519AE /* BillTableViewCells */ = {
 			isa = PBXGroup;
 			children = (
-				AF9F04851DC03BEF00A8BB74 /* BillHeaderTableViewCell.swift */,
-				AF9F04881DC03C1200A8BB74 /* BillHeaderTableViewCell.xib */,
-				AF9F048C1DC245E100A8BB74 /* CommitteesTableViewCell.swift */,
-				AF9F048D1DC245E100A8BB74 /* CommitteesTableViewCell.xib */,
 				AF9F04901DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift */,
 				AF9F04911DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib */,
-				AF9F04941DC27DC000A8BB74 /* SponsorsTableViewCell.swift */,
-				AF9F04951DC27DC000A8BB74 /* SponsorsTableViewCell.xib */,
-				AF9F04981DC2813800A8BB74 /* LeadSponsorTableViewCell.swift */,
-				AF9F04991DC2813800A8BB74 /* LeadSponsorTableViewCell.xib */,
+				AF9F04941DC27DC000A8BB74 /* CoSponsorsTableViewCell.swift */,
+				AF9F04951DC27DC000A8BB74 /* CoSponsorsTableViewCell.xib */,
 			);
-			name = BillViews;
+			name = BillTableViewCells;
 			path = ..;
 			sourceTree = "<group>";
 		};
@@ -518,14 +574,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AF9F04891DC03C1200A8BB74 /* BillHeaderTableViewCell.xib in Resources */,
-				AF9F04971DC27DC000A8BB74 /* SponsorsTableViewCell.xib in Resources */,
-				AF9F048F1DC245E100A8BB74 /* CommitteesTableViewCell.xib in Resources */,
+				AFB5CCB41DE0B7FE006E51A2 /* BillHeaderView.xib in Resources */,
+				AF9F04971DC27DC000A8BB74 /* CoSponsorsTableViewCell.xib in Resources */,
+				AFB5CCAC1DE0B6FF006E51A2 /* RelatedBillView.xib in Resources */,
 				AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */,
-				AF9F049B1DC2813800A8BB74 /* LeadSponsorTableViewCell.xib in Resources */,
+				AFB5CCA41DE0B5BB006E51A2 /* VoteHeaderView.xib in Resources */,
 				AFF748121DC9800100F519AE /* RepContactView.xib in Resources */,
 				AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */,
+				AFB5CCBC1DE0B83F006E51A2 /* BillSponsorsView.xib in Resources */,
+				AFB5CCB61DE0B812006E51A2 /* BillCommitteesView.xib in Resources */,
+				AFB5CCA61DE0B6CF006E51A2 /* RepVoteView.xib in Resources */,
 				AF2B8C6E1D62D22600C31FA9 /* RepresentativeView.xib in Resources */,
+				AFB5CCAE1DE0B716006E51A2 /* VoteDetailsView.xib in Resources */,
 				AFF7481D1DD0203B00F519AE /* PieChartView.xib in Resources */,
 				AF3C2FF21DD3570600353638 /* VoteDateHeaderView.xib in Resources */,
 				AF9F04931DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib in Resources */,
@@ -684,39 +744,43 @@
 				AF9F04921DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift in Sources */,
 				AF8974B21D4E999C00C19020 /* InputValidation.swift in Sources */,
 				AF8974941D4D887100C19020 /* SubmitAddressViewController.swift in Sources */,
+				AFB5CCB21DE0B7F5006E51A2 /* BillHeaderView.swift in Sources */,
 				AF8974611D4D80E500C19020 /* MainApplicationViewController.swift in Sources */,
+				AFB5CCBA1DE0B834006E51A2 /* BillSponsorsView.swift in Sources */,
 				AFAC56EA1DDB3E5A007C1629 /* MenuViewController.swift in Sources */,
 				AF8974B81D4F058E00C19020 /* UIColor+Extension.swift in Sources */,
+				AFB5CCB81DE0B821006E51A2 /* BillCommitteesView.swift in Sources */,
 				AF28439D1D5ADAD9007B3F18 /* Pager.swift in Sources */,
+				AFB5CCB01DE0B725006E51A2 /* VoteDetailsView.swift in Sources */,
 				AF3C2FF41DD35C5500353638 /* Date+Extensions.swift in Sources */,
 				AF2843991D5AD4D3007B3F18 /* Contstants.swift in Sources */,
 				AF8974B61D4EF39900C19020 /* String+Extensions.swift in Sources */,
 				AF57931A1D6D4C0000D86B73 /* NSDateFormatter+Extensions.swift in Sources */,
 				AFF7481B1DD0081D00F519AE /* PieChartData.swift in Sources */,
 				AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */,
-				AF9F049A1DC2813800A8BB74 /* LeadSponsorTableViewCell.swift in Sources */,
-				AF9F04861DC03BEF00A8BB74 /* BillHeaderTableViewCell.swift in Sources */,
 				AFF748171DCFF2F100F519AE /* PieChartView.swift in Sources */,
 				AF8974AF1D4E98C700C19020 /* User.swift in Sources */,
 				AFD5AA9E1DAF4A3A00A5714C /* KeychainManager.swift in Sources */,
 				AF3DBCE91DD0C34B006B146F /* Array+Extensions.swift in Sources */,
 				AF89749C1D4D8ADC00C19020 /* Vote.swift in Sources */,
+				AFB5CCAA1DE0B6ED006E51A2 /* RelatedBillView.swift in Sources */,
 				AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */,
 				AF5793181D6D440400D86B73 /* Bill.swift in Sources */,
 				AF28439B1D5AD686007B3F18 /* Datastore.swift in Sources */,
-				AF9F04961DC27DC000A8BB74 /* SponsorsTableViewCell.swift in Sources */,
-				AF89749A1D4D88F600C19020 /* LegislationDetailViewController.swift in Sources */,
+				AF9F04961DC27DC000A8BB74 /* CoSponsorsTableViewCell.swift in Sources */,
+				AF89749A1D4D88F600C19020 /* BillViewController.swift in Sources */,
 				AFF748191DCFF37700F519AE /* UIView+Extension.swift in Sources */,
 				AF89745F1D4D80E500C19020 /* AppDelegate.swift in Sources */,
 				AF8974961D4D88C500C19020 /* MainViewController.swift in Sources */,
 				AF3DBCEC1DD21C29006B146F /* VoteDateHeaderView.swift in Sources */,
 				AFD82F921D88FBFA00AEB559 /* LoginViewController.swift in Sources */,
+				AFB5CCA21DE0B595006E51A2 /* VoteHeaderView.swift in Sources */,
 				AF8974A81D4E784E00C19020 /* VoteTableViewCell.swift in Sources */,
 				AF2B8C6C1D62D21300C31FA9 /* RepresentativeView.swift in Sources */,
-				AF9F048E1DC245E100A8BB74 /* CommitteesTableViewCell.swift in Sources */,
 				AFF748101DC97FF500F519AE /* RepContactView.swift in Sources */,
 				AF8974AD1D4E969000C19020 /* APIClient.swift in Sources */,
 				AFD5AA9B1D9C618800A5714C /* NSMutableURLRequest+Extension.swift in Sources */,
+				AFB5CCA81DE0B6DD006E51A2 /* RepVoteView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

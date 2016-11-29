@@ -16,17 +16,65 @@ protocol Representative {
     var district: Int? { get set }
     var state: String? { get set }
     var party: Party? { get set }
+    var fullTitle: String? { get set }
     var representativeType: RepresentativeType? { get set }
 }
 
-enum Party: String {
+extension Representative {
+    
+    func parseNameJsonField(json: String?) -> (repType: RepresentativeType?, first: String?, last: String?, party: Party?, state: String?, district: Int?) {
+        //"Sen. Sheldon Whitehouse [D-RI]"
+        let nameArray = json?.components(separatedBy: " ")
+        let count = nameArray?.count ?? 0
+        var repType: RepresentativeType?
+        if nameArray?[0] == "Sen." {
+            repType = .senator
+        } else if nameArray?[0] == "Rep." {
+            repType = .representative
+        }
+        
+        let firstName = nameArray?[1]
+        
+        let lastName = nameArray?[(count - 2)]
+        var party: Party?
+        var state: String?
+        var district: Int?
+        
+        if let partyStateArray = nameArray?[(count - 1)].components(separatedBy: "-") {
+            if partyStateArray[0] == "[R" {
+                party = .republican
+            } else if partyStateArray[0] == "[D" {
+                party = .democrat
+            } else {
+                party = .independent
+            }
+            
+            if partyStateArray[1].characters.count == 3 {
+                let stateString = partyStateArray[1].replacingOccurrences(of: "]", with: "")
+                if InputValidation.validateState(stateString) {
+                    state = stateString
+                }
+            } else if partyStateArray[1].characters.count == 4 {
+                let stateString = partyStateArray[1].replacingOccurrences(of: "]", with: "").trimmingCharacters(in: .numbers)
+                if InputValidation.validateState(stateString) {
+                    state = stateString
+                }
+                let districtString = partyStateArray[1].replacingOccurrences(of: "]", with: "").trimmingCharacters(in: .letters)
+                district = Int(districtString)
+            }
+        }
+        return (repType: repType, first: firstName, last: lastName, party: party, state: state, district: district)
+    }
+}
+
+enum Party: String, RawRepresentable {
     case republican = "Republican"
     case democrat = "Democrat"
     case independent = "Independent"
 }
-enum RepresentativeType: String {
+enum RepresentativeType: String, RawRepresentable {
     case representative = "Representative"
-    case sentator = "Senator"
+    case senator = "Senator"
 }
 
 struct DetailedRepresentative: Representative {
@@ -42,6 +90,7 @@ struct DetailedRepresentative: Representative {
     var website: String?
     var party: Party?
     var imageURL: String?
+    var fullTitle: String?
     
     // From Person API
     var id: Int?
@@ -56,7 +105,7 @@ struct DetailedRepresentative: Representative {
         self.state = json["state"] as? String
         self.website = json["website"] as? String
         if let roleType = json["role_type_label"] as? String {
-           self.representativeType = roleType == "Representative" ? .representative : .sentator
+           self.representativeType = roleType == "Representative" ? .representative : .senator
         }
         if let repParty = json["party"] as? String {
             switch repParty {
@@ -81,6 +130,26 @@ struct DetailedRepresentative: Representative {
         self.lastName = json["person"]?["lastname"] as? String
         self.twitterHandle = json["person"]?["twitterid"] as? String
         self.imageURL = json["image"] as? String
+        self.fullTitle = json["name"] as? String
+        
+        if let fullTitle = fullTitle {
+            let tuple = parseNameJsonField(json: fullTitle)
+            if self.district == nil {
+                self.district = tuple.district
+            }
+            if self.party == nil {
+                self.party = tuple.party
+            }
+            if self.representativeType == nil {
+                self.representativeType = tuple.repType
+            }
+            if self.firstName == nil {
+                self.firstName = tuple.first
+            }
+            if self.lastName == nil {
+                self.lastName = tuple.last
+            }
+        }
     }
     
     func toLightRepresentative() -> LightRepresentative {
@@ -100,7 +169,7 @@ struct LightRepresentative: Representative {
     var firstName: String?
     var lastName: String?
     var id: Int?
-    var name: String?
+    var fullTitle: String?
     var imageURL: String?
     var district: Int?
     var state: String?
@@ -111,8 +180,21 @@ struct LightRepresentative: Representative {
         self.firstName = json["firstname"] as? String
         self.lastName = json["lastname"] as? String
         self.id = json["id"] as? Int
-        self.name = json["name"] as? String
         self.imageURL = json["image"] as? String
+        self.fullTitle = json["name"] as? String
+        
+        if let fullTitle = fullTitle {
+            let tuple = parseNameJsonField(json: fullTitle)
+            self.district = tuple.district
+            self.party = tuple.party
+            self.representativeType = tuple.repType
+            if self.firstName == nil {
+                self.firstName = tuple.first
+            }
+            if self.lastName == nil {
+                self.lastName = tuple.last
+            }
+        }
     }
     
     init() {}
