@@ -57,13 +57,26 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var cityUnderlineView: UIView!
     @IBOutlet var zipcodeUnderlineView: UIView!
     @IBOutlet var addressUnderlineView: UIView!
+
+    var displayType: DisplayType?
+    
+    enum DisplayType {
+        case editProfile
+        case submitAddress
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        beginingSetup()
         beginningAnimations()
         setupGestureRecognizer()
         partyTextField.delegate = self
@@ -72,7 +85,46 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
         cityTextField.delegate = self
         zipCodeTextField.delegate = self
         stateTextField.delegate = self
-        testData()  
+        //testData()
+    }
+    
+    fileprivate func beginingSetup() {
+        
+        partyTextField.alpha = 0.01
+        dobTextField.alpha = 0.01
+        addressTextField.alpha = 0.01
+        cityTextField.alpha = 0.01
+        stateTextField.alpha = 0.01
+        zipCodeTextField.alpha = 0.01
+        
+        self.kratosImageViewTop.isActive = false
+        self.kratosImageViewCentered.isActive = true
+        self.kratosImageViewSmall.isActive = false
+        self.kratosImageViewLarge.isActive = true
+        
+        self.partyTextFieldFullWidth.isActive = false
+        self.partyTextFieldNoWidth.isActive = true
+        
+        self.dobTextFieldFullWidth.isActive = false
+        self.dobTextFieldNoWidth.isActive = true
+
+        self.addressTextFieldFullWidth.isActive = false
+        self.addressTextFieldNoWidth.isActive = true
+
+        self.stateTextFieldFullWidth.isActive = false
+        self.stateTextFieldNoWidth.isActive = true
+
+        self.cityTextFieldLeadingStateTextField.isActive = false
+        self.cityTextFieldLeadingAddressTextField.isActive = true
+        self.cityTextFieldNoWidth.isActive = true
+        self.cityXAxisLeft.isActive = true
+        
+        self.zipCodeTextFieldTrailingStateTextField.isActive = false
+        self.zipCodeTextFieldTrailingAddressTextField.isActive = false
+        self.zipCodeTextFieldNoWidth.isActive = true
+        self.zipCodeXAxisRight.isActive = true
+        
+        view.layoutIfNeeded()
     }
     
     fileprivate func testData() {
@@ -83,13 +135,6 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
     }
     
     fileprivate func beginningAnimations() {
-        
-        partyTextField.alpha = 0.01
-        dobTextField.alpha = 0.01
-        addressTextField.alpha = 0.01
-        cityTextField.alpha = 0.01
-        stateTextField.alpha = 0.01
-        zipCodeTextField.alpha = 0.01
         
         UIView.animate(withDuration: 1, delay: 1, options: [], animations: {
             self.kratosImageViewLarge.isActive = false
@@ -194,7 +239,7 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
             if success {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
             } else {
-                print("SubmitAddressViewController registerWith(password) unsucessful")
+                print("SubmitAddressViewController registerWith(\(password)) unsucessful")
             }
         }
     }

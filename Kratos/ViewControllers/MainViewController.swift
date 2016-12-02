@@ -164,6 +164,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 
                 UIView.animate(withDuration: 0.25, delay: 0.25, options: [], animations: {
                     self.tableViewTopToRepContactView.constant = 10
+                    self.tableViewHeightConstraint.isActive = false
+                    self.tableViewBottomToBottom.isActive = true
                     self.view.layoutIfNeeded()
 
                 }, completion: nil)
@@ -188,6 +190,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 
                 UIView.animate(withDuration: 0.25, delay: 0.25, options: [], animations: {
                     self.tableViewTopToRepContactView.constant = 10
+                    self.tableViewHeightConstraint.isActive = false
+                    self.tableViewBottomToBottom.isActive = true
                     self.view.layoutIfNeeded()
                 }, completion: nil)
                 
@@ -214,6 +218,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 UIView.animate(withDuration: 0.25, delay: 0.25, options: [], animations: {
                     
                     self.tableViewTopToRepContactView.constant = 10
+                    self.tableViewHeightConstraint.isActive = false
+                    self.tableViewBottomToBottom.isActive = true
                     self.view.layoutIfNeeded()
                 }, completion: nil)
                 
@@ -251,7 +257,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             self.tableViewBottomToBottom.isActive = false
             self.tableViewHeightConstraint.isActive = true
-            self.tableViewTopToRepContactView.constant = 500
+            self.tableViewTopToRepContactView.constant = 600
             
             self.repOneWidth.constant = -20
             self.repTwoWidth.constant = -20

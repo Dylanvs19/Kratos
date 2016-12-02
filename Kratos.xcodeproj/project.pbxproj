@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		71FC9AF49B0EB5820A301DE4 /* Pods_KratosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE4ABF9591E077E906036EA /* Pods_KratosTests.framework */; };
 		A0DD548B75376A90182B6EFF /* Pods_Kratos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EC5E845D25026904F837F7 /* Pods_Kratos.framework */; };
+		AF28197E1DF0EFF7001D5C93 /* KratosTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF28197D1DF0EFF7001D5C93 /* KratosTextField.swift */; };
+		AF2819801DF0F006001D5C93 /* KratosTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF28197F1DF0F006001D5C93 /* KratosTextField.xib */; };
+		AF2819821DF0FD92001D5C93 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2819811DF0FD92001D5C93 /* TestViewController.swift */; };
 		AF2843991D5AD4D3007B3F18 /* Contstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2843981D5AD4D3007B3F18 /* Contstants.swift */; };
 		AF28439B1D5AD686007B3F18 /* Datastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF28439A1D5AD686007B3F18 /* Datastore.swift */; };
 		AF28439D1D5ADAD9007B3F18 /* Pager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF28439C1D5ADAD9007B3F18 /* Pager.swift */; };
@@ -98,6 +101,9 @@
 		76680437267A207995EC63FD /* Pods-KratosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KratosUITests/Pods-KratosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		86EC5E845D25026904F837F7 /* Pods_Kratos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kratos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E2C0D1F0BFAA77B0FD2EA1F /* Pods-Kratos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.debug.xcconfig"; sourceTree = "<group>"; };
+		AF28197D1DF0EFF7001D5C93 /* KratosTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosTextField.swift; sourceTree = "<group>"; };
+		AF28197F1DF0F006001D5C93 /* KratosTextField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KratosTextField.xib; sourceTree = "<group>"; };
+		AF2819811DF0FD92001D5C93 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		AF2843981D5AD4D3007B3F18 /* Contstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contstants.swift; sourceTree = "<group>"; };
 		AF28439A1D5AD686007B3F18 /* Datastore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Datastore.swift; sourceTree = "<group>"; };
 		AF28439C1D5ADAD9007B3F18 /* Pager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pager.swift; sourceTree = "<group>"; };
@@ -213,6 +219,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		AF28197A1DF0EFA0001D5C93 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				AF28197D1DF0EFF7001D5C93 /* KratosTextField.swift */,
+				AF28197F1DF0F006001D5C93 /* KratosTextField.xib */,
+			);
+			name = Misc;
+			sourceTree = "<group>";
+		};
 		AF3DBCEA1DD21BFB006B146F /* HeaderViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -314,6 +329,7 @@
 		AF8974901D4D862B00C19020 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				AF2819811DF0FD92001D5C93 /* TestViewController.swift */,
 				AF8974601D4D80E500C19020 /* MainApplicationViewController.swift */,
 				AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */,
 				AF8974931D4D887100C19020 /* SubmitAddressViewController.swift */,
@@ -328,6 +344,7 @@
 		AF8974911D4D862B00C19020 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AF28197A1DF0EFA0001D5C93 /* Misc */,
 				AFB5CCA01DE0B512006E51A2 /* MainViews */,
 				AF3DBCEA1DD21BFB006B146F /* HeaderViews */,
 				AFF748131DCFF27300F519AE /* PieChart */,
@@ -579,6 +596,7 @@
 				AFB5CCAC1DE0B6FF006E51A2 /* RelatedBillView.xib in Resources */,
 				AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */,
 				AFB5CCA41DE0B5BB006E51A2 /* VoteHeaderView.xib in Resources */,
+				AF2819801DF0F006001D5C93 /* KratosTextField.xib in Resources */,
 				AFF748121DC9800100F519AE /* RepContactView.xib in Resources */,
 				AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */,
 				AFB5CCBC1DE0B83F006E51A2 /* BillSponsorsView.xib in Resources */,
@@ -755,6 +773,7 @@
 				AF3C2FF41DD35C5500353638 /* Date+Extensions.swift in Sources */,
 				AF2843991D5AD4D3007B3F18 /* Contstants.swift in Sources */,
 				AF8974B61D4EF39900C19020 /* String+Extensions.swift in Sources */,
+				AF28197E1DF0EFF7001D5C93 /* KratosTextField.swift in Sources */,
 				AF57931A1D6D4C0000D86B73 /* NSDateFormatter+Extensions.swift in Sources */,
 				AFF7481B1DD0081D00F519AE /* PieChartData.swift in Sources */,
 				AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */,
@@ -762,6 +781,7 @@
 				AF8974AF1D4E98C700C19020 /* User.swift in Sources */,
 				AFD5AA9E1DAF4A3A00A5714C /* KeychainManager.swift in Sources */,
 				AF3DBCE91DD0C34B006B146F /* Array+Extensions.swift in Sources */,
+				AF2819821DF0FD92001D5C93 /* TestViewController.swift in Sources */,
 				AF89749C1D4D8ADC00C19020 /* Vote.swift in Sources */,
 				AFB5CCAA1DE0B6ED006E51A2 /* RelatedBillView.swift in Sources */,
 				AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */,
@@ -875,7 +895,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -918,7 +938,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
