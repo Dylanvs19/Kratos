@@ -31,7 +31,7 @@ class BillViewController: UIViewController {
     
     func loadData(_ onCompletion: @escaping (Bill?) -> (Void)) {
         if let billId = billId {
-            APIClient.loadBill(from: billId, success: { (bill) -> (Void) in
+            APIService.loadBill(from: billId, success: { (bill) -> (Void) in
                 onCompletion(bill)
                 }, failure: { (error) -> (Void) in
                     onCompletion(nil)

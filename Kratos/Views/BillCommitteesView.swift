@@ -28,7 +28,7 @@ class BillCommitteesView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        customInit()
+        customInit() 
     }
     
     override func awakeFromNib() {
@@ -44,11 +44,7 @@ class BillCommitteesView: UIView, UITableViewDelegate, UITableViewDataSource {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "SingleCommitteeTableViewCell", bundle: nil) , forCellReuseIdentifier: "SingleCommitteeTableViewCell")
-        tableView.rowHeight = 35
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 3)
-        layer.shadowOpacity = 0.3
-        layer.shadowRadius = 1
+
     }
     
     func configure(with committeeArray: [Committee]) {

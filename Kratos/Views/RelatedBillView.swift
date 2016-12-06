@@ -12,6 +12,8 @@ class RelatedBillView: UIView {
     
     @IBOutlet var contentView: UIView!
     
+    var actionBlock: (() -> Void)?
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         customInit()
@@ -32,9 +34,19 @@ class RelatedBillView: UIView {
         contentView.frame = bounds
         translatesAutoresizingMaskIntoConstraints = false
         self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        setupGestureRecognizer()
     }
     
-    func configure(with actionBlock:(() -> Void)) {
-        
+    func configure(with actionBlock: @escaping (() -> Void)) {
+        self.actionBlock = actionBlock
+    }
+    
+    func setupGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        addGestureRecognizer(tap)
+    }
+    
+    func handleTap() {
+        actionBlock?()
     }
 }

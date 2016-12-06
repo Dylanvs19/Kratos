@@ -33,4 +33,8 @@ extension UIColor {
     static var yeaVoteGreen: UIColor {
         return UIColor(red: 106/255, green: 231/255, blue: 119/255, alpha: 1)
     }
+    
+    static var kratosLightGray: UIColor {
+        return UIColor(red: 243/255, green: 243/255, blue: 243/255, alpha: 1)
+    }
 }

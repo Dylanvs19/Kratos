@@ -9,6 +9,8 @@ import UIKit
 
 class VoteViewController: UIViewController {
     
+    @IBOutlet weak var stackView: UIStackView!
+    
     var vote: Vote?
     var representative: DetailedRepresentative?
     
@@ -20,26 +22,36 @@ class VoteViewController: UIViewController {
             let representative = representative {
             configureView(with: vote, and: representative)
         }
-        
     }
 
     func configureView(with vote: Vote, and representative: DetailedRepresentative) {
         // add headerView
         let headerView = VoteHeaderView()
         headerView.configure(with: vote)
+        stackView.addArrangedSubview(headerView)
+        stackView.reloadInputViews()
         
         if let _ = vote.vote {
             let view = RepVoteView()
             view.configure(with: representative, and: vote)
+            stackView.addArrangedSubview(view)
         }
         
+        let relatedBillView = RelatedBillView()
+        relatedBillView.configure(with: relatedBillButtonPressed)
+        stackView.addArrangedSubview(relatedBillView)
+        
+        let userVoteView = UserVoteView()
+        userVoteView.configure(with: .abstain)
+        stackView.addArrangedSubview(userVoteView)
     }
     
-    @IBAction func relatedBillButtonPressed(_ sender: AnyObject) {
+    func relatedBillButtonPressed() {
         let vc: BillViewController = BillViewController.instantiate()
         if let relatedBill = vote?.relatedBill {
             vc.billId = relatedBill
             navigationController?.pushViewController(vc, animated: true)
         }
     }
+    
 }

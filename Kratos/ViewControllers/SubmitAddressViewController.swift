@@ -8,135 +8,188 @@
 
 import UIKit
 
-class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
+class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, DatePickerViewDelegate, UIScrollViewDelegate {
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet weak var kratosLabel: UILabel!
+    @IBOutlet weak var saveEditRegisterButtonButton: UIButton!
+    @IBOutlet weak var datePicker: DatePickerView!
+    @IBOutlet weak var cancelDoneButton: UIButton!
+    
+    @IBOutlet weak var datePickerYConstraint: NSLayoutConstraint!
     
     @IBOutlet var kratosImageViewTop: NSLayoutConstraint!
     @IBOutlet var kratosImageViewCentered: NSLayoutConstraint!
     @IBOutlet var kratosImageViewSmall: NSLayoutConstraint!
     @IBOutlet var kratosImageViewLarge: NSLayoutConstraint!
     
-    @IBOutlet var addressTextFieldNoWidth: NSLayoutConstraint!
-    @IBOutlet var addressTextFieldFullWidth: NSLayoutConstraint!
+    @IBOutlet weak var partyTextField: KratosTextField!
+    @IBOutlet weak var dobTextField: KratosTextField!
+    @IBOutlet weak var addressTextField: KratosTextField!
+    @IBOutlet weak var cityTextField: KratosTextField!
+    @IBOutlet weak var stateTextField: KratosTextField!
+    @IBOutlet weak var zipcodeTextField: KratosTextField!
+    @IBOutlet weak var phoneNumberTextField: KratosTextField!
+    @IBOutlet weak var oldPasswordTextField: KratosTextField!
+    @IBOutlet weak var newPasswordTextField: KratosTextField!
     
-    @IBOutlet var cityTextFieldNoWidth: NSLayoutConstraint!
-    @IBOutlet var cityTextFieldLeadingStateTextField: NSLayoutConstraint!
-    @IBOutlet var cityXAxisLeft: NSLayoutConstraint!
-    @IBOutlet var cityTextFieldLeadingAddressTextField: NSLayoutConstraint!
-    
-    @IBOutlet var stateTextFieldFullWidth: NSLayoutConstraint!
-    @IBOutlet var stateTextFieldNoWidth: NSLayoutConstraint!
-    
-    @IBOutlet var zipCodeTextFieldNoWidth: NSLayoutConstraint!
-    @IBOutlet var zipCodeXAxisRight: NSLayoutConstraint!
-    @IBOutlet var zipCodeTextFieldTrailingStateTextField: NSLayoutConstraint!
-    @IBOutlet var zipCodeTextFieldTrailingAddressTextField: NSLayoutConstraint!
-    
-    @IBOutlet var partyTextFieldNoWidth: NSLayoutConstraint!
-    @IBOutlet var partyTextFieldFullWidth: NSLayoutConstraint!
-    
-    @IBOutlet var dobTextFieldNoWidth: NSLayoutConstraint!
-    @IBOutlet var dobTextFieldFullWidth: NSLayoutConstraint!
-    
-    @IBOutlet var enterOnScreen: NSLayoutConstraint!
-    @IBOutlet var enterOffScreen: NSLayoutConstraint!
-    
-    @IBOutlet var kratosOnScreen: NSLayoutConstraint!
-    @IBOutlet var kratosOffScreen: NSLayoutConstraint!
-    
-    @IBOutlet var partyTextField: UITextField!
-    @IBOutlet var dobTextField: UITextField!
-    @IBOutlet var addressTextField: UITextField!
-    @IBOutlet var cityTextField: UITextField!
-    @IBOutlet var zipCodeTextField: UITextField!
-    @IBOutlet var stateTextField: UITextField!
-    @IBOutlet var kratosLabel: UILabel!
-    
-    @IBOutlet var partyUnderlineView: UIView!
-    @IBOutlet var dobUnderlineView: UIView!
-    @IBOutlet var stateUnderlineView: UIView!
-    @IBOutlet var cityUnderlineView: UIView!
-    @IBOutlet var zipcodeUnderlineView: UIView!
-    @IBOutlet var addressUnderlineView: UIView!
+    public var displayType: DisplayType = .registration {
+        didSet {
+            switch displayType {
+            case .editProfile:
+                cancelDoneButton.alpha = 1
+                newPasswordTextField.animateIn()
+                oldPasswordTextField.animateIn()
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.saveEditRegisterButtonButton.setTitle("S A V E", for: .normal)
+                    self.cancelDoneButton.setTitle("C A N C E L", for: .normal)
+                    self.view.layoutIfNeeded()
 
-    var displayType: DisplayType?
+                })
+                editTextFieldArray.forEach({
+                    $0.isEditable = true
+                })
+            case .accountDetails:
+                cancelDoneButton.alpha = 1
+                newPasswordTextField.animateOut()
+                oldPasswordTextField.animateOut()
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.saveEditRegisterButtonButton.setTitle("E D I T", for: .normal)
+                    self.cancelDoneButton.setTitle("D O N E", for: .normal)
+                    self.view.layoutIfNeeded()
+                })
+                
+                editTextFieldArray.forEach({
+                    $0.isEditable = false
+                })
+            case .registration:
+                cancelDoneButton.alpha = 0
+                registrationTextFieldArray.forEach({
+                    $0.isEditable = false
+                })
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    fileprivate var registrationTextFieldArray: [KratosTextField] {
+        get {
+            return [partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField]
+        }
+    }
+    fileprivate var accountDetailsTextFieldArray: [KratosTextField] {
+        get {
+            return [partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField, phoneNumberTextField]
+        }
+    }
+    fileprivate var editTextFieldArray: [KratosTextField] {
+        get {
+            return [partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField, phoneNumberTextField, oldPasswordTextField, newPasswordTextField]
+        }
+    }
+    fileprivate var textFieldsValid: Bool {
+        var valid = true
+        var collection: [KratosTextField] {
+            switch displayType {
+            case .editProfile:
+                return editTextFieldArray
+            case .accountDetails:
+                return accountDetailsTextFieldArray
+            case .registration:
+                return registrationTextFieldArray
+            }
+        }
+        collection.forEach({
+            if !$0.isValid {
+                valid = false
+            }
+        })
+        return valid
+    }
     
     enum DisplayType {
         case editProfile
-        case submitAddress
+        case accountDetails
+        case registration
     }
+    
+    var tapView: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        enableSwipeBack()
         
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidHide(sender:)), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(sender:)),name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        
+        // set initial state for textFields
+        editTextFieldArray.forEach {
+            $0.animateOut()
+        }
+        
+        self.saveEditRegisterButtonButton.alpha = 0
+        dobTextField.delegate = self
+        partyTextField.delegate = self
+        datePicker.delegate = self
+        scrollView.delegate = self
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        beginingSetup()
+        if displayType == .registration {
+            saveEditRegisterButtonButton.titleLabel?.text = "R E G I S T E R"
+        }
+        configureTextFields()
         beginningAnimations()
         setupGestureRecognizer()
-        partyTextField.delegate = self
-        dobTextField.delegate = self
-        addressTextField.delegate = self
-        cityTextField.delegate = self
-        zipCodeTextField.delegate = self
-        stateTextField.delegate = self
-        //testData()
     }
     
-    fileprivate func beginingSetup() {
+    func configureTextFields() {
+        // pulling information from sharedDataStore if available
+        let party = Datastore.sharedDatastore.user?.party?.rawValue
+                let address = Datastore.sharedDatastore.user?.streetAddress?.street
+        let city = Datastore.sharedDatastore.user?.streetAddress?.city
+        let state = Datastore.sharedDatastore.user?.streetAddress?.state
+        var dob: String? {
+            if let date = Datastore.sharedDatastore.user?.dob {
+                return DateFormatter.presentationDateFormatter.string(from: date)
+            } else {
+                return nil
+            }
+        }
+        var zip: String? {
+            if let zip = Datastore.sharedDatastore.user?.streetAddress?.zipCode {
+                return String(zip)
+            } else {
+                return nil
+            }
+        }
+        var phone: String? {
+            if let phone = Datastore.sharedDatastore.user?.phoneNumber {
+                return String(phone)
+            } else {
+                return nil
+            }
+        }
         
-        partyTextField.alpha = 0.01
-        dobTextField.alpha = 0.01
-        addressTextField.alpha = 0.01
-        cityTextField.alpha = 0.01
-        stateTextField.alpha = 0.01
-        zipCodeTextField.alpha = 0.01
-        
-        self.kratosImageViewTop.isActive = false
-        self.kratosImageViewCentered.isActive = true
-        self.kratosImageViewSmall.isActive = false
-        self.kratosImageViewLarge.isActive = true
-        
-        self.partyTextFieldFullWidth.isActive = false
-        self.partyTextFieldNoWidth.isActive = true
-        
-        self.dobTextFieldFullWidth.isActive = false
-        self.dobTextFieldNoWidth.isActive = true
-
-        self.addressTextFieldFullWidth.isActive = false
-        self.addressTextFieldNoWidth.isActive = true
-
-        self.stateTextFieldFullWidth.isActive = false
-        self.stateTextFieldNoWidth.isActive = true
-
-        self.cityTextFieldLeadingStateTextField.isActive = false
-        self.cityTextFieldLeadingAddressTextField.isActive = true
-        self.cityTextFieldNoWidth.isActive = true
-        self.cityXAxisLeft.isActive = true
-        
-        self.zipCodeTextFieldTrailingStateTextField.isActive = false
-        self.zipCodeTextFieldTrailingAddressTextField.isActive = false
-        self.zipCodeTextFieldNoWidth.isActive = true
-        self.zipCodeXAxisRight.isActive = true
-        
-        view.layoutIfNeeded()
-    }
-    
-    fileprivate func testData() {
-        addressTextField.text = "331 Keap Street"
-        cityTextField.text = "Brooklyn"
-        stateTextField.text = "NY"
-        zipCodeTextField.text = "11211"
+        partyTextField.configureWith(validationFunction: InputValidation.validateAddress, text: party, textlabelText: "P A R T Y", expandedWidth: (view.frame.width * 0.3), secret: false, shouldPresentKeyboard: false)
+        dobTextField.configureWith(validationFunction: InputValidation.validateAddress, text: dob, textlabelText: "B I R T H  D A T E", expandedWidth: (view.frame.width * 0.3), secret: false, shouldPresentKeyboard: false)
+        addressTextField.configureWith(validationFunction: InputValidation.validateAddress, text: address, textlabelText: "A D D R E S S", expandedWidth: (view.frame.width * 0.8), secret: false)
+        cityTextField.configureWith(validationFunction: InputValidation.validateCity, text: city, textlabelText: "C I T Y", expandedWidth: (view.frame.width * 0.3), secret: false)
+        stateTextField.configureWith(validationFunction: InputValidation.validateState, text: state, textlabelText: "S T A T E", expandedWidth: (view.frame.width * 0.16), secret: false)
+        zipcodeTextField.configureWith(validationFunction: InputValidation.validateZipCode, text: zip, textlabelText: "Z I P", expandedWidth: (view.frame.width * 0.3), secret: false)
+        phoneNumberTextField.configureWith(validationFunction: InputValidation.validatePhoneNumber, text: phone, textlabelText: "P H O N E", expandedWidth: (view.frame.width * 0.8), secret: false)
+        oldPasswordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "O L D  P A S S W O R D", expandedWidth: (view.frame.width * 0.8), secret: true)
+        newPasswordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "N E W  P A S S W O R D", expandedWidth: (view.frame.width * 0.8), secret: true)
     }
     
     fileprivate func beginningAnimations() {
         
-        UIView.animate(withDuration: 1, delay: 1, options: [], animations: {
+        let delay: Double = displayType == .accountDetails ? 0 : 1
+        
+        UIView.animate(withDuration: 1, delay: delay, options: [], animations: {
             self.kratosImageViewLarge.isActive = false
             self.kratosImageViewSmall.isActive = true
             self.kratosImageViewCentered.isActive = false
@@ -144,61 +197,29 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
             self.view.layoutIfNeeded()
         }, completion: nil)
         
-        UIView.animate(withDuration: 1, delay: 3, options: [], animations: {
+        UIView.animate(withDuration: 1, delay: (delay + 1), options: [], animations: {
             
-            self.partyTextFieldNoWidth.isActive = false
-            self.partyTextFieldFullWidth.isActive = true
-            
-            self.dobTextFieldNoWidth.isActive = false
-            self.dobTextFieldFullWidth.isActive = true
-            
-            self.addressTextFieldNoWidth.isActive = false
-            self.addressTextFieldFullWidth.isActive = true
-            
-            self.stateTextFieldNoWidth.isActive = false
-            self.stateTextFieldFullWidth.isActive = true
-            
-            self.cityTextFieldNoWidth.isActive = false
-            self.cityXAxisLeft.isActive = false
-            self.cityTextFieldLeadingStateTextField.isActive = true
-            self.cityTextFieldLeadingAddressTextField.isActive = true
-            
-            self.zipCodeTextFieldNoWidth.isActive = false
-            self.zipCodeXAxisRight.isActive = false
-            self.zipCodeTextFieldTrailingStateTextField.isActive = true
-            self.zipCodeTextFieldTrailingAddressTextField.isActive = true
-            self.view.layoutIfNeeded()
-            
-            }, completion: nil)
-        
-        UIView.animate(withDuration: 0.5, delay: 4, options: [UIViewAnimationOptions.transitionCrossDissolve], animations: {
-            self.partyTextField.alpha = 1
-            self.dobTextField.alpha = 1
-            self.addressTextField.alpha = 1
-            self.cityTextField.alpha = 1
-            self.stateTextField.alpha = 1
-            self.zipCodeTextField.alpha = 1
-            self.view.layoutIfNeeded()
-            }, completion: nil)
-    }
-    
-    func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
-        view.endEditing(true)
-        if textFieldsValid() {
-            UIView.animate(withDuration: 1, animations: {
-                self.enterOffScreen.isActive = false
+            switch self.displayType {
+            case .registration:
+                self.registrationTextFieldArray.forEach({
+                    $0.animateIn()
+                })
+            case .accountDetails:
+                self.accountDetailsTextFieldArray.forEach({
+                    $0.animateIn()
+                })
                 self.kratosLabel.alpha = 0
-                self.enterOnScreen.isActive = true
-                self.view.layoutIfNeeded()
-            })
-        } else {
-            UIView.animate(withDuration: 1, animations: {
-                self.kratosLabel.alpha = 1
-                self.enterOnScreen.isActive = false
-                self.enterOffScreen.isActive = true
-                self.view.layoutIfNeeded()
-            })
-        }
+                self.saveEditRegisterButtonButton.alpha = 1
+            case .editProfile:
+                self.editTextFieldArray.forEach({
+                    $0.animateIn()
+                })
+                self.kratosLabel.alpha = 0
+                self.saveEditRegisterButtonButton.alpha = 1
+            }
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+        
     }
     
     fileprivate func setupGestureRecognizer() {
@@ -206,78 +227,196 @@ class SubmitAddressViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(tapRecognizer)
     }
     
-    @IBAction func enterButtonPressed(_ sender: AnyObject) {
+    func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
+        // Resign First Responder
+        // This will trigger UIKeyboardDidHide which will trigger validation process
+        view.endEditing(true)
+    }
+    
+    @IBAction func saveEditRegisterButtonPressed(_ sender: Any) {
+        // Updates user in the Datastore
+        func updateUser() {
+            if textFieldsValid {
+                var address = StreetAddress()
+                address.street = addressTextField.text
+                address.city = cityTextField.text
+                address.state = stateTextField.text
+                if let stringZip = zipcodeTextField.text,
+                    let zip = Int(stringZip) {
+                    address.zipCode = zip
+                }
+                if let party = partyTextField.text {
+                    Datastore.sharedDatastore.user?.party = Party(rawValue: party)
+                }
 
-        if textFieldsValid() {
-            var address = StreetAddress()
-            address.street = addressTextField.text
-            address.city = cityTextField.text
-            address.state = stateTextField.text
-            if let stringZip = zipCodeTextField.text,
-                let zip = Int(stringZip) {
-                address.zipCode = zip
-            }
-            if let repParty = partyTextField.text {
-            switch repParty {
-            case "Republican":
-                Datastore.sharedDatastore.user?.party = .republican
-            case "Democrat":
-                Datastore.sharedDatastore.user?.party = .democrat
-            case "Independent":
-                Datastore.sharedDatastore.user?.party = .independent
-            default:
-                break
-            }
-            }
-            if let dob = dobTextField.text {
-                Datastore.sharedDatastore.user?.dob = DateFormatter.presentationDateFormatter.date(from: dob)
-            }
-            Datastore.sharedDatastore.user?.streetAddress = address
-        }
-        guard let password = Datastore.sharedDatastore.user?.password else { return }
-        Datastore.sharedDatastore.register(with: password) { (success) in
-            if success {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
-            } else {
-                print("SubmitAddressViewController registerWith(\(password)) unsucessful")
+                if let dob = dobTextField.text {
+                    Datastore.sharedDatastore.user?.dob = DateFormatter.presentationDateFormatter.date(from: dob)
+                }
+                Datastore.sharedDatastore.user?.streetAddress = address
             }
         }
-    }
-    
-    func textFieldsValid() -> Bool {
-        var valid = true
-        let collection = [
-            (InputValidation.validateAddress, addressTextField.text, addressUnderlineView),
-            (InputValidation.validateCity, cityTextField.text, cityUnderlineView),
-            (InputValidation.validateState, stateTextField.text, stateUnderlineView),
-            (InputValidation.validateZipCode, zipCodeTextField.text, zipcodeUnderlineView),
-            (InputValidation.validateAddress, partyTextField.text, partyUnderlineView),
-            (InputValidation.validateAddress, dobTextField.text, dobUnderlineView)
-        ]
         
-        collection.forEach({ validation, textField, view in
-            let isValid = validation(textField)
-            animate(view, with: isValid)
-            if !isValid {
-                valid = false
+        //TODO: - need to talk about how to store this information
+        let password: String = ""
+        
+        switch displayType {
+        case .accountDetails: //switch to Edit Profile
+            displayType = .editProfile
+        case .editProfile: //save profile & switch to Account Details
+            displayType = .accountDetails
+            updateUser()
+            APIManager.register(with: password) { (success) in
+                if success {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
+                } else {
+                    print("SubmitAddressViewController registerWith(\(password)) unsucessful")
+                }
             }
+        case .registration:
+            updateUser()
+            APIManager.register(with: password) { (success) in
+                if success {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
+                } else {
+                    print("SubmitAddressViewController registerWith(\(password)) unsucessful")
+                }
+            }
+        }
+    }
+    
+    @IBAction func cancelDoneButtonPressed(_ sender: Any) {
+    
+        switch displayType {
+        case .accountDetails:
+            self.dismiss(animated: true, completion: nil)
+        default: // reset information and go back to account accountDetails
+            displayType = .accountDetails
+            
+            // pull information from Datastore's User
+            let party = Datastore.sharedDatastore.user?.party?.rawValue
+            let address = Datastore.sharedDatastore.user?.streetAddress?.street
+            let city = Datastore.sharedDatastore.user?.streetAddress?.city
+            let state = Datastore.sharedDatastore.user?.streetAddress?.state
+            var dob: String? {
+                if let date = Datastore.sharedDatastore.user?.dob {
+                    return DateFormatter.presentationDateFormatter.string(from: date)
+                } else {
+                    return nil
+                }
+            }
+            var zip: String? {
+                if let zip = Datastore.sharedDatastore.user?.streetAddress?.zipCode {
+                    return String(zip)
+                } else {
+                    return nil
+                }
+            }
+            var phone: String? {
+                if let phone = Datastore.sharedDatastore.user?.phoneNumber {
+                    return String(phone)
+                } else {
+                    return nil
+                }
+            }
+            // set all textFields back to original values
+            partyTextField.setText((party ?? ""))
+            addressTextField.setText((address ?? ""))
+            dobTextField.setText((dob ?? ""))
+            cityTextField.setText((city ?? ""))
+            zipcodeTextField.setText((zip ?? ""))
+            stateTextField.setText((state ?? ""))
+            phoneNumberTextField.setText((phone ?? ""))
+            oldPasswordTextField.setText("")
+            newPasswordTextField.setText("")
+        }
+    }
+    
+    func shouldCheckIfTextFieldsValid() {
+        if (displayType == .registration) && textFieldsValid {
+            UIView.animate(withDuration: 1, animations: {
+                self.saveEditRegisterButtonButton.alpha = 1
+                self.kratosLabel.alpha = 0
+                self.view.layoutIfNeeded()
+            })
+        } else {
+            UIView.animate(withDuration: 1, animations: {
+                self.kratosLabel.alpha = 1
+                self.saveEditRegisterButtonButton.alpha = 0
+                self.view.layoutIfNeeded()
+            })
+        }
+    }
+    
+    //MARK: Keyboard Notification Handling
+    func handleKeyboardWillShow(sender: NSNotification) {
+        let userInfo = sender.userInfo
+        let keyboardRect = userInfo?[UIKeyboardFrameBeginUserInfoKey]  as! CGRect
+        let size = keyboardRect.size
+        let contentInsets = UIEdgeInsetsMake(self.view.frame.origin.x, self.view.frame.origin.x, size.height, 0)
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+    }
+    
+    func handleKeyboardDidHide(sender: NSNotification) {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.scrollView.contentInset = UIEdgeInsets.zero
+            self.scrollView.scrollIndicatorInsets = UIEdgeInsets.zero
+            self.view.layoutIfNeeded()
         })
-        return valid
+        
+        shouldCheckIfTextFieldsValid()
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.layoutIfNeeded()
+    //MARK: KratosTextFieldDelegate Methods
+    func didSelectTextField(textField: KratosTextField) {
+        if textField == dobTextField {
+            displayDatePickerView()
+        } else if textField == partyTextField {
+            let alertVC = UIAlertController.init(title: "P A R T Y", message: "Choose your party affiliation", preferredStyle: .actionSheet)
+            alertVC.addAction(UIAlertAction(title: "D E M O C R A T", style: .destructive, handler: { (action) in
+                self.partyTextField.setText("Democrat")
+            }))
+            alertVC.addAction(UIAlertAction(title: "R E P U B L I C A N", style: .destructive, handler: { (action) in
+                self.partyTextField.setText("Republican")
+            }))
+            alertVC.addAction(UIAlertAction(title: "I N D E P E N D E N T", style: .destructive, handler: { (action) in
+                self.partyTextField.setText("Independent")
+            }))
+            present(alertVC, animated: true, completion: nil)
+        }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true 
+    //MARK: DatePickerView Delegate Method
+    func selectedDate(date: Date) {
+        dobTextField.setText(DateFormatter.presentationDateFormatter.string(from: date))
+        dismissDatePickerView()
+    }
+    //MARK: DatePicker UI Methods
+    func displayDatePickerView() {
+        tapView = UIView(frame: view.frame)
+        view.addSubview(tapView ?? UIView())
+        view.bringSubview(toFront: tapView!)
+        view.bringSubview(toFront: datePicker)
+        tapView?.backgroundColor = UIColor.black
+        tapView?.alpha = 0
+        
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
+            self.tapView?.alpha = 0.4
+            self.datePickerYConstraint.constant = 250
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
-    func animate(_ underlineView: UIView, with validation: Bool) {
-        UIView.animate(withDuration: 1, animations: {
-            underlineView.backgroundColor = validation ? UIColor.kratosBlue : UIColor.kratosRed
-            underlineView.layoutIfNeeded()
+    func dismissDatePickerView() {
+        
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
+            self.datePickerYConstraint.constant = -3
+            self.tapView?.alpha = 0
+            self.view.layoutIfNeeded()
+        }, completion: { _ in
+            self.tapView?.removeFromSuperview()
+            self.tapView = nil
         })
     }
+
 }

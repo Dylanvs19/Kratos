@@ -27,6 +27,7 @@ class RepVoteView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        customInit()
     }
     
     func customInit() {

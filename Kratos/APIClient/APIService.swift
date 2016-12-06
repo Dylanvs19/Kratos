@@ -1,5 +1,5 @@
 //
-//  APIClient.swift
+//  APIService.swift
 //  Kratos
 //
 //  Created by Dylan Straughan on 7/31/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct APIClient {
+struct APIService {
     
     static func register(_ user: User, with password: String, success: @escaping (User) -> (), failure: @escaping (NSError?) -> ()) {
         

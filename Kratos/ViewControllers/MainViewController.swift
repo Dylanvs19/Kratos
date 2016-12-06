@@ -95,7 +95,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func loadData() {
         if Datastore.sharedDatastore.representatives != nil {
-            Datastore.sharedDatastore.getVotesForRepresentatives({ (success) in
+            APIManager.getVotesForRepresentatives({ (success) in
                 if success {
                     self.representatives = Datastore.sharedDatastore.representatives!
                     self.configureRepViews()
@@ -356,7 +356,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         view.awakeFromNib()
         view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 25)
         view.configure(with: date)
-        view.contentView.backgroundColor = UIColor.lightGray
+        view.contentView.backgroundColor = UIColor.kratosLightGray
         return view
     }
     

@@ -45,7 +45,11 @@ class MenuViewController: UIViewController {
     }
     
     @IBAction func accountButtonPressed(_ sender: Any) {
-        // to edit account vc
+        let vc: SubmitAddressViewController = SubmitAddressViewController.instantiate()
+        vc.loadViewIfNeeded()
+        vc.displayType = .accountDetails
+        self.present(vc, animated: true, completion: {
+        })
     }
     
     @IBAction func votesButtonPressed(_ sender: Any) {

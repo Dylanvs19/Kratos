@@ -25,9 +25,9 @@ class MainApplicationViewController: UIViewController {
     
     func handleLoginFlow() {
         if hasToken() {
-            APIClient.fetchUser({ (user) in
+            APIService.fetchUser({ (user) in
                     Datastore.sharedDatastore.user = user
-                    Datastore.sharedDatastore.getRepresentatives({ (repSuccess) in
+                    APIManager.getRepresentatives({ (repSuccess) in
                         if repSuccess {
                             DispatchQueue.main.async(execute: {
                                 self.embedMainViewController()
@@ -48,10 +48,13 @@ class MainApplicationViewController: UIViewController {
     }
     
     func embedMainViewController() {
+        let tabVC = UITabBarController()
+        let otherVC = UIViewController()
         let navVC = UINavigationController()
         let vc: MainViewController = MainViewController.instantiate()
         navVC.setViewControllers([vc], animated: false)
-        embedViewController(navVC)
+        tabVC.setViewControllers([navVC, otherVC], animated: true)
+        embedViewController(tabVC)
     }
     
     func embedLoginViewController() {

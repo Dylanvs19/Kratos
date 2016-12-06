@@ -53,10 +53,7 @@ class BillSponsorsView: UIView, UITableViewDelegate, UITableViewDataSource {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UINib(nibName: "CoSponsorsTableViewCell", bundle: nil) , forCellReuseIdentifier: "CoSponsorsTableViewCell")
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 1.2)
-        layer.shadowOpacity = 0.3
-        layer.shadowRadius = 0.2
+        tableView.rowHeight = 30
     }
     
     func configure(with sponsor: LightRepresentative, and coSponsors: [LightRepresentative]) {
@@ -85,7 +82,6 @@ class BillSponsorsView: UIView, UITableViewDelegate, UITableViewDataSource {
         if let state = sponsor.state {
             stateImageView.image = UIImage.imageForState(state)
         }
-        
         tableViewHeightConstraint.constant = CGFloat(coSponsors.count * 30)
     }
     

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2659" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserVoteView" customModule="Kratos" customModuleProvider="target">
+            <connections>
+                <outlet property="abstainView" destination="8cN-VL-bb0" id="r9a-xX-uwh"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="YJw-8e-C0M"/>
+                <outlet property="nayView" destination="Xjc-jT-IDE" id="AOu-yB-R2X"/>
+                <outlet property="yeaView" destination="GIS-XD-uh6" id="GnB-Si-wVw"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Vote" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eAa-BS-sUU">
+                    <rect key="frame" x="150" y="5" width="76" height="22"/>
+                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LightYes" translatesAutoresizingMaskIntoConstraints="NO" id="GIS-XD-uh6">
+                    <rect key="frame" x="76" y="26" width="36" height="36"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="36" id="SWH-ps-dHH"/>
+                        <constraint firstAttribute="width" secondItem="GIS-XD-uh6" secondAttribute="height" multiplier="1:1" id="vRx-Tt-u92"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Abstain" translatesAutoresizingMaskIntoConstraints="NO" id="8cN-VL-bb0">
+                    <rect key="frame" x="169" y="26" width="36" height="36"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="8cN-VL-bb0" secondAttribute="height" multiplier="1:1" id="37a-TM-bae"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LightNo" translatesAutoresizingMaskIntoConstraints="NO" id="Xjc-jT-IDE">
+                    <rect key="frame" x="264" y="26" width="36" height="36"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="Xjc-jT-IDE" secondAttribute="height" multiplier="1:1" id="kaU-gJ-zUf"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Xjc-jT-IDE" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" multiplier="1.5" id="0ha-Aw-2ku"/>
+                <constraint firstItem="Xjc-jT-IDE" firstAttribute="width" secondItem="Xjc-jT-IDE" secondAttribute="height" multiplier="1:1" id="4VK-Cz-qXc"/>
+                <constraint firstItem="8cN-VL-bb0" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="9rD-NA-mDO"/>
+                <constraint firstItem="eAa-BS-sUU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="ITj-iJ-wmq"/>
+                <constraint firstAttribute="bottom" secondItem="GIS-XD-uh6" secondAttribute="bottom" constant="8" id="USq-M1-qA9"/>
+                <constraint firstItem="Xjc-jT-IDE" firstAttribute="height" secondItem="GIS-XD-uh6" secondAttribute="height" id="VHl-W4-fPO"/>
+                <constraint firstItem="GIS-XD-uh6" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" multiplier="0.5" id="VsG-67-VUA"/>
+                <constraint firstItem="Xjc-jT-IDE" firstAttribute="width" secondItem="Xjc-jT-IDE" secondAttribute="height" multiplier="1:1" id="c7W-Tp-q75"/>
+                <constraint firstItem="8cN-VL-bb0" firstAttribute="width" secondItem="8cN-VL-bb0" secondAttribute="height" multiplier="1:1" id="eAd-fP-Eix"/>
+                <constraint firstItem="eAa-BS-sUU" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="eV0-Y4-F0U"/>
+                <constraint firstItem="8cN-VL-bb0" firstAttribute="top" secondItem="eAa-BS-sUU" secondAttribute="bottom" constant="-0.5" id="gz5-Tv-ZQN"/>
+                <constraint firstItem="GIS-XD-uh6" firstAttribute="top" secondItem="eAa-BS-sUU" secondAttribute="bottom" constant="-0.5" id="mqL-jD-bnl"/>
+                <constraint firstItem="8cN-VL-bb0" firstAttribute="height" secondItem="GIS-XD-uh6" secondAttribute="height" id="n2x-tQ-cPd"/>
+                <constraint firstItem="Xjc-jT-IDE" firstAttribute="top" secondItem="eAa-BS-sUU" secondAttribute="bottom" constant="-0.5" id="wNo-jV-2ki"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="23.5" y="364"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Abstain" width="45" height="45"/>
+        <image name="LightNo" width="45" height="45"/>
+        <image name="LightYes" width="45" height="45"/>
+    </resources>
+</document>

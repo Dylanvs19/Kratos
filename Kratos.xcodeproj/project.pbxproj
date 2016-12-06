@@ -9,9 +9,13 @@
 /* Begin PBXBuildFile section */
 		71FC9AF49B0EB5820A301DE4 /* Pods_KratosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE4ABF9591E077E906036EA /* Pods_KratosTests.framework */; };
 		A0DD548B75376A90182B6EFF /* Pods_Kratos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EC5E845D25026904F837F7 /* Pods_Kratos.framework */; };
+		AF1AC54F1DF5A6A100DCBA13 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF1AC54E1DF5A6A100DCBA13 /* UserNotifications.framework */; };
+		AF1AC5511DF5A6A100DCBA13 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF1AC5501DF5A6A100DCBA13 /* UserNotificationsUI.framework */; };
+		AF1AC5541DF5A6A100DCBA13 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1AC5531DF5A6A100DCBA13 /* NotificationViewController.swift */; };
+		AF1AC5571DF5A6A100DCBA13 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF1AC5551DF5A6A100DCBA13 /* MainInterface.storyboard */; };
+		AF1AC55B1DF5A6A100DCBA13 /* KratoCustomNotification.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = AF1AC54D1DF5A6A100DCBA13 /* KratoCustomNotification.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		AF28197E1DF0EFF7001D5C93 /* KratosTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF28197D1DF0EFF7001D5C93 /* KratosTextField.swift */; };
 		AF2819801DF0F006001D5C93 /* KratosTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF28197F1DF0F006001D5C93 /* KratosTextField.xib */; };
-		AF2819821DF0FD92001D5C93 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2819811DF0FD92001D5C93 /* TestViewController.swift */; };
 		AF2843991D5AD4D3007B3F18 /* Contstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2843981D5AD4D3007B3F18 /* Contstants.swift */; };
 		AF28439B1D5AD686007B3F18 /* Datastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF28439A1D5AD686007B3F18 /* Datastore.swift */; };
 		AF28439D1D5ADAD9007B3F18 /* Pager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF28439C1D5ADAD9007B3F18 /* Pager.swift */; };
@@ -38,7 +42,7 @@
 		AF89749E1D4D8B2700C19020 /* Representative.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89749D1D4D8B2700C19020 /* Representative.swift */; };
 		AF8974A81D4E784E00C19020 /* VoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974A71D4E784E00C19020 /* VoteTableViewCell.swift */; };
 		AF8974AA1D4E786E00C19020 /* VoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF8974A91D4E786E00C19020 /* VoteTableViewCell.xib */; };
-		AF8974AD1D4E969000C19020 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974AC1D4E969000C19020 /* APIClient.swift */; };
+		AF8974AD1D4E969000C19020 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974AC1D4E969000C19020 /* APIService.swift */; };
 		AF8974AF1D4E98C700C19020 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974AE1D4E98C700C19020 /* User.swift */; };
 		AF8974B21D4E999C00C19020 /* InputValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B11D4E999C00C19020 /* InputValidation.swift */; };
 		AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B31D4EB71800C19020 /* UIViewController+Extensions.swift */; };
@@ -68,6 +72,12 @@
 		AFD5AA9B1D9C618800A5714C /* NSMutableURLRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5AA9A1D9C618800A5714C /* NSMutableURLRequest+Extension.swift */; };
 		AFD5AA9E1DAF4A3A00A5714C /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5AA9D1DAF4A3A00A5714C /* KeychainManager.swift */; };
 		AFD82F921D88FBFA00AEB559 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */; };
+		AFE47F4B1DF344D500008CCB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE47F4A1DF344D500008CCB /* APIManager.swift */; };
+		AFE47F4D1DF34F1C00008CCB /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE47F4C1DF34F1C00008CCB /* DatePickerView.swift */; };
+		AFE47F4F1DF34F2900008CCB /* DatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFE47F4E1DF34F2900008CCB /* DatePickerView.xib */; };
+		AFE47F511DF4DC9100008CCB /* LoadMoreSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE47F501DF4DC9100008CCB /* LoadMoreSpinnerView.swift */; };
+		AFE47F531DF4E9D900008CCB /* UserVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE47F521DF4E9D900008CCB /* UserVoteView.swift */; };
+		AFE47F551DF4E9E700008CCB /* UserVoteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFE47F541DF4E9E700008CCB /* UserVoteView.xib */; };
 		AFF748101DC97FF500F519AE /* RepContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF7480F1DC97FF500F519AE /* RepContactView.swift */; };
 		AFF748121DC9800100F519AE /* RepContactView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF748111DC9800100F519AE /* RepContactView.xib */; };
 		AFF748171DCFF2F100F519AE /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF748161DCFF2F100F519AE /* PieChartView.swift */; };
@@ -78,6 +88,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		AF1AC5591DF5A6A100DCBA13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF8974531D4D80E500C19020 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF1AC54C1DF5A6A100DCBA13;
+			remoteInfo = KratoCustomNotification;
+		};
 		AF8974701D4D80E500C19020 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AF8974531D4D80E500C19020 /* Project object */;
@@ -94,6 +111,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		AF1AC55F1DF5A6A100DCBA13 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AF1AC55B1DF5A6A100DCBA13 /* KratoCustomNotification.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0B3106BBC49F4921A587E0B9 /* Pods_KratosUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KratosUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BFF11366D212637D2B6765E /* Pods-KratosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KratosTests/Pods-KratosTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -101,9 +132,14 @@
 		76680437267A207995EC63FD /* Pods-KratosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KratosUITests/Pods-KratosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		86EC5E845D25026904F837F7 /* Pods_Kratos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kratos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E2C0D1F0BFAA77B0FD2EA1F /* Pods-Kratos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.debug.xcconfig"; sourceTree = "<group>"; };
+		AF1AC54D1DF5A6A100DCBA13 /* KratoCustomNotification.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = KratoCustomNotification.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF1AC54E1DF5A6A100DCBA13 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		AF1AC5501DF5A6A100DCBA13 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		AF1AC5531DF5A6A100DCBA13 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		AF1AC5561DF5A6A100DCBA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		AF1AC5581DF5A6A100DCBA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF28197D1DF0EFF7001D5C93 /* KratosTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosTextField.swift; sourceTree = "<group>"; };
 		AF28197F1DF0F006001D5C93 /* KratosTextField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KratosTextField.xib; sourceTree = "<group>"; };
-		AF2819811DF0FD92001D5C93 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		AF2843981D5AD4D3007B3F18 /* Contstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contstants.swift; sourceTree = "<group>"; };
 		AF28439A1D5AD686007B3F18 /* Datastore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Datastore.swift; sourceTree = "<group>"; };
 		AF28439C1D5ADAD9007B3F18 /* Pager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pager.swift; sourceTree = "<group>"; };
@@ -137,7 +173,7 @@
 		AF89749D1D4D8B2700C19020 /* Representative.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Representative.swift; sourceTree = "<group>"; };
 		AF8974A71D4E784E00C19020 /* VoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteTableViewCell.swift; sourceTree = "<group>"; };
 		AF8974A91D4E786E00C19020 /* VoteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteTableViewCell.xib; sourceTree = "<group>"; };
-		AF8974AC1D4E969000C19020 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		AF8974AC1D4E969000C19020 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		AF8974AE1D4E98C700C19020 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AF8974B11D4E999C00C19020 /* InputValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValidation.swift; sourceTree = "<group>"; };
 		AF8974B31D4EB71800C19020 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
@@ -167,6 +203,12 @@
 		AFD5AA9D1DAF4A3A00A5714C /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kratos.entitlements; sourceTree = "<group>"; };
 		AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		AFE47F4A1DF344D500008CCB /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		AFE47F4C1DF34F1C00008CCB /* DatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
+		AFE47F4E1DF34F2900008CCB /* DatePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerView.xib; sourceTree = "<group>"; };
+		AFE47F501DF4DC9100008CCB /* LoadMoreSpinnerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadMoreSpinnerView.swift; sourceTree = "<group>"; };
+		AFE47F521DF4E9D900008CCB /* UserVoteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserVoteView.swift; sourceTree = "<group>"; };
+		AFE47F541DF4E9E700008CCB /* UserVoteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserVoteView.xib; sourceTree = "<group>"; };
 		AFF7480F1DC97FF500F519AE /* RepContactView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepContactView.swift; sourceTree = "<group>"; };
 		AFF748111DC9800100F519AE /* RepContactView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepContactView.xib; sourceTree = "<group>"; };
 		AFF748161DCFF2F100F519AE /* PieChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
@@ -179,6 +221,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AF1AC54A1DF5A6A100DCBA13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF1AC5511DF5A6A100DCBA13 /* UserNotificationsUI.framework in Frameworks */,
+				AF1AC54F1DF5A6A100DCBA13 /* UserNotifications.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AF8974581D4D80E500C19020 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -219,11 +270,24 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		AF1AC5521DF5A6A100DCBA13 /* KratoCustomNotification */ = {
+			isa = PBXGroup;
+			children = (
+				AF1AC5531DF5A6A100DCBA13 /* NotificationViewController.swift */,
+				AF1AC5551DF5A6A100DCBA13 /* MainInterface.storyboard */,
+				AF1AC5581DF5A6A100DCBA13 /* Info.plist */,
+			);
+			path = KratoCustomNotification;
+			sourceTree = "<group>";
+		};
 		AF28197A1DF0EFA0001D5C93 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
 				AF28197D1DF0EFF7001D5C93 /* KratosTextField.swift */,
 				AF28197F1DF0F006001D5C93 /* KratosTextField.xib */,
+				AFE47F4C1DF34F1C00008CCB /* DatePickerView.swift */,
+				AFE47F4E1DF34F2900008CCB /* DatePickerView.xib */,
+				AFE47F501DF4DC9100008CCB /* LoadMoreSpinnerView.swift */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -243,6 +307,7 @@
 				AF89745D1D4D80E500C19020 /* Kratos */,
 				AF8974721D4D80E500C19020 /* KratosTests */,
 				AF89747D1D4D80E500C19020 /* KratosUITests */,
+				AF1AC5521DF5A6A100DCBA13 /* KratoCustomNotification */,
 				AF89745C1D4D80E500C19020 /* Products */,
 				9BDD09C5B80C45181E127B0C /* Pods */,
 				B7ADC5350DE4F250004F089B /* Frameworks */,
@@ -255,6 +320,7 @@
 				AF89745B1D4D80E500C19020 /* Kratos.app */,
 				AF89746F1D4D80E500C19020 /* KratosTests.xctest */,
 				AF89747A1D4D80E500C19020 /* KratosUITests.xctest */,
+				AF1AC54D1DF5A6A100DCBA13 /* KratoCustomNotification.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -329,7 +395,6 @@
 		AF8974901D4D862B00C19020 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				AF2819811DF0FD92001D5C93 /* TestViewController.swift */,
 				AF8974601D4D80E500C19020 /* MainApplicationViewController.swift */,
 				AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */,
 				AF8974931D4D887100C19020 /* SubmitAddressViewController.swift */,
@@ -367,7 +432,8 @@
 		AF8974AB1D4E965600C19020 /* APIClient */ = {
 			isa = PBXGroup;
 			children = (
-				AF8974AC1D4E969000C19020 /* APIClient.swift */,
+				AF8974AC1D4E969000C19020 /* APIService.swift */,
+				AFE47F4A1DF344D500008CCB /* APIManager.swift */,
 			);
 			path = APIClient;
 			sourceTree = "<group>";
@@ -393,6 +459,8 @@
 				AFB5CCAB1DE0B6FF006E51A2 /* RelatedBillView.xib */,
 				AFB5CCAF1DE0B725006E51A2 /* VoteDetailsView.swift */,
 				AFB5CCAD1DE0B716006E51A2 /* VoteDetailsView.xib */,
+				AFE47F521DF4E9D900008CCB /* UserVoteView.swift */,
+				AFE47F541DF4E9E700008CCB /* UserVoteView.xib */,
 			);
 			name = VoteViews;
 			sourceTree = "<group>";
@@ -466,6 +534,8 @@
 				86EC5E845D25026904F837F7 /* Pods_Kratos.framework */,
 				6BE4ABF9591E077E906036EA /* Pods_KratosTests.framework */,
 				0B3106BBC49F4921A587E0B9 /* Pods_KratosUITests.framework */,
+				AF1AC54E1DF5A6A100DCBA13 /* UserNotifications.framework */,
+				AF1AC5501DF5A6A100DCBA13 /* UserNotificationsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -473,6 +543,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AF1AC54C1DF5A6A100DCBA13 /* KratoCustomNotification */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF1AC55E1DF5A6A100DCBA13 /* Build configuration list for PBXNativeTarget "KratoCustomNotification" */;
+			buildPhases = (
+				AF1AC5491DF5A6A100DCBA13 /* Sources */,
+				AF1AC54A1DF5A6A100DCBA13 /* Frameworks */,
+				AF1AC54B1DF5A6A100DCBA13 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KratoCustomNotification;
+			productName = KratoCustomNotification;
+			productReference = AF1AC54D1DF5A6A100DCBA13 /* KratoCustomNotification.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		AF89745A1D4D80E500C19020 /* Kratos */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AF8974831D4D80E500C19020 /* Build configuration list for PBXNativeTarget "Kratos" */;
@@ -483,10 +570,12 @@
 				AF8974591D4D80E500C19020 /* Resources */,
 				D349B98149137EB81C7BD1E8 /* [CP] Embed Pods Frameworks */,
 				C5AB08A7A7C5752E17B8258B /* [CP] Copy Pods Resources */,
+				AF1AC55F1DF5A6A100DCBA13 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AF1AC55A1DF5A6A100DCBA13 /* PBXTargetDependency */,
 			);
 			name = Kratos;
 			productName = Kratos;
@@ -540,14 +629,20 @@
 		AF8974531D4D80E500C19020 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0730;
+				LastSwiftUpdateCheck = 0810;
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Dylan Straughan";
 				TargetAttributes = {
+					AF1AC54C1DF5A6A100DCBA13 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = R2XL2EPM9B;
+						ProvisioningStyle = Automatic;
+					};
 					AF89745A1D4D80E500C19020 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = R2XL2EPM9B;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 1;
@@ -582,11 +677,20 @@
 				AF89745A1D4D80E500C19020 /* Kratos */,
 				AF89746E1D4D80E500C19020 /* KratosTests */,
 				AF8974791D4D80E500C19020 /* KratosUITests */,
+				AF1AC54C1DF5A6A100DCBA13 /* KratoCustomNotification */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AF1AC54B1DF5A6A100DCBA13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF1AC5571DF5A6A100DCBA13 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AF8974591D4D80E500C19020 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -600,11 +704,13 @@
 				AFF748121DC9800100F519AE /* RepContactView.xib in Resources */,
 				AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */,
 				AFB5CCBC1DE0B83F006E51A2 /* BillSponsorsView.xib in Resources */,
+				AFE47F551DF4E9E700008CCB /* UserVoteView.xib in Resources */,
 				AFB5CCB61DE0B812006E51A2 /* BillCommitteesView.xib in Resources */,
 				AFB5CCA61DE0B6CF006E51A2 /* RepVoteView.xib in Resources */,
 				AF2B8C6E1D62D22600C31FA9 /* RepresentativeView.xib in Resources */,
 				AFB5CCAE1DE0B716006E51A2 /* VoteDetailsView.xib in Resources */,
 				AFF7481D1DD0203B00F519AE /* PieChartView.xib in Resources */,
+				AFE47F4F1DF34F2900008CCB /* DatePickerView.xib in Resources */,
 				AF3C2FF21DD3570600353638 /* VoteDateHeaderView.xib in Resources */,
 				AF9F04931DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib in Resources */,
 				AF8974AA1D4E786E00C19020 /* VoteTableViewCell.xib in Resources */,
@@ -752,6 +858,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AF1AC5491DF5A6A100DCBA13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF1AC5541DF5A6A100DCBA13 /* NotificationViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AF8974571D4D80E500C19020 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -762,6 +876,7 @@
 				AF9F04921DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift in Sources */,
 				AF8974B21D4E999C00C19020 /* InputValidation.swift in Sources */,
 				AF8974941D4D887100C19020 /* SubmitAddressViewController.swift in Sources */,
+				AFE47F511DF4DC9100008CCB /* LoadMoreSpinnerView.swift in Sources */,
 				AFB5CCB21DE0B7F5006E51A2 /* BillHeaderView.swift in Sources */,
 				AF8974611D4D80E500C19020 /* MainApplicationViewController.swift in Sources */,
 				AFB5CCBA1DE0B834006E51A2 /* BillSponsorsView.swift in Sources */,
@@ -776,14 +891,16 @@
 				AF28197E1DF0EFF7001D5C93 /* KratosTextField.swift in Sources */,
 				AF57931A1D6D4C0000D86B73 /* NSDateFormatter+Extensions.swift in Sources */,
 				AFF7481B1DD0081D00F519AE /* PieChartData.swift in Sources */,
+				AFE47F531DF4E9D900008CCB /* UserVoteView.swift in Sources */,
+				AFE47F4B1DF344D500008CCB /* APIManager.swift in Sources */,
 				AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */,
 				AFF748171DCFF2F100F519AE /* PieChartView.swift in Sources */,
 				AF8974AF1D4E98C700C19020 /* User.swift in Sources */,
 				AFD5AA9E1DAF4A3A00A5714C /* KeychainManager.swift in Sources */,
 				AF3DBCE91DD0C34B006B146F /* Array+Extensions.swift in Sources */,
-				AF2819821DF0FD92001D5C93 /* TestViewController.swift in Sources */,
 				AF89749C1D4D8ADC00C19020 /* Vote.swift in Sources */,
 				AFB5CCAA1DE0B6ED006E51A2 /* RelatedBillView.swift in Sources */,
+				AFE47F4D1DF34F1C00008CCB /* DatePickerView.swift in Sources */,
 				AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */,
 				AF5793181D6D440400D86B73 /* Bill.swift in Sources */,
 				AF28439B1D5AD686007B3F18 /* Datastore.swift in Sources */,
@@ -798,7 +915,7 @@
 				AF8974A81D4E784E00C19020 /* VoteTableViewCell.swift in Sources */,
 				AF2B8C6C1D62D21300C31FA9 /* RepresentativeView.swift in Sources */,
 				AFF748101DC97FF500F519AE /* RepContactView.swift in Sources */,
-				AF8974AD1D4E969000C19020 /* APIClient.swift in Sources */,
+				AF8974AD1D4E969000C19020 /* APIService.swift in Sources */,
 				AFD5AA9B1D9C618800A5714C /* NSMutableURLRequest+Extension.swift in Sources */,
 				AFB5CCA81DE0B6DD006E51A2 /* RepVoteView.swift in Sources */,
 			);
@@ -823,6 +940,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		AF1AC55A1DF5A6A100DCBA13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF1AC54C1DF5A6A100DCBA13 /* KratoCustomNotification */;
+			targetProxy = AF1AC5591DF5A6A100DCBA13 /* PBXContainerItemProxy */;
+		};
 		AF8974711D4D80E500C19020 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AF89745A1D4D80E500C19020 /* Kratos */;
@@ -836,6 +958,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		AF1AC5551DF5A6A100DCBA13 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AF1AC5561DF5A6A100DCBA13 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		AF8974621D4D80E500C19020 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -855,6 +985,39 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		AF1AC55C1DF5A6A100DCBA13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				DEVELOPMENT_TEAM = R2XL2EPM9B;
+				INFOPLIST_FILE = KratoCustomNotification/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tekratos.kratos.KratoCustomNotification;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		AF1AC55D1DF5A6A100DCBA13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				DEVELOPMENT_TEAM = R2XL2EPM9B;
+				INFOPLIST_FILE = KratoCustomNotification/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tekratos.kratos.KratoCustomNotification;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		AF8974811D4D80E500C19020 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -957,9 +1120,12 @@
 				DEVELOPMENT_TEAM = R2XL2EPM9B;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = Kratos/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Volcan.Kratos;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tekratos.kratos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "de3d0162-0075-4f23-9a35-b110bf786e5a";
+				PROVISIONING_PROFILE_SPECIFIER = KratosDevProvisioningProfile;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -971,12 +1137,16 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Kratos/Kratos.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = R2XL2EPM9B;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = Kratos/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Volcan.Kratos;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tekratos.kratos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c692e893-d970-4939-b7cf-5942d028be14";
+				PROVISIONING_PROFILE_SPECIFIER = KratosDistributionProvisioningProfile;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -1038,6 +1208,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AF1AC55E1DF5A6A100DCBA13 /* Build configuration list for PBXNativeTarget "KratoCustomNotification" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF1AC55C1DF5A6A100DCBA13 /* Debug */,
+				AF1AC55D1DF5A6A100DCBA13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		AF8974561D4D80E500C19020 /* Build configuration list for PBXProject "Kratos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

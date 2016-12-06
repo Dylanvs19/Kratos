@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable class PieChartView: UIView {
+class PieChartView: UIView {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet var forLabel: UILabel!
