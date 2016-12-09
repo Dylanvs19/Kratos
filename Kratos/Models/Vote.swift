@@ -33,7 +33,7 @@ struct Vote {
     var title: String?
     var sourceLink: String?
     
-    enum Category: String {
+    enum Category: String, RawRepresentable {
         case amendment = "Amendment"
         case conviction = "Conviction"
         case veto_override = "Veto Override"
@@ -110,4 +110,9 @@ struct Vote {
             }
         }
     }
+}
+
+struct UserVote {
+    var billId: String?
+    var vote: VoteType?
 }

@@ -194,7 +194,7 @@ DataSource.Data == Delegate.Data {
     
     // MARK: Private
     /// Pointer to memory location for ScrollView contentOffset used with KVO
-    private var kvoScrollViewDidScrollContext: UInt8 = 1
+    private var kvoScrollViewDidScrollContext: UnsafeMutableRawPointer?
     /// The collectionView or tableView displaying paging data.
     var scrollView: UIScrollView? {
         let scrollView = view?.scrollView

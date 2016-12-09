@@ -18,6 +18,7 @@ struct User {
     var token: String?
     var dob: Date?
     var party: Party?
+    var userVotes: [UserVote]?
     
     init() {
         

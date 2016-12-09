@@ -8,9 +8,10 @@
 
 import UIKit
 
-class RelatedBillView: UIView {
+class ButtonView: UIView {
     
     @IBOutlet var contentView: UIView!
+    @IBOutlet weak var label: UILabel!
     
     var actionBlock: (() -> Void)?
     
@@ -29,7 +30,7 @@ class RelatedBillView: UIView {
     }
     
     func customInit() {
-        Bundle.main.loadNibNamed("RelatedBillView", owner: self, options: nil)
+        Bundle.main.loadNibNamed("ButtonView", owner: self, options: nil)
         addSubview(contentView)
         contentView.frame = bounds
         translatesAutoresizingMaskIntoConstraints = false
@@ -37,7 +38,8 @@ class RelatedBillView: UIView {
         setupGestureRecognizer()
     }
     
-    func configure(with actionBlock: @escaping (() -> Void)) {
+    func configure(with title: String, actionBlock: @escaping (() -> Void)) {
+        self.label.text = title
         self.actionBlock = actionBlock
     }
     

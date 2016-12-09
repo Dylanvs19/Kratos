@@ -36,9 +36,9 @@ struct APIService {
                                 success(user)
                             })
                         }
-                     //   if let httpResponse = response as? HTTPURLResponse {
-                     //       debugPrint("status code: \(httpResponse.statusCode)")
-                     //   }
+                        if let httpResponse = response as? HTTPURLResponse {
+                            debugPrint("status code: \(httpResponse.statusCode)")
+                        }
                     } catch let error as NSError {
                         failure(error)
                     }

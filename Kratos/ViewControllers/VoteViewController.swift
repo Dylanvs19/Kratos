@@ -36,10 +36,11 @@ class VoteViewController: UIViewController {
             view.configure(with: representative, and: vote)
             stackView.addArrangedSubview(view)
         }
-        
-        let relatedBillView = RelatedBillView()
-        relatedBillView.configure(with: relatedBillButtonPressed)
-        stackView.addArrangedSubview(relatedBillView)
+        if let _ = vote.relatedBill  {
+            let relatedBillView = ButtonView()
+            relatedBillView.configure(with: "Related Bill", actionBlock: relatedBillButtonPressed)
+            stackView.addArrangedSubview(relatedBillView)
+        }
         
         let userVoteView = UserVoteView()
         userVoteView.configure(with: .abstain)

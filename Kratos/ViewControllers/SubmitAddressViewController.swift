@@ -65,8 +65,9 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                 })
             case .registration:
                 cancelDoneButton.alpha = 0
+                self.saveEditRegisterButtonButton.setTitle("R E G I S T E R", for: .normal)
                 registrationTextFieldArray.forEach({
-                    $0.isEditable = false
+                    $0.isEditable = true
                 })
                 self.view.layoutIfNeeded()
             }
@@ -138,9 +139,6 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if displayType == .registration {
-            saveEditRegisterButtonButton.titleLabel?.text = "R E G I S T E R"
-        }
         configureTextFields()
         beginningAnimations()
         setupGestureRecognizer()
@@ -257,7 +255,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
         }
         
         //TODO: - need to talk about how to store this information
-        let password: String = ""
+        let password = Datastore.sharedDatastore.user?.password ?? ""
         
         switch displayType {
         case .accountDetails: //switch to Edit Profile

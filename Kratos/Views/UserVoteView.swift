@@ -12,32 +12,28 @@ class UserVoteView: UIView {
     
     @IBOutlet var contentView: UIView!
     
-    @IBOutlet weak var yeaView: UIImageView!
-    @IBOutlet weak var abstainView: UIImageView!
-    @IBOutlet weak var nayView: UIImageView!
+    @IBOutlet weak var yeaView: UIView!
+    @IBOutlet weak var nayView: UIView!
     
     var userVote: VoteType = .abstain {
         didSet {
             switch userVote {
             case .abstain:
                 UIView.animate(withDuration: 0.25, animations: { 
-                    self.yeaView.image = #imageLiteral(resourceName: "LightYes")
-                    self.nayView.image = #imageLiteral(resourceName: "LightNo")
-                    self.abstainView.image = #imageLiteral(resourceName: "Abstain")
+                    self.yeaView.alpha = 0.5
+                    self.nayView.alpha = 0.5
                     self.layoutIfNeeded()
                 })
             case .yea:
                 UIView.animate(withDuration: 0.25, animations: {
-                    self.yeaView.image = #imageLiteral(resourceName: "Yes")
-                    self.nayView.image = #imageLiteral(resourceName: "LightNo")
-                    self.abstainView.image = #imageLiteral(resourceName: "LightAbstain")
+                    self.yeaView.alpha = 1
+                    self.nayView.alpha = 0.5
                     self.layoutIfNeeded()
                 })
             case .nay:
                 UIView.animate(withDuration: 0.25, animations: {
-                    self.yeaView.image = #imageLiteral(resourceName: "LightYes")
-                    self.nayView.image = #imageLiteral(resourceName: "No")
-                    self.abstainView.image = #imageLiteral(resourceName: "LightAbstain")
+                    self.yeaView.alpha = 0.5
+                    self.nayView.alpha = 1
                     self.layoutIfNeeded()
                 })
             }
@@ -75,26 +71,19 @@ class UserVoteView: UIView {
     
     func setupGestureRecognizers() {
         yeaView.isUserInteractionEnabled = true
-        abstainView.isUserInteractionEnabled = true
         nayView.isUserInteractionEnabled = true
         let yeaTap = UITapGestureRecognizer(target: self, action: #selector(yeaTapped))
-        let abstainTap = UITapGestureRecognizer(target: self, action: #selector(abstainTapped))
         let nayTap = UITapGestureRecognizer(target: self, action: #selector(nayTapped))
         yeaView.addGestureRecognizer(yeaTap)
-        abstainView.addGestureRecognizer(abstainTap)
         nayView.addGestureRecognizer(nayTap)
     }
     
     func yeaTapped() {
-        userVote = .yea
-    }
-    
-    func abstainTapped() {
-        userVote = .abstain
+        userVote = userVote == .yea ? .abstain : .yea
     }
     
     func nayTapped() {
-        userVote = .nay
+        userVote = userVote == .nay ? .abstain : .nay
     }
     
 }

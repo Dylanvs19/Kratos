@@ -22,6 +22,12 @@
 		AF2B8C6C1D62D21300C31FA9 /* RepresentativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B8C6B1D62D21300C31FA9 /* RepresentativeView.swift */; };
 		AF2B8C6E1D62D22600C31FA9 /* RepresentativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2B8C6D1D62D22600C31FA9 /* RepresentativeView.xib */; };
 		AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2D3D051D5D85EF006B75D1 /* UIImage+Extension.swift */; };
+		AF3912F61DF84D2A00123B5C /* KratosTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3912F41DF84D2A00123B5C /* KratosTabBarController.swift */; };
+		AF3912F91DF84DE900123B5C /* KratosTabBarController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3912F81DF84DE900123B5C /* KratosTabBarController.xib */; };
+		AF3913081DFA36F000123B5C /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3913071DFA36F000123B5C /* KeychainManager.swift */; };
+		AF39130A1DFA56E500123B5C /* YourVotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3913091DFA56E500123B5C /* YourVotesViewController.swift */; };
+		AF39130E1DFA577400123B5C /* YourVoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF39130C1DFA577400123B5C /* YourVoteTableViewCell.swift */; };
+		AF39130F1DFA577400123B5C /* YourVoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF39130D1DFA577400123B5C /* YourVoteTableViewCell.xib */; };
 		AF3C2FF21DD3570600353638 /* VoteDateHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3C2FF11DD3570600353638 /* VoteDateHeaderView.xib */; };
 		AF3C2FF41DD35C5500353638 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3C2FF31DD35C5500353638 /* Date+Extensions.swift */; };
 		AF3DBCE91DD0C34B006B146F /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3DBCE81DD0C34B006B146F /* Array+Extensions.swift */; };
@@ -58,8 +64,8 @@
 		AFB5CCA41DE0B5BB006E51A2 /* VoteHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCA31DE0B5BB006E51A2 /* VoteHeaderView.xib */; };
 		AFB5CCA61DE0B6CF006E51A2 /* RepVoteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCA51DE0B6CF006E51A2 /* RepVoteView.xib */; };
 		AFB5CCA81DE0B6DD006E51A2 /* RepVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCA71DE0B6DD006E51A2 /* RepVoteView.swift */; };
-		AFB5CCAA1DE0B6ED006E51A2 /* RelatedBillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCA91DE0B6ED006E51A2 /* RelatedBillView.swift */; };
-		AFB5CCAC1DE0B6FF006E51A2 /* RelatedBillView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCAB1DE0B6FF006E51A2 /* RelatedBillView.xib */; };
+		AFB5CCAA1DE0B6ED006E51A2 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCA91DE0B6ED006E51A2 /* ButtonView.swift */; };
+		AFB5CCAC1DE0B6FF006E51A2 /* ButtonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCAB1DE0B6FF006E51A2 /* ButtonView.xib */; };
 		AFB5CCAE1DE0B716006E51A2 /* VoteDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCAD1DE0B716006E51A2 /* VoteDetailsView.xib */; };
 		AFB5CCB01DE0B725006E51A2 /* VoteDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCAF1DE0B725006E51A2 /* VoteDetailsView.swift */; };
 		AFB5CCB21DE0B7F5006E51A2 /* BillHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCB11DE0B7F5006E51A2 /* BillHeaderView.swift */; };
@@ -70,7 +76,6 @@
 		AFB5CCBC1DE0B83F006E51A2 /* BillSponsorsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCBB1DE0B83F006E51A2 /* BillSponsorsView.xib */; };
 		AFD5AA971D9C3D0C00A5714C /* KratosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974731D4D80E500C19020 /* KratosTests.swift */; };
 		AFD5AA9B1D9C618800A5714C /* NSMutableURLRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5AA9A1D9C618800A5714C /* NSMutableURLRequest+Extension.swift */; };
-		AFD5AA9E1DAF4A3A00A5714C /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5AA9D1DAF4A3A00A5714C /* KeychainManager.swift */; };
 		AFD82F921D88FBFA00AEB559 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */; };
 		AFE47F4B1DF344D500008CCB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE47F4A1DF344D500008CCB /* APIManager.swift */; };
 		AFE47F4D1DF34F1C00008CCB /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE47F4C1DF34F1C00008CCB /* DatePickerView.swift */; };
@@ -146,6 +151,12 @@
 		AF2B8C6B1D62D21300C31FA9 /* RepresentativeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RepresentativeView.swift; path = TableViewCells/RepresentativeView.swift; sourceTree = "<group>"; };
 		AF2B8C6D1D62D22600C31FA9 /* RepresentativeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RepresentativeView.xib; path = TableViewCells/RepresentativeView.xib; sourceTree = "<group>"; };
 		AF2D3D051D5D85EF006B75D1 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		AF3912F41DF84D2A00123B5C /* KratosTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KratosTabBarController.swift; path = Navigation/KratosTabBarController.swift; sourceTree = "<group>"; };
+		AF3912F81DF84DE900123B5C /* KratosTabBarController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KratosTabBarController.xib; path = Navigation/KratosTabBarController.xib; sourceTree = "<group>"; };
+		AF3913071DFA36F000123B5C /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		AF3913091DFA56E500123B5C /* YourVotesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourVotesViewController.swift; sourceTree = "<group>"; };
+		AF39130C1DFA577400123B5C /* YourVoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourVoteTableViewCell.swift; sourceTree = "<group>"; };
+		AF39130D1DFA577400123B5C /* YourVoteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YourVoteTableViewCell.xib; sourceTree = "<group>"; };
 		AF3C2FF11DD3570600353638 /* VoteDateHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteDateHeaderView.xib; sourceTree = "<group>"; };
 		AF3C2FF31DD35C5500353638 /* Date+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		AF3DBCE81DD0C34B006B146F /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
@@ -189,8 +200,8 @@
 		AFB5CCA31DE0B5BB006E51A2 /* VoteHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteHeaderView.xib; sourceTree = "<group>"; };
 		AFB5CCA51DE0B6CF006E51A2 /* RepVoteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepVoteView.xib; sourceTree = "<group>"; };
 		AFB5CCA71DE0B6DD006E51A2 /* RepVoteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepVoteView.swift; sourceTree = "<group>"; };
-		AFB5CCA91DE0B6ED006E51A2 /* RelatedBillView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatedBillView.swift; sourceTree = "<group>"; };
-		AFB5CCAB1DE0B6FF006E51A2 /* RelatedBillView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RelatedBillView.xib; sourceTree = "<group>"; };
+		AFB5CCA91DE0B6ED006E51A2 /* ButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		AFB5CCAB1DE0B6FF006E51A2 /* ButtonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ButtonView.xib; sourceTree = "<group>"; };
 		AFB5CCAD1DE0B716006E51A2 /* VoteDetailsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteDetailsView.xib; sourceTree = "<group>"; };
 		AFB5CCAF1DE0B725006E51A2 /* VoteDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteDetailsView.swift; sourceTree = "<group>"; };
 		AFB5CCB11DE0B7F5006E51A2 /* BillHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillHeaderView.swift; sourceTree = "<group>"; };
@@ -200,7 +211,6 @@
 		AFB5CCB91DE0B834006E51A2 /* BillSponsorsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillSponsorsView.swift; sourceTree = "<group>"; };
 		AFB5CCBB1DE0B83F006E51A2 /* BillSponsorsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillSponsorsView.xib; sourceTree = "<group>"; };
 		AFD5AA9A1D9C618800A5714C /* NSMutableURLRequest+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+Extension.swift"; sourceTree = "<group>"; };
-		AFD5AA9D1DAF4A3A00A5714C /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kratos.entitlements; sourceTree = "<group>"; };
 		AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AFE47F4A1DF344D500008CCB /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
@@ -292,6 +302,32 @@
 			name = Misc;
 			sourceTree = "<group>";
 		};
+		AF3912F31DF84CCA00123B5C /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				AF3912F41DF84D2A00123B5C /* KratosTabBarController.swift */,
+				AF3912F81DF84DE900123B5C /* KratosTabBarController.xib */,
+			);
+			name = Navigation;
+			sourceTree = "<group>";
+		};
+		AF3913061DFA36F000123B5C /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				AF3913071DFA36F000123B5C /* KeychainManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		AF39130B1DFA574800123B5C /* YourVoteViews */ = {
+			isa = PBXGroup;
+			children = (
+				AF39130C1DFA577400123B5C /* YourVoteTableViewCell.swift */,
+				AF39130D1DFA577400123B5C /* YourVoteTableViewCell.xib */,
+			);
+			name = YourVoteViews;
+			sourceTree = "<group>";
+		};
 		AF3DBCEA1DD21BFB006B146F /* HeaderViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -328,12 +364,13 @@
 		AF89745D1D4D80E500C19020 /* Kratos */ = {
 			isa = PBXGroup;
 			children = (
+				AF3913061DFA36F000123B5C /* Managers */,
 				AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */,
 				AF89745E1D4D80E500C19020 /* AppDelegate.swift */,
 				AF28439A1D5AD686007B3F18 /* Datastore.swift */,
 				AF8974621D4D80E500C19020 /* Main.storyboard */,
+				AF3912F31DF84CCA00123B5C /* Navigation */,
 				AF8974AB1D4E965600C19020 /* APIClient */,
-				AFD5AA9C1DAF4A1F00A5714C /* Managers */,
 				AF8974B01D4E997D00C19020 /* Utilites */,
 				AF89748E1D4D862B00C19020 /* Extensions */,
 				AF89748F1D4D862B00C19020 /* Models */,
@@ -402,6 +439,7 @@
 				AF6C29101DB9B94E004AA104 /* VoteViewController.swift */,
 				AF8974991D4D88F600C19020 /* BillViewController.swift */,
 				AFAC56E91DDB3E5A007C1629 /* MenuViewController.swift */,
+				AF3913091DFA56E500123B5C /* YourVotesViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -415,6 +453,7 @@
 				AFF748131DCFF27300F519AE /* PieChart */,
 				AFB5CC9F1DE0B4F3006E51A2 /* BillViews */,
 				AFB5CC9E1DE0B4E4006E51A2 /* VoteViews */,
+				AF39130B1DFA574800123B5C /* YourVoteViews */,
 				AF8974921D4D862B00C19020 /* TableViewCells */,
 			);
 			path = Views;
@@ -455,8 +494,8 @@
 				AFB5CCA31DE0B5BB006E51A2 /* VoteHeaderView.xib */,
 				AFB5CCA71DE0B6DD006E51A2 /* RepVoteView.swift */,
 				AFB5CCA51DE0B6CF006E51A2 /* RepVoteView.xib */,
-				AFB5CCA91DE0B6ED006E51A2 /* RelatedBillView.swift */,
-				AFB5CCAB1DE0B6FF006E51A2 /* RelatedBillView.xib */,
+				AFB5CCA91DE0B6ED006E51A2 /* ButtonView.swift */,
+				AFB5CCAB1DE0B6FF006E51A2 /* ButtonView.xib */,
 				AFB5CCAF1DE0B725006E51A2 /* VoteDetailsView.swift */,
 				AFB5CCAD1DE0B716006E51A2 /* VoteDetailsView.xib */,
 				AFE47F521DF4E9D900008CCB /* UserVoteView.swift */,
@@ -496,14 +535,6 @@
 				AF8974A91D4E786E00C19020 /* VoteTableViewCell.xib */,
 			);
 			name = MainViewTableViewCells;
-			sourceTree = "<group>";
-		};
-		AFD5AA9C1DAF4A1F00A5714C /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				AFD5AA9D1DAF4A3A00A5714C /* KeychainManager.swift */,
-			);
-			name = Managers;
 			sourceTree = "<group>";
 		};
 		AFF7480E1DC97F9500F519AE /* BillTableViewCells */ = {
@@ -571,6 +602,7 @@
 				D349B98149137EB81C7BD1E8 /* [CP] Embed Pods Frameworks */,
 				C5AB08A7A7C5752E17B8258B /* [CP] Copy Pods Resources */,
 				AF1AC55F1DF5A6A100DCBA13 /* Embed App Extensions */,
+				AF1AC5631DF6854E00DCBA13 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -612,6 +644,7 @@
 				AF8974771D4D80E500C19020 /* Frameworks */,
 				AF8974781D4D80E500C19020 /* Resources */,
 				1A316714F7B6F2E50994ED14 /* [CP] Copy Pods Resources */,
+				45FF3A74700A29EBC9740049 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -697,8 +730,9 @@
 			files = (
 				AFB5CCB41DE0B7FE006E51A2 /* BillHeaderView.xib in Resources */,
 				AF9F04971DC27DC000A8BB74 /* CoSponsorsTableViewCell.xib in Resources */,
-				AFB5CCAC1DE0B6FF006E51A2 /* RelatedBillView.xib in Resources */,
+				AFB5CCAC1DE0B6FF006E51A2 /* ButtonView.xib in Resources */,
 				AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */,
+				AF39130F1DFA577400123B5C /* YourVoteTableViewCell.xib in Resources */,
 				AFB5CCA41DE0B5BB006E51A2 /* VoteHeaderView.xib in Resources */,
 				AF2819801DF0F006001D5C93 /* KratosTextField.xib in Resources */,
 				AFF748121DC9800100F519AE /* RepContactView.xib in Resources */,
@@ -715,6 +749,7 @@
 				AF9F04931DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib in Resources */,
 				AF8974AA1D4E786E00C19020 /* VoteTableViewCell.xib in Resources */,
 				AF8974641D4D80E500C19020 /* Main.storyboard in Resources */,
+				AF3912F91DF84DE900123B5C /* KratosTabBarController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -765,6 +800,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KratosTests/Pods-KratosTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		45FF3A74700A29EBC9740049 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KratosUITests/Pods-KratosUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		629AE4BF8DB9C890E6817B13 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -792,7 +842,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		8C9F6FCE6472038FF337D5B0 /* [CP] Check Pods Manifest.lock */ = {
@@ -807,8 +857,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		AF1AC5631DF6854E00DCBA13 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" f7c4cd377ef7366de23593e051282450480554b6 2702dfc8347b6bc69f0aac54b73cd93e296edb32cc1dc58528f320d28dd289b3";
 		};
 		C5AB08A7A7C5752E17B8258B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -852,7 +915,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -893,13 +956,14 @@
 				AFF7481B1DD0081D00F519AE /* PieChartData.swift in Sources */,
 				AFE47F531DF4E9D900008CCB /* UserVoteView.swift in Sources */,
 				AFE47F4B1DF344D500008CCB /* APIManager.swift in Sources */,
+				AF39130A1DFA56E500123B5C /* YourVotesViewController.swift in Sources */,
 				AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */,
 				AFF748171DCFF2F100F519AE /* PieChartView.swift in Sources */,
 				AF8974AF1D4E98C700C19020 /* User.swift in Sources */,
-				AFD5AA9E1DAF4A3A00A5714C /* KeychainManager.swift in Sources */,
 				AF3DBCE91DD0C34B006B146F /* Array+Extensions.swift in Sources */,
 				AF89749C1D4D8ADC00C19020 /* Vote.swift in Sources */,
-				AFB5CCAA1DE0B6ED006E51A2 /* RelatedBillView.swift in Sources */,
+				AFB5CCAA1DE0B6ED006E51A2 /* ButtonView.swift in Sources */,
+				AF3913081DFA36F000123B5C /* KeychainManager.swift in Sources */,
 				AFE47F4D1DF34F1C00008CCB /* DatePickerView.swift in Sources */,
 				AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */,
 				AF5793181D6D440400D86B73 /* Bill.swift in Sources */,
@@ -912,9 +976,11 @@
 				AF3DBCEC1DD21C29006B146F /* VoteDateHeaderView.swift in Sources */,
 				AFD82F921D88FBFA00AEB559 /* LoginViewController.swift in Sources */,
 				AFB5CCA21DE0B595006E51A2 /* VoteHeaderView.swift in Sources */,
+				AF3912F61DF84D2A00123B5C /* KratosTabBarController.swift in Sources */,
 				AF8974A81D4E784E00C19020 /* VoteTableViewCell.swift in Sources */,
 				AF2B8C6C1D62D21300C31FA9 /* RepresentativeView.swift in Sources */,
 				AFF748101DC97FF500F519AE /* RepContactView.swift in Sources */,
+				AF39130E1DFA577400123B5C /* YourVoteTableViewCell.swift in Sources */,
 				AF8974AD1D4E969000C19020 /* APIService.swift in Sources */,
 				AFD5AA9B1D9C618800A5714C /* NSMutableURLRequest+Extension.swift in Sources */,
 				AFB5CCA81DE0B6DD006E51A2 /* RepVoteView.swift in Sources */,
@@ -1215,6 +1281,7 @@
 				AF1AC55D1DF5A6A100DCBA13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AF8974561D4D80E500C19020 /* Build configuration list for PBXProject "Kratos" */ = {
 			isa = XCConfigurationList;

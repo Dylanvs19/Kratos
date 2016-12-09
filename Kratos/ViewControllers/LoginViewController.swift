@@ -158,6 +158,8 @@ class LoginViewController: UIViewController {
             user.phoneNumber = Int(phoneNumber)
             user.password = passwordTextField.text
             Datastore.sharedDatastore.user = user
+            viewController.loadViewIfNeeded()
+            viewController.displayType = .registration
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
