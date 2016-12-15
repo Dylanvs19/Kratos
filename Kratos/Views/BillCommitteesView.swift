@@ -48,7 +48,7 @@ class BillCommitteesView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func configure(with committeeArray: [Committee]) {
-        tableViewHeightConstraint.constant = CGFloat(committeeArray.count * 35)
+        tableViewHeightConstraint.constant = CGFloat(committeeArray.count * 44)
         self.committeeArray = committeeArray
         committeesLabel.text =  committeeArray.count == 1 ? "Committee" : "Committees"
     }

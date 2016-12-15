@@ -22,7 +22,6 @@ class CoSponsorsTableViewCell: UITableViewCell {
             let last = coSponsor.lastName,
             let title = coSponsor.fullTitle {
             nameLabel.text = "\(title)"
-            //\(first) \(last)"
         }
         
         if let state = coSponsor.state,

@@ -23,7 +23,6 @@
 		AF2B8C6E1D62D22600C31FA9 /* RepresentativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2B8C6D1D62D22600C31FA9 /* RepresentativeView.xib */; };
 		AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2D3D051D5D85EF006B75D1 /* UIImage+Extension.swift */; };
 		AF3912F61DF84D2A00123B5C /* KratosTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3912F41DF84D2A00123B5C /* KratosTabBarController.swift */; };
-		AF3912F91DF84DE900123B5C /* KratosTabBarController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3912F81DF84DE900123B5C /* KratosTabBarController.xib */; };
 		AF3913081DFA36F000123B5C /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3913071DFA36F000123B5C /* KeychainManager.swift */; };
 		AF39130A1DFA56E500123B5C /* YourVotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3913091DFA56E500123B5C /* YourVotesViewController.swift */; };
 		AF39130E1DFA577400123B5C /* YourVoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF39130C1DFA577400123B5C /* YourVoteTableViewCell.swift */; };
@@ -152,7 +151,6 @@
 		AF2B8C6D1D62D22600C31FA9 /* RepresentativeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RepresentativeView.xib; path = TableViewCells/RepresentativeView.xib; sourceTree = "<group>"; };
 		AF2D3D051D5D85EF006B75D1 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		AF3912F41DF84D2A00123B5C /* KratosTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KratosTabBarController.swift; path = Navigation/KratosTabBarController.swift; sourceTree = "<group>"; };
-		AF3912F81DF84DE900123B5C /* KratosTabBarController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KratosTabBarController.xib; path = Navigation/KratosTabBarController.xib; sourceTree = "<group>"; };
 		AF3913071DFA36F000123B5C /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		AF3913091DFA56E500123B5C /* YourVotesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourVotesViewController.swift; sourceTree = "<group>"; };
 		AF39130C1DFA577400123B5C /* YourVoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourVoteTableViewCell.swift; sourceTree = "<group>"; };
@@ -306,7 +304,6 @@
 			isa = PBXGroup;
 			children = (
 				AF3912F41DF84D2A00123B5C /* KratosTabBarController.swift */,
-				AF3912F81DF84DE900123B5C /* KratosTabBarController.xib */,
 			);
 			name = Navigation;
 			sourceTree = "<group>";
@@ -364,11 +361,11 @@
 		AF89745D1D4D80E500C19020 /* Kratos */ = {
 			isa = PBXGroup;
 			children = (
-				AF3913061DFA36F000123B5C /* Managers */,
 				AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */,
 				AF89745E1D4D80E500C19020 /* AppDelegate.swift */,
 				AF28439A1D5AD686007B3F18 /* Datastore.swift */,
 				AF8974621D4D80E500C19020 /* Main.storyboard */,
+				AF3913061DFA36F000123B5C /* Managers */,
 				AF3912F31DF84CCA00123B5C /* Navigation */,
 				AF8974AB1D4E965600C19020 /* APIClient */,
 				AF8974B01D4E997D00C19020 /* Utilites */,
@@ -749,7 +746,6 @@
 				AF9F04931DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib in Resources */,
 				AF8974AA1D4E786E00C19020 /* VoteTableViewCell.xib in Resources */,
 				AF8974641D4D80E500C19020 /* Main.storyboard in Resources */,
-				AF3912F91DF84DE900123B5C /* KratosTabBarController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

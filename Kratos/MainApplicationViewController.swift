@@ -48,13 +48,10 @@ class MainApplicationViewController: UIViewController {
     }
     
     func embedMainViewController() {
-        let tabVC = UITabBarController()
-        let otherVC = UIViewController()
         let navVC = UINavigationController()
         let vc: MainViewController = MainViewController.instantiate()
         navVC.setViewControllers([vc], animated: false)
-        tabVC.setViewControllers([navVC, otherVC], animated: true)
-        embedViewController(tabVC)
+        embedViewController(navVC)
     }
     
     func embedLoginViewController() {

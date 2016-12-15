@@ -84,18 +84,25 @@ struct Bill {
     }
 }
 
+enum Chamber: String, RawRepresentable {
+    case house = "House of Representatives"
+    case senate = "Senate"
+}
+
 struct Committee {
     var name: String?
     var id: Int?
     var url: String?
     var abbrev: String?
-    var commmitteeType: String?
+    var commmitteeType: Chamber?
     
     init(from json: [String: AnyObject]) {
         self.name = json["name"] as? String
         self.id = json["id"] as? Int
         self.url = json["url"] as? String
         self.abbrev = json["abbrev"] as? String
-        self.commmitteeType = json["committee_type_label"] as? String
+        if let type = json["committee_type_label"] as? String {
+            self.commmitteeType = Chamber(rawValue: type)
+        }
     }
 }

@@ -13,6 +13,7 @@ class RepContactView: UIView {
     @IBOutlet var contentView: UIView!
     
     var rep: DetailedRepresentative?
+    var shouldPresentTwitter: ((Bool) -> ())?
     
     @IBOutlet var phoneButton: UIButton!
     @IBOutlet var websiteButton: UIButton!
@@ -92,19 +93,19 @@ class RepContactView: UIView {
     @IBAction func phoneButtonPressed(_ sender: Any) {
         if let phone = rep?.phoneNumber,
             let url = URL(string: "telprompt://\(phone)") {
-            UIApplication.shared.openURL(url)
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     @IBAction func websiteButtonPressed(_ sender: Any) {
         if let website = rep?.website,
             let url = URL(string: website) {
-            UIApplication.shared.openURL(url)
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     @IBAction func homeButtonPressed(_ sender: Any) {
-        
+        shouldPresentTwitter?(false)
     }
     @IBAction func twitterButtonPressed(_ sender: Any) {
-        
+        shouldPresentTwitter?(true)
     }
 }

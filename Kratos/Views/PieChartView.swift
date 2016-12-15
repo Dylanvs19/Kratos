@@ -30,7 +30,6 @@ class PieChartView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        setGestureRecognizers()
     }
     
     func customInit() {
@@ -63,10 +62,6 @@ class PieChartView: UIView {
                 abstainLabel.textColor = UIColor.gray
             }
         }
-    }
-    
-    func setGestureRecognizers() {
-        
     }
     
     override func draw(_ rect: CGRect) {

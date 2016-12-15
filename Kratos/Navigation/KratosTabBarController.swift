@@ -8,11 +8,13 @@
 
 import UIKit
 
-class KratosTabBarController: UITabBarController {
+class KratosTabBarController: UIViewController {
 
+    @IBOutlet weak var contentView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
     }
-
+    
 }

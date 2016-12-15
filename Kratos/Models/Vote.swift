@@ -114,5 +114,16 @@ struct Vote {
 
 struct UserVote {
     var billId: String?
+    var billTitle: String?
+    var vote: VoteType?
+    var repOneVote: RepVote?
+    var repTwoVote: RepVote?
+    var repThreeVote: RepVote?
+    
+}
+
+struct RepVote {
+    var repName: String?
+    var repId: Int?
     var vote: VoteType?
 }

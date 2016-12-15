@@ -155,10 +155,10 @@ public extension PagingTableViewDelegate {
 /// - Responding to completed requests by syncing displayed data
 /// - Handling the showing and hiding of a loading indicator
 public class Pager<DataSource, Delegate, View>: NSObject where DataSource: PagingDataSource,
-		  Delegate: NSObject,
-    Delegate: PagingViewDelegate,
-    View: PagingView,
-DataSource.Data == Delegate.Data {
+             Delegate: NSObject,
+             Delegate: PagingViewDelegate,
+             View: PagingView,
+             DataSource.Data == Delegate.Data {
     // MARK: - Properties
     // MARK: Delegates
     /// A delegate responsible for requesting and returning paging data.
@@ -286,17 +286,14 @@ DataSource.Data == Delegate.Data {
         if !isDisabled {
             delegate?.data = []
             delegate?.data = data
-            print("data count \(data.count)")
             resultCount = UInt(data.count)
             isFinishedPaging = false
         }
     }
     
-    // MARK: - <UIScrollViewDelegate>
-    func observeValueForKeyPath(keyPath: String?,
-                                ofObject object: AnyObject?,
-                                change: [String : AnyObject]?,
-                                context: UnsafeMutableRawPointer) {
+    // MARK: - <KVO>
+    
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoScrollViewDidScrollContext,
             let scrollView = object as? UIScrollView {
             scrollViewDidScroll(scrollView: scrollView)
@@ -438,5 +435,9 @@ DataSource.Data == Delegate.Data {
         } else {
             onCompletion?(true)
         }
+    }
+    
+    deinit {
+        removeObserver(self, forKeyPath: "contentOffset")
     }
 }

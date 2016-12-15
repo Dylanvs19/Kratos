@@ -20,9 +20,7 @@ struct User {
     var party: Party?
     var userVotes: [UserVote]?
     
-    init() {
-        
-    }
+    init() { }
     
     init(firstName: String, lastName: String, phoneNumber: Int, streetAddress: StreetAddress) {
 
