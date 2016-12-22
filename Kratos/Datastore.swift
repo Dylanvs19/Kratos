@@ -12,23 +12,23 @@ class Datastore {
     
     static let sharedDatastore = Datastore()
     
-    var representatives: [DetailedRepresentative]?
+    var representatives: [Person]?
     var user: User?
     
-    func getVotesFor(representative index: Int, at offset: Int, with limit: Int, onCompletion: (([Vote]) -> Void)) {
+    func getVotesFor(representative index: Int, at offset: Int, with limit: Int, onCompletion: (([LightTally]) -> Void)) {
         guard let representatives = representatives , index < representatives.count else {
             onCompletion([])
             return
         }
         let rep = representatives[index]
-        if let votes = rep.votes , !votes.isEmpty {
+        if let tallies = rep.tallies , !tallies.isEmpty {
             var endLimit = 0
-            if votes.count > offset + limit {
+            if tallies.count > offset + limit {
                 endLimit = offset + limit - 1
             } else {
-                endLimit = votes.count - 1
+                endLimit = tallies.count - 1
             }
-            let returnArray = Array(votes[offset...endLimit])
+            let returnArray = Array(tallies[offset...endLimit])
             onCompletion(returnArray)
         } else {
             onCompletion([])

@@ -12,7 +12,7 @@ class RepContactView: UIView {
     
     @IBOutlet var contentView: UIView!
     
-    var rep: DetailedRepresentative?
+    var rep: Person?
     var shouldPresentTwitter: ((Bool) -> ())?
     
     @IBOutlet var phoneButton: UIButton!
@@ -62,7 +62,7 @@ class RepContactView: UIView {
         contentView.frame = bounds
     }
     
-    func configure(with representative: DetailedRepresentative) {
+    func configure(with representative: Person) {
         rep = representative
     }
     
@@ -91,13 +91,13 @@ class RepContactView: UIView {
     }
     
     @IBAction func phoneButtonPressed(_ sender: Any) {
-        if let phone = rep?.phoneNumber,
+        if let phone = rep?.roles?.first?.phone,
             let url = URL(string: "telprompt://\(phone)") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     @IBAction func websiteButtonPressed(_ sender: Any) {
-        if let website = rep?.website,
+        if let website = rep?.roles?.first?.website,
             let url = URL(string: website) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }

@@ -15,7 +15,7 @@ class UserVoteView: UIView {
     @IBOutlet weak var yeaView: UIView!
     @IBOutlet weak var nayView: UIView!
     
-    var userVote: VoteType = .abstain {
+    var userVote: VoteValue = .abstain {
         didSet {
             switch userVote {
             case .abstain:
@@ -64,7 +64,7 @@ class UserVoteView: UIView {
         setupGestureRecognizers()
     }
     
-    func configure(with userVote: VoteType) {
+    func configure(with userVote: VoteValue) {
         self.userVote = userVote
         // Parse out if User has voted on this && pass in
     }

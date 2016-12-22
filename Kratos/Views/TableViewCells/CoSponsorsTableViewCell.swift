@@ -19,13 +19,12 @@ class CoSponsorsTableViewCell: UITableViewCell {
     
     func configure(with coSponsor: LightRepresentative) {
         if let first = coSponsor.firstName,
-            let last = coSponsor.lastName,
-            let title = coSponsor.fullTitle {
-            nameLabel.text = "\(title)"
+            let last = coSponsor.lastName {
+            nameLabel.text = "\(first) \(last)"
         }
         
         if let state = coSponsor.state,
-            let district = coSponsor.district,
+            let district = coSponsor.state,
             let party = coSponsor.party {
             detailLabel.text = "\(party.rawValue) \(state)\(district)"
         } else {

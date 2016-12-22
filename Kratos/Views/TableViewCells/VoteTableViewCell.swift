@@ -14,10 +14,10 @@ class VoteTableViewCell: UITableViewCell {
     
     @IBOutlet var voteImageView: UIImageView!
     
-    var vote: Vote? {
+    var tally: LightTally? {
         didSet {
-            if vote != nil {
-                configureWith(vote!)
+            if tally != nil {
+                configureWith(tally!)
             }
         }
     }
@@ -30,9 +30,9 @@ class VoteTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
-    func configureWith(_ vote: Vote) {
-        voteTitleLabel.text = vote.questionTitle ?? ""
-        if let voteType = vote.vote {
+    func configureWith(_ tally: LightTally) {
+        voteTitleLabel.text = tally.question ?? ""
+        if let voteType = tally.vote {
             switch voteType {
             case .yea:
                 voteImageView.image = UIImage(named: "Yes")

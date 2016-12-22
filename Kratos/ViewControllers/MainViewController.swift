@@ -8,22 +8,30 @@
 
 
 import UIKit
+import SafariServices
 
-class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataSource, RepViewDelegate, PagingView, PagingDataSource, PagingTableViewDelegate {
-    /// The variable that contains the data for the Datasource. `Pager` will sync this value
-    /// when it receives data.
-    /// - When `data` gets new Data, `cellMap` should be set via
-    /// `data`'s `didSet` method using the Array's `groupedBySection` or `asSingleSection`
-    /// methods.
-    /// - After cellMap is set within `didSet` append(data: [Data], to oldData: [Data]) should be called to append new cells to the UICollectionView or UITableView.
-    
-    @IBOutlet var stateImageView: UIImageView!
-    @IBOutlet weak var backgroundImageView: UIImageView!
+class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, RepViewDelegate, PagingView, PagingDataSource, PagingTableViewDelegate {
     
     @IBOutlet var repViewOne: RepresentativeView!
     @IBOutlet var repViewTwo: RepresentativeView!
     @IBOutlet var repViewThree: RepresentativeView!
     
+    @IBOutlet weak var kratosLabel: UILabel!
+    @IBOutlet weak var kratosImageView: UIImageView!
+    @IBOutlet var stateImageView: UIImageView!
+    
+    @IBOutlet weak var kratosImageViewToTop: NSLayoutConstraint!
+    
+    @IBOutlet weak var stateImageViewCenterYToLabelView: NSLayoutConstraint!
+    @IBOutlet weak var stateImageViewCenterYToRepViewOne: NSLayoutConstraint!
+    @IBOutlet weak var stateImageViewCenterYToRepViewTwo: NSLayoutConstraint!
+    @IBOutlet weak var stateImageViewCenterYToRepViewThree: NSLayoutConstraint!
+    
+    @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var backgroundImageViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var backgroundImageViewToTop: NSLayoutConstraint!
+    
+    @IBOutlet weak var labelView: UIView!
     @IBOutlet var stateLabel: UILabel!
     @IBOutlet var districtLabel: UILabel!
     
@@ -54,15 +62,16 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     @IBOutlet var menuBarContainerView: UIView!
     @IBOutlet var menuBarTrailingConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var mainViewScrollView: UIScrollView!
+    @IBOutlet weak var mainView: UIView!
+    
+    var blurViewEnabled: Bool = false
+    
     var menuViewController: MenuViewController?
     var disableSwipe = false
     
-    var representatives: [DetailedRepresentative]? {
-        get {
-            return Datastore.sharedDatastore.representatives
-        }
-    }
-    var selectedRepresentative: DetailedRepresentative? {
+    var representatives: [Person]?
+    var selectedRepresentative: Person? {
         didSet {
             if let selectedRepresentative = selectedRepresentative {
                 repContactView.configure(with: selectedRepresentative)
@@ -80,52 +89,53 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     var tapView: UIView?
     
     //MARK: Pager Variables
-    var repOneVotes: [Vote] = [] {
+    var repOneTallies: [LightTally] = [] {
         didSet {
-            format(votes: repOneVotes, with: oldValue)
+            format(tallies: repOneTallies, with: oldValue)
         }
     }
-    var repTwoVotes: [Vote] = [] {
+    var repTwoTallies: [LightTally] = [] {
         didSet {
-            format(votes: repTwoVotes, with: oldValue)
+            format(tallies: repTwoTallies, with: oldValue)
         }
     }
-    var repThreeVotes: [Vote] = [] {
+    var repThreeTallies: [LightTally] = [] {
         didSet {
-            format(votes: repThreeVotes, with: oldValue)
+            format(tallies: repThreeTallies, with: oldValue)
         }
     }
     
-    var data: [Vote] {
+    var data: [LightTally] {
         get {
-            guard let selectedRepIndex = selectedRepIndex else { return repOneVotes }
+            guard let selectedRepIndex = selectedRepIndex else { return repOneTallies }
             switch selectedRepIndex {
             case 1:
-                return repTwoVotes
+                return repTwoTallies
             case 2:
-                return repThreeVotes
+                return repThreeTallies
             default:
-                return repOneVotes
+                return repOneTallies
             }
         }
         set {
             guard let selectedRepIndex = selectedRepIndex else {
-                repOneVotes = newValue
+                repOneTallies = newValue
                 return
             }
             
             switch selectedRepIndex {
             case 1:
-                repTwoVotes = newValue
+                repTwoTallies = newValue
             case 2:
-                repThreeVotes = newValue
+                repThreeTallies = newValue
             default:
-                repOneVotes = newValue
+                repOneTallies = newValue
             }
         }
     }
-    var cellMap = [Int: [Vote]]()
-    // Each flow of data needs its own Pager to handle it.
+    var cellMap = [Int: [LightTally]]()
+    
+    // Each flow of data has its own Pager to handle it.
     var repOnePager = Pager<MainViewController, MainViewController, MainViewController>()
     var repTwoPager = Pager<MainViewController, MainViewController, MainViewController>()
     var repThreePager = Pager<MainViewController, MainViewController, MainViewController>()
@@ -139,7 +149,9 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
-       
+        
+        representatives = Datastore.sharedDatastore.representatives
+        
         loadData()
         
         configureStateImage()
@@ -152,12 +164,15 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
         configurePagers()
         
-        //Set the repContactView's action block to fire on this VC when certain actions (button presses) taken
+        //Set the repContactView's action block to fire method on this VC when certain actions (button presses) taken
         repContactView.shouldPresentTwitter = presentTwitter
+        
+        mainViewScrollView.delegate = self
+
     }
     
     //MARK: Configuration Methods
-    func configureRepViews() {
+    fileprivate func configureRepViews() {
         guard let representatives = representatives else {
             fatalError("could not load representatives from datastore")
         }
@@ -183,18 +198,18 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         repViewOne.repViewDelegate = self
         repViewTwo.repViewDelegate = self
         repViewThree.repViewDelegate = self
-        
+        kratosLabel.alpha = 0
         repViewDeselected()
     }
     
-    func configureMenuBar() {
+    fileprivate func configureMenuBar() {
         menuBarContainerView.layer.shadowColor = UIColor.black.cgColor
         menuBarContainerView.layer.shadowOffset = CGSize(width: 3, height: 0)
         menuBarContainerView.layer.shadowOpacity = 0.3
         menuBarContainerView.layer.shadowRadius = 1
     }
     
-    func configureTableView () {
+    fileprivate func configureTableView () {
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -205,7 +220,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         tableView.rowHeight = UITableViewAutomaticDimension
     }
     
-    func configurePagers() {
+    fileprivate func configurePagers() {
         repOnePager.set(view: self, dataSource: self, delegate: self)
         repTwoPager.set(view: self, dataSource: self, delegate: self)
         repThreePager.set(view: self, dataSource: self, delegate: self)
@@ -214,7 +229,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         repThreePager.addLoadMoreSpinnerView()
     }
     
-    func configureStateImage() {
+    fileprivate func configureStateImage() {
         if let state =  Datastore.sharedDatastore.user?.streetAddress?.state {
             stateImageView.image = UIImage.imageForState(state)
             stateLabel.text = Constants.abbreviationToFullStateNameDict[state] ?? ""
@@ -231,18 +246,23 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     //MARK: Load Data and Data Coordination
+    // THIS WILL BE DELETED WHEN PAGER IS SET UP SERVER SIDE
     func loadData() {
-        if Datastore.sharedDatastore.representatives != nil {
-            APIManager.getVotesForRepresentatives({ (success) in
-                if success {
-                    self.configureRepViews()
-                    self.loadInitialVoteData()
-                }
-            })
+        if let representatives = representatives {
+            let repArray:[Person] = representatives.map ({ (rep) in
+                var holdRep = rep
+                APIManager.getVotes(for: rep, success: { (lightTallies) in
+                    holdRep.tallies = lightTallies
+                }, failure: { (error) in
+                    print(error)
+                })
+            return holdRep
+           }).flatMap({ $0 })
+        self.representatives = repArray
         }
     }
     
-    func setInitial(data: [Vote]) {
+    fileprivate func setInitial(data: [LightTally]) {
         guard let selectedRepIndex = selectedRepIndex else {
             print("setInitial")
             return
@@ -259,26 +279,27 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         }
     }
     
-    func format(votes: [Vote], with oldVotes: [Vote]){
-        if !votes.isEmpty {
-            cellMap = votes.groupedBySection(groupBy: { (datum) -> (Date) in
+    fileprivate func format(tallies: [LightTally], with oldTallies: [LightTally]){
+        if !tallies.isEmpty {
+            cellMap = tallies.groupedBySection(groupBy: { (datum) -> (Date) in
                 // group votes by day of vote
                 return datum.date?.computedDayFromDate ?? Date()
             })
-            append(data: votes, to: oldVotes)
+            append(data: tallies, to: oldTallies)
         }
     }
     
-    func loadInitialVoteData() {
+    fileprivate func loadInitialVoteData() {
         guard let selectedRepIndex = selectedRepIndex else {
             print("Load Initial Data")
-            return }
-        Datastore.sharedDatastore.getVotesFor(representative: selectedRepIndex, at: 0, with: 50, onCompletion: { (votes) in
-            setInitial(data: votes)
+            return
+        }
+        Datastore.sharedDatastore.getVotesFor(representative: selectedRepIndex, at: 0, with: 50, onCompletion: { (tallies) in
+            setInitial(data: tallies)
         })
     }
     
-    func makeRequestForResults(at offset: UInt, withLimit limit: UInt, onComplete: @escaping (([Vote]?) -> Void)) {
+    func makeRequestForResults(at offset: UInt, withLimit limit: UInt, onComplete: @escaping (([LightTally]?) -> Void)) {
         //guard let selectedRepIndex = selectedRepIndex else {
         //   print("makeRequestForResults")
         //  return
@@ -292,11 +313,14 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     //MARK: RepView UI & Delegate Methods
     ///  Repview Delegate Method - fires when repView has been selected via tapGesture
     func repViewTapped(is selected: Bool, at position: Int) {
-        guard let representatives = representatives else { return }
+        guard let representatives = representatives else {
+            return
+        }
         if selected && position < representatives.count {
             selectedRepresentative = representatives[position]
             selectedRepIndex = position
             
+            // set pager for proper data stream
             switch position {
             case 1:
                 repOnePager.isDisabled = true
@@ -315,95 +339,66 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             if data.isEmpty {
                 loadInitialVoteData()
             } else {
-                format(votes: data, with: [])
+                format(tallies: data, with: []) // format & reload tableView with new pager data
             }
             
             //Animations
-            func animateTableViewUp() {
-                UIView.animate(withDuration: 0.25, delay: 0.25, options: [], animations: {
-                    self.tableViewTopToRepContactView.constant = 10
-                    self.tableViewHeightConstraint.isActive = false
-                    self.tableViewBottomToBottom.isActive = true
-                    self.view.layoutIfNeeded()
-                    
-                    self.backgroundImageView.alpha = 0
-                }, completion: nil)
-            }
+            contractedRepConstraints(active: false)
             
-            switch position {
-            case 0:
-                self.contractedRepConstraints(active: false)
-
-                UIView.animate(withDuration: 0.25, animations: {
-                    
-                    self.repViewTwo.alpha = 0
-                    self.repViewTwo.isHidden = true
-                    
-                    self.repViewThree.alpha = 0
-                    self.repViewThree.isHidden = true
-                    self.repViewOne.reloadInputViews()
-                    
-                    self.repOneSelectedYPosition.isActive = true
-                    self.repOneSelectedHeight.isActive = true
-                    self.repOneWidth.constant = 0
-                    
-                    self.view.layoutIfNeeded()
-                })
-                
-                animateTableViewUp()
-                repContactView.animateIn()
-                
-            case 1:
-                UIView.animate(withDuration: 0.25, animations: {
-                    self.contractedRepConstraints(active: false)
-                    
+            UIView.animate(withDuration: 0.25, animations: {
+                switch position {
+                case 1:
                     self.repViewOne.alpha = 0
-                    self.repViewOne.isHidden = true
                     self.repViewThree.alpha = 0
-                    self.repViewThree.isHidden = true
-                    
                     self.repTwoSelectedHeight.isActive = true
                     self.repTwoWidth.constant = 0
                     self.repTwoSelectedYPosition.isActive = true
-                    self.view.layoutIfNeeded()
-                })
-                
-                animateTableViewUp()
-                repContactView.animateIn()
-                
-            case 2:
-                UIView.animate(withDuration: 0.25, animations: {
-                    self.contractedRepConstraints(active: false)
-                    
+                    self.stateImageViewCenterYToLabelView.isActive = false
+                    self.stateImageViewCenterYToRepViewOne.isActive = true
+                    self.stateImageViewCenterYToRepViewTwo.isActive = true
+                case 2:
                     self.repViewOne.alpha = 0
-                    self.repViewTwo.isHidden = true
-                    
                     self.repViewTwo.alpha = 0
-                    self.repViewTwo.isHidden = true
-                    
+                    self.repThreeWidth.constant = 0
                     self.repThreeSelectedYPosition.isActive = true
                     self.repThreeSelectedHeight.isActive = true
-                    self.repThreeWidth.constant = 0
-                    
-                    self.view.layoutIfNeeded()
-                    
-                })
+                    self.stateImageViewCenterYToLabelView.isActive = false
+                    self.stateImageViewCenterYToRepViewTwo.isActive = true
+                    self.stateImageViewCenterYToRepViewThree.isActive = true
+                default:
+                    self.repViewTwo.alpha = 0
+                    self.repViewThree.alpha = 0
+                    self.repOneSelectedYPosition.isActive = true
+                    self.repOneSelectedHeight.isActive = true
+                    self.repOneWidth.constant = 0
+                    self.stateImageViewCenterYToLabelView.isActive = false
+                    self.stateImageViewCenterYToRepViewThree.isActive = true
+                    self.stateImageViewCenterYToRepViewOne.isActive = true
+                }
+                self.stateImageViewCenterYToLabelView.isActive = false
+                self.backgroundImageViewHeight.constant = 19
+                self.backgroundImageView.addBlurEffect()
+                self.labelView.alpha = 0
+                self.kratosImageView.alpha = 0
+                self.kratosLabel.alpha = 1
+                self.view.layoutSubviews()
+                self.view.layoutIfNeeded()
+            })
+            UIView.animate(withDuration: 0.25, delay: 0.25, options: [], animations: {
+                self.tableViewTopToRepContactView.constant = 10
+                self.tableViewHeightConstraint.isActive = false
+                self.tableViewBottomToBottom.isActive = true
+                self.view.layoutIfNeeded()
                 
-                animateTableViewUp()
-                repContactView.animateIn()
-                
-            default:
-                break
-            }
+            }, completion: nil)
+            
+            repContactView.animateIn()
+            
         } else {
             repViewDeselected()
             selectedRepresentative = nil
             selectedRepIndex = nil
-            backgroundImageView.alpha = 1
         }
-        repViewOne.layoutIfNeeded()
-        repViewTwo.layoutIfNeeded()
-        repViewThree.layoutIfNeeded()
     }
     
     /// Breaks down all active selected View constraints & brings view back to baseline (3 reps shown)
@@ -433,6 +428,17 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             self.repTwoWidth.constant = -20
             self.repThreeWidth.constant = -20
             
+            self.stateImageViewCenterYToRepViewOne.isActive = false
+            self.stateImageViewCenterYToRepViewTwo.isActive = false
+            self.stateImageViewCenterYToRepViewThree.isActive = false
+            self.stateImageViewCenterYToLabelView.isActive = true
+            
+            self.backgroundImageViewHeight.constant = 190
+            self.backgroundImageView.removeBlurEffect()
+            self.labelView.alpha = 1
+            self.kratosImageView.alpha = 1
+            self.kratosLabel.alpha = 0
+            
             self.view.layoutIfNeeded()
         })
         
@@ -452,7 +458,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     // MARK: Menu Bar UI Methods
     func pushMenuBar() {
         tapView = UIView(frame: view.frame)
-        view.addSubview(tapView ?? UIView())
+        mainView.addSubview(tapView ?? UIView())
         view.bringSubview(toFront: menuBarContainerView)
         tapView?.backgroundColor = UIColor.black
         tapView?.alpha = 0
@@ -496,6 +502,28 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         menuViewController = segue.destination as? MenuViewController
     }
     
+    //MARK: ScrollViewDelegate methods
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        if scrollView.contentOffset.y < 0 {
+            kratosImageViewToTop.constant = 5 + scrollView.contentOffset.y
+            kratosImageView.transform = .init(rotationAngle: scrollView.contentOffset.y/50)
+        }
+        if scrollView.contentOffset.y < -90 {
+            if !blurViewEnabled {
+                self.mainView.addBlurEffect()
+                mainView.bringSubview(toFront: kratosImageView)
+            }
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        kratosImageView.transform = .init(rotationAngle: 0)
+        blurViewEnabled = !blurViewEnabled
+        self.view.layoutIfNeeded()
+    }
+    
     // MARK: TableViewDelegate & Datasource
     func numberOfSections(in tableView: UITableView) -> Int {
         return cellMap.count
@@ -508,8 +536,8 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.VOTE_TABLEVIEWCELL_IDENTIFIER, for: indexPath) as? VoteTableViewCell else { return UITableViewCell() }
-        guard let vote = cellMap[indexPath.section]?[indexPath.row] else { return UITableViewCell()}
-        cell.vote = vote
+        guard let tally = cellMap[indexPath.section]?[indexPath.row] else { return UITableViewCell()}
+        cell.tally = tally
         return cell
     }
 
@@ -541,20 +569,35 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let vote = cellMap[indexPath.section]?[indexPath.row],
+        guard let lightTally = cellMap[indexPath.section]?[indexPath.row],
               let rep = selectedRepresentative else { return }
         let vc: VoteViewController = VoteViewController.instantiate()
-        vc.vote = vote
+        vc.lightTally = lightTally
         vc.representative = rep
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    //MARK: Handle RepContactView Press 
+    //MARK: Handle RepContactView Buttons
     func presentTwitter(shouldPresent: Bool) {
         if shouldPresent { // should present twitter
-            let alertVC = UIAlertController(title: "T W I T T E R", message: "Send User to Twitter", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "O K ", style: .destructive, handler: nil))
-            present(alertVC, animated: true, completion: nil)
+            guard let selectedRepresentative = selectedRepresentative,
+                let handle = selectedRepresentative.twitter else {
+                    let alertVC = UIAlertController(title: "Error", message: "Representative does not have a twitter account", preferredStyle: .alert)
+                    alertVC.addAction(UIAlertAction(title: "O K ", style: .destructive, handler: nil))
+                    present(alertVC, animated: true, completion: nil)
+                    return
+            }
+            
+            if let url = URL(string: "twitter://user?screen_name=\(handle)") {
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            } else {
+                if let url = URL(string: "https://twitter.com/\(handle)") {
+                    let vc = SFSafariViewController(url: url)
+                    self.present(vc, animated: true, completion: nil)
+                }
+            }
         } else { // should present office address
             let alertVC = UIAlertController(title: "A D D R E S S", message: "The address goes here", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "O K ", style: .destructive, handler: nil))
@@ -568,6 +611,16 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             pushMenuBar()
             disableSwipe = true
         }
+    }
+    
+    func presentYourVotesViewController() {
+        let viewController:YourVotesViewController = YourVotesViewController.instantiate()
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromBottom
+        view.window!.layer.add(transition, forKey: kCATransition)
+        present(viewController, animated: false, completion: nil)
     }
 }
 

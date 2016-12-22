@@ -16,6 +16,7 @@ class SingleCommitteeTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        chamberView.backgroundColor = UIColor.kratosBlue
     }
     
     func configure(with committee: Committee) {

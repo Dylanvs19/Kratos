@@ -17,7 +17,10 @@ class MenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = CGSize(width: 3, height: 0)
+        view.layer.shadowOpacity = 0.3
+        view.layer.shadowRadius = 1
     }
     
     func animateIn() {

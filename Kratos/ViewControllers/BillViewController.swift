@@ -49,16 +49,27 @@ class BillViewController: UIViewController {
         
         // add CommitteesView to stackView
         if let committees =  bill.committees {
-           let committeesView = BillCommitteesView()
+            let committeesView = BillCommitteesView()
             committeesView.configure(with: committees)
             stackView.addArrangedSubview(committeesView)
         }
         
         // add SponsorsView to stackView
-        if let leadSponsor = bill.lightSponsor {
+        if let leadSponsor = bill.detailedSponsor {
             let sponsorView = BillSponsorsView()
             sponsorView.configure(with: leadSponsor, and: bill.coSponsors)
             stackView.addArrangedSubview(sponsorView)
         }
+        
+        let relatedBillView = ButtonView()
+        relatedBillView.configure(with: "Bill Text", actionBlock: billTextButtonPressed)
+        stackView.addArrangedSubview(relatedBillView)
+        
+    }
+    
+    func billTextButtonPressed() {
+        let alertVC = UIAlertController(title: "Push", message: "Push to safariVC url of bill text", preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "ok", style: .destructive, handler: nil))
+        present(alertVC, animated: true, completion: nil)
     }
 }

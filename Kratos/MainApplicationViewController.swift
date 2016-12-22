@@ -47,9 +47,10 @@ class MainApplicationViewController: UIViewController {
         }
     }
     
-    func embedMainViewController() {
+    func embedMainViewController(with reps: [Person]? = nil) {
         let navVC = UINavigationController()
         let vc: MainViewController = MainViewController.instantiate()
+        vc.representatives = reps
         navVC.setViewControllers([vc], animated: false)
         embedViewController(navVC)
     }

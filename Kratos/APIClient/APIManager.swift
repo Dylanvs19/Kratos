@@ -22,7 +22,7 @@ struct APIManager {
                     onCompletion(false)
                 }
             }, failure: { (error) -> (Void) in
-                debugPrint(error ?? "registerWith Failure")
+                debugPrint(error)
                 onCompletion(false)
             })
         }
@@ -40,7 +40,7 @@ struct APIManager {
                 onCompletion(true)
             }
         }) { (error) in
-            debugPrint(error ?? "loginWith Failure")
+            debugPrint(error)
             onCompletion(false)
         }
     }
@@ -72,23 +72,12 @@ struct APIManager {
         }
     }
     
-    static func getVotesForRepresentatives(_ success: @escaping (Bool) -> ()) {
-        
-        // This is not great - and will not work in places with only a rep & no senators. Should Refactor
-        
-        if let representatives = Datastore.sharedDatastore.representatives , representatives.count == 3 {
-            for (index, rep) in representatives.enumerated() {
-                APIService.loadVotes(for: rep, success: { (votes) in
-                    Datastore.sharedDatastore.representatives![index].votes = votes
-                    if Datastore.sharedDatastore.representatives![0].votes != nil &&
-                       Datastore.sharedDatastore.representatives![1].votes != nil &&
-                       Datastore.sharedDatastore.representatives![2].votes != nil {
-                        success(true)
-                    }
-                }, failure: { (error) in
-                    success(false)
-                })
-            }
-        }
+    static func getVotes(for representative: Person, success: @escaping ([LightTally]) -> (), failure: (NetworkError) -> Void?) {
+    
+        APIService.loadVotes(for: representative, success: { (tallies) in
+                success(tallies)
+        }, failure:  { _ in
+            success([])
+        })
     }
 }

@@ -8,122 +8,44 @@
 
 import Foundation
 
-enum VoteType: String {
+enum VoteValue: String {
     case yea = "Yea"
     case nay = "Nay"
-    case abstain = "Abstain"
+    case abstain = "Not Voting"
+    
+    static func vote(value: String) -> VoteValue? {
+        switch value {
+        case "Yea", "Yes", "Aye":
+            return .yea
+        case "Nay", "No":
+            return .nay
+        case "Not Voting", "Abstain":
+            return .abstain
+        default:
+            return nil
+        }
+    }
 }
 
 struct Vote {
     
-    var vote: VoteType?
-    var id: Int?
-    var result: String?
-    var date: Date?
-    var votesFor: Int?
-    var votesAgainst: Int?
-    var votesAbstain: Int?
-    var questionCode: String?
-    var questionTitle: String?
-    var questionDetails: String?
-    var chamber: String?
-    var relatedBill: Int?
-    var category: Category = .unknown
-    
-    var title: String?
-    var sourceLink: String?
-    
-    enum Category: String, RawRepresentable {
-        case amendment = "Amendment"
-        case conviction = "Conviction"
-        case veto_override = "Veto Override"
-        case unknown = "Unknown"
-        case impeachment = "Impeachment"
-        case passage_suspension = "Passage Suspension"
-        case passage_part = "Passage Part"
-        case other = "Other"
-        case ratification = "Ratification"
-        case cloture = "Cloture"
-        case passage = "Passage"
-        case nomination = "Nomination"
-        case procedural = "Procedural"
-    }
-    
+    var vote: VoteValue?
+    var person: LightRepresentative?
+        
     init(json: [String: AnyObject]) {
         if let holdVote = json["value"] as? String {
-            switch holdVote {
-            case "Yea", "Yes", "Aye":
-                self.vote = .yea
-            case "Nay", "No":
-                self.vote = .nay
-            case "Not Voting", "Abstain":
-                self.vote = .abstain
-            default:
-                break
-            }
+            self.vote = VoteValue.vote(value: holdVote)
         }
-        
-        self.id = json["id"] as? Int
-        self.relatedBill = json["related_bill"] as? Int
-        self.result = json["result"] as? String
-        let holdDate = json["created"] as? String
-        if let holdDate = holdDate {
-            self.date = DateFormatter.longDateFormatter.date(from: holdDate)
-        }
-        self.questionTitle = json["question_title"] as? String
-        self.questionDetails = json["question_details"] as? String
-        self.questionCode = json["question_code"] as? String
-        self.votesFor = json["total_plus"] as? Int
-        self.votesAbstain = json["total_other"] as? Int
-        self.votesAgainst = json["total_minus"] as? Int
-        self.sourceLink = json["link"] as? String
-        if let holdCategory = json["category"] as? String {
-            switch holdCategory {
-            case "amendment":
-                self.category = .amendment
-            case "conviction":
-                self.category = .conviction
-            case "veto_override":
-                self.category = .veto_override
-            case "unknown":
-                self.category = .unknown
-            case "impeachment":
-                self.category = .impeachment
-            case "passage_suspension":
-                self.category = .passage_suspension
-            case "passage_part":
-                self.category = .passage_part
-            case "other":
-                self.category = .other
-            case "ratification":
-                self.category = .ratification
-            case "cloture":
-                self.category = .cloture
-            case "passage":
-                self.category = .passage
-            case "nomination":
-                self.category = .nomination
-            case "procedural":
-                self.category = .procedural
-            default:
-                self.category = .unknown
-            }
-        }
+        self.person = LightRepresentative() 
+        self.person?.id = json["id"] as? Int
+        self.person?.imageURL = json["person_image"] as? String
+        self.person?.firstName = json["firstname"] as? String
+        self.person?.lastName = json["lastname"] as? String
     }
-}
-
-struct UserVote {
-    var billId: String?
-    var billTitle: String?
-    var vote: VoteType?
-    var repOneVote: RepVote?
-    var repTwoVote: RepVote?
-    var repThreeVote: RepVote?
+    
+    init() {}
+    
     
 }
 
-struct RepVote {
-    var repName: String?
-    var repId: Int?
-    var vote: VoteType?
-}
+

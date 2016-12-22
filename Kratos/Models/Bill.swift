@@ -9,6 +9,11 @@
 import Foundation
 
 struct Bill {
+    
+    enum BillType: String, RawRepresentable {
+        case Senate = "Senate"
+    }
+    
     var title: String?
     var officialTitle: String?
     var id: Int?
@@ -17,7 +22,7 @@ struct Bill {
     var committees: [Committee]?
     var coSponsors: [LightRepresentative]
     var lightSponsor: LightRepresentative?
-    var detailedSponsor: DetailedRepresentative?
+    var detailedSponsor: Person?
     var isCurrent: Bool?
     var currentStatus: String?
     var currentStatusDate: Date?

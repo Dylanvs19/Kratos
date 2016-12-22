@@ -56,7 +56,7 @@ class BillSponsorsView: UIView, UITableViewDelegate, UITableViewDataSource {
         tableView.rowHeight = 30
     }
     
-    func configure(with sponsor: LightRepresentative, and coSponsors: [LightRepresentative]) {
+    func configure(with sponsor: Person, and coSponsors: [LightRepresentative]) {
         if !coSponsors.isEmpty {
             self.coSponsors = coSponsors
         } else {
@@ -67,9 +67,9 @@ class BillSponsorsView: UIView, UITableViewDelegate, UITableViewDataSource {
             repNameLabel.text = "\(first) \(last)"
         }
         
-        if let repType = sponsor.representativeType {
-            repStateLabel.text = repType.rawValue
-        }
+//        if let repType = sponsor.representativeType {
+//            repStateLabel.text = repType.rawValue
+//        }
         
         if let repImageURL = sponsor.imageURL {
             UIImage.downloadedFrom(repImageURL, onCompletion: { (image) -> (Void) in
@@ -79,7 +79,7 @@ class BillSponsorsView: UIView, UITableViewDelegate, UITableViewDataSource {
             })
         }
         
-        if let state = sponsor.state {
+        if let state = sponsor.currentState {
             stateImageView.image = UIImage.imageForState(state)
         }
         tableViewHeightConstraint.constant = CGFloat(coSponsors.count * 30)

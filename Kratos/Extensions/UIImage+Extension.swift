@@ -37,4 +37,37 @@ extension UIImage {
         guard let stateName = Constants.statePictureDict[state] else { return nil }
             return UIImage(named: stateName)
     }
+    
+    class func imageFor(vote: VoteValue) -> UIImage {
+        switch vote {
+        case .yea:
+            return #imageLiteral(resourceName: "Yes")
+        case .nay:
+            return #imageLiteral(resourceName: "No")
+        case .abstain:
+            return #imageLiteral(resourceName: "Abstain")
+        }
+    }
+    
+    func textToImage(drawText text: NSString, inImage image: UIImage, atPoint point: CGPoint) -> UIImage {
+        let textColor = UIColor.white
+        let textFont = UIFont(name: "Helvetica Bold", size: 12)!
+        
+        let scale = UIScreen.main.scale
+        UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
+        
+        let textFontAttributes = [
+            NSFontAttributeName: textFont,
+            NSForegroundColorAttributeName: textColor,
+            ] as [String : Any]
+        image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
+        
+        let rect = CGRect(origin: point, size: image.size)
+        text.draw(in: rect, withAttributes: textFontAttributes)
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
 }

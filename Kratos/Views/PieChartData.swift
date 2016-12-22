@@ -9,10 +9,10 @@
 import UIKit
 
 struct PieChartData {
-    var type: VoteType
+    var type: VoteValue
     var value: CGFloat
     
-    init(with value: Int, and type: VoteType) {
+    init(with value: Int, and type: VoteValue) {
         self.type = type
         self.value = CGFloat(value)
     }

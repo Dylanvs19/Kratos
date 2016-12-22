@@ -11,45 +11,48 @@ class VoteViewController: UIViewController {
     
     @IBOutlet weak var stackView: UIStackView!
     
-    var vote: Vote?
-    var representative: DetailedRepresentative?
+    var lightTally: LightTally?
+    var tally: Tally?
+    var representative: Person?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         enableSwipeBack()
-        if let vote = vote,
+        if let tally = tally,
             let representative = representative {
-            configureView(with: vote, and: representative)
+            configureView(with: tally, and: representative)
         }
     }
 
-    func configureView(with vote: Vote, and representative: DetailedRepresentative) {
+    func configureView(with vote: Tally, and representative: Person) {
         // add headerView
         let headerView = VoteHeaderView()
-        headerView.configure(with: vote)
-        stackView.addArrangedSubview(headerView)
-        stackView.reloadInputViews()
-        
-        if let _ = vote.vote {
-            let view = RepVoteView()
-            view.configure(with: representative, and: vote)
-            stackView.addArrangedSubview(view)
+        if let tally = tally {
+            headerView.configure(with: tally)
+            stackView.addArrangedSubview(headerView)
+            stackView.reloadInputViews()
         }
-        if let _ = vote.relatedBill  {
-            let relatedBillView = ButtonView()
-            relatedBillView.configure(with: "Related Bill", actionBlock: relatedBillButtonPressed)
-            stackView.addArrangedSubview(relatedBillView)
-        }
-        
         let userVoteView = UserVoteView()
         userVoteView.configure(with: .abstain)
         stackView.addArrangedSubview(userVoteView)
+        
+        if let lightTally = lightTally,
+           let _ = lightTally.vote {
+            let view = RepVoteView()
+            view.configure(with: representative, and: lightTally)
+            stackView.addArrangedSubview(view)
+        }
+        if let _ = tally?.billID  {
+            let relatedBillView = ButtonView()
+            relatedBillView.configure(with: "Bill Information", actionBlock: relatedBillButtonPressed)
+            stackView.addArrangedSubview(relatedBillView)
+        }
     }
     
     func relatedBillButtonPressed() {
         let vc: BillViewController = BillViewController.instantiate()
-        if let relatedBill = vote?.relatedBill {
+        if let relatedBill = tally?.billID {
             vc.billId = relatedBill
             navigationController?.pushViewController(vc, animated: true)
         }

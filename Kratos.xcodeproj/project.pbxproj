@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		71FC9AF49B0EB5820A301DE4 /* Pods_KratosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE4ABF9591E077E906036EA /* Pods_KratosTests.framework */; };
 		A0DD548B75376A90182B6EFF /* Pods_Kratos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EC5E845D25026904F837F7 /* Pods_Kratos.framework */; };
+		AF0EED461E0A078700E7A19C /* ErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED451E0A078700E7A19C /* ErrorTypes.swift */; };
+		AF0EED481E0A0E8300E7A19C /* Tally.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED471E0A0E8300E7A19C /* Tally.swift */; };
+		AF0EED4A1E0A192400E7A19C /* UserVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED491E0A192400E7A19C /* UserVote.swift */; };
+		AF0EED4C1E0A245200E7A19C /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED4B1E0A245200E7A19C /* Person.swift */; };
+		AF0EED4E1E0A246300E7A19C /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED4D1E0A246300E7A19C /* Role.swift */; };
 		AF1AC54F1DF5A6A100DCBA13 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF1AC54E1DF5A6A100DCBA13 /* UserNotifications.framework */; };
 		AF1AC5511DF5A6A100DCBA13 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF1AC5501DF5A6A100DCBA13 /* UserNotificationsUI.framework */; };
 		AF1AC5541DF5A6A100DCBA13 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1AC5531DF5A6A100DCBA13 /* NotificationViewController.swift */; };
@@ -136,6 +141,11 @@
 		76680437267A207995EC63FD /* Pods-KratosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KratosUITests/Pods-KratosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		86EC5E845D25026904F837F7 /* Pods_Kratos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kratos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E2C0D1F0BFAA77B0FD2EA1F /* Pods-Kratos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.debug.xcconfig"; sourceTree = "<group>"; };
+		AF0EED451E0A078700E7A19C /* ErrorTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorTypes.swift; sourceTree = "<group>"; };
+		AF0EED471E0A0E8300E7A19C /* Tally.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tally.swift; sourceTree = "<group>"; };
+		AF0EED491E0A192400E7A19C /* UserVote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserVote.swift; sourceTree = "<group>"; };
+		AF0EED4B1E0A245200E7A19C /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		AF0EED4D1E0A246300E7A19C /* Role.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
 		AF1AC54D1DF5A6A100DCBA13 /* KratoCustomNotification.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = KratoCustomNotification.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF1AC54E1DF5A6A100DCBA13 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		AF1AC5501DF5A6A100DCBA13 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
@@ -418,10 +428,14 @@
 		AF89748F1D4D862B00C19020 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				AF89749B1D4D8ADC00C19020 /* Vote.swift */,
-				AF89749D1D4D8B2700C19020 /* Representative.swift */,
 				AF8974AE1D4E98C700C19020 /* User.swift */,
+				AF0EED471E0A0E8300E7A19C /* Tally.swift */,
+				AF89749B1D4D8ADC00C19020 /* Vote.swift */,
+				AF0EED491E0A192400E7A19C /* UserVote.swift */,
+				AF89749D1D4D8B2700C19020 /* Representative.swift */,
 				AF5793171D6D440400D86B73 /* Bill.swift */,
+				AF0EED4B1E0A245200E7A19C /* Person.swift */,
+				AF0EED4D1E0A246300E7A19C /* Role.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -470,6 +484,7 @@
 			children = (
 				AF8974AC1D4E969000C19020 /* APIService.swift */,
 				AFE47F4A1DF344D500008CCB /* APIManager.swift */,
+				AF0EED451E0A078700E7A19C /* ErrorTypes.swift */,
 			);
 			path = APIClient;
 			sourceTree = "<group>";
@@ -943,6 +958,9 @@
 				AF8974B81D4F058E00C19020 /* UIColor+Extension.swift in Sources */,
 				AFB5CCB81DE0B821006E51A2 /* BillCommitteesView.swift in Sources */,
 				AF28439D1D5ADAD9007B3F18 /* Pager.swift in Sources */,
+				AF0EED461E0A078700E7A19C /* ErrorTypes.swift in Sources */,
+				AF0EED4E1E0A246300E7A19C /* Role.swift in Sources */,
+				AF0EED4C1E0A245200E7A19C /* Person.swift in Sources */,
 				AFB5CCB01DE0B725006E51A2 /* VoteDetailsView.swift in Sources */,
 				AF3C2FF41DD35C5500353638 /* Date+Extensions.swift in Sources */,
 				AF2843991D5AD4D3007B3F18 /* Contstants.swift in Sources */,
@@ -964,6 +982,7 @@
 				AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */,
 				AF5793181D6D440400D86B73 /* Bill.swift in Sources */,
 				AF28439B1D5AD686007B3F18 /* Datastore.swift in Sources */,
+				AF0EED4A1E0A192400E7A19C /* UserVote.swift in Sources */,
 				AF9F04961DC27DC000A8BB74 /* CoSponsorsTableViewCell.swift in Sources */,
 				AF89749A1D4D88F600C19020 /* BillViewController.swift in Sources */,
 				AFF748191DCFF37700F519AE /* UIView+Extension.swift in Sources */,
@@ -977,6 +996,7 @@
 				AF2B8C6C1D62D21300C31FA9 /* RepresentativeView.swift in Sources */,
 				AFF748101DC97FF500F519AE /* RepContactView.swift in Sources */,
 				AF39130E1DFA577400123B5C /* YourVoteTableViewCell.swift in Sources */,
+				AF0EED481E0A0E8300E7A19C /* Tally.swift in Sources */,
 				AF8974AD1D4E969000C19020 /* APIService.swift in Sources */,
 				AFD5AA9B1D9C618800A5714C /* NSMutableURLRequest+Extension.swift in Sources */,
 				AFB5CCA81DE0B6DD006E51A2 /* RepVoteView.swift in Sources */,

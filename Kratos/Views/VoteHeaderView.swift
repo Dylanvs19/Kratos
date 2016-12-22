@@ -39,15 +39,15 @@ class VoteHeaderView: UIView {
         self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
     }
     
-    func configure(with vote: Vote) {
-        titleLabel.text = vote.questionTitle
-        currentStatusLabel.text = vote.result
-        if let date = vote.date {
+    func configure(with tally: Tally) {
+        titleLabel.text = tally.question
+        currentStatusLabel.text = tally.result
+        if let date = tally.date {
             currentStatusDateLabel.text = DateFormatter.presentationDateFormatter.string(from:date)
         }
-        if let votesFor = vote.votesFor,
-            let against = vote.votesAgainst,
-            let abstain = vote.votesAbstain {
+        if let votesFor = tally.yea,
+            let against = tally.nay,
+            let abstain = tally.abstain {
             let data = [PieChartData(with: votesFor, and: .yea),
                         PieChartData(with: abstain, and: .abstain),
                         PieChartData(with: against, and: .nay)

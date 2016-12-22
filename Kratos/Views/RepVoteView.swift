@@ -38,7 +38,7 @@ class RepVoteView: UIView {
         self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
     }
     
-    func configure(with representative: DetailedRepresentative, and vote: Vote) {
+    func configure(with representative: Person, and vote: LightTally) {
         if let first = representative.firstName,
             let last = representative.lastName {
             nameLabel.text = first + " " + last

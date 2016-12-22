@@ -19,7 +19,7 @@ class RepresentativeView: UIView {
     @IBOutlet var firstNameLabel: UILabel!
     @IBOutlet var representativeLabel: UILabel!
     
-    var representative: DetailedRepresentative?
+    var representative: Person?
     var selected = false
     var viewPosition: Int = 0
     
@@ -57,7 +57,7 @@ class RepresentativeView: UIView {
         repViewDelegate?.repViewTapped(is: selected, at: viewPosition)
     }
     
-    func configure(with representative:DetailedRepresentative) {
+    func configure(with representative:Person) {
         self.representative = representative
         guard let firstName = representative.firstName,
             let lastName = representative.lastName else { return }
@@ -70,14 +70,14 @@ class RepresentativeView: UIView {
         representativeImageView?.layer.cornerRadius = 2.0
         firstNameLabel.text = "\(firstName) \(lastName)"
         
-        representativeLabel.text = representative.representativeType?.rawValue
+        representativeLabel.text = representative.roles?.first?.representativeType?.rawValue
         
         if let imageURL = representative.imageURL {
             UIImage.downloadedFrom(imageURL, onCompletion: { (image) -> (Void) in
                 guard let image = image else { return }
                 self.representativeImageView.image = image
                 self.representativeImageView.contentMode = .scaleAspectFill
-                if let party = representative.party {
+                if let party = representative.currentParty {
                     var color = UIColor()
                     switch party {
                     case .democrat:

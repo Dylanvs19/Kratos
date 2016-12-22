@@ -8,11 +8,30 @@
 
 import UIKit
 
-class YourVotesViewController: UIViewController {
+class YourVotesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet weak var tableView: UITableView!
     
+    var userVotes: [UserVote]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    func loadData() {
+        
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
+    @IBAction func dismissButtonPressed(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
 }
