@@ -72,12 +72,30 @@ struct APIManager {
         }
     }
     
-    static func getVotes(for representative: Person, success: @escaping ([LightTally]) -> (), failure: (NetworkError) -> Void?) {
+    static func getTallies(for representative: Person, success: @escaping ([LightTally]) -> (), failure: @escaping (NetworkError) -> ()) {
     
         APIService.loadVotes(for: representative, success: { (tallies) in
                 success(tallies)
         }, failure:  { _ in
             success([])
         })
+    }
+    
+    static func getTally(for lightTally: LightTally, success: @escaping (Tally) -> (), failure: @escaping (NetworkError) -> ()) {
+        
+        APIService.loadTally(for: lightTally, success: { (tally) -> (Void) in
+            success(tally)
+        }) { (error) -> (Void) in
+            failure(error)
+        }
+    }
+    
+    static func getBill(for billID: Int, success: @escaping (Bill) -> (), failure: @escaping (NetworkError) -> ()) {
+        
+        APIService.loadBill(from: billID, success: { (bill) -> (Void) in
+            success(bill)
+        }) { (error) -> (Void) in
+            failure(error)
+        }
     }
 }

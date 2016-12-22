@@ -17,21 +17,22 @@ struct APIService {
             failure(.invalidURL)
             return
         }
-        let session: URLSession = URLSession.shared
         if let dict = user.toJson(with: password) {
             
-            let request = NSMutableURLRequest()
-            do {
-                try request.setAuthentication(for: url, requestType: .post, body: dict as [String : AnyObject])
-            } catch {
-                failure(.invalidSerialization)
-            }
-            
-            let task: URLSessionDataTask = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            let session: URLSession = URLSession.shared
+            let request = URLRequest(url: url, requestType: .post, body: dict)
+    
+            let task: URLSessionDataTask = session.dataTask(with: request) { (data, response, error) in
+                if let httpResponse = response as? HTTPURLResponse {
+                    if let error = NetworkError.error(for: httpResponse.statusCode) {
+                        failure(error)
+                    }
+                }
                 guard let data = data else {
                     failure(.nilData)
                     return
                 }
+                
                 var obj:[String: AnyObject]?
                 do {
                     obj = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
@@ -43,11 +44,6 @@ struct APIService {
                     DispatchQueue.main.async(execute: {
                         success(user)
                     })
-                }
-                if let httpResponse = response as? HTTPURLResponse {
-                    if let error = NetworkError.error(for: httpResponse.statusCode) {
-                        failure(error)
-                    }
                 }
             }
             task.resume()
@@ -62,14 +58,16 @@ struct APIService {
         }
         
         let session: URLSession = URLSession.shared
-        let request = NSMutableURLRequest()
-        do {
-            try request.setAuthentication(for: url, requestType: .get, body: nil)
-        } catch {
-            failure(.invalidSerialization)
-        }
+        let request = URLRequest(url: url, requestType: .get)
         
-        let task: URLSessionDataTask = session.dataTask(with: request as URLRequest) { (data, response, error) in
+        let task: URLSessionDataTask = session.dataTask(with: request) { (data, response, error) in
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if let error = NetworkError.error(for: httpResponse.statusCode) {
+                    failure(error)
+                }
+            }
+            
             if let data = data {
                 
                 var obj:[String: AnyObject]?
@@ -86,35 +84,36 @@ struct APIService {
                     })
                 }
             }
-            if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode) {
-                    failure(error)
-                }
-            }
         }
         task.resume()
     }
     
     static func logIn(with phone: Int, password: String, success: @escaping (User) -> (), failure: @escaping (NetworkError) -> ()) {
-        let dict: [String: [String: Any]] = ["session": [
-            "phone": phone,
-            "password": password
-            ]]
+        let parameters: [String: AnyObject] = [
+            "phone": phone as AnyObject,
+            "password": password as AnyObject
+        ]
         
-        let session: URLSession = URLSession.shared
+        let newParameters = parameters as Any
+        
+        let dict: [String: Any] = ["session": newParameters as Any]
+        
         guard let url = URL(string: Constants.LOGIN_URL) else {
             failure(.invalidURL)
             return
         }
-        let request = NSMutableURLRequest()
         
-        do {
-            try request.setAuthentication(for: url, requestType: .post, body: dict as [String : AnyObject])
-        } catch {
-            failure(.invalidSerialization)
-        }
+        let session: URLSession = URLSession.shared
+        let request = URLRequest(url: url, requestType: .post, body: dict)
         
         let task: URLSessionDataTask = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if let error = NetworkError.error(for: httpResponse.statusCode) {
+                    failure(error)
+                }
+            }
+
             if let data = data {
                 var obj:[String: AnyObject]?
                 do {
@@ -122,6 +121,7 @@ struct APIService {
                 } catch {
                     failure(.invalidSerialization)
                 }
+                
                 if let obj = obj,
                     let user = User(json: obj) {
                     DispatchQueue.main.async(execute: {
@@ -129,34 +129,29 @@ struct APIService {
                     })
                 }
             }
-            if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode) {
-                    failure(error)
-                }
-            }
-            
         }
         task.resume()
     }
     
     static func loadRepresentatives(for state: String, and district: Int, success: @escaping ([Person]) -> (), failure: @escaping (NetworkError) -> ()) {
         
-        let session: URLSession = URLSession.shared
         guard let url = URL(string: "\(Constants.REPRESENTATIVES_URL)\(state)/\(district)") else {
             failure(.invalidURL)
             return
         }
         
-        let request = NSMutableURLRequest()
-        do {
-            try request.setAuthentication(for: url, requestType: .get, body: nil)
-        } catch {
-            failure(.invalidSerialization)
-        }
+        let session: URLSession = URLSession.shared
+        let request = URLRequest(url: url, requestType: .get)
         
         let task: URLSessionDataTask = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if let error = NetworkError.error(for: httpResponse.statusCode) {
+                    failure(error)
+                }
+            }
+            
             if let data = data {
-                
                 var obj:[String: AnyObject]?
                 do {
                     obj = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
@@ -174,56 +169,13 @@ struct APIService {
                     })
                 }
             }
-            if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode) {
-                    failure(error)
-                }
-            }
         }
         task.resume()
     }
     
     
     
-    static func loadBill(from billId: Int, success: @escaping (Bill) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
-        
-        guard let url = URL(string: "\(Constants.BILL_URL)\(billId)") else {
-            failure(.invalidURL)
-            return
-        }
-        let session: URLSession = URLSession.shared
-        let request = NSMutableURLRequest()
-        do {
-            try request.setAuthentication(for: url, requestType: .get, body: nil)
-        } catch {
-            failure(.invalidSerialization)
-        }
-        
-        let task: URLSessionDataTask = session.dataTask(with: request as URLRequest) { (data, response, error) in
-            if let data = data {
-                
-                var obj:[String: AnyObject]?
-                do {
-                    obj = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
-                } catch {
-                    failure(.invalidSerialization)
-                }
-                
-                if let obj = obj,
-                    let bill = Bill(json: obj) {
-                    DispatchQueue.main.async(execute: {
-                        success(bill)
-                    })
-                }
-            }
-            if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode) {
-                    failure(error)
-                }
-            }
-        }
-        task.resume()
-    }
+    
     
     static func loadVotes(for representative: Person, success: @escaping ([LightTally]) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
         
@@ -234,17 +186,16 @@ struct APIService {
         }
         
         let session: URLSession = URLSession.shared
-        let request = NSMutableURLRequest()
-        
-        do {
-            try request.setAuthentication(for: url, requestType: .get, body: nil)
-        } catch {
-            failure(.invalidSerialization)
-        }
+        let request = URLRequest(url: url, requestType: .get)
         
         let task: URLSessionDataTask = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            if let httpResponse = response as? HTTPURLResponse {
+                if let error = NetworkError.error(for: httpResponse.statusCode) {
+                    failure(error)
+                }
+            }
+
             if let data = data {
-                
                 var obj:[String: AnyObject]?
                 do {
                     obj = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
@@ -252,7 +203,7 @@ struct APIService {
                     failure(.invalidSerialization)
                 }
                 
-                if let tallies = obj?["data"]?["voting_record"] as? [[String:AnyObject]] {
+                if let tallies = obj?["data"]?["voting_record"] as? [[String: AnyObject]] {
                     let lightTallies = tallies.map({
                         LightTally(json: $0)
                     })
@@ -261,12 +212,82 @@ struct APIService {
                     })
                 }
             }
+        }
+        task.resume()
+    }
+    
+    static func loadTally(for lightTally: LightTally, success: @escaping (Tally) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+        
+        guard let id = lightTally.id,
+            let url = URL(string: "\(Constants.TALLY_URL)\(id)") else {
+                failure(.invalidURL)
+                return
+        }
+        
+        let session: URLSession = URLSession.shared
+        let request = URLRequest(url: url, requestType: .get)
+        
+        let task: URLSessionDataTask = session.dataTask(with: request as URLRequest) { (data, response, error) in
             if let httpResponse = response as? HTTPURLResponse {
                 if let error = NetworkError.error(for: httpResponse.statusCode) {
                     failure(error)
+                }
+            }
+            
+            if let data = data {
+                var obj:[String: AnyObject]?
+                do {
+                    obj = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
+                } catch {
+                    failure(.invalidSerialization)
+                }
+                
+                if let obj = obj {
+                   let tally = Tally(json: obj)
+                    DispatchQueue.main.async(execute: {
+                        success(tally)
+                    })
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    static func loadBill(from billId: Int, success: @escaping (Bill) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+        
+        guard let url = URL(string: "\(Constants.BILL_URL)\(billId)") else {
+            failure(.invalidURL)
+            return
+        }
+        
+        let session: URLSession = URLSession.shared
+        let request = URLRequest(url: url, requestType: .get)
+        
+        let task: URLSessionDataTask = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if let error = NetworkError.error(for: httpResponse.statusCode) {
+                    failure(error)
+                }
+            }
+            
+            if let data = data {
+                var obj:[String: AnyObject]?
+                do {
+                    obj = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
+                } catch {
+                    failure(.invalidSerialization)
+                }
+                
+                if let obj = obj,
+                   let bill = Bill(json: obj) {
+                    DispatchQueue.main.async(execute: {
+                        success(bill)
+                    })
                 }
             }
         }
         task.resume()
     }
 }
+

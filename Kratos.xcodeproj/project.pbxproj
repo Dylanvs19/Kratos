@@ -79,7 +79,7 @@
 		AFB5CCBA1DE0B834006E51A2 /* BillSponsorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCB91DE0B834006E51A2 /* BillSponsorsView.swift */; };
 		AFB5CCBC1DE0B83F006E51A2 /* BillSponsorsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCBB1DE0B83F006E51A2 /* BillSponsorsView.xib */; };
 		AFD5AA971D9C3D0C00A5714C /* KratosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974731D4D80E500C19020 /* KratosTests.swift */; };
-		AFD5AA9B1D9C618800A5714C /* NSMutableURLRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5AA9A1D9C618800A5714C /* NSMutableURLRequest+Extension.swift */; };
+		AFD5AA9B1D9C618800A5714C /* URLRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5AA9A1D9C618800A5714C /* URLRequest+Extension.swift */; };
 		AFD82F921D88FBFA00AEB559 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */; };
 		AFE47F4B1DF344D500008CCB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE47F4A1DF344D500008CCB /* APIManager.swift */; };
 		AFE47F4D1DF34F1C00008CCB /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE47F4C1DF34F1C00008CCB /* DatePickerView.swift */; };
@@ -218,7 +218,7 @@
 		AFB5CCB71DE0B821006E51A2 /* BillCommitteesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillCommitteesView.swift; sourceTree = "<group>"; };
 		AFB5CCB91DE0B834006E51A2 /* BillSponsorsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillSponsorsView.swift; sourceTree = "<group>"; };
 		AFB5CCBB1DE0B83F006E51A2 /* BillSponsorsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillSponsorsView.xib; sourceTree = "<group>"; };
-		AFD5AA9A1D9C618800A5714C /* NSMutableURLRequest+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+Extension.swift"; sourceTree = "<group>"; };
+		AFD5AA9A1D9C618800A5714C /* URLRequest+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLRequest+Extension.swift"; sourceTree = "<group>"; };
 		AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kratos.entitlements; sourceTree = "<group>"; };
 		AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AFE47F4A1DF344D500008CCB /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
@@ -417,7 +417,7 @@
 				AF8974B91D5036DA00C19020 /* NSCharacterSet+Extensions.swift */,
 				AF2D3D051D5D85EF006B75D1 /* UIImage+Extension.swift */,
 				AF5793191D6D4C0000D86B73 /* NSDateFormatter+Extensions.swift */,
-				AFD5AA9A1D9C618800A5714C /* NSMutableURLRequest+Extension.swift */,
+				AFD5AA9A1D9C618800A5714C /* URLRequest+Extension.swift */,
 				AFF748181DCFF37700F519AE /* UIView+Extension.swift */,
 				AF3DBCE81DD0C34B006B146F /* Array+Extensions.swift */,
 				AF3C2FF31DD35C5500353638 /* Date+Extensions.swift */,
@@ -998,7 +998,7 @@
 				AF39130E1DFA577400123B5C /* YourVoteTableViewCell.swift in Sources */,
 				AF0EED481E0A0E8300E7A19C /* Tally.swift in Sources */,
 				AF8974AD1D4E969000C19020 /* APIService.swift in Sources */,
-				AFD5AA9B1D9C618800A5714C /* NSMutableURLRequest+Extension.swift in Sources */,
+				AFD5AA9B1D9C618800A5714C /* URLRequest+Extension.swift in Sources */,
 				AFB5CCA81DE0B6DD006E51A2 /* RepVoteView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

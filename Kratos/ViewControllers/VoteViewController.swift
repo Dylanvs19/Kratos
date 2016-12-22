@@ -11,8 +11,19 @@ class VoteViewController: UIViewController {
     
     @IBOutlet weak var stackView: UIStackView!
     
-    var lightTally: LightTally?
-    var tally: Tally?
+    var lightTally: LightTally? {
+        didSet {
+            loadData()
+        }
+    }
+    var tally: Tally? {
+        didSet {
+            if let tally = tally,
+                let rep = representative {
+                configureView(with: tally, and: rep)
+            }
+        }
+    }
     var representative: Person?
     
     override func viewDidLoad() {
@@ -22,6 +33,18 @@ class VoteViewController: UIViewController {
         if let tally = tally,
             let representative = representative {
             configureView(with: tally, and: representative)
+        }
+    }
+    
+    func loadData() {
+        if let lightTally = lightTally {
+            
+            
+            APIManager.getTally(for: lightTally, success: { (tally) in
+                self.tally = tally
+            }, failure: { (error) in
+                //Handle error
+            })
         }
     }
 

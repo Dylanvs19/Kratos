@@ -70,7 +70,13 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     var menuViewController: MenuViewController?
     var disableSwipe = false
     
-    var representatives: [Person]?
+    var representatives: [Person]? {
+        didSet {
+            if representatives != nil {
+                configureRepViews()
+            }
+        }
+    }
     var selectedRepresentative: Person? {
         didSet {
             if let selectedRepresentative = selectedRepresentative {
@@ -151,8 +157,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         navigationController?.isNavigationBarHidden = true
         
         representatives = Datastore.sharedDatastore.representatives
-        
-        loadData()
         
         configureStateImage()
         
@@ -245,23 +249,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         view.addGestureRecognizer(swipeGR)
     }
     
-    //MARK: Load Data and Data Coordination
-    // THIS WILL BE DELETED WHEN PAGER IS SET UP SERVER SIDE
-    func loadData() {
-        if let representatives = representatives {
-            let repArray:[Person] = representatives.map ({ (rep) in
-                var holdRep = rep
-                APIManager.getVotes(for: rep, success: { (lightTallies) in
-                    holdRep.tallies = lightTallies
-                }, failure: { (error) in
-                    print(error)
-                })
-            return holdRep
-           }).flatMap({ $0 })
-        self.representatives = repArray
-        }
-    }
-    
     fileprivate func setInitial(data: [LightTally]) {
         guard let selectedRepIndex = selectedRepIndex else {
             print("setInitial")
@@ -290,12 +277,14 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     fileprivate func loadInitialVoteData() {
-        guard let selectedRepIndex = selectedRepIndex else {
+        guard let selectedRepresentative = selectedRepresentative else {
             print("Load Initial Data")
             return
         }
-        Datastore.sharedDatastore.getVotesFor(representative: selectedRepIndex, at: 0, with: 50, onCompletion: { (tallies) in
-            setInitial(data: tallies)
+        APIManager.getTallies(for: selectedRepresentative, success: { (lightTallies) in
+            self.setInitial(data: lightTallies)
+        }, failure: { (error) in
+            print(error)
         })
     }
     
@@ -509,12 +498,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         if scrollView.contentOffset.y < 0 {
             kratosImageViewToTop.constant = 5 + scrollView.contentOffset.y
             kratosImageView.transform = .init(rotationAngle: scrollView.contentOffset.y/50)
-        }
-        if scrollView.contentOffset.y < -90 {
-            if !blurViewEnabled {
-                self.mainView.addBlurEffect()
-                mainView.bringSubview(toFront: kratosImageView)
-            }
         }
     }
     

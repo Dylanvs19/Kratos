@@ -16,6 +16,7 @@ struct Constants {
     
     static let REPRESENTATIVES_URL = "https://kratos.website/api/districts/"
     static let VOTES_URL = "https://kratos.website/api/representatives/"
+    static let TALLY_URL = "https://kratos.website/api/tallies/"
     static let BILL_URL = "https://kratos.website/api/bills/"
     
     static let VOTE_TABLEVIEWCELL_IDENTIFIER = "VoteTableViewCellIdentifier"

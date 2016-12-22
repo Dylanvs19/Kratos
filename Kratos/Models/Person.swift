@@ -30,7 +30,7 @@ struct Person {
         self.twitter = json["twitterid"] as? String
         self.youtube = json["youtubeid"] as? String
         self.currentState = json["current_state"] as? String
-        if let party = json["current_Party"] as? String {
+        if let party = json["current_party"] as? String {
             self.currentParty = Party.party(value: party)
         }
         self.imageURL = json["image_url"] as? String

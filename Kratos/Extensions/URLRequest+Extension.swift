@@ -13,13 +13,14 @@ enum URLRequestType: String {
     case get = "GET"
 }
 
-extension NSMutableURLRequest {
+extension URLRequest {
 
     ///Convenience Method that sets major components of initialized NSMutableURLRequest and throws error if body cannot be serialized into JSON
-    ///@param - url: NSURL - URL
-    ///@param - requestType: URLRequestType - HTTPMethod
-    ///@param - body: [String: AnyObject]? - HTTPBody
-    func setAuthentication(for url: URL, requestType: URLRequestType, body: [String: AnyObject]?) throws {
+    /// - parameter - url: NSURL - URL
+    /// - parameter - requestType: URLRequestType - HTTPMethod
+    /// - parameter - body: [String: AnyObject]? - HTTPBody
+    init(url: URL, requestType: URLRequestType, body: [String: Any]? = nil) {
+        
         self.url = url
         httpMethod = requestType.rawValue
         addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -27,13 +28,7 @@ extension NSMutableURLRequest {
             addValue("Bearer \(token)", forHTTPHeaderField:"Authorization")
         }
         if let body = body {
-            do {
-                let jsonData = try JSONSerialization.data(withJSONObject: body, options: [.prettyPrinted])
-                httpBody = jsonData
-            } catch let error as NSError {
-                throw error
-            }
+            httpBody = try? JSONSerialization.data(withJSONObject: body, options: [.prettyPrinted])
         }
     }
-    
 }

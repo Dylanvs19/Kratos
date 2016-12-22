@@ -100,26 +100,26 @@ struct LightTally {
     
     init(json: [String: AnyObject]) {
         
-        self.id = json["id"] as? Int
-        self.yea = json["total_plus"] as? Int
-        self.abstain = json["total_other"] as? Int
-        self.nay = json["total_minus"] as? Int
-        self.result = json["result"] as? String
-        self.treaty = json["treaty"] as? String
-        self.subject = json["subject"] as? String
-        self.requires = json["requires"] as? String
-        self.lastRecordUpdate = json["record_updated_at"] as? String
-        self.amendment = json["amendment"] as? String
-        self.type = json["type"] as? String
+        self.id = json["tally"]?["id"] as? Int
+        self.yea = json["tally"]?["total_plus"] as? Int
+        self.abstain = json["tally"]?["total_other"] as? Int
+        self.nay = json["tally"]?["total_minus"] as? Int
+        self.result = json["tally"]?["result"] as? String
+        self.treaty = json["tally"]?["treaty"] as? String
+        self.subject = json["tally"]?["subject"] as? String
+        self.requires = json["tally"]?["requires"] as? String
+        self.lastRecordUpdate = json["tally"]?["record_updated_at"] as? String
+        self.amendment = json["tally"]?["amendment"] as? String
+        self.type = json["tally"]?["type"] as? String
         
-        if let holdDate = json["created"] as? String {
+        if let holdDate = json["tally"]?["date"] as? String {
             self.date = DateFormatter.longDateFormatter.date(from: holdDate)
         }
-        self.question = json["question"] as? String
-        if let holdCategory = json["category"] as? String {
+        self.question = json["tally"]?["question"] as? String
+        if let holdCategory = json["tally"]?["category"] as? String {
             self.category = TallyType(rawValue: holdCategory) ?? .unknown
         }
-        if let holdChamber = json["chamber"] as? String {
+        if let holdChamber = json["tally"]?["chamber"] as? String {
             self.chamber = Chamber(rawValue: holdChamber)
         }
         if let vote = json["value"] as? String {
