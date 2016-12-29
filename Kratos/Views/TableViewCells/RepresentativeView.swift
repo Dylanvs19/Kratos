@@ -12,7 +12,7 @@ protocol RepViewDelegate {
     func repViewTapped(is selected: Bool, at position: Int)
 }
 
-class RepresentativeView: UIView {
+class RepresentativeView: UIView, Loadable {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet var representativeImageView: UIImageView!
@@ -38,13 +38,6 @@ class RepresentativeView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         setGestureRecognizer()
-    }
-    
-    func customInit() {
-        Bundle.main.loadNibNamed("RepresentativeView", owner: self, options: nil)
-        addSubview(contentView)
-        translatesAutoresizingMaskIntoConstraints = false
-        contentView.frame = bounds
     }
     
     func setGestureRecognizer() {

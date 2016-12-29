@@ -42,6 +42,7 @@ class VoteHeaderView: UIView {
     func configure(with tally: Tally) {
         titleLabel.text = tally.question
         currentStatusLabel.text = tally.result
+        
         if let date = tally.date {
             currentStatusDateLabel.text = DateFormatter.presentationDateFormatter.string(from:date)
         }

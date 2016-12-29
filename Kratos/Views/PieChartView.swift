@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PieChartView: UIView {
+class PieChartView: UIView, Loadable {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet var forLabel: UILabel!
@@ -26,18 +26,6 @@ class PieChartView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         customInit()
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    func customInit() {
-        Bundle.main.loadNibNamed("PieChartView", owner: self, options: nil)
-        addSubview(contentView)
-        contentView.frame = bounds
-        translatesAutoresizingMaskIntoConstraints = false
-        self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
     }
     
     func configure(with data: [PieChartData]) {

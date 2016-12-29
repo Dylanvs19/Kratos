@@ -26,20 +26,16 @@ class VoteTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
     func configureWith(_ tally: LightTally) {
-        voteTitleLabel.text = tally.question ?? ""
+        voteTitleLabel.text = tally.subject ?? ""
         if let voteType = tally.vote {
             switch voteType {
             case .yea:
-                voteImageView.image = UIImage(named: "Yes")
+                voteImageView.image = #imageLiteral(resourceName: "Yes")
             case .nay:
-                voteImageView.image = UIImage(named: "No")
+                voteImageView.image = #imageLiteral(resourceName: "No")
             case .abstain:
-                voteImageView.image = UIImage(named: "Abstain")
+                voteImageView.image = #imageLiteral(resourceName: "Abstain")
             }
         }
     }

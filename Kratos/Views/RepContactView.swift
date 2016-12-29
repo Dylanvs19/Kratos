@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RepContactView: UIView {
+class RepContactView: UIView, Loadable {
     
     @IBOutlet var contentView: UIView!
     
@@ -32,19 +32,16 @@ class RepContactView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         customInit()
+        setupView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         customInit()
+        setupView()
     }
     
-    func customInit() {
-        Bundle.main.loadNibNamed("RepContactView", owner: self, options: nil)
-        addSubview(contentView)
-        translatesAutoresizingMaskIntoConstraints = false
-        contentView.frame = bounds
-        autoresizingMask = [.flexibleHeight, .flexibleWidth, .flexibleLeftMargin, .flexibleRightMargin]
+    func setupView() {
         
         websiteButton.setBackgroundImage(UIImage(named: "WebsiteLogo") , for: .normal)
         twitterButton.setBackgroundImage(UIImage(named: "TwitterLogo") , for: .normal)

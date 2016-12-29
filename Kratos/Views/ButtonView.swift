@@ -1,19 +1,19 @@
 //
-//  RelatedBillView.swift
+//  ButtonView.swift
 //  Kratos
 //
-//  Created by Dylan Straughan on 11/19/16.
+//  Created by Dylan Straughan on 12/28/16.
 //  Copyright © 2016 Dylan Straughan. All rights reserved.
 //
 
 import UIKit
 
-class ButtonView: UIView {
+class ButtonView: UIView, Tappable, Loadable {
+    internal var selector: Selector = #selector(viewTapped)
     
-    @IBOutlet var contentView: UIView!
+    @IBOutlet public var contentView: UIView!
     @IBOutlet weak var label: UILabel!
-    
-    var actionBlock: (() -> Void)?
+    var actionBlock: (() -> ())?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -27,28 +27,17 @@ class ButtonView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        customInit()
     }
     
-    func customInit() {
-        Bundle.main.loadNibNamed("ButtonView", owner: self, options: nil)
-        addSubview(contentView)
-        contentView.frame = bounds
-        translatesAutoresizingMaskIntoConstraints = false
-        self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        setupGestureRecognizer()
-    }
-    
-    func configure(with title: String, actionBlock: @escaping (() -> Void)) {
-        self.label.text = title
+    func configure(with title: String, actionBlock: (() -> ())?) {
+        label.text = title
         self.actionBlock = actionBlock
+        addTap()
     }
     
-    func setupGestureRecognizer() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        addGestureRecognizer(tap)
-    }
-    
-    func handleTap() {
+    func viewTapped() {
         actionBlock?()
     }
 }
+    
