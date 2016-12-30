@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BillSponsorsView: UIView, UITableViewDelegate, UITableViewDataSource {
+class BillSponsorsView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet var stateImageView: UIImageView!
@@ -41,15 +41,10 @@ class BillSponsorsView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        customInit()
+        setupTableView()
     }
     
-    func customInit() {
-        Bundle.main.loadNibNamed("BillSponsorsView", owner: self, options: nil)
-        addSubview(contentView)
-        contentView.frame = bounds
-        translatesAutoresizingMaskIntoConstraints = false
-        self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+    func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UINib(nibName: "CoSponsorsTableViewCell", bundle: nil) , forCellReuseIdentifier: "CoSponsorsTableViewCell")

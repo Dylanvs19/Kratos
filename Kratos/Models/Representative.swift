@@ -25,10 +25,39 @@ enum Party: String, RawRepresentable {
             return nil
         }
     }
+    func capitalLetter() -> String {
+        switch self {
+        case .democrat:
+            return "D"
+        case .republican:
+            return "R"
+        case .independent:
+            return "I"
+        }
+    }
+    func short() -> String {
+        switch self {
+        case .democrat:
+            return "Dem"
+        case .republican:
+            return "Rep"
+        case .independent:
+            return "Ind"
+        }
+    }
 }
 enum RepresentativeType: String, RawRepresentable {
     case representative = "Representative"
     case senator = "Senator"
+    
+    func short() -> String {
+        switch self {
+        case .representative:
+            return "Rep"
+        case .senator:
+            return "Sen"
+        }
+    }
 }
 
 struct LightRepresentative {
@@ -39,6 +68,8 @@ struct LightRepresentative {
     var imageURL: String?
     var state: String?
     var party: Party?
+    var representativeType: RepresentativeType?
+    var district: Int? 
 
     init(from json: [String: AnyObject]) {
         self.firstName = json["firstname"] as? String

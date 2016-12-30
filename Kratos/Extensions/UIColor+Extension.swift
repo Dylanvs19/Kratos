@@ -37,4 +37,15 @@ extension UIColor {
     static var kratosLightGray: UIColor {
         return UIColor(red: 243/255, green: 243/255, blue: 243/255, alpha: 1)
     }
+    
+    static func color(for party: Party) -> UIColor {
+        switch party {
+        case .democrat:
+            return UIColor.kratosBlue
+        case .republican:
+            return UIColor.kratosRed
+        case .independent:
+            return UIColor.kratosLightGray
+        }
+    }
 }

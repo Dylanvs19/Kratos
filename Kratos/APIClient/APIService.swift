@@ -69,7 +69,6 @@ struct APIService {
             }
             
             if let data = data {
-                
                 var obj:[String: AnyObject]?
                 do {
                     obj = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
@@ -93,10 +92,8 @@ struct APIService {
             "phone": phone as AnyObject,
             "password": password as AnyObject
         ]
-        
-        let newParameters = parameters as Any
-        
-        let dict: [String: Any] = ["session": newParameters as Any]
+                
+        let dict: [String: Any] = ["session": parameters as Any]
         
         guard let url = URL(string: Constants.LOGIN_URL) else {
             failure(.invalidURL)

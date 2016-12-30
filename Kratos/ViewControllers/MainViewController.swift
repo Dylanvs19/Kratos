@@ -554,7 +554,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let lightTally = cellMap[indexPath.section]?[indexPath.row],
               let rep = selectedRepresentative else { return }
-        let vc: VoteViewController = VoteViewController.instantiate()
+        let vc: TallyViewController = TallyViewController.instantiate()
         vc.lightTally = lightTally
         vc.representative = rep
         navigationController?.pushViewController(vc, animated: true)
@@ -582,7 +582,11 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
                 }
             }
         } else { // should present office address
-            let alertVC = UIAlertController(title: "A D D R E S S", message: "The address goes here", preferredStyle: .alert)
+            var address = "Could not find an office address for this representative"
+            if let addy = selectedRepresentative?.roles?.first?.officeAddress {
+                address = addy
+            }
+            let alertVC = UIAlertController(title: "A D D R E S S", message: address, preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "O K ", style: .destructive, handler: nil))
             present(alertVC, animated: true, completion: nil)
         }

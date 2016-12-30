@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BillHeaderView: UIView {
+class BillHeaderView: UIView, Loadable {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet var billNumber: UILabel!
@@ -30,18 +30,6 @@ class BillHeaderView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-    }
-    
-    func customInit() {
-Bundle.main.loadNibNamed("BillHeaderView", owner: self, options: nil)
-        addSubview(contentView)
-        contentView.frame = bounds
-        translatesAutoresizingMaskIntoConstraints = false
-        self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-//        layer.shadowColor = UIColor.black.cgColor
-//        layer.shadowOffset = CGSize(width: 0, height: 3)
-//        layer.shadowOpacity = 0.3
-//        layer.shadowRadius = 1
     }
     
     var bill: Bill? {

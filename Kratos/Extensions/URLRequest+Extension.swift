@@ -20,8 +20,8 @@ extension URLRequest {
     /// - parameter - requestType: URLRequestType - HTTPMethod
     /// - parameter - body: [String: AnyObject]? - HTTPBody
     init(url: URL, requestType: URLRequestType, body: [String: Any]? = nil) {
-        
-        self.url = url
+        //self.url = url
+        self.init(url: url)
         httpMethod = requestType.rawValue
         addValue("application/json", forHTTPHeaderField: "Content-Type")
         if let token = KeychainManager.fetchToken() {
@@ -30,5 +30,6 @@ extension URLRequest {
         if let body = body {
             httpBody = try? JSONSerialization.data(withJSONObject: body, options: [.prettyPrinted])
         }
+        
     }
 }

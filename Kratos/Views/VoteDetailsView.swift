@@ -8,10 +8,14 @@
 
 import UIKit
 
-class VoteDetailsView: UIView {
+class VoteDetailsView: UIView, Loadable {
     
     @IBOutlet var contentView: UIView!
-    @IBOutlet var voteDescriptionLabel: UILabel!
+    
+    @IBOutlet weak var requiredLabel: UILabel!
+    @IBOutlet weak var chamberLabel: UILabel!
+    @IBOutlet weak var questionTextView: UITextView!
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         customInit()
@@ -21,20 +25,11 @@ class VoteDetailsView: UIView {
         super.init(frame: frame)
         customInit()
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    func customInit() {
-        Bundle.main.loadNibNamed("VoteDetailsView", owner: self, options: nil)
-        addSubview(contentView)
-        contentView.frame = bounds
-        translatesAutoresizingMaskIntoConstraints = false
-        self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-    }
-    
-    func configure(with vote: Vote) {
+
+    func configure(with tally: Tally) {
+        requiredLabel.text = tally.requires ?? ""
+        chamberLabel.text = tally.chamber?.rawValue ?? ""
+        questionTextView.text = tally.question ?? ""
         
     }
 }

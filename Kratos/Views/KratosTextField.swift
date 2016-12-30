@@ -53,9 +53,9 @@ import UIKit
     
     fileprivate func customInit() {
         let view = UINib(nibName: "KratosTextField", bundle: Bundle(for: type(of: self))).instantiate(withOwner: self, options: nil).first as! UIView
-        //Bundle.main.loadNibNamed("KratosTextField", owner: self, options: nil)
         translatesAutoresizingMaskIntoConstraints = false
         view.frame = bounds
+        
         autoresizingMask = [.flexibleHeight, .flexibleWidth]
         addSubview(view)
         textField.delegate = self

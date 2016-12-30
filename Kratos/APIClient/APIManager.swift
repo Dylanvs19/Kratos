@@ -90,9 +90,9 @@ struct APIManager {
         }
     }
     
-    static func getBill(for billID: Int, success: @escaping (Bill) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func getBill(for billId: Int, success: @escaping (Bill) -> (), failure: @escaping (NetworkError) -> ()) {
         
-        APIService.loadBill(from: billID, success: { (bill) -> (Void) in
+        APIService.loadBill(from: billId, success: { (bill) -> (Void) in
             success(bill)
         }) { (error) -> (Void) in
             failure(error)

@@ -21,20 +21,16 @@ class BillViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         enableSwipeBack()
-        loadData { (bill) -> (Void) in
-            if let bill = bill {
-                self.configureView(with: bill)
-                self.bill = bill
-            }
-        }
+        loadData()
     }
     
-    func loadData(_ onCompletion: @escaping (Bill?) -> (Void)) {
+    func loadData() {
         if let billId = billId {
             APIService.loadBill(from: billId, success: { (bill) -> (Void) in
-                onCompletion(bill)
+                self.configureView(with: bill)
+                self.bill = bill
                 }, failure: { (error) -> (Void) in
-                    onCompletion(nil)
+                    //showError
                     print("COULD NOT LOAD BILL FROM API, \(error)")
             })
         }

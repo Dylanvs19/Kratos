@@ -24,7 +24,7 @@ class YourVoteTableViewCell: UITableViewCell {
             yourVoteImageView.image = UIImage.imageFor(vote: userVote)
         }
         
-        repVoteImageViewOne.image = UIImage.imageFor(vote: userVote.repOneVote?.vote ?? .abstain)
+        repVoteImageViewOne.image = UIImage.imageFor(vote: userVote.repOneVote?.voteValue ?? .abstain)
         
         // currently not going to be implementing repVotes 2 & 3
         repVoteImageViewTwo.isHidden = true

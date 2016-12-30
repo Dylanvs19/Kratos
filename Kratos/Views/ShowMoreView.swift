@@ -8,9 +8,14 @@
 
 import UIKit
 
-class ShowMoreView: UIView {
+class ShowMoreView: UIView, Loadable {
     
     @IBOutlet var contentView: UIView!
+    @IBOutlet var button: UIButton!
+    var title: String?
+    var alternativeTitle: String?
+    var actionBlock: (() -> ())?
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -18,11 +23,27 @@ class ShowMoreView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        customInit(with: contentView)
+        customInit()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        customInit(with: contentView)
+        customInit()
+    }
+
+    @IBAction func buttonPressed(_ sender: Any) {
+        actionBlock?()
+        if let alternativeTitle = alternativeTitle,
+           let title = title {
+            let newTitle = button.titleLabel?.text == self.title ? alternativeTitle : title
+            button.setTitle(newTitle, for: .normal)
+        }
+    }
+    
+    func configure(with buttonTitle: String, alternativeTitle: String? = nil, actionBlock: @escaping (() -> ())) {
+        title = buttonTitle
+        self.alternativeTitle = alternativeTitle
+        button.setTitle(buttonTitle, for: .normal)
+        self.actionBlock = actionBlock
     }
 }

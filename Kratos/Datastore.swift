@@ -14,24 +14,5 @@ class Datastore {
     
     var representatives: [Person]?
     var user: User?
-    
-    func getVotesFor(representative index: Int, at offset: Int, with limit: Int, onCompletion: (([LightTally]) -> Void)) {
-        guard let representatives = representatives , index < representatives.count else {
-            onCompletion([])
-            return
-        }
-        let rep = representatives[index]
-        if let tallies = rep.tallies , !tallies.isEmpty {
-            var endLimit = 0
-            if tallies.count > offset + limit {
-                endLimit = offset + limit - 1
-            } else {
-                endLimit = tallies.count - 1
-            }
-            let returnArray = Array(tallies[offset...endLimit])
-            onCompletion(returnArray)
-        } else {
-            onCompletion([])
-        }
-    }
+
 }

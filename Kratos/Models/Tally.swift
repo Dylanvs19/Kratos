@@ -38,7 +38,7 @@ struct Tally {
     var lastRecordUpdate: String?
     var amendment: String?
     var type: String?
-    var billID: Int?
+    var billId: Int?
     
     var date: Date?
     var chamber: Chamber?
@@ -48,9 +48,9 @@ struct Tally {
     init(json: [String: AnyObject]) {
         
         self.id = json["id"] as? Int
-        self.yea = json["total_plus"] as? Int
-        self.abstain = json["total_other"] as? Int
-        self.nay = json["total_minus"] as? Int
+        self.yea = buildYeaVote(from: json)
+        self.abstain = buildAbstainVote(from: json)
+        self.nay = buildNayVote(from: json)
         self.result = json["result"] as? String
         self.treaty = json["treaty"] as? String
         self.subject = json["subject"] as? String
@@ -58,9 +58,9 @@ struct Tally {
         self.lastRecordUpdate = json["record_updated_at"] as? String
         self.amendment = json["amendment"] as? String
         self.type = json["type"] as? String
-        self.billID = json["bill_id"] as? Int
+        self.billId = json["bill_id"] as? Int
         
-        if let holdDate = json["created"] as? String {
+        if let holdDate = json["date"] as? String {
             self.date = DateFormatter.longDateFormatter.date(from: holdDate)
         }
         self.question = json["question"] as? String
@@ -75,7 +75,38 @@ struct Tally {
                 return Vote(json: dictionary)
             }).flatMap({$0})
         }
-        
+    }
+    
+    fileprivate func buildYeaVote(from json: [String: AnyObject]) -> Int? {
+        var int:Int? = nil
+        if let yea = json["Aye"] as?  Int {
+            int = yea
+        } else if let yea = json["Yea"] as?  Int {
+            int = yea
+        } else if let yea = json["Yes"] as?  Int {
+            int = yea
+        }
+        return int
+    }
+    fileprivate func buildNayVote(from json: [String: AnyObject]) -> Int? {
+        var int:Int? = nil
+        if let no = json["Nay"] as?  Int {
+            int = no
+        } else if let no = json["No"] as?  Int {
+            int = no
+        }
+        return int
+    }
+    fileprivate func buildAbstainVote(from json: [String: AnyObject]) -> Int? {
+        var int:Int? = nil
+        if let abstain = json["Not Voting"] as?  Int {
+            int = abstain
+        } else if let abstain = json["Abstain"] as?  Int {
+            int = abstain
+        } else if let abstain = json["Absent"] as?  Int {
+            int = abstain
+        }
+        return int
     }
 }
 
@@ -96,7 +127,7 @@ struct LightTally {
     var date: Date?
     var chamber: Chamber?
     var category: TallyType?
-    var vote: VoteValue?
+    var voteValue: VoteValue?
     
     init(json: [String: AnyObject]) {
         
@@ -123,7 +154,7 @@ struct LightTally {
             self.chamber = Chamber(rawValue: holdChamber)
         }
         if let vote = json["value"] as? String {
-            self.vote = VoteValue.vote(value: vote)
+            self.voteValue = VoteValue.vote(value: vote)
         }
         
     }

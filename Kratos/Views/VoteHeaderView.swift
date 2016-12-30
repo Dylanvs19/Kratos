@@ -8,7 +8,7 @@
 
 import UIKit
 
-class VoteHeaderView: UIView {
+class VoteHeaderView: UIView, Loadable {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet var titleLabel: UILabel!
@@ -31,16 +31,8 @@ class VoteHeaderView: UIView {
         customInit()
     }
     
-    func customInit() {
-        Bundle.main.loadNibNamed("VoteHeaderView", owner: self, options: nil)
-        addSubview(contentView)
-        contentView.frame = bounds
-        translatesAutoresizingMaskIntoConstraints = false
-        self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-    }
-    
     func configure(with tally: Tally) {
-        titleLabel.text = tally.question
+        titleLabel.text = tally.subject
         currentStatusLabel.text = tally.result
         
         if let date = tally.date {

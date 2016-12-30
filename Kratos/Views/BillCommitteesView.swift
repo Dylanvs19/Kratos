@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BillCommitteesView: UIView, UITableViewDelegate, UITableViewDataSource {
+class BillCommitteesView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet var tableViewHeightConstraint: NSLayoutConstraint!
@@ -33,13 +33,10 @@ class BillCommitteesView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setupTableView()
     }
     
-    func customInit() {
-        Bundle.main.loadNibNamed("BillCommitteesView", owner: self, options: nil)
-        addSubview(contentView)
-        contentView.frame = bounds
-        translatesAutoresizingMaskIntoConstraints = false
+    func setupTableView() {
         self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         tableView.delegate = self
         tableView.dataSource = self

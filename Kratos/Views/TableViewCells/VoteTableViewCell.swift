@@ -28,7 +28,7 @@ class VoteTableViewCell: UITableViewCell {
     
     func configureWith(_ tally: LightTally) {
         voteTitleLabel.text = tally.subject ?? ""
-        if let voteType = tally.vote {
+        if let voteType = tally.voteValue {
             switch voteType {
             case .yea:
                 voteImageView.image = #imageLiteral(resourceName: "Yes")

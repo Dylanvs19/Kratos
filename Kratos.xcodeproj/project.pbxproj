@@ -27,6 +27,15 @@
 		AF2B8C6C1D62D21300C31FA9 /* RepresentativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B8C6B1D62D21300C31FA9 /* RepresentativeView.swift */; };
 		AF2B8C6E1D62D22600C31FA9 /* RepresentativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2B8C6D1D62D22600C31FA9 /* RepresentativeView.xib */; };
 		AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2D3D051D5D85EF006B75D1 /* UIImage+Extension.swift */; };
+		AF2F92391E147D000041369E /* ButtonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2F92381E147D000041369E /* ButtonView.xib */; };
+		AF2F923B1E147D090041369E /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2F923A1E147D090041369E /* ButtonView.swift */; };
+		AF2F923C1E15AC7A0041369E /* ShowMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2F922F1E14643B0041369E /* ShowMoreView.swift */; };
+		AF2F923D1E15AC7E0041369E /* ShowMoreView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2F92311E1464480041369E /* ShowMoreView.xib */; };
+		AF2F923F1E15B40D0041369E /* StackViewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2F923E1E15B40D0041369E /* StackViewView.swift */; };
+		AF2F92411E15B4390041369E /* StackViewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2F92401E15B4390041369E /* StackViewView.xib */; };
+		AF2F92431E15CFC30041369E /* RepVotesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2F92421E15CFC30041369E /* RepVotesView.xib */; };
+		AF2F92451E15CFD20041369E /* RepVotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2F92441E15CFD20041369E /* RepVotesView.swift */; };
+		AF2F92481E15DB470041369E /* RepVoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2F92471E15DB470041369E /* RepVoteTableViewCell.xib */; };
 		AF3912F61DF84D2A00123B5C /* KratosTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3912F41DF84D2A00123B5C /* KratosTabBarController.swift */; };
 		AF3913081DFA36F000123B5C /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3913071DFA36F000123B5C /* KeychainManager.swift */; };
 		AF39130A1DFA56E500123B5C /* YourVotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3913091DFA56E500123B5C /* YourVotesViewController.swift */; };
@@ -38,7 +47,7 @@
 		AF3DBCEC1DD21C29006B146F /* VoteDateHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3DBCEB1DD21C29006B146F /* VoteDateHeaderView.swift */; };
 		AF5793181D6D440400D86B73 /* Bill.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5793171D6D440400D86B73 /* Bill.swift */; };
 		AF57931A1D6D4C0000D86B73 /* NSDateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5793191D6D4C0000D86B73 /* NSDateFormatter+Extensions.swift */; };
-		AF6C29111DB9B94E004AA104 /* VoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6C29101DB9B94E004AA104 /* VoteViewController.swift */; };
+		AF6C29111DB9B94E004AA104 /* TallyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6C29101DB9B94E004AA104 /* TallyViewController.swift */; };
 		AF89745F1D4D80E500C19020 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89745E1D4D80E500C19020 /* AppDelegate.swift */; };
 		AF8974611D4D80E500C19020 /* MainApplicationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974601D4D80E500C19020 /* MainApplicationViewController.swift */; };
 		AF8974641D4D80E500C19020 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8974621D4D80E500C19020 /* Main.storyboard */; };
@@ -66,10 +75,7 @@
 		AFAC56EA1DDB3E5A007C1629 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC56E91DDB3E5A007C1629 /* MenuViewController.swift */; };
 		AFB5CCA21DE0B595006E51A2 /* VoteHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCA11DE0B595006E51A2 /* VoteHeaderView.swift */; };
 		AFB5CCA41DE0B5BB006E51A2 /* VoteHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCA31DE0B5BB006E51A2 /* VoteHeaderView.xib */; };
-		AFB5CCA61DE0B6CF006E51A2 /* RepVoteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCA51DE0B6CF006E51A2 /* RepVoteView.xib */; };
-		AFB5CCA81DE0B6DD006E51A2 /* RepVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCA71DE0B6DD006E51A2 /* RepVoteView.swift */; };
-		AFB5CCAA1DE0B6ED006E51A2 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCA91DE0B6ED006E51A2 /* ButtonView.swift */; };
-		AFB5CCAC1DE0B6FF006E51A2 /* ButtonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCAB1DE0B6FF006E51A2 /* ButtonView.xib */; };
+		AFB5CCA81DE0B6DD006E51A2 /* RepVoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCA71DE0B6DD006E51A2 /* RepVoteTableViewCell.swift */; };
 		AFB5CCAE1DE0B716006E51A2 /* VoteDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCAD1DE0B716006E51A2 /* VoteDetailsView.xib */; };
 		AFB5CCB01DE0B725006E51A2 /* VoteDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCAF1DE0B725006E51A2 /* VoteDetailsView.swift */; };
 		AFB5CCB21DE0B7F5006E51A2 /* BillHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCB11DE0B7F5006E51A2 /* BillHeaderView.swift */; };
@@ -160,6 +166,15 @@
 		AF2B8C6B1D62D21300C31FA9 /* RepresentativeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RepresentativeView.swift; path = TableViewCells/RepresentativeView.swift; sourceTree = "<group>"; };
 		AF2B8C6D1D62D22600C31FA9 /* RepresentativeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RepresentativeView.xib; path = TableViewCells/RepresentativeView.xib; sourceTree = "<group>"; };
 		AF2D3D051D5D85EF006B75D1 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		AF2F922F1E14643B0041369E /* ShowMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowMoreView.swift; sourceTree = "<group>"; };
+		AF2F92311E1464480041369E /* ShowMoreView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowMoreView.xib; sourceTree = "<group>"; };
+		AF2F92381E147D000041369E /* ButtonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ButtonView.xib; sourceTree = "<group>"; };
+		AF2F923A1E147D090041369E /* ButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		AF2F923E1E15B40D0041369E /* StackViewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackViewView.swift; sourceTree = "<group>"; };
+		AF2F92401E15B4390041369E /* StackViewView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StackViewView.xib; sourceTree = "<group>"; };
+		AF2F92421E15CFC30041369E /* RepVotesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepVotesView.xib; sourceTree = "<group>"; };
+		AF2F92441E15CFD20041369E /* RepVotesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepVotesView.swift; sourceTree = "<group>"; };
+		AF2F92471E15DB470041369E /* RepVoteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepVoteTableViewCell.xib; sourceTree = "<group>"; };
 		AF3912F41DF84D2A00123B5C /* KratosTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KratosTabBarController.swift; path = Navigation/KratosTabBarController.swift; sourceTree = "<group>"; };
 		AF3913071DFA36F000123B5C /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		AF3913091DFA56E500123B5C /* YourVotesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourVotesViewController.swift; sourceTree = "<group>"; };
@@ -171,7 +186,7 @@
 		AF3DBCEB1DD21C29006B146F /* VoteDateHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteDateHeaderView.swift; sourceTree = "<group>"; };
 		AF5793171D6D440400D86B73 /* Bill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bill.swift; sourceTree = "<group>"; };
 		AF5793191D6D4C0000D86B73 /* NSDateFormatter+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDateFormatter+Extensions.swift"; sourceTree = "<group>"; };
-		AF6C29101DB9B94E004AA104 /* VoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteViewController.swift; sourceTree = "<group>"; };
+		AF6C29101DB9B94E004AA104 /* TallyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TallyViewController.swift; sourceTree = "<group>"; };
 		AF89745B1D4D80E500C19020 /* Kratos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kratos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF89745E1D4D80E500C19020 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF8974601D4D80E500C19020 /* MainApplicationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainApplicationViewController.swift; path = ../MainApplicationViewController.swift; sourceTree = "<group>"; };
@@ -206,10 +221,7 @@
 		AFAC56E91DDB3E5A007C1629 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		AFB5CCA11DE0B595006E51A2 /* VoteHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteHeaderView.swift; sourceTree = "<group>"; };
 		AFB5CCA31DE0B5BB006E51A2 /* VoteHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteHeaderView.xib; sourceTree = "<group>"; };
-		AFB5CCA51DE0B6CF006E51A2 /* RepVoteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepVoteView.xib; sourceTree = "<group>"; };
-		AFB5CCA71DE0B6DD006E51A2 /* RepVoteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepVoteView.swift; sourceTree = "<group>"; };
-		AFB5CCA91DE0B6ED006E51A2 /* ButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
-		AFB5CCAB1DE0B6FF006E51A2 /* ButtonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ButtonView.xib; sourceTree = "<group>"; };
+		AFB5CCA71DE0B6DD006E51A2 /* RepVoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RepVoteTableViewCell.swift; path = ../RepVoteTableViewCell.swift; sourceTree = "<group>"; };
 		AFB5CCAD1DE0B716006E51A2 /* VoteDetailsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteDetailsView.xib; sourceTree = "<group>"; };
 		AFB5CCAF1DE0B725006E51A2 /* VoteDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteDetailsView.swift; sourceTree = "<group>"; };
 		AFB5CCB11DE0B7F5006E51A2 /* BillHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillHeaderView.swift; sourceTree = "<group>"; };
@@ -306,8 +318,23 @@
 				AFE47F4C1DF34F1C00008CCB /* DatePickerView.swift */,
 				AFE47F4E1DF34F2900008CCB /* DatePickerView.xib */,
 				AFE47F501DF4DC9100008CCB /* LoadMoreSpinnerView.swift */,
+				AF2F922F1E14643B0041369E /* ShowMoreView.swift */,
+				AF2F92311E1464480041369E /* ShowMoreView.xib */,
+				AF2F923A1E147D090041369E /* ButtonView.swift */,
+				AF2F92381E147D000041369E /* ButtonView.xib */,
+				AF2F923E1E15B40D0041369E /* StackViewView.swift */,
+				AF2F92401E15B4390041369E /* StackViewView.xib */,
 			);
 			name = Misc;
+			sourceTree = "<group>";
+		};
+		AF2F92461E15D9030041369E /* TallyTableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				AFB5CCA71DE0B6DD006E51A2 /* RepVoteTableViewCell.swift */,
+				AF2F92471E15DB470041369E /* RepVoteTableViewCell.xib */,
+			);
+			name = TallyTableViewCells;
 			sourceTree = "<group>";
 		};
 		AF3912F31DF84CCA00123B5C /* Navigation */ = {
@@ -447,7 +474,7 @@
 				AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */,
 				AF8974931D4D887100C19020 /* SubmitAddressViewController.swift */,
 				AF8974951D4D88C500C19020 /* MainViewController.swift */,
-				AF6C29101DB9B94E004AA104 /* VoteViewController.swift */,
+				AF6C29101DB9B94E004AA104 /* TallyViewController.swift */,
 				AF8974991D4D88F600C19020 /* BillViewController.swift */,
 				AFAC56E91DDB3E5A007C1629 /* MenuViewController.swift */,
 				AF3913091DFA56E500123B5C /* YourVotesViewController.swift */,
@@ -473,6 +500,7 @@
 		AF8974921D4D862B00C19020 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				AF2F92461E15D9030041369E /* TallyTableViewCells */,
 				AFF7480E1DC97F9500F519AE /* BillTableViewCells */,
 				AFB5CCBD1DE55C5E006E51A2 /* MainViewTableViewCells */,
 			);
@@ -504,10 +532,8 @@
 			children = (
 				AFB5CCA11DE0B595006E51A2 /* VoteHeaderView.swift */,
 				AFB5CCA31DE0B5BB006E51A2 /* VoteHeaderView.xib */,
-				AFB5CCA71DE0B6DD006E51A2 /* RepVoteView.swift */,
-				AFB5CCA51DE0B6CF006E51A2 /* RepVoteView.xib */,
-				AFB5CCA91DE0B6ED006E51A2 /* ButtonView.swift */,
-				AFB5CCAB1DE0B6FF006E51A2 /* ButtonView.xib */,
+				AF2F92441E15CFD20041369E /* RepVotesView.swift */,
+				AF2F92421E15CFC30041369E /* RepVotesView.xib */,
 				AFB5CCAF1DE0B725006E51A2 /* VoteDetailsView.swift */,
 				AFB5CCAD1DE0B716006E51A2 /* VoteDetailsView.xib */,
 				AFE47F521DF4E9D900008CCB /* UserVoteView.swift */,
@@ -692,6 +718,9 @@
 							com.apple.Keychain = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 					AF89746E1D4D80E500C19020 = {
@@ -742,20 +771,23 @@
 			files = (
 				AFB5CCB41DE0B7FE006E51A2 /* BillHeaderView.xib in Resources */,
 				AF9F04971DC27DC000A8BB74 /* CoSponsorsTableViewCell.xib in Resources */,
-				AFB5CCAC1DE0B6FF006E51A2 /* ButtonView.xib in Resources */,
 				AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */,
 				AF39130F1DFA577400123B5C /* YourVoteTableViewCell.xib in Resources */,
+				AF2F92431E15CFC30041369E /* RepVotesView.xib in Resources */,
 				AFB5CCA41DE0B5BB006E51A2 /* VoteHeaderView.xib in Resources */,
 				AF2819801DF0F006001D5C93 /* KratosTextField.xib in Resources */,
 				AFF748121DC9800100F519AE /* RepContactView.xib in Resources */,
+				AF2F92411E15B4390041369E /* StackViewView.xib in Resources */,
+				AF2F92481E15DB470041369E /* RepVoteTableViewCell.xib in Resources */,
 				AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */,
+				AF2F92391E147D000041369E /* ButtonView.xib in Resources */,
 				AFB5CCBC1DE0B83F006E51A2 /* BillSponsorsView.xib in Resources */,
 				AFE47F551DF4E9E700008CCB /* UserVoteView.xib in Resources */,
 				AFB5CCB61DE0B812006E51A2 /* BillCommitteesView.xib in Resources */,
-				AFB5CCA61DE0B6CF006E51A2 /* RepVoteView.xib in Resources */,
 				AF2B8C6E1D62D22600C31FA9 /* RepresentativeView.xib in Resources */,
 				AFB5CCAE1DE0B716006E51A2 /* VoteDetailsView.xib in Resources */,
 				AFF7481D1DD0203B00F519AE /* PieChartView.xib in Resources */,
+				AF2F923D1E15AC7E0041369E /* ShowMoreView.xib in Resources */,
 				AFE47F4F1DF34F2900008CCB /* DatePickerView.xib in Resources */,
 				AF3C2FF21DD3570600353638 /* VoteDateHeaderView.xib in Resources */,
 				AF9F04931DC2480500A8BB74 /* SingleCommitteeTableViewCell.xib in Resources */,
@@ -944,7 +976,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AF6C29111DB9B94E004AA104 /* VoteViewController.swift in Sources */,
+				AF6C29111DB9B94E004AA104 /* TallyViewController.swift in Sources */,
 				AF89749E1D4D8B2700C19020 /* Representative.swift in Sources */,
 				AF8974BA1D5036DA00C19020 /* NSCharacterSet+Extensions.swift in Sources */,
 				AF9F04921DC2480500A8BB74 /* SingleCommitteeTableViewCell.swift in Sources */,
@@ -962,6 +994,7 @@
 				AF0EED4E1E0A246300E7A19C /* Role.swift in Sources */,
 				AF0EED4C1E0A245200E7A19C /* Person.swift in Sources */,
 				AFB5CCB01DE0B725006E51A2 /* VoteDetailsView.swift in Sources */,
+				AF2F92451E15CFD20041369E /* RepVotesView.swift in Sources */,
 				AF3C2FF41DD35C5500353638 /* Date+Extensions.swift in Sources */,
 				AF2843991D5AD4D3007B3F18 /* Contstants.swift in Sources */,
 				AF8974B61D4EF39900C19020 /* String+Extensions.swift in Sources */,
@@ -970,15 +1003,16 @@
 				AFF7481B1DD0081D00F519AE /* PieChartData.swift in Sources */,
 				AFE47F531DF4E9D900008CCB /* UserVoteView.swift in Sources */,
 				AFE47F4B1DF344D500008CCB /* APIManager.swift in Sources */,
+				AF2F923F1E15B40D0041369E /* StackViewView.swift in Sources */,
 				AF39130A1DFA56E500123B5C /* YourVotesViewController.swift in Sources */,
 				AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */,
 				AFF748171DCFF2F100F519AE /* PieChartView.swift in Sources */,
 				AF8974AF1D4E98C700C19020 /* User.swift in Sources */,
 				AF3DBCE91DD0C34B006B146F /* Array+Extensions.swift in Sources */,
 				AF89749C1D4D8ADC00C19020 /* Vote.swift in Sources */,
-				AFB5CCAA1DE0B6ED006E51A2 /* ButtonView.swift in Sources */,
 				AF3913081DFA36F000123B5C /* KeychainManager.swift in Sources */,
 				AFE47F4D1DF34F1C00008CCB /* DatePickerView.swift in Sources */,
+				AF2F923B1E147D090041369E /* ButtonView.swift in Sources */,
 				AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */,
 				AF5793181D6D440400D86B73 /* Bill.swift in Sources */,
 				AF28439B1D5AD686007B3F18 /* Datastore.swift in Sources */,
@@ -987,6 +1021,7 @@
 				AF89749A1D4D88F600C19020 /* BillViewController.swift in Sources */,
 				AFF748191DCFF37700F519AE /* UIView+Extension.swift in Sources */,
 				AF89745F1D4D80E500C19020 /* AppDelegate.swift in Sources */,
+				AF2F923C1E15AC7A0041369E /* ShowMoreView.swift in Sources */,
 				AF8974961D4D88C500C19020 /* MainViewController.swift in Sources */,
 				AF3DBCEC1DD21C29006B146F /* VoteDateHeaderView.swift in Sources */,
 				AFD82F921D88FBFA00AEB559 /* LoginViewController.swift in Sources */,
@@ -999,7 +1034,7 @@
 				AF0EED481E0A0E8300E7A19C /* Tally.swift in Sources */,
 				AF8974AD1D4E969000C19020 /* APIService.swift in Sources */,
 				AFD5AA9B1D9C618800A5714C /* URLRequest+Extension.swift in Sources */,
-				AFB5CCA81DE0B6DD006E51A2 /* RepVoteView.swift in Sources */,
+				AFB5CCA81DE0B6DD006E51A2 /* RepVoteTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

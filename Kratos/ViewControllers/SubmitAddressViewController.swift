@@ -389,6 +389,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
         dobTextField.setText(DateFormatter.presentationDateFormatter.string(from: date))
         dismissDatePickerView()
     }
+    
     //MARK: DatePicker UI Methods
     func displayDatePickerView() {
         tapView = UIView(frame: view.frame)
@@ -416,5 +417,4 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             self.tapView = nil
         })
     }
-
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserVoteView: UIView {
+class UserVoteView: UIView, Loadable {
     
     @IBOutlet var contentView: UIView!
     
@@ -43,24 +43,12 @@ class UserVoteView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         customInit()
+        setupGestureRecognizers()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         customInit()
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        customInit()
-    }
-    
-    func customInit() {
-        Bundle.main.loadNibNamed("UserVoteView", owner: self, options: nil)
-        addSubview(contentView)
-        contentView.frame = bounds
-        translatesAutoresizingMaskIntoConstraints = false
-        self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         setupGestureRecognizers()
     }
     

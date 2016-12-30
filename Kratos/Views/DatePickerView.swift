@@ -12,7 +12,7 @@ protocol DatePickerViewDelegate: class {
     func selectedDate(date: Date)
 }
 
-class DatePickerView: UIView {
+class DatePickerView: UIView, Loadable {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var datePicker: UIDatePicker!
@@ -21,6 +21,7 @@ class DatePickerView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setupPickerView()
     }
     
     override init(frame: CGRect) {
@@ -33,13 +34,9 @@ class DatePickerView: UIView {
         customInit()
     }
     
-    func customInit() {
-        Bundle.main.loadNibNamed("DatePickerView", owner: self, options: nil)
-        addSubview(contentView)
-        translatesAutoresizingMaskIntoConstraints = false
-        contentView.frame = bounds
+    func setupPickerView() {
         layer.cornerRadius = 5.0
-        layer.masksToBounds = true 
+        layer.masksToBounds = true
         backgroundColor = UIColor.gray
         datePicker.maximumDate = Date()
         datePicker.setDate(Date().addingTimeInterval(-60 * 60 * 24 * 365 * 30) , animated: false)
