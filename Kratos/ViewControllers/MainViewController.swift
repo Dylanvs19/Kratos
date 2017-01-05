@@ -281,22 +281,27 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             print("Load Initial Data")
             return
         }
-        APIManager.getTallies(for: selectedRepresentative, success: { (lightTallies) in
+        APIManager.getTallies(for: selectedRepresentative, nextPage: 1, success: { (lightTallies) in
             self.setInitial(data: lightTallies)
-        }, failure: { (error) in
+        }) { (error) in
             print(error)
-        })
+        }
     }
     
-    func makeRequestForResults(at offset: UInt, withLimit limit: UInt, onComplete: @escaping (([LightTally]?) -> Void)) {
-        //guard let selectedRepIndex = selectedRepIndex else {
-        //   print("makeRequestForResults")
-        //  return
-        //}
-        onComplete([])
-        // Datastore.sharedDatastore.getVotesFor(representative: selectedRepIndex, at: Int(offset), with: Int(repOnePager.pageLimit), onCompletion: { (votes) in
-        //        onComplete(votes)
-        //    })
+    func makeRequestForResults(at page: UInt, onComplete: @escaping (([LightTally]?) -> Void)) {
+        guard let selectedRepresentative = selectedRepresentative else {
+            print("makeRequestForResults")
+            return
+        }
+//        APIManager.getTallies(for: selectedRepresentative, nextPage: Int(page), success: { (lightTallies) in
+//            print("page: \(page), \(lightTallies.count)")
+//            lightTallies.forEach({ (tally) in
+//                print("\(tally.date), \(tally.id)")
+//            })
+//            onComplete(lightTallies)
+//        }) { (error) in
+//            print(error)
+//        }
     }
     
     //MARK: RepView UI & Delegate Methods

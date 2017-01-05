@@ -105,7 +105,7 @@ class TallyViewController: UIViewController, UIScrollViewDelegate {
     //MARK: Helper Functions
     func convert(rep: Person, lightTally: LightTally) -> Vote {
         var vote = Vote()
-        var person = LightRepresentative()
+        var person = LightPerson()
         vote.voteValue = lightTally.voteValue
         person.firstName = rep.firstName
         person.lastName = rep.lastName

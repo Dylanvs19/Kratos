@@ -12,7 +12,7 @@ import UIKit
 public protocol PagingDataSource: class {
     associatedtype Data
     /// Return results for a given page of data.
-    func makeRequestForResults(at offset: UInt, withLimit limit: UInt, onComplete: @escaping (([Data]?) -> Void))
+    func makeRequestForResults(at page: UInt, onComplete: @escaping (([Data]?) -> Void))
 }
 
 /// `PagingView` is the View that contains the UI that the pager interacts with.
@@ -51,10 +51,13 @@ public extension PagingViewDelegate {
     func append(data: [Data], to oldData: [Data]) {
         guard data.count != oldData.count else { return }
         if data.count > 20 && !oldData.isEmpty {
+            print("data: \(data.count), oldData:\(oldData.count)")
             let indexPaths = flatMap(cellMap)
+            print("indexPaths\(indexPaths)")
             let sliced = slice(indexPaths,
                                from: oldData.count,
                                to: indexPaths.count - 1)
+            print("sliced\(sliced)")
             insert(sliced)
         } else {
             reloadView()
@@ -70,7 +73,6 @@ public extension PagingViewDelegate {
                 }
             }
         }
-        
         return indexPaths
     }
     
@@ -106,7 +108,6 @@ public extension PagingCollectionViewDelegate {
                 
                 let range = ClosedRange(uncheckedBounds: (oldFinalSection, newFinalSection))
                 let indexSet = IndexSet(integersIn: range)
-                print(indexPaths)
                 self.collectionView.insertSections(indexSet)
             }
             
@@ -129,17 +130,22 @@ public extension PagingTableViewDelegate {
         // Determine if new sections must be inserted.
         let oldFinalSection = self.tableView.numberOfSections - 1
         let newFinalSection = indexPaths.last?.section ?? 0
-        
+        //tableView.beginUpdates()
+
         if oldFinalSection < newFinalSection {
             // Insert new sections.
-            let range = ClosedRange(uncheckedBounds: (oldFinalSection, newFinalSection))
+            let range = CountableRange(uncheckedBounds: (oldFinalSection, newFinalSection))
             let indexSet = IndexSet(integersIn: range)
-            print(indexPaths)
+            print("indexSet to Insert: \(indexSet)")
+            print("indexPaths to Insert: \(indexPaths)")
+            //tableView.beginUpdates()
             tableView.insertSections(indexSet, with: .automatic)
+            tableView.reloadRows(at: indexPaths, with: .automatic)
+            tableView.insertRows(at: indexPaths, with: .automatic)
         }
         
         // Insert items.
-        self.tableView.insertRows(at: indexPaths, with: .automatic)
+        //tableView.endUpdates()
     }
     
     func reloadView() {
@@ -213,7 +219,9 @@ public class Pager<DataSource, Delegate, View>: NSObject where DataSource: Pagin
     /// A Bool that returns true when, after a page request goes out, data that is returned is less than pageLimit - indicating that there is not more data to fetch.
     private var isFinishedPaging = false
     /// The number of results displayed.
-    private var resultCount: UInt = 0
+    //private var resultCount: UInt = 0
+    
+    private var pageNumber: UInt = 1
     
     private var _viewNeedsUpdate = false
     private var viewNeedsUpdate: Bool {
@@ -228,7 +236,9 @@ public class Pager<DataSource, Delegate, View>: NSObject where DataSource: Pagin
     
     let _lockQueue = DispatchQueue(label: "lock")
     private func lock(function: () -> Void) {
-        _lockQueue.sync(execute: function)
+        _lockQueue.sync {
+            function() 
+        }
     }
     
     private var loadMoreSpinnerEnabled = false
@@ -286,7 +296,8 @@ public class Pager<DataSource, Delegate, View>: NSObject where DataSource: Pagin
         if !isDisabled {
             delegate?.data = []
             delegate?.data = data
-            resultCount = UInt(data.count)
+            print("initialData: \(data.count)")
+            pageNumber += 1
             isFinishedPaging = false
         }
     }
@@ -352,7 +363,7 @@ public class Pager<DataSource, Delegate, View>: NSObject where DataSource: Pagin
         
         isUpdating = true
         
-        dataSource?.makeRequestForResults(at: resultCount, withLimit: pageLimit, onComplete: { [weak self] newData in
+        dataSource?.makeRequestForResults(at: pageNumber, onComplete: { [weak self] newData in
             
             guard let `self` = self else {
                 debugPrint("Deallocated a pager before a fetch request could complete.")
@@ -393,7 +404,8 @@ public class Pager<DataSource, Delegate, View>: NSObject where DataSource: Pagin
     private func updateDataSource(with newData: [Delegate.Data]) {
         if let data = delegate?.data , !data.isEmpty && !isDisabled {
             delegate?.data += newData
-            self.resultCount = UInt(delegate?.data.count ?? 0)
+            //self.resultCount = UInt(delegate?.data.count ?? 0)
+            self.pageNumber += 1
         }
     }
     

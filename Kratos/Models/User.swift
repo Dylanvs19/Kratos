@@ -6,7 +6,7 @@
 //  Copyright © 2016 Dylan Straughan. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct User {
     
@@ -74,11 +74,16 @@ struct User {
             let city = self.streetAddress?.city,
             let state = self.streetAddress?.state,
             let zip = self.streetAddress?.zipCode,
-            let phoneNumber = self.phoneNumber else { return nil }
+            let phoneNumber = self.phoneNumber,
+            let party = party?.rawValue,
+            let dob = dob else { return nil }
         
         let dict:[String:[String:AnyObject]] = ["user":[
                                                 "phone": phoneNumber as AnyObject,
                                                 "password": password as AnyObject,
+                                                "apn_token": UIDevice.current.identifierForVendor?.uuidString as AnyObject,
+                                                "party": party as AnyObject,
+                                                "birthday": DateFormatter.billDateFormatter.string(from: dob) as AnyObject,
                                                 "address": street as AnyObject,
                                                 "city": city as AnyObject,
                                                 "state": state as AnyObject,

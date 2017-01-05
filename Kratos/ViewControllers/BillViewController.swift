@@ -46,16 +46,24 @@ class BillViewController: UIViewController {
         // add CommitteesView to stackView
         if let committees =  bill.committees {
             let committeesView = BillCommitteesView()
-            committeesView.configure(with: committees)
+            committeesView.configure(with: committees, layoutStackView: reloadViews, websiteButtonPressed: committeeWebsiteButtonPressed)
             stackView.addArrangedSubview(committeesView)
         }
         
         // add SponsorsView to stackView
-        if let leadSponsor = bill.detailedSponsor {
-            let sponsorView = BillSponsorsView()
-            sponsorView.configure(with: leadSponsor, and: bill.coSponsors)
+        if let leadSponsor = bill.sponsor {
+            let sponsorView = LeadSponsorView()
+            sponsorView.configure(with: leadSponsor)
             stackView.addArrangedSubview(sponsorView)
         }
+        
+//        if let cosponsors = bill.coSponsors {
+//            let lightCoSponsors = cosponsors.map({ (person) -> LightPerson in
+//                return person.toLightPerson()
+//            })
+//            let view = RepVotesView()
+//            let 
+//        }
         
         let relatedBillView = ButtonView()
         relatedBillView.configure(with: "Bill Text", actionBlock: billTextButtonPressed)
@@ -67,5 +75,16 @@ class BillViewController: UIViewController {
         let alertVC = UIAlertController(title: "Push", message: "Push to safariVC url of bill text", preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "ok", style: .destructive, handler: nil))
         present(alertVC, animated: true, completion: nil)
+    }
+    
+    func committeeWebsiteButtonPressed(with url: String) {
+        if let url = URL(string: url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    func reloadViews() {
+        stackView.reloadInputViews()
+        stackView.layoutIfNeeded()
     }
 }

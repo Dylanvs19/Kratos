@@ -61,7 +61,7 @@ struct Tally {
         self.billId = json["bill_id"] as? Int
         
         if let holdDate = json["date"] as? String {
-            self.date = DateFormatter.longDateFormatter.date(from: holdDate)
+            self.date = holdDate.stringToDate()
         }
         self.question = json["question"] as? String
         if let holdCategory = json["category"] as? String {
@@ -144,7 +144,7 @@ struct LightTally {
         self.type = json["tally"]?["type"] as? String
         
         if let holdDate = json["tally"]?["date"] as? String {
-            self.date = DateFormatter.longDateFormatter.date(from: holdDate)
+            self.date = holdDate.stringToDate()
         }
         self.question = json["tally"]?["question"] as? String
         if let holdCategory = json["tally"]?["category"] as? String {

@@ -29,7 +29,7 @@ class BillHeaderView: UIView, Loadable {
     }
     
     override func awakeFromNib() {
-        super.awakeFromNib()
+        super.awakeFromNib()  
     }
     
     var bill: Bill? {
@@ -44,8 +44,8 @@ class BillHeaderView: UIView, Loadable {
         billTitle.text = bill.title
         billNumber.text = bill.billNumber
         billSummaryTextView.text = bill.officialTitle
-        currentStatusLabel.text = bill.currentStatus
-        if let date = bill.currentStatusDate {
+        currentStatusLabel.text = bill.status
+        if let date = bill.statusDate {
             currentStatusDateLabel.text = DateFormatter.presentationDateFormatter.string(from: date)
         }
     }

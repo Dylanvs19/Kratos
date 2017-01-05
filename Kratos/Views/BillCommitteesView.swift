@@ -8,19 +8,15 @@
 
 import UIKit
 
-class BillCommitteesView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource {
+class BillCommitteesView: UIView, Loadable {
     
     @IBOutlet var contentView: UIView!
-    @IBOutlet var tableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var committeesLabel: UILabel!
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var stackView: UIStackView!
     
-    var committeeArray: [Committee]? {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-    
+    var committeeIdSet = Set<Int>()
+    var committeeArray: [Committee]?
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         customInit()
@@ -33,35 +29,18 @@ class BillCommitteesView: UIView, Loadable, UITableViewDelegate, UITableViewData
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        setupTableView()
     }
     
-    func setupTableView() {
-        self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UINib(nibName: "SingleCommitteeTableViewCell", bundle: nil) , forCellReuseIdentifier: "SingleCommitteeTableViewCell")
-
-    }
-    
-    func configure(with committeeArray: [Committee]) {
-        tableViewHeightConstraint.constant = CGFloat(committeeArray.count * 44)
+    func configure(with committeeArray: [Committee], layoutStackView: (() -> ())?, websiteButtonPressed: ((String) -> ())?) {
         self.committeeArray = committeeArray
         committeesLabel.text =  committeeArray.count == 1 ? "Committee" : "Committees"
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return committeeArray?.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SingleCommitteeTableViewCell", for: indexPath) as? SingleCommitteeTableViewCell,
-            let committee = committeeArray?[indexPath.row] else { return UITableViewCell() }
-        cell.configure(with: committee)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        committeeArray.forEach { (committee) in
+            if let id = committee.id, !committeeIdSet.contains(id) {
+                let committeeView = CommitteeView()
+                committeeView.configure(with: committee, layoutStackView: layoutStackView, buttonViewPressedWithString: websiteButtonPressed)
+                stackView.addArrangedSubview(committeeView)
+                committeeIdSet.insert(id)
+            }
+        }
     }
 }

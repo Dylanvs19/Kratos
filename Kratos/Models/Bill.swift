@@ -10,81 +10,219 @@ import Foundation
 
 struct Bill {
     
-    enum BillType: String, RawRepresentable {
-        case Senate = "Senate"
-    }
-    
-    var title: String?
+    var title: String? // short title
     var officialTitle: String?
+    var popularTitle: String?
+    var titles: [Title]?
     var id: Int?
-    var link: String?
     var billNumber: String?
     var committees: [Committee]?
-    var coSponsors: [LightRepresentative]
-    var lightSponsor: LightRepresentative?
-    var detailedSponsor: Person?
-    var isCurrent: Bool?
-    var currentStatus: String?
-    var currentStatusDate: Date?
-    var isAlive: Bool?
-    var terms: [String]?
-    var introductionDate: NSDate?
-    var relatedBills: [[String: AnyObject]]?
-    var majorActions: [[AnyObject]]?
+    var sponsor: Person?
+    var coSponsors: [Person]?
+    var status: String?
+    var statusDate: Date?
+    var subjects: [String]?
+    var introductionDate: Date?
+    var relatedBills: [RelatedBill]?
+    var actions: [Action]?
+    var billHistory: BillHistory?
+    var active: Bool?
+    var vetoed: Bool?
+    var urls: [String]?
+    var topTerm: String?
+    var summary: String?
+    var summaryDate: Date?
+    var enacted: Bool?
+    var enactedAs: String?
+    var awaitingSignature: Bool?
+    var amendments: [Amendment]?
+    
+    //Wanted variables
+    //var billTextURL: String?
     
     init?(json: [String: AnyObject]) {
-        var committees = [Committee]()
-        let committeeArray = json["committees"] as? [[String: AnyObject]]
-        committeeArray?.forEach({ (dict) in
-            committees.append(Committee(from: dict))
-        })
-        self.committees = committees
-        
-        var coSponsors = [LightRepresentative]()
-        let coSponsorsArray = json["cosponsors"] as? [[String: AnyObject]]
-        coSponsorsArray?.forEach({ (dict) in
-            coSponsors.append(LightRepresentative(from: dict))
-        })
-        self.coSponsors = coSponsors
-        
-        var terms = [String]()
-        let termsArray = json["terms"] as? [[String: AnyObject]]
-        termsArray?.forEach({ (dict) in
-            if let term = dict["name"] as? String {
-                terms.append(term)
-            }
-        })
-        self.terms = terms
-        
-        let titles = json["titles"] as? [[String]]
-        titles?.forEach({ (title) in
-            if title.contains("official") {
-                self.officialTitle = title[2]
-            }
-        })
-        
-        if let sponsor = json["sponsor"] as? [String: AnyObject] {
-            self.lightSponsor = LightRepresentative(from: sponsor)
+        self.title = json["short_title"] as? String
+        self.officialTitle = json["official_title"] as? String
+        self.popularTitle = json["popular_title"] as? String
+        if  let titles = json["title"] as? [[String: AnyObject]] {
+            self.titles = titles.map({ (obj) -> Title in
+                return Title(from: obj)
+            })
         }
-        
-        self.billNumber = json["display_number"] as? String
-        self.isCurrent = json["is_current"] as? Bool
-        self.link = json["link"] as? String
-        self.title = json["title_without_number"] as? String
         self.id = json["id"] as? Int
-        self.isAlive = json["is_alive"] as? Bool
-        self.currentStatus = json["current_status_label"] as? String
-        self.relatedBills = json["related_bills"] as? [[String: AnyObject]]
-        self.majorActions = json["major_actions"] as? [[AnyObject]]
-        
-        let statusDate = json["current_status_date"] as? String
-        if let statusDate = statusDate {
-            self.currentStatusDate = DateFormatter.billDateFormatter.date(from: statusDate) as Date?
+        self.billNumber = json["display_number"] as? String
+        if let committeeArray = json["committees"] as? [[String: AnyObject]] {
+            self.committees = committeeArray.map({ (obj) -> Committee in
+                return Committee(from: obj)
+            })
+        }
+        if let committeeHistoryArray = json["committee_history"] as? [[String: AnyObject]] {
+            self.committees = self.committees?.map({ (committee) -> Committee in
+                var returnCommittee = committee
+                committeeHistoryArray.forEach({ (committeeHistory) in
+                    if let activity = committeeHistory["activity"] as? [String], committeeHistory["committee_id"] as? String == committee.code {
+                        returnCommittee.activity = activity
+                    }
+                })
+                return returnCommittee
+            })
+        }
+        if let sponsor = json["sponsor"] as? [String: AnyObject] {
+            self.sponsor = Person(from: sponsor)
+        }
+        if let coSponsorsArray = json["cosponsors"] as? [[String: AnyObject]] {
+             self.coSponsors = coSponsorsArray.map({ (obj) -> Person in
+                return Person(from: obj)
+             })
+        }
+        self.status = json["status"] as? String
+        if let statusDate = json["status_at"] as? String {
+            self.statusDate = statusDate.stringToDate()
+        }
+        self.subjects = json["subjects"] as? [String]
+        if let introduction = json["introduced_at"] as? String {
+            self.introductionDate = introduction.stringToDate()
+        }
+        if let relatedBills = json["related_bills"] as? [[String: AnyObject]] {
+            self.relatedBills = relatedBills.map({ (bill) -> RelatedBill in
+                return RelatedBill(from: bill)
+            })
+        }
+        if let actions = json["actions"] as? [[String: AnyObject]] {
+            self.actions = actions.map({ (action) -> Action in
+                return Action(from: action)
+            })
+        }
+        if let history = json["history"] as? [String: AnyObject] {
+            self.billHistory = BillHistory(from: history)
+        }
+        self.active = json["active"] as? Bool
+        self.vetoed = json["vetoed"] as? Bool
+        self.urls = json["urls"] as? [String]
+        self.topTerm = json["top_term"] as? String
+        self.summary = json["summary_text"] as? String
+        if let summaryDate = json["summary_date"] as? String {
+            self.summaryDate = summaryDate.stringToDate()
+        }
+        self.enacted = json["enacted"] as? Bool
+        self.enactedAs = json["enactedAs"] as? String
+        self.awaitingSignature = json["awaiting_signature"] as? Bool
+        if let amendments = json["amendments"] as? [[String: AnyObject]] {
+            self.amendments = amendments.map({ (amendment) -> Amendment in
+                return Amendment(from: amendment)
+            })
         }
         
-        let introduction = json["introduced_date"] as? String
-        if let introduction = introduction {
-            self.introductionDate = DateFormatter.billDateFormatter.date(from: introduction) as NSDate?
+        // Wanted Variables
+        //self.billTextURL = json["billTextURL"] as? String
+    }
+    
+    struct BillHistory {
+        var vetoed: Bool?
+        var senatePassageDate: Date?
+        var senatePassageResult: String?
+        var senateClotureDate: Date?
+        var senateClotureResult: String?
+        var housePassageDate: Date?
+        var housePassageResult: String?
+        var enacted: Bool?
+        var awaitingSignatureSince: Date?
+        var introducedDate: Date?
+        var active: Bool?
+        
+        init(from json: [String: AnyObject]) {
+            self.vetoed = json["vetoed"] as? Bool
+            if let date = json["senate_passage_result_at"] as? String {
+                self.senatePassageDate = date.stringToDate()
+            }
+            self.senatePassageResult = json["senate_passage_result"] as? String
+            if let date = json["senate_cloture_result_at"] as? String {
+                self.senateClotureDate = date.stringToDate()
+            }
+            self.senateClotureResult = json["senate_cloture_result"] as? String
+            if let date = json["house_passage_result_at"] as? String {
+                self.housePassageDate = date.stringToDate()
+            }
+            self.housePassageResult = json["house_passage_result"] as? String
+            self.enacted = json["enacted"] as? Bool
+            if let date = json["awaiting_signature_since"] as? String {
+                self.awaitingSignatureSince = date.stringToDate()
+            }
+            self.introducedDate = json["active_at"] as? Date
+            self.active = json["active"] as? Bool
+        }
+    }
+    
+    struct Action {
+        var type: String?
+        var text: String?
+        var references: [Reference]?
+        var code: String?
+        var date: Date?
+        var status: String?
+        var how: String?
+        var chamber: Chamber?
+        var committees: [String]?
+        var voteType: String?
+        var roll: Int?
+        
+        init(from json: [String: AnyObject]) {
+            self.type = json["type"] as? String
+            self.text = json["text"] as? String
+            if let references =  json["references"] as? [[String: AnyObject]] {
+                self.references = references.map({ (reference) -> Reference in
+                    return Reference(from: reference)
+                })
+            }
+            self.committees = json["committees"] as? [String]
+            self.voteType = json["vote_type"] as? String
+            self.status = json["status"] as? String
+            self.roll = json["roll"] as? Int
+            self.code = json["action_code"] as? String
+            if let date = json["acted_at"] as? String {
+                self.date = date.stringToDate()
+            }
+        }
+        
+        struct Reference {
+            var type: String?
+            var reference: String?
+            
+            init(from json: [String: AnyObject]) {
+                self.type = json["type"] as? String
+                self.reference = json["reference"] as? String
+            }
+        }
+    }
+    
+    struct Title {
+        var type: String?
+        var text: String?
+        var isForPortion: Bool?
+        var passedAs: String?
+        
+        init(from json: [String: AnyObject]) {
+            self.type = json["type"] as? String
+            self.text = json["text"] as? String
+            self.isForPortion = json["is_for_portion"] as? Bool
+            self.passedAs = json["as"] as? String
+        }
+    }
+    
+    struct Amendment {
+        
+        var number: Int?
+        var chamber: Chamber?
+        var type: String?
+        var id: String?
+        
+        init(from json: [String: AnyObject]) {
+            self.number = json["number"] as? Int
+            if let chamber = json["chamber"] as? String {
+                self.chamber = Chamber.chamber(value: chamber)
+            }
+            self.type = json["amendment_type"] as? String
+            self.id = json["amendment_id"] as? String
         }
     }
 }
@@ -92,22 +230,48 @@ struct Bill {
 enum Chamber: String, RawRepresentable {
     case house = "House of Representatives"
     case senate = "Senate"
+    
+    static func chamber(value: String) -> Chamber? {
+        switch value {
+        case "House of Representatives", "House", "house", "house of representatives", "h", "H", "hr", "HR":
+            return .house
+        case "Senate", "senate", "s", "S":
+            return .senate
+        default:
+            return nil
+        }
+    }
 }
 
 struct Committee {
     var name: String?
     var id: Int?
+    var code: String?
     var url: String?
     var abbrev: String?
+    var jusrisdiction: String?
     var commmitteeType: Chamber?
+    var activity: [String]?
     
     init(from json: [String: AnyObject]) {
         self.name = json["name"] as? String
         self.id = json["id"] as? Int
         self.url = json["url"] as? String
+        self.code = json["code"] as? String
         self.abbrev = json["abbrev"] as? String
-        if let type = json["committee_type_label"] as? String {
-            self.commmitteeType = Chamber(rawValue: type)
+        self.jusrisdiction = json["jurisdiction"] as? String
+        if let chamber = json["committee_type_label"] as? String {
+            self.commmitteeType = Chamber.chamber(value: chamber)
         }
+    }
+}
+
+struct RelatedBill {
+    var relatedBillID: Int?
+    var reason: String?
+    
+    init(from json: [String: AnyObject]) {
+        self.relatedBillID = json["related_bill_id"] as? Int
+        self.reason = json["reason"] as? String
     }
 }

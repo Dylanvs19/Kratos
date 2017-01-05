@@ -37,10 +37,10 @@ struct Role {
             self.representativeType = RepresentativeType(rawValue: role)
         }
         if let start = json["startdate"] as? String {
-            self.startDate = DateFormatter.billDateFormatter.date(from: start)
+            self.startDate = start.stringToDate()
         }
         if let end = json["enddate"] as? String {
-            self.endDate = DateFormatter.billDateFormatter.date(from: end)
+            self.endDate = end.stringToDate()
         }
     }
 }

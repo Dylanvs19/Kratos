@@ -10,5 +10,7 @@ import UIKit
 
 class StackViewView: UIView {
     
-
+    @IBOutlet var contentView: UIView!
+    @IBOutlet weak var stackView: UIStackView!
+    
 }

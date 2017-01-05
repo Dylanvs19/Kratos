@@ -50,7 +50,7 @@ struct APIService {
         }
     }
     
-    static func fetchUser(_ success: @escaping (User) -> (), failure: @escaping (NetworkError?) -> ()) {
+    static func fetchUser(_ success: @escaping (User) -> (), failure: @escaping (NetworkError) -> ()) {
         // URL Components
         guard let url = URL(string: Constants.USER_URL) else {
             failure(.invalidURL)
@@ -158,7 +158,7 @@ struct APIService {
                 
                 if let repArray = obj?["data"] as? [[String: AnyObject]] {
                     let reps = repArray.map({ (dictionary) -> Person? in
-                        return Person(json: dictionary)
+                        return Person(from: dictionary)
                     }).flatMap({ $0 })
                     
                     DispatchQueue.main.async(execute: {
@@ -174,10 +174,10 @@ struct APIService {
     
     
     
-    static func loadVotes(for representative: Person, success: @escaping ([LightTally]) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+    static func loadVotes(for representative: Person, with pageNumber: Int, success: @escaping (_ tallies: [LightTally]) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
         
         guard let id = representative.id,
-            let url = URL(string: "\(Constants.VOTES_URL)\(id)/votes") else {
+            let url = URL(string: "\(Constants.VOTES_URL)\(id)/votes?id=\(id)&page=\(pageNumber)") else {
                 failure(.invalidURL)
                 return
         }

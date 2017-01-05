@@ -51,7 +51,7 @@ struct APIManager {
                 Datastore.sharedDatastore.user = user
                 onCompletion(true)
             }, failure: { (error) in
-                debugPrint(error ?? "get User Failure")
+                debugPrint(error)
                 onCompletion(false)
             })
         }
@@ -72,13 +72,13 @@ struct APIManager {
         }
     }
     
-    static func getTallies(for representative: Person, success: @escaping ([LightTally]) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func getTallies(for representative: Person, nextPage: Int, success: @escaping (_ tallies: [LightTally]) -> (), failure: @escaping (NetworkError) -> ()) {
     
-        APIService.loadVotes(for: representative, success: { (tallies) in
-                success(tallies)
-        }, failure:  { _ in
-            success([])
-        })
+        APIService.loadVotes(for: representative, with: nextPage, success: { (tallies) -> (Void) in
+            success(tallies)
+        }) { (error) -> (Void) in
+            failure(error)
+        }
     }
     
     static func getTally(for lightTally: LightTally, success: @escaping (Tally) -> (), failure: @escaping (NetworkError) -> ()) {

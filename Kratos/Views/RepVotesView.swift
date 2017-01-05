@@ -38,22 +38,32 @@ class RepVotesView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource
         customInit()
     }
     
-    func configure(with topVote: Vote, votes: [Vote], actionBlock: (() -> ())? = nil ) {
+    func configure(with topVote: Vote? = nil, votes: [Vote], actionBlock: (() -> ())? = nil ) {
         setupTableView()
         var votesArray = votes
-        for (idx, vote) in votes.enumerated() {
-            if vote.person?.firstName == topVote.person?.firstName
-                && vote.person?.lastName == topVote.person?.lastName
-                && vote.person?.state == topVote.person?.state {
-                votesArray.remove(at: idx)
+        if let topVote = topVote {
+            for (idx, vote) in votes.enumerated() {
+                if vote.person?.firstName == topVote.person?.firstName
+                    && vote.person?.lastName == topVote.person?.lastName
+                    && vote.person?.state == topVote.person?.state {
+                    votesArray.remove(at: idx)
+                }
             }
+            votesArray.insert(topVote, at: 0)
         }
-        votesArray.insert(topVote, at: 0)
         self.votes = votesArray
         if let actionBlock = actionBlock {
             self.actionBlock = actionBlock
         }
     }
+    
+//    func configure<T>(with reps: [T], actionBlock: (() -> ())? = nil ) {
+//        setupTableView()
+//        self.votes = votesArray
+//        if let actionBlock = actionBlock {
+//            self.actionBlock = actionBlock
+//        }
+//    }
     
     func setupTableView() {
         tableView.delegate = self

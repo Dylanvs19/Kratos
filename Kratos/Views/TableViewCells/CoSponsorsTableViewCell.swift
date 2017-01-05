@@ -17,18 +17,18 @@ class CoSponsorsTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func configure(with coSponsor: LightRepresentative) {
+    func configure(with coSponsor: Person) {
         if let first = coSponsor.firstName,
             let last = coSponsor.lastName {
             nameLabel.text = "\(first) \(last)"
         }
         
-        if let state = coSponsor.state,
-            let district = coSponsor.state,
-            let party = coSponsor.party {
-            detailLabel.text = "\(party.rawValue) \(state)\(district)"
-        } else {
-            detailLabel.text = ""
-        }
+//        if let state = coSponsor.state,
+//            let district = coSponsor.state,
+//            let party = coSponsor.party {
+//            detailLabel.text = "\(party.rawValue) \(state)\(district)"
+//        } else {
+//            detailLabel.text = ""
+//        }
     }
 }

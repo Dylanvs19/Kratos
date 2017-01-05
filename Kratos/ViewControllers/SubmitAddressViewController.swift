@@ -235,6 +235,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
         // Updates user in the Datastore
         func updateUser() {
             if textFieldsValid {
+                var user = Datastore.sharedDatastore.user
                 var address = StreetAddress()
                 address.street = addressTextField.text
                 address.city = cityTextField.text
@@ -244,13 +245,14 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                     address.zipCode = zip
                 }
                 if let party = partyTextField.text {
-                    Datastore.sharedDatastore.user?.party = Party(rawValue: party)
+                    user?.party = Party(rawValue: party)
                 }
 
                 if let dob = dobTextField.text {
-                    Datastore.sharedDatastore.user?.dob = DateFormatter.presentationDateFormatter.date(from: dob)
+                    user?.dob = DateFormatter.presentationDateFormatter.date(from: dob)
                 }
-                Datastore.sharedDatastore.user?.streetAddress = address
+                user?.streetAddress = address
+                Datastore.sharedDatastore.user = user
             }
         }
         
