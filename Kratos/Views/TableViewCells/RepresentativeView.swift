@@ -15,7 +15,7 @@ protocol RepViewDelegate {
 class RepresentativeView: UIView, Loadable {
     
     @IBOutlet var contentView: UIView!
-    @IBOutlet var representativeImageView: UIImageView!
+    @IBOutlet var representativeImageView: RepImageView!
     @IBOutlet var firstNameLabel: UILabel!
     @IBOutlet var representativeLabel: UILabel!
     
@@ -50,7 +50,7 @@ class RepresentativeView: UIView, Loadable {
         repViewDelegate?.repViewTapped(is: selected, at: viewPosition)
     }
     
-    func configure(with representative:Person) {
+    func configure(with representative:Person, repInfoViewActionBlock: @escaping ((Person) -> ())) {
         self.representative = representative
         guard let firstName = representative.firstName,
             let lastName = representative.lastName else { return }
@@ -58,33 +58,17 @@ class RepresentativeView: UIView, Loadable {
         layer.shadowOffset = CGSize(width: 0, height: 3)
         layer.shadowOpacity = 0.3
         layer.shadowRadius = 1
-        representativeImageView?.layer.borderColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.2).cgColor
-        representativeImageView?.layer.borderWidth = 2.0
-        representativeImageView?.layer.cornerRadius = 2.0
+        representativeImageView.addRepImageViewBorder() 
         firstNameLabel.text = "\(firstName) \(lastName)"
         
         representativeLabel.text = representative.roles?.first?.representativeType?.rawValue
         
-        if let imageURL = representative.imageURL {
-            UIImage.downloadedFrom(imageURL, onCompletion: { (image) -> (Void) in
-                guard let image = image else { return }
-                self.representativeImageView.image = image
-                self.representativeImageView.contentMode = .scaleAspectFill
-                if let party = representative.currentParty {
-                    var color = UIColor()
-                    switch party {
-                    case .democrat:
-                        color = UIColor.kratosBlue
-                    case .republican:
-                        color = UIColor.kratosRed
-                    case .independent:
-                        color = UIColor.gray
-                    }
-                    self.contentView.backgroundColor = color
-                } else {
-                    self.contentView.backgroundColor = UIColor.gray
-                }
-            })
+        representativeImageView.setRepresentative(person: representative, repInfoViewActionBlock: repInfoViewActionBlock)
+        if let party = representative.currentParty {
+            
+            self.contentView.backgroundColor = party.color()
+        } else {
+            self.contentView.backgroundColor = UIColor.gray
         }
     }
     
@@ -92,5 +76,4 @@ class RepresentativeView: UIView, Loadable {
         super.layoutSubviews()
         contentView.frame = bounds
     }
-    
 }

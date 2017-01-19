@@ -10,7 +10,6 @@ import UIKit
 
 class ButtonView: UIView, Tappable, Loadable {
     internal var selector: Selector = #selector(viewTapped)
-    
     @IBOutlet public var contentView: UIView!
     @IBOutlet weak var label: UILabel!
     var actionBlock: (() -> ())?
@@ -30,8 +29,9 @@ class ButtonView: UIView, Tappable, Loadable {
         customInit()
     }
     
-    func configure(with title: String, actionBlock: (() -> ())?) {
+    func configure(with title: String, fontSize: Int = 17, actionBlock: (() -> ())?) {
         label.text = title
+        label.font = UIFont(name: "Futura", size: CGFloat(fontSize))
         self.actionBlock = actionBlock
         addTap()
     }

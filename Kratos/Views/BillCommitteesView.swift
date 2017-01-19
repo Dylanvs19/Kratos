@@ -11,7 +11,7 @@ import UIKit
 class BillCommitteesView: UIView, Loadable {
     
     @IBOutlet var contentView: UIView!
-    @IBOutlet var committeesLabel: UILabel!
+    @IBOutlet var title: UILabel!
     @IBOutlet weak var stackView: UIStackView!
     
     var committeeIdSet = Set<Int>()
@@ -33,7 +33,7 @@ class BillCommitteesView: UIView, Loadable {
     
     func configure(with committeeArray: [Committee], layoutStackView: (() -> ())?, websiteButtonPressed: ((String) -> ())?) {
         self.committeeArray = committeeArray
-        committeesLabel.text =  committeeArray.count == 1 ? "Committee" : "Committees"
+        title.text =  committeeArray.count == 1 ? "Committee" : "Committees"
         committeeArray.forEach { (committee) in
             if let id = committee.id, !committeeIdSet.contains(id) {
                 let committeeView = CommitteeView()
@@ -41,6 +41,29 @@ class BillCommitteesView: UIView, Loadable {
                 stackView.addArrangedSubview(committeeView)
                 committeeIdSet.insert(id)
             }
+        }
+    }
+    
+    func configure(with actionsArray: [Action], layoutStackView: (() -> ())?) {
+        title.text =  actionsArray.count == 1 ? "Action" : "Actions"
+        var actionsMap = [[Action]]()
+        var holdArray = [Action]()
+        for (idx, action) in actionsArray.enumerated() {
+            if action.status != nil && !holdArray.isEmpty {
+                actionsMap.append(holdArray)
+                holdArray = []
+            }
+            holdArray.append(action)
+            if idx == (actionsArray.count - 1) {
+                actionsMap.append(holdArray)
+            }
+        }
+        for (idx, value) in actionsMap.enumerated() {
+            let first = idx == 0
+            let last = (actionsMap.count - 1) == idx
+            let actionView = ActionsView()
+            actionView.configure(with: value, first: first, last: last, layoutStackView: layoutStackView)
+            stackView.addArrangedSubview(actionView)
         }
     }
 }

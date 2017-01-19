@@ -14,7 +14,6 @@ class MainApplicationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         NotificationCenter.default.addObserver(self, selector: #selector(handleLoginFlow), name: NSNotification.Name(rawValue: "toMainVC"), object: nil)
         handleLoginFlow()
     }

@@ -17,6 +17,10 @@ class YourVoteTableViewCell: UITableViewCell {
     @IBOutlet weak var repVoteImageViewTwo: UIImageView!
     @IBOutlet weak var repVoteImageViewThree: UIImageView!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
     func configureWith(userVote: UserVote) {
         label.text = userVote.billTitle
         

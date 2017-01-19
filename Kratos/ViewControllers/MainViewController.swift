@@ -10,7 +10,7 @@
 import UIKit
 import SafariServices
 
-class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, RepViewDelegate, PagingView, PagingDataSource, PagingTableViewDelegate {
+class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, RepViewDelegate, PagingView, PagingDataSource, PagingTableViewDelegate, RepInfoViewPresentable {
     
     @IBOutlet var repViewOne: RepresentativeView!
     @IBOutlet var repViewTwo: RepresentativeView!
@@ -65,8 +65,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     @IBOutlet weak var mainViewScrollView: UIScrollView!
     @IBOutlet weak var mainView: UIView!
     
-    var blurViewEnabled: Bool = false
-    
     var menuViewController: MenuViewController?
     var disableSwipe = false
     
@@ -93,6 +91,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     var tapView: UIView?
+    var repInfoView: RepInfoView?
     
     //MARK: Pager Variables
     var repOneTallies: [LightTally] = [] {
@@ -162,17 +161,21 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
         configureGestureRecognizer()
         
-        configureMenuBar()
-        
         configureTableView()
         
         configurePagers()
         
         //Set the repContactView's action block to fire method on this VC when certain actions (button presses) taken
-        repContactView.shouldPresentTwitter = presentTwitter
+        repContactView.configureActionBlocks(presentTwitter: presentTwitter, presentHome: presentHomeAddress)
         
         mainViewScrollView.delegate = self
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        FirebaseAnalytics.FlowAnalytic.navigate(to: self, with: nil, id: nil).fireEvent()
+        popMenuBar()
     }
     
     //MARK: Configuration Methods
@@ -185,7 +188,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             // Show Error Message
         } else if representatives.count == 1 {
             let rep = representatives[0]
-            repViewOne.configure(with: rep)
+            repViewOne.configure(with: rep, repInfoViewActionBlock: presentRepInfoView)
             repViewTapped(is: true, at: 0)
             repViewOne.isUserInteractionEnabled = false
         } else if representatives.count == 3 {
@@ -194,7 +197,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             views.forEach { (repView) in
                 let rep = representatives[count]
                 repView?.viewPosition = count
-                repView?.configure(with: rep)
+                repView?.configure(with: rep,repInfoViewActionBlock: presentRepInfoView)
                 count += 1
             }
         }
@@ -203,14 +206,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         repViewTwo.repViewDelegate = self
         repViewThree.repViewDelegate = self
         kratosLabel.alpha = 0
-        repViewDeselected()
-    }
-    
-    fileprivate func configureMenuBar() {
-        menuBarContainerView.layer.shadowColor = UIColor.black.cgColor
-        menuBarContainerView.layer.shadowOffset = CGSize(width: 3, height: 0)
-        menuBarContainerView.layer.shadowOpacity = 0.3
-        menuBarContainerView.layer.shadowRadius = 1
+        repViewDeselected(animate: false)
     }
     
     fileprivate func configureTableView () {
@@ -234,7 +230,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     fileprivate func configureStateImage() {
-        if let state =  Datastore.sharedDatastore.user?.streetAddress?.state {
+        if let state =  Datastore.sharedDatastore.user?.address?.state {
             stateImageView.image = UIImage.imageForState(state)
             stateLabel.text = Constants.abbreviationToFullStateNameDict[state] ?? ""
             if let district = Datastore.sharedDatastore.user?.district {
@@ -251,7 +247,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     fileprivate func setInitial(data: [LightTally]) {
         guard let selectedRepIndex = selectedRepIndex else {
-            print("setInitial")
             return
         }
         switch selectedRepIndex{
@@ -278,7 +273,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     fileprivate func loadInitialVoteData() {
         guard let selectedRepresentative = selectedRepresentative else {
-            print("Load Initial Data")
             return
         }
         APIManager.getTallies(for: selectedRepresentative, nextPage: 1, success: { (lightTallies) in
@@ -290,18 +284,13 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     func makeRequestForResults(at page: UInt, onComplete: @escaping (([LightTally]?) -> Void)) {
         guard let selectedRepresentative = selectedRepresentative else {
-            print("makeRequestForResults")
             return
         }
-//        APIManager.getTallies(for: selectedRepresentative, nextPage: Int(page), success: { (lightTallies) in
-//            print("page: \(page), \(lightTallies.count)")
-//            lightTallies.forEach({ (tally) in
-//                print("\(tally.date), \(tally.id)")
-//            })
-//            onComplete(lightTallies)
-//        }) { (error) in
-//            print(error)
-//        }
+        APIManager.getTallies(for: selectedRepresentative, nextPage: Int(page), success: { (lightTallies) in
+            onComplete(lightTallies)
+        }) { (error) in
+            print(error)
+        }
     }
     
     //MARK: RepView UI & Delegate Methods
@@ -387,54 +376,60 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             }, completion: nil)
             
             repContactView.animateIn()
-            
         } else {
             repViewDeselected()
-            selectedRepresentative = nil
-            selectedRepIndex = nil
         }
     }
     
     /// Breaks down all active selected View constraints & brings view back to baseline (3 reps shown)
-    func repViewDeselected() {
+    func repViewDeselected(animate: Bool = true) {
+        
+        selectedRepresentative = nil
+        selectedRepIndex = nil
+        
         let views = [repViewOne, repViewTwo, repViewThree]
         
         repContactView.animateOut()
         
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: [], animations: {
-            views.forEach { (repView) in
-                repView?.isHidden = false
-                repView?.alpha = 1
-            }
-            self.repOneSelectedYPosition.isActive = false
-            self.repTwoSelectedYPosition.isActive = false
-            self.repThreeSelectedYPosition.isActive = false
-            
-            self.repOneSelectedHeight.isActive = false
-            self.repTwoSelectedHeight.isActive = false
-            self.repThreeSelectedHeight.isActive = false
-            
-            self.tableViewBottomToBottom.isActive = false
-            self.tableViewHeightConstraint.isActive = true
-            self.tableViewTopToRepContactView.constant = 600
-            
-            self.repOneWidth.constant = -20
-            self.repTwoWidth.constant = -20
-            self.repThreeWidth.constant = -20
-            
-            self.stateImageViewCenterYToRepViewOne.isActive = false
-            self.stateImageViewCenterYToRepViewTwo.isActive = false
-            self.stateImageViewCenterYToRepViewThree.isActive = false
-            self.stateImageViewCenterYToLabelView.isActive = true
-            
-            self.backgroundImageViewHeight.constant = 190
-            self.backgroundImageView.removeBlurEffect()
-            self.labelView.alpha = 1
-            self.kratosImageView.alpha = 1
-            self.kratosLabel.alpha = 0
-            
+        
+        views.forEach { (repView) in
+            repView?.isHidden = false
+            repView?.alpha = 1
+        }
+        self.repOneSelectedYPosition.isActive = false
+        self.repTwoSelectedYPosition.isActive = false
+        self.repThreeSelectedYPosition.isActive = false
+        
+        self.repOneSelectedHeight.isActive = false
+        self.repTwoSelectedHeight.isActive = false
+        self.repThreeSelectedHeight.isActive = false
+        
+        self.tableViewBottomToBottom.isActive = false
+        self.tableViewHeightConstraint.isActive = true
+        self.tableViewTopToRepContactView.constant = 800
+        
+        self.repOneWidth.constant = -20
+        self.repTwoWidth.constant = -20
+        self.repThreeWidth.constant = -20
+        
+        self.stateImageViewCenterYToRepViewOne.isActive = false
+        self.stateImageViewCenterYToRepViewTwo.isActive = false
+        self.stateImageViewCenterYToRepViewThree.isActive = false
+        self.stateImageViewCenterYToLabelView.isActive = true
+        
+        self.backgroundImageViewHeight.constant = 190
+        self.backgroundImageView.removeBlurEffect()
+        self.labelView.alpha = 1
+        self.kratosImageView.alpha = 1
+        self.kratosLabel.alpha = 0
+        
+        if animate {
+            UIView.animate(withDuration: 0.25, delay: 0.0, options: [], animations: {
+                self.view.layoutIfNeeded()
+            })
+        } else {
             self.view.layoutIfNeeded()
-        })
+        }
         
         contractedRepConstraints(active: true)
     }
@@ -508,7 +503,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         kratosImageView.transform = .init(rotationAngle: 0)
-        blurViewEnabled = !blurViewEnabled
         self.view.layoutIfNeeded()
     }
     
@@ -564,44 +558,16 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         vc.representative = rep
         navigationController?.pushViewController(vc, animated: true)
     }
-    
-    //MARK: Handle RepContactView Buttons
-    func presentTwitter(shouldPresent: Bool) {
-        if shouldPresent { // should present twitter
-            guard let selectedRepresentative = selectedRepresentative,
-                let handle = selectedRepresentative.twitter else {
-                    let alertVC = UIAlertController(title: "Error", message: "Representative does not have a twitter account", preferredStyle: .alert)
-                    alertVC.addAction(UIAlertAction(title: "O K ", style: .destructive, handler: nil))
-                    present(alertVC, animated: true, completion: nil)
-                    return
-            }
-            
-            if let url = URL(string: "twitter://user?screen_name=\(handle)") {
-                if UIApplication.shared.canOpenURL(url) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }
-            } else {
-                if let url = URL(string: "https://twitter.com/\(handle)") {
-                    let vc = SFSafariViewController(url: url)
-                    self.present(vc, animated: true, completion: nil)
-                }
-            }
-        } else { // should present office address
-            var address = "Could not find an office address for this representative"
-            if let addy = selectedRepresentative?.roles?.first?.officeAddress {
-                address = addy
-            }
-            let alertVC = UIAlertController(title: "A D D R E S S", message: address, preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "O K ", style: .destructive, handler: nil))
-            present(alertVC, animated: true, completion: nil)
-        }
-    }
-    
+
     //MARK: Handle SwipeGesture Recognizer
     func handleSwipeRightToMenu(_ gestureRecognizer: UIGestureRecognizer) {
-        if !disableSwipe {
-            pushMenuBar()
-            disableSwipe = true
+        if selectedRepresentative != nil {
+            repViewDeselected(animate: true)
+        } else {
+            if !disableSwipe {
+                pushMenuBar()
+                disableSwipe = true
+            }
         }
     }
     

@@ -12,8 +12,9 @@ class RepContactView: UIView, Loadable {
     
     @IBOutlet var contentView: UIView!
     
-    var rep: Person?
-    var shouldPresentTwitter: ((Bool) -> ())?
+    var representative: Person?
+    var presentTwitter: ((Person) -> ())?
+    var presentHome: ((Person) -> ())?
     
     @IBOutlet var phoneButton: UIButton!
     @IBOutlet var websiteButton: UIButton!
@@ -60,7 +61,12 @@ class RepContactView: UIView, Loadable {
     }
     
     func configure(with representative: Person) {
-        rep = representative
+        self.representative = representative
+        KratosAnalytics.shared.updateRepAnalyicAction(with: representative.id)
+    }
+    func configureActionBlocks(presentTwitter: @escaping ((Person) -> ()), presentHome: @escaping ((Person) -> ())) {
+        self.presentHome = presentHome
+        self.presentTwitter = presentTwitter
     }
     
     func animateIn() {
@@ -88,21 +94,28 @@ class RepContactView: UIView, Loadable {
     }
     
     @IBAction func phoneButtonPressed(_ sender: Any) {
-        if let phone = rep?.roles?.first?.phone,
-            let url = URL(string: "telprompt://\(phone)") {
+        if let phone = representative?.roles?.first?.phone,
+            let url = URL(string: "tel://\(phone)") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
+        KratosAnalytics.ContactAnalyticType.phone.fireEvent()
     }
     @IBAction func websiteButtonPressed(_ sender: Any) {
-        if let website = rep?.roles?.first?.website,
+        if let website = representative?.roles?.first?.website,
             let url = URL(string: website) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
+        KratosAnalytics.ContactAnalyticType.website.fireEvent()
     }
     @IBAction func homeButtonPressed(_ sender: Any) {
-        shouldPresentTwitter?(false)
+        guard let rep = representative else { fatalError("RepContactView without Rep") }
+        presentHome?(rep)
+        KratosAnalytics.ContactAnalyticType.officeAddress.fireEvent()
+
     }
     @IBAction func twitterButtonPressed(_ sender: Any) {
-        shouldPresentTwitter?(true)
+        guard let rep = representative else { fatalError("RepContactView without Rep") }
+        presentTwitter?(rep)
+        KratosAnalytics.ContactAnalyticType.twitter.fireEvent()
     }
 }

@@ -56,7 +56,10 @@ class MenuViewController: UIViewController {
     }
     
     @IBAction func votesButtonPressed(_ sender: Any) {
-        // to myVotes vc
+        let vc: YourVotesViewController = YourVotesViewController.instantiate()
+        vc.loadViewIfNeeded()
+        self.present(vc, animated: true, completion: {
+        })
     }
     
     @IBAction func infoButtonPressed(_ sender: Any) {

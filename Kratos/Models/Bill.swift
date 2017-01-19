@@ -36,6 +36,7 @@ struct Bill {
     var enactedAs: String?
     var awaitingSignature: Bool?
     var amendments: [Amendment]?
+    var tallies: [Tally]?
     
     //Wanted variables
     //var billTextURL: String?
@@ -112,6 +113,11 @@ struct Bill {
                 return Amendment(from: amendment)
             })
         }
+        if let tallyArray = json["tallies"] as? [[String: AnyObject]] {
+            self.tallies = tallyArray.map({ (obj) -> Tally in
+                return Tally(json: obj)
+            })
+        }
         
         // Wanted Variables
         //self.billTextURL = json["billTextURL"] as? String
@@ -150,48 +156,6 @@ struct Bill {
             }
             self.introducedDate = json["active_at"] as? Date
             self.active = json["active"] as? Bool
-        }
-    }
-    
-    struct Action {
-        var type: String?
-        var text: String?
-        var references: [Reference]?
-        var code: String?
-        var date: Date?
-        var status: String?
-        var how: String?
-        var chamber: Chamber?
-        var committees: [String]?
-        var voteType: String?
-        var roll: Int?
-        
-        init(from json: [String: AnyObject]) {
-            self.type = json["type"] as? String
-            self.text = json["text"] as? String
-            if let references =  json["references"] as? [[String: AnyObject]] {
-                self.references = references.map({ (reference) -> Reference in
-                    return Reference(from: reference)
-                })
-            }
-            self.committees = json["committees"] as? [String]
-            self.voteType = json["vote_type"] as? String
-            self.status = json["status"] as? String
-            self.roll = json["roll"] as? Int
-            self.code = json["action_code"] as? String
-            if let date = json["acted_at"] as? String {
-                self.date = date.stringToDate()
-            }
-        }
-        
-        struct Reference {
-            var type: String?
-            var reference: String?
-            
-            init(from json: [String: AnyObject]) {
-                self.type = json["type"] as? String
-                self.reference = json["reference"] as? String
-            }
         }
     }
     
@@ -239,6 +203,66 @@ enum Chamber: String, RawRepresentable {
             return .senate
         default:
             return nil
+        }
+    }
+}
+
+struct Action {
+    var type: String?
+    var text: String?
+    var references: [Reference]?
+    var code: String?
+    var date: Date?
+    var status: String?
+    var how: String?
+    var chamber: Chamber?
+    var committees: [String]?
+    var voteType: String?
+    var roll: Int?
+    
+    init(from json: [String: AnyObject]) {
+        self.type = json["type"] as? String
+        self.text = json["text"] as? String
+        if let references =  json["references"] as? [[String: AnyObject]] {
+            self.references = references.map({ (reference) -> Reference in
+                return Reference(from: reference)
+            })
+        }
+        self.committees = json["committees"] as? [String]
+        self.voteType = json["vote_type"] as? String
+        self.status = json["status"] as? String
+        self.roll = json["roll"] as? Int
+        self.code = json["action_code"] as? String
+        if let date = json["acted_at"] as? String {
+            self.date = date.stringToDate()
+        }
+    }
+    
+    func presentableType() -> String? {
+        guard let type = self.type else {return nil}
+        switch type {
+        case "topresident":
+            return "To President"
+        case "passed:simpleres":
+            return "Passed-Simple Resolution"
+        case "vote-aux":
+            return "Vote Auxiliary"
+        default:
+            return type.lowercased().capitalized
+        }
+    }
+    
+    func presentableStatus() -> String? {
+        return self.status?.replacingOccurrences(of: "_", with: " ").replacingOccurrences(of: ":", with: "-").lowercased().capitalized
+    }
+    
+    struct Reference {
+        var type: String?
+        var reference: String?
+        
+        init(from json: [String: AnyObject]) {
+            self.type = json["type"] as? String
+            self.reference = json["reference"] as? String
         }
     }
 }

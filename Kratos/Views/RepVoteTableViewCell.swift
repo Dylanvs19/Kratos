@@ -11,7 +11,7 @@ import UIKit
 class RepVoteTableViewCell: UITableViewCell {
     
     @IBOutlet var nameLabel: UILabel!
-    @IBOutlet var repImageView: UIImageView!
+    @IBOutlet var repImageView: RepImageView!
     @IBOutlet var repVoteTypeView: UIImageView!
     @IBOutlet weak var stateLabel: UILabel!
     @IBOutlet weak var districtLabel: UILabel!
@@ -26,7 +26,12 @@ class RepVoteTableViewCell: UITableViewCell {
             let last = rep.lastName {
             nameLabel.text = first + " " + last
         }
-        stateLabel.text = rep.state ?? ""
+        if let stateString = rep.state {
+            let state = stateString.trimmingCharacters(in: .decimalDigits)
+            stateLabel.text = state
+        } else {
+            stateLabel.text = ""
+        }
         if let party = rep.party {
             partyLabel.text = party.capitalLetter()
             partyLabel.textColor = UIColor.color(for: party)
@@ -42,6 +47,7 @@ class RepVoteTableViewCell: UITableViewCell {
             UIImage.downloadedFrom(imageURL, onCompletion: { (image) -> (Void) in
                 guard let image = image else { return }
                 self.repImageView.image = image
+                self.repImageView.addRepImageViewBorder()
             })
         }
         if let voteValue = vote.voteValue {

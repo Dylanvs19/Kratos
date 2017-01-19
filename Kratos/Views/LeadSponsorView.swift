@@ -8,13 +8,18 @@
 
 import UIKit
 
-class LeadSponsorView: UIView, Loadable {
+class LeadSponsorView: UIView, Loadable, Tappable {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet var stateImageView: UIImageView!
     @IBOutlet var repImageView: UIImageView!
     @IBOutlet var repNameLabel: UILabel!
     @IBOutlet var repStateLabel: UILabel!
+    @IBOutlet weak var districtLabel: UILabel!
+    @IBOutlet weak var partyLabel: UILabel!
+    var sponsor: Person?
+    var selector: Selector = #selector(viewTapped)
+    var presentRepInfoView: ((Person) -> ())?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -30,27 +35,46 @@ class LeadSponsorView: UIView, Loadable {
         super.awakeFromNib()
     }
 
-    func configure(with sponsor: Person) {
+    func configure(with sponsor: Person, presentRepInfoView: @escaping ((Person) -> ())) {
+        self.sponsor = sponsor
         if let first = sponsor.firstName,
-           let last = sponsor.lastName {
-            repNameLabel.text = "\(first) \(last)"
+            let last = sponsor.lastName {
+            repNameLabel.text = first + " " + last
         }
-        
-        if let repType = sponsor.roles?.first?.representativeType {
-            repStateLabel.text = repType.rawValue
+        if let stateString = sponsor.currentState {
+            let state = stateString.trimmingCharacters(in: .decimalDigits)
+            repStateLabel.text = state
+        } else {
+            repStateLabel.text = ""
         }
-        
-        if let repImageURL = sponsor.imageURL {
-            UIImage.downloadedFrom(repImageURL, onCompletion: { (image) -> (Void) in
+        if let party = sponsor.currentParty {
+            partyLabel.text = party.capitalLetter()
+            partyLabel.textColor = UIColor.color(for: party)
+        } else {
+            partyLabel.text = ""
+        }
+        if let district = sponsor.roles?.first?.district {
+            districtLabel.text = "District \(String(district))"
+        } else {
+            districtLabel.text = ""
+        }
+        if let imageURL = sponsor.imageURL {
+            UIImage.downloadedFrom(imageURL, onCompletion: { (image) -> (Void) in
                 guard let image = image else { return }
                 self.repImageView.image = image
-                self.repImageView.contentMode = .scaleAspectFill
+                self.repImageView.addRepImageViewBorder()
             })
         }
-        
         if let state = sponsor.currentState {
             stateImageView.image = UIImage.imageForState(state)
         }
+        addTap()
+        self.presentRepInfoView = presentRepInfoView
     }
 
+    func viewTapped() {
+        if let person = sponsor {
+            presentRepInfoView?(person)
+        }
+    }
 }

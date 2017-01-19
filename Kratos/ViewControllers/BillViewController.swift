@@ -10,23 +10,36 @@
 import UIKit
 
 
-class BillViewController: UIViewController {
+class BillViewController: UIViewController, RepInfoViewPresentable {
     
     @IBOutlet var stackView: UIStackView!
-    
-    var billId: Int?
+    internal var selector: Selector = #selector(repViewTapped(notification:))
+
+    var billId: Int? {
+        didSet {
+            KratosAnalytics.shared.updateBillAnalyicAction(with: billId)
+        }
+    }
     var bill: Bill?
+    var repInfoView: RepInfoView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         enableSwipeBack()
         loadData()
+        self.view.layoutIfNeeded()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let id = billId else { return }
+        FirebaseAnalytics.FlowAnalytic.navigate(to: self, with: .bill, id: id).fireEvent()
     }
     
     func loadData() {
         if let billId = billId {
-            APIService.loadBill(from: billId, success: { (bill) -> (Void) in
+            APIManager.getBill(for: billId, success: { (bill) -> (Void) in
                 self.configureView(with: bill)
                 self.bill = bill
                 }, failure: { (error) -> (Void) in
@@ -43,31 +56,48 @@ class BillViewController: UIViewController {
         headerView.configure(with: bill)
         stackView.addArrangedSubview(headerView)
         
+        if let summary = bill.summary {
+            let summaryView = SummaryView()
+            summaryView.configure(with: summary, title: "Bill Summary")
+            stackView.addArrangedSubview(summaryView)
+        }
+        
         // add CommitteesView to stackView
         if let committees =  bill.committees {
             let committeesView = BillCommitteesView()
-            committeesView.configure(with: committees, layoutStackView: reloadViews, websiteButtonPressed: committeeWebsiteButtonPressed)
+            committeesView.configure(with: committees, layoutStackView: layoutStackView, websiteButtonPressed: committeeWebsiteButtonPressed)
             stackView.addArrangedSubview(committeesView)
         }
         
         // add SponsorsView to stackView
         if let leadSponsor = bill.sponsor {
             let sponsorView = LeadSponsorView()
-            sponsorView.configure(with: leadSponsor)
+            sponsorView.configure(with: leadSponsor, presentRepInfoView: presentRepInfoView)
             stackView.addArrangedSubview(sponsorView)
         }
         
-//        if let cosponsors = bill.coSponsors {
-//            let lightCoSponsors = cosponsors.map({ (person) -> LightPerson in
-//                return person.toLightPerson()
-//            })
-//            let view = RepVotesView()
-//            let 
-//        }
+        if let cosponsors = bill.coSponsors, cosponsors.count > 0 {
+            let lightCoSponsors = cosponsors.map({ (person) -> Vote in
+                var vote = Vote()
+                vote.person = person.toLightPerson()
+                return vote
+            })
+            let view = RepVotesView()
+            let title = lightCoSponsors.count == 1 ? "CoSponsor" : "CoSponsors"
+            view.configure(with: title, votes: lightCoSponsors, presentRepInfoView: presentRepInfoView)
+            stackView.addArrangedSubview(view)
+        }
         
         let relatedBillView = ButtonView()
         relatedBillView.configure(with: "Bill Text", actionBlock: billTextButtonPressed)
         stackView.addArrangedSubview(relatedBillView)
+        
+        if let actions = bill.actions {
+            let actionsView = BillCommitteesView()
+            let sortedActions = actions.sorted { $0.date ?? Date() > $1.date ?? Date() }
+            actionsView.configure(with: sortedActions, layoutStackView: layoutStackView)
+            stackView.addArrangedSubview(actionsView)
+        }
         
     }
     
@@ -83,8 +113,22 @@ class BillViewController: UIViewController {
         }
     }
     
-    func reloadViews() {
-        stackView.reloadInputViews()
-        stackView.layoutIfNeeded()
+    func layoutStackView() {
+        self.stackView.layoutSubviews()
+        self.stackView.layoutIfNeeded()
+    }
+    
+    func repViewTapped(notification: Notification) {
+        let repInfoView = RepInfoView(frame: view.frame)
+        if let person = notification.object as? Person {
+            repInfoView.configure(with: person, exitActionBlock: removeRepInfoView)
+        }
+        view.addSubview(repInfoView)
+        repInfoView.layoutSubviews()
+    }
+    
+    func removeRepInfoView() {
+        self.view.removeRepInfoView()
+        self.view.layoutIfNeeded()
     }
 }

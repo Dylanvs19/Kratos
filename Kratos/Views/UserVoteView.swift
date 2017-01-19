@@ -15,30 +15,19 @@ class UserVoteView: UIView, Loadable {
     @IBOutlet weak var yeaView: UIView!
     @IBOutlet weak var nayView: UIView!
     
-    var userVote: VoteValue = .abstain {
+    fileprivate var tallyID: Int?
+    fileprivate var userVote: VoteValue = .abstain {
         didSet {
-            switch userVote {
-            case .abstain:
-                UIView.animate(withDuration: 0.25, animations: { 
-                    self.yeaView.alpha = 0.5
-                    self.nayView.alpha = 0.5
-                    self.layoutIfNeeded()
-                })
-            case .yea:
+            if shouldAnimate {
                 UIView.animate(withDuration: 0.25, animations: {
-                    self.yeaView.alpha = 1
-                    self.nayView.alpha = 0.5
-                    self.layoutIfNeeded()
-                })
-            case .nay:
-                UIView.animate(withDuration: 0.25, animations: {
-                    self.yeaView.alpha = 0.5
-                    self.nayView.alpha = 1
+                    self.setView(with: self.userVote)
                     self.layoutIfNeeded()
                 })
             }
         }
     }
+    fileprivate var shouldAnimate: Bool = false
+    var presentError: ((NetworkError) -> ())?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -52,25 +41,64 @@ class UserVoteView: UIView, Loadable {
         setupGestureRecognizers()
     }
     
-    func configure(with userVote: VoteValue) {
-        self.userVote = userVote
-        // Parse out if User has voted on this && pass in
+    func configure(with tallyID: Int) {
+        
+        APIManager.getUserTally(with: tallyID, success: { (lightTally) in
+            if let userVote = lightTally.voteValue {
+                self.setView(with: userVote)
+                self.userVote = userVote
+                self.shouldAnimate = true
+
+            }
+        }) { (error) in
+            self.presentError?(error)
+        }
+    }
+    
+    func setView(with voteValue: VoteValue) {
+        switch userVote {
+        case .abstain:
+            self.yeaView.alpha = 0.3
+            self.nayView.alpha = 0.3
+        case .yea:
+            self.yeaView.alpha = 1
+            self.nayView.alpha = 0.3
+        case .nay:
+            self.yeaView.alpha = 0.3
+            self.nayView.alpha = 1
+        }
     }
     
     func setupGestureRecognizers() {
+        
         yeaView.isUserInteractionEnabled = true
-        nayView.isUserInteractionEnabled = true
         let yeaTap = UITapGestureRecognizer(target: self, action: #selector(yeaTapped))
-        let nayTap = UITapGestureRecognizer(target: self, action: #selector(nayTapped))
         yeaView.addGestureRecognizer(yeaTap)
+
+        nayView.isUserInteractionEnabled = true
+        let nayTap = UITapGestureRecognizer(target: self, action: #selector(nayTapped))
         nayView.addGestureRecognizer(nayTap)
     }
     
     func yeaTapped() {
+        if let tallyID = tallyID, userVote == .abstain {
+            APIManager.createUserTally(with: .yea, and: tallyID, success: { (lightTally) in
+                //debugPrint(lightTally)
+            }, failure: { (error) in
+                self.presentError?(error)
+            })
+        }
         userVote = userVote == .yea ? .abstain : .yea
     }
     
     func nayTapped() {
+        if let tallyID = tallyID, userVote == .abstain {
+            APIManager.createUserTally(with: .nay, and: tallyID, success: { (lightTally) in
+                //debugPrint(lightTally)
+            }, failure: { (error) in
+                self.presentError?(error)
+            })
+        }
         userVote = userVote == .nay ? .abstain : .nay
     }
     

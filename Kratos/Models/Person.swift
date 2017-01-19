@@ -6,7 +6,7 @@
 //  Copyright © 2016 Dylan Straughan. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct Person {
     
@@ -94,7 +94,6 @@ struct LightPerson {
         }
     }
     
-    
     init() {}
 }
 
@@ -114,6 +113,7 @@ enum Party: String, RawRepresentable {
         default:
             return nil
         }
+        
     }
     func capitalLetter() -> String {
         switch self {
@@ -133,6 +133,17 @@ enum Party: String, RawRepresentable {
             return "Rep"
         case .independent:
             return "Ind"
+        }
+    }
+    
+    func color() -> UIColor {
+        switch self {
+        case .democrat:
+            return UIColor.kratosBlue
+        case .republican:
+            return UIColor.kratosRed
+        case .independent:
+            return UIColor.gray
         }
     }
 }

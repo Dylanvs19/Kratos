@@ -51,13 +51,10 @@ public extension PagingViewDelegate {
     func append(data: [Data], to oldData: [Data]) {
         guard data.count != oldData.count else { return }
         if data.count > 20 && !oldData.isEmpty {
-            print("data: \(data.count), oldData:\(oldData.count)")
             let indexPaths = flatMap(cellMap)
-            print("indexPaths\(indexPaths)")
             let sliced = slice(indexPaths,
                                from: oldData.count,
                                to: indexPaths.count - 1)
-            print("sliced\(sliced)")
             insert(sliced)
         } else {
             reloadView()
@@ -127,6 +124,7 @@ public protocol PagingTableViewDelegate: PagingViewDelegate {
 
 public extension PagingTableViewDelegate {
     func insert(_ indexPaths: [IndexPath]) {
+        reloadView(); return; 
         // Determine if new sections must be inserted.
         let oldFinalSection = self.tableView.numberOfSections - 1
         let newFinalSection = indexPaths.last?.section ?? 0
@@ -136,8 +134,6 @@ public extension PagingTableViewDelegate {
             // Insert new sections.
             let range = CountableRange(uncheckedBounds: (oldFinalSection, newFinalSection))
             let indexSet = IndexSet(integersIn: range)
-            print("indexSet to Insert: \(indexSet)")
-            print("indexPaths to Insert: \(indexPaths)")
             //tableView.beginUpdates()
             tableView.insertSections(indexSet, with: .automatic)
             tableView.reloadRows(at: indexPaths, with: .automatic)
@@ -296,7 +292,6 @@ public class Pager<DataSource, Delegate, View>: NSObject where DataSource: Pagin
         if !isDisabled {
             delegate?.data = []
             delegate?.data = data
-            print("initialData: \(data.count)")
             pageNumber += 1
             isFinishedPaging = false
         }

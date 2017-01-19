@@ -48,16 +48,32 @@ extension Loadable where Self: UIView {
 
 extension UIView {
     
-    func addBlurEffect() {
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = self.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    func addBlurEffect(front: Bool = true, animate: Bool = true ) {
+        
+        let blurEffectView = UIVisualEffectView()
+        blurEffectView.frame = bounds
         self.addSubview(blurEffectView)
+        if front {
+            self.bringSubview(toFront: blurEffectView)
+        } else {
+            self.sendSubview(toBack: blurEffectView)
+        }
+        
+        UIView.animate(withDuration: 0.4) {
+            blurEffectView.effect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+            blurEffectView.layoutIfNeeded()
+        }
+        
     }
     
     func removeBlurEffect() {
         for view in self.subviews where view is UIVisualEffectView {
+            view.removeFromSuperview()
+        }
+    }
+    
+    func removeRepInfoView() {
+        for view in self.subviews where view is RepInfoView {
             view.removeFromSuperview()
         }
     }

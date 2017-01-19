@@ -22,11 +22,11 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rWi-aM-J6h">
-                    <rect key="frame" x="16" y="9" width="42" height="22.5"/>
+                    <rect key="frame" x="10" y="9" width="37" height="22.5"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22.5" id="rEM-Iw-j1q"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
+                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -43,7 +43,7 @@
                 <constraint firstAttribute="bottom" secondItem="cRk-7h-BN4" secondAttribute="bottom" constant="10" id="0Ox-h4-86b"/>
                 <constraint firstItem="rWi-aM-J6h" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="9" id="Dbo-Gn-ful"/>
                 <constraint firstAttribute="trailing" secondItem="cRk-7h-BN4" secondAttribute="trailing" constant="10" id="IXV-yy-s1u"/>
-                <constraint firstItem="rWi-aM-J6h" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="ghL-C2-N0V"/>
+                <constraint firstItem="rWi-aM-J6h" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="ghL-C2-N0V"/>
                 <constraint firstItem="cRk-7h-BN4" firstAttribute="top" secondItem="rWi-aM-J6h" secondAttribute="bottom" constant="10" id="pqd-FH-1ae"/>
                 <constraint firstItem="cRk-7h-BN4" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="vvO-ZK-Afv"/>
             </constraints>

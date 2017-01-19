@@ -68,7 +68,7 @@ struct Tally {
             self.category = TallyType(rawValue: holdCategory) ?? .unknown
         }
         if let holdChamber = json["chamber"] as? String {
-            self.chamber = Chamber(rawValue: holdChamber)
+            self.chamber = Chamber.chamber(value: holdChamber)
         }
         if let voteArray = json["votes"] as? [[String: AnyObject]] {
             votes = voteArray.map({ (dictionary) -> Vote? in

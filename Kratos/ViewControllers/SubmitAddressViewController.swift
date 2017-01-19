@@ -147,9 +147,9 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
     func configureTextFields() {
         // pulling information from sharedDataStore if available
         let party = Datastore.sharedDatastore.user?.party?.rawValue
-                let address = Datastore.sharedDatastore.user?.streetAddress?.street
-        let city = Datastore.sharedDatastore.user?.streetAddress?.city
-        let state = Datastore.sharedDatastore.user?.streetAddress?.state
+                let address = Datastore.sharedDatastore.user?.address?.street
+        let city = Datastore.sharedDatastore.user?.address?.city
+        let state = Datastore.sharedDatastore.user?.address?.state
         var dob: String? {
             if let date = Datastore.sharedDatastore.user?.dob {
                 return DateFormatter.presentationDateFormatter.string(from: date)
@@ -158,7 +158,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             }
         }
         var zip: String? {
-            if let zip = Datastore.sharedDatastore.user?.streetAddress?.zipCode {
+            if let zip = Datastore.sharedDatastore.user?.address?.zipCode {
                 return String(zip)
             } else {
                 return nil
@@ -236,7 +236,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
         func updateUser() {
             if textFieldsValid {
                 var user = Datastore.sharedDatastore.user
-                var address = StreetAddress()
+                var address = Address()
                 address.street = addressTextField.text
                 address.city = cityTextField.text
                 address.state = stateTextField.text
@@ -251,7 +251,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                 if let dob = dobTextField.text {
                     user?.dob = DateFormatter.presentationDateFormatter.date(from: dob)
                 }
-                user?.streetAddress = address
+                user?.address = address
                 Datastore.sharedDatastore.user = user
             }
         }
@@ -274,6 +274,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             }
         case .registration:
             updateUser()
+            FirebaseAnalytics.FlowAnalytic.registerTapped.fireEvent()
             APIManager.register(with: password) { (success) in
                 if success {
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
@@ -294,9 +295,9 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             
             // pull information from Datastore's User
             let party = Datastore.sharedDatastore.user?.party?.rawValue
-            let address = Datastore.sharedDatastore.user?.streetAddress?.street
-            let city = Datastore.sharedDatastore.user?.streetAddress?.city
-            let state = Datastore.sharedDatastore.user?.streetAddress?.state
+            let address = Datastore.sharedDatastore.user?.address?.street
+            let city = Datastore.sharedDatastore.user?.address?.city
+            let state = Datastore.sharedDatastore.user?.address?.state
             var dob: String? {
                 if let date = Datastore.sharedDatastore.user?.dob {
                     return DateFormatter.presentationDateFormatter.string(from: date)
@@ -305,7 +306,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                 }
             }
             var zip: String? {
-                if let zip = Datastore.sharedDatastore.user?.streetAddress?.zipCode {
+                if let zip = Datastore.sharedDatastore.user?.address?.zipCode {
                     return String(zip)
                 } else {
                     return nil

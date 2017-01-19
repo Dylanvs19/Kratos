@@ -10,23 +10,21 @@ import UIKit
 
 struct User {
     
+    var email: String?
+    var firstName: String?
+    var lastName: String?
     var phoneNumber: Int?
-    var streetAddress: StreetAddress?
+    var address: Address?
     var district: Int?
     var id: Int?
     var password: String?
     var token: String?
     var dob: Date?
     var party: Party?
+    var apnToken: String?
     var userVotes: [UserVote]?
     
     init() { }
-    
-    init(firstName: String, lastName: String, phoneNumber: Int, streetAddress: StreetAddress) {
-
-        self.phoneNumber = phoneNumber
-        self.streetAddress = streetAddress
-    }
     
     init?(json: [String: AnyObject], pureUser: Bool = false) {
         var jsonDict = json
@@ -38,6 +36,9 @@ struct User {
         
         guard let phone = jsonDict["user"]?["phone"] as? Int,
               let street = jsonDict["user"]?["address"] as? String,
+              let email = jsonDict["user"]?["email"] as? String,
+              let firstName = jsonDict["user"]?["first_name"] as? String,
+              let lastName = jsonDict["user"]?["last_name"] as? String,
               let city = jsonDict["user"]?["city"] as? String,
               let state = jsonDict["user"]?["state"] as? String,
               let district = jsonDict["user"]?["district"] as? Int,
@@ -60,30 +61,41 @@ struct User {
         self.phoneNumber = phone
         self.district = district
         self.id = id
-        var streetAddress = StreetAddress()
-        streetAddress.city = city
-        streetAddress.street = street
-        streetAddress.zipCode = zip
-        streetAddress.state = state
-        self.streetAddress = streetAddress
+        self.email = email
+        self.apnToken = jsonDict["user"]?["apn_token"] as? String
+        self.firstName = firstName
+        self.lastName = lastName
+        var address = Address()
+        address.city = city
+        address.street = street
+        address.zipCode = zip
+        address.state = state
+        self.address = address
         
     }
     
-    func toJson(with password: String) -> [String: AnyObject]? {
-        guard let street = self.streetAddress?.street,
-            let city = self.streetAddress?.city,
-            let state = self.streetAddress?.state,
-            let zip = self.streetAddress?.zipCode,
+    func toJson(with password: String? = nil) -> [String: AnyObject]? {
+        guard let street = self.address?.street,
+            let city = self.address?.city,
+            let state = self.address?.state,
+            let zip = self.address?.zipCode,
             let phoneNumber = self.phoneNumber,
             let party = party?.rawValue,
-            let dob = dob else { return nil }
+            let dob = dob,
+            let email = email,
+            let first = firstName,
+            let last = lastName else { return nil }
         
         let dict:[String:[String:AnyObject]] = ["user":[
                                                 "phone": phoneNumber as AnyObject,
+                                                "email": email as AnyObject,
+                                                "phone": phoneNumber as AnyObject,
+                                                "first_name": first as AnyObject,
+                                                "last_name": last as AnyObject,
                                                 "password": password as AnyObject,
-                                                "apn_token": UIDevice.current.identifierForVendor?.uuidString as AnyObject,
+                                                "apn_token": apnToken as AnyObject,
                                                 "party": party as AnyObject,
-                                                "birthday": DateFormatter.billDateFormatter.string(from: dob) as AnyObject,
+                                                "birthday": DateFormatter.utcDateFormatter.string(from: dob) as AnyObject,
                                                 "address": street as AnyObject,
                                                 "city": city as AnyObject,
                                                 "state": state as AnyObject,
@@ -92,9 +104,37 @@ struct User {
                                                 ]
         return dict as [String : AnyObject]?
     }
+    
+    func toJsonForUpdate() -> [String: AnyObject]? {
+        guard let street = self.address?.street,
+              let city = self.address?.city,
+              let state = self.address?.state,
+              let zip = self.address?.zipCode,
+              let phoneNumber = phoneNumber,
+              let party = party?.rawValue,
+              let dob = dob,
+              let first = firstName,
+              let last = lastName,
+              let apnToken = apnToken else { return nil }
+        
+        let dict:[String:[String:AnyObject]] = ["user":[
+                                                        "phone": phoneNumber as AnyObject,
+                                                        "first_name": first as AnyObject,
+                                                        "last_name": last as AnyObject,
+                                                        "apn_token": apnToken as AnyObject,
+                                                        "party": party as AnyObject,
+                                                        "birthday": DateFormatter.utcDateFormatter.string(from: dob) as AnyObject,
+                                                        "address": street as AnyObject,
+                                                        "city": city as AnyObject,
+                                                        "state": state as AnyObject,
+                                                        "zip": zip as AnyObject
+                                                        ]
+                                                ]
+        return dict as [String : AnyObject]?
+    }
 }
 
-struct StreetAddress {
+struct Address {
     
     var street: String?
     var city: String?

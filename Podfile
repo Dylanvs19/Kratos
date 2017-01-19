@@ -6,10 +6,7 @@ use_frameworks!
 target 'Kratos' do
 
 pod 'Locksmith'
-pod 'Fabric'
-pod 'Crashlytics'
-pod 'TwitterKit'
-pod 'TwitterCore'
+pod 'Firebase/Core'
 
 end
 

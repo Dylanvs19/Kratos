@@ -24,7 +24,7 @@ class CommitteeView: UIView, Loadable, Tappable {
     
     var shouldHideStackView = true {
         didSet {
-            hideStackView(shouldHideStackView)
+            hideStackView(shouldHideStackView, animate: true)
         }
     }
     var layoutStackView: (() -> ())?
@@ -53,7 +53,7 @@ class CommitteeView: UIView, Loadable, Tappable {
     }
     
     func configure(with committee: Committee, layoutStackView: (() -> ())?, buttonViewPressedWithString:((String) -> ())?) {
-        let sanitizedCommitteeName = committee.name?.replacingOccurrences(of: "House Committee on ", with: "").replacingOccurrences(of: "Senate Committee on ", with: "").replacingOccurrences(of: " the ", with: "")
+        let sanitizedCommitteeName = committee.name?.replacingOccurrences(of: "House Committee on ", with: "").replacingOccurrences(of: "Senate Committee on ", with: "").replacingOccurrences(of: "the ", with: "")
         chamberLabel.transform = CGAffineTransform(rotationAngle: CGFloat(3 * M_PI / Double(2)))
         sideView.layer.cornerRadius = 2.0
         committeeNameLabel.text = sanitizedCommitteeName
@@ -64,15 +64,10 @@ class CommitteeView: UIView, Loadable, Tappable {
         }
         
         if let activity = committee.activity {
-            var presentationString  = ""
-            for (idx, action) in activity.enumerated() {
-                if idx == activity.count - 1 {
-                    presentationString += action
-                } else {
-                    presentationString += "\(action), "
-                }
-            }
-        } else {
+            let view = ActivityView()
+            let title = activity.count == 1 ? "Activity for Bill" : "Activities for Bill"
+            view.configure(with: title, activities: activity)
+            stackView.addArrangedSubview(view)
         }
         
         if let summary = committee.jusrisdiction {
@@ -84,21 +79,44 @@ class CommitteeView: UIView, Loadable, Tappable {
         if let url = committee.url {
             self.url = url 
             let buttonView = ButtonView()
-            buttonView.configure(with: "Website", actionBlock: buttonViewPressed)
+            buttonView.configure(with: "Website", fontSize: 15, actionBlock: buttonViewPressed)
             stackView.addArrangedSubview(buttonView)
         }
         
         self.buttonViewPressedWithString = buttonViewPressedWithString
         self.layoutStackView = layoutStackView
-        hideStackView(true)
+        hideStackView(true, animate: false)
     }
     
-    func hideStackView(_ shouldHide: Bool) {
-        UIView.animate(withDuration: 0.2) {
+    func hideStackView(_ shouldHide: Bool, animate: Bool) {
+        if animate {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.stackView.isHidden = shouldHide
+                self.committeeNameLabelToBottom.isActive = shouldHide
+                self.rotateChevronView(closed: shouldHide)
+                self.layoutStackView?()
+            }, completion: { (success) in
+                UIView.animate(withDuration: 0.2) {
+                    self.stackView.alpha = shouldHide ? 0 : 1
+                    self.layoutStackView?()
+                }
+            })
+        } else {
+            self.stackView.alpha = shouldHide ? 0 : 1 
             self.stackView.isHidden = shouldHide
             self.committeeNameLabelToBottom.isActive = shouldHide
-            self.layoutStackViews()
+            self.rotateChevronView(closed: shouldHide)
+            self.layoutStackView?()
         }
+    }
+    
+    func rotateChevronView(closed: Bool) {
+        if closed {
+            self.chevronView.transform = CGAffineTransform(rotationAngle: CGFloat(3 * M_PI / Double(2)))
+        } else {
+            self.chevronView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI / Double(2)))
+        }
+
     }
     
     func viewTapped() {
@@ -109,11 +127,5 @@ class CommitteeView: UIView, Loadable, Tappable {
         if let url = url {
             buttonViewPressedWithString?(url)
         }
-    }
-    
-    func layoutStackViews() {
-        //stackView.reloadInputViews()
-        //stackView.layoutIfNeeded()
-        layoutStackView?()
     }
 }

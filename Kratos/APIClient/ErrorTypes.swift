@@ -12,8 +12,8 @@ enum NetworkError: String, Error {
     case timeout = "Connection has timed out"
     case invalidURL = "Invalid endpoint or parameters"
     case invalidSerialization = "Objects could not be serialized correctly"
-    case invalidAccount = "Account already exists at this address"
-    case appSideError = "Networking Error from application side"
+    case invalidAccount = "Account already exists at this address."
+    case appSideError = "Networking Error from Application Side"
     case serverSideError = "Server Side Error"
     case nilData = "Data value is nil"
     

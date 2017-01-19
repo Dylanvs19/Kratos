@@ -21,7 +21,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ge8-yQ-STg">
-                    <rect key="frame" x="31" y="14.5" width="42" height="22.5"/>
+                    <rect key="frame" x="10" y="14.5" width="42" height="22.5"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22.5" id="mW6-6h-Y1k"/>
                     </constraints>
@@ -39,7 +39,7 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="ge8-yQ-STg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="31" id="BaA-LS-xkN"/>
+                <constraint firstItem="ge8-yQ-STg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="BaA-LS-xkN"/>
                 <constraint firstItem="ge8-yQ-STg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="14.5" id="FLl-O5-hwm"/>
                 <constraint firstAttribute="bottom" secondItem="ge8-yQ-STg" secondAttribute="bottom" constant="13" id="SGk-Gq-giV"/>
                 <constraint firstItem="xdw-gF-ogq" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="dgp-GS-64x"/>

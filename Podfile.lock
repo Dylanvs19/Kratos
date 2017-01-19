@@ -1,27 +1,39 @@
 PODS:
-  - Crashlytics (3.8.3):
-    - Fabric (~> 1.6.3)
-  - Fabric (1.6.10)
+  - Firebase/Core (3.10.0):
+    - FirebaseAnalytics (= 3.6.0)
+    - FirebaseCore (= 3.4.5)
+  - FirebaseAnalytics (3.6.0):
+    - FirebaseCore (~> 3.4)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseCore (3.4.5):
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseInstanceID (1.0.8)
+  - GoogleInterchangeUtilities (1.2.2):
+    - GoogleSymbolUtilities (~> 1.1)
+  - GoogleSymbolUtilities (1.1.2)
+  - GoogleToolboxForMac/Defines (2.1.0)
+  - GoogleToolboxForMac/NSData+zlib (2.1.0):
+    - GoogleToolboxForMac/Defines (= 2.1.0)
   - Locksmith (3.0.0)
-  - TwitterCore (2.5.0):
-    - Fabric
-  - TwitterKit (2.5.0):
-    - TwitterCore (= 2.5.0)
 
 DEPENDENCIES:
-  - Crashlytics
-  - Fabric
+  - Firebase/Core
   - Locksmith
-  - TwitterCore
-  - TwitterKit
 
 SPEC CHECKSUMS:
-  Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
-  Fabric: c73f371ee543e3f0b80608f2674750e4910d1669
+  Firebase: 387f37c7dca894a02708da9ff35ba147040eae9e
+  FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
+  FirebaseCore: 1e383fdfe37b6b5d6ff88e84204bdee30276af0f
+  FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
+  GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
+  GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
+  GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
   Locksmith: 310b4cc5031af5728bf4db5d4de547a5100c6a3b
-  TwitterCore: 95c46af93112768a7983bd370d66023553601d01
-  TwitterKit: dd8042698b0ff5bd3066fa919b3b2b50d8eed829
 
-PODFILE CHECKSUM: c5d33db54f71370b64e0769f24fdd21c0a80d50b
+PODFILE CHECKSUM: 3e282907cdc864d56af86dc44a48f4f167f3acf0
 
 COCOAPODS: 1.1.1

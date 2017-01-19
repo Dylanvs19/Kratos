@@ -41,10 +41,9 @@
 		</array>
 	</dict>
 	<key>LSApplicationQueriesSchemes</key>
-	<dict>
-		<key>Item 0</key>
+	<array>
 		<string>twitter</string>
-	</dict>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -69,6 +68,8 @@
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
 </dict>
 </plist>

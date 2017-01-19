@@ -22,9 +22,21 @@ extension DateFormatter {
         return dateFormatter
     }
     
+    static var shortPresentationDateFormatter: DateFormatter {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "M/d/yy"
+        return dateFormatter
+    }
+    
     static var billDateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd"
+        return dateFormatter
+    }
+    
+    static var utcDateFormatter: DateFormatter {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZ"
         return dateFormatter
     }
 }
