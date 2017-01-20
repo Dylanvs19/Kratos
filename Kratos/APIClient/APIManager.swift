@@ -10,82 +10,79 @@ import Foundation
 
 struct APIManager {
     
-    static func register(with password: String, user: User? = Datastore.sharedDatastore.user, onCompletion: @escaping (Bool) -> ()) {
+    static func register(with password: String, user: User? = Datastore.shared.user, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
         if let user = user {
             APIService.register(user, with: password, success: { (user) -> (Void) in
                 if let _ = user.token {
-                    Datastore.sharedDatastore.user = user
-                    KeychainManager.create(user, success: { (success) in
-                        onCompletion(success)
+                    Datastore.shared.user = user
+                    KeychainManager.create(user, success: { (didSucceed) in
+                        success(didSucceed)
                     })
                 } else {
-                    onCompletion(false)
+                    success(false)
                 }
             }, failure: { (error) -> (Void) in
-                debugPrint(error)
-                onCompletion(false)
+                failure(error)
             })
         }
     }
     
-    static func login(with phone: Int, and password: String, onCompletion: @escaping (Bool) -> ()) {
-        APIService.logIn(with: phone, password: password, success: { (user) in
+    static func login(with email: String, and password: String, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+        APIService.logIn(with: email, password: password, success: { (user) in
             if let _ = user.token {
-                KeychainManager.update(user, success: { (success) in
-                    if !success {
-                        print ("KeychainManager update:_ not succeding")
+                KeychainManager.update(user, success: { (didSucceed) in
+                    if !didSucceed {
+                        debugPrint("KeychainManager update:_ not succeding")
                     }
                 })
-                Datastore.sharedDatastore.user = user
-                onCompletion(true)
+                Datastore.shared.user = user
+                success(true)
             }
         }) { (error) in
-            debugPrint(error)
-            onCompletion(false)
+            failure(error)
         }
     }
     
-    static func updateUser(with user: User? = Datastore.sharedDatastore.user, onCompletion: @escaping (Bool) -> ()) {
+    static func updateUser(with user: User? = Datastore.shared.user, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
         if let user = user {
             APIService.update(with: user, success: { (user) -> (Void) in
                 if let _ = user.token {
-                    Datastore.sharedDatastore.user = user
-                    KeychainManager.create(user, success: { (success) in
-                        onCompletion(success)
+                    Datastore.shared.user = user
+                    KeychainManager.create(user, success: { (didSucceed) in
+                        success(didSucceed)
                     })
                 } else {
-                    onCompletion(false)
+                    success(false)
+                    debugPrint("KeychainManager create:_ not succeding")
                 }
             }, failure: { (error) -> (Void) in
-                debugPrint(error)
-                onCompletion(false)
+                failure(error)
             })
         }
     }
     
-    static func getUser(_ onCompletion: @escaping (Bool) -> ()) {
-        if let _ = Datastore.sharedDatastore.user?.token {
+    static func getUser(_ success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+        if let _ = Datastore.shared.user?.token {
             APIService.fetchUser({ (user) in
-                Datastore.sharedDatastore.user = user
-                onCompletion(true)
+                Datastore.shared.user = user
+                success(true)
             }, failure: { (error) in
-                debugPrint(error)
-                onCompletion(false)
+                failure(error)
             })
         }
     }
     
     //MARK: Representatives & Votes
-    static func getRepresentatives(_ onCompletion: @escaping (Bool) -> ()) {
-        if let user = Datastore.sharedDatastore.user,
+    static func getRepresentatives(_ success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+        if let user = Datastore.shared.user,
             let state = user.address?.state,
             let district = user.district {
             
             APIService.fetchRepresentatives(for: state, and: district, success: { (representativesArray) in
-                Datastore.sharedDatastore.representatives = representativesArray
-                onCompletion(true)
+                Datastore.shared.representatives = representativesArray
+                success(true)
             }, failure: { (error) in
-                onCompletion(false)
+                failure(error)
             })
         }
     }

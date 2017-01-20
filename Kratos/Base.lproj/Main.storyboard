@@ -63,7 +63,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Kratos" translatesAutoresizingMaskIntoConstraints="NO" id="MpT-hv-gUC">
-                                <rect key="frame" x="38" y="184" width="300" height="300"/>
+                                <rect key="frame" x="138" y="50" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="FWD-Vd-KPI"/>
                                     <constraint firstAttribute="height" constant="100" id="wrc-2q-fYs"/>
@@ -71,7 +71,7 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="wrc-2q-fYs"/>
+                                        <exclude reference="FWD-Vd-KPI"/>
                                     </mask>
                                 </variation>
                             </imageView>
@@ -95,16 +95,16 @@
                                     <action selector="registerButtonPressed:" destination="r7O-hR-zvu" eventType="touchUpInside" id="xLD-ON-AjU"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SNL-sY-m3J" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="112.5" y="544" width="150" height="26"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SNL-sY-m3J" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                <rect key="frame" x="112.5" y="210" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xVt-AG-YmO" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="112.5" y="599" width="150" height="26"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xVt-AG-YmO" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                <rect key="frame" x="112.5" y="265" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nAq-VY-Q74" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="112.5" y="654" width="150" height="26"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nAq-VY-Q74" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                <rect key="frame" x="112.5" y="320" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -129,12 +129,13 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="4gX-v6-uXe"/>
+                                <exclude reference="7Dw-VG-eCH"/>
                             </mask>
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="gPW-9b-tcC"/>
                     <connections>
+                        <outlet property="emailTextField" destination="SNL-sY-m3J" id="kui-E6-VTD"/>
                         <outlet property="kratosImageView" destination="MpT-hv-gUC" id="MrC-6v-5ye"/>
                         <outlet property="kratosImageViewCentered" destination="7Dw-VG-eCH" id="1fU-IT-HhN"/>
                         <outlet property="kratosImageViewLarge" destination="FWD-Vd-KPI" id="tzf-AX-KuN"/>
@@ -145,7 +146,6 @@
                         <outlet property="nextOrSubmitButton" destination="Yz3-2o-sMp" id="cfB-vb-r9p"/>
                         <outlet property="passwordConfirmationTextField" destination="nAq-VY-Q74" id="77z-GX-JkT"/>
                         <outlet property="passwordTextField" destination="xVt-AG-YmO" id="yYW-T7-97j"/>
-                        <outlet property="phoneNumberTextField" destination="SNL-sY-m3J" id="MnT-xW-Lj5"/>
                         <outlet property="registerOrSignInButton" destination="AFb-wN-efY" id="PNt-kD-blU"/>
                     </connections>
                 </viewController>
@@ -399,17 +399,25 @@
                                     <constraint firstAttribute="trailing" secondItem="xKU-Va-iMI" secondAttribute="trailing" id="zfr-H1-VxW"/>
                                 </constraints>
                             </scrollView>
+                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ese-Na-4tP" customClass="RepInfoView" customModule="Kratos" customModuleProvider="target">
+                                <rect key="frame" x="-0.5" y="-0.5" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="BVW-dx-Jir" firstAttribute="leading" secondItem="Nov-jn-y8P" secondAttribute="leading" id="2Zo-Xw-pDj"/>
                             <constraint firstItem="xKU-Va-iMI" firstAttribute="height" secondItem="Nov-jn-y8P" secondAttribute="height" constant="1" id="6JE-S7-rPR"/>
                             <constraint firstItem="BVW-dx-Jir" firstAttribute="top" secondItem="Nov-jn-y8P" secondAttribute="topMargin" id="7r7-wG-XJI"/>
+                            <constraint firstItem="Ese-Na-4tP" firstAttribute="height" secondItem="Nov-jn-y8P" secondAttribute="height" id="98a-A6-BHy"/>
+                            <constraint firstItem="Ese-Na-4tP" firstAttribute="centerX" secondItem="Nov-jn-y8P" secondAttribute="centerX" id="CI8-kU-F9I"/>
+                            <constraint firstItem="Ese-Na-4tP" firstAttribute="centerY" secondItem="Nov-jn-y8P" secondAttribute="centerY" id="CSP-qc-jVx"/>
                             <constraint firstItem="xKU-Va-iMI" firstAttribute="width" secondItem="Nov-jn-y8P" secondAttribute="width" id="HYE-aH-0Z6"/>
                             <constraint firstItem="5Ok-Fi-9x3" firstAttribute="trailing" secondItem="Nov-jn-y8P" secondAttribute="leading" constant="-3" id="IqE-FH-Qgg"/>
                             <constraint firstItem="5Ok-Fi-9x3" firstAttribute="height" secondItem="Nov-jn-y8P" secondAttribute="height" id="KH5-rO-wO8"/>
                             <constraint firstAttribute="trailing" secondItem="BVW-dx-Jir" secondAttribute="trailing" id="d0J-at-z9J"/>
                             <constraint firstItem="vzZ-Xv-WnX" firstAttribute="top" secondItem="BVW-dx-Jir" secondAttribute="bottom" id="mh1-gu-Nux"/>
+                            <constraint firstItem="Ese-Na-4tP" firstAttribute="width" secondItem="Nov-jn-y8P" secondAttribute="width" id="q7u-EO-bs0"/>
                             <constraint firstItem="5Ok-Fi-9x3" firstAttribute="centerY" secondItem="Nov-jn-y8P" secondAttribute="centerY" id="xJV-eI-0js"/>
                         </constraints>
                     </view>
@@ -427,6 +435,7 @@
                         <outlet property="menuBarContainerView" destination="5Ok-Fi-9x3" id="D7u-BO-P65"/>
                         <outlet property="menuBarTrailingConstraint" destination="IqE-FH-Qgg" id="ghG-bl-hcp"/>
                         <outlet property="repContactView" destination="uEz-Ob-vzW" id="RkX-VG-aeY"/>
+                        <outlet property="repInfoView" destination="Ese-Na-4tP" id="gYR-Xq-nO9"/>
                         <outlet property="repOneSelectedHeight" destination="BYS-gq-Mlk" id="W9j-6Q-rtM"/>
                         <outlet property="repOneSelectedYPosition" destination="2R6-fM-0h5" id="2wi-Cd-N8e"/>
                         <outlet property="repOneToTopContracted" destination="LLh-dr-gpU" id="GVZ-k7-ImV"/>
@@ -485,18 +494,27 @@
                                     <constraint firstAttribute="bottom" secondItem="sX0-br-41V" secondAttribute="bottom" id="goC-8m-Bu6"/>
                                 </constraints>
                             </scrollView>
+                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TNU-pY-bw0" customClass="RepInfoView" customModule="Kratos" customModuleProvider="target">
+                                <rect key="frame" x="-0.5" y="-0.5" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="h5x-tP-Fmb" firstAttribute="top" secondItem="kmK-XC-i1H" secondAttribute="bottom" constant="10" id="0NL-LZ-gKQ"/>
+                            <constraint firstItem="TNU-pY-bw0" firstAttribute="width" secondItem="quH-9z-SzC" secondAttribute="width" id="2lI-wT-9wM"/>
                             <constraint firstItem="dsT-zH-kKq" firstAttribute="top" secondItem="h5x-tP-Fmb" secondAttribute="bottom" constant="10" id="AVq-Lz-rI5"/>
                             <constraint firstAttribute="trailing" secondItem="h5x-tP-Fmb" secondAttribute="trailing" constant="10" id="Dz1-Dj-WDf"/>
                             <constraint firstItem="h5x-tP-Fmb" firstAttribute="leading" secondItem="quH-9z-SzC" secondAttribute="leading" constant="10" id="OLM-UY-3iW"/>
                             <constraint firstItem="sX0-br-41V" firstAttribute="height" secondItem="quH-9z-SzC" secondAttribute="height" constant="-20" placeholder="YES" id="RkA-xG-DNy"/>
+                            <constraint firstItem="TNU-pY-bw0" firstAttribute="centerX" secondItem="quH-9z-SzC" secondAttribute="centerX" id="TO3-r2-241"/>
+                            <constraint firstItem="TNU-pY-bw0" firstAttribute="height" secondItem="quH-9z-SzC" secondAttribute="height" id="b61-JJ-Rac"/>
                             <constraint firstItem="sX0-br-41V" firstAttribute="width" secondItem="quH-9z-SzC" secondAttribute="width" constant="-20" id="h73-bt-Y6J"/>
+                            <constraint firstItem="TNU-pY-bw0" firstAttribute="centerY" secondItem="quH-9z-SzC" secondAttribute="centerY" id="v6m-nS-xSg"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="repInfoView" destination="TNU-pY-bw0" id="keI-rl-YMx"/>
                         <outlet property="stackView" destination="sX0-br-41V" id="1A0-0l-rBo"/>
                     </connections>
                 </viewController>
@@ -530,18 +548,27 @@
                                     <constraint firstItem="aKb-Yx-SUc" firstAttribute="leading" secondItem="sDS-Yl-9Pp" secondAttribute="leading" id="yw2-GI-NEm"/>
                                 </constraints>
                             </scrollView>
+                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mBD-US-Ran" customClass="RepInfoView" customModule="Kratos" customModuleProvider="target">
+                                <rect key="frame" x="-0.5" y="-0.5" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6No-8W-TCc" firstAttribute="top" secondItem="sDS-Yl-9Pp" secondAttribute="bottom" constant="10" id="2yx-Lz-spS"/>
+                            <constraint firstItem="mBD-US-Ran" firstAttribute="width" secondItem="lFs-cH-woc" secondAttribute="width" id="5MH-56-eyO"/>
                             <constraint firstItem="aKb-Yx-SUc" firstAttribute="height" secondItem="lFs-cH-woc" secondAttribute="height" constant="-20" placeholder="YES" id="5mg-1I-IIu"/>
                             <constraint firstItem="aKb-Yx-SUc" firstAttribute="width" secondItem="lFs-cH-woc" secondAttribute="width" constant="-20" id="Egc-QS-CSn"/>
+                            <constraint firstItem="mBD-US-Ran" firstAttribute="height" secondItem="lFs-cH-woc" secondAttribute="height" id="Krz-jB-xzg"/>
                             <constraint firstItem="sDS-Yl-9Pp" firstAttribute="leading" secondItem="lFs-cH-woc" secondAttribute="leading" constant="10" id="OL9-dR-cgD"/>
                             <constraint firstAttribute="trailing" secondItem="sDS-Yl-9Pp" secondAttribute="trailing" constant="10" id="WPS-rj-7lW"/>
+                            <constraint firstItem="mBD-US-Ran" firstAttribute="centerX" secondItem="lFs-cH-woc" secondAttribute="centerX" id="cJF-6m-DT5"/>
                             <constraint firstItem="sDS-Yl-9Pp" firstAttribute="top" secondItem="lyX-K7-R8J" secondAttribute="bottom" id="ifS-gM-eUx"/>
+                            <constraint firstItem="mBD-US-Ran" firstAttribute="centerY" secondItem="lFs-cH-woc" secondAttribute="centerY" id="tC7-TM-gab"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="repInfoView" destination="mBD-US-Ran" id="JgK-PE-IFb"/>
                         <outlet property="scrollView" destination="sDS-Yl-9Pp" id="5Pf-Ue-xcn"/>
                         <outlet property="stackView" destination="aKb-Yx-SUc" id="HOF-2n-zGj"/>
                     </connections>
@@ -569,7 +596,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Kratos" translatesAutoresizingMaskIntoConstraints="NO" id="emk-Ky-eVY">
-                                                <rect key="frame" x="38" y="184" width="300" height="300"/>
+                                                <rect key="frame" x="138" y="50" width="100" height="100"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="300" id="IYl-YW-SMh"/>
                                                     <constraint firstAttribute="height" constant="100" id="ZVR-Sc-FzM"/>
@@ -577,7 +604,7 @@
                                                 </constraints>
                                                 <variation key="default">
                                                     <mask key="constraints">
-                                                        <exclude reference="ZVR-Sc-FzM"/>
+                                                        <exclude reference="IYl-YW-SMh"/>
                                                     </mask>
                                                 </variation>
                                             </imageView>
@@ -608,75 +635,87 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bbl-S9-Suk" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
-                                                <rect key="frame" x="19" y="544" width="150" height="26"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </view>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3g3-nd-pYZ" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
-                                                <rect key="frame" x="206.5" y="544" width="150" height="26"/>
+                                                <rect key="frame" x="19" y="220" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YY3-OE-X1I" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
-                                                <rect key="frame" x="112.5" y="599" width="150" height="26"/>
+                                                <rect key="frame" x="112.5" y="275" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hta-nh-Ach" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
-                                                <rect key="frame" x="19" y="654" width="150" height="26"/>
+                                                <rect key="frame" x="19" y="330" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IdL-ng-n9E" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
-                                                <rect key="frame" x="112.5" y="654" width="150" height="26"/>
+                                                <rect key="frame" x="112.5" y="330" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="19C-vv-N9K" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
-                                                <rect key="frame" x="206.5" y="654" width="150" height="26"/>
+                                                <rect key="frame" x="206.5" y="330" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kGE-5T-uOB" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
-                                                <rect key="frame" x="112.5" y="709" width="150" height="26"/>
+                                                <rect key="frame" x="112.5" y="385" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mbY-gR-gw9" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
-                                                <rect key="frame" x="112.5" y="764" width="150" height="26"/>
+                                                <rect key="frame" x="112.5" y="440" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rmN-8y-tMd" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
-                                                <rect key="frame" x="112.5" y="819" width="150" height="26"/>
+                                                <rect key="frame" x="112.5" y="495" width="150" height="26"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XeW-eI-YJV" userLabel="First Name TextField" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                                <rect key="frame" x="19" y="165" width="150" height="26"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dh4-2r-7nK" userLabel="Last Name TextField" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                                <rect key="frame" x="206.5" y="165" width="150" height="26"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3g3-nd-pYZ" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                                <rect key="frame" x="206.5" y="220" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
+                                            <constraint firstItem="3g3-nd-pYZ" firstAttribute="trailing" secondItem="19C-vv-N9K" secondAttribute="trailing" id="3LG-qP-wGf"/>
                                             <constraint firstItem="MMF-QE-JD4" firstAttribute="centerX" secondItem="z4L-C9-gXz" secondAttribute="centerX" id="4at-9C-cp0"/>
+                                            <constraint firstItem="YY3-OE-X1I" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="125" id="CtA-g5-5cR"/>
+                                            <constraint firstItem="kGE-5T-uOB" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="235" id="D5N-yE-QEs"/>
                                             <constraint firstItem="19C-vv-N9K" firstAttribute="centerX" secondItem="z4L-C9-gXz" secondAttribute="centerX" multiplier="1.5" id="DAT-i1-J3Q"/>
-                                            <constraint firstItem="rmN-8y-tMd" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="335" id="Eew-Zb-MLC"/>
-                                            <constraint firstItem="19C-vv-N9K" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="170" id="HBg-54-8p1"/>
                                             <constraint firstItem="tJL-1e-FPy" firstAttribute="centerX" secondItem="z4L-C9-gXz" secondAttribute="centerX" id="HTq-EM-D6l"/>
                                             <constraint firstItem="mbY-gR-gw9" firstAttribute="centerX" secondItem="z4L-C9-gXz" secondAttribute="centerX" id="K4a-cz-9rt"/>
                                             <constraint firstAttribute="bottom" secondItem="MMF-QE-JD4" secondAttribute="bottom" constant="46" id="LeK-sk-oVk"/>
                                             <constraint firstItem="IdL-ng-n9E" firstAttribute="centerX" secondItem="z4L-C9-gXz" secondAttribute="centerX" id="Mds-1b-Nse"/>
-                                            <constraint firstItem="mbY-gR-gw9" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="280" id="Mgo-sa-PIw"/>
-                                            <constraint firstItem="Hta-nh-Ach" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="170" id="Mir-KN-S4C"/>
-                                            <constraint firstItem="3g3-nd-pYZ" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="60" id="Pr6-pr-vLa"/>
+                                            <constraint firstItem="IdL-ng-n9E" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="180" id="Mja-ap-1fe"/>
                                             <constraint firstAttribute="bottom" secondItem="EYP-Ox-gna" secondAttribute="bottom" constant="40" id="Tjd-Ki-wZk"/>
                                             <constraint firstItem="emk-Ky-eVY" firstAttribute="centerX" secondItem="z4L-C9-gXz" secondAttribute="centerX" id="VCS-x3-C4N"/>
+                                            <constraint firstItem="mbY-gR-gw9" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="290" id="VP8-RL-YcT"/>
                                             <constraint firstItem="EYP-Ox-gna" firstAttribute="centerX" secondItem="z4L-C9-gXz" secondAttribute="centerX" id="Zot-va-0Ch"/>
                                             <constraint firstItem="emk-Ky-eVY" firstAttribute="centerY" secondItem="z4L-C9-gXz" secondAttribute="centerY" multiplier="0.3" id="c6S-tB-Yqg"/>
+                                            <constraint firstItem="XeW-eI-YJV" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="15" id="cK7-n5-lA1"/>
+                                            <constraint firstItem="XeW-eI-YJV" firstAttribute="leading" secondItem="Hta-nh-Ach" secondAttribute="leading" id="chp-NR-mWe"/>
                                             <constraint firstItem="kGE-5T-uOB" firstAttribute="centerX" secondItem="z4L-C9-gXz" secondAttribute="centerX" id="dPt-np-SyY"/>
-                                            <constraint firstItem="3g3-nd-pYZ" firstAttribute="centerX" secondItem="z4L-C9-gXz" secondAttribute="centerX" multiplier="1.5" id="h9k-cK-TgR"/>
-                                            <constraint firstItem="bbl-S9-Suk" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="60" id="k5n-IP-5d1"/>
+                                            <constraint firstItem="3g3-nd-pYZ" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="70" id="eIS-nh-QWZ"/>
+                                            <constraint firstItem="rmN-8y-tMd" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="345" id="fK2-7E-tfU"/>
+                                            <constraint firstItem="Hta-nh-Ach" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="180" id="h1y-96-9Ow"/>
+                                            <constraint firstItem="bbl-S9-Suk" firstAttribute="leading" secondItem="Hta-nh-Ach" secondAttribute="leading" id="ka0-G2-jHZ"/>
                                             <constraint firstAttribute="bottom" secondItem="tJL-1e-FPy" secondAttribute="bottom" constant="8" id="lGn-Ua-cVY"/>
-                                            <constraint firstItem="IdL-ng-n9E" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="170" id="n1o-St-BQV"/>
-                                            <constraint firstItem="YY3-OE-X1I" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="115" id="qzS-aT-NW9"/>
-                                            <constraint firstItem="kGE-5T-uOB" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="225" id="sPa-Qo-Tg2"/>
+                                            <constraint firstItem="Dh4-2r-7nK" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="15" id="qAZ-Uk-y07"/>
+                                            <constraint firstItem="bbl-S9-Suk" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="70" id="rVO-dP-dMw"/>
+                                            <constraint firstItem="Dh4-2r-7nK" firstAttribute="trailing" secondItem="3g3-nd-pYZ" secondAttribute="trailing" id="tFA-ob-gEr"/>
                                             <constraint firstItem="rmN-8y-tMd" firstAttribute="centerX" secondItem="z4L-C9-gXz" secondAttribute="centerX" id="uBd-8e-993"/>
                                             <constraint firstItem="Hta-nh-Ach" firstAttribute="centerX" secondItem="z4L-C9-gXz" secondAttribute="centerX" multiplier="0.5" id="w9V-9D-8na"/>
-                                            <constraint firstItem="bbl-S9-Suk" firstAttribute="centerX" secondItem="z4L-C9-gXz" secondAttribute="centerX" multiplier="0.5" id="xSx-wg-hkZ"/>
+                                            <constraint firstItem="19C-vv-N9K" firstAttribute="top" secondItem="emk-Ky-eVY" secondAttribute="bottom" constant="180" id="yq7-Fg-vRJ"/>
                                             <constraint firstItem="emk-Ky-eVY" firstAttribute="centerY" secondItem="z4L-C9-gXz" secondAttribute="centerY" id="zGV-Vd-EK9"/>
                                             <constraint firstItem="YY3-OE-X1I" firstAttribute="centerX" secondItem="z4L-C9-gXz" secondAttribute="centerX" id="zgl-ke-p9u"/>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="c6S-tB-Yqg"/>
+                                                <exclude reference="zGV-Vd-EK9"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -717,11 +756,13 @@
                         <outlet property="datePicker" destination="eqT-kC-nsn" id="aod-cZ-Axf"/>
                         <outlet property="datePickerYConstraint" destination="sYp-bL-H8v" id="yOh-Ir-2ws"/>
                         <outlet property="dobTextField" destination="3g3-nd-pYZ" id="4dj-FX-SWW"/>
+                        <outlet property="firstNameTextField" destination="XeW-eI-YJV" id="WAi-lt-Zzj"/>
                         <outlet property="kratosImageViewCentered" destination="zGV-Vd-EK9" id="aJf-Xh-16H"/>
                         <outlet property="kratosImageViewLarge" destination="IYl-YW-SMh" id="2Oz-lc-cUE"/>
                         <outlet property="kratosImageViewSmall" destination="ZVR-Sc-FzM" id="qZf-RY-Lyz"/>
                         <outlet property="kratosImageViewTop" destination="c6S-tB-Yqg" id="ddM-aW-XH6"/>
                         <outlet property="kratosLabel" destination="MMF-QE-JD4" id="aEU-LE-6jl"/>
+                        <outlet property="lastNameTextField" destination="Dh4-2r-7nK" id="WdE-bM-mRY"/>
                         <outlet property="newPasswordTextField" destination="rmN-8y-tMd" id="Afs-XK-v3J"/>
                         <outlet property="oldPasswordTextField" destination="mbY-gR-gw9" id="5AX-IW-MQM"/>
                         <outlet property="partyTextField" destination="bbl-S9-Suk" id="oyI-fe-oxw"/>

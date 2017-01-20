@@ -13,15 +13,14 @@ import UIKit
 class BillViewController: UIViewController, RepInfoViewPresentable {
     
     @IBOutlet var stackView: UIStackView!
-    internal var selector: Selector = #selector(repViewTapped(notification:))
-
+    @IBOutlet weak var repInfoView: RepInfoView!
+    
     var billId: Int? {
         didSet {
             KratosAnalytics.shared.updateBillAnalyicAction(with: billId)
         }
     }
     var bill: Bill?
-    var repInfoView: RepInfoView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,19 +115,5 @@ class BillViewController: UIViewController, RepInfoViewPresentable {
     func layoutStackView() {
         self.stackView.layoutSubviews()
         self.stackView.layoutIfNeeded()
-    }
-    
-    func repViewTapped(notification: Notification) {
-        let repInfoView = RepInfoView(frame: view.frame)
-        if let person = notification.object as? Person {
-            repInfoView.configure(with: person, exitActionBlock: removeRepInfoView)
-        }
-        view.addSubview(repInfoView)
-        repInfoView.layoutSubviews()
-    }
-    
-    func removeRepInfoView() {
-        self.view.removeRepInfoView()
-        self.view.layoutIfNeeded()
     }
 }

@@ -28,7 +28,7 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
         }
     }
     var representative: Person?
-    var repInfoView: RepInfoView?
+    @IBOutlet weak var repInfoView: RepInfoView!
     
     override func viewDidLoad() {
         super.viewDidLoad()

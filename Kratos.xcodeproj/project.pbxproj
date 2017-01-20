@@ -11,7 +11,6 @@
 		A0DD548B75376A90182B6EFF /* Pods_Kratos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EC5E845D25026904F837F7 /* Pods_Kratos.framework */; };
 		AF0EED461E0A078700E7A19C /* ErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED451E0A078700E7A19C /* ErrorTypes.swift */; };
 		AF0EED481E0A0E8300E7A19C /* Tally.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED471E0A0E8300E7A19C /* Tally.swift */; };
-		AF0EED4A1E0A192400E7A19C /* UserVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED491E0A192400E7A19C /* UserVote.swift */; };
 		AF0EED4C1E0A245200E7A19C /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED4B1E0A245200E7A19C /* Person.swift */; };
 		AF0EED4E1E0A246300E7A19C /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED4D1E0A246300E7A19C /* Role.swift */; };
 		AF1823261E29DC75005912D2 /* RepInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1823251E29DC75005912D2 /* RepInfoView.swift */; };
@@ -163,7 +162,6 @@
 		9E2C0D1F0BFAA77B0FD2EA1F /* Pods-Kratos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.debug.xcconfig"; sourceTree = "<group>"; };
 		AF0EED451E0A078700E7A19C /* ErrorTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorTypes.swift; sourceTree = "<group>"; };
 		AF0EED471E0A0E8300E7A19C /* Tally.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tally.swift; sourceTree = "<group>"; };
-		AF0EED491E0A192400E7A19C /* UserVote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserVote.swift; sourceTree = "<group>"; };
 		AF0EED4B1E0A245200E7A19C /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		AF0EED4D1E0A246300E7A19C /* Role.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
 		AF1823251E29DC75005912D2 /* RepInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepInfoView.swift; sourceTree = "<group>"; };
@@ -496,7 +494,6 @@
 				AF8974AE1D4E98C700C19020 /* User.swift */,
 				AF0EED471E0A0E8300E7A19C /* Tally.swift */,
 				AF89749B1D4D8ADC00C19020 /* Vote.swift */,
-				AF0EED491E0A192400E7A19C /* UserVote.swift */,
 				AF5793171D6D440400D86B73 /* Bill.swift */,
 				AF0EED4B1E0A245200E7A19C /* Person.swift */,
 				AF0EED4D1E0A246300E7A19C /* Role.swift */,
@@ -1062,7 +1059,6 @@
 				AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */,
 				AF5793181D6D440400D86B73 /* Bill.swift in Sources */,
 				AF28439B1D5AD686007B3F18 /* Datastore.swift in Sources */,
-				AF0EED4A1E0A192400E7A19C /* UserVote.swift in Sources */,
 				AF89749A1D4D88F600C19020 /* BillViewController.swift in Sources */,
 				AFF748191DCFF37700F519AE /* UIView+Extension.swift in Sources */,
 				AF89745F1D4D80E500C19020 /* AppDelegate.swift in Sources */,

@@ -22,7 +22,6 @@ extension UIViewController {
         let swipeGR = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeRight(_:)))
         swipeGR.direction = .right
         view.addGestureRecognizer(swipeGR)
-        view.removeRepInfoView()
         view.removeBlurEffect()
     }
     
@@ -55,6 +54,63 @@ extension UIViewController {
         }
         let alertVC = UIAlertController(title: "A D D R E S S", message: address, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "O K ", style: .destructive, handler: nil))
+        present(alertVC, animated: true, completion: nil)
+    }
+    
+    func showError(error: NetworkError, onClose: (()->())? = nil) {
+        var title = "Error"
+        var message = ""
+        switch error {
+        case .timeout:
+            title = "Error"
+            message = "Server Timeout"
+        case .invalidSerialization:
+            title = "Error"
+            message = "InvalidSerialization"
+        case .nilData:
+            title = "Error"
+            message = "No Data Returned"
+        case .invalidURL(let error):
+            if let error = error?.first,
+               let key = error.keys.first,
+               let value = error[key] {
+                title = key.capitalized
+                message = value.localizedUppercase
+            }
+        case .duplicateUserCredentials(let error):
+            if let error = error?.first,
+                let key = error.keys.first,
+                let value = error[key] {
+                title = key.capitalized
+                message = value
+            }
+        case .invalidCredentials(let error):
+            if let error = error?.first,
+                let key = error.keys.first,
+                let value = error[key] {
+                title = key.capitalized
+                message = value.localizedUppercase
+            }
+        case .appSideError(let error):
+            if let error = error?.first,
+                let key = error.keys.first,
+                let value = error[key] {
+                title = key.capitalized
+                message = value.localizedUppercase
+            }
+        case .serverSideError(let error):
+            if let error = error?.first,
+                let key = error.keys.first,
+                let value = error[key] {
+                title = key.capitalized
+                message = value.localizedUppercase
+            }
+        }
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+            onClose?()
+        }))
+            
         present(alertVC, animated: true, completion: nil)
     }
 }

@@ -25,24 +25,22 @@ class MainApplicationViewController: UIViewController {
     func handleLoginFlow() {
         if hasToken() {
             APIService.fetchUser({ (user) in
-                    Datastore.sharedDatastore.user = user
-                    APIManager.getRepresentatives({ (repSuccess) in
-                        if repSuccess {
-                            DispatchQueue.main.async(execute: {
-                                self.embedMainViewController()
-                            })
-                        } else {
-                            debugPrint("could not get representative for User")
-                        }
+                Datastore.shared.user = user
+                APIManager.getRepresentatives({ (success) in
+                    DispatchQueue.main.async(execute: {
+                        self.embedMainViewController()
                     })
-                    }, failure: { (error) in
-                        DispatchQueue.main.async(execute: {
-                            self.embedLoginViewController()
-                        })
-                        debugPrint(error as Any)
+                }, failure: { (error) in
+                    debugPrint("could not get representative for User")
                 })
+            }, failure: { (error) in
+                DispatchQueue.main.async(execute: {
+                    self.embedLoginViewController()
+                })
+                debugPrint(error as Any)
+            })
         } else {
-                self.embedLoginViewController()
+            self.embedLoginViewController()
         }
     }
     

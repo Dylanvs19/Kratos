@@ -24,6 +24,8 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
     @IBOutlet var kratosImageViewSmall: NSLayoutConstraint!
     @IBOutlet var kratosImageViewLarge: NSLayoutConstraint!
     
+    @IBOutlet weak var firstNameTextField: KratosTextField!
+    @IBOutlet weak var lastNameTextField: KratosTextField!
     @IBOutlet weak var partyTextField: KratosTextField!
     @IBOutlet weak var dobTextField: KratosTextField!
     @IBOutlet weak var addressTextField: KratosTextField!
@@ -75,17 +77,17 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
     }
     fileprivate var registrationTextFieldArray: [KratosTextField] {
         get {
-            return [partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField]
+            return [firstNameTextField, lastNameTextField, partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField, phoneNumberTextField]
         }
     }
     fileprivate var accountDetailsTextFieldArray: [KratosTextField] {
         get {
-            return [partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField, phoneNumberTextField]
+            return [firstNameTextField, lastNameTextField, partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField, phoneNumberTextField]
         }
     }
     fileprivate var editTextFieldArray: [KratosTextField] {
         get {
-            return [partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField, phoneNumberTextField, oldPasswordTextField, newPasswordTextField]
+            return [firstNameTextField, lastNameTextField, partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField, phoneNumberTextField, oldPasswordTextField, newPasswordTextField]
         }
     }
     fileprivate var textFieldsValid: Bool {
@@ -146,39 +148,42 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
     
     func configureTextFields() {
         // pulling information from sharedDataStore if available
-        let party = Datastore.sharedDatastore.user?.party?.rawValue
-                let address = Datastore.sharedDatastore.user?.address?.street
-        let city = Datastore.sharedDatastore.user?.address?.city
-        let state = Datastore.sharedDatastore.user?.address?.state
+        let firstName = Datastore.shared.user?.firstName
+        let lastName = Datastore.shared.user?.lastName
+        let party = Datastore.shared.user?.party?.rawValue
+                let address = Datastore.shared.user?.address?.street
+        let city = Datastore.shared.user?.address?.city
+        let state = Datastore.shared.user?.address?.state
         var dob: String? {
-            if let date = Datastore.sharedDatastore.user?.dob {
+            if let date = Datastore.shared.user?.dob {
                 return DateFormatter.presentationDateFormatter.string(from: date)
             } else {
                 return nil
             }
         }
         var zip: String? {
-            if let zip = Datastore.sharedDatastore.user?.address?.zipCode {
+            if let zip = Datastore.shared.user?.address?.zipCode {
                 return String(zip)
             } else {
                 return nil
             }
         }
         var phone: String? {
-            if let phone = Datastore.sharedDatastore.user?.phoneNumber {
+            if let phone = Datastore.shared.user?.phoneNumber {
                 return String(phone)
             } else {
                 return nil
             }
         }
-        
-        partyTextField.configureWith(validationFunction: InputValidation.validateAddress, text: party, textlabelText: "P A R T Y", expandedWidth: (view.frame.width * 0.3), secret: false, shouldPresentKeyboard: false)
-        dobTextField.configureWith(validationFunction: InputValidation.validateAddress, text: dob, textlabelText: "B I R T H  D A T E", expandedWidth: (view.frame.width * 0.3), secret: false, shouldPresentKeyboard: false)
+        firstNameTextField.configureWith(validationFunction: InputValidation.validateAddress, text: firstName, textlabelText: "F I R S T", expandedWidth: (view.frame.width * 0.35), secret: false)
+        lastNameTextField.configureWith(validationFunction: InputValidation.validateAddress, text: lastName, textlabelText: "L A S T", expandedWidth: (view.frame.width * 0.35), secret: false)
+        partyTextField.configureWith(validationFunction: InputValidation.validateAddress, text: party, textlabelText: "P A R T Y", expandedWidth: (view.frame.width * 0.35), secret: false, shouldPresentKeyboard: false)
+        dobTextField.configureWith(validationFunction: InputValidation.validateAddress, text: dob, textlabelText: "B I R T H D A Y", expandedWidth: (view.frame.width * 0.35), secret: false, shouldPresentKeyboard: false)
         addressTextField.configureWith(validationFunction: InputValidation.validateAddress, text: address, textlabelText: "A D D R E S S", expandedWidth: (view.frame.width * 0.8), secret: false)
         cityTextField.configureWith(validationFunction: InputValidation.validateCity, text: city, textlabelText: "C I T Y", expandedWidth: (view.frame.width * 0.3), secret: false)
         stateTextField.configureWith(validationFunction: InputValidation.validateState, text: state, textlabelText: "S T A T E", expandedWidth: (view.frame.width * 0.16), secret: false)
         zipcodeTextField.configureWith(validationFunction: InputValidation.validateZipCode, text: zip, textlabelText: "Z I P", expandedWidth: (view.frame.width * 0.3), secret: false)
-        phoneNumberTextField.configureWith(validationFunction: InputValidation.validatePhoneNumber, text: phone, textlabelText: "P H O N E", expandedWidth: (view.frame.width * 0.8), secret: false)
+        phoneNumberTextField.configureWith(validationFunction: InputValidation.validatePhoneNumber, text: phone, textlabelText: "P H O N E", expandedWidth: (view.frame.width * 0.5), secret: false)
         oldPasswordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "O L D  P A S S W O R D", expandedWidth: (view.frame.width * 0.8), secret: true)
         newPasswordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "N E W  P A S S W O R D", expandedWidth: (view.frame.width * 0.8), secret: true)
     }
@@ -235,7 +240,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
         // Updates user in the Datastore
         func updateUser() {
             if textFieldsValid {
-                var user = Datastore.sharedDatastore.user
+                var user = Datastore.shared.user
                 var address = Address()
                 address.street = addressTextField.text
                 address.city = cityTextField.text
@@ -251,13 +256,23 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                 if let dob = dobTextField.text {
                     user?.dob = DateFormatter.presentationDateFormatter.date(from: dob)
                 }
+                if let first = firstNameTextField.text {
+                    user?.firstName = first
+                }
+                if let last = lastNameTextField.text {
+                    user?.lastName = last
+                }
+                if let phone = phoneNumberTextField.text,
+                   let number = Int(phone) {
+                    user?.phoneNumber = number
+                }
                 user?.address = address
-                Datastore.sharedDatastore.user = user
+                Datastore.shared.user = user
             }
         }
         
         //TODO: - need to talk about how to store this information
-        let password = Datastore.sharedDatastore.user?.password ?? ""
+        let password = Datastore.shared.user?.password ?? ""
         
         switch displayType {
         case .accountDetails: //switch to Edit Profile
@@ -265,23 +280,23 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
         case .editProfile: //save profile & switch to Account Details
             displayType = .accountDetails
             updateUser()
-            APIManager.register(with: password) { (success) in
-                if success {
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
-                } else {
-                    print("SubmitAddressViewController registerWith(\(password)) unsucessful")
-                }
-            }
+            APIManager.register(with: password, success: { (success) in
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
+
+            }, failure: { (error) in
+                debugPrint("SubmitAddressViewController registerWith(\(password)) unsucessful")
+                self.showError(error: error)
+            })
         case .registration:
             updateUser()
             FirebaseAnalytics.FlowAnalytic.registerTapped.fireEvent()
-            APIManager.register(with: password) { (success) in
-                if success {
+            APIManager.register(with: password, success: { (success) in
+                    UIApplication.shared.registerForRemoteNotifications()
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
-                } else {
-                    print("SubmitAddressViewController registerWith(\(password)) unsucessful")
-                }
-            }
+                }, failure: { (error) in
+                    debugPrint("SubmitAddressViewController registerWith(\(password)) unsucessful")
+                    self.showError(error: error)
+            })
         }
     }
     
@@ -294,32 +309,36 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             displayType = .accountDetails
             
             // pull information from Datastore's User
-            let party = Datastore.sharedDatastore.user?.party?.rawValue
-            let address = Datastore.sharedDatastore.user?.address?.street
-            let city = Datastore.sharedDatastore.user?.address?.city
-            let state = Datastore.sharedDatastore.user?.address?.state
+            let first = Datastore.shared.user?.firstName
+            let last = Datastore.shared.user?.lastName
+            let party = Datastore.shared.user?.party?.rawValue
+            let address = Datastore.shared.user?.address?.street
+            let city = Datastore.shared.user?.address?.city
+            let state = Datastore.shared.user?.address?.state
             var dob: String? {
-                if let date = Datastore.sharedDatastore.user?.dob {
+                if let date = Datastore.shared.user?.dob {
                     return DateFormatter.presentationDateFormatter.string(from: date)
                 } else {
                     return nil
                 }
             }
             var zip: String? {
-                if let zip = Datastore.sharedDatastore.user?.address?.zipCode {
+                if let zip = Datastore.shared.user?.address?.zipCode {
                     return String(zip)
                 } else {
                     return nil
                 }
             }
             var phone: String? {
-                if let phone = Datastore.sharedDatastore.user?.phoneNumber {
+                if let phone = Datastore.shared.user?.phoneNumber {
                     return String(phone)
                 } else {
                     return nil
                 }
             }
             // set all textFields back to original values
+            firstNameTextField.setText(first ?? "")
+            lastNameTextField.setText(last ?? "")
             partyTextField.setText((party ?? ""))
             addressTextField.setText((address ?? ""))
             dobTextField.setText((dob ?? ""))

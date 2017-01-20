@@ -22,7 +22,6 @@ struct User {
     var dob: Date?
     var party: Party?
     var apnToken: String?
-    var userVotes: [UserVote]?
     
     init() { }
     
@@ -57,6 +56,9 @@ struct User {
                 break
             }
         }
+        if let dob = json["birthday"] as? String {
+            self.dob = DateFormatter.billDateFormatter.date(from: dob)
+        }
         
         self.phoneNumber = phone
         self.district = district
@@ -89,7 +91,6 @@ struct User {
         let dict:[String:[String:AnyObject]] = ["user":[
                                                 "phone": phoneNumber as AnyObject,
                                                 "email": email as AnyObject,
-                                                "phone": phoneNumber as AnyObject,
                                                 "first_name": first as AnyObject,
                                                 "last_name": last as AnyObject,
                                                 "password": password as AnyObject,

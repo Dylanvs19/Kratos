@@ -23,7 +23,7 @@ class LoginViewController: UIViewController {
     @IBOutlet var nextOrSubmitButton: UIButton!
     @IBOutlet var registerOrSignInButton: UIButton!
     
-    @IBOutlet weak var phoneNumberTextField: KratosTextField!
+    @IBOutlet weak var emailTextField: KratosTextField!
     @IBOutlet weak var passwordTextField: KratosTextField!
     @IBOutlet weak var passwordConfirmationTextField: KratosTextField!
     
@@ -41,11 +41,12 @@ class LoginViewController: UIViewController {
     
     fileprivate var textFieldsValid: Bool {
         var valid = true
-        var collection: [KratosTextField] = []
-        if isLogin {
-            collection = [phoneNumberTextField, passwordTextField]
-        } else {
-            collection = [phoneNumberTextField, passwordTextField, passwordConfirmationTextField]
+        var collection: [KratosTextField] {
+            if isLogin {
+                return [emailTextField, passwordTextField]
+            } else {
+                return [emailTextField, passwordTextField, passwordConfirmationTextField]
+            }
         }
         collection.forEach {
             if !$0.isValid {
@@ -65,7 +66,7 @@ class LoginViewController: UIViewController {
         // If keyboard is hiding - should validate textFields
         NotificationCenter.default.addObserver(self, selector:#selector(shouldCheckIfTextFieldsValid), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
         // set initial state for textFields
-        phoneNumberTextField.animateOut()
+        emailTextField.animateOut()
         passwordTextField.animateOut()
         passwordConfirmationTextField.animateOut()
     }
@@ -73,7 +74,7 @@ class LoginViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let expandedWidth = self.view.frame.width * 0.8
-        phoneNumberTextField.configureWith(validationFunction: InputValidation.validatePhoneNumber, text: nil, textlabelText: "P H O N E", expandedWidth: expandedWidth, secret: false)
+        emailTextField.configureWith(validationFunction: InputValidation.validateEmail, text: nil, textlabelText: "E M A I L", expandedWidth: expandedWidth, secret: false)
         passwordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "P A S S W O R D", expandedWidth: expandedWidth, secret: true)
         passwordConfirmationTextField.configureWith(validationFunction: validatePasswordConfimation, text: nil, textlabelText: "C O N F I R M A T I O N", expandedWidth: expandedWidth, secret: true)
         beginningAnimations()
@@ -96,7 +97,7 @@ class LoginViewController: UIViewController {
             self.view.layoutIfNeeded()
         })
         UIView.animate(withDuration: 0.25, delay: 0.5, options: [], animations: {
-            self.phoneNumberTextField.animateIn()
+            self.emailTextField.animateIn()
             self.passwordTextField.animateIn()
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -130,19 +131,12 @@ class LoginViewController: UIViewController {
     
     @IBAction func nextButtonPressed(_ sender: AnyObject) {
         if isLogin {
-            if let phone = phoneNumberTextField.text,
-                let phoneInt = Int(phone),
+            if let email = emailTextField.text,
                 let password = passwordTextField.text , textFieldsValid {
-                APIManager.login(with: phoneInt, and: password, onCompletion: { (success) in
-                    if success {
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
-                    } else {
-                        let alertVC = UIAlertController(title: "Invalid Credentials", message: "Your phone number and password combination do not match our records", preferredStyle: .alert)
-                        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                            self.dismiss(animated: false, completion: nil)
-                        }))
-                        self.present(alertVC, animated: true, completion: nil)
-                    }
+                APIManager.login(with: email, and: password, success: { (success) in
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
+                }, failure: { (error) in
+                    self.showError(error: error)
                 })
             } else {
                 let alertVC = UIAlertController(title: "Invalid Input", message: "Your phone and/or password are invalid", preferredStyle: .alert)
@@ -154,10 +148,10 @@ class LoginViewController: UIViewController {
         } else {
             let viewController: SubmitAddressViewController = SubmitAddressViewController.instantiate()
             var user = User()
-            guard let phoneNumber = phoneNumberTextField.text else { return }
-            user.phoneNumber = Int(phoneNumber)
+            guard let email = emailTextField.text else { return }
+            user.email = email
             user.password = passwordTextField.text
-            Datastore.sharedDatastore.user = user
+            Datastore.shared.user = user
             viewController.loadViewIfNeeded()
             viewController.displayType = .registration
             self.navigationController?.pushViewController(viewController, animated: true)

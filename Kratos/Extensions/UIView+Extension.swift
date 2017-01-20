@@ -71,10 +71,4 @@ extension UIView {
             view.removeFromSuperview()
         }
     }
-    
-    func removeRepInfoView() {
-        for view in self.subviews where view is RepInfoView {
-            view.removeFromSuperview()
-        }
-    }
 }

@@ -10,7 +10,7 @@ import Locksmith
 
 class Datastore {
     
-    static let sharedDatastore = Datastore()
+    static let shared = Datastore()
     
     var representatives: [Person]?
     var user: User?

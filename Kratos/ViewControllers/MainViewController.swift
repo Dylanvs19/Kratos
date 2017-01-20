@@ -64,6 +64,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     @IBOutlet weak var mainViewScrollView: UIScrollView!
     @IBOutlet weak var mainView: UIView!
+    @IBOutlet weak var repInfoView: RepInfoView!
     
     var menuViewController: MenuViewController?
     var disableSwipe = false
@@ -91,7 +92,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     var tapView: UIView?
-    var repInfoView: RepInfoView?
     
     //MARK: Pager Variables
     var repOneTallies: [LightTally] = [] {
@@ -155,7 +155,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         
-        representatives = Datastore.sharedDatastore.representatives
+        representatives = Datastore.shared.representatives
         
         configureStateImage()
         
@@ -230,10 +230,10 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     fileprivate func configureStateImage() {
-        if let state =  Datastore.sharedDatastore.user?.address?.state {
+        if let state =  Datastore.shared.user?.address?.state {
             stateImageView.image = UIImage.imageForState(state)
             stateLabel.text = Constants.abbreviationToFullStateNameDict[state] ?? ""
-            if let district = Datastore.sharedDatastore.user?.district {
+            if let district = Datastore.shared.user?.district {
                 districtLabel.text = "District \(district)"
             }
         }

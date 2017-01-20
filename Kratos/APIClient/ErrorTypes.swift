@@ -8,27 +8,30 @@
 
 import Foundation
 
-enum NetworkError: String, Error {
-    case timeout = "Connection has timed out"
-    case invalidURL = "Invalid endpoint or parameters"
-    case invalidSerialization = "Objects could not be serialized correctly"
-    case invalidAccount = "Account already exists at this address."
-    case appSideError = "Networking Error from Application Side"
-    case serverSideError = "Server Side Error"
-    case nilData = "Data value is nil"
+enum NetworkError: Error {
+    case timeout
+    case invalidSerialization
+    case nilData
+    case invalidURL(error: [[String: String]]?)
+    case duplicateUserCredentials(error: [[String: String]]?)
+    case invalidCredentials(error: [[String: String]]?)
+    case appSideError(error: [[String: String]]?)
+    case serverSideError(error: [[String: String]]?)
     
-    static func error(for statusCode:Int) -> NetworkError? {
+    static func error(for statusCode:Int, error: [[String: String]]?) -> NetworkError? {
         switch statusCode {
         case 200...299:
             return nil
         case 404:
-            return .invalidURL
+            return .invalidURL(error: error)
         case 403:
-            return .invalidAccount
+            return .invalidCredentials(error: error)
+        case 422:
+            return .duplicateUserCredentials(error: error)
         case 400...499:
-            return .appSideError
+            return .appSideError(error: error)
         case 500...599:
-            return .serverSideError
+            return .serverSideError(error: error)
         default:
             return nil
         }

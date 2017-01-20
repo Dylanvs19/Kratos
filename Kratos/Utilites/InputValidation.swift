@@ -10,6 +10,13 @@ import Foundation
 
 struct InputValidation {
     
+    static func validateEmail(_ email: String?) -> Bool {
+        guard let email = email else { return false }
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: email)
+    }
+    
     static func validateAddress(_ address: String?) -> Bool {
         guard let address = address else { return false }
         return address.containsOnlyCharacters(in: .letterPunctuationSet) && address != "" ? true : false

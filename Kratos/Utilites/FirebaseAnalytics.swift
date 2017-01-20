@@ -60,15 +60,15 @@ struct FirebaseAnalytics {
         case pan(view: UIView, viewController: UIViewController?)
         case navigate(to: UIViewController, with: ModelType?, id: Int?)
         case expanded(viewType: ExpandableViewType, id: Int?)
-        case mainViewRepresentativeSelection(representativeID: Int)
-        case selectedRepresentative(representativeID: Int)
-        case contact(representativeID: Int, contactType: KratosAnalytics.ContactAnalyticType)
+        case mainViewRepresentativeSelection(representativeID: Int?)
+        case selectedRepresentative(representativeID: Int?)
+        case contact(representativeID: Int?, contactType: KratosAnalytics.ContactAnalyticType)
         case userVoted(voteValue: VoteValue)
         case pushMenuBar
         case popMenuBar
         case pressedMenuBar(button: MenuBarButton)
         case editedAccountDetails
-        case selectedUserVote(userVoteId: Int)
+        case selectedUserVote(userVoteId: Int?)
         case loggedOut
         
         func fireEvent() {
@@ -109,8 +109,11 @@ struct FirebaseAnalytics {
             case .selectedRepresentative(let personID):
                 FIRAnalytics.logEvent(withName: BaseAnalyticType.selectedRepresentative.rawValue, parameters: ["id": String(describing: type(of: personID)) as NSObject])
             case .contact(let personID, let contactType):
-                FIRAnalytics.logEvent(withName: BaseAnalyticType.contactedRepresentative.rawValue, parameters: ["id": personID as NSObject,
-                                                                                                                "contactType" : contactType.rawValue as NSObject])
+                var parameters = ["contactType" : contactType.rawValue as NSObject]
+                if let id = personID {
+                    parameters["id"] = id as NSObject
+                }
+                FIRAnalytics.logEvent(withName: BaseAnalyticType.contactedRepresentative.rawValue, parameters: parameters)
             case .userVoted(let voteValue):
                 FIRAnalytics.logEvent(withName: BaseAnalyticType.userVoteViewed.rawValue, parameters: ["voteValue": voteValue.rawValue as NSObject])
             case .pushMenuBar:
@@ -121,8 +124,10 @@ struct FirebaseAnalytics {
                 FIRAnalytics.logEvent(withName: BaseAnalyticType.pressedMenuBarButton.rawValue, parameters: ["button": menuButton.rawValue as NSObject])
             case .editedAccountDetails:
                 FIRAnalytics.logEvent(withName: BaseAnalyticType.editedAccountDetails.rawValue, parameters: nil)
-            case .selectedUserVote(let tally):
-                FIRAnalytics.logEvent(withName: BaseAnalyticType.userVoteViewed.rawValue, parameters: ["tally": tally as NSObject])
+            case .selectedUserVote(let tallyID):
+                if let id = tallyID {
+                    FIRAnalytics.logEvent(withName: BaseAnalyticType.userVoteViewed.rawValue, parameters: ["tally": id as NSObject])
+                }
             case .loggedOut:
                 FIRAnalytics.logEvent(withName: BaseAnalyticType.loggedOut.rawValue, parameters: nil)
             }

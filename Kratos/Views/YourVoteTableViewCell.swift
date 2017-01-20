@@ -21,18 +21,16 @@ class YourVoteTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func configureWith(userVote: UserVote) {
-        label.text = userVote.billTitle
+    func configure(with tally: LightTally) {
+        label.text = tally.question
         
-        if let userVote = userVote.vote {
+        if let userVote = tally.voteValue {
             yourVoteImageView.image = UIImage.imageFor(vote: userVote)
         }
         
-        repVoteImageViewOne.image = UIImage.imageFor(vote: userVote.repOneVote?.voteValue ?? .abstain)
-        
         // currently not going to be implementing repVotes 2 & 3
+        repVoteImageViewOne.isHidden = true
         repVoteImageViewTwo.isHidden = true
         repVoteImageViewThree.isHidden = true
     }
-    
 }
