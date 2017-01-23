@@ -19,7 +19,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lS5-Ew-VWR" customClass="RepImageView" customModule="Kratos" customModuleProvider="target">
+                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lS5-Ew-VWR" customClass="RepImageView" customModule="Kratos" customModuleProvider="target">
                         <rect key="frame" x="10" y="5.5" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="lS5-Ew-VWR" secondAttribute="height" multiplier="1:1" id="a4K-uq-Wzl"/>
@@ -81,7 +81,7 @@
                 <outlet property="repVoteTypeView" destination="QMk-cG-OSc" id="sIo-wC-D82"/>
                 <outlet property="stateLabel" destination="Ksz-7Z-DaI" id="1ji-lk-vrW"/>
             </connections>
-            <point key="canvasLocation" x="439.5" y="124"/>
+            <point key="canvasLocation" x="439" y="126"/>
         </tableViewCell>
     </objects>
 </document>

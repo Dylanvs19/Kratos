@@ -50,7 +50,7 @@ class RepresentativeView: UIView, Loadable {
         repViewDelegate?.repViewTapped(is: selected, at: viewPosition)
     }
     
-    func configure(with representative:Person, repInfoViewActionBlock: @escaping ((Person) -> ())) {
+    func configure(with representative:Person, repInfoViewActionBlock: @escaping ((Int) -> ())) {
         self.representative = representative
         guard let firstName = representative.firstName,
             let lastName = representative.lastName else { return }
@@ -61,11 +61,9 @@ class RepresentativeView: UIView, Loadable {
         representativeImageView.addRepImageViewBorder() 
         firstNameLabel.text = "\(firstName) \(lastName)"
         
-        representativeLabel.text = representative.roles?.first?.representativeType?.rawValue
-        
+        representativeLabel.text = representative.currentChamber?.toRepresentativeType().rawValue
         representativeImageView.setRepresentative(person: representative, repInfoViewActionBlock: repInfoViewActionBlock)
         if let party = representative.currentParty {
-            
             self.contentView.backgroundColor = party.color()
         } else {
             self.contentView.backgroundColor = UIColor.gray

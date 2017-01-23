@@ -15,7 +15,8 @@ struct Constants {
     static let USER_URL = "https://kratos.website/api/me"
     
     static let REPRESENTATIVES_URL = "https://kratos.website/api/districts/"
-    static let VOTES_URL = "https://kratos.website/api/representatives/"
+    static let PERSON_URL = "https://kratos.website/api/people/"
+    static let VOTES_URL = "https://kratos.website/api/people/"
     static let TALLY_URL = "https://kratos.website/api/tallies/"
     static let BILL_URL = "https://kratos.website/api/bills/"
     
@@ -28,7 +29,6 @@ struct Constants {
     
     static let VOTE_TABLEVIEWCELL_IDENTIFIER = "VoteTableViewCellIdentifier"
     static let REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER = "representativeCellIdentifier"
-    
     
     static let statePictureDict =  [
         "AL": "Alabama",
@@ -140,7 +140,7 @@ struct Constants {
         "WY": "Wyoming"
     ]
     
-    static let stateSet = NSSet(array: [
+    static let stateSet = Set([
         "AL",
         "AK",
         "AS",

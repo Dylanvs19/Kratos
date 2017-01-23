@@ -37,3 +37,7 @@ enum NetworkError: Error {
         }
     }
 }
+
+func ==(lhs: NetworkError, rhs: NetworkError) -> Bool {
+    return lhs.localizedDescription == rhs.localizedDescription
+}

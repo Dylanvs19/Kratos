@@ -19,7 +19,7 @@ class LeadSponsorView: UIView, Loadable, Tappable {
     @IBOutlet weak var partyLabel: UILabel!
     var sponsor: Person?
     var selector: Selector = #selector(viewTapped)
-    var presentRepInfoView: ((Person) -> ())?
+    var presentRepInfoView: ((Int) -> ())?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -35,7 +35,7 @@ class LeadSponsorView: UIView, Loadable, Tappable {
         super.awakeFromNib()
     }
 
-    func configure(with sponsor: Person, presentRepInfoView: @escaping ((Person) -> ())) {
+    func configure(with sponsor: Person, presentRepInfoView: @escaping ((Int) -> ())) {
         self.sponsor = sponsor
         if let first = sponsor.firstName,
             let last = sponsor.lastName {
@@ -53,7 +53,7 @@ class LeadSponsorView: UIView, Loadable, Tappable {
         } else {
             partyLabel.text = ""
         }
-        if let district = sponsor.roles?.first?.district {
+        if let district = sponsor.currentDistrict {
             districtLabel.text = "District \(String(district))"
         } else {
             districtLabel.text = ""
@@ -73,8 +73,8 @@ class LeadSponsorView: UIView, Loadable, Tappable {
     }
 
     func viewTapped() {
-        if let person = sponsor {
-            presentRepInfoView?(person)
+        if let id = sponsor?.id {
+            presentRepInfoView?(id)
         }
     }
 }

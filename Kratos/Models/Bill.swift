@@ -205,6 +205,15 @@ enum Chamber: String, RawRepresentable {
             return nil
         }
     }
+    
+    func toRepresentativeType() -> RepresentativeType {
+        switch self {
+        case .house:
+            return RepresentativeType.representative
+        case .senate:
+            return RepresentativeType.senator
+        }
+    }
 }
 
 struct Action {
@@ -284,7 +293,7 @@ struct Committee {
         self.code = json["code"] as? String
         self.abbrev = json["abbrev"] as? String
         self.jusrisdiction = json["jurisdiction"] as? String
-        if let chamber = json["committee_type_label"] as? String {
+        if let chamber = json["type"] as? String {
             self.commmitteeType = Chamber.chamber(value: chamber)
         }
     }

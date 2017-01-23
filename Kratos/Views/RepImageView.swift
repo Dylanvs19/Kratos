@@ -13,7 +13,7 @@ class RepImageView: UIImageView, Tappable {
     var lightPerson: LightPerson?
     var url: String?
     internal var selector: Selector = #selector(viewTapped)
-    var actionBlock: ((Person) -> ())?
+    var actionBlock: ((Int) -> ())?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,7 +22,7 @@ class RepImageView: UIImageView, Tappable {
         self.clipsToBounds = true
     }
     
-    func setRepresentative(person: Person, repInfoViewActionBlock: ((Person) -> ())?) {
+    func setRepresentative(person: Person, repInfoViewActionBlock: ((Int) -> ())?) {
         self.person = person
         if let url = person.imageURL {
             loadRepImage(from: url)
@@ -47,8 +47,8 @@ class RepImageView: UIImageView, Tappable {
     }
     
     func viewTapped() {
-        if let person = person {
-            actionBlock?(person)
+        if let id = person?.id {
+            actionBlock?(id)
         }
     }
 }

@@ -20,15 +20,22 @@ struct Person {
     var twitter: String?
     var youtube: String?
     var gender: String?
-    var roles: [Role]?
+    var terms: [Term]?
     var tallies: [LightTally]?
+    
+    var currentDistrict: Int?
+    var officialFullName: String?
+    var isCurrent: Bool?
+    var currentChamber: Chamber?
+    var religion: String?
+
     
     init(from json: [String: AnyObject]) {
         self.id = json["id"] as? Int
-        self.firstName = json["firstname"] as? String
-        self.lastName = json["lastname"] as? String
-        self.twitter = json["twitterid"] as? String
-        self.youtube = json["youtubeid"] as? String
+        self.firstName = json["first_name"] as? String
+        self.lastName = json["last_name"] as? String
+        self.twitter = json["twitter"] as? String
+        self.youtube = json["youtube"] as? String
         self.currentState = json["current_state"] as? String
         if let party = json["current_party"] as? String {
             self.currentParty = Party.party(value: party)
@@ -38,10 +45,46 @@ struct Person {
         if let dob = json["birthday"] as? String {
             self.dob = dob.stringToDate()
         }
-        if let roleArray = json["roles"] as? [[String: AnyObject]] {
-            self.roles = roleArray.map({ (dictionary) -> Role? in
-                return Role(json: dictionary)
-            }).flatMap({$0})
+        self.currentDistrict = json["current_district"] as? Int
+        self.officialFullName = json["official_full_name"] as? String
+        self.religion = json["religion"] as? String
+        self.isCurrent = json["is_current"] as? Bool
+        if let chamber = json["current_office"] as? String {
+            self.currentChamber = Chamber.chamber(value: chamber)
+        }
+        if let termArray = json["terms"] as? [[String: AnyObject]] {
+            self.terms = termArray.map({ (dictionary) -> Term? in
+                let term = Term(json: dictionary)
+                if (term.isCurrent ?? false) {
+                    if self.currentState == nil {
+                        self.currentState = term.state
+                    }
+                    if self.currentChamber == nil {
+                        self.currentChamber = term.representativeType?.toChamber()
+                    }
+                    if self.currentParty == nil {
+                        self.currentParty = term.party
+                    }
+                    if self.currentDistrict == nil {
+                        self.currentDistrict = term.district
+                    }
+                }
+                return term
+            }).flatMap({$0}).sorted(by: {$0.startDate ?? Date() > $1.startDate ?? Date()})
+        }
+        if !(isCurrent == true) {
+            if self.currentState == nil {
+                self.currentState = terms?.first?.state
+            }
+            if self.currentChamber == nil {
+                self.currentChamber = terms?.first?.representativeType?.toChamber()
+            }
+            if self.currentParty == nil {
+                self.currentParty = terms?.first?.party
+            }
+            if self.currentDistrict == nil {
+                self.currentDistrict = terms?.first?.district
+            }
         }
     }
     
@@ -51,10 +94,10 @@ struct Person {
         var person = LightPerson()
         person.firstName = firstName
         person.lastName = lastName
-        person.district = roles?.first?.district
+        person.district = currentDistrict
         person.party = currentParty
         person.state = currentState
-        person.representativeType = roles?.first?.representativeType
+        person.representativeType = currentChamber?.toRepresentativeType()
         person.id = id
         person.imageURL = imageURL
         return person 
@@ -71,12 +114,14 @@ struct LightPerson {
     var party: Party?
     var representativeType: RepresentativeType?
     var district: Int?
+    var isCurrent: Bool?
     
     init(from json: [String: AnyObject]) {
         self.id = json["id"] as? Int
-        self.imageURL = json["image"] as? String
-        self.firstName = json["firstname"] as? String
-        self.lastName = json["lastname"] as? String
+        self.imageURL = json["image_url"] as? String
+        self.firstName = json["first_name"] as? String
+        self.lastName = json["last_name"] as? String
+        self.isCurrent = json["is_current"] as? Bool
         if let party = json["current_party"] as? String {
             self.party = Party.party(value: party)
         }
@@ -157,6 +202,15 @@ enum RepresentativeType: String, RawRepresentable {
             return "Rep"
         case .senator:
             return "Sen"
+        }
+    }
+    
+    func toChamber() -> Chamber {
+        switch self {
+        case .representative:
+            return Chamber.house
+        case .senator:
+            return Chamber.senate
         }
     }
 }

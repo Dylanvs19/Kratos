@@ -94,14 +94,14 @@ class RepContactView: UIView, Loadable {
     }
     
     @IBAction func phoneButtonPressed(_ sender: Any) {
-        if let phone = representative?.roles?.first?.phone,
-            let url = URL(string: "tel://\(phone)") {
+        if let phone = representative?.terms?.first?.phone,
+            let url = URL(string: "telprompt://\(phone)") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
         KratosAnalytics.ContactAnalyticType.phone.fireEvent()
     }
     @IBAction func websiteButtonPressed(_ sender: Any) {
-        if let website = representative?.roles?.first?.website,
+        if let website = representative?.terms?.first?.website,
             let url = URL(string: website) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }

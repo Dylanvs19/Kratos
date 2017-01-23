@@ -66,7 +66,7 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
         
         if let tallyID = tally.id {
             let userVoteView = UserVoteView()
-            userVoteView.configure(with: tallyID)
+            userVoteView.configure(with: tallyID, presentError: showError)
             stackView.addArrangedSubview(userVoteView)
         }
         
@@ -81,8 +81,6 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
         stackView.addArrangedSubview(voteDetailsView)
 
         configureRepVotesTableView()
-        
-        
     }
     
     func configureRepVotesTableView() {
@@ -121,16 +119,8 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
     //MARK: Helper Functions
     func convert(rep: Person, lightTally: LightTally) -> Vote {
         var vote = Vote()
-        var person = LightPerson()
+        vote.person = rep.toLightPerson()
         vote.voteValue = lightTally.voteValue
-        person.firstName = rep.firstName
-        person.lastName = rep.lastName
-        person.imageURL = rep.imageURL
-        person.district = rep.roles?.first?.district
-        person.party = rep.currentParty
-        person.state = rep.roles?.first?.state
-        person.representativeType = rep.roles?.first?.representativeType
-        vote.person = person
         return vote
     }
 }

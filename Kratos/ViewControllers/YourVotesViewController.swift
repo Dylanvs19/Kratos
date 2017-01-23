@@ -12,11 +12,26 @@ class YourVotesViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBOutlet weak var tableView: UITableView!
     
-    var userVotes: [LightTally]?
+    var userVotes: [LightTally]? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UINib(nibName: String(describing: YourVoteTableViewCell.self), bundle: nil), forCellReuseIdentifier: String(describing: YourVoteTableViewCell.self)) }
+        loadData()
+        setupTableView()
+    }
+    
+    func setupTableView() {
+        tableView.register(UINib(nibName: String(describing: YourVoteTableViewCell.self), bundle: nil), forCellReuseIdentifier: String(describing: YourVoteTableViewCell.self))
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.tableFooterView = UIView()
+        tableView.estimatedRowHeight = 75
+        tableView.rowHeight = UITableViewAutomaticDimension
+    }
     
     func loadData() {
         APIManager.getUserVotingRecord(success: { (tallies) in
@@ -35,10 +50,6 @@ class YourVotesViewController: UIViewController, UITableViewDelegate, UITableVie
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: YourVoteTableViewCell.self), for: indexPath) as? YourVoteTableViewCell else { return UITableViewCell() }
         cell.configure(with: vote)
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

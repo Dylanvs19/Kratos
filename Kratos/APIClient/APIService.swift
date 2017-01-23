@@ -226,11 +226,48 @@ struct APIService {
         task.resume()
     }
     
-    static func fetchTallies(for representative: Person, with pageNumber: Int, success: @escaping (_ tallies: [LightTally]) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+    static func fetchPerson(for personID: Int, success: @escaping (Person) -> (), failure: @escaping (NetworkError) -> ()) {
         
-        guard let id = representative.id,
-            let url = URL(string: "\(Constants.VOTES_URL)\(id)/votes?id=\(id)&page=\(pageNumber)") else {
-                failure(.invalidURL(error:nil))
+        guard let url = URL(string: "\(Constants.PERSON_URL)\(personID)") else {
+            failure(.invalidURL(error:nil))
+            return
+        }
+        
+        let session: URLSession = URLSession.shared
+        let request = URLRequest(url: url, requestType: .get)
+        
+        let task: URLSessionDataTask = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+            guard let data = data else {
+                failure(.nilData)
+                return
+            }
+            var obj:[String: AnyObject]?
+            do {
+                obj = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
+            } catch {
+                failure(.invalidSerialization)
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                    failure(error)
+                }
+            }
+            
+            if let person = obj {
+                DispatchQueue.main.async(execute: {
+                    success(Person(from: person))
+                })
+            }
+        }
+        task.resume()
+    }
+    
+    static func fetchTallies(for personID: Int, with pageNumber: Int, success: @escaping (_ tallies: [LightTally]) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+        
+        guard let url = URL(string: "\(Constants.VOTES_URL)\(personID)/votes?id=\(personID)&page=\(pageNumber)") else {
+                failure(.invalidURL(error: nil))
                 return
         }
         

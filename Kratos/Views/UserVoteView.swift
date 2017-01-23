@@ -18,15 +18,19 @@ class UserVoteView: UIView, Loadable {
     fileprivate var tallyID: Int?
     fileprivate var userVote: VoteValue = .abstain {
         didSet {
-            if shouldAnimate {
-                UIView.animate(withDuration: 0.25, animations: {
-                    self.setView(with: self.userVote)
-                    self.layoutIfNeeded()
+            setView(with: userVote)
+            if let tallyID = tallyID, userVote == .abstain {
+                APIManager.deleteUserTally(with: tallyID, success: { (success) in
+                    print("deleteUserTally for \(tallyID) successful")
+                    self.userVoteExists = false
+                }, failure: { (error) in
+                    self.presentError?(error)
                 })
             }
         }
     }
     fileprivate var shouldAnimate: Bool = false
+    fileprivate var userVoteExists: Bool = false
     var presentError: ((NetworkError) -> ())?
     
     required init?(coder aDecoder: NSCoder) {
@@ -41,17 +45,23 @@ class UserVoteView: UIView, Loadable {
         setupGestureRecognizers()
     }
     
-    func configure(with tallyID: Int) {
-        
+    func configure(with tallyID: Int, presentError: @escaping ((NetworkError) -> ())) {
+        self.presentError = presentError
+        self.shouldAnimate = true
+        self.tallyID = tallyID
         APIManager.getUserTally(with: tallyID, success: { (lightTally) in
             if let userVote = lightTally.voteValue {
-                self.setView(with: userVote)
                 self.userVote = userVote
-                self.shouldAnimate = true
+                self.userVoteExists = true
+                print("getUserTally for vote success \(tallyID)")
 
+            } else {
+                self.setView(with: .abstain)
             }
         }) { (error) in
-            self.presentError?(error)
+            self.setView(with: .abstain)
+            self.userVoteExists = false
+            print("getUserTally for vote Failed \(tallyID)")
         }
     }
     
@@ -67,39 +77,63 @@ class UserVoteView: UIView, Loadable {
             self.yeaView.alpha = 0.3
             self.nayView.alpha = 1
         }
+        if shouldAnimate {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.layoutIfNeeded()
+            })
+        }
     }
     
     func setupGestureRecognizers() {
+        self.yeaView.alpha = 0.3
+        self.nayView.alpha = 0.3
         
         yeaView.isUserInteractionEnabled = true
         let yeaTap = UITapGestureRecognizer(target: self, action: #selector(yeaTapped))
         yeaView.addGestureRecognizer(yeaTap)
-
+        
         nayView.isUserInteractionEnabled = true
         let nayTap = UITapGestureRecognizer(target: self, action: #selector(nayTapped))
         nayView.addGestureRecognizer(nayTap)
     }
     
     func yeaTapped() {
-        if let tallyID = tallyID, userVote == .abstain {
-            APIManager.createUserTally(with: .yea, and: tallyID, success: { (lightTally) in
-                //debugPrint(lightTally)
+        userVote = userVote == .yea ? .abstain : .yea
+        guard let tallyID = tallyID else { return }
+        if userVoteExists {
+            APIManager.updateUserTally(with: userVote, and: tallyID, success: { (success) in
+                // present Success
+                print("update yea vote success \(tallyID)")
+            }, failure: { (error) in
+                self.presentError?(error)
+            })
+        } else {
+            APIManager.createUserTally(with: userVote, and: tallyID, success: { (lightTally) in
+                // present Success
+                print("create yea vote success \(tallyID)")
             }, failure: { (error) in
                 self.presentError?(error)
             })
         }
-        userVote = userVote == .yea ? .abstain : .yea
     }
     
     func nayTapped() {
-        if let tallyID = tallyID, userVote == .abstain {
-            APIManager.createUserTally(with: .nay, and: tallyID, success: { (lightTally) in
-                //debugPrint(lightTally)
+        userVote = userVote == .nay ? .abstain : .nay
+        guard let tallyID = tallyID else { return }
+        if userVoteExists {
+            APIManager.updateUserTally(with: userVote, and: tallyID, success: { (success) in
+                // present Success
+                print("update nay vote success \(tallyID)")
+            }, failure: { (error) in
+                self.presentError?(error)
+            })
+        } else {
+            APIManager.createUserTally(with: userVote, and: tallyID, success: { (lightTally) in
+                // present Success
+                print("create nay vote success \(tallyID)")
             }, failure: { (error) in
                 self.presentError?(error)
             })
         }
-        userVote = userVote == .nay ? .abstain : .nay
     }
-    
 }

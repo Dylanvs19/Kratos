@@ -87,9 +87,17 @@ struct APIManager {
         }
     }
     
-    static func getTallies(for representative: Person, nextPage: Int, success: @escaping (_ tallies: [LightTally]) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func getPerson(for personID: Int, success: @escaping (Person) -> (), failure: @escaping (NetworkError) -> ()) {
+        APIService.fetchPerson(for: personID, success: { (person) in
+            success(person)
+        }, failure: { (error) in
+            failure(error)
+        })
+    }
     
-        APIService.fetchTallies(for: representative, with: nextPage, success: { (tallies) -> (Void) in
+    static func getTallies(for personID: Int, nextPage: Int, success: @escaping (_ tallies: [LightTally]) -> (), failure: @escaping (NetworkError) -> ()) {
+    
+        APIService.fetchTallies(for: personID, with: nextPage, success: { (tallies) -> (Void) in
             success(tallies)
         }) { (error) -> (Void) in
             failure(error)

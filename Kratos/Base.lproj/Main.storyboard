@@ -95,15 +95,15 @@
                                     <action selector="registerButtonPressed:" destination="r7O-hR-zvu" eventType="touchUpInside" id="xLD-ON-AjU"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SNL-sY-m3J" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SNL-sY-m3J" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                 <rect key="frame" x="112.5" y="210" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xVt-AG-YmO" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xVt-AG-YmO" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                 <rect key="frame" x="112.5" y="265" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nAq-VY-Q74" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nAq-VY-Q74" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                 <rect key="frame" x="112.5" y="320" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -166,14 +166,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="is4-72-DVm">
-                                <rect key="frame" x="10" y="80" width="355" height="577"/>
+                                <rect key="frame" x="10" y="105.5" width="355" height="551.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Kratos" translatesAutoresizingMaskIntoConstraints="NO" id="Zdl-Df-RWy">
-                                <rect key="frame" x="162" y="25" width="50" height="50"/>
+                                <rect key="frame" x="167" y="25" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Zdl-Df-RWy" secondAttribute="height" multiplier="1:1" id="Eu4-9o-2CR"/>
-                                    <constraint firstAttribute="width" constant="50" id="QhI-7H-3AK"/>
+                                    <constraint firstAttribute="width" constant="40" id="QhI-7H-3AK"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mx0-qy-Sl9">
@@ -187,15 +187,33 @@
                                     <action selector="dismissButtonPressed:" destination="VwA-yT-KxV" eventType="touchUpInside" id="mDf-EU-dq6"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="V O T E S" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lxr-Ki-Q48">
+                                <rect key="frame" x="150" y="73" width="75.5" height="23"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
+                                <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oLq-tw-7d9">
+                                <rect key="frame" x="10" y="96.5" width="355" height="1"/>
+                                <color key="backgroundColor" red="0.81176470590000005" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="Xhx-JS-bkQ"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="is4-72-DVm" firstAttribute="top" secondItem="cEs-oq-2FX" secondAttribute="bottom" constant="60" id="6L3-wN-Xsn"/>
+                            <constraint firstItem="oLq-tw-7d9" firstAttribute="top" secondItem="Lxr-Ki-Q48" secondAttribute="bottom" constant="1" id="3eS-8T-bqq"/>
                             <constraint firstItem="Mx0-qy-Sl9" firstAttribute="centerX" secondItem="dWX-uH-OUa" secondAttribute="centerX" id="B2n-ne-OjP"/>
+                            <constraint firstItem="is4-72-DVm" firstAttribute="top" secondItem="oLq-tw-7d9" secondAttribute="bottom" constant="8" id="GYz-27-5Ha"/>
+                            <constraint firstItem="oLq-tw-7d9" firstAttribute="width" secondItem="is4-72-DVm" secondAttribute="width" id="H1h-c4-Kgt"/>
                             <constraint firstAttribute="trailing" secondItem="is4-72-DVm" secondAttribute="trailing" constant="10" id="KLa-Md-a9v"/>
                             <constraint firstItem="is4-72-DVm" firstAttribute="leading" secondItem="dWX-uH-OUa" secondAttribute="leading" constant="10" id="LAU-if-Ucd"/>
+                            <constraint firstItem="Lxr-Ki-Q48" firstAttribute="centerX" secondItem="dWX-uH-OUa" secondAttribute="centerX" id="OIU-qM-T5q"/>
                             <constraint firstItem="dEc-W9-360" firstAttribute="top" secondItem="is4-72-DVm" secondAttribute="bottom" constant="10" id="VXI-BG-6Hg"/>
+                            <constraint firstItem="oLq-tw-7d9" firstAttribute="centerX" secondItem="dWX-uH-OUa" secondAttribute="centerX" id="WP4-uv-YQM"/>
                             <constraint firstItem="Zdl-Df-RWy" firstAttribute="centerX" secondItem="dWX-uH-OUa" secondAttribute="centerX" id="g4X-51-aAQ"/>
+                            <constraint firstItem="Lxr-Ki-Q48" firstAttribute="top" secondItem="Zdl-Df-RWy" secondAttribute="bottom" constant="8" id="iVW-EL-jLI"/>
                             <constraint firstItem="dEc-W9-360" firstAttribute="top" secondItem="Mx0-qy-Sl9" secondAttribute="bottom" constant="20" id="wnM-AY-fVb"/>
                             <constraint firstItem="Zdl-Df-RWy" firstAttribute="top" secondItem="cEs-oq-2FX" secondAttribute="bottom" constant="5" id="znc-eI-HJm"/>
                         </constraints>
@@ -229,7 +247,7 @@
                                     <segue destination="LyQ-va-fR8" kind="embed" identifier="menuBarSegue" id="3lk-nG-XR0"/>
                                 </connections>
                             </containerView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BVW-dx-Jir">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BVW-dx-Jir">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xKU-Va-iMI">

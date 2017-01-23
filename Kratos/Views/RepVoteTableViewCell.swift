@@ -21,7 +21,7 @@ class RepVoteTableViewCell: UITableViewCell {
         guard let rep = vote.person else { return }
         
         selectionStyle = .none
-        
+                
         if let first = rep.firstName,
             let last = rep.lastName {
             nameLabel.text = first + " " + last
@@ -52,6 +52,9 @@ class RepVoteTableViewCell: UITableViewCell {
         }
         if let voteValue = vote.voteValue {
             repVoteTypeView.image = UIImage.imageFor(vote: voteValue)
+        }
+        if rep.isCurrent == false {
+            stateLabel.text = "Former Congressperson"
         }
     }
 }

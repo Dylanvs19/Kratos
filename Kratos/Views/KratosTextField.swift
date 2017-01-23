@@ -73,6 +73,7 @@ import UIKit
             self.textLabelToBottomConstraint.isActive = true
             self.textLabel.transform = CGAffineTransform(scaleX: 0.66, y: 0.66)
             self.layoutIfNeeded()
+            validate()
         }
         if let secret = secret {
             textField.isSecureTextEntry = secret ? true : false 

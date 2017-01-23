@@ -20,10 +20,14 @@ class RepVotesView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource
     var votes: [Vote]? {
         didSet {
             if votes != nil {
+                cellMap = votes!.groupedBySection(groupBy: { (vote) -> (String) in
+                    return vote.person?.state ?? ""
+                })
                 tableView.reloadData()
             }
         }
     }
+    var cellMap = [Int: [Vote]]()
     
     var shouldExpand = true  {
         didSet {
@@ -34,7 +38,7 @@ class RepVotesView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource
     var cellsToShow: Int = 1
     var maxTableViewHeight: CGFloat = 400
     var rowHeight: CGFloat = 50
-    var presentRepInfoView: ((LightPerson) -> ())?
+    var presentRepInfoView: ((Int) -> ())?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -46,24 +50,23 @@ class RepVotesView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource
         customInit()
     }
     
-    func configure(with title: String, topVote: Vote? = nil, votes: [Vote], cellsToShow: Int = 1, actionBlock: (() -> ())? = nil, presentRepInfoView: ((LightPerson) -> ())?) {
+    func configure(with title: String, topVote: Vote? = nil, votes: [Vote], cellsToShow: Int = 1, actionBlock: (() -> ())? = nil, presentRepInfoView: ((Int) -> ())?) {
         titleLabel.text = title
         self.cellsToShow = cellsToShow
         setupTableView()
-
-            var votesArray = votes
-            if let topVote = topVote {
-                for (idx, vote) in votes.enumerated() {
-                    if vote.person?.firstName == topVote.person?.firstName
-                        && vote.person?.lastName == topVote.person?.lastName
-                        && vote.person?.state == topVote.person?.state {
-                        votesArray.remove(at: idx)
-                    }
+        var votesArray = votes
+        if let topVote = topVote {
+            for (idx, vote) in votes.enumerated() {
+                if vote.person?.firstName == topVote.person?.firstName
+                    && vote.person?.lastName == topVote.person?.lastName
+                    && vote.person?.state == topVote.person?.state {
+                    votesArray.remove(at: idx)
                 }
-                votesArray.insert(topVote, at: 0)
             }
-            self.votes = votesArray
-        
+            votesArray.insert(topVote, at: 0)
+        }
+        self.votes = votesArray
+        self.presentRepInfoView = presentRepInfoView
         if let actionBlock = actionBlock {
             self.actionBlock = actionBlock
         }
@@ -103,14 +106,12 @@ class RepVotesView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
             return rowHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if let person = votes?[indexPath.row].person {
-            presentRepInfoView?(person)
+        if let id = votes?[indexPath.row].person?.id {
+            presentRepInfoView?(id)
         }
     }
     

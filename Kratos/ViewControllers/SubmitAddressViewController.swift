@@ -242,9 +242,9 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             if textFieldsValid {
                 var user = Datastore.shared.user
                 var address = Address()
-                address.street = addressTextField.text
-                address.city = cityTextField.text
-                address.state = stateTextField.text
+                address.street = addressTextField.text?.localizedCapitalized
+                address.city = cityTextField.text?.localizedCapitalized
+                address.state = stateTextField.text?.capitalized
                 if let stringZip = zipcodeTextField.text,
                     let zip = Int(stringZip) {
                     address.zipCode = zip
@@ -257,10 +257,10 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                     user?.dob = DateFormatter.presentationDateFormatter.date(from: dob)
                 }
                 if let first = firstNameTextField.text {
-                    user?.firstName = first
+                    user?.firstName = first.localizedCapitalized
                 }
                 if let last = lastNameTextField.text {
-                    user?.lastName = last
+                    user?.lastName = last.localizedCapitalized
                 }
                 if let phone = phoneNumberTextField.text,
                    let number = Int(phone) {
@@ -278,25 +278,23 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
         case .accountDetails: //switch to Edit Profile
             displayType = .editProfile
         case .editProfile: //save profile & switch to Account Details
-            displayType = .accountDetails
             updateUser()
-            APIManager.register(with: password, success: { (success) in
-                NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
-
+            FirebaseAnalytics.FlowAnalytic.editedAccountDetails.fireEvent()
+            APIManager.updateUser(success: { (success) in
+                self.displayType = .accountDetails
             }, failure: { (error) in
-                debugPrint("SubmitAddressViewController registerWith(\(password)) unsucessful")
+                debugPrint("SubmitAddressViewController updateUser unsucessful")
                 self.showError(error: error)
             })
         case .registration:
             updateUser()
-            FirebaseAnalytics.FlowAnalytic.registerTapped.fireEvent()
             APIManager.register(with: password, success: { (success) in
-                    UIApplication.shared.registerForRemoteNotifications()
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
-                }, failure: { (error) in
-                    debugPrint("SubmitAddressViewController registerWith(\(password)) unsucessful")
-                    self.showError(error: error)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
+            }, failure: { (error) in
+                debugPrint("SubmitAddressViewController registerWith(\(password)) unsucessful")
+                self.showError(error: error)
             })
+            
         }
     }
     
@@ -352,7 +350,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
     }
     
     func shouldCheckIfTextFieldsValid() {
-        if (displayType == .registration) && textFieldsValid {
+        if textFieldsValid {
             UIView.animate(withDuration: 1, animations: {
                 self.saveEditRegisterButtonButton.alpha = 1
                 self.kratosLabel.alpha = 0

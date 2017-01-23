@@ -48,9 +48,9 @@ struct Tally {
     init(json: [String: AnyObject]) {
         
         self.id = json["id"] as? Int
-        self.yea = buildYeaVote(from: json)
-        self.abstain = buildAbstainVote(from: json)
-        self.nay = buildNayVote(from: json)
+        self.yea = buildYeaVote(from: json) ?? 0
+        self.abstain = buildAbstainVote(from: json) ?? 0
+        self.nay = buildNayVote(from: json) ?? 0
         self.result = json["result"] as? String
         self.treaty = json["treaty"] as? String
         self.subject = json["subject"] as? String
@@ -73,7 +73,7 @@ struct Tally {
         if let voteArray = json["votes"] as? [[String: AnyObject]] {
             votes = voteArray.map({ (dictionary) -> Vote? in
                 return Vote(json: dictionary)
-            }).flatMap({$0})
+            }).flatMap({$0}).sorted(by: {$0.person?.state ?? "z" < $1.person?.state ?? "z"})
         }
     }
     

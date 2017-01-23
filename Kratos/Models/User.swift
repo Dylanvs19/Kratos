@@ -71,7 +71,7 @@ struct User {
         address.city = city
         address.street = street
         address.zipCode = zip
-        address.state = state
+        address.state = state.uppercased()
         self.address = address
         
     }
@@ -79,7 +79,7 @@ struct User {
     func toJson(with password: String? = nil) -> [String: AnyObject]? {
         guard let street = self.address?.street,
             let city = self.address?.city,
-            let state = self.address?.state,
+            let state = self.address?.state?.uppercased(),
             let zip = self.address?.zipCode,
             let phoneNumber = self.phoneNumber,
             let party = party?.rawValue,
@@ -109,29 +109,28 @@ struct User {
     func toJsonForUpdate() -> [String: AnyObject]? {
         guard let street = self.address?.street,
               let city = self.address?.city,
-              let state = self.address?.state,
+              let state = self.address?.state?.uppercased(),
               let zip = self.address?.zipCode,
               let phoneNumber = phoneNumber,
               let party = party?.rawValue,
               let dob = dob,
               let first = firstName,
-              let last = lastName,
-              let apnToken = apnToken else { return nil }
+              let last = lastName else { return nil }
         
-        let dict:[String:[String:AnyObject]] = ["user":[
-                                                        "phone": phoneNumber as AnyObject,
-                                                        "first_name": first as AnyObject,
-                                                        "last_name": last as AnyObject,
-                                                        "apn_token": apnToken as AnyObject,
-                                                        "party": party as AnyObject,
-                                                        "birthday": DateFormatter.utcDateFormatter.string(from: dob) as AnyObject,
-                                                        "address": street as AnyObject,
-                                                        "city": city as AnyObject,
-                                                        "state": state as AnyObject,
-                                                        "zip": zip as AnyObject
-                                                        ]
-                                                ]
-        return dict as [String : AnyObject]?
+        let userDict = [
+            "phone": phoneNumber,
+            "first_name": first,
+            "last_name": last,
+            "apn_token": apnToken ?? "",
+            "party": party,
+            "birthday": DateFormatter.utcDateFormatter.string(from: dob),
+            "address": street,
+            "city": city,
+            "state": state,
+            "zip": zip
+        ] as [String : Any]
+        
+        return ["user": userDict as AnyObject]
     }
 }
 

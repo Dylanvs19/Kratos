@@ -231,8 +231,8 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     fileprivate func configureStateImage() {
         if let state =  Datastore.shared.user?.address?.state {
-            stateImageView.image = UIImage.imageForState(state)
-            stateLabel.text = Constants.abbreviationToFullStateNameDict[state] ?? ""
+            stateImageView.image = UIImage.imageForState(state.uppercased())
+            stateLabel.text = state.uppercased().fullStateName()
             if let district = Datastore.shared.user?.district {
                 districtLabel.text = "District \(district)"
             }
@@ -272,10 +272,10 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     fileprivate func loadInitialVoteData() {
-        guard let selectedRepresentative = selectedRepresentative else {
+        guard let id = selectedRepresentative?.id else {
             return
         }
-        APIManager.getTallies(for: selectedRepresentative, nextPage: 1, success: { (lightTallies) in
+        APIManager.getTallies(for: id, nextPage: 1, success: { (lightTallies) in
             self.setInitial(data: lightTallies)
         }) { (error) in
             print(error)
@@ -283,10 +283,10 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func makeRequestForResults(at page: UInt, onComplete: @escaping (([LightTally]?) -> Void)) {
-        guard let selectedRepresentative = selectedRepresentative else {
+        guard let id = selectedRepresentative?.id else {
             return
         }
-        APIManager.getTallies(for: selectedRepresentative, nextPage: Int(page), success: { (lightTallies) in
+        APIManager.getTallies(for: id, nextPage: Int(page), success: { (lightTallies) in
             onComplete(lightTallies)
         }) { (error) in
             print(error)

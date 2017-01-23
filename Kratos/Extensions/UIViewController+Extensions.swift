@@ -30,9 +30,9 @@ extension UIViewController {
     }
     
     func presentTwitter(with person: Person) {
-        guard let handle = person.twitter else {
+        guard let handle = person.twitter, person.isCurrent == true else {
             let alertVC = UIAlertController(title: "Error", message: "Representative does not have a twitter account", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "O K ", style: .destructive, handler: nil))
+            alertVC.addAction(UIAlertAction(title: "O K", style: .destructive, handler: nil))
             present(alertVC, animated: true, completion: nil)
             return
         }
@@ -49,7 +49,7 @@ extension UIViewController {
     
     func presentHomeAddress(with person: Person) {
         var address = "Could not find an office address for this representative"
-        if let addy = person.roles?.first?.officeAddress {
+        if let addy = person.terms?.first?.officeAddress, person.isCurrent == true {
             address = addy
         }
         let alertVC = UIAlertController(title: "A D D R E S S", message: address, preferredStyle: .alert)
@@ -60,6 +60,7 @@ extension UIViewController {
     func showError(error: NetworkError, onClose: (()->())? = nil) {
         var title = "Error"
         var message = ""
+
         switch error {
         case .timeout:
             title = "Error"
@@ -70,38 +71,14 @@ extension UIViewController {
         case .nilData:
             title = "Error"
             message = "No Data Returned"
-        case .invalidURL(let error):
+        case .invalidURL(let error),
+             .duplicateUserCredentials(let error),
+             .invalidCredentials(let error),
+             .appSideError(let error),
+             .serverSideError(let error):
             if let error = error?.first,
                let key = error.keys.first,
                let value = error[key] {
-                title = key.capitalized
-                message = value.localizedUppercase
-            }
-        case .duplicateUserCredentials(let error):
-            if let error = error?.first,
-                let key = error.keys.first,
-                let value = error[key] {
-                title = key.capitalized
-                message = value
-            }
-        case .invalidCredentials(let error):
-            if let error = error?.first,
-                let key = error.keys.first,
-                let value = error[key] {
-                title = key.capitalized
-                message = value.localizedUppercase
-            }
-        case .appSideError(let error):
-            if let error = error?.first,
-                let key = error.keys.first,
-                let value = error[key] {
-                title = key.capitalized
-                message = value.localizedUppercase
-            }
-        case .serverSideError(let error):
-            if let error = error?.first,
-                let key = error.keys.first,
-                let value = error[key] {
                 title = key.capitalized
                 message = value.localizedUppercase
             }
@@ -112,6 +89,9 @@ extension UIViewController {
         }))
             
         present(alertVC, animated: true, completion: nil)
+    }
+    func showError(error: NetworkError) {
+        showError(error: error, onClose: nil)
     }
 }
 

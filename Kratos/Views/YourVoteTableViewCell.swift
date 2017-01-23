@@ -23,7 +23,7 @@ class YourVoteTableViewCell: UITableViewCell {
     
     func configure(with tally: LightTally) {
         label.text = tally.question
-        
+        selectionStyle = .none
         if let userVote = tally.voteValue {
             yourVoteImageView.image = UIImage.imageFor(vote: userVote)
         }

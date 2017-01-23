@@ -12,7 +12,7 @@
 		AF0EED461E0A078700E7A19C /* ErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED451E0A078700E7A19C /* ErrorTypes.swift */; };
 		AF0EED481E0A0E8300E7A19C /* Tally.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED471E0A0E8300E7A19C /* Tally.swift */; };
 		AF0EED4C1E0A245200E7A19C /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED4B1E0A245200E7A19C /* Person.swift */; };
-		AF0EED4E1E0A246300E7A19C /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED4D1E0A246300E7A19C /* Role.swift */; };
+		AF0EED4E1E0A246300E7A19C /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED4D1E0A246300E7A19C /* Term.swift */; };
 		AF1823261E29DC75005912D2 /* RepInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1823251E29DC75005912D2 /* RepInfoView.swift */; };
 		AF1823281E29DC82005912D2 /* RepInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF1823271E29DC82005912D2 /* RepInfoView.xib */; };
 		AF18232A1E29DCC3005912D2 /* RepImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1823291E29DCC3005912D2 /* RepImageView.swift */; };
@@ -112,6 +112,8 @@
 		AFF748191DCFF37700F519AE /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF748181DCFF37700F519AE /* UIView+Extension.swift */; };
 		AFF7481B1DD0081D00F519AE /* PieChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF7481A1DD0081D00F519AE /* PieChartData.swift */; };
 		AFF7481D1DD0203B00F519AE /* PieChartView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF7481C1DD0203B00F519AE /* PieChartView.xib */; };
+		AFFED3611E350B4D00BDF2D1 /* TermTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFED35F1E350B4D00BDF2D1 /* TermTableViewCell.swift */; };
+		AFFED3621E350B4D00BDF2D1 /* TermTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFFED3601E350B4D00BDF2D1 /* TermTableViewCell.xib */; };
 		E0BAAA2EC661D1AE55726E1A /* Pods_KratosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3106BBC49F4921A587E0B9 /* Pods_KratosUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -163,7 +165,7 @@
 		AF0EED451E0A078700E7A19C /* ErrorTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorTypes.swift; sourceTree = "<group>"; };
 		AF0EED471E0A0E8300E7A19C /* Tally.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tally.swift; sourceTree = "<group>"; };
 		AF0EED4B1E0A245200E7A19C /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
-		AF0EED4D1E0A246300E7A19C /* Role.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
+		AF0EED4D1E0A246300E7A19C /* Term.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Term.swift; sourceTree = "<group>"; };
 		AF1823251E29DC75005912D2 /* RepInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepInfoView.swift; sourceTree = "<group>"; };
 		AF1823271E29DC82005912D2 /* RepInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepInfoView.xib; sourceTree = "<group>"; };
 		AF1823291E29DCC3005912D2 /* RepImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepImageView.swift; sourceTree = "<group>"; };
@@ -271,6 +273,8 @@
 		AFF748181DCFF37700F519AE /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		AFF7481A1DD0081D00F519AE /* PieChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartData.swift; sourceTree = "<group>"; };
 		AFF7481C1DD0203B00F519AE /* PieChartView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PieChartView.xib; sourceTree = "<group>"; };
+		AFFED35F1E350B4D00BDF2D1 /* TermTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermTableViewCell.swift; sourceTree = "<group>"; };
+		AFFED3601E350B4D00BDF2D1 /* TermTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TermTableViewCell.xib; sourceTree = "<group>"; };
 		CC1513D8F9B156933DC665E0 /* Pods-Kratos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.release.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.release.xcconfig"; sourceTree = "<group>"; };
 		D3612F895CFC028A6B2F2353 /* Pods-KratosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KratosUITests/Pods-KratosUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F565D52ED48E5392122D4225 /* Pods-KratosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KratosTests/Pods-KratosTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -349,7 +353,6 @@
 				AF2F923A1E147D090041369E /* ButtonView.swift */,
 				AF2F92381E147D000041369E /* ButtonView.xib */,
 				AF2F923E1E15B40D0041369E /* StackViewView.swift */,
-				AF2F92401E15B4390041369E /* StackViewView.xib */,
 				AF4F6E7F1E1D2AA6003E7C9C /* SummaryView.swift */,
 				AF4F6E811E1D2AAF003E7C9C /* SummaryView.xib */,
 				AF4F6E851E1F2ECA003E7C9C /* ActivityView.swift */,
@@ -496,7 +499,7 @@
 				AF89749B1D4D8ADC00C19020 /* Vote.swift */,
 				AF5793171D6D440400D86B73 /* Bill.swift */,
 				AF0EED4B1E0A245200E7A19C /* Person.swift */,
-				AF0EED4D1E0A246300E7A19C /* Role.swift */,
+				AF0EED4D1E0A246300E7A19C /* Term.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -534,6 +537,7 @@
 		AF8974921D4D862B00C19020 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				AFFED35E1E350AF800BDF2D1 /* RepInfoViewCells */,
 				AF2F92461E15D9030041369E /* TallyTableViewCells */,
 				AFF7480E1DC97F9500F519AE /* BillTableViewCells */,
 				AFB5CCBD1DE55C5E006E51A2 /* MainViewTableViewCells */,
@@ -576,6 +580,7 @@
 				AFB5CCA11DE0B595006E51A2 /* VoteHeaderView.swift */,
 				AFB5CCA31DE0B5BB006E51A2 /* VoteHeaderView.xib */,
 				AF2F92441E15CFD20041369E /* RepVotesView.swift */,
+				AF2F92401E15B4390041369E /* StackViewView.xib */,
 				AF2F92421E15CFC30041369E /* RepVotesView.xib */,
 				AFB5CCAF1DE0B725006E51A2 /* VoteDetailsView.swift */,
 				AFB5CCAD1DE0B716006E51A2 /* VoteDetailsView.xib */,
@@ -642,6 +647,16 @@
 				AFF7481A1DD0081D00F519AE /* PieChartData.swift */,
 			);
 			name = PieChart;
+			sourceTree = "<group>";
+		};
+		AFFED35E1E350AF800BDF2D1 /* RepInfoViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				AFFED35F1E350B4D00BDF2D1 /* TermTableViewCell.swift */,
+				AFFED3601E350B4D00BDF2D1 /* TermTableViewCell.xib */,
+			);
+			name = RepInfoViewCells;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		B7ADC5350DE4F250004F089B /* Frameworks */ = {
@@ -823,6 +838,7 @@
 				AF2819801DF0F006001D5C93 /* KratosTextField.xib in Resources */,
 				AFF748121DC9800100F519AE /* RepContactView.xib in Resources */,
 				AF2F92411E15B4390041369E /* StackViewView.xib in Resources */,
+				AFFED3621E350B4D00BDF2D1 /* TermTableViewCell.xib in Resources */,
 				AF2F92481E15DB470041369E /* RepVoteTableViewCell.xib in Resources */,
 				AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */,
 				AF2F92391E147D000041369E /* ButtonView.xib in Resources */,
@@ -1030,9 +1046,10 @@
 				AFB5CCB81DE0B821006E51A2 /* BillCommitteesView.swift in Sources */,
 				AF28439D1D5ADAD9007B3F18 /* Pager.swift in Sources */,
 				AF0EED461E0A078700E7A19C /* ErrorTypes.swift in Sources */,
-				AF0EED4E1E0A246300E7A19C /* Role.swift in Sources */,
+				AF0EED4E1E0A246300E7A19C /* Term.swift in Sources */,
 				AF0EED4C1E0A245200E7A19C /* Person.swift in Sources */,
 				AFB5CCB01DE0B725006E51A2 /* VoteDetailsView.swift in Sources */,
+				AFFED3611E350B4D00BDF2D1 /* TermTableViewCell.swift in Sources */,
 				AF2F92451E15CFD20041369E /* RepVotesView.swift in Sources */,
 				AF3C2FF41DD35C5500353638 /* Date+Extensions.swift in Sources */,
 				AF2843991D5AD4D3007B3F18 /* Constants.swift in Sources */,

@@ -49,4 +49,11 @@ extension String {
         }
         return nil
     }
+    
+    func fullStateName() -> String {
+        if let state = Constants.abbreviationToFullStateNameDict[self] {
+            return state
+        }
+        return ""
+    }
 }
