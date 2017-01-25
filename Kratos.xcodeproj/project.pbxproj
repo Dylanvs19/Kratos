@@ -579,8 +579,8 @@
 			children = (
 				AFB5CCA11DE0B595006E51A2 /* VoteHeaderView.swift */,
 				AFB5CCA31DE0B5BB006E51A2 /* VoteHeaderView.xib */,
-				AF2F92441E15CFD20041369E /* RepVotesView.swift */,
 				AF2F92401E15B4390041369E /* StackViewView.xib */,
+				AF2F92441E15CFD20041369E /* RepVotesView.swift */,
 				AF2F92421E15CFC30041369E /* RepVotesView.xib */,
 				AFB5CCAF1DE0B725006E51A2 /* VoteDetailsView.swift */,
 				AFB5CCAD1DE0B716006E51A2 /* VoteDetailsView.xib */,

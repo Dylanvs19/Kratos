@@ -11,14 +11,18 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SummaryView" customModule="Kratos" customModuleProvider="target">
             <connections>
+                <outlet property="chevronView" destination="OX8-9F-YaC" id="Lpn-tW-u7V"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="uEK-Kc-xQ2"/>
                 <outlet property="label" destination="rWi-aM-J6h" id="ag5-L6-MGG"/>
+                <outlet property="overlayButton" destination="NIA-2j-Hq0" id="jA9-ll-1ON"/>
                 <outlet property="textField" destination="cRk-7h-BN4" id="fl6-Ig-0jP"/>
+                <outlet property="textViewHeightConstraint" destination="A7N-Lz-KFk" id="c6v-Ca-kPZ"/>
+                <outlet property="textViewToBottomConstraint" destination="Tod-Ne-D8Y" id="Rhj-QQ-AuW"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="247"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="244"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rWi-aM-J6h">
@@ -31,24 +35,50 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cRk-7h-BN4">
-                    <rect key="frame" x="10" y="41.5" width="355" height="195.5"/>
+                    <rect key="frame" x="10" y="42" width="355" height="164"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="164" id="A7N-Lz-KFk"/>
+                    </constraints>
                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron" translatesAutoresizingMaskIntoConstraints="NO" id="OX8-9F-YaC">
+                    <rect key="frame" x="177.5" y="214" width="20" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="25" id="Cyd-6t-iht"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NIA-2j-Hq0">
+                    <rect key="frame" x="0.0" y="214" width="375" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="QSb-K9-TWM"/>
+                    </constraints>
+                    <connections>
+                        <action selector="overlayButtonPressed:" destination="-1" eventType="touchUpInside" id="MgJ-rm-jqe"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="cRk-7h-BN4" secondAttribute="bottom" constant="10" id="0Ox-h4-86b"/>
+                <constraint firstAttribute="trailing" secondItem="NIA-2j-Hq0" secondAttribute="trailing" id="7CD-QF-jm9"/>
                 <constraint firstItem="rWi-aM-J6h" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="9" id="Dbo-Gn-ful"/>
+                <constraint firstItem="NIA-2j-Hq0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Hzy-wD-L7A"/>
                 <constraint firstAttribute="trailing" secondItem="cRk-7h-BN4" secondAttribute="trailing" constant="10" id="IXV-yy-s1u"/>
+                <constraint firstAttribute="bottom" secondItem="cRk-7h-BN4" secondAttribute="bottom" constant="38" id="Tod-Ne-D8Y"/>
+                <constraint firstAttribute="bottom" secondItem="NIA-2j-Hq0" secondAttribute="bottom" id="Z8B-3b-tCC"/>
+                <constraint firstItem="OX8-9F-YaC" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="beg-25-DpQ"/>
                 <constraint firstItem="rWi-aM-J6h" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="ghL-C2-N0V"/>
                 <constraint firstItem="cRk-7h-BN4" firstAttribute="top" secondItem="rWi-aM-J6h" secondAttribute="bottom" constant="10" id="pqd-FH-1ae"/>
+                <constraint firstAttribute="bottom" secondItem="OX8-9F-YaC" secondAttribute="bottom" constant="5" id="tll-fR-eua"/>
                 <constraint firstItem="cRk-7h-BN4" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="vvO-ZK-Afv"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="24" y="162"/>
+            <point key="canvasLocation" x="23.5" y="160"/>
         </view>
     </objects>
+    <resources>
+        <image name="chevron" width="20" height="44"/>
+    </resources>
 </document>

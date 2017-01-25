@@ -53,7 +53,7 @@ class UserVoteView: UIView, Loadable {
             if let userVote = lightTally.voteValue {
                 self.userVote = userVote
                 self.userVoteExists = true
-                print("getUserTally for vote success \(tallyID)")
+                //print("getUserTally for vote success \(tallyID)")
 
             } else {
                 self.setView(with: .abstain)
@@ -61,7 +61,7 @@ class UserVoteView: UIView, Loadable {
         }) { (error) in
             self.setView(with: .abstain)
             self.userVoteExists = false
-            print("getUserTally for vote Failed \(tallyID)")
+            //print("getUserTally for vote Failed \(tallyID)")
         }
     }
     
@@ -78,8 +78,10 @@ class UserVoteView: UIView, Loadable {
             self.nayView.alpha = 1
         }
         if shouldAnimate {
-            UIView.animate(withDuration: 0.25, animations: {
-                self.layoutIfNeeded()
+            DispatchQueue.main.async(execute: { 
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.layoutIfNeeded()
+                })
             })
         }
     }
@@ -103,7 +105,7 @@ class UserVoteView: UIView, Loadable {
         if userVoteExists {
             APIManager.updateUserTally(with: userVote, and: tallyID, success: { (success) in
                 // present Success
-                print("update yea vote success \(tallyID)")
+                //print("update yea vote success \(tallyID)")
             }, failure: { (error) in
                 self.presentError?(error)
             })

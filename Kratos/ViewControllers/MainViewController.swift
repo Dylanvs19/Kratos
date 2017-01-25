@@ -154,7 +154,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
-        
+        //UIApplication.shared.registerForRemoteNotifications()
         representatives = Datastore.shared.representatives
         
         configureStateImage()
@@ -175,7 +175,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         FirebaseAnalytics.FlowAnalytic.navigate(to: self, with: nil, id: nil).fireEvent()
-        popMenuBar()
     }
     
     //MARK: Configuration Methods

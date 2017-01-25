@@ -7,6 +7,7 @@ target 'Kratos' do
 
 pod 'Locksmith'
 pod 'Firebase/Core'
+pod 'Firebase/Messaging'
 
 end
 

@@ -20,7 +20,7 @@ struct APIService {
         if let dict = user.toJson(with: password) {
             
             let session: URLSession = URLSession.shared
-            let request = URLRequest(url: url, requestType: .post, body: dict)
+            let request = URLRequest(url: url, requestType: .post, body: dict, addToken: false)
             
             let task: URLSessionDataTask = session.dataTask(with: request) { (data, response, error) in
                 
@@ -107,7 +107,7 @@ struct APIService {
         }
         
         let session: URLSession = URLSession.shared
-        let request = URLRequest(url: url, requestType: .post, body: dict)
+        let request = URLRequest(url: url, requestType: .post, body: dict, addToken: false)
         
         let task: URLSessionDataTask = session.dataTask(with: request as URLRequest) { (data, response, error) in
             var obj:[String: AnyObject]?

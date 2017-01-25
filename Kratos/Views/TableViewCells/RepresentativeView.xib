@@ -23,14 +23,8 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="190"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Representative" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wtp-UD-vjq">
-                    <rect key="frame" x="236" y="154" width="129" height="26"/>
-                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="19"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FIRST" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ijn-fF-jb0">
-                    <rect key="frame" x="125" y="42.5" width="240" height="26"/>
+                    <rect key="frame" x="315" y="42.5" width="50" height="26"/>
                     <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="20"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -42,17 +36,22 @@
                         <constraint firstAttribute="width" secondItem="I2c-Eu-prj" secondAttribute="height" multiplier="1:1" id="cTt-3k-J00"/>
                     </constraints>
                 </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Representative" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wtp-UD-vjq">
+                    <rect key="frame" x="236" y="121" width="129" height="26"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="19"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="Wtp-UD-vjq" secondAttribute="trailing" constant="10" id="7Sq-3j-f24"/>
                 <constraint firstItem="I2c-Eu-prj" firstAttribute="leading" secondItem="wGR-1k-ox6" secondAttribute="leading" constant="10" id="9cn-Em-flo"/>
                 <constraint firstItem="Ijn-fF-jb0" firstAttribute="top" secondItem="I2c-Eu-prj" secondAttribute="top" id="BhF-wv-79W"/>
                 <constraint firstItem="I2c-Eu-prj" firstAttribute="centerY" secondItem="wGR-1k-ox6" secondAttribute="centerY" id="Dgs-2C-G7M"/>
                 <constraint firstItem="I2c-Eu-prj" firstAttribute="height" secondItem="wGR-1k-ox6" secondAttribute="height" priority="999" constant="-30" id="Fz8-Cg-skd"/>
-                <constraint firstItem="Ijn-fF-jb0" firstAttribute="leading" secondItem="I2c-Eu-prj" secondAttribute="trailing" constant="10" id="Kci-tA-ogG"/>
-                <constraint firstAttribute="bottom" secondItem="Wtp-UD-vjq" secondAttribute="bottom" constant="10" id="Z5R-ar-Qhh"/>
+                <constraint firstItem="Wtp-UD-vjq" firstAttribute="bottom" secondItem="I2c-Eu-prj" secondAttribute="bottom" id="Hlh-Bj-Bfi"/>
                 <constraint firstAttribute="trailing" secondItem="Ijn-fF-jb0" secondAttribute="trailing" constant="10" id="w4d-yB-dPP"/>
+                <constraint firstAttribute="trailing" secondItem="Wtp-UD-vjq" secondAttribute="trailing" constant="10" id="yWa-LJ-IIF"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

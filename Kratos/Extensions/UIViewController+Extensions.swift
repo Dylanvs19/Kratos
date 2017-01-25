@@ -64,13 +64,13 @@ extension UIViewController {
         switch error {
         case .timeout:
             title = "Error"
-            message = "Server Timeout"
+            message = "Our server timed out. We are on it. Check back soon."
         case .invalidSerialization:
             title = "Error"
-            message = "InvalidSerialization"
+            message = "Something went wrong on our end. We are on it. Check back soon."
         case .nilData:
             title = "Error"
-            message = "No Data Returned"
+            message = "We didn't get any data back for this. We are checking it out."
         case .invalidURL(let error),
              .duplicateUserCredentials(let error),
              .invalidCredentials(let error),
@@ -87,8 +87,9 @@ extension UIViewController {
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
             onClose?()
         }))
-            
-        present(alertVC, animated: true, completion: nil)
+        DispatchQueue.main.async { 
+            self.present(alertVC, animated: true, completion: nil)
+        }
     }
     func showError(error: NetworkError) {
         showError(error: error, onClose: nil)

@@ -64,6 +64,8 @@ class ActionsView: UIView, Loadable, Tappable {
         if actionArray.count == 1 {
             if actionArray.first?.status != nil {
                 viewType = .onlyMajorAction
+            } else {
+                viewType = .onlyMinorActions
             }
         } else {
             if actionArray.first?.status == nil {
