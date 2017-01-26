@@ -41,6 +41,7 @@ class ShowMoreView: UIView, Loadable {
     }
     
     func configure(with buttonTitle: String, alternativeTitle: String? = nil, actionBlock: @escaping (() -> ())) {
+        self.contentView.layer.cornerRadius = 4.0
         title = buttonTitle
         self.alternativeTitle = alternativeTitle
         button.setTitle(buttonTitle, for: .normal)

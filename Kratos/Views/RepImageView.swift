@@ -39,7 +39,10 @@ class RepImageView: UIImageView, Tappable {
     
     func loadRepImage(from url: String) {
         UIImage.downloadedFrom(url, onCompletion: { (image) -> (Void) in
-            guard let image = image else { return }
+            guard let image = image else {
+                self.image = self.person?.currentChamber?.toImage() ?? #imageLiteral(resourceName: "CongressLogo")
+                return
+            }
             self.image = image
             self.contentMode = .scaleAspectFill
             self.addRepImageViewBorder()

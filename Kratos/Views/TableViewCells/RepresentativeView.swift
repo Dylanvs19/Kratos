@@ -15,6 +15,7 @@ protocol RepViewDelegate {
 class RepresentativeView: UIView, Loadable {
     
     @IBOutlet var contentView: UIView!
+    @IBOutlet weak var partyView: UIView!
     @IBOutlet var representativeImageView: RepImageView!
     @IBOutlet var firstNameLabel: UILabel!
     @IBOutlet var representativeLabel: UILabel!
@@ -54,19 +55,24 @@ class RepresentativeView: UIView, Loadable {
         self.representative = representative
         guard let firstName = representative.firstName,
             let lastName = representative.lastName else { return }
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 3)
-        layer.shadowOpacity = 0.3
-        layer.shadowRadius = 1
-        representativeImageView.addRepImageViewBorder() 
+        
+        //layer.cornerRadius = 0
+        //layer.borderWidth = 1
+        self.backgroundColor = UIColor.clear
+        let gradient = CAGradientLayer()
+        gradient.frame = self.bounds
+        gradient.colors = [UIColor.white.cgColor, UIColor.black.cgColor]
+        self.layer.insertSublayer(gradient, at: 0)
+        
+        representativeImageView.addRepImageViewBorder()
         firstNameLabel.text = "\(firstName) \(lastName)"
         
         representativeLabel.text = representative.currentChamber?.toRepresentativeType().rawValue
         representativeImageView.setRepresentative(person: representative, repInfoViewActionBlock: repInfoViewActionBlock)
         if let party = representative.currentParty {
-            self.contentView.backgroundColor = party.color()
+            partyView.backgroundColor = party.color()
         } else {
-            self.contentView.backgroundColor = UIColor.gray
+            partyView.backgroundColor = UIColor.gray
         }
     }
     

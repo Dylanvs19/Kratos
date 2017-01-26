@@ -10,11 +10,6 @@ import UIKit
 
 class MenuViewController: UIViewController {
     
-    
-    @IBOutlet var accountTrailingConstraint: NSLayoutConstraint!
-    @IBOutlet var votesTrailingConstraint: NSLayoutConstraint!
-    @IBOutlet var infoTrailingConstraint: NSLayoutConstraint!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.layer.shadowColor = UIColor.black.cgColor
@@ -23,47 +18,24 @@ class MenuViewController: UIViewController {
         view.layer.shadowRadius = 1
     }
     
-    func animateIn() {
-       let array = [accountTrailingConstraint, votesTrailingConstraint, infoTrailingConstraint]
-        var count = 0.2
-        array.forEach { (constraint) in
-            UIView.animate(withDuration: 0.2, delay: count, usingSpringWithDamping: 0.8, initialSpringVelocity: 2.0, options: .curveEaseInOut, animations: {
-                constraint?.constant = 0
-                self.view.layoutIfNeeded()
-            }, completion: nil)
-            count += 0.02
-        }
-    }
-    
-    func animateOut() {
-        let array = [accountTrailingConstraint, votesTrailingConstraint, infoTrailingConstraint]
-        var count = 0.2
-        array.forEach { (constraint) in
-            UIView.animate(withDuration: 0.2, delay: count, options: .curveEaseInOut, animations: {
-                constraint?.constant = 100
-                self.view.layoutIfNeeded()
-            }, completion: nil)
-            count += 0.1
-        }
-    }
-    
     @IBAction func accountButtonPressed(_ sender: Any) {
         let vc: SubmitAddressViewController = SubmitAddressViewController.instantiate()
         vc.loadViewIfNeeded()
         vc.displayType = .accountDetails
-        self.present(vc, animated: true, completion: {
-        })
+        self.present(vc, animated: true, completion: nil)
     }
     
     @IBAction func votesButtonPressed(_ sender: Any) {
+        let navVC = UINavigationController()
         let vc: YourVotesViewController = YourVotesViewController.instantiate()
+        navVC.setViewControllers([vc], animated: false)
         vc.loadViewIfNeeded()
-        self.present(vc, animated: true, completion: {
-        })
+        self.present(navVC, animated: true, completion: nil)
     }
     
     @IBAction func infoButtonPressed(_ sender: Any) {
-        // to info vc
+        let vc: FeedbackViewController = FeedbackViewController.instantiate()
+        self.present(vc, animated: true, completion: nil)
     }
     
     @IBAction func signOutButtonPressed(_ sender: Any) {

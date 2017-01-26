@@ -37,6 +37,7 @@ class RepVotesView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource
     var actionBlock: (() -> ())?
     var cellsToShow: Int = 1
     var maxTableViewHeight: CGFloat = 400
+    var contractedTableViewHeight: CGFloat = 50
     var rowHeight: CGFloat = 50
     var presentRepInfoView: ((Int) -> ())?
     
@@ -86,6 +87,11 @@ class RepVotesView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource
         if cellsToShow >= count {
             showMoreButton.isHidden = true
             tableViewBottomConstraint.constant = 0
+            contractedTableViewHeight = CGFloat(count) * rowHeight
+            tableViewHeightConstraint.constant = CGFloat(count) * rowHeight
+            maxTableViewHeight = CGFloat(count) * rowHeight
+        }
+        if (CGFloat(count) * rowHeight) < maxTableViewHeight {
             maxTableViewHeight = CGFloat(count) * rowHeight
         }
     }
@@ -117,16 +123,16 @@ class RepVotesView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource
     
     @IBAction func showMoreButtonPressed(_ sender: Any) {
         if shouldExpand {
-            self.tableViewHeightConstraint.constant = self.maxTableViewHeight
+            tableViewHeightConstraint.constant = maxTableViewHeight
         } else {
-            self.tableViewHeightConstraint.constant = CGFloat(self.cellsToShow) * self.rowHeight
-            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            tableViewHeightConstraint.constant = contractedTableViewHeight
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         }
         shouldExpand = !shouldExpand
         if !shouldExpand {
-            self.showMoreButton.transform = CGAffineTransform(rotationAngle: CGFloat(3 * M_PI / Double(2)))
+            showMoreButton.transform = CGAffineTransform(rotationAngle: CGFloat(3 * M_PI / Double(2)))
         } else {
-            self.showMoreButton.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI / Double(2)))
+            showMoreButton.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI / Double(2)))
         }
         actionBlock?()
     }

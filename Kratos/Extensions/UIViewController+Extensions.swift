@@ -91,8 +91,24 @@ extension UIViewController {
             self.present(alertVC, animated: true, completion: nil)
         }
     }
+    
     func showError(error: NetworkError) {
         showError(error: error, onClose: nil)
+    }
+    
+    func presentMessageAlert(title: String, message: String, buttonOneTitle: String, buttonTwoTitle: String? = nil, buttonOneAction:(() -> ())? = nil, buttonTwoAction:(() -> ())? = nil) {
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: buttonOneTitle, style: .cancel, handler: { (action) in
+            buttonOneAction?()
+        }))
+        if let buttonTwoTitle = buttonTwoTitle {
+            alertVC.addAction(UIAlertAction(title: buttonTwoTitle, style: .cancel, handler: { (action) in
+                buttonTwoAction?()
+            }))
+        }
+        DispatchQueue.main.async {
+            self.present(alertVC, animated: true, completion: nil)
+        }
     }
 }
 

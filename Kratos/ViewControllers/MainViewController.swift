@@ -154,7 +154,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
-        //UIApplication.shared.registerForRemoteNotifications()
         representatives = Datastore.shared.representatives
         
         configureStateImage()
@@ -175,6 +174,8 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         FirebaseAnalytics.FlowAnalytic.navigate(to: self, with: nil, id: nil).fireEvent()
+        representatives = Datastore.shared.representatives
+        reloadInputViews()
     }
     
     //MARK: Configuration Methods
@@ -271,9 +272,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     fileprivate func loadInitialVoteData() {
-        guard let id = selectedRepresentative?.id else {
-            return
-        }
+        guard let id = selectedRepresentative?.id else { return }
         APIManager.getTallies(for: id, nextPage: 1, success: { (lightTallies) in
             self.setInitial(data: lightTallies)
         }) { (error) in
@@ -326,7 +325,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             
             //Animations
             contractedRepConstraints(active: false)
-            
+            self.backgroundImageView.backgroundColor = self.selectedRepresentative?.currentParty?.color()
             UIView.animate(withDuration: 0.25, animations: {
                 switch position {
                 case 1:
@@ -358,11 +357,11 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
                     self.stateImageViewCenterYToRepViewOne.isActive = true
                 }
                 self.stateImageViewCenterYToLabelView.isActive = false
-                self.backgroundImageViewHeight.constant = 19
-                self.backgroundImageView.addBlurEffect()
+                self.backgroundImageViewHeight.constant = 20
                 self.labelView.alpha = 0
                 self.kratosImageView.alpha = 0
                 self.kratosLabel.alpha = 1
+                self.backgroundImageView.image = nil
                 self.view.layoutSubviews()
                 self.view.layoutIfNeeded()
             })
@@ -421,6 +420,8 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.labelView.alpha = 1
         self.kratosImageView.alpha = 1
         self.kratosLabel.alpha = 0
+        self.backgroundImageView.image = #imageLiteral(resourceName: "Image_Congress1")
+        self.backgroundImageView.backgroundColor = UIColor.clear
         
         if animate {
             UIView.animate(withDuration: 0.25, delay: 0.0, options: [], animations: {
@@ -450,9 +451,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         view.bringSubview(toFront: menuBarContainerView)
         tapView?.backgroundColor = UIColor.black
         tapView?.alpha = 0
-        if let menuViewController = menuViewController {
-            menuViewController.animateIn()
-        }
         
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {
             self.tapView?.alpha = 0.3
@@ -468,9 +466,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func popMenuBar() {
-        if let menuViewController = menuViewController {
-            menuViewController.animateOut() 
-        }
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
             self.menuBarTrailingConstraint.constant = -3
             self.tapView?.alpha = 0

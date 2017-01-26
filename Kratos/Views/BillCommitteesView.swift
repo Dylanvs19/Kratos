@@ -58,12 +58,30 @@ class BillCommitteesView: UIView, Loadable {
                 actionsMap.append(holdArray)
             }
         }
+        var previosViewType: ActionsView.ViewType = .majorAndMinorActions
         for (idx, value) in actionsMap.enumerated() {
-            let first = idx == 0
-            let last = (actionsMap.count - 1) == idx
+            
             let actionView = ActionsView()
-            actionView.configure(with: value, first: first, last: last, layoutStackView: layoutStackView)
+            var viewType: ActionsView.ViewType = .majorAndMinorActions
+            if value.count == 1 {
+                if value.first?.status != nil {
+                    viewType = .onlyMajorAction
+                } else {
+                    viewType = .onlyMinorActions
+                }
+            } else {
+                if value.first?.status == nil {
+                    viewType = .onlyMinorActions
+                }
+            }
+            var first = idx == 0
+            if previosViewType == .onlyMinorActions && idx == 1 {
+                first = true
+            }
+            let last = (actionsMap.count - 1) == idx
+            actionView.configure(with: value, first: first, last: last, viewType: viewType, layoutStackView: layoutStackView)
             stackView.addArrangedSubview(actionView)
+            previosViewType = viewType
         }
     }
 }

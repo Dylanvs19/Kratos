@@ -24,14 +24,14 @@ struct Term {
     var party: Party?
     var isCurrent: Bool?
     var contactForm: String?
-    var `class`: Int?
+    var classNumber: Int?
     
     
     init(json: [String: AnyObject]) {
         self.id = json["id"] as? Int
         self.state = json["state"] as? String
         self.district = json["district"] as? Int
-        self.`class` = json["class"] as? Int
+        self.classNumber = json["class"] as? Int
         self.officeAddress = json["address"] as? String
         self.isCurrent = json["is_current"] as? Bool
         if let phone = json["phone"] as? String {

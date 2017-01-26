@@ -41,8 +41,8 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             switch displayType {
             case .editProfile:
                 cancelDoneButton.alpha = 1
-                newPasswordTextField.animateIn()
-                oldPasswordTextField.animateIn()
+                //newPasswordTextField.animateIn()
+                //oldPasswordTextField.animateIn()
                 UIView.animate(withDuration: 0.25, animations: {
                     self.saveEditRegisterButtonButton.setTitle("S A V E", for: .normal)
                     self.cancelDoneButton.setTitle("C A N C E L", for: .normal)
@@ -54,8 +54,8 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                 })
             case .accountDetails:
                 cancelDoneButton.alpha = 1
-                newPasswordTextField.animateOut()
-                oldPasswordTextField.animateOut()
+                //newPasswordTextField.animateOut()
+                //oldPasswordTextField.animateOut()
                 UIView.animate(withDuration: 0.25, animations: {
                     self.saveEditRegisterButtonButton.setTitle("E D I T", for: .normal)
                     self.cancelDoneButton.setTitle("D O N E", for: .normal)
@@ -87,7 +87,8 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
     }
     fileprivate var editTextFieldArray: [KratosTextField] {
         get {
-            return [firstNameTextField, lastNameTextField, partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField, phoneNumberTextField, oldPasswordTextField, newPasswordTextField]
+            return [firstNameTextField, lastNameTextField, partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField, phoneNumberTextField]
+            //, oldPasswordTextField, newPasswordTextField Need to eventually be added.
         }
     }
     fileprivate var textFieldsValid: Bool {
@@ -122,6 +123,8 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
         super.viewDidLoad()
         enableSwipeBack()
         
+        newPasswordTextField.isHidden = true
+        oldPasswordTextField.isHidden = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidHide(sender:)), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(sender:)),name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -184,15 +187,15 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
         stateTextField.configureWith(validationFunction: InputValidation.validateState, text: state, textlabelText: "S T A T E", expandedWidth: (view.frame.width * 0.16), secret: false)
         zipcodeTextField.configureWith(validationFunction: InputValidation.validateZipCode, text: zip, textlabelText: "Z I P", expandedWidth: (view.frame.width * 0.3), secret: false)
         phoneNumberTextField.configureWith(validationFunction: InputValidation.validatePhoneNumber, text: phone, textlabelText: "P H O N E", expandedWidth: (view.frame.width * 0.5), secret: false)
-        oldPasswordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "O L D  P A S S W O R D", expandedWidth: (view.frame.width * 0.8), secret: true)
-        newPasswordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "N E W  P A S S W O R D", expandedWidth: (view.frame.width * 0.8), secret: true)
+        //oldPasswordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "O L D  P A S S W O R D", expandedWidth: (view.frame.width * 0.8), secret: true)
+        //newPasswordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "N E W  P A S S W O R D", expandedWidth: (view.frame.width * 0.8), secret: true)
     }
     
     fileprivate func beginningAnimations() {
         
-        let delay: Double = displayType == .accountDetails ? 0 : 1
+        let delay: Double = displayType == .accountDetails ? 0 : 0.5
         
-        UIView.animate(withDuration: 1, delay: delay, options: [], animations: {
+        UIView.animate(withDuration: 0.5, delay: delay, options: [], animations: {
             self.kratosImageViewLarge.isActive = false
             self.kratosImageViewSmall.isActive = true
             self.kratosImageViewCentered.isActive = false
@@ -200,7 +203,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             self.view.layoutIfNeeded()
         }, completion: nil)
         
-        UIView.animate(withDuration: 1, delay: (delay + 1), options: [], animations: {
+        UIView.animate(withDuration: 0.5, delay: (delay + 1), options: [], animations: {
             
             switch self.displayType {
             case .registration:
@@ -281,6 +284,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             updateUser()
             FirebaseAnalytics.FlowAnalytic.editedAccountDetails.fireEvent()
             APIManager.updateUser(success: { (success) in
+                self.presentMessageAlert(title: "Update Successful", message: "Your account has been updated.", buttonOneTitle: "O K")
                 self.displayType = .accountDetails
             }, failure: { (error) in
                 debugPrint("SubmitAddressViewController updateUser unsucessful")
@@ -289,7 +293,12 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
         case .registration:
             updateUser()
             APIManager.register(with: password, success: { (success) in
-                NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
+                if UIApplication.shared.isRegisteredForRemoteNotifications {
+                     NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
+                } else {
+                    let vc: NotificationsRegistrationViewController = NotificationsRegistrationViewController.instantiate()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }, failure: { (error) in
                 debugPrint("SubmitAddressViewController registerWith(\(password)) unsucessful")
                 self.showError(error: error)
@@ -389,7 +398,9 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
     func didSelectTextField(textField: KratosTextField) {
         if textField == dobTextField {
             displayDatePickerView()
+            view.endEditing(true)
         } else if textField == partyTextField {
+            view.endEditing(true)
             let alertVC = UIAlertController.init(title: "P A R T Y", message: "Choose your party affiliation", preferredStyle: .actionSheet)
             alertVC.addAction(UIAlertAction(title: "D E M O C R A T", style: .destructive, handler: { (action) in
                 self.partyTextField.setText("Democrat")

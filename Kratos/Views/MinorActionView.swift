@@ -36,6 +36,7 @@ class MinorActionView: UIView, Loadable  {
         if let date = action.date {
             dateLabel.text = DateFormatter.shortPresentationDateFormatter.string(from: date)
         }
+        self.backgroundColor = UIColor.clear
         setupNodeView()
     }
     

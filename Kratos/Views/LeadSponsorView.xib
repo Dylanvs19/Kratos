@@ -26,7 +26,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="77"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yz4-0N-0db">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yz4-0N-0db" customClass="RepImageView" customModule="Kratos" customModuleProvider="target">
                     <rect key="frame" x="10" y="27" width="40" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="Yz4-0N-0db" secondAttribute="height" multiplier="1:1" id="23V-mf-ARt"/>

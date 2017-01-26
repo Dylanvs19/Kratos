@@ -44,17 +44,8 @@ struct User {
               let id = jsonDict["user"]?["id"] as? Int,
               let zip = jsonDict["user"]?["zip"] as? Int else { return nil }
         
-        if let repParty = json["party"] as? String {
-            switch repParty {
-            case "Republican":
-                party = .republican
-            case "Democrat":
-                party = .democrat
-            case "Independent":
-                party = .independent
-            default:
-                break
-            }
+        if let party = json["party"] as? String {
+            self.party = Party.party(value: party)
         }
         if let dob = json["birthday"] as? String {
             self.dob = DateFormatter.billDateFormatter.date(from: dob)
@@ -74,6 +65,40 @@ struct User {
         address.state = state.uppercased()
         self.address = address
         
+    }
+    
+    init?(forUpdate json: [String: AnyObject]) {
+        guard let phone = json["phone"] as? Int,
+            let street = json["address"] as? String,
+            let email = json["email"] as? String,
+            let firstName = json["first_name"] as? String,
+            let lastName = json["last_name"] as? String,
+            let city = json["city"] as? String,
+            let state = json["state"] as? String,
+            let district = json["district"] as? Int,
+            let id = json["id"] as? Int,
+            let zip = json["zip"] as? Int else { return nil }
+        
+        if let party = json["party"] as? String {
+            self.party = Party.party(value: party)
+        }
+        if let dob = json["birthday"] as? String {
+            self.dob = DateFormatter.billDateFormatter.date(from: dob)
+        }
+        
+        self.phoneNumber = phone
+        self.district = district
+        self.id = id
+        self.email = email
+        self.apnToken = json["apn_token"] as? String
+        self.firstName = firstName
+        self.lastName = lastName
+        var address = Address()
+        address.city = city
+        address.street = street
+        address.zipCode = zip
+        address.state = state.uppercased()
+        self.address = address
     }
     
     func toJson(with password: String? = nil) -> [String: AnyObject]? {

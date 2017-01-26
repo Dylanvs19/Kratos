@@ -9,7 +9,7 @@
 import UIKit
 
 struct Person {
-    
+
     var id: Int?
     var firstName: String?
     var lastName: String?
@@ -28,7 +28,6 @@ struct Person {
     var isCurrent: Bool?
     var currentChamber: Chamber?
     var religion: String?
-
     
     init(from json: [String: AnyObject]) {
         self.id = json["id"] as? Int
@@ -102,6 +101,10 @@ struct Person {
         person.imageURL = imageURL
         return person 
     }
+}
+
+func ==(lhs: Person, rhs: Person) -> Bool {
+    return lhs.id == rhs.id
 }
 
 struct LightPerson {
@@ -213,5 +216,18 @@ enum RepresentativeType: String, RawRepresentable {
             return Chamber.senate
         }
     }
+    
+    func toImage() -> UIImage {
+        switch self {
+        case .representative:
+            return #imageLiteral(resourceName: "HouseOfRepsLogo")
+        case .senator:
+            return #imageLiteral(resourceName: "SenateLogo")
+        }
+    }
+}
+
+func ==(lhs: LightPerson, rhs: LightPerson) -> Bool {
+    return lhs.id == rhs.id
 }
 

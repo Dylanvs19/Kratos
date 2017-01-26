@@ -27,7 +27,13 @@ class VoteTableViewCell: UITableViewCell {
     }
     
     func configureWith(_ tally: LightTally) {
-        voteTitleLabel.text = tally.subject ?? ""
+        var title: String?
+        if let short = tally.billShortTitle {
+            title = short
+        } else if let official = tally.billOfficialTitle {
+            title = official
+        }
+        voteTitleLabel.text = title ?? ""
         if let voteType = tally.voteValue {
             switch voteType {
             case .yea:

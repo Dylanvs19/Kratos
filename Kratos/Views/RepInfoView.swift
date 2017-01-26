@@ -115,6 +115,7 @@ class RepInfoView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource 
     @IBAction func exitButtonPressed(_ sender: Any) {
         UIView.animate(withDuration: 0.2) {
             self.alphaOut()
+            self.repImageView.image = nil 
             self.repContactView.animateOut()
             self.layoutIfNeeded()
         }

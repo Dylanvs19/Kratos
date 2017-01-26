@@ -17,6 +17,7 @@
                 <outlet property="chevronView" destination="ClQ-nz-Pf5" id="gUe-sx-yvJ"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="2tK-uw-Diq"/>
                 <outlet property="dateLabel" destination="I65-pz-4ac" id="CPp-ch-t0q"/>
+                <outlet property="nodeSizeConstraint" destination="JaA-56-A80" id="Jad-zD-HsW"/>
                 <outlet property="nodeView" destination="Azd-Aw-dY8" id="gTr-H2-wrU"/>
                 <outlet property="stackView" destination="c0D-QQ-pok" id="rls-TQ-f8r"/>
                 <outlet property="stackViewTopToTextViewBottom" destination="w5n-w8-pNR" id="ZRp-im-OBS"/>
@@ -93,7 +94,7 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="0ba-A3-lpE" firstAttribute="centerX" secondItem="Azd-Aw-dY8" secondAttribute="centerX" id="014-is-qX7"/>
+                <constraint firstItem="SEu-nc-8Ss" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="40" id="23H-zW-b3n"/>
                 <constraint firstItem="Azd-Aw-dY8" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="3IU-fz-JEx"/>
                 <constraint firstAttribute="trailing" secondItem="SEu-nc-8Ss" secondAttribute="trailing" constant="10" id="3hH-qI-LZN"/>
                 <constraint firstItem="50d-UQ-ulq" firstAttribute="leading" secondItem="YVz-RG-bCh" secondAttribute="trailing" constant="15" id="4qt-fX-ReS"/>
@@ -102,16 +103,15 @@
                 <constraint firstAttribute="trailing" secondItem="ClQ-nz-Pf5" secondAttribute="trailing" constant="5" id="D6t-fq-KxI"/>
                 <constraint firstItem="50d-UQ-ulq" firstAttribute="centerY" secondItem="YVz-RG-bCh" secondAttribute="centerY" id="DSK-Hf-P7C"/>
                 <constraint firstItem="I65-pz-4ac" firstAttribute="centerY" secondItem="Azd-Aw-dY8" secondAttribute="centerY" id="HMZ-EZ-SKA"/>
-                <constraint firstItem="SEu-nc-8Ss" firstAttribute="top" secondItem="Azd-Aw-dY8" secondAttribute="bottom" constant="5" id="N7k-xc-EPd"/>
                 <constraint firstAttribute="trailing" secondItem="c0D-QQ-pok" secondAttribute="trailing" constant="10" id="OhP-SV-Ha2"/>
                 <constraint firstItem="YVz-RG-bCh" firstAttribute="leading" secondItem="Azd-Aw-dY8" secondAttribute="trailing" constant="10" id="Ot4-T9-NVE"/>
-                <constraint firstItem="lpF-H8-mqt" firstAttribute="centerX" secondItem="Azd-Aw-dY8" secondAttribute="centerX" id="OtH-CO-GTC"/>
+                <constraint firstItem="0ba-A3-lpE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="PCa-VY-7cR"/>
                 <constraint firstItem="0ba-A3-lpE" firstAttribute="top" secondItem="Azd-Aw-dY8" secondAttribute="bottom" constant="-15" id="T6i-gu-DE5"/>
                 <constraint firstAttribute="bottom" secondItem="c0D-QQ-pok" secondAttribute="bottom" constant="10" id="Uoz-wf-nou"/>
                 <constraint firstItem="I65-pz-4ac" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="50d-UQ-ulq" secondAttribute="trailing" constant="5" id="Vnp-2x-2ff"/>
                 <constraint firstItem="YVz-RG-bCh" firstAttribute="centerY" secondItem="Azd-Aw-dY8" secondAttribute="centerY" id="XMq-dk-mcA"/>
                 <constraint firstItem="ClQ-nz-Pf5" firstAttribute="leading" secondItem="I65-pz-4ac" secondAttribute="trailing" constant="15" id="aMx-Pd-9IO"/>
-                <constraint firstItem="Azd-Aw-dY8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="2" id="cOi-CL-plc"/>
+                <constraint firstItem="Azd-Aw-dY8" firstAttribute="centerX" secondItem="0ba-A3-lpE" secondAttribute="centerX" id="auu-xf-dng"/>
                 <constraint firstItem="SEu-nc-8Ss" firstAttribute="leading" secondItem="YVz-RG-bCh" secondAttribute="leading" id="h7B-qx-S75"/>
                 <constraint firstAttribute="bottom" secondItem="0ba-A3-lpE" secondAttribute="bottom" id="hzH-vT-30C"/>
                 <constraint firstItem="lpF-H8-mqt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="jOp-jT-o3R"/>
@@ -119,6 +119,7 @@
                 <constraint firstItem="ClQ-nz-Pf5" firstAttribute="centerY" secondItem="Azd-Aw-dY8" secondAttribute="centerY" id="tVd-cV-dbz"/>
                 <constraint firstItem="c0D-QQ-pok" firstAttribute="top" secondItem="SEu-nc-8Ss" secondAttribute="bottom" priority="999" constant="10" id="w5n-w8-pNR"/>
                 <constraint firstAttribute="bottom" secondItem="SEu-nc-8Ss" secondAttribute="bottom" constant="5" id="yH2-ve-Og7"/>
+                <constraint firstItem="lpF-H8-mqt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="yI2-Yf-nIR"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">

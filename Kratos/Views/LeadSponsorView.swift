@@ -12,7 +12,7 @@ class LeadSponsorView: UIView, Loadable, Tappable {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet var stateImageView: UIImageView!
-    @IBOutlet var repImageView: UIImageView!
+    @IBOutlet var repImageView: RepImageView!
     @IBOutlet var repNameLabel: UILabel!
     @IBOutlet var repStateLabel: UILabel!
     @IBOutlet weak var districtLabel: UILabel!
@@ -58,18 +58,12 @@ class LeadSponsorView: UIView, Loadable, Tappable {
         } else {
             districtLabel.text = ""
         }
-        if let imageURL = sponsor.imageURL {
-            UIImage.downloadedFrom(imageURL, onCompletion: { (image) -> (Void) in
-                guard let image = image else { return }
-                self.repImageView.image = image
-                self.repImageView.addRepImageViewBorder()
-            })
-        }
+        repImageView.setRepresentative(person: sponsor, repInfoViewActionBlock: presentRepInfoView)
         if let state = sponsor.currentState {
             stateImageView.image = UIImage.imageForState(state)
         }
-        addTap()
         self.presentRepInfoView = presentRepInfoView
+        addTap()
     }
 
     func viewTapped() {

@@ -95,15 +95,15 @@
                                     <action selector="registerButtonPressed:" destination="r7O-hR-zvu" eventType="touchUpInside" id="xLD-ON-AjU"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SNL-sY-m3J" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SNL-sY-m3J" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                 <rect key="frame" x="112.5" y="210" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xVt-AG-YmO" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xVt-AG-YmO" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                 <rect key="frame" x="112.5" y="265" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nAq-VY-Q74" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nAq-VY-Q74" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                 <rect key="frame" x="112.5" y="320" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -166,7 +166,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="is4-72-DVm">
-                                <rect key="frame" x="10" y="105.5" width="355" height="551.5"/>
+                                <rect key="frame" x="10" y="106" width="355" height="551"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Kratos" translatesAutoresizingMaskIntoConstraints="NO" id="Zdl-Df-RWy">
@@ -188,13 +188,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="V O T E S" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lxr-Ki-Q48">
-                                <rect key="frame" x="150" y="73" width="75.5" height="23"/>
+                                <rect key="frame" x="150" y="73" width="76" height="23"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                 <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oLq-tw-7d9">
-                                <rect key="frame" x="10" y="96.5" width="355" height="1"/>
+                                <rect key="frame" x="10" y="97" width="355" height="1"/>
                                 <color key="backgroundColor" red="0.81176470590000005" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="Xhx-JS-bkQ"/>
@@ -225,6 +225,132 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jcO-0P-lf0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1376.8" y="523.98800599700155"/>
+        </scene>
+        <!--Feedback View Controller-->
+        <scene sceneID="txe-JB-oD7">
+            <objects>
+                <viewController storyboardIdentifier="FeedbackViewController" id="Onj-90-ASn" customClass="FeedbackViewController" customModule="Kratos" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5gy-vU-t3M"/>
+                        <viewControllerLayoutGuide type="bottom" id="EHb-hY-UdN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9tr-Id-pOh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="War-zZ-8CE">
+                                <rect key="frame" x="10" y="30" width="355" height="627"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="tWK-Pl-IB1">
+                                        <rect key="frame" x="0.0" y="0.0" width="355" height="647"/>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="tWK-Pl-IB1" secondAttribute="bottom" id="G2Y-8K-rHK"/>
+                                    <constraint firstItem="tWK-Pl-IB1" firstAttribute="leading" secondItem="War-zZ-8CE" secondAttribute="leading" id="IfI-75-nxP"/>
+                                    <constraint firstItem="tWK-Pl-IB1" firstAttribute="top" secondItem="War-zZ-8CE" secondAttribute="top" id="Tqe-J7-LJe"/>
+                                    <constraint firstAttribute="trailing" secondItem="tWK-Pl-IB1" secondAttribute="trailing" id="mFq-dO-Q74"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="tWK-Pl-IB1" firstAttribute="width" secondItem="9tr-Id-pOh" secondAttribute="width" constant="-20" id="EPQ-sM-ikb"/>
+                            <constraint firstItem="War-zZ-8CE" firstAttribute="top" secondItem="5gy-vU-t3M" secondAttribute="bottom" constant="10" id="JRJ-kH-WcB"/>
+                            <constraint firstItem="EHb-hY-UdN" firstAttribute="top" secondItem="War-zZ-8CE" secondAttribute="bottom" constant="10" id="Uvf-SC-2ba"/>
+                            <constraint firstAttribute="trailing" secondItem="War-zZ-8CE" secondAttribute="trailing" constant="10" id="aLk-LS-ocC"/>
+                            <constraint firstItem="tWK-Pl-IB1" firstAttribute="height" secondItem="9tr-Id-pOh" secondAttribute="height" constant="-20" placeholder="YES" id="juQ-73-LtV"/>
+                            <constraint firstItem="War-zZ-8CE" firstAttribute="leading" secondItem="9tr-Id-pOh" secondAttribute="leading" constant="10" id="mhP-0t-DvC"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="scrollView" destination="War-zZ-8CE" id="GRt-xt-AiO"/>
+                        <outlet property="stackView" destination="tWK-Pl-IB1" id="wfD-xv-Oqh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6xU-yi-2UZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2065" y="524"/>
+        </scene>
+        <!--Notifications Registration View Controller-->
+        <scene sceneID="0bJ-nG-05i">
+            <objects>
+                <viewController storyboardIdentifier="NotificationsRegistrationViewController" id="OyH-uw-qn8" customClass="NotificationsRegistrationViewController" customModule="Kratos" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Sxl-GE-Fxm"/>
+                        <viewControllerLayoutGuide type="bottom" id="0ug-Fb-Gpz"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ua4-iz-7Fz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Kratos" translatesAutoresizingMaskIntoConstraints="NO" id="XR0-J8-dzA">
+                                <rect key="frame" x="138" y="50" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="As9-ql-JhX"/>
+                                    <constraint firstAttribute="width" secondItem="XR0-J8-dzA" secondAttribute="height" multiplier="1:1" id="QSw-A5-dtD"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lQF-A7-tKi">
+                                <rect key="frame" x="139" y="175" width="97" height="23"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
+                                <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HhQ-Go-wKe">
+                                <rect key="frame" x="23" y="218" width="330" height="82"/>
+                                <string key="text">We use notifications to inform you when you are being represented by your congresspeople. We do not spam you with news about every breath they take, we focus on the important stuff. </string>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6LO-Cm-0lg">
+                                <rect key="frame" x="22" y="320" width="330" height="32"/>
+                                <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
+                                <state key="normal" title="Register For Notifications">
+                                    <color key="titleColor" red="0.81176470590000005" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="registerForNotificationsButtonPressed:" destination="OyH-uw-qn8" eventType="touchUpInside" id="P2f-3F-2s1"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cSw-Rx-2HT">
+                                <rect key="frame" x="22" y="615" width="330" height="32"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
+                                <state key="normal" title="S K I P ">
+                                    <color key="titleColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="skipButtonPressed:" destination="OyH-uw-qn8" eventType="touchUpInside" id="Uzy-hd-A6i"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="6LO-Cm-0lg" firstAttribute="top" secondItem="HhQ-Go-wKe" secondAttribute="bottom" constant="20" id="0Hg-n0-bpB"/>
+                            <constraint firstItem="6LO-Cm-0lg" firstAttribute="centerX" secondItem="Ua4-iz-7Fz" secondAttribute="centerX" id="4y4-L7-pZP"/>
+                            <constraint firstItem="HhQ-Go-wKe" firstAttribute="top" secondItem="lQF-A7-tKi" secondAttribute="bottom" constant="20" id="Aov-8o-nw2"/>
+                            <constraint firstItem="XR0-J8-dzA" firstAttribute="centerX" secondItem="Ua4-iz-7Fz" secondAttribute="centerX" id="BBV-ha-XHq"/>
+                            <constraint firstItem="6LO-Cm-0lg" firstAttribute="width" secondItem="HhQ-Go-wKe" secondAttribute="width" id="IrN-xY-qu0"/>
+                            <constraint firstItem="lQF-A7-tKi" firstAttribute="centerX" secondItem="Ua4-iz-7Fz" secondAttribute="centerX" id="Q8q-pw-Efs"/>
+                            <constraint firstItem="0ug-Fb-Gpz" firstAttribute="top" secondItem="cSw-Rx-2HT" secondAttribute="bottom" constant="20" id="Rxd-Nr-tIl"/>
+                            <constraint firstItem="XR0-J8-dzA" firstAttribute="centerY" secondItem="Ua4-iz-7Fz" secondAttribute="centerY" multiplier="0.3" id="T9a-O6-K6E"/>
+                            <constraint firstItem="cSw-Rx-2HT" firstAttribute="width" secondItem="6LO-Cm-0lg" secondAttribute="width" id="lQV-ZU-RUh"/>
+                            <constraint firstItem="lQF-A7-tKi" firstAttribute="top" secondItem="XR0-J8-dzA" secondAttribute="bottom" constant="25" id="mtc-c1-dgN"/>
+                            <constraint firstItem="HhQ-Go-wKe" firstAttribute="width" secondItem="Ua4-iz-7Fz" secondAttribute="width" constant="-45" id="sFT-U1-wbG"/>
+                            <constraint firstItem="cSw-Rx-2HT" firstAttribute="centerX" secondItem="Ua4-iz-7Fz" secondAttribute="centerX" id="uF8-Z1-7Rf"/>
+                            <constraint firstItem="HhQ-Go-wKe" firstAttribute="centerX" secondItem="Ua4-iz-7Fz" secondAttribute="centerX" id="uJE-I5-GHG"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="registerForNotificationsButton" destination="6LO-Cm-0lg" id="HsK-mN-qSY"/>
+                        <outlet property="skipButton" destination="cSw-Rx-2HT" id="Y3V-yX-rkL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qm0-jB-abU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2744.8000000000002" y="-791.15442278860576"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="GDG-hT-szF">
@@ -301,7 +427,7 @@
                                                 <rect key="frame" x="10" y="200" width="355" height="146"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="150" id="BYS-gq-Mlk"/>
+                                                    <constraint firstAttribute="height" constant="145" id="BYS-gq-Mlk"/>
                                                 </constraints>
                                                 <variation key="default">
                                                     <mask key="constraints">
@@ -313,7 +439,7 @@
                                                 <rect key="frame" x="10" y="356" width="355" height="146"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="150" id="6nd-Yp-NTW"/>
+                                                    <constraint firstAttribute="height" constant="145" id="6nd-Yp-NTW"/>
                                                 </constraints>
                                                 <variation key="default">
                                                     <mask key="constraints">
@@ -325,7 +451,7 @@
                                                 <rect key="frame" x="10" y="512" width="355" height="146"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="150" id="fmz-EE-VDX"/>
+                                                    <constraint firstAttribute="height" constant="145" id="fmz-EE-VDX"/>
                                                 </constraints>
                                                 <variation key="default">
                                                     <mask key="constraints">
@@ -513,7 +639,7 @@
                                 </constraints>
                             </scrollView>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TNU-pY-bw0" customClass="RepInfoView" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="-0.5" y="-0.5" width="375" height="667"/>
+                                <rect key="frame" x="-1" y="-1" width="376" height="668"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -567,7 +693,7 @@
                                 </constraints>
                             </scrollView>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mBD-US-Ran" customClass="RepInfoView" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="-0.5" y="-0.5" width="375" height="667"/>
+                                <rect key="frame" x="-1" y="-1" width="376" height="668"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -652,47 +778,47 @@
                                                 <color key="textColor" red="0.56025641029999995" green="0.56025641029999995" blue="0.56025641029999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bbl-S9-Suk" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bbl-S9-Suk" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="19" y="220" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YY3-OE-X1I" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YY3-OE-X1I" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="112.5" y="275" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hta-nh-Ach" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hta-nh-Ach" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="19" y="330" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IdL-ng-n9E" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IdL-ng-n9E" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="112.5" y="330" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="19C-vv-N9K" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="19C-vv-N9K" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="206.5" y="330" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kGE-5T-uOB" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kGE-5T-uOB" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="112.5" y="385" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mbY-gR-gw9" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mbY-gR-gw9" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="112.5" y="440" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rmN-8y-tMd" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rmN-8y-tMd" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="112.5" y="495" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XeW-eI-YJV" userLabel="First Name TextField" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XeW-eI-YJV" userLabel="First Name TextField" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="19" y="165" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dh4-2r-7nK" userLabel="Last Name TextField" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dh4-2r-7nK" userLabel="Last Name TextField" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="206.5" y="165" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3g3-nd-pYZ" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3g3-nd-pYZ" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="206.5" y="220" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
@@ -825,7 +951,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kio-Kd-uAd">
-                                <rect key="frame" x="-150" y="114" width="153" height="35"/>
+                                <rect key="frame" x="0.0" y="166" width="153" height="35"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                 <state key="normal" title="ACCOUNT">
                                     <color key="titleColor" red="0.61992976020000001" green="0.62210877850000001" blue="0.62864583330000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -834,18 +960,8 @@
                                     <action selector="accountButtonPressed:" destination="LyQ-va-fR8" eventType="touchUpInside" id="nNY-18-E7R"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kR6-mb-hpI">
-                                <rect key="frame" x="-150" y="214" width="153" height="35"/>
-                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
-                                <state key="normal" title="INFO">
-                                    <color key="titleColor" red="0.61992976020000001" green="0.62210877850000001" blue="0.62864583330000001" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="infoButtonPressed:" destination="LyQ-va-fR8" eventType="touchUpInside" id="gip-W1-dC7"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xS6-j2-8Af">
-                                <rect key="frame" x="-150" y="164" width="153" height="35"/>
+                                <rect key="frame" x="0.0" y="116" width="153" height="35"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                 <state key="normal" title="MY VOTES">
                                     <color key="titleColor" red="0.61992976020000001" green="0.62210877850000001" blue="0.62864583330000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -854,12 +970,21 @@
                                     <action selector="votesButtonPressed:" destination="LyQ-va-fR8" eventType="touchUpInside" id="W6R-Ss-G1Y"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kR6-mb-hpI">
+                                <rect key="frame" x="0.0" y="216" width="153" height="35"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
+                                <state key="normal" title="FEEDBACK">
+                                    <color key="titleColor" red="0.61992976020000001" green="0.62210877850000001" blue="0.62864583330000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="infoButtonPressed:" destination="LyQ-va-fR8" eventType="touchUpInside" id="gip-W1-dC7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="Muh-Vi-mYX" firstAttribute="leading" secondItem="cjJ-rf-cV2" secondAttribute="leading" id="0wG-X5-y1P"/>
-                            <constraint firstItem="kR6-mb-hpI" firstAttribute="top" secondItem="xS6-j2-8Af" secondAttribute="bottom" constant="15" id="1av-Sl-TtV"/>
-                            <constraint firstItem="Kio-Kd-uAd" firstAttribute="top" secondItem="zye-ed-5lA" secondAttribute="bottom" constant="15" id="6qF-Ym-OE6"/>
+                            <constraint firstItem="Kio-Kd-uAd" firstAttribute="top" secondItem="xS6-j2-8Af" secondAttribute="bottom" constant="15" id="GBp-ga-3Jt"/>
                             <constraint firstAttribute="bottom" secondItem="Muh-Vi-mYX" secondAttribute="bottom" id="GnN-NH-wMF"/>
                             <constraint firstItem="zye-ed-5lA" firstAttribute="centerX" secondItem="cjJ-rf-cV2" secondAttribute="centerX" id="LHm-8T-JHL"/>
                             <constraint firstItem="Kio-Kd-uAd" firstAttribute="width" secondItem="cjJ-rf-cV2" secondAttribute="width" id="LyK-qC-YhL"/>
@@ -867,17 +992,13 @@
                             <constraint firstAttribute="trailing" secondItem="Muh-Vi-mYX" secondAttribute="trailing" id="YXg-lg-v31"/>
                             <constraint firstItem="zye-ed-5lA" firstAttribute="top" secondItem="cjJ-rf-cV2" secondAttribute="top" constant="5" id="a2s-h6-y3W"/>
                             <constraint firstItem="xS6-j2-8Af" firstAttribute="width" secondItem="cjJ-rf-cV2" secondAttribute="width" id="dY6-fm-q62"/>
-                            <constraint firstAttribute="trailing" secondItem="kR6-mb-hpI" secondAttribute="trailing" constant="150" id="uLB-7I-eKk"/>
-                            <constraint firstAttribute="trailing" secondItem="xS6-j2-8Af" secondAttribute="trailing" constant="150" id="uLq-JE-R9e"/>
-                            <constraint firstItem="xS6-j2-8Af" firstAttribute="top" secondItem="Kio-Kd-uAd" secondAttribute="bottom" constant="15" id="uii-y5-9Vv"/>
-                            <constraint firstAttribute="trailing" secondItem="Kio-Kd-uAd" secondAttribute="trailing" constant="150" id="vQ4-2Q-QSD"/>
+                            <constraint firstItem="kR6-mb-hpI" firstAttribute="top" secondItem="Kio-Kd-uAd" secondAttribute="bottom" constant="15" id="l0g-jO-bWo"/>
+                            <constraint firstItem="xS6-j2-8Af" firstAttribute="top" secondItem="zye-ed-5lA" secondAttribute="bottom" constant="17" id="nkx-gk-5bv"/>
+                            <constraint firstAttribute="trailing" secondItem="kR6-mb-hpI" secondAttribute="trailing" id="uLB-7I-eKk"/>
+                            <constraint firstAttribute="trailing" secondItem="xS6-j2-8Af" secondAttribute="trailing" id="uLq-JE-R9e"/>
+                            <constraint firstAttribute="trailing" secondItem="Kio-Kd-uAd" secondAttribute="trailing" id="vQ4-2Q-QSD"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="accountTrailingConstraint" destination="vQ4-2Q-QSD" id="YBh-Jp-qLq"/>
-                        <outlet property="infoTrailingConstraint" destination="uLB-7I-eKk" id="QHb-pJ-ZHc"/>
-                        <outlet property="votesTrailingConstraint" destination="uLq-JE-R9e" id="Uzo-pL-Fgz"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ba3-ds-I5p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

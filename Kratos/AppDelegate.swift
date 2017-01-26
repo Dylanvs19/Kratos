@@ -31,21 +31,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             FIRMessaging.messaging().remoteMessageDelegate = self
             
         }
-        NotificationCenter.defaultCenter.addObserver(self,selector: #selector(self.tokenRefreshNotification),name: kFIRInstanceIDTokenRefreshNotification,object: nil)
-
-        application.registerForRemoteNotifications()
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.tokenRefreshNotification), name: NSNotification.Name.firInstanceIDTokenRefresh, object: nil)
+        //application.registerForRemoteNotifications()
         return true
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        application.applicationIconBadgeNumber = 0
     }
     
     //MARK: Notification Handling
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         print("Registered")
-
     }
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("Message ID: \(userInfo)")
-
     }
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to Register")
@@ -80,11 +80,6 @@ extension AppDelegate : FIRMessagingDelegate {
         
         // Connect to FCM since connection may have failed when attempted before having a token.
         connectToFcm()
-    }
-    
-    func tokenRefreshNotification() {
-        let fcmDeviceToken = FIRInstanceID.instanceID().token()
-        // TODO: Send token to server
     }
     
     func connectToFcm() {

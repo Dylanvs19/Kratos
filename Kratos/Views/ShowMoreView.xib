@@ -21,11 +21,11 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jgx-nk-ZKC">
-                    <rect key="frame" x="164" y="6" width="46" height="30"/>
+                    <rect key="frame" x="162.5" y="6" width="49" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="dmK-6m-rRp"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                     <state key="normal" title="Button">
                         <color key="titleColor" red="0.81176470590000005" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
@@ -34,7 +34,7 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="jgx-nk-ZKC" secondAttribute="bottom" constant="7" id="DLe-5K-J3R"/>
                 <constraint firstItem="jgx-nk-ZKC" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Fhg-hY-HMi"/>

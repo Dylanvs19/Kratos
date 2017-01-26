@@ -24,8 +24,7 @@ class MainApplicationViewController: UIViewController {
     
     func handleLoginFlow() {
         if hasToken() {
-            APIService.fetchUser({ (user) in
-                Datastore.shared.user = user
+            APIManager.getUser({ (success) in
                 APIManager.getRepresentatives({ (success) in
                     DispatchQueue.main.async(execute: {
                         self.embedMainViewController()

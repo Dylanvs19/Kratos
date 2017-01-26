@@ -46,9 +46,9 @@ struct APIManager {
     static func updateUser(with user: User? = Datastore.shared.user, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
         if let user = user {
             APIService.update(with: user, success: { (user) -> (Void) in
-                if let _ = user.token {
+                if let _ = KeychainManager.fetchToken() {
                     Datastore.shared.user = user
-                    KeychainManager.create(user, success: { (didSucceed) in
+                    KeychainManager.update(user, success: { (didSucceed) in
                         success(didSucceed)
                     })
                 } else {
@@ -62,7 +62,7 @@ struct APIManager {
     }
     
     static func getUser(_ success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
-        if let _ = Datastore.shared.user?.token {
+        if KeychainManager.fetchToken() != nil {
             APIService.fetchUser({ (user) in
                 Datastore.shared.user = user
                 success(true)
@@ -79,7 +79,9 @@ struct APIManager {
             let district = user.district {
             
             APIService.fetchRepresentatives(for: state, and: district, success: { (representativesArray) in
-                Datastore.shared.representatives = representativesArray
+                DispatchQueue.main.async(execute: {
+                    Datastore.shared.representatives = representativesArray
+                })
                 success(true)
             }, failure: { (error) in
                 failure(error)

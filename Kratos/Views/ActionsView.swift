@@ -24,6 +24,8 @@ class ActionsView: UIView, Loadable, Tappable {
     @IBOutlet var stackViewTopToTextViewBottom: NSLayoutConstraint!
     @IBOutlet var stackViewTopToTop: NSLayoutConstraint!
     
+    @IBOutlet weak var nodeSizeConstraint: NSLayoutConstraint!
+    
     var selector: Selector = #selector(viewTapped)
     
     var shouldHideStackView = true {
@@ -57,35 +59,25 @@ class ActionsView: UIView, Loadable, Tappable {
         }
     }
     
-    func configure(with actionArray: [Action], first: Bool, last: Bool, layoutStackView: (() -> ())?) {
+    func configure(with actionArray: [Action], first: Bool, last: Bool, viewType: ViewType, layoutStackView: (() -> ())?) {
         var cpyArray = actionArray
-        
-        // Default Implementation is .majorAndMinorActions
-        if actionArray.count == 1 {
-            if actionArray.first?.status != nil {
-                viewType = .onlyMajorAction
-            } else {
-                viewType = .onlyMinorActions
-            }
-        } else {
-            if actionArray.first?.status == nil {
-                viewType = .onlyMinorActions
-            }
-        }
         
         topView.isHidden = first
         bottomView.isHidden = last
+        if viewType == .onlyMinorActions {
+            bottomView.isHidden = true
+        }
         
         func popFirst() -> Action? {
             var action: Action? = nil
-            if let firstAction = actionArray.first, firstAction.status != nil {
+            if let firstAction = actionArray.first {
                 action = firstAction
                 cpyArray.remove(at: 0)
             }
             return action
         }
         
-        if let first = popFirst(), viewType != .onlyMinorActions {
+        if let first = popFirst() {
             actionTypeLabel.text = first.presentableType()
             statusLabel.text = first.presentableStatus()
             textView.text = first.text
@@ -103,6 +95,7 @@ class ActionsView: UIView, Loadable, Tappable {
         }
         configureView(for: viewType)
         self.layoutStackView = layoutStackView
+        
         setupNodeView()
     }
     
@@ -120,14 +113,13 @@ class ActionsView: UIView, Loadable, Tappable {
             isTappable(false)
         case .onlyMinorActions:
             textViewToBottom.isActive = false
-            stackViewTopToTextViewBottom.isActive = false
-            stackViewTopToTop.isActive = true
-            actionTypeLabel.isHidden = true
-            statusLabel.isHidden = true
-            dateLabel.isHidden = true
-            chevronView.isHidden = true
-            hideStackView(false, animate: false)
-            isTappable(false)
+            stackViewTopToTextViewBottom.isActive = true
+            stackViewTopToTop.isActive = false
+            actionTypeLabel.isHidden = false
+            statusLabel.isHidden = false
+            dateLabel.isHidden = false
+            hideStackView(true, animate: false)
+            isTappable(true)
         case .majorAndMinorActions:
             textViewToBottom.isActive = false
             stackViewTopToTextViewBottom.isActive = true
@@ -173,7 +165,12 @@ class ActionsView: UIView, Loadable, Tappable {
     }
     
     func setupNodeView() {
-        self.nodeView.layer.borderColor = UIColor.kratosRed.cgColor
+        switch viewType {
+        case .majorAndMinorActions, .onlyMajorAction:
+            self.nodeView.layer.borderColor = UIColor.kratosRed.cgColor
+        case .onlyMinorActions:
+            self.nodeView.layer.borderColor = UIColor.kratosBlue.cgColor
+        }
         self.nodeView.layer.borderWidth = 3.0
         self.nodeView.backgroundColor = UIColor.white
         self.nodeView.layer.cornerRadius = nodeView.frame.size.width/2

@@ -95,7 +95,7 @@ struct APIService {
     
     static func logIn(with email: String, password: String, success: @escaping (User) -> (), failure: @escaping (NetworkError) -> ()) {
         let parameters: [String: AnyObject] = [
-            "email": email as AnyObject,
+            "email": email.lowercased() as AnyObject,
             "password": password as AnyObject
         ]
         
@@ -171,7 +171,7 @@ struct APIService {
                 }
                 
                 if let obj = obj,
-                    let user = User(json: obj) {
+                    let user = User(forUpdate: obj) {
                     DispatchQueue.main.async(execute: {
                         success(user)
                     })

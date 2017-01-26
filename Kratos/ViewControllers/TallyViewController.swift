@@ -21,9 +21,8 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
     }
     var tally: Tally? {
         didSet {
-            if let tally = tally,
-                let rep = representative {
-                configureView(with: tally, and: rep)
+            if let tally = tally {
+                configureView(with: tally, and: representative)
             }
         }
     }
@@ -32,8 +31,8 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        scrollView.delegate = self
         navigationController?.isNavigationBarHidden = true
+        scrollView.delegate = self
         enableSwipeBack()
     }
     
@@ -86,9 +85,10 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
     func configureRepVotesTableView() {
         let repVotesView = RepVotesView()
     
-        var currentRepVote = Vote()
+        var currentRepVote: Vote?
         if let lightTally = lightTally,
             let rep = representative {
+            currentRepVote = Vote() 
             currentRepVote = convert(rep: rep, lightTally: lightTally)
         }
         

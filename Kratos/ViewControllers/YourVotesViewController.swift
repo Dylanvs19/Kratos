@@ -20,6 +20,7 @@ class YourVotesViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.isNavigationBarHidden = true
         loadData()
         setupTableView()
     }
@@ -53,7 +54,10 @@ class YourVotesViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        guard let lightTally = userVotes?[indexPath.row] else { return }
+        let vc: TallyViewController = TallyViewController.instantiate()
+        vc.lightTally = lightTally
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func dismissButtonPressed(_ sender: Any) {

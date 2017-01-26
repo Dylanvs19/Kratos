@@ -32,11 +32,19 @@ class VoteHeaderView: UIView, Loadable {
     }
     
     func configure(with tally: Tally) {
-        titleLabel.text = tally.subject
+        var title: String?
+        if let short = tally.billShortTitle {
+            title = short
+        } else if let official = tally.billOfficialTitle {
+            title = official
+        }
+        titleLabel.text = title ?? ""
         currentStatusLabel.text = tally.result
         
         if let date = tally.date {
             currentStatusDateLabel.text = DateFormatter.presentationDateFormatter.string(from:date)
+        } else {
+            currentStatusDateLabel.text = ""
         }
         if let votesFor = tally.yea,
             let against = tally.nay,

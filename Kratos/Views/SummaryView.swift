@@ -19,7 +19,6 @@ class SummaryView: UIView, Loadable {
     @IBOutlet var textViewHeightConstraint: NSLayoutConstraint!
     
     var shouldExpand: Bool = true
-    
     var layoutView: (() -> ())?
     
     
@@ -57,17 +56,19 @@ class SummaryView: UIView, Loadable {
         self.layoutView = layoutView
     }
     @IBAction func overlayButtonPressed(_ sender: Any) {
-        UIView.animate(withDuration: 0.4, animations: { 
+        //UIView.animate(withDuration: 0.4, animations: {
             if self.shouldExpand {
+                self.textField.isScrollEnabled = true
                 self.textViewHeightConstraint.constant = 600
             } else {
+                self.textField.isScrollEnabled = false
                 self.textViewHeightConstraint.constant = 200
             }
             self.rotateChevronView(closed: self.shouldExpand)
-        }) { (success) in
+        //}) { (success) in
             self.shouldExpand = !self.shouldExpand
             self.layoutView?()
-        }
+        //}
     }
     
     func rotateChevronView(closed: Bool) {

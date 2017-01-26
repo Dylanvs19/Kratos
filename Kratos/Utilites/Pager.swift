@@ -126,19 +126,19 @@ public extension PagingTableViewDelegate {
     func insert(_ indexPaths: [IndexPath]) {
         reloadView(); return; 
         // Determine if new sections must be inserted.
-        let oldFinalSection = self.tableView.numberOfSections - 1
-        let newFinalSection = indexPaths.last?.section ?? 0
+        //let oldFinalSection = self.tableView.numberOfSections - 1
+        //let newFinalSection = indexPaths.last?.section ?? 0
         //tableView.beginUpdates()
 
-        if oldFinalSection < newFinalSection {
+        //if oldFinalSection < newFinalSection {
             // Insert new sections.
-            let range = CountableRange(uncheckedBounds: (oldFinalSection, newFinalSection))
-            let indexSet = IndexSet(integersIn: range)
+            //let range = CountableRange(uncheckedBounds: (oldFinalSection, newFinalSection))
+            //let indexSet = IndexSet(integersIn: range)
             //tableView.beginUpdates()
-            tableView.insertSections(indexSet, with: .automatic)
-            tableView.reloadRows(at: indexPaths, with: .automatic)
-            tableView.insertRows(at: indexPaths, with: .automatic)
-        }
+            //tableView.insertSections(indexSet, with: .automatic)
+            //tableView.reloadRows(at: indexPaths, with: .automatic)
+            //tableView.insertRows(at: indexPaths, with: .automatic)
+        //}
         
         // Insert items.
         //tableView.endUpdates()

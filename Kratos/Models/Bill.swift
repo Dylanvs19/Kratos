@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Bill {
     
@@ -212,6 +213,15 @@ enum Chamber: String, RawRepresentable {
             return RepresentativeType.representative
         case .senate:
             return RepresentativeType.senator
+        }
+    }
+    
+    func toImage() -> UIImage {
+        switch self {
+        case .house:
+            return #imageLiteral(resourceName: "HouseOfRepsLogo")
+        case .senate:
+            return #imageLiteral(resourceName: "SenateLogo")
         }
     }
 }

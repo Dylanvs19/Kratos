@@ -43,13 +43,9 @@ class RepVoteTableViewCell: UITableViewCell {
         } else {
             districtLabel.text = ""
         }
-        if let imageURL = rep.imageURL {
-            UIImage.downloadedFrom(imageURL, onCompletion: { (image) -> (Void) in
-                guard let image = image else { return }
-                self.repImageView.image = image
-                self.repImageView.addRepImageViewBorder()
-            })
-        }
+        
+        repImageView.setLightPerson(lightPerson: rep)
+        
         if let voteValue = vote.voteValue {
             repVoteTypeView.image = UIImage.imageFor(vote: voteValue)
         }

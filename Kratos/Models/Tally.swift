@@ -39,6 +39,8 @@ struct Tally {
     var amendment: String?
     var type: String?
     var billId: Int?
+    var billShortTitle: String?
+    var billOfficialTitle: String?
     
     var date: Date?
     var chamber: Chamber?
@@ -59,6 +61,8 @@ struct Tally {
         self.amendment = json["amendment"] as? String
         self.type = json["type"] as? String
         self.billId = json["bill_id"] as? Int
+        self.billShortTitle = json["bill_short_title"] as? String
+        self.billOfficialTitle = json["bill_official_title"] as? String
         
         if let holdDate = json["date"] as? String {
             self.date = holdDate.stringToDate()
@@ -128,6 +132,8 @@ struct LightTally {
     var chamber: Chamber?
     var category: TallyType?
     var voteValue: VoteValue?
+    var billShortTitle: String?
+    var billOfficialTitle: String?
     
     init(json: [String: AnyObject]) {
         
@@ -139,8 +145,12 @@ struct LightTally {
         self.treaty = json["tally"]?["treaty"] as? String
         self.subject = json["tally"]?["subject"] as? String
         self.requires = json["tally"]?["requires"] as? String
+        self.billShortTitle = json["tally"]?["bill_short_title"] as? String
+        self.billOfficialTitle = json["tally"]?["bill_official_title"] as? String
         self.lastRecordUpdate = json["tally"]?["record_updated_at"] as? String
-        self.amendment = json["tally"]?["amendment"] as? String
+        if let amendment = json["tally"]?["amendment"] as? String {
+            self.amendment = json["tally"]?["amendment"] as? String
+        }
         self.type = json["tally"]?["type"] as? String
         
         if let holdDate = json["tally"]?["date"] as? String {

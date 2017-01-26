@@ -57,7 +57,7 @@ class BillViewController: UIViewController, RepInfoViewPresentable {
         
         if let summary = bill.summary {
             let summaryView = SummaryView()
-            summaryView.configure(with: summary, title: "Bill Summary", showMorePresentable: true, layoutView: layoutStackView)
+            summaryView.configure(with: summary, title: "Bill Summary", showMorePresentable: true, layoutView: layoutStackViewWithAnimation)
             stackView.addArrangedSubview(summaryView)
         }
         
@@ -119,8 +119,8 @@ class BillViewController: UIViewController, RepInfoViewPresentable {
     
     func layoutStackViewWithAnimation() {
         UIView.animate(withDuration: 0.4, animations: {
-            self.stackView.layoutSubviews()
-            self.stackView.layoutIfNeeded()
+            self.view.layoutSubviews()
+            self.view.layoutIfNeeded()
         })
     }
 }
