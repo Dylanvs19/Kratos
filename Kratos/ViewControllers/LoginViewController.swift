@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SafariServices
 class LoginViewController: UIViewController {
     
     @IBOutlet var kratosImageView: UIImageView!
@@ -27,25 +27,48 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: KratosTextField!
     @IBOutlet weak var passwordConfirmationTextField: KratosTextField!
     
-    fileprivate var isLogin = true {
+    enum ViewType {
+        case login
+        case registration
+        case forgotPassword
+    }
+    
+    var viewType: ViewType = .login {
         didSet {
+            shouldCheckIfTextFieldsValid()
+
+            var submitButtonTitle = "L O G I N"
+            var registerButton = "C R E A T E  A C C O U N T"
+            switch viewType {
+            case .login:
+                submitButtonTitle = "L O G I N"
+                registerButton = "C R E A T E  A C C O U N T"
+            case .registration:
+                submitButtonTitle = "C O N T I N U E"
+                registerButton = "S I G N  I N"
+            case .forgotPassword:
+                submitButtonTitle = "S U B M I T"
+                registerButton = "S I G N  I N"
+            }
             UIView.animate(withDuration: 0.15, animations: {
-                let registerOrSignIn = self.isLogin ? "R E G I S T E R" : "S I G N  I N"
-                let nextOrSubmit = self.isLogin ? "L O G I N" : "N E X T"
-                self.registerOrSignInButton.setTitle(registerOrSignIn, for: UIControlState())
-                self.nextOrSubmitButton.setTitle(nextOrSubmit, for: UIControlState())
+                self.registerOrSignInButton.setTitle(registerButton, for: UIControlState())
+                self.nextOrSubmitButton.setTitle(submitButtonTitle, for: UIControlState())
                 self.view.layoutIfNeeded()
-            }) 
+
+            })
         }
     }
     
     fileprivate var textFieldsValid: Bool {
         var valid = true
         var collection: [KratosTextField] {
-            if isLogin {
+            switch viewType {
+            case .login:
                 return [emailTextField, passwordTextField]
-            } else {
+            case .registration:
                 return [emailTextField, passwordTextField, passwordConfirmationTextField]
+            case .forgotPassword:
+                return [emailTextField]
             }
         }
         collection.forEach {
@@ -59,7 +82,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.nextButton.alpha = 0
-        isLogin = true 
+        viewType = .login
         setupGestureRecognizer()
         navigationController?.isNavigationBarHidden = true
         navigationController?.navigationBar.tintColor = UIColor.kratosBlue
@@ -74,9 +97,9 @@ class LoginViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let expandedWidth = self.view.frame.width * 0.8
-        emailTextField.configureWith(validationFunction: InputValidation.validateEmail, text: nil, textlabelText: "E M A I L", expandedWidth: expandedWidth, secret: false)
-        passwordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "P A S S W O R D", expandedWidth: expandedWidth, secret: true)
-        passwordConfirmationTextField.configureWith(validationFunction: validatePasswordConfimation, text: nil, textlabelText: "C O N F I R M A T I O N", expandedWidth: expandedWidth, secret: true)
+        emailTextField.configureWith(validationFunction: InputValidation.validateEmail, text: nil, textlabelText: "E M A I L", expandedWidth: expandedWidth, secret: false, textFieldType: .email)
+        passwordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "P A S S W O R D", expandedWidth: expandedWidth, secret: true, textFieldType: .password)
+        passwordConfirmationTextField.configureWith(validationFunction: validatePasswordConfimation, text: nil, textlabelText: "C O N F I R M A T I O N", expandedWidth: expandedWidth, secret: true, textFieldType: .password)
         beginningAnimations()
     }
     
@@ -114,23 +137,37 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func registerButtonPressed(_ sender: AnyObject) {
-        isLogin = !isLogin
-        if isLogin {
-            UIView.animate(withDuration: 0.25, animations: {
-                self.passwordConfirmationTextField.animateOut()
-                self.view.layoutIfNeeded()
-            })
-        } else {
+        switch viewType {
+        case .login:
             UIView.animate(withDuration: 0.25, animations: {
                 self.passwordConfirmationTextField.animateIn()
                 self.view.layoutIfNeeded()
+            }, completion: { (success) in
+                self.viewType = .registration
             })
+        case .registration:
+            UIView.animate(withDuration: 0.25, animations: { 
+                self.passwordConfirmationTextField.animateOut()
+                self.view.layoutIfNeeded()
+            }, completion: { (success) in
+                self.viewType = .login
+            })
+        case .forgotPassword:
+            UIView.animate(withDuration: 0.25, animations: {
+                self.passwordTextField.animateIn()
+                self.passwordConfirmationTextField.animateOut()
+                self.view.layoutIfNeeded()
+            }, completion: { (success) in
+                self.viewType = .login
+            })
+            
         }
         shouldCheckIfTextFieldsValid()
     }
     
     @IBAction func nextButtonPressed(_ sender: AnyObject) {
-        if isLogin {
+        switch viewType {
+        case .login:
             if let email = emailTextField.text,
                 let password = passwordTextField.text , textFieldsValid {
                 APIManager.login(with: email, and: password, success: { (success) in
@@ -145,7 +182,7 @@ class LoginViewController: UIViewController {
                 }))
                 self.present(alertVC, animated: true, completion: nil)
             }
-        } else {
+        case .registration:
             let viewController: SubmitAddressViewController = SubmitAddressViewController.instantiate()
             var user = User()
             guard let email = emailTextField.text else { return }
@@ -155,6 +192,38 @@ class LoginViewController: UIViewController {
             viewController.loadViewIfNeeded()
             viewController.displayType = .registration
             self.navigationController?.pushViewController(viewController, animated: true)
+        case .forgotPassword:
+            guard let email = emailTextField.text else { self.presentMessageAlert(title: "Error", message: "We couldn't validate your email address.", buttonOneTitle: "O K")
+                return
+            }
+            APIManager.forgotPassword(with:email, success: { (success) in
+                self.presentMessageAlert(title: "Email Sent", message: "An email was sent to your email address.", buttonOneTitle: "O K")
+            }, failure: { (error) in
+                self.showError(error: error)
+            })
+        }
+    }
+    
+    @IBAction func forgotPasswordButtonPressed(_ sender: Any) {
+        switch viewType {
+        case .login:
+            UIView.animate(withDuration: 0.25, animations: {
+                self.passwordTextField.animateOut()
+                self.passwordConfirmationTextField.animateOut()
+                self.view.layoutIfNeeded()
+            }, completion: { (success) in
+                self.viewType = .forgotPassword
+            })
+        case .registration:
+            UIView.animate(withDuration: 0.25, animations: {
+                self.passwordTextField.animateOut()
+                self.passwordConfirmationTextField.animateOut()
+                self.view.layoutIfNeeded()
+            }, completion: { (success) in
+                self.viewType = .forgotPassword
+            })
+        case .forgotPassword:
+            break
         }
     }
     
@@ -175,6 +244,7 @@ class LoginViewController: UIViewController {
     }
     
     func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
+        shouldCheckIfTextFieldsValid()
         view.endEditing(true)
     }
     

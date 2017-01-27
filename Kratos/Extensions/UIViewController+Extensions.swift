@@ -80,7 +80,7 @@ extension UIViewController {
                let key = error.keys.first,
                let value = error[key] {
                 title = key.capitalized
-                message = value.localizedUppercase
+                message = value.lowercased().localizedCapitalized
             }
         }
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -92,7 +92,7 @@ extension UIViewController {
         }
     }
     
-    func showError(error: NetworkError) {
+    func showError(_ error: NetworkError) {
         showError(error: error, onClose: nil)
     }
     

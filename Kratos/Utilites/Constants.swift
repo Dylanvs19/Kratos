@@ -13,6 +13,8 @@ struct Constants {
     static let REGISTRATION_URL = "https://kratos.website/api/registrations"
     static let LOGIN_URL = "https://kratos.website/api/login"
     static let USER_URL = "https://kratos.website/api/me"
+    static let FORGOT_PASSWORD_URL = "https://kratos.website/api/forgot-password"
+    static let FEEDBACK_URL = "https://kratos.website/api/feedback"
     
     static let REPRESENTATIVES_URL = "https://kratos.website/api/districts/"
     static let PERSON_URL = "https://kratos.website/api/people/"

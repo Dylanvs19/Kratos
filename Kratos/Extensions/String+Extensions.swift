@@ -56,4 +56,12 @@ extension String {
         }
         return ""
     }
+    
+    func toPhoneNumberFormat() -> String {
+        return replacingOccurrences(of: "(\\d{3})(\\d{3})(\\d+)", with: "($1) $2-$3", options: .regularExpression, range: nil)
+    }
+    
+    func removePhoneNumberFormat() -> String {
+        return removeWhiteSpace().replacingOccurrences(of: "(", with: "").replacingOccurrences(of: ")", with: "").replacingOccurrences(of: "-", with: "")
+    }
 }

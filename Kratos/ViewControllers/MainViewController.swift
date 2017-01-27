@@ -70,10 +70,8 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     var disableSwipe = false
     
     var representatives: [Person]? {
-        didSet {
-            if representatives != nil {
-                configureRepViews()
-            }
+        get {
+            return Datastore.shared.representatives
         }
     }
     var selectedRepresentative: Person? {
@@ -154,7 +152,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
-        representatives = Datastore.shared.representatives
         
         configureStateImage()
         
@@ -174,10 +171,20 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         FirebaseAnalytics.FlowAnalytic.navigate(to: self, with: nil, id: nil).fireEvent()
-        representatives = Datastore.shared.representatives
+        loadData()
         reloadInputViews()
     }
     
+    func loadData() {
+        APIManager.getRepresentatives({ (success) in
+            if success {
+                self.configureRepViews()
+            }
+        }, failure: { (error) in
+            self.showError(error: error)
+        })
+    }
+
     //MARK: Configuration Methods
     fileprivate func configureRepViews() {
         guard let representatives = representatives else {
@@ -206,18 +213,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         repViewTwo.repViewDelegate = self
         repViewThree.repViewDelegate = self
         kratosLabel.alpha = 0
-        repViewDeselected(animate: false)
-    }
-    
-    fileprivate func configureTableView () {
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        tableView.register(UINib(nibName: "VoteTableViewCell", bundle: nil), forCellReuseIdentifier: Constants.VOTE_TABLEVIEWCELL_IDENTIFIER)
-        tableView.register(UINib(nibName: "VoteDateHeaderView", bundle: nil), forHeaderFooterViewReuseIdentifier: "VoteDateHeaderView")
-        
-        tableView.estimatedRowHeight = 100
-        tableView.rowHeight = UITableViewAutomaticDimension
+//        repViewDeselected(animate: false)
     }
     
     fileprivate func configurePagers() {
@@ -501,6 +497,19 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     // MARK: TableViewDelegate & Datasource
+    
+    fileprivate func configureTableView () {
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        tableView.register(UINib(nibName: "VoteTableViewCell", bundle: nil), forCellReuseIdentifier: Constants.VOTE_TABLEVIEWCELL_IDENTIFIER)
+        tableView.register(UINib(nibName: "VoteDateHeaderView", bundle: nil), forHeaderFooterViewReuseIdentifier: "VoteDateHeaderView")
+        
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.tableFooterView = UIView() 
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return cellMap.count
     }
@@ -523,7 +532,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         view.awakeFromNib()
         view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 25)
         view.configure(with: date)
-        view.contentView.backgroundColor = UIColor.kratosLightGray
+        view.contentView.backgroundColor = UIColor.darkGray
         return view
     }
     
@@ -534,14 +543,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 20
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0.01
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

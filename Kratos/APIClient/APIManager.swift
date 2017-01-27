@@ -43,6 +43,30 @@ struct APIManager {
         }
     }
     
+    static func forgotPassword(with email: String, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+        APIService.forgotPassword(with: email, success: { (successVar) in
+            success(successVar)
+        }) { (error) in
+            failure(error)
+        }
+    }
+    
+    static func getFeedback(success: @escaping ([String]) -> (), failure: @escaping (NetworkError) -> ()) {
+        APIService.fetchFeedback(success: { (questions) in
+            success(questions)
+        }) { (error) in
+            failure(error)
+        }
+    }
+    
+    static func postFeedback(with answers: [String: String], success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+        APIService.postFeedback(with: answers, success: { (successVal) in
+            success(successVal)
+        }, failure: { (error) in
+            failure(error)
+        })
+    }
+    
     static func updateUser(with user: User? = Datastore.shared.user, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
         if let user = user {
             APIService.update(with: user, success: { (user) -> (Void) in
@@ -81,8 +105,8 @@ struct APIManager {
             APIService.fetchRepresentatives(for: state, and: district, success: { (representativesArray) in
                 DispatchQueue.main.async(execute: {
                     Datastore.shared.representatives = representativesArray
+                    success(true)
                 })
-                success(true)
             }, failure: { (error) in
                 failure(error)
             })

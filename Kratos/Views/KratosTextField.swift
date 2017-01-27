@@ -21,6 +21,7 @@ import UIKit
     @IBOutlet weak var textLabelToTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var textLabelToBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var textFieldWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var underlineView: UIView!
     
     private var validationFunction: ((String) -> Bool)?
     private var expandedWidth: CGFloat = 0
@@ -40,7 +41,20 @@ import UIKit
         }
     }
     
-    @IBOutlet weak var underlineView: UIView!
+    var textFieldType: TextFieldType = .address
+    enum TextFieldType {
+        case zip
+        case phone
+        case state
+        case address
+        case city
+        case first
+        case last
+        case email
+        case password
+    }
+    
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         customInit()
@@ -63,12 +77,27 @@ import UIKit
     
     /// Configuration for TextFieldView - must be put in ViewDidAppear()
     /// To reset View - use Animate out in ViewDidLoad() 
-    public func configureWith(validationFunction: ((String) -> Bool)? = nil, text: String? = nil, textlabelText: String, expandedWidth: CGFloat, secret: Bool?, shouldPresentKeyboard: Bool = true) {
+    public func configureWith(validationFunction: ((String) -> Bool)? = nil, text: String? = nil, textlabelText: String, expandedWidth: CGFloat, secret: Bool?, shouldPresentKeyboard: Bool = true, textFieldType: TextFieldType = .address) {
         self.expandedWidth = expandedWidth
         self.validationFunction = validationFunction
         self.textLabel.text = textlabelText
+        self.textFieldType = textFieldType
+        switch textFieldType {
+        case .zip:
+            textField.keyboardType = .numberPad
+        case .phone:
+            textField.keyboardType = .numberPad
+        case .email:
+            textField.keyboardType = .emailAddress
+        default:
+            textField.keyboardType = .default
+        }
         if let text = text {
-            textField.text = text
+            var textFieldText = text
+            if textFieldType == .phone {
+                textFieldText = text.toPhoneNumberFormat()
+            }
+            textField.text = textFieldText
             self.textLabelToTopConstraint.isActive = false
             self.textLabelToBottomConstraint.isActive = true
             self.textLabel.transform = CGAffineTransform(scaleX: 0.66, y: 0.66)
@@ -169,5 +198,56 @@ import UIKit
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.frame = bounds
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let newString = ((textField.text ?? "") as NSString).replacingCharacters(in: range, with: string)
+        switch textFieldType {
+        case .zip:
+            if string.containsCharacters(in: CharacterSet.decimalDigits.inverted) {
+                return false
+            } else {
+                return newString.characters.count <= 5
+            }
+        case .state:
+            if string.containsCharacters(in: CharacterSet.englishLetters.inverted) {
+                return false
+            } else if newString.characters.count <= 2 && !string.isEmpty {
+                textField.text = (textField.text ?? "") + string.uppercased()
+                return false
+            } else if newString.characters.count > 2{
+                return false
+            }
+            return true
+        case .phone:
+            return checkPhoneNumberFormat(with: string, str: newString)
+        case .email, .password:
+            return true 
+        default:
+            if textField.text?.characters.count == 0 {
+                textField.text = (textField.text ?? "") + string.uppercased()
+                return false
+            }
+            return true
+        }
+    }
+    
+    func checkPhoneNumberFormat(with string: String, str: String?) -> Bool {
+        guard let str = str else { return true }
+        let count = str.characters.count
+        if string == "" { //BackSpace
+            return true
+        } else if count < 3 {
+            if count == 1{
+                textField.text = "("
+            }
+        } else if count == 5 {
+            textField.text = (textField.text ?? "") + ") "
+        } else if count == 10 {
+            textField.text = (textField.text ?? "") + "-"
+        } else if count > 14{
+            return false
+        }
+        return true
     }
 }

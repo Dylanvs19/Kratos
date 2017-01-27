@@ -25,13 +25,7 @@ class MainApplicationViewController: UIViewController {
     func handleLoginFlow() {
         if hasToken() {
             APIManager.getUser({ (success) in
-                APIManager.getRepresentatives({ (success) in
-                    DispatchQueue.main.async(execute: {
-                        self.embedMainViewController()
-                    })
-                }, failure: { (error) in
-                    debugPrint("could not get representative for User")
-                })
+                self.embedMainViewController()
             }, failure: { (error) in
                 DispatchQueue.main.async(execute: {
                     self.embedLoginViewController()
@@ -46,7 +40,6 @@ class MainApplicationViewController: UIViewController {
     func embedMainViewController(with reps: [Person]? = nil) {
         let navVC = UINavigationController()
         let vc: MainViewController = MainViewController.instantiate()
-        vc.representatives = reps
         navVC.setViewControllers([vc], animated: false)
         embedViewController(navVC)
     }

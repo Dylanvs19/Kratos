@@ -101,9 +101,12 @@ extension UIView {
                    shadowOffset: CGSize = CGSize(width: 1.0, height: 2.0),
                    shadowOpacity: Float = 0.4,
                    shadowRadius: CGFloat = 3.0) {
+        
+        layer.masksToBounds = false
         layer.shadowColor = shadowColor
         layer.shadowOffset = shadowOffset
         layer.shadowOpacity = shadowOpacity
         layer.shadowRadius = shadowRadius
+        layer.shouldRasterize = true 
     }
 }

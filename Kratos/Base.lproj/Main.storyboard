@@ -57,7 +57,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="K R A T O S" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tC7-we-Umh">
-                                <rect key="frame" x="109" y="586" width="156" height="41"/>
+                                <rect key="frame" x="109" y="574" width="156" height="41"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="30"/>
                                 <color key="textColor" red="0.56025641029999995" green="0.56025641029999995" blue="0.56025641029999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -76,23 +76,13 @@
                                 </variation>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yz3-2o-sMp">
-                                <rect key="frame" x="139" y="581" width="97" height="49"/>
+                                <rect key="frame" x="139" y="568" width="97" height="49"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="28"/>
                                 <state key="normal" title="N E X T">
                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="nextButtonPressed:" destination="r7O-hR-zvu" eventType="touchUpInside" id="5gN-Uf-5HW"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AFb-wN-efY">
-                                <rect key="frame" x="153" y="626" width="69" height="33"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <state key="normal" title="REGISTER">
-                                    <color key="titleColor" red="0.61992976020000001" green="0.62210877850000001" blue="0.62864583330000001" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="registerButtonPressed:" destination="r7O-hR-zvu" eventType="touchUpInside" id="xLD-ON-AjU"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SNL-sY-m3J" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
@@ -107,25 +97,47 @@
                                 <rect key="frame" x="112.5" y="320" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bcp-Z4-g7W">
+                                <rect key="frame" x="21.5" y="626" width="145" height="33"/>
+                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="15"/>
+                                <state key="normal" title="F O R G O T  P A S S W O R D ">
+                                    <color key="titleColor" red="0.61992976020000001" green="0.62210877850000001" blue="0.62864583330000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="forgotPasswordButtonPressed:" destination="r7O-hR-zvu" eventType="touchUpInside" id="9ns-Cq-WIz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AFb-wN-efY">
+                                <rect key="frame" x="219" y="626" width="125" height="33"/>
+                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="15"/>
+                                <state key="normal" title="C R E A T E  A C C O U N T">
+                                    <color key="titleColor" red="0.61992976020000001" green="0.62210877850000001" blue="0.62864583330000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="registerButtonPressed:" destination="r7O-hR-zvu" eventType="touchUpInside" id="xLD-ON-AjU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="T7X-lj-amC" firstAttribute="top" secondItem="Yz3-2o-sMp" secondAttribute="bottom" constant="37" id="4MP-jk-VL3"/>
+                            <constraint firstItem="T7X-lj-amC" firstAttribute="top" secondItem="Yz3-2o-sMp" secondAttribute="bottom" constant="50" id="4MP-jk-VL3"/>
                             <constraint firstItem="MpT-hv-gUC" firstAttribute="centerY" secondItem="8ZW-U1-z4W" secondAttribute="centerY" multiplier="0.3" id="4gX-v6-uXe"/>
                             <constraint firstItem="xVt-AG-YmO" firstAttribute="top" secondItem="MpT-hv-gUC" secondAttribute="bottom" constant="115" id="5KD-tM-cf5"/>
                             <constraint firstItem="nAq-VY-Q74" firstAttribute="top" secondItem="MpT-hv-gUC" secondAttribute="bottom" constant="170" id="6aB-HF-9tG"/>
                             <constraint firstItem="MpT-hv-gUC" firstAttribute="centerY" secondItem="8ZW-U1-z4W" secondAttribute="centerY" id="7Dw-VG-eCH"/>
-                            <constraint firstItem="AFb-wN-efY" firstAttribute="centerX" secondItem="8ZW-U1-z4W" secondAttribute="centerX" id="Alg-G4-LM5"/>
                             <constraint firstItem="nAq-VY-Q74" firstAttribute="centerX" secondItem="8ZW-U1-z4W" secondAttribute="centerX" id="FIx-tn-5CJ"/>
                             <constraint firstItem="SNL-sY-m3J" firstAttribute="centerX" secondItem="8ZW-U1-z4W" secondAttribute="centerX" id="IZA-20-8Cj"/>
                             <constraint firstItem="Yz3-2o-sMp" firstAttribute="centerX" secondItem="8ZW-U1-z4W" secondAttribute="centerX" id="Ol7-Wa-Y7L"/>
                             <constraint firstItem="tC7-we-Umh" firstAttribute="centerX" secondItem="8ZW-U1-z4W" secondAttribute="centerX" id="P7d-2d-CY8"/>
                             <constraint firstItem="MpT-hv-gUC" firstAttribute="width" secondItem="MpT-hv-gUC" secondAttribute="height" multiplier="1:1" id="Q7g-OH-LCE"/>
+                            <constraint firstItem="T7X-lj-amC" firstAttribute="top" secondItem="Bcp-Z4-g7W" secondAttribute="bottom" constant="8" id="RMM-6P-jae"/>
                             <constraint firstItem="xVt-AG-YmO" firstAttribute="centerX" secondItem="8ZW-U1-z4W" secondAttribute="centerX" id="Rkw-Tn-dGc"/>
                             <constraint firstItem="T7X-lj-amC" firstAttribute="top" secondItem="AFb-wN-efY" secondAttribute="bottom" constant="8" id="UMU-WV-Myy"/>
                             <constraint firstItem="SNL-sY-m3J" firstAttribute="top" secondItem="MpT-hv-gUC" secondAttribute="bottom" constant="60" id="aNf-bP-ARF"/>
-                            <constraint firstItem="T7X-lj-amC" firstAttribute="top" secondItem="tC7-we-Umh" secondAttribute="bottom" constant="40" id="azx-X2-lYC"/>
+                            <constraint firstItem="T7X-lj-amC" firstAttribute="top" secondItem="tC7-we-Umh" secondAttribute="bottom" constant="52" id="azx-X2-lYC"/>
                             <constraint firstItem="MpT-hv-gUC" firstAttribute="centerX" secondItem="8ZW-U1-z4W" secondAttribute="centerX" id="dtr-ro-0MV"/>
+                            <constraint firstItem="AFb-wN-efY" firstAttribute="centerX" secondItem="8ZW-U1-z4W" secondAttribute="centerX" multiplier="1.5" id="tg1-9g-HKe"/>
+                            <constraint firstItem="Bcp-Z4-g7W" firstAttribute="centerX" secondItem="8ZW-U1-z4W" secondAttribute="centerX" multiplier="0.5" id="xhC-pd-XgJ"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -410,9 +422,9 @@
                                                     <constraint firstItem="VRE-B1-wNe" firstAttribute="leading" secondItem="gX3-rs-YP5" secondAttribute="leading" constant="8" id="mHO-tg-tcF"/>
                                                 </constraints>
                                             </view>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZoF-Zp-1vn">
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZoF-Zp-1vn">
                                                 <rect key="frame" x="10" y="815" width="355" height="454"/>
-                                                <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="454" id="Kpx-lZ-ytj"/>
                                                 </constraints>
@@ -483,7 +495,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.78431372549019607" green="0.78431372549019607" blue="0.78431372549019607" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstItem="uEz-Ob-vzW" firstAttribute="top" secondItem="xKU-Va-iMI" secondAttribute="top" constant="175" id="0Gx-fc-srg"/>
                                             <constraint firstItem="gjv-Y2-pLQ" firstAttribute="centerX" secondItem="xKU-Va-iMI" secondAttribute="centerX" id="0Og-8k-xr4"/>
@@ -548,7 +560,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.86274509803921573" green="0.86274509803921573" blue="0.86274509803921573" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="BVW-dx-Jir" firstAttribute="leading" secondItem="Nov-jn-y8P" secondAttribute="leading" id="2Zo-Xw-pDj"/>
                             <constraint firstItem="xKU-Va-iMI" firstAttribute="height" secondItem="Nov-jn-y8P" secondAttribute="height" constant="1" id="6JE-S7-rPR"/>
@@ -639,11 +651,11 @@
                                 </constraints>
                             </scrollView>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TNU-pY-bw0" customClass="RepInfoView" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="-1" y="-1" width="376" height="668"/>
+                                <rect key="frame" x="-0.5" y="-0.5" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.86274509803921573" green="0.86274509803921573" blue="0.86274509803921573" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="h5x-tP-Fmb" firstAttribute="top" secondItem="kmK-XC-i1H" secondAttribute="bottom" constant="10" id="0NL-LZ-gKQ"/>
                             <constraint firstItem="TNU-pY-bw0" firstAttribute="width" secondItem="quH-9z-SzC" secondAttribute="width" id="2lI-wT-9wM"/>
@@ -679,7 +691,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sDS-Yl-9Pp">
-                                <rect key="frame" x="10" y="20" width="355" height="637"/>
+                                <rect key="frame" x="10" y="30" width="355" height="627"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="aKb-Yx-SUc">
                                         <rect key="frame" x="0.0" y="0.0" width="355" height="647"/>
@@ -693,11 +705,11 @@
                                 </constraints>
                             </scrollView>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mBD-US-Ran" customClass="RepInfoView" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="-1" y="-1" width="376" height="668"/>
+                                <rect key="frame" x="-0.5" y="-0.5" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.86274509803921573" green="0.86274509803921573" blue="0.86274509803921573" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="6No-8W-TCc" firstAttribute="top" secondItem="sDS-Yl-9Pp" secondAttribute="bottom" constant="10" id="2yx-Lz-spS"/>
                             <constraint firstItem="mBD-US-Ran" firstAttribute="width" secondItem="lFs-cH-woc" secondAttribute="width" id="5MH-56-eyO"/>
@@ -707,7 +719,7 @@
                             <constraint firstItem="sDS-Yl-9Pp" firstAttribute="leading" secondItem="lFs-cH-woc" secondAttribute="leading" constant="10" id="OL9-dR-cgD"/>
                             <constraint firstAttribute="trailing" secondItem="sDS-Yl-9Pp" secondAttribute="trailing" constant="10" id="WPS-rj-7lW"/>
                             <constraint firstItem="mBD-US-Ran" firstAttribute="centerX" secondItem="lFs-cH-woc" secondAttribute="centerX" id="cJF-6m-DT5"/>
-                            <constraint firstItem="sDS-Yl-9Pp" firstAttribute="top" secondItem="lyX-K7-R8J" secondAttribute="bottom" id="ifS-gM-eUx"/>
+                            <constraint firstItem="sDS-Yl-9Pp" firstAttribute="top" secondItem="lyX-K7-R8J" secondAttribute="bottom" constant="10" id="ifS-gM-eUx"/>
                             <constraint firstItem="mBD-US-Ran" firstAttribute="centerY" secondItem="lFs-cH-woc" secondAttribute="centerY" id="tC7-TM-gab"/>
                         </constraints>
                     </view>

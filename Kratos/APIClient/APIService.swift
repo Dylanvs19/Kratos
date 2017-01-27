@@ -53,6 +53,134 @@ struct APIService {
         }
     }
     
+    static func forgotPassword(with email: String, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+        
+        // URL Components
+        guard let url = URL(string: Constants.FORGOT_PASSWORD_URL) else {
+            failure(.invalidURL(error:nil))
+            return
+        }
+        let dict =  ["email": email.lowercased() as AnyObject]
+        
+        let session: URLSession = URLSession.shared
+        let request = URLRequest(url: url, requestType: .post, body: dict, addToken: false)
+        
+        let task: URLSessionDataTask = session.dataTask(with: request) { (data, response, error) in
+            
+            guard let data = data else {
+                failure(.nilData)
+                return
+            }
+            
+            var obj:[String: AnyObject]?
+            do {
+                obj = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
+            } catch {
+                failure(.invalidSerialization)
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                    failure(error)
+                }
+            }
+            
+            if obj != nil {
+                DispatchQueue.main.async(execute: {
+                    success(true)
+                })
+            }
+        }
+        task.resume()
+    }
+    
+    static func fetchFeedback(success: @escaping ([String]) -> (), failure: @escaping (NetworkError) -> ()) {
+        
+        // URL Components
+        guard let url = URL(string: Constants.FEEDBACK_URL) else {
+            failure(.invalidURL(error:nil))
+            return
+        }
+        
+        let session: URLSession = URLSession.shared
+        let request = URLRequest(url: url, requestType: .get)
+        
+        let task: URLSessionDataTask = session.dataTask(with: request) { (data, response, error) in
+            
+            guard let data = data else {
+                failure(.nilData)
+                return
+            }
+            
+            var obj:[String: AnyObject]?
+            do {
+                obj = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
+            } catch {
+                failure(.invalidSerialization)
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                    failure(error)
+                }
+            }
+            
+            if let obj = obj?["questions"] as? [String] {
+                DispatchQueue.main.async(execute: {
+                    success(obj)
+                })
+            }
+        }
+        task.resume()
+    }
+    
+    static func postFeedback(with questions: [String: String], success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+        
+        // URL Components
+        guard let url = URL(string: Constants.FEEDBACK_URL) else {
+            failure(.invalidURL(error:nil))
+            return
+        }
+        guard let id = Datastore.shared.user?.id else {
+            failure(.appSideError(error: nil))
+            return
+        }
+        let params = ["user-id" : id as AnyObject,
+                      "answers" : questions as AnyObject] as [String: AnyObject]
+        
+        let session: URLSession = URLSession.shared
+        let request = URLRequest(url: url, requestType: .post, body: params)
+        
+        let task: URLSessionDataTask = session.dataTask(with: request) { (data, response, error) in
+            
+            guard let data = data else {
+                failure(.nilData)
+                return
+            }
+            
+            var obj:[String: AnyObject]?
+            do {
+                obj = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
+            } catch {
+                failure(.invalidSerialization)
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                    failure(error)
+                }
+            }
+            
+            if obj != nil {
+                DispatchQueue.main.async(execute: {
+                    success(true)
+                })
+            }
+        }
+        task.resume()
+    }
+
+    
     static func fetchUser(_ success: @escaping (User) -> (), failure: @escaping (NetworkError) -> ()) {
         // URL Components
         guard let url = URL(string: Constants.USER_URL) else {

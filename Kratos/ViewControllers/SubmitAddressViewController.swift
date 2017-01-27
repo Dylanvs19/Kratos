@@ -178,15 +178,15 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                 return nil
             }
         }
-        firstNameTextField.configureWith(validationFunction: InputValidation.validateAddress, text: firstName, textlabelText: "F I R S T", expandedWidth: (view.frame.width * 0.35), secret: false)
-        lastNameTextField.configureWith(validationFunction: InputValidation.validateAddress, text: lastName, textlabelText: "L A S T", expandedWidth: (view.frame.width * 0.35), secret: false)
+        firstNameTextField.configureWith(validationFunction: InputValidation.validateAddress, text: firstName, textlabelText: "F I R S T", expandedWidth: (view.frame.width * 0.35), secret: false, textFieldType: .first)
+        lastNameTextField.configureWith(validationFunction: InputValidation.validateAddress, text: lastName, textlabelText: "L A S T", expandedWidth: (view.frame.width * 0.35), secret: false, textFieldType: .last)
         partyTextField.configureWith(validationFunction: InputValidation.validateAddress, text: party, textlabelText: "P A R T Y", expandedWidth: (view.frame.width * 0.35), secret: false, shouldPresentKeyboard: false)
         dobTextField.configureWith(validationFunction: InputValidation.validateAddress, text: dob, textlabelText: "B I R T H D A Y", expandedWidth: (view.frame.width * 0.35), secret: false, shouldPresentKeyboard: false)
         addressTextField.configureWith(validationFunction: InputValidation.validateAddress, text: address, textlabelText: "A D D R E S S", expandedWidth: (view.frame.width * 0.8), secret: false)
         cityTextField.configureWith(validationFunction: InputValidation.validateCity, text: city, textlabelText: "C I T Y", expandedWidth: (view.frame.width * 0.3), secret: false)
-        stateTextField.configureWith(validationFunction: InputValidation.validateState, text: state, textlabelText: "S T A T E", expandedWidth: (view.frame.width * 0.16), secret: false)
-        zipcodeTextField.configureWith(validationFunction: InputValidation.validateZipCode, text: zip, textlabelText: "Z I P", expandedWidth: (view.frame.width * 0.3), secret: false)
-        phoneNumberTextField.configureWith(validationFunction: InputValidation.validatePhoneNumber, text: phone, textlabelText: "P H O N E", expandedWidth: (view.frame.width * 0.5), secret: false)
+        stateTextField.configureWith(validationFunction: InputValidation.validateState, text: state, textlabelText: "S T A T E", expandedWidth: (view.frame.width * 0.16), secret: false, textFieldType: .state)
+        zipcodeTextField.configureWith(validationFunction: InputValidation.validateZipCode, text: zip, textlabelText: "Z I P", expandedWidth: (view.frame.width * 0.3), secret: false, textFieldType: .zip)
+        phoneNumberTextField.configureWith(validationFunction: InputValidation.validatePhoneNumber, text: phone, textlabelText: "P H O N E", expandedWidth: (view.frame.width * 0.5), secret: false, textFieldType: .phone)
         //oldPasswordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "O L D  P A S S W O R D", expandedWidth: (view.frame.width * 0.8), secret: true)
         //newPasswordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "N E W  P A S S W O R D", expandedWidth: (view.frame.width * 0.8), secret: true)
     }
@@ -266,7 +266,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                     user?.lastName = last.localizedCapitalized
                 }
                 if let phone = phoneNumberTextField.text,
-                   let number = Int(phone) {
+                   let number = Int(phone.removePhoneNumberFormat()) {
                     user?.phoneNumber = number
                 }
                 user?.address = address

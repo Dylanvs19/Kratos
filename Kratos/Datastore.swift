@@ -13,18 +13,5 @@ class Datastore {
     static let shared = Datastore()
     
     var representatives = [Person]()
-    var user: User? {
-        didSet {
-            reloadRepresentatives()
-        }
-    }
-    
-    func reloadRepresentatives() {
-        APIManager.getRepresentatives({ (success) in
-           debugPrint("successful reload of representatives")
-        }, failure: { (error) in
-            debugPrint("could not get representative for User")
-        })
-    }
-    
+    var user: User?
 }

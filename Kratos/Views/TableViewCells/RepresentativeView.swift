@@ -56,14 +56,6 @@ class RepresentativeView: UIView, Loadable {
         guard let firstName = representative.firstName,
             let lastName = representative.lastName else { return }
         
-        //layer.cornerRadius = 0
-        //layer.borderWidth = 1
-        self.backgroundColor = UIColor.clear
-        let gradient = CAGradientLayer()
-        gradient.frame = self.bounds
-        gradient.colors = [UIColor.white.cgColor, UIColor.black.cgColor]
-        self.layer.insertSublayer(gradient, at: 0)
-        
         representativeImageView.addRepImageViewBorder()
         firstNameLabel.text = "\(firstName) \(lastName)"
         

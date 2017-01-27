@@ -30,7 +30,7 @@ struct InputValidation {
     static func validateState(_ state:String?) -> Bool {
         guard let state = state else { return false }
         let sanitizedState = state.removeWhiteSpace()
-        return Constants.stateSet.contains(sanitizedState.uppercased())
+        return Constants.stateSet.contains(sanitizedState.uppercased()) && sanitizedState.characters.count == 2
     }
     
     static func validateZipCode(_ zipcode: String?) -> Bool {
@@ -42,9 +42,8 @@ struct InputValidation {
     
     static func validatePhoneNumber(_ phoneNumber: String?) -> Bool {
         guard let phoneNumber = phoneNumber else { return false }
-        let sanitizedzipcode = phoneNumber.removeWhiteSpace()
-        return sanitizedzipcode.containsOnlyCharacters(in: CharacterSet.decimalDigits)
-            && sanitizedzipcode.characterCountIs(10) ? true : false
+        let sanitizedphoneNumber = phoneNumber.removeWhiteSpace().replacingOccurrences(of: "(", with: "").replacingOccurrences(of: ")", with: "").replacingOccurrences(of: "-", with: "")
+        return sanitizedphoneNumber.characterCountIs(10) && !sanitizedphoneNumber.containsCharacters(in: CharacterSet.decimalDigits.inverted) ? true : false
     }
     
     static func validatePasswordConfirmation(_ password: String?, passwordConfirmation: String?) -> Bool {

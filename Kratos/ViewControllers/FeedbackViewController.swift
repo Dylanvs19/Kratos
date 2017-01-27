@@ -13,22 +13,28 @@ class FeedbackViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var stackView: UIStackView!
     
-    fileprivate var questions = [
-                                    "What do you think about x?",
-                                    "What do you think about y?",
-                                    "What do you think about x?",
-                                    "What do you think about y?"
-                                ]
+    fileprivate var questions = [String]() {
+        didSet {
+            configure()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidHide(sender:)), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(sender:)),name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
         scrollView.delegate = self
         setupGestureRecognizer()
-        configure()
+        loadData()
+    }
+    
+    func loadData() {
+        APIManager.getFeedback(success: { (questions) in
+            self.questions = questions
+        }) { (error) in
+            self.showError(error)
+        }
     }
     
     func configure() {
@@ -61,7 +67,21 @@ class FeedbackViewController: UIViewController, UIScrollViewDelegate {
                 }
             }
         }
-        // Make API Call w response Dict. 
+        var send = false
+        for (_, value) in responseDict where !value.isEmpty {
+            send = true
+        }
+        if send {
+        APIManager.postFeedback(with: responseDict, success: { (success) in
+            self.presentMessageAlert(title: "Thank You!", message: "We have gotten your feedback! Thanks!", buttonOneTitle: "OK", buttonTwoTitle: nil, buttonOneAction: {
+                self.dismiss(animated: true, completion: nil)
+            }, buttonTwoAction: nil)
+        }) { (error) in
+            self.showError(error: error)
+        }
+        } else {
+            self.presentMessageAlert(title: "Error", message: "It seems like all your fields are empty.", buttonOneTitle: "OK")
+        }
     }
     
     func cancelTapped() {

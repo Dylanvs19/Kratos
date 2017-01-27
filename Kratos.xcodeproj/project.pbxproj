@@ -16,6 +16,7 @@
 		AF1823261E29DC75005912D2 /* RepInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1823251E29DC75005912D2 /* RepInfoView.swift */; };
 		AF1823281E29DC82005912D2 /* RepInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF1823271E29DC82005912D2 /* RepInfoView.xib */; };
 		AF18232A1E29DCC3005912D2 /* RepImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1823291E29DCC3005912D2 /* RepImageView.swift */; };
+		AF258C241E3AE68F0084FE26 /* CharacterSet+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF258C231E3AE68F0084FE26 /* CharacterSet+Extensions.swift */; };
 		AF28197E1DF0EFF7001D5C93 /* KratosTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF28197D1DF0EFF7001D5C93 /* KratosTextField.swift */; };
 		AF2819801DF0F006001D5C93 /* KratosTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF28197F1DF0F006001D5C93 /* KratosTextField.xib */; };
 		AF2843991D5AD4D3007B3F18 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2843981D5AD4D3007B3F18 /* Constants.swift */; };
@@ -167,6 +168,7 @@
 		AF1AC5531DF5A6A100DCBA13 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		AF1AC5561DF5A6A100DCBA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		AF1AC5581DF5A6A100DCBA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF258C231E3AE68F0084FE26 /* CharacterSet+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CharacterSet+Extensions.swift"; sourceTree = "<group>"; };
 		AF28197D1DF0EFF7001D5C93 /* KratosTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosTextField.swift; sourceTree = "<group>"; };
 		AF28197F1DF0F006001D5C93 /* KratosTextField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KratosTextField.xib; sourceTree = "<group>"; };
 		AF2843981D5AD4D3007B3F18 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -486,6 +488,7 @@
 				AF3DBCE81DD0C34B006B146F /* Array+Extensions.swift */,
 				AF3C2FF31DD35C5500353638 /* Date+Extensions.swift */,
 				AF4F6E871E214980003E7C9C /* UIImageView+Extensions.swift */,
+				AF258C231E3AE68F0084FE26 /* CharacterSet+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1039,6 +1042,7 @@
 				AF89749C1D4D8ADC00C19020 /* Vote.swift in Sources */,
 				AF3913081DFA36F000123B5C /* KeychainManager.swift in Sources */,
 				AFE47F4D1DF34F1C00008CCB /* DatePickerView.swift in Sources */,
+				AF258C241E3AE68F0084FE26 /* CharacterSet+Extensions.swift in Sources */,
 				AF2F923B1E147D090041369E /* ButtonView.swift in Sources */,
 				AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */,
 				AF5793181D6D440400D86B73 /* Bill.swift in Sources */,
@@ -1132,7 +1136,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_VERSION = 1.01;
+				BUNDLE_VERSION = 1.1.1;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1184,7 +1188,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_VERSION = 1.01;
+				BUNDLE_VERSION = 1.1.1;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

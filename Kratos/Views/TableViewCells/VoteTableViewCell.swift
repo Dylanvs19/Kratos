@@ -11,6 +11,7 @@ import UIKit
 class VoteTableViewCell: UITableViewCell {
 
     @IBOutlet var voteTitleLabel: UILabel!
+    @IBOutlet weak var voteQuestionLabel: UILabel!
     
     @IBOutlet var voteImageView: UIImageView!
     
@@ -33,7 +34,9 @@ class VoteTableViewCell: UITableViewCell {
         } else if let official = tally.billOfficialTitle {
             title = official
         }
+        
         voteTitleLabel.text = title ?? ""
+        voteQuestionLabel.text = tally.question ?? "" 
         if let voteType = tally.voteValue {
             switch voteType {
             case .yea:
