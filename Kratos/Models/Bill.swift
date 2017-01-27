@@ -40,7 +40,7 @@ struct Bill {
     var tallies: [Tally]?
     
     //Wanted variables
-    //var billTextURL: String?
+    var billTextURL: String?
     
     init?(json: [String: AnyObject]) {
         self.title = json["short_title"] as? String
@@ -121,7 +121,7 @@ struct Bill {
         }
         
         // Wanted Variables
-        //self.billTextURL = json["billTextURL"] as? String
+        self.billTextURL = json["full_text_url"] as? String
     }
     
     struct BillHistory {

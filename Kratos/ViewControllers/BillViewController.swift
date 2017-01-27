@@ -8,7 +8,7 @@
 
 
 import UIKit
-
+import SafariServices
 
 class BillViewController: UIViewController, RepInfoViewPresentable {
     
@@ -86,10 +86,11 @@ class BillViewController: UIViewController, RepInfoViewPresentable {
             view.configure(with: title, votes: lightCoSponsors, presentRepInfoView: presentRepInfoView)
             stackView.addArrangedSubview(view)
         }
-        
-        let relatedBillView = ButtonView()
-        relatedBillView.configure(with: "Bill Text", actionBlock: billTextButtonPressed)
-        stackView.addArrangedSubview(relatedBillView)
+        if let url = bill.billTextURL {
+            let relatedBillView = ButtonView()
+            relatedBillView.configure(with: "Bill Text", actionBlock: billTextButtonPressed)
+            stackView.addArrangedSubview(relatedBillView)
+        }
         
         if let actions = bill.actions {
             let actionsView = BillCommitteesView()
@@ -101,9 +102,11 @@ class BillViewController: UIViewController, RepInfoViewPresentable {
     }
     
     func billTextButtonPressed() {
-        let alertVC = UIAlertController(title: "Push", message: "Push to safariVC url of bill text", preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "ok", style: .destructive, handler: nil))
-        present(alertVC, animated: true, completion: nil)
+        if let billUrl = bill?.billTextURL,
+           let url = URL(string:billUrl) {
+            let vc = SFSafariViewController(url: url)
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
     func committeeWebsiteButtonPressed(with url: String) {

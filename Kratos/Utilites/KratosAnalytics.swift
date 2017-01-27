@@ -31,7 +31,7 @@ class KratosAnalytics {
     var timeBillLastSeenAt: Date?
     var lastTallyID: Int?
     var timeTallyLastSeenAt: Date?
-    var lastRepID: Int?
+    var personID: Int?
     
     func updateBillAnalyicAction(with billID: Int?) {
         if let billID = billID {
@@ -49,7 +49,7 @@ class KratosAnalytics {
     
     func updateRepAnalyicAction(with repID: Int?) {
         if let repID = repID {
-            lastRepID = repID
+            personID = repID
         }
     }
     
@@ -58,7 +58,7 @@ class KratosAnalytics {
         var dict = ["action": event.rawValue as AnyObject,
                     "last_bill_id": lastBillID as AnyObject,
                     "last_tally_id": lastTallyID as AnyObject,
-                    "last_rep_id": lastRepID as AnyObject
+                    "person_id": personID as AnyObject
                     ]
         
         if let timeBillLastSeenAt = timeBillLastSeenAt {

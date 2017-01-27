@@ -148,9 +148,7 @@ struct LightTally {
         self.billShortTitle = json["tally"]?["bill_short_title"] as? String
         self.billOfficialTitle = json["tally"]?["bill_official_title"] as? String
         self.lastRecordUpdate = json["tally"]?["record_updated_at"] as? String
-        if let amendment = json["tally"]?["amendment"] as? String {
-            self.amendment = json["tally"]?["amendment"] as? String
-        }
+        self.amendment = json["tally"]?["amendment"] as? String
         self.type = json["tally"]?["type"] as? String
         
         if let holdDate = json["tally"]?["date"] as? String {
