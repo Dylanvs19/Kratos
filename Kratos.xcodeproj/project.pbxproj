@@ -62,6 +62,7 @@
 		AF6B740B1E38DEBD00962FD6 /* NotificationsRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6B740A1E38DEBD00962FD6 /* NotificationsRegistrationViewController.swift */; };
 		AF6B740E1E38E5D500962FD6 /* FeedbackQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6B740D1E38E5D500962FD6 /* FeedbackQuestionView.swift */; };
 		AF6B74101E38E5E500962FD6 /* FeedbackQuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF6B740F1E38E5E500962FD6 /* FeedbackQuestionView.xib */; };
+		AF6BD7111E3D549D0003346E /* KratosActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6BD7101E3D549D0003346E /* KratosActivityIndicator.swift */; };
 		AF6C29111DB9B94E004AA104 /* TallyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6C29101DB9B94E004AA104 /* TallyViewController.swift */; };
 		AF73E50C1E38F2B800B40340 /* FeedbackHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF73E50B1E38F2B800B40340 /* FeedbackHeaderView.xib */; };
 		AF73E50E1E38F2C500B40340 /* FeedbackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF73E50D1E38F2C500B40340 /* FeedbackHeaderView.swift */; };
@@ -214,6 +215,7 @@
 		AF6B740A1E38DEBD00962FD6 /* NotificationsRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationViewController.swift; sourceTree = "<group>"; };
 		AF6B740D1E38E5D500962FD6 /* FeedbackQuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackQuestionView.swift; sourceTree = "<group>"; };
 		AF6B740F1E38E5E500962FD6 /* FeedbackQuestionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackQuestionView.xib; sourceTree = "<group>"; };
+		AF6BD7101E3D549D0003346E /* KratosActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosActivityIndicator.swift; sourceTree = "<group>"; };
 		AF6C29101DB9B94E004AA104 /* TallyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TallyViewController.swift; sourceTree = "<group>"; };
 		AF73E50B1E38F2B800B40340 /* FeedbackHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackHeaderView.xib; sourceTree = "<group>"; };
 		AF73E50D1E38F2C500B40340 /* FeedbackHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackHeaderView.swift; sourceTree = "<group>"; };
@@ -566,6 +568,7 @@
 				AF8974B11D4E999C00C19020 /* InputValidation.swift */,
 				AF2843981D5AD4D3007B3F18 /* Constants.swift */,
 				AF28439C1D5ADAD9007B3F18 /* Pager.swift */,
+				AF6BD7101E3D549D0003346E /* KratosActivityIndicator.swift */,
 			);
 			path = Utilites;
 			sourceTree = "<group>";
@@ -1007,6 +1010,7 @@
 				AF4F6E801E1D2AA6003E7C9C /* SummaryView.swift in Sources */,
 				AF8974611D4D80E500C19020 /* MainApplicationViewController.swift in Sources */,
 				AFB5CCBA1DE0B834006E51A2 /* LeadSponsorView.swift in Sources */,
+				AF6BD7111E3D549D0003346E /* KratosActivityIndicator.swift in Sources */,
 				AFAC56EA1DDB3E5A007C1629 /* MenuViewController.swift in Sources */,
 				AF4F6E921E284E6C003E7C9C /* MinorActionView.swift in Sources */,
 				AF8974B81D4F058E00C19020 /* UIColor+Extension.swift in Sources */,
@@ -1156,7 +1160,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1208,7 +1212,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
