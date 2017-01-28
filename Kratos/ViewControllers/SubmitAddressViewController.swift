@@ -292,9 +292,19 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             })
         case .registration:
             updateUser()
-            APIManager.register(with: password, success: { (success) in
+            var count = 1
+            print("\(count) registration button pressed")
+            
+            APIManager.register(with: password, keyChainSuccess: { (success) in
+                if success {
+                    count += 1
+                    debugPrint("\(count)Register API Call w created keychain")
+                } else {
+                    count += 1
+                    debugPrint("\(count)Register API Call w keychain failure")
+                }
                 if UIApplication.shared.isRegisteredForRemoteNotifications {
-                     NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
                 } else {
                     let vc: NotificationsRegistrationViewController = NotificationsRegistrationViewController.instantiate()
                     self.navigationController?.pushViewController(vc, animated: true)
@@ -303,7 +313,6 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                 debugPrint("SubmitAddressViewController registerWith(\(password)) unsucessful")
                 self.showError(error: error)
             })
-            
         }
     }
     

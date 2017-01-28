@@ -10,16 +10,16 @@ import Foundation
 
 struct APIManager {
     
-    static func register(with password: String, user: User? = Datastore.shared.user, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func register(with password: String, user: User? = Datastore.shared.user, keyChainSuccess: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
         if let user = user {
             APIService.register(user, with: password, success: { (user) -> (Void) in
+                Datastore.shared.user = user
                 if let _ = user.token {
-                    Datastore.shared.user = user
                     KeychainManager.create(user, success: { (didSucceed) in
-                        success(didSucceed)
+                        keyChainSuccess(didSucceed)
                     })
                 } else {
-                    success(false)
+                    keyChainSuccess(false)
                 }
             }, failure: { (error) -> (Void) in
                 failure(error)

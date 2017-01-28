@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+import UserNotifications
 
 class NotificationsRegistrationViewController: UIViewController {
 
@@ -18,6 +20,13 @@ class NotificationsRegistrationViewController: UIViewController {
     }
 
     @IBAction func registerForNotificationsButtonPressed(_ sender: Any) {
+        if #available(iOS 10.0, *) {
+            let authOptions : UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_,_ in })
+        }
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.tokenRefreshNotification), name: NSNotification.Name.firInstanceIDTokenRefresh, object: nil)
         UIApplication.shared.registerForRemoteNotifications()
         NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
     }
