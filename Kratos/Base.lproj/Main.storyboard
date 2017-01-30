@@ -63,7 +63,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Kratos" translatesAutoresizingMaskIntoConstraints="NO" id="MpT-hv-gUC">
-                                <rect key="frame" x="38" y="183.5" width="300" height="300"/>
+                                <rect key="frame" x="38" y="184" width="300" height="300"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="FWD-Vd-KPI"/>
                                     <constraint firstAttribute="height" constant="100" id="wrc-2q-fYs"/>
@@ -98,7 +98,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bcp-Z4-g7W">
-                                <rect key="frame" x="21.5" y="626" width="145" height="33"/>
+                                <rect key="frame" x="22" y="626" width="145" height="33"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="15"/>
                                 <state key="normal" title="F O R G O T  P A S S W O R D ">
                                     <color key="titleColor" red="0.61992976020000001" green="0.62210877850000001" blue="0.62864583330000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -556,7 +556,7 @@
                                 </constraints>
                             </scrollView>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ese-Na-4tP" customClass="RepInfoView" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="-0.5" y="-0.5" width="375" height="667"/>
+                                <rect key="frame" x="-1" y="-1" width="376" height="668"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -651,7 +651,7 @@
                                 </constraints>
                             </scrollView>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TNU-pY-bw0" customClass="RepInfoView" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="-0.5" y="-0.5" width="375" height="667"/>
+                                <rect key="frame" x="-1" y="-1" width="376" height="668"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -705,7 +705,7 @@
                                 </constraints>
                             </scrollView>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mBD-US-Ran" customClass="RepInfoView" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="-0.5" y="-0.5" width="375" height="667"/>
+                                <rect key="frame" x="-1" y="-1" width="376" height="668"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
