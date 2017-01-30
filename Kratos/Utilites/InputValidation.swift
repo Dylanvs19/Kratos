@@ -54,9 +54,7 @@ struct InputValidation {
     
     static func validatePassword(_ password: String?) -> Bool {
         guard let password = password else { return false }
-        if password.characters.count > 6 &&
-        password.containsCharacters(in: CharacterSet.decimalDigits) &&
-            password.containsCharacters(in: CharacterSet.letters)  {
+        if password.characters.count > 7 {
             return true
         } else {
             return false 
