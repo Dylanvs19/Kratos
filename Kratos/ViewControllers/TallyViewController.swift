@@ -7,7 +7,7 @@
 //
 import UIKit
 
-class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPresentable {
+class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPresentable, ActivityIndicatorPresentable {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var stackView: UIStackView!
@@ -28,12 +28,15 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
     }
     var representative: Person?
     @IBOutlet weak var repInfoView: RepInfoView!
+    var activityIndicator: KratosActivityIndicator = KratosActivityIndicator()
+    var shadeView: UIView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         scrollView.delegate = self
         enableSwipeBack()
+        setupActivityIndicator()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,10 +47,13 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
     
     func loadData() {
         if let lightTally = lightTally {
-            APIManager.getTally(for: lightTally, success: { (tally) in
-                self.tally = tally
+            presentActivityIndicator()
+            APIManager.getTally(for: lightTally, success: { [weak self] (tally) in
+                self?.hideActivityIndicator()
+                self?.tally = tally
             }, failure: { (error) in
-                //Handle error
+                self.hideActivityIndicator()
+                self.showError(error)
             })
         }
     }

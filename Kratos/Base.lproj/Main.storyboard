@@ -63,7 +63,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Kratos" translatesAutoresizingMaskIntoConstraints="NO" id="MpT-hv-gUC">
-                                <rect key="frame" x="138" y="50" width="100" height="100"/>
+                                <rect key="frame" x="38" y="183.5" width="300" height="300"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="FWD-Vd-KPI"/>
                                     <constraint firstAttribute="height" constant="100" id="wrc-2q-fYs"/>
@@ -71,7 +71,7 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="FWD-Vd-KPI"/>
+                                        <exclude reference="wrc-2q-fYs"/>
                                     </mask>
                                 </variation>
                             </imageView>
@@ -86,15 +86,15 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SNL-sY-m3J" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="112.5" y="210" width="150" height="26"/>
+                                <rect key="frame" x="112.5" y="543.5" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xVt-AG-YmO" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="112.5" y="265" width="150" height="26"/>
+                                <rect key="frame" x="112.5" y="598.5" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nAq-VY-Q74" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
-                                <rect key="frame" x="112.5" y="320" width="150" height="26"/>
+                                <rect key="frame" x="112.5" y="653.5" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bcp-Z4-g7W">
@@ -141,7 +141,7 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="7Dw-VG-eCH"/>
+                                <exclude reference="4gX-v6-uXe"/>
                             </mask>
                         </variation>
                     </view>

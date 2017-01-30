@@ -131,10 +131,6 @@ import UIKit
     }
     
     //MARK: Textfield delegates
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        shouldAnimateTextLabelDown()
-//    }
-    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         //NOTE: this delegate is not consuming the textField
         // it is consuming the entire class

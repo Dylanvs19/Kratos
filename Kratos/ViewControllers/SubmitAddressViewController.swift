@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, DatePickerViewDelegate, UIScrollViewDelegate {
+class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, DatePickerViewDelegate, UIScrollViewDelegate, ActivityIndicatorPresentable {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -35,6 +35,9 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
     @IBOutlet weak var phoneNumberTextField: KratosTextField!
     @IBOutlet weak var oldPasswordTextField: KratosTextField!
     @IBOutlet weak var newPasswordTextField: KratosTextField!
+    
+    var activityIndicator: KratosActivityIndicator = KratosActivityIndicator()
+    var shadeView: UIView = UIView()
     
     public var displayType: DisplayType = .registration {
         didSet {
@@ -139,6 +142,8 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
         partyTextField.delegate = self
         datePicker.delegate = self
         scrollView.delegate = self
+        
+        setupActivityIndicator()
 
     }
     
@@ -283,10 +288,13 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
         case .editProfile: //save profile & switch to Account Details
             updateUser()
             FirebaseAnalytics.FlowAnalytic.editedAccountDetails.fireEvent()
+            presentActivityIndicator()
             APIManager.updateUser(success: { (success) in
+                self.hideActivityIndicator()
                 self.presentMessageAlert(title: "Update Successful", message: "Your account has been updated.", buttonOneTitle: "O K")
                 self.displayType = .accountDetails
             }, failure: { (error) in
+                self.hideActivityIndicator()
                 debugPrint("SubmitAddressViewController updateUser unsucessful")
                 self.showError(error: error)
             })
@@ -294,8 +302,9 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             updateUser()
             var count = 1
             print("\(count) registration button pressed")
-            
+            self.presentActivityIndicator()
             APIManager.register(with: password, keyChainSuccess: { (success) in
+                self.hideActivityIndicator()
                 if success {
                     count += 1
                     debugPrint("\(count)Register API Call w created keychain")
@@ -304,12 +313,15 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                     debugPrint("\(count)Register API Call w keychain failure")
                 }
                 if UIApplication.shared.isRegisteredForRemoteNotifications {
+                    self.hideActivityIndicator()
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
                 } else {
+                    self.hideActivityIndicator()
                     let vc: NotificationsRegistrationViewController = NotificationsRegistrationViewController.instantiate()
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }, failure: { (error) in
+                self.hideActivityIndicator()
                 debugPrint("SubmitAddressViewController registerWith(\(password)) unsucessful")
                 self.showError(error: error)
             })

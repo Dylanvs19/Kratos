@@ -10,7 +10,7 @@
 import UIKit
 import SafariServices
 
-class BillViewController: UIViewController, RepInfoViewPresentable {
+class BillViewController: UIViewController, RepInfoViewPresentable, ActivityIndicatorPresentable {
     
     @IBOutlet var stackView: UIStackView!
     @IBOutlet weak var repInfoView: RepInfoView!
@@ -21,9 +21,12 @@ class BillViewController: UIViewController, RepInfoViewPresentable {
         }
     }
     var bill: Bill?
+    var activityIndicator: KratosActivityIndicator = KratosActivityIndicator()
+    var shadeView: UIView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupActivityIndicator()
         navigationController?.isNavigationBarHidden = true
         enableSwipeBack()
         loadData()
@@ -38,11 +41,14 @@ class BillViewController: UIViewController, RepInfoViewPresentable {
     
     func loadData() {
         if let billId = billId {
-            APIManager.getBill(for: billId, success: { (bill) -> (Void) in
-                self.configureView(with: bill)
-                self.bill = bill
+            presentActivityIndicator()
+            APIManager.getBill(for: billId, success: {[weak self] (bill) -> (Void) in
+                self?.hideActivityIndicator()
+                self?.configureView(with: bill)
+                self?.bill = bill
                 }, failure: { (error) -> (Void) in
-                    //showError
+                    self.hideActivityIndicator()
+                    self.showError(error)
                     print("COULD NOT LOAD BILL FROM API, \(error)")
             })
         }

@@ -168,7 +168,7 @@ public class Pager<DataSource, Delegate, View>: NSObject where DataSource: Pagin
     /// A delegate responsible for managing a UIView's UI options associated with the pager.
     private weak var view: View?
     /// A delegate responsible for managing UI interactions with data new
-    private var delegate: Delegate?
+    private weak var delegate: Delegate?
     
     // MARK: Settings
     /// The number of results displayed per page. By default, 20.

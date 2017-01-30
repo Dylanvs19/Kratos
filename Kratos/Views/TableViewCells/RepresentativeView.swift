@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol RepViewDelegate {
+protocol RepViewDelegate: class {
     func repViewTapped(is selected: Bool, at position: Int)
 }
 
@@ -24,7 +24,7 @@ class RepresentativeView: UIView, Loadable {
     var selected = false
     var viewPosition: Int = 0
     
-    var repViewDelegate: RepViewDelegate?
+    weak var repViewDelegate: RepViewDelegate?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

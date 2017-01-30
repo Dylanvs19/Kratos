@@ -46,7 +46,6 @@ public class LoadMoreSpinnerView: UIView {
     public func stopSpinning() {
         
         UIView.animate(withDuration: 0.25, animations: {
-            
             self.alpha = 0
         }) { complete in
             if complete {

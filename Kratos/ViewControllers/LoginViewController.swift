@@ -8,7 +8,7 @@
 
 import UIKit
 import SafariServices
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, ActivityIndicatorPresentable {
     
     @IBOutlet var kratosImageView: UIImageView!
     
@@ -26,6 +26,9 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailTextField: KratosTextField!
     @IBOutlet weak var passwordTextField: KratosTextField!
     @IBOutlet weak var passwordConfirmationTextField: KratosTextField!
+    
+    var activityIndicator: KratosActivityIndicator = KratosActivityIndicator()
+    var shadeView: UIView = UIView()
     
     enum ViewType {
         case login
@@ -54,7 +57,6 @@ class LoginViewController: UIViewController {
                 self.registerOrSignInButton.setTitle(registerButton, for: UIControlState())
                 self.nextOrSubmitButton.setTitle(submitButtonTitle, for: UIControlState())
                 self.view.layoutIfNeeded()
-
             })
         }
     }
@@ -92,6 +94,7 @@ class LoginViewController: UIViewController {
         emailTextField.animateOut()
         passwordTextField.animateOut()
         passwordConfirmationTextField.animateOut()
+        setupActivityIndicator()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -170,9 +173,12 @@ class LoginViewController: UIViewController {
         case .login:
             if let email = emailTextField.text,
                 let password = passwordTextField.text , textFieldsValid {
+                presentActivityIndicator()
                 APIManager.login(with: email, and: password, success: { (success) in
+                    self.hideActivityIndicator()
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
                 }, failure: { (error) in
+                    self.hideActivityIndicator()
                     self.showError(error: error)
                 })
             } else {
@@ -196,8 +202,10 @@ class LoginViewController: UIViewController {
             guard let email = emailTextField.text else { self.presentMessageAlert(title: "Error", message: "We couldn't validate your email address.", buttonOneTitle: "O K")
                 return
             }
+            
             APIManager.forgotPassword(with:email, success: { (success) in
                 self.presentMessageAlert(title: "Email Sent", message: "An email was sent to your email address.", buttonOneTitle: "O K")
+                
             }, failure: { (error) in
                 self.showError(error: error)
             })

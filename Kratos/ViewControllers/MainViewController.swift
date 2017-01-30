@@ -10,7 +10,7 @@
 import UIKit
 import SafariServices
 
-class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, RepViewDelegate, PagingView, PagingDataSource, PagingTableViewDelegate, RepInfoViewPresentable {
+class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, RepViewDelegate, PagingView, PagingDataSource, PagingTableViewDelegate, RepInfoViewPresentable, ActivityIndicatorPresentable {
     
     @IBOutlet var repViewOne: RepresentativeView!
     @IBOutlet var repViewTwo: RepresentativeView!
@@ -65,6 +65,8 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     @IBOutlet weak var mainViewScrollView: UIScrollView!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var repInfoView: RepInfoView!
+    var activityIndicator: KratosActivityIndicator = KratosActivityIndicator()
+    var shadeView: UIView = UIView()
     
     var menuViewController: MenuViewController?
     var disableSwipe = false
@@ -165,7 +167,8 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         repContactView.configureActionBlocks(presentTwitter: presentTwitter, presentHome: presentHomeAddress)
         
         mainViewScrollView.delegate = self
-
+        
+        setupActivityIndicator()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -176,9 +179,13 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func loadData() {
-        APIManager.getRepresentatives({ (success) in
+        presentActivityIndicator()
+        APIManager.getRepresentatives({ [weak self] (success) in
+            self?.hideActivityIndicator()
             if success {
-                self.configureRepViews()
+                self?.configureRepViews()
+            } else {
+                self?.presentMessageAlert(title: "Error", message: "Could not load your representatives", buttonOneTitle: "OK")
             }
         }, failure: { (error) in
             self.showError(error: error)

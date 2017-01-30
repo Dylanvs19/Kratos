@@ -9,27 +9,63 @@
 import Foundation
 import UIKit
 
-class KratosActivityIndicator: UIVisualEffectView {
+protocol ActivityIndicatorPresentable: class {
+    var activityIndicator: KratosActivityIndicator { get set }
+    var shadeView: UIView { get set }
+    func setupActivityIndicator()
+    func presentActivityIndicator()
+    func hideActivityIndicator()
+}
+
+extension ActivityIndicatorPresentable where Self: UIViewController {
     
-    var text: String? {
-        didSet {
-            label.text = text
+    func setupActivityIndicator() {
+        shadeView.frame = view.frame
+        shadeView.backgroundColor = UIColor.black
+        shadeView.alpha = 0.3
+        shadeView.isUserInteractionEnabled = false
+        activityIndicator.isHidden = true
+        shadeView.isHidden = true
+    }
+    
+    func presentActivityIndicator() {
+        view.addSubview(shadeView)
+        view.addSubview(activityIndicator)
+        UIView.animate(withDuration: 0.2, animations: {
+            self.view.bringSubview(toFront: self.shadeView)
+            self.view.bringSubview(toFront: self.activityIndicator)
+            self.shadeView.isHidden = false
+            self.activityIndicator.isHidden = false
+            self.view.layoutIfNeeded()
+        }) { (success) in
+            self.activityIndicator.startSpin()
         }
     }
-    let activityIndictor: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
-    let label: UILabel = UILabel()
-    let blurEffect = UIBlurEffect(style: .dark)
+    
+    func hideActivityIndicator() {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.activityIndicator.isHidden = true
+                self.shadeView.isHidden = true
+                self.view.layoutIfNeeded()
+            })
+        }
+    }
+}
+
+class KratosActivityIndicator: UIVisualEffectView {
+    
+    let imageView = UIImageView(image: #imageLiteral(resourceName: "Kratos"))
+    let blurEffect = UIBlurEffect(style: .extraLight)
     let vibrancyView: UIVisualEffectView
     
-    init(text: String) {
-        self.text = text
+    init() {
         self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
         super.init(effect: blurEffect)
         self.setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
-        self.text = ""
         self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
         super.init(coder: aDecoder)
         self.setup()
@@ -37,9 +73,7 @@ class KratosActivityIndicator: UIVisualEffectView {
     
     func setup() {
         contentView.addSubview(vibrancyView)
-        vibrancyView.contentView.addSubview(activityIndictor)
-        vibrancyView.contentView.addSubview(label)
-        activityIndictor.startAnimating()
+        contentView.addSubview(imageView)
     }
     
     override func didMoveToSuperview() {
@@ -47,34 +81,28 @@ class KratosActivityIndicator: UIVisualEffectView {
         
         if let superview = self.superview {
             
-            let width = superview.frame.size.width / 2.3
-            let height: CGFloat = 50.0
+            let width = superview.frame.size.width / 3.5
             self.frame = CGRect(x: superview.frame.size.width / 2 - width / 2,
-                                y: superview.frame.height / 2 - height / 2,
+                                y: superview.frame.height / 2 - width / 2,
                                 width: width,
-                                height: height)
+                                height: width)
             vibrancyView.frame = self.bounds
-            
-            let activityIndicatorSize: CGFloat = 40
-            activityIndictor.frame = CGRect(x:5, y:height / 2 - activityIndicatorSize / 2,
-                                            width: activityIndicatorSize,
-                                            height: activityIndicatorSize)
             
             layer.cornerRadius = 8.0
             layer.masksToBounds = true
-            label.text = text
-            label.textAlignment = NSTextAlignment.center
-            label.frame = CGRect(x: activityIndicatorSize + 5, y: 0, width: width - activityIndicatorSize - 15, height: height)
-            label.textColor = UIColor.gray
-            label.font = UIFont.boldSystemFont(ofSize: 16)
+            imageView.frame = CGRect(x: 10, y: 10, width: width - 20, height: width - 20)
         }
     }
     
-    func show() {
-        self.isHidden = false
+    func startSpin() {
+        UIView.animate(withDuration: 0.7, delay: 0, options: [.autoreverse, .repeat], animations: {
+            self.imageView.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI), 0.0, 1.0, 0.0)
+            self.imageView.layoutIfNeeded()
+        })
     }
     
-    func hide() {
-        self.isHidden = true
+    func stopSpin() {
+        imageView.layer.removeAllAnimations()
+        layoutIfNeeded()
     }
 }
