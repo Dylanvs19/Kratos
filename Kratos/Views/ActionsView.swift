@@ -180,7 +180,7 @@ class ActionsView: UIView, Loadable, Tappable {
     
     func viewTapped() {
         if shouldHideStackView {
-            FirebaseAnalytics.selectedContent(content: ExpandableViewType.actionsView.rawValue, id: nil).fireEvent()
+            FirebaseAnalytics.selectedContent(content: ModelViewType.actionsView.rawValue, id: nil).fireEvent()
         }
         shouldHideStackView = !shouldHideStackView
     }
