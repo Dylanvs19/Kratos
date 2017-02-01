@@ -238,6 +238,7 @@ struct Action {
     var committees: [String]?
     var voteType: String?
     var roll: Int?
+    var id: Int?
     
     init(from json: [String: AnyObject]) {
         self.type = json["type"] as? String

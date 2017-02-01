@@ -117,12 +117,14 @@ class RepVotesView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let id = votes?[indexPath.row].person?.id {
+            FirebaseAnalytics.selectedContent(content: ModelType.person.rawValue, id: id).fireEvent()
             presentRepInfoView?(id)
         }
     }
     
     @IBAction func showMoreButtonPressed(_ sender: Any) {
         if shouldExpand {
+            FirebaseAnalytics.selectedContent(content: ModelViewType.repListView.rawValue, id: nil).fireEvent()
             tableViewHeightConstraint.constant = maxTableViewHeight
         } else {
             tableViewHeightConstraint.constant = contractedTableViewHeight

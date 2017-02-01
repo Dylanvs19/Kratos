@@ -115,7 +115,7 @@ struct User {
         
         let dict:[String:[String:AnyObject]] = ["user":[
                                                 "phone": phoneNumber as AnyObject,
-                                                "email": email as AnyObject,
+                                                "email": email.lowercased() as AnyObject,
                                                 "first_name": first as AnyObject,
                                                 "last_name": last as AnyObject,
                                                 "password": password as AnyObject,

@@ -15,9 +15,9 @@ protocol RepInfoViewPresentable: class {
 
 extension RepInfoViewPresentable where Self: UIViewController {
     func presentRepInfoView(with personID: Int) {
+        FirebaseAnalytics.viewItem(id: personID, name: nil, category: ModelViewType.repInfoView.rawValue).fireEvent()
         repInfoView.configure(with: personID)
         repInfoView.repContactView.configureActionBlocks(presentTwitter: self.presentTwitter, presentHome: self.presentHomeAddress)
-        FirebaseAnalytics.FlowAnalytic.selectedRepresentative(representativeID: personID).fireEvent()
     }
 }
 
@@ -54,21 +54,21 @@ class RepInfoView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource 
     
     func configure(with personID: Int) {
         addBlurEffect(front: false)
-        APIManager.getPerson(for: personID, success: { (person) in
+        APIManager.getPerson(for: personID, success: { [weak self] (person) in
             guard let firstName = person.firstName,
                 let lastName = person.lastName else { return }
-            self.repName.text = "\(firstName) \(lastName)"
-            self.repType.text = person.currentChamber?.toRepresentativeType().rawValue
-            self.repState.text = person.currentState?.fullStateName()
-            self.repImageView.setRepresentative(person: person, repInfoViewActionBlock: nil)
-            self.repParty.text = person.currentParty?.capitalLetter()
-            self.repParty.textColor = person.currentParty?.color()
-            self.repImageView.isUserInteractionEnabled = false
+            self?.repName.text = "\(firstName) \(lastName)"
+            self?.repType.text = person.currentChamber?.toRepresentativeType().rawValue
+            self?.repState.text = person.currentState?.fullStateName()
+            self?.repImageView.setRepresentative(person: person, repInfoViewActionBlock: nil)
+            self?.repParty.text = person.currentParty?.capitalLetter()
+            self?.repParty.textColor = person.currentParty?.color()
+            self?.repImageView.isUserInteractionEnabled = false
             if let state =  person.currentState {
-                self.repStateView.image = UIImage.imageForState(state)
+                self?.repStateView.image = UIImage.imageForState(state)
             }
-            self.repContactView.configure(with: person)
-            self.terms = person.terms
+            self?.repContactView.configure(with: person)
+            self?.terms = person.terms
         }) { (error) in
             print(error)
         }

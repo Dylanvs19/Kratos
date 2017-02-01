@@ -57,6 +57,10 @@ class YourVotesViewController: UIViewController, UITableViewDelegate, UITableVie
         guard let lightTally = userVotes?[indexPath.row] else { return }
         let vc: TallyViewController = TallyViewController.instantiate()
         vc.lightTally = lightTally
+        if let id = lightTally.id,
+            let title = lightTally.billShortTitle {
+            FirebaseAnalytics.viewItem(id: id, name: title, category: ModelType.tally.rawValue).fireEvent()
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     

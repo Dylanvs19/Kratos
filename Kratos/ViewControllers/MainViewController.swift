@@ -173,7 +173,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        FirebaseAnalytics.FlowAnalytic.navigate(to: self, with: nil, id: nil).fireEvent()
         loadData()
         reloadInputViews()
     }
@@ -220,7 +219,6 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         repViewTwo.repViewDelegate = self
         repViewThree.repViewDelegate = self
         kratosLabel.alpha = 0
-//        repViewDeselected(animate: false)
     }
     
     fileprivate func configurePagers() {
@@ -297,12 +295,12 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     //MARK: RepView UI & Delegate Methods
     ///  Repview Delegate Method - fires when repView has been selected via tapGesture
     func repViewTapped(is selected: Bool, at position: Int) {
-        guard let representatives = representatives else {
-            return
-        }
+        guard let representatives = representatives else { return }
         if selected && position < representatives.count {
             selectedRepresentative = representatives[position]
             selectedRepIndex = position
+            
+            FirebaseAnalytics.selectedContent(content: ModelType.person.rawValue, id: selectedRepresentative?.id).fireEvent()
             
             // set pager for proper data stream
             switch position {
@@ -558,6 +556,10 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         let vc: TallyViewController = TallyViewController.instantiate()
         vc.lightTally = lightTally
         vc.representative = rep
+        if let id = lightTally.id,
+           let title = lightTally.billShortTitle {
+            FirebaseAnalytics.viewItem(id: id, name: title, category: ModelType.tally.rawValue).fireEvent()
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 

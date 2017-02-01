@@ -42,7 +42,6 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let id = lightTally?.id else { return }
-        FirebaseAnalytics.FlowAnalytic.navigate(to: self, with: .tally, id: id).fireEvent()
     }
     
     func loadData() {
@@ -118,6 +117,7 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
         let vc: BillViewController = BillViewController.instantiate()
         if let relatedBill = tally?.billId {
             vc.billId = relatedBill
+            FirebaseAnalytics.viewItem(id: relatedBill, name: tally?.billShortTitle, category: ModelType.bill.rawValue).fireEvent()
             navigationController?.pushViewController(vc, animated: true)
         }
     }

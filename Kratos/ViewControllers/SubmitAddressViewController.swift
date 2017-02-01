@@ -287,12 +287,11 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             displayType = .editProfile
         case .editProfile: //save profile & switch to Account Details
             updateUser()
-            FirebaseAnalytics.FlowAnalytic.editedAccountDetails.fireEvent()
             presentActivityIndicator()
-            APIManager.updateUser(success: { (success) in
-                self.hideActivityIndicator()
-                self.presentMessageAlert(title: "Update Successful", message: "Your account has been updated.", buttonOneTitle: "O K")
-                self.displayType = .accountDetails
+            APIManager.updateUser(success: { [weak self] (success) in
+                self?.hideActivityIndicator()
+                self?.presentMessageAlert(title: "Update Successful", message: "Your account has been updated.", buttonOneTitle: "O K")
+                self?.displayType = .accountDetails
             }, failure: { (error) in
                 self.hideActivityIndicator()
                 debugPrint("SubmitAddressViewController updateUser unsucessful")
@@ -320,6 +319,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                     let vc: NotificationsRegistrationViewController = NotificationsRegistrationViewController.instantiate()
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
+                FirebaseAnalytics.signUp.fireEvent()
             }, failure: { (error) in
                 self.hideActivityIndicator()
                 debugPrint("SubmitAddressViewController registerWith(\(password)) unsucessful")

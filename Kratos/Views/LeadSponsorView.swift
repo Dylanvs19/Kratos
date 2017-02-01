@@ -68,6 +68,7 @@ class LeadSponsorView: UIView, Loadable, Tappable {
 
     func viewTapped() {
         if let id = sponsor?.id {
+            FirebaseAnalytics.selectedContent(content: ModelViewType.leadSponsor.rawValue, id: id).fireEvent()
             presentRepInfoView?(id)
         }
     }

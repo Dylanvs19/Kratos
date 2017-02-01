@@ -100,6 +100,7 @@ class UserVoteView: UIView, Loadable {
     }
     
     func yeaTapped() {
+        FirebaseAnalytics.selectedContent(content: ModelViewType.userVoteView.rawValue, id: 1).fireEvent()
         userVote = userVote == .yea ? .abstain : .yea
         guard let tallyID = tallyID else { return }
         if userVoteExists {
@@ -120,6 +121,7 @@ class UserVoteView: UIView, Loadable {
     }
     
     func nayTapped() {
+        FirebaseAnalytics.selectedContent(content: ModelViewType.userVoteView.rawValue, id: 0).fireEvent()
         userVote = userVote == .nay ? .abstain : .nay
         guard let tallyID = tallyID else { return }
         if userVoteExists {

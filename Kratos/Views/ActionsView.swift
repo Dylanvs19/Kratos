@@ -36,6 +36,7 @@ class ActionsView: UIView, Loadable, Tappable {
     var layoutStackView: (() -> ())?
     var hideTopView = false
     var viewType: ViewType = .majorAndMinorActions
+    var actions = [Action]()
     
     enum ViewType {
         case onlyMinorActions
@@ -60,6 +61,7 @@ class ActionsView: UIView, Loadable, Tappable {
     }
     
     func configure(with actionArray: [Action], first: Bool, last: Bool, viewType: ViewType, layoutStackView: (() -> ())?) {
+        
         var cpyArray = actionArray
         
         topView.isHidden = first
@@ -177,6 +179,9 @@ class ActionsView: UIView, Loadable, Tappable {
     }
     
     func viewTapped() {
+        if shouldHideStackView {
+            FirebaseAnalytics.selectedContent(content: ExpandableViewType.actionsView.rawValue, id: nil).fireEvent()
+        }
         shouldHideStackView = !shouldHideStackView
     }
 }

@@ -35,8 +35,6 @@ class BillViewController: UIViewController, RepInfoViewPresentable, ActivityIndi
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        guard let id = billId else { return }
-        FirebaseAnalytics.FlowAnalytic.navigate(to: self, with: .bill, id: id).fireEvent()
     }
     
     func loadData() {
@@ -92,7 +90,7 @@ class BillViewController: UIViewController, RepInfoViewPresentable, ActivityIndi
             view.configure(with: title, votes: lightCoSponsors, presentRepInfoView: presentRepInfoView)
             stackView.addArrangedSubview(view)
         }
-        if let url = bill.billTextURL {
+        if bill.billTextURL != nil {
             let relatedBillView = ButtonView()
             relatedBillView.configure(with: "Bill Text", actionBlock: billTextButtonPressed)
             stackView.addArrangedSubview(relatedBillView)
