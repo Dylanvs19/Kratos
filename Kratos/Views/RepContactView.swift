@@ -43,11 +43,10 @@ class RepContactView: UIView, Loadable {
     }
     
     func setupView() {
-        
-        websiteButton.setBackgroundImage(UIImage(named: "WebsiteLogo") , for: .normal)
-        twitterButton.setBackgroundImage(UIImage(named: "TwitterLogo") , for: .normal)
-        phoneButton.setBackgroundImage(UIImage(named: "PhoneLogo") , for: .normal)
-        homeButton.setBackgroundImage(UIImage(named: "HouseLogo") , for: .normal)
+        websiteButton.setBackgroundImage(#imageLiteral(resourceName: "WebsiteLogo"), for: .normal)
+        twitterButton.setBackgroundImage(#imageLiteral(resourceName: "TwitterLogo"), for: .normal)
+        phoneButton.setBackgroundImage(#imageLiteral(resourceName: "PhoneLogo"), for: .normal)
+        homeButton.setBackgroundImage(#imageLiteral(resourceName: "CongressContactLogo"), for: .normal)
         let array = [phoneHeightConstraint, websiteHeightConstraint, twitterHeightConstraint, homeHeightConstraint]
         array.forEach { (constraint) in
             constraint?.constant = 0

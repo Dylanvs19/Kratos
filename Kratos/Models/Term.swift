@@ -8,9 +8,12 @@
 
 import Foundation
 
-struct Term {
+struct Term: Hashable {
+    var hashValue: Int {
+        return id
+    }
     
-    var id: Int?
+    var id: Int
     var state: String?
     var district: Int?
     var rank: String?
@@ -26,9 +29,12 @@ struct Term {
     var contactForm: String?
     var classNumber: Int?
     
-    
-    init(json: [String: AnyObject]) {
-        self.id = json["id"] as? Int
+    init?(json: [String: AnyObject]) {
+        if let id = json["id"] as? Int {
+            self.id = id
+        } else {
+            return nil
+        }
         self.state = json["state"] as? String
         self.district = json["district"] as? Int
         self.classNumber = json["class"] as? Int
@@ -55,3 +61,8 @@ struct Term {
         }
     }
 }
+
+func ==(lhs: Term, rhs: Term) -> Bool {
+    return lhs.id == rhs.id
+}
+

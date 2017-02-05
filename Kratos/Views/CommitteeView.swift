@@ -64,7 +64,7 @@ class CommitteeView: UIView, Loadable, Tappable {
         }
         
         if let activity = committee.activity {
-            let view = ActivityView()
+            let view = CommitteActivitiesView()
             let title = activity.count == 1 ? "Activity for Bill" : "Activities for Bill"
             view.configure(with: title, activities: activity)
             stackView.addArrangedSubview(view)

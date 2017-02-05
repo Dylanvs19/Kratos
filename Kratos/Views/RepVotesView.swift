@@ -20,7 +20,7 @@ class RepVotesView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource
     var votes: [Vote]? {
         didSet {
             if votes != nil {
-                cellMap = votes!.groupedBySection(groupBy: { (vote) -> (String) in
+                cellMap = votes!.groupBySection(groupBy: { (vote) -> (String) in
                     return vote.person?.state ?? ""
                 })
                 tableView.reloadData()

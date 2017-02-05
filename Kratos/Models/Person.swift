@@ -8,9 +8,12 @@
 
 import UIKit
 
-struct Person {
+struct Person: Hashable {
+    var hashValue: Int {
+        return id
+    }
 
-    var id: Int?
+    var id: Int
     var firstName: String?
     var lastName: String?
     var currentState: String?
@@ -29,8 +32,12 @@ struct Person {
     var currentChamber: Chamber?
     var religion: String?
     
-    init(from json: [String: AnyObject]) {
-        self.id = json["id"] as? Int
+    init?(from json: [String: AnyObject]) {
+        if let id = json["id"] as? Int {
+            self.id = id
+        } else {
+            return nil 
+        }
         self.firstName = json["first_name"] as? String
         self.lastName = json["last_name"] as? String
         self.twitter = json["twitter"] as? String
@@ -54,18 +61,18 @@ struct Person {
         if let termArray = json["terms"] as? [[String: AnyObject]] {
             self.terms = termArray.map({ (dictionary) -> Term? in
                 let term = Term(json: dictionary)
-                if (term.isCurrent ?? false) {
+                if (term?.isCurrent ?? false) {
                     if self.currentState == nil {
-                        self.currentState = term.state
+                        self.currentState = term?.state
                     }
                     if self.currentChamber == nil {
-                        self.currentChamber = term.representativeType?.toChamber()
+                        self.currentChamber = term?.representativeType?.toChamber()
                     }
                     if self.currentParty == nil {
-                        self.currentParty = term.party
+                        self.currentParty = term?.party
                     }
                     if self.currentDistrict == nil {
-                        self.currentDistrict = term.district
+                        self.currentDistrict = term?.district
                     }
                 }
                 return term
@@ -87,17 +94,14 @@ struct Person {
         }
     }
     
-    init() {}
-    
     func toLightPerson() -> LightPerson {
-        var person = LightPerson()
+        var person = LightPerson(with: id)
         person.firstName = firstName
         person.lastName = lastName
         person.district = currentDistrict
         person.party = currentParty
         person.state = currentState
         person.representativeType = currentChamber?.toRepresentativeType()
-        person.id = id
         person.imageURL = imageURL
         return person 
     }
@@ -107,11 +111,14 @@ func ==(lhs: Person, rhs: Person) -> Bool {
     return lhs.id == rhs.id
 }
 
-struct LightPerson {
+struct LightPerson: Hashable {
+    var hashValue: Int {
+        return id
+    }
     
     var firstName: String?
     var lastName: String?
-    var id: Int?
+    var id: Int
     var imageURL: String?
     var state: String?
     var party: Party?
@@ -119,8 +126,12 @@ struct LightPerson {
     var district: Int?
     var isCurrent: Bool?
     
-    init(from json: [String: AnyObject]) {
-        self.id = json["id"] as? Int
+    init?(from json: [String: AnyObject]) {
+        if let id = json["id"] as? Int {
+            self.id = id
+        } else {
+            return nil
+        }
         self.imageURL = json["image_url"] as? String
         self.firstName = json["first_name"] as? String
         self.lastName = json["last_name"] as? String
@@ -141,8 +152,9 @@ struct LightPerson {
             }
         }
     }
-    
-    init() {}
+    init(with id: Int) {
+        self.id = id
+    }
 }
 
 enum Party: String, RawRepresentable {

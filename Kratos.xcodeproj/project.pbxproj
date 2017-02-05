@@ -47,8 +47,8 @@
 		AF4F6E7E1E1A7ECB003E7C9C /* CommitteeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4F6E7D1E1A7ECB003E7C9C /* CommitteeView.swift */; };
 		AF4F6E801E1D2AA6003E7C9C /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4F6E7F1E1D2AA6003E7C9C /* SummaryView.swift */; };
 		AF4F6E821E1D2AAF003E7C9C /* SummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF4F6E811E1D2AAF003E7C9C /* SummaryView.xib */; };
-		AF4F6E841E1F2EB7003E7C9C /* ActivityView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF4F6E831E1F2EB7003E7C9C /* ActivityView.xib */; };
-		AF4F6E861E1F2ECA003E7C9C /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4F6E851E1F2ECA003E7C9C /* ActivityView.swift */; };
+		AF4F6E841E1F2EB7003E7C9C /* CommitteActivitiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF4F6E831E1F2EB7003E7C9C /* CommitteActivitiesView.xib */; };
+		AF4F6E861E1F2ECA003E7C9C /* CommitteActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4F6E851E1F2ECA003E7C9C /* CommitteActivitiesView.swift */; };
 		AF4F6E881E214980003E7C9C /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4F6E871E214980003E7C9C /* UIImageView+Extensions.swift */; };
 		AF4F6E8A1E227C40003E7C9C /* BillActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4F6E891E227C40003E7C9C /* BillActionTableViewCell.swift */; };
 		AF4F6E8C1E227C4E003E7C9C /* BillActionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF4F6E8B1E227C4E003E7C9C /* BillActionTableViewCell.xib */; };
@@ -77,7 +77,6 @@
 		AF89749A1D4D88F600C19020 /* BillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974991D4D88F600C19020 /* BillViewController.swift */; };
 		AF89749C1D4D8ADC00C19020 /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89749B1D4D8ADC00C19020 /* Vote.swift */; };
 		AF8974A81D4E784E00C19020 /* VoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974A71D4E784E00C19020 /* VoteTableViewCell.swift */; };
-		AF8974AA1D4E786E00C19020 /* VoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF8974A91D4E786E00C19020 /* VoteTableViewCell.xib */; };
 		AF8974AD1D4E969000C19020 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974AC1D4E969000C19020 /* APIService.swift */; };
 		AF8974AF1D4E98C700C19020 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974AE1D4E98C700C19020 /* User.swift */; };
 		AF8974B21D4E999C00C19020 /* InputValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B11D4E999C00C19020 /* InputValidation.swift */; };
@@ -85,6 +84,11 @@
 		AF8974B61D4EF39900C19020 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B51D4EF39900C19020 /* String+Extensions.swift */; };
 		AF8974B81D4F058E00C19020 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B71D4F058E00C19020 /* UIColor+Extension.swift */; };
 		AF8974BA1D5036DA00C19020 /* NSCharacterSet+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974B91D5036DA00C19020 /* NSCharacterSet+Extensions.swift */; };
+		AF9476C81E421FCC00C676D1 /* MainTableViewCellVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9476C71E421FCC00C676D1 /* MainTableViewCellVoteView.swift */; };
+		AF9476CA1E421FDD00C676D1 /* MainTableViewCellVoteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9476C91E421FDD00C676D1 /* MainTableViewCellVoteView.xib */; };
+		AF9476CC1E43734800C676D1 /* MainTableViewCellTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9476CB1E43734800C676D1 /* MainTableViewCellTitleView.xib */; };
+		AF9476CE1E43735B00C676D1 /* MainTableViewCellTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9476CD1E43735B00C676D1 /* MainTableViewCellTitleView.swift */; };
+		AF9476D01E456E3200C676D1 /* VoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF9476CF1E456E3200C676D1 /* VoteTableViewCell.xib */; };
 		AFA9D1601E30269B00CD6BF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */; };
 		AFA9D1621E3063CB00CD6BF9 /* KratosAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA9D1611E3063CB00CD6BF9 /* KratosAnalytics.swift */; };
 		AFA9D1641E30F37C00CD6BF9 /* FirebaseAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA9D1631E30F37C00CD6BF9 /* FirebaseAnalytics.swift */; };
@@ -200,8 +204,8 @@
 		AF4F6E7D1E1A7ECB003E7C9C /* CommitteeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitteeView.swift; sourceTree = "<group>"; };
 		AF4F6E7F1E1D2AA6003E7C9C /* SummaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		AF4F6E811E1D2AAF003E7C9C /* SummaryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SummaryView.xib; sourceTree = "<group>"; };
-		AF4F6E831E1F2EB7003E7C9C /* ActivityView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityView.xib; sourceTree = "<group>"; };
-		AF4F6E851E1F2ECA003E7C9C /* ActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
+		AF4F6E831E1F2EB7003E7C9C /* CommitteActivitiesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommitteActivitiesView.xib; sourceTree = "<group>"; };
+		AF4F6E851E1F2ECA003E7C9C /* CommitteActivitiesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitteActivitiesView.swift; sourceTree = "<group>"; };
 		AF4F6E871E214980003E7C9C /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
 		AF4F6E891E227C40003E7C9C /* BillActionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillActionTableViewCell.swift; sourceTree = "<group>"; };
 		AF4F6E8B1E227C4E003E7C9C /* BillActionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillActionTableViewCell.xib; sourceTree = "<group>"; };
@@ -237,7 +241,6 @@
 		AF8974991D4D88F600C19020 /* BillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillViewController.swift; sourceTree = "<group>"; };
 		AF89749B1D4D8ADC00C19020 /* Vote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
 		AF8974A71D4E784E00C19020 /* VoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteTableViewCell.swift; sourceTree = "<group>"; };
-		AF8974A91D4E786E00C19020 /* VoteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteTableViewCell.xib; sourceTree = "<group>"; };
 		AF8974AC1D4E969000C19020 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		AF8974AE1D4E98C700C19020 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AF8974B11D4E999C00C19020 /* InputValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValidation.swift; sourceTree = "<group>"; };
@@ -245,6 +248,11 @@
 		AF8974B51D4EF39900C19020 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		AF8974B71D4F058E00C19020 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		AF8974B91D5036DA00C19020 /* NSCharacterSet+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSCharacterSet+Extensions.swift"; sourceTree = "<group>"; };
+		AF9476C71E421FCC00C676D1 /* MainTableViewCellVoteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewCellVoteView.swift; sourceTree = "<group>"; };
+		AF9476C91E421FDD00C676D1 /* MainTableViewCellVoteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainTableViewCellVoteView.xib; sourceTree = "<group>"; };
+		AF9476CB1E43734800C676D1 /* MainTableViewCellTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainTableViewCellTitleView.xib; sourceTree = "<group>"; };
+		AF9476CD1E43735B00C676D1 /* MainTableViewCellTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewCellTitleView.swift; sourceTree = "<group>"; };
+		AF9476CF1E456E3200C676D1 /* VoteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteTableViewCell.xib; sourceTree = "<group>"; };
 		AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AFA9D1611E3063CB00CD6BF9 /* KratosAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KratosAnalytics.swift; path = Utilites/KratosAnalytics.swift; sourceTree = "<group>"; };
 		AFA9D1631E30F37C00CD6BF9 /* FirebaseAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseAnalytics.swift; path = Utilites/FirebaseAnalytics.swift; sourceTree = "<group>"; };
@@ -336,6 +344,7 @@
 		AF28197A1DF0EFA0001D5C93 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
+				AF1823291E29DCC3005912D2 /* RepImageView.swift */,
 				AFE47F501DF4DC9100008CCB /* LoadMoreSpinnerView.swift */,
 				AF28197D1DF0EFF7001D5C93 /* KratosTextField.swift */,
 				AF28197F1DF0F006001D5C93 /* KratosTextField.xib */,
@@ -346,11 +355,6 @@
 				AF2F923E1E15B40D0041369E /* StackViewView.swift */,
 				AF4F6E7F1E1D2AA6003E7C9C /* SummaryView.swift */,
 				AF4F6E811E1D2AAF003E7C9C /* SummaryView.xib */,
-				AF4F6E851E1F2ECA003E7C9C /* ActivityView.swift */,
-				AF4F6E831E1F2EB7003E7C9C /* ActivityView.xib */,
-				AF1823251E29DC75005912D2 /* RepInfoView.swift */,
-				AF1823271E29DC82005912D2 /* RepInfoView.xib */,
-				AF1823291E29DCC3005912D2 /* RepImageView.swift */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -362,6 +366,7 @@
 				AF2F92471E15DB470041369E /* RepVoteTableViewCell.xib */,
 			);
 			name = TallyTableViewCells;
+			path = TableViewCells;
 			sourceTree = "<group>";
 		};
 		AF3912F31DF84CCA00123B5C /* Navigation */ = {
@@ -530,26 +535,15 @@
 			children = (
 				AF6B740C1E38E5B000962FD6 /* FeedbackForm */,
 				AF28197A1DF0EFA0001D5C93 /* Misc */,
+				AF9476D11E478AAE00C676D1 /* RepInfoViews */,
 				AFB5CCA01DE0B512006E51A2 /* MainViews */,
 				AF3DBCEA1DD21BFB006B146F /* HeaderViews */,
 				AFF748131DCFF27300F519AE /* PieChart */,
 				AFB5CC9F1DE0B4F3006E51A2 /* BillViews */,
 				AFB5CC9E1DE0B4E4006E51A2 /* TallyViews */,
 				AF39130B1DFA574800123B5C /* YourVoteViews */,
-				AF8974921D4D862B00C19020 /* TableViewCells */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		AF8974921D4D862B00C19020 /* TableViewCells */ = {
-			isa = PBXGroup;
-			children = (
-				AFFED35E1E350AF800BDF2D1 /* RepInfoViewCells */,
-				AF2F92461E15D9030041369E /* TallyTableViewCells */,
-				AFF7480E1DC97F9500F519AE /* BillTableViewCells */,
-				AFB5CCBD1DE55C5E006E51A2 /* MainViewTableViewCells */,
-			);
-			path = TableViewCells;
 			sourceTree = "<group>";
 		};
 		AF8974AB1D4E965600C19020 /* APIClient */ = {
@@ -573,6 +567,16 @@
 			path = Utilites;
 			sourceTree = "<group>";
 		};
+		AF9476D11E478AAE00C676D1 /* RepInfoViews */ = {
+			isa = PBXGroup;
+			children = (
+				AF1823251E29DC75005912D2 /* RepInfoView.swift */,
+				AF1823271E29DC82005912D2 /* RepInfoView.xib */,
+				AFFED35E1E350AF800BDF2D1 /* RepInfoViewCells */,
+			);
+			name = RepInfoViews;
+			sourceTree = "<group>";
+		};
 		AFA9D1651E30F5C500CD6BF9 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
@@ -585,6 +589,7 @@
 		AFB5CC9E1DE0B4E4006E51A2 /* TallyViews */ = {
 			isa = PBXGroup;
 			children = (
+				AF2F92461E15D9030041369E /* TallyTableViewCells */,
 				AFB5CCA11DE0B595006E51A2 /* VoteHeaderView.swift */,
 				AFB5CCA31DE0B5BB006E51A2 /* VoteHeaderView.xib */,
 				AF2F92401E15B4390041369E /* StackViewView.xib */,
@@ -601,14 +606,17 @@
 		AFB5CC9F1DE0B4F3006E51A2 /* BillViews */ = {
 			isa = PBXGroup;
 			children = (
+				AFF7480E1DC97F9500F519AE /* BillTableViewCells */,
 				AFB5CCB11DE0B7F5006E51A2 /* BillHeaderView.swift */,
 				AFB5CCB31DE0B7FE006E51A2 /* BillHeaderView.xib */,
 				AFB5CCB71DE0B821006E51A2 /* BillCommitteesView.swift */,
 				AFB5CCB51DE0B812006E51A2 /* BillCommitteesView.xib */,
+				AF4F6E7D1E1A7ECB003E7C9C /* CommitteeView.swift */,
+				AF4F6E851E1F2ECA003E7C9C /* CommitteActivitiesView.swift */,
+				AF4F6E831E1F2EB7003E7C9C /* CommitteActivitiesView.xib */,
+				AF4F6E7B1E1A7EC2003E7C9C /* CommitteeView.xib */,
 				AFB5CCB91DE0B834006E51A2 /* LeadSponsorView.swift */,
 				AFB5CCBB1DE0B83F006E51A2 /* LeadSponsorView.xib */,
-				AF4F6E7D1E1A7ECB003E7C9C /* CommitteeView.swift */,
-				AF4F6E7B1E1A7EC2003E7C9C /* CommitteeView.xib */,
 				AF4F6E8F1E25CC4A003E7C9C /* ActionsView.swift */,
 				AF4F6E8D1E25CC3B003E7C9C /* ActionsView.xib */,
 				AF4F6E911E284E6C003E7C9C /* MinorActionView.swift */,
@@ -620,6 +628,11 @@
 		AFB5CCA01DE0B512006E51A2 /* MainViews */ = {
 			isa = PBXGroup;
 			children = (
+				AFB5CCBD1DE55C5E006E51A2 /* MainViewTableViewCells */,
+				AF9476C71E421FCC00C676D1 /* MainTableViewCellVoteView.swift */,
+				AF9476C91E421FDD00C676D1 /* MainTableViewCellVoteView.xib */,
+				AF9476CD1E43735B00C676D1 /* MainTableViewCellTitleView.swift */,
+				AF9476CB1E43734800C676D1 /* MainTableViewCellTitleView.xib */,
 				AF2B8C6B1D62D21300C31FA9 /* RepresentativeView.swift */,
 				AF2B8C6D1D62D22600C31FA9 /* RepresentativeView.xib */,
 				AFF7480F1DC97FF500F519AE /* RepContactView.swift */,
@@ -632,9 +645,10 @@
 			isa = PBXGroup;
 			children = (
 				AF8974A71D4E784E00C19020 /* VoteTableViewCell.swift */,
-				AF8974A91D4E786E00C19020 /* VoteTableViewCell.xib */,
+				AF9476CF1E456E3200C676D1 /* VoteTableViewCell.xib */,
 			);
 			name = MainViewTableViewCells;
+			path = TableViewCells;
 			sourceTree = "<group>";
 		};
 		AFF7480E1DC97F9500F519AE /* BillTableViewCells */ = {
@@ -644,7 +658,6 @@
 				AF4F6E8B1E227C4E003E7C9C /* BillActionTableViewCell.xib */,
 			);
 			name = BillTableViewCells;
-			path = ..;
 			sourceTree = "<group>";
 		};
 		AFF748131DCFF27300F519AE /* PieChart */ = {
@@ -664,7 +677,6 @@
 				AFFED3601E350B4D00BDF2D1 /* TermTableViewCell.xib */,
 			);
 			name = RepInfoViewCells;
-			path = ..;
 			sourceTree = "<group>";
 		};
 		B7ADC5350DE4F250004F089B /* Frameworks */ = {
@@ -821,11 +833,13 @@
 				AF2F92391E147D000041369E /* ButtonView.xib in Resources */,
 				AFB5CCBC1DE0B83F006E51A2 /* LeadSponsorView.xib in Resources */,
 				AF73E50C1E38F2B800B40340 /* FeedbackHeaderView.xib in Resources */,
+				AF9476CA1E421FDD00C676D1 /* MainTableViewCellVoteView.xib in Resources */,
 				AF4F6E8C1E227C4E003E7C9C /* BillActionTableViewCell.xib in Resources */,
 				AF4F6E8E1E25CC3B003E7C9C /* ActionsView.xib in Resources */,
 				AF4F6E941E284E88003E7C9C /* MinorActionView.xib in Resources */,
-				AF4F6E841E1F2EB7003E7C9C /* ActivityView.xib in Resources */,
+				AF4F6E841E1F2EB7003E7C9C /* CommitteActivitiesView.xib in Resources */,
 				AFE47F551DF4E9E700008CCB /* UserVoteView.xib in Resources */,
+				AF9476CC1E43734800C676D1 /* MainTableViewCellTitleView.xib in Resources */,
 				AFA9D1601E30269B00CD6BF9 /* GoogleService-Info.plist in Resources */,
 				AFB5CCB61DE0B812006E51A2 /* BillCommitteesView.xib in Resources */,
 				AF4F6E7C1E1A7EC2003E7C9C /* CommitteeView.xib in Resources */,
@@ -834,10 +848,10 @@
 				AF1823281E29DC82005912D2 /* RepInfoView.xib in Resources */,
 				AFF7481D1DD0203B00F519AE /* PieChartView.xib in Resources */,
 				AF2F923D1E15AC7E0041369E /* ShowMoreView.xib in Resources */,
+				AF9476D01E456E3200C676D1 /* VoteTableViewCell.xib in Resources */,
 				AFE47F4F1DF34F2900008CCB /* DatePickerView.xib in Resources */,
 				AF3C2FF21DD3570600353638 /* VoteDateHeaderView.xib in Resources */,
 				AF4F6E821E1D2AAF003E7C9C /* SummaryView.xib in Resources */,
-				AF8974AA1D4E786E00C19020 /* VoteTableViewCell.xib in Resources */,
 				AF8974641D4D80E500C19020 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1036,6 +1050,7 @@
 				AF2F923F1E15B40D0041369E /* StackViewView.swift in Sources */,
 				AF39130A1DFA56E500123B5C /* YourVotesViewController.swift in Sources */,
 				AF6B740E1E38E5D500962FD6 /* FeedbackQuestionView.swift in Sources */,
+				AF9476C81E421FCC00C676D1 /* MainTableViewCellVoteView.swift in Sources */,
 				AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */,
 				AFF748171DCFF2F100F519AE /* PieChartView.swift in Sources */,
 				AFA9D1641E30F37C00CD6BF9 /* FirebaseAnalytics.swift in Sources */,
@@ -1065,8 +1080,9 @@
 				AF8974A81D4E784E00C19020 /* VoteTableViewCell.swift in Sources */,
 				AF2B8C6C1D62D21300C31FA9 /* RepresentativeView.swift in Sources */,
 				AFA9D1621E3063CB00CD6BF9 /* KratosAnalytics.swift in Sources */,
-				AF4F6E861E1F2ECA003E7C9C /* ActivityView.swift in Sources */,
+				AF4F6E861E1F2ECA003E7C9C /* CommitteActivitiesView.swift in Sources */,
 				AF18232A1E29DCC3005912D2 /* RepImageView.swift in Sources */,
+				AF9476CE1E43735B00C676D1 /* MainTableViewCellTitleView.swift in Sources */,
 				AFF748101DC97FF500F519AE /* RepContactView.swift in Sources */,
 				AF1823261E29DC75005912D2 /* RepInfoView.swift in Sources */,
 				AF39130E1DFA577400123B5C /* YourVoteTableViewCell.swift in Sources */,

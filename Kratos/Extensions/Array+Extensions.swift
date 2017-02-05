@@ -9,7 +9,7 @@
 import Foundation
 
 extension Array {
-    func groupedBySection<T: Hashable> (groupBy: (Element) -> (T)) -> [Int: [Element]] {
+    func groupBySection<T: Hashable> (groupBy: (Element) -> (T)) -> [Int: [Element]] {
         
         var mappedItems = [Int: [Element]]()
         var index = -1
@@ -39,5 +39,30 @@ extension Array {
             0 <= to,
             from <= to else { return nil }
         return Array(self[from...to])
+    }
+}
+
+extension Array where Element: Hashable {
+    func uniqueGroupBySection<T: Hashable> (groupBy: (Element) -> (T)) -> [Int: Set<Element>] {
+        
+        var mappedItems = [Int: Set<Element>]()
+        var index = -1
+        var mapped = [T: Int]()
+        
+        for item in self {
+            let groupingValue = groupBy(item)
+            
+            if let i = mapped[groupingValue] {
+                var cpy = mappedItems[i]
+                cpy?.insert(item)
+                mappedItems[i] = cpy
+            } else {
+                index += 1
+                mappedItems[index] = [item]
+                mapped[groupingValue] = index
+            }
+        }
+        
+        return mappedItems
     }
 }

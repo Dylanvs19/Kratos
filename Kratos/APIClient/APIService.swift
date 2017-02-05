@@ -383,9 +383,10 @@ struct APIService {
                 }
             }
             
-            if let person = obj {
+            if let obj = obj,
+               let person = Person(from: obj) {
                 DispatchQueue.main.async(execute: {
-                    success(Person(from: person))
+                    success(person)
                 })
             }
         }
@@ -425,7 +426,7 @@ struct APIService {
             if let tallies = obj?["data"]?["voting_record"] as? [[String: AnyObject]] {
                 let lightTallies = tallies.map({
                     LightTally(json: $0)
-                })
+                }).flatMap({$0})
                 DispatchQueue.main.async(execute: {
                     success(lightTallies)
                 })
@@ -434,10 +435,9 @@ struct APIService {
         task.resume()
     }
     
-    static func fetchTally(for lightTally: LightTally, success: @escaping (Tally) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+    static func fetchTally(for lightTallyID: Int, success: @escaping (Tally) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
         
-        guard let id = lightTally.id,
-            let url = URL(string: "\(Constants.TALLY_URL)\(id)") else {
+        guard let url = URL(string: "\(Constants.TALLY_URL)\(lightTallyID)") else {
                 failure(.invalidURL(error:nil))
                 return
         }
@@ -464,8 +464,8 @@ struct APIService {
                 }
             }
             
-            if let obj = obj {
-                let tally = Tally(json: obj)
+            if let obj = obj,
+               let tally = Tally(json: obj) {
                 DispatchQueue.main.async(execute: {
                     success(tally)
                 })
@@ -545,7 +545,7 @@ struct APIService {
             if let tallies = obj?["data"]?["voting_record"] as? [[String: AnyObject]] {
                 let lightTallies = tallies.map({
                     LightTally(json: $0)
-                })
+                }).flatMap({$0})
                 DispatchQueue.main.async(execute: {
                     success(lightTallies)
                 })
@@ -589,8 +589,8 @@ struct APIService {
             }
             
             
-            if let obj = obj {
-                let tally =  LightTally(json: obj)
+            if let obj = obj,
+               let tally =  LightTally(json: obj) {
                 DispatchQueue.main.async(execute: {
                     success(tally)
                 })
@@ -628,8 +628,8 @@ struct APIService {
                 }
             }
             
-            if let obj = obj {
-                let tally =  LightTally(json: obj)
+            if let obj = obj,
+               let tally =  LightTally(json: obj) {
                 DispatchQueue.main.async(execute: {
                     success(tally)
                 })
@@ -673,8 +673,8 @@ struct APIService {
                 }
             }
             
-            if let obj = obj {
-                let tally =  LightTally(json: obj)
+            if let obj = obj,
+               let tally =  LightTally(json: obj) {
                 DispatchQueue.main.async(execute: {
                     success(tally)
                 })

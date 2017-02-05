@@ -16,7 +16,6 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
         didSet {
             KratosAnalytics.shared.updateTallyAnalyicAction(with: lightTally?.id)
             loadData()
-            
         }
     }
     var tally: Tally? {
@@ -41,13 +40,12 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        guard let id = lightTally?.id else { return }
     }
     
     func loadData() {
         if let lightTally = lightTally {
             presentActivityIndicator()
-            APIManager.getTally(for: lightTally, success: { [weak self] (tally) in
+            APIManager.getTally(for: lightTally.id, success: { [weak self] (tally) in
                 self?.hideActivityIndicator()
                 self?.tally = tally
             }, failure: { (error) in
@@ -68,13 +66,12 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
         stackView.addArrangedSubview(headerView)
         stackView.reloadInputViews()
         
-        if let tallyID = tally.id {
             let userVoteView = UserVoteView()
-            userVoteView.configure(with: tallyID, presentError: showError)
+            userVoteView.configure(with: tally.id, presentError: showError)
             stackView.addArrangedSubview(userVoteView)
-        }
+    
         
-        if let _ = tally.billId  {
+        if let _ = tally.billID  {
             let relatedBillView = ButtonView()
             relatedBillView.configure(with: "Bill Information", actionBlock: relatedBillButtonPressed)
             stackView.addArrangedSubview(relatedBillView)
@@ -115,7 +112,7 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
     
     func relatedBillButtonPressed() {
         let vc: BillViewController = BillViewController.instantiate()
-        if let relatedBill = tally?.billId {
+        if let relatedBill = tally?.billID {
             vc.billId = relatedBill
             FirebaseAnalytics.viewItem(id: relatedBill, name: tally?.billShortTitle, category: ModelType.bill.rawValue).fireEvent()
             navigationController?.pushViewController(vc, animated: true)

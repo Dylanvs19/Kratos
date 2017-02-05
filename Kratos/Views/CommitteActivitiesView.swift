@@ -1,5 +1,5 @@
 //
-//  ActivityView.swift
+//  CommitteActivitiesView.swift
 //  Kratos
 //
 //  Created by Dylan Straughan on 1/5/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ActivityView: UIView, Loadable {
+class CommitteActivitiesView: UIView, Loadable {
     
     @IBOutlet public var contentView: UIView!
     @IBOutlet weak var title: UILabel!

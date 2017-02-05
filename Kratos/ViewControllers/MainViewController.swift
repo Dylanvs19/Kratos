@@ -10,7 +10,7 @@
 import UIKit
 import SafariServices
 
-class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, RepViewDelegate, PagingView, PagingDataSource, PagingTableViewDelegate, RepInfoViewPresentable, ActivityIndicatorPresentable {
+class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, RepViewDelegate, PagingView, PagingDataSource, PagingTableViewDelegate, RepInfoViewPresentable, ActivityIndicatorPresentable, VoteTableViewCellDelegate {
     
     @IBOutlet var repViewOne: RepresentativeView!
     @IBOutlet var repViewTwo: RepresentativeView!
@@ -138,8 +138,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             }
         }
     }
-    var cellMap = [Int: [LightTally]]()
-    
+    var cellMap = [Int: [[LightTally]]]()
     // Each flow of data has its own Pager to handle it.
     var repOnePager = Pager<MainViewController, MainViewController, MainViewController>()
     var repTwoPager = Pager<MainViewController, MainViewController, MainViewController>()
@@ -262,13 +261,23 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         }
     }
     
-    fileprivate func format(tallies: [LightTally], with oldTallies: [LightTally]){
+    fileprivate func format(tallies: [LightTally], with oldTallies: [LightTally]) {
         if !tallies.isEmpty {
-            cellMap = tallies.groupedBySection(groupBy: { (datum) -> (Date) in
+            let hold = tallies.groupBySection(groupBy: { (datum) -> (Date) in
                 // group votes by day of vote
                 return datum.date?.computedDayFromDate ?? Date()
             })
-            append(data: tallies, to: oldTallies)
+            cellMap = [Int: [[LightTally]]]()
+            for (idx, value) in hold {
+               let dict = value.uniqueGroupBySection(groupBy: { (lightTally) -> (String) in
+                    return lightTally.billOfficialTitle ?? ""
+                })
+                let array = Array(dict.values).map({ (tally) -> [LightTally] in
+                    return Array(tally)
+                })
+                cellMap[idx] = array
+            }
+            tableView.reloadData()
         }
     }
     
@@ -282,9 +291,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func makeRequestForResults(at page: UInt, onComplete: @escaping (([LightTally]?) -> Void)) {
-        guard let id = selectedRepresentative?.id else {
-            return
-        }
+        guard let id = selectedRepresentative?.id else { return }
         APIManager.getTallies(for: id, nextPage: Int(page), success: { (lightTallies) in
             onComplete(lightTallies)
         }) { (error) in
@@ -507,7 +514,7 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.register(UINib(nibName: "VoteTableViewCell", bundle: nil), forCellReuseIdentifier: Constants.VOTE_TABLEVIEWCELL_IDENTIFIER)
+        tableView.register(UINib(nibName: String(describing: VoteTableViewCell.self), bundle: nil), forCellReuseIdentifier: String(describing: VoteTableViewCell.self))
         tableView.register(UINib(nibName: "VoteDateHeaderView", bundle: nil), forHeaderFooterViewReuseIdentifier: "VoteDateHeaderView")
         
         tableView.estimatedRowHeight = 100
@@ -524,16 +531,21 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         return count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.VOTE_TABLEVIEWCELL_IDENTIFIER, for: indexPath) as? VoteTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: VoteTableViewCell.self), for: indexPath) as? VoteTableViewCell else { return UITableViewCell() }
         guard let tally = cellMap[indexPath.section]?[indexPath.row] else { return UITableViewCell()}
-        cell.tally = tally
+        cell.configureWith(tally)
+        cell.delegate = self
         return cell
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "VoteDateHeaderView") as? VoteDateHeaderView,
-              let date = cellMap[section]?.first?.date else { return nil }
+              let date = cellMap[section]?.first?.first?.date else { return nil }
         view.awakeFromNib()
         view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 25)
         view.configure(with: date)
@@ -550,16 +562,12 @@ class MainViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         return 20
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let lightTally = cellMap[indexPath.section]?[indexPath.row],
-              let rep = selectedRepresentative else { return }
+    func didSelect(lightTally: LightTally) {
         let vc: TallyViewController = TallyViewController.instantiate()
-        vc.lightTally = lightTally
-        vc.representative = rep
-        if let id = lightTally.id,
-           let title = lightTally.billShortTitle {
-            FirebaseAnalytics.viewItem(id: id, name: title, category: ModelType.tally.rawValue).fireEvent()
+        if let selectedRepresentative = selectedRepresentative {
+            vc.representative = selectedRepresentative
         }
+        vc.lightTally = lightTally
         navigationController?.pushViewController(vc, animated: true)
     }
 

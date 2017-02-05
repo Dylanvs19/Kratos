@@ -33,7 +33,7 @@ struct Vote {
     var person: LightPerson?
     var id: Int?
         
-    init(json: [String: AnyObject]) {
+    init?(json: [String: AnyObject]) {
         if let holdVote = json["value"] as? String {
             self.voteValue = VoteValue.vote(value: holdVote)
         }
@@ -41,8 +41,13 @@ struct Vote {
         if let person = json["person"] as? [String: AnyObject] {
             self.person = LightPerson(from: person)
         }
-        self.id = json["id"] as? Int 
+        if let id = json["id"] as? Int {
+            self.id = id
+        } else {
+            return nil
+        }
     }
+    
     init() {}
 }
 

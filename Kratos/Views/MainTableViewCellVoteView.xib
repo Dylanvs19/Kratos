@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainTableViewCellVoteView" customModule="Kratos" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="NHg-Pj-JMf"/>
+                <outlet property="questionLabel" destination="ihW-D5-eod" id="gBZ-O4-tfj"/>
+                <outlet property="statusLabel" destination="CW3-YX-WaB" id="maN-yI-bDt"/>
+                <outlet property="voteView" destination="Yu7-61-6hB" id="P8v-kT-MlW"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="377" height="43"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ihW-D5-eod">
+                    <rect key="frame" x="15" y="3" width="316" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="PlB-b5-RAI"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yu7-61-6hB">
+                    <rect key="frame" x="350" y="11.5" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="Evk-4O-ZkM"/>
+                        <constraint firstAttribute="width" secondItem="Yu7-61-6hB" secondAttribute="height" multiplier="1:1" id="kvl-rY-BEJ"/>
+                    </constraints>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FXM-gI-QjV">
+                    <rect key="frame" x="341" y="1" width="1" height="40"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="1" id="ekO-hn-DAJ"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CW3-YX-WaB">
+                    <rect key="frame" x="15" y="31" width="316" height="9"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="11"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Yu7-61-6hB" secondAttribute="trailing" constant="7.5" id="8BG-fT-Wd0"/>
+                <constraint firstItem="CW3-YX-WaB" firstAttribute="top" secondItem="ihW-D5-eod" secondAttribute="bottom" constant="3" id="99J-2f-wLC"/>
+                <constraint firstAttribute="bottom" secondItem="CW3-YX-WaB" secondAttribute="bottom" constant="3" id="Fn0-aM-guJ"/>
+                <constraint firstItem="ihW-D5-eod" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="Mcn-U9-KGF"/>
+                <constraint firstItem="FXM-gI-QjV" firstAttribute="leading" secondItem="ihW-D5-eod" secondAttribute="trailing" constant="10" id="VAQ-BO-r8O"/>
+                <constraint firstItem="FXM-gI-QjV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="1" id="dOk-ls-eIW"/>
+                <constraint firstItem="Yu7-61-6hB" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="fu6-Qe-aKp"/>
+                <constraint firstAttribute="bottom" secondItem="FXM-gI-QjV" secondAttribute="bottom" constant="2" id="gy5-PK-oUs"/>
+                <constraint firstItem="CW3-YX-WaB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="kip-og-KBh"/>
+                <constraint firstItem="FXM-gI-QjV" firstAttribute="leading" secondItem="CW3-YX-WaB" secondAttribute="trailing" constant="10" id="qRQ-s7-Tqb"/>
+                <constraint firstItem="ihW-D5-eod" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="3" id="rA3-Aw-TQu"/>
+                <constraint firstAttribute="trailing" secondItem="FXM-gI-QjV" secondAttribute="trailing" constant="35" id="yFd-va-5nK"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="129.5" y="-286.5"/>
+        </view>
+    </objects>
+</document>

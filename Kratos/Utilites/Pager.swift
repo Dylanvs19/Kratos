@@ -35,120 +35,18 @@ public protocol  PagingViewDelegate: class {
     /// - After cellMap is set within `didSet` append(data: [Data], to oldData: [Data]) should be called to append new cells to the UICollectionView or UITableView.
     var data: [Data] { get set }
     /// The variable that contains the formatted data for the CollectionView or TableView.
-    var cellMap: [Int: [Data]] { get set }
-    /// A function in charge of adding new data to old data
-    func append(data: [Data], to oldData: [Data])
-    /// Inserts new IndexPaths to PagingView's ScrollView
-    func insert(_ indexPaths: [IndexPath])
-    /// Reloads data for PagingView's ScrollView
-    func reloadView()
-}
+    //var cellMap: [Int: [Data]] { get set }
 
-/// `PagingViewDelegate` extension provides generic implementation for append(data: [Data], to oldData: [Data])
-public extension PagingViewDelegate {
-    /// Builds IndexPath Array based on an updated CellMap and inserts new cells
-    /// into CollectionView or TableView based on the IndexPath Array.
-    func append(data: [Data], to oldData: [Data]) {
-        guard data.count != oldData.count else { return }
-        if data.count > 20 && !oldData.isEmpty {
-            let indexPaths = flatMap(cellMap)
-            let sliced = slice(indexPaths,
-                               from: oldData.count,
-                               to: indexPaths.count - 1)
-            insert(sliced)
-        } else {
-            reloadView()
-        }
-    }
-    
-    private func flatMap(_ cellMap: [Int: [Data]]) -> [IndexPath] {
-        var indexPaths = [IndexPath]()
-        for key in cellMap.keys.sorted(by: <) {
-            if let values = cellMap[key] {
-                (0..<values.count).forEach {
-                    indexPaths.append(IndexPath(item: $0, section: key))
-                }
-            }
-        }
-        return indexPaths
-    }
-    
-    private func slice(_ indexPaths: [IndexPath],
-                       from: Int,
-                       to: Int) -> [IndexPath] {
-        if from < to {
-            return Array(indexPaths[from...to])
-        }
-        
-        return indexPaths
-    }
 }
 
 public protocol PagingCollectionViewDelegate: PagingViewDelegate {
     var collectionView: UICollectionView! { get }
 }
 
-
-
-/// `PagingViewDelegate` extension provides specific implementation for
-/// insert(indexPaths: [IndexPath]) and reloadView for UICollectionViews
-public extension PagingCollectionViewDelegate {
-    func insert(_ indexPaths: [IndexPath]) {
-        
-        collectionView.performBatchUpdates({
-            // Determine if new sections must be inserted.
-            let oldFinalSection = self.collectionView.numberOfSections - 1
-            let newFinalSection = indexPaths.last?.section ?? 0
-            
-            if oldFinalSection < newFinalSection {
-                // Insert new sections.
-                
-                let range = ClosedRange(uncheckedBounds: (oldFinalSection, newFinalSection))
-                let indexSet = IndexSet(integersIn: range)
-                self.collectionView.insertSections(indexSet)
-            }
-            
-            // Insert items.
-            self.collectionView.insertItems(at: indexPaths)
-        }, completion: nil)
-    }
-    
-    func reloadView() {
-        collectionView.reloadData()
-    }
-}
-
 public protocol PagingTableViewDelegate: PagingViewDelegate {
     var tableView: UITableView! { get }
 }
 
-public extension PagingTableViewDelegate {
-    func insert(_ indexPaths: [IndexPath]) {
-        reloadView(); return; 
-        // Determine if new sections must be inserted.
-        //let oldFinalSection = self.tableView.numberOfSections - 1
-        //let newFinalSection = indexPaths.last?.section ?? 0
-        //tableView.beginUpdates()
-
-        //if oldFinalSection < newFinalSection {
-            // Insert new sections.
-            //let range = CountableRange(uncheckedBounds: (oldFinalSection, newFinalSection))
-            //let indexSet = IndexSet(integersIn: range)
-            //tableView.beginUpdates()
-            //tableView.insertSections(indexSet, with: .automatic)
-            //tableView.reloadRows(at: indexPaths, with: .automatic)
-            //tableView.insertRows(at: indexPaths, with: .automatic)
-        //}
-        
-        // Insert items.
-        //tableView.endUpdates()
-    }
-    
-    func reloadView() {
-        tableView.reloadData()
-    }
-    
-}
 
 /// `Pager` handles the brunt of paging concerns for `PagingView` with paging data. These concerns include:
 /// - Detecting when a new page of data is required

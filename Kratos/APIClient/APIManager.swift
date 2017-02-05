@@ -130,9 +130,9 @@ struct APIManager {
         }
     }
     
-    static func getTally(for lightTally: LightTally, success: @escaping (Tally) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func getTally(for lightTallyID: Int, success: @escaping (Tally) -> (), failure: @escaping (NetworkError) -> ()) {
         
-        APIService.fetchTally(for: lightTally, success: { (tally) -> (Void) in
+        APIService.fetchTally(for: lightTallyID, success: { (tally) -> (Void) in
             success(tally)
         }) { (error) -> (Void) in
             failure(error)

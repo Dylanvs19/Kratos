@@ -27,10 +27,6 @@ struct Constants {
     static let YOUR_VOTES_INDIVIDUAL_VOTE_URL = "https://kratos.website/api/me/votes/"
     
     static let YOUR_ACTION_URL = "https://kratos.website/api/me/actions"
-
-    
-    static let VOTE_TABLEVIEWCELL_IDENTIFIER = "VoteTableViewCellIdentifier"
-    static let REPRESENATIVE_TABLEVIEWCELL_IDENTIFIER = "representativeCellIdentifier"
     
     static let statePictureDict =  [
         "AL": "Alabama",

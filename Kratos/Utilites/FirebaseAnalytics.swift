@@ -25,11 +25,11 @@ enum FirebaseAnalytics {
         case .selectedContent(let content, let id):
             var params = [kFIRParameterContentType: content as NSObject]
             if let id = id {
-                params[kFIRParameterItemID] = id as NSObject
+                params[kFIRParameterItemID] = String(id) as NSObject
             }
             FIRAnalytics.logEvent(withName: kFIREventSelectContent, parameters: params)
         case .viewItem(let id, let name, let category):
-            var params = [kFIRParameterContentType: id as NSObject]
+            var params = [kFIRParameterContentType: String(id) as NSObject]
             if let name = name {
                 params[kFIRParameterItemName] = name as NSObject
             }

@@ -8,44 +8,42 @@
 
 import UIKit
 
-class VoteTableViewCell: UITableViewCell {
+protocol VoteTableViewCellDelegate {
+    func didSelect(lightTally: LightTally)
+}
 
-    @IBOutlet var voteTitleLabel: UILabel!
-    @IBOutlet weak var voteQuestionLabel: UILabel!
+class VoteTableViewCell: UITableViewCell {
     
-    @IBOutlet var voteImageView: UIImageView!
+    @IBOutlet var stackView: UIStackView!
     
-    var tally: LightTally? {
-        didSet {
-            if tally != nil {
-                configureWith(tally!)
-            }
+    var delegate:VoteTableViewCellDelegate?
+    
+    var tallies: [LightTally]?
+    var firstTally: LightTally?
+    
+    func configureWith(_ tallies: [LightTally]) {
+        selectionStyle = .none
+        
+        self.stackView.arrangedSubviews.forEach { (view) in
+            view.removeFromSuperview()
         }
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    func configureWith(_ tally: LightTally) {
-        var title: String?
-        if let short = tally.billShortTitle {
-            title = short
-        } else if let official = tally.billOfficialTitle {
-            title = official
+
+        if let first = tallies.first {
+            let view = MainTableViewCellTitleView()
+            view.configure(with: first, tapped: tallyViewTapped)
+            stackView.addArrangedSubview(view)
         }
         
-        voteTitleLabel.text = title ?? ""
-        voteQuestionLabel.text = tally.question ?? "" 
-        if let voteType = tally.voteValue {
-            switch voteType {
-            case .yea:
-                voteImageView.image = #imageLiteral(resourceName: "Yes")
-            case .nay:
-                voteImageView.image = #imageLiteral(resourceName: "No")
-            case .abstain:
-                voteImageView.image = #imageLiteral(resourceName: "Abstain")
-            }
+        var count = 1
+        tallies.forEach { (lightTally) in
+            let view = MainTableViewCellVoteView()
+            view.configure(with: lightTally, tapped: tallyViewTapped)
+            stackView.addArrangedSubview(view)
+            count += 1
         }
+    }
+    
+    func tallyViewTapped(with lightTally: LightTally) {
+        delegate?.didSelect(lightTally: lightTally)
     }
 }

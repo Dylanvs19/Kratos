@@ -39,7 +39,7 @@ class VoteHeaderView: UIView, Loadable {
             title = official
         }
         titleLabel.text = title ?? ""
-        currentStatusLabel.text = tally.result
+        currentStatusLabel.text = tally.result?.rawValue
         
         if let date = tally.date {
             currentStatusDateLabel.text = DateFormatter.presentationDateFormatter.string(from:date)

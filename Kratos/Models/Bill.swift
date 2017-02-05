@@ -9,13 +9,16 @@
 import Foundation
 import UIKit
 
-struct Bill {
+struct Bill: Hashable {
+    var hashValue: Int {
+        return id
+    }
     
     var title: String? // short title
     var officialTitle: String?
     var popularTitle: String?
     var titles: [Title]?
-    var id: Int?
+    var id: Int
     var billNumber: String?
     var committees: [Committee]?
     var sponsor: Person?
@@ -51,7 +54,11 @@ struct Bill {
                 return Title(from: obj)
             })
         }
-        self.id = json["id"] as? Int
+        if let id = json["id"] as? Int {
+            self.id = id
+        } else {
+            return nil
+        }
         self.billNumber = json["display_number"] as? String
         if let committeeArray = json["committees"] as? [[String: AnyObject]] {
             self.committees = committeeArray.map({ (obj) -> Committee in
@@ -62,7 +69,7 @@ struct Bill {
             self.committees = self.committees?.map({ (committee) -> Committee in
                 var returnCommittee = committee
                 committeeHistoryArray.forEach({ (committeeHistory) in
-                    if let activity = committeeHistory["activity"] as? [String], committeeHistory["committee_id"] as? String == committee.code {
+                    if let activity = committeeHistory["activity"] as? [String], committeeHistory["committee_id"] as? String == committee.committeCode {
                         returnCommittee.activity = activity
                     }
                 })
@@ -73,9 +80,9 @@ struct Bill {
             self.sponsor = Person(from: sponsor)
         }
         if let coSponsorsArray = json["cosponsors"] as? [[String: AnyObject]] {
-             self.coSponsors = coSponsorsArray.map({ (obj) -> Person in
+             self.coSponsors = coSponsorsArray.map({ (obj) -> Person? in
                 return Person(from: obj)
-             })
+             }).flatMap({$0})
         }
         self.status = json["status"] as? String
         if let statusDate = json["status_at"] as? String {
@@ -115,9 +122,9 @@ struct Bill {
             })
         }
         if let tallyArray = json["tallies"] as? [[String: AnyObject]] {
-            self.tallies = tallyArray.map({ (obj) -> Tally in
+            self.tallies = tallyArray.map({ (obj) -> Tally? in
                 return Tally(json: obj)
-            })
+            }).flatMap({$0})
         }
         
         // Wanted Variables
@@ -173,22 +180,28 @@ struct Bill {
             self.passedAs = json["as"] as? String
         }
     }
+}
+
+func ==(lhs: Bill, rhs: Bill) -> Bool {
+    return lhs.id == rhs.id
+}
+
+struct Amendment {
     
-    struct Amendment {
-        
-        var number: Int?
-        var chamber: Chamber?
-        var type: String?
-        var id: String?
-        
-        init(from json: [String: AnyObject]) {
-            self.number = json["number"] as? Int
-            if let chamber = json["chamber"] as? String {
-                self.chamber = Chamber.chamber(value: chamber)
-            }
-            self.type = json["amendment_type"] as? String
-            self.id = json["amendment_id"] as? String
+    var number: Int?
+    var chamber: Chamber?
+    var type: String?
+    var id: Int?
+    var purpose: String?
+    
+    init(from json: [String: AnyObject]) {
+        self.number = json["number"] as? Int
+        self.purpose = json["purpose"] as? String 
+        if let chamber = json["chamber"] as? String {
+            self.chamber = Chamber.chamber(value: chamber)
         }
+        self.type = json["amendment_type"] as? String
+        self.id = json["amendment_id"] as? Int
     }
 }
 
@@ -290,23 +303,32 @@ struct Action {
 struct Committee {
     var name: String?
     var id: Int?
-    var code: String?
+    var committeCode: String?
     var url: String?
     var abbrev: String?
     var jusrisdiction: String?
     var commmitteeType: Chamber?
     var activity: [String]?
+    var phone: String?
+    var address: String?
     
     init(from json: [String: AnyObject]) {
         self.name = json["name"] as? String
         self.id = json["id"] as? Int
         self.url = json["url"] as? String
-        self.code = json["code"] as? String
+        if let houseID = json["house_committee_id"] as? String {
+            self.committeCode = houseID
+        } else if let senateID = json["senate_committee_id"] as? String {
+            self.committeCode = senateID
+        }
         self.abbrev = json["abbrev"] as? String
         self.jusrisdiction = json["jurisdiction"] as? String
         if let chamber = json["type"] as? String {
             self.commmitteeType = Chamber.chamber(value: chamber)
         }
+        self.phone = json["phone"] as? String
+        self.address = json["address"] as? String
+
     }
 }
 
