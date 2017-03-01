@@ -10,23 +10,42 @@ import Foundation
 
 struct Constants {
     
-    static let REGISTRATION_URL = "https://kratos.website/api/registrations"
-    static let LOGIN_URL = "https://kratos.website/api/login"
-    static let USER_URL = "https://kratos.website/api/me"
-    static let FORGOT_PASSWORD_URL = "https://kratos.website/api/forgot-password"
-    static let FEEDBACK_URL = "https://kratos.website/api/feedback"
+    enum Environment {
+        case staging
+        case production
+        
+        var URL: String {
+            switch self {
+            case .staging:
+                return Constants.BASE_STAGING_URL
+            case .production:
+                return Constants.BASE_PRODUCTION_URL
+            }
+        }
+    }
     
-    static let REPRESENTATIVES_URL = "https://kratos.website/api/districts/"
-    static let PERSON_URL = "https://kratos.website/api/people/"
-    static let VOTES_URL = "https://kratos.website/api/people/"
-    static let TALLY_URL = "https://kratos.website/api/tallies/"
-    static let BILL_URL = "https://kratos.website/api/bills/"
+    static let environment: Environment = .production
+
+    static let BASE_PRODUCTION_URL = "https://kratos.site/api/"
+    static let BASE_STAGING_URL = "https://kratos.website/api/"
     
-    static let YOUR_VOTES_URL = "https://kratos.website/api/me/votes"
-    static let YOUR_VOTES_CREATE_URL = "https://kratos.website/api/me/votes"
-    static let YOUR_VOTES_INDIVIDUAL_VOTE_URL = "https://kratos.website/api/me/votes/"
+    static let REGISTRATION_URL =  Constants.environment.URL + "registrations"
+    static let LOGIN_URL = Constants.environment.URL + "login"
+    static let USER_URL = Constants.environment.URL + "me"
+    static let FORGOT_PASSWORD_URL = Constants.environment.URL + "forgot-password"
+    static let FEEDBACK_URL = Constants.environment.URL + "feedback"
     
-    static let YOUR_ACTION_URL = "https://kratos.website/api/me/actions"
+    static let REPRESENTATIVES_URL = Constants.environment.URL + "districts/"
+    static let PERSON_URL = Constants.environment.URL + "people/"
+    static let VOTES_URL = Constants.environment.URL + "people/"
+    static let TALLY_URL = Constants.environment.URL + "tallies/"
+    static let BILL_URL = Constants.environment.URL + "bills/"
+    
+    static let YOUR_VOTES_URL = Constants.environment.URL + "me/votes"
+    static let YOUR_VOTES_CREATE_URL = Constants.environment.URL + "api/me/votes"
+    static let YOUR_VOTES_INDIVIDUAL_VOTE_URL = Constants.environment.URL + "api/me/votes/"
+    
+    static let YOUR_ACTION_URL = Constants.environment.URL + "me/actions"
     
     static let statePictureDict =  [
         "AL": "Alabama",
@@ -50,7 +69,7 @@ struct Constants {
         "LA": "Louisiana",
         "ME": "Maine",
         "MD": "Maryland",
-        "MA": "Massachuse",
+        "MA": "Massachusets",
         "MI": "Michigan",
         "MN": "Minnesota",
         "MS": "Mississippi",
@@ -105,7 +124,7 @@ struct Constants {
         "LA": "Louisiana",
         "ME": "Maine",
         "MD": "Maryland",
-        "MA": "Massachuse",
+        "MA": "Massachusets",
         "MI": "Michigan",
         "MN": "Minnesota",
         "MS": "Mississippi",

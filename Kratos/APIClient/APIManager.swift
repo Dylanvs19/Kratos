@@ -148,6 +148,14 @@ struct APIManager {
         }
     }
     
+    static func getBills(for personID: Int, success: @escaping ([Bill]) -> (), failure: @escaping (NetworkError) -> ()) {
+        APIService.fetchSponsoredBills(for: personID, success: { (bills) -> (Void) in
+            success(bills)
+        }) { (error) -> (Void) in
+            failure(error)
+        }
+    }
+    
     static func getUserVotingRecord(success: @escaping ([LightTally]) -> (), failure: @escaping (NetworkError) -> ()) {
         APIService.fetchUserVotingRecord(success: { (lightTallies) -> (Void) in
             success(lightTallies)

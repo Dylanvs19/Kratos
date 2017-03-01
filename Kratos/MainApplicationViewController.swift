@@ -8,14 +8,25 @@
 
 import UIKit
 
-class MainApplicationViewController: UIViewController {
+class MainApplicationViewController: UIViewController, ActivityIndicatorPresentable {
     
     @IBOutlet var mainAppContainerView: UIView!
     
+    @IBOutlet weak var containerViewCenterXConstraint: NSLayoutConstraint!
+    @IBOutlet var containerViewHeightConstraint: NSLayoutConstraint!
+    
+    var activityIndicator: KratosActivityIndicator?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(handleLoginFlow), name: NSNotification.Name(rawValue: "toMainVC"), object: nil)
+        setupNotificationObservers()
         handleLoginFlow()
+    }
+    
+    func setupNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleLoginFlow), name: NSNotification.Name(rawValue: "toMainVC"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showMenu), name: NSNotification.Name(rawValue: "show_menu"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(hideMenu), name: NSNotification.Name(rawValue: "hide_menu"), object: nil)
     }
     
     func hasToken() -> Bool {
@@ -24,9 +35,12 @@ class MainApplicationViewController: UIViewController {
     
     func handleLoginFlow() {
         if hasToken() {
+            presentActivityIndicator()
             APIManager.getUser({ (success) in
+                self.hideActivityIndicator()
                 self.embedMainViewController()
             }, failure: { (error) in
+                self.hideActivityIndicator()
                 DispatchQueue.main.async(execute: {
                     self.embedLoginViewController()
                 })
@@ -34,6 +48,25 @@ class MainApplicationViewController: UIViewController {
             })
         } else {
             self.embedLoginViewController()
+        }
+    }
+    
+    func showMenu() {
+        UIView.animate(withDuration: 10, delay: 0, options: [], animations: {
+            self.containerViewHeightConstraint.constant = -30
+            self.containerViewCenterXConstraint.constant = self.view.frame.width / 2
+            self.mainAppContainerView.layoutIfNeeded()
+        }) { (success) in
+            
+        }
+    }
+    
+    func hideMenu() {
+        UIView.animate(withDuration: 0.3) {
+            self.containerViewHeightConstraint.constant = 0
+            self.containerViewCenterXConstraint.constant = 0
+            self.mainAppContainerView.layoutIfNeeded()
+            self.view.layoutIfNeeded()
         }
     }
     

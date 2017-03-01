@@ -5,7 +5,6 @@
 //  Created by Dylan Straughan on 7/31/16.
 //  Copyright © 2016 Dylan Straughan. All rights reserved.
 //
-
 import UIKit
 import SafariServices
 

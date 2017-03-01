@@ -34,7 +34,6 @@ import UIKit
             textField.isEnabled = isEditable
         }
     }
-    
     var text: String? {
         get {
             return textField.text
@@ -53,7 +52,6 @@ import UIKit
         case email
         case password
     }
-    
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

@@ -84,4 +84,13 @@ class BillCommitteesView: UIView, Loadable {
             previosViewType = viewType
         }
     }
+    
+    func configure(with termsArray: [Term]) {
+        title.text =  termsArray.count == 1 ? "Term" : "Terms"
+        termsArray.forEach { (term) in
+            let view = TermView()
+            view.configure(with: term)
+            stackView.addArrangedSubview(view)
+        }
+    }
 }

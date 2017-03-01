@@ -32,6 +32,10 @@ extension Array {
         return mappedItems
     }
     
+    func singleSection() -> [Int: [Element]] {
+        return [0: self]
+    }
+    
     func slice(from: Int, to: Int) -> [Element]? {
         guard from < self.count,
             0 <= from,

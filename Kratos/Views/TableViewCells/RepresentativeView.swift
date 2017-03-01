@@ -9,7 +9,7 @@
 import UIKit
 
 protocol RepViewDelegate: class {
-    func repViewTapped(is selected: Bool, at position: Int)
+    func repViewTapped(at position: Int, personID: Int, image: UIImage, initialImageViewPosition: CGRect)
 }
 
 class RepresentativeView: UIView, Loadable {
@@ -21,7 +21,6 @@ class RepresentativeView: UIView, Loadable {
     @IBOutlet var representativeLabel: UILabel!
     
     var representative: Person?
-    var selected = false
     var viewPosition: Int = 0
     
     weak var repViewDelegate: RepViewDelegate?
@@ -47,11 +46,12 @@ class RepresentativeView: UIView, Loadable {
     }
     
     func handleTap() {
-        selected = !selected
-        repViewDelegate?.repViewTapped(is: selected, at: viewPosition)
+        guard let rep = representative,
+              let image = representativeImageView.image else { return }
+        repViewDelegate?.repViewTapped(at: viewPosition, personID: rep.id, image: image, initialImageViewPosition: representativeImageView.frame)
     }
     
-    func configure(with representative:Person, repInfoViewActionBlock: @escaping ((Int) -> ())) {
+    func configure(with representative: Person) {
         self.representative = representative
         guard let firstName = representative.firstName,
             let lastName = representative.lastName else { return }
@@ -60,16 +60,11 @@ class RepresentativeView: UIView, Loadable {
         firstNameLabel.text = "\(firstName) \(lastName)"
         
         representativeLabel.text = representative.currentChamber?.toRepresentativeType().rawValue
-        representativeImageView.setRepresentative(person: representative, repInfoViewActionBlock: repInfoViewActionBlock)
+        representativeImageView.setRepresentative(person: representative)
         if let party = representative.currentParty {
             partyView.backgroundColor = party.color()
         } else {
             partyView.backgroundColor = UIColor.gray
         }
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        contentView.frame = bounds
     }
 }

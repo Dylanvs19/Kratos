@@ -19,7 +19,8 @@ class LeadSponsorView: UIView, Loadable, Tappable {
     @IBOutlet weak var partyLabel: UILabel!
     var sponsor: Person?
     var selector: Selector = #selector(viewTapped)
-    var presentRepInfoView: ((Int) -> ())?
+    var presentRepInfoView: ((CGRect, UIImage, CGRect, Int) -> ())?
+    var distanceFromRepInfoRectFromTop: CGFloat = 21
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -35,7 +36,7 @@ class LeadSponsorView: UIView, Loadable, Tappable {
         super.awakeFromNib()
     }
 
-    func configure(with sponsor: Person, presentRepInfoView: @escaping ((Int) -> ())) {
+    func configure(with sponsor: Person, presentRepInfoView: ((CGRect, UIImage, CGRect, Int) -> ())?) {
         self.sponsor = sponsor
         if let first = sponsor.firstName,
             let last = sponsor.lastName {
@@ -58,7 +59,7 @@ class LeadSponsorView: UIView, Loadable, Tappable {
         } else {
             districtLabel.text = ""
         }
-        repImageView.setRepresentative(person: sponsor, repInfoViewActionBlock: presentRepInfoView)
+        repImageView.setRepresentative(person: sponsor)
         if let state = sponsor.currentState {
             stateImageView.image = UIImage.imageForState(state)
         }
@@ -67,9 +68,21 @@ class LeadSponsorView: UIView, Loadable, Tappable {
     }
 
     func viewTapped() {
-        if let id = sponsor?.id {
-            FirebaseAnalytics.selectedContent(content: ModelViewType.leadSponsor.rawValue, id: id).fireEvent()
-            presentRepInfoView?(id)
+        guard let id = sponsor?.id,
+              let image = repImageView.image else { return }
+         
+        var representativeRect: CGRect {
+            var rect = frame
+            rect.origin.y = distanceFromRepInfoRectFromTop
+            rect.size.height -= distanceFromRepInfoRectFromTop
+            return rect
         }
+        
+        var imageRect: CGRect {
+            var rect = repImageView.frame
+            rect.origin.y -= distanceFromRepInfoRectFromTop
+            return rect
+        }
+        presentRepInfoView?(representativeRect, image, imageRect, id)
     }
 }

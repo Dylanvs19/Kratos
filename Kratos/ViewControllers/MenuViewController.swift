@@ -19,7 +19,7 @@ class MenuViewController: UIViewController {
     }
     
     @IBAction func accountButtonPressed(_ sender: Any) {
-        FirebaseAnalytics.selectedContent(content: ModelViewType.accountDetails.rawValue, id: 0).fireEvent()
+        
         let vc: SubmitAddressViewController = SubmitAddressViewController.instantiate()
         vc.loadViewIfNeeded()
         vc.displayType = .accountDetails
@@ -27,7 +27,7 @@ class MenuViewController: UIViewController {
     }
     
     @IBAction func votesButtonPressed(_ sender: Any) {
-        FirebaseAnalytics.selectedContent(content: ModelViewType.yourVotes.rawValue, id: 0).fireEvent()
+        
         let navVC = UINavigationController()
         let vc: YourVotesViewController = YourVotesViewController.instantiate()
         navVC.setViewControllers([vc], animated: false)
@@ -36,7 +36,7 @@ class MenuViewController: UIViewController {
     }
     
     @IBAction func infoButtonPressed(_ sender: Any) {
-        FirebaseAnalytics.selectedContent(content: ModelViewType.feedback.rawValue, id: 0).fireEvent()
+        
         let vc: FeedbackViewController = FeedbackViewController.instantiate()
         self.present(vc, animated: true, completion: nil)
     }

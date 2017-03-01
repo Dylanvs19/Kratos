@@ -36,7 +36,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
     @IBOutlet weak var oldPasswordTextField: KratosTextField!
     @IBOutlet weak var newPasswordTextField: KratosTextField!
     
-    var activityIndicator: KratosActivityIndicator = KratosActivityIndicator()
+    var activityIndicator: KratosActivityIndicator? = KratosActivityIndicator()
     var shadeView: UIView = UIView()
     
     public var displayType: DisplayType = .registration {
@@ -143,7 +143,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
         datePicker.delegate = self
         scrollView.delegate = self
         
-        setupActivityIndicator()
+        //setupActivityIndicator()
 
     }
     
@@ -319,7 +319,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                     let vc: NotificationsRegistrationViewController = NotificationsRegistrationViewController.instantiate()
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
-                FirebaseAnalytics.signUp.fireEvent()
+                
             }, failure: { (error) in
                 self.hideActivityIndicator()
                 debugPrint("SubmitAddressViewController registerWith(\(password)) unsucessful")

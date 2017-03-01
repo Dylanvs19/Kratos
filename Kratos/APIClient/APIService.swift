@@ -513,6 +513,48 @@ struct APIService {
         task.resume()
     }
     
+    static func fetchSponsoredBills(for personID: Int, success: @escaping ([Bill]) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+        
+        guard let url = URL(string: "\(Constants.PERSON_URL)/\(personID)/bills") else {
+            failure(.invalidURL(error:nil))
+            return
+        }
+        
+        let session: URLSession = URLSession.shared
+        let request = URLRequest(url: url, requestType: .get)
+        
+        let task: URLSessionDataTask = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+            guard let data = data else {
+                failure(.nilData)
+                return
+            }
+            
+            var obj:[String: AnyObject]?
+            do {
+                obj = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
+            } catch {
+                failure(.invalidSerialization)
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                    failure(error)
+                }
+            }
+            
+            if let bills = obj?["data"] as? [[String: AnyObject]] {
+                let lightBills = bills.map({
+                    Bill(json: $0)
+                }).flatMap({$0})
+                DispatchQueue.main.async(execute: {
+                    success(lightBills)
+                })
+            }
+        }
+        task.resume()
+    }
+
     static func fetchUserVotingRecord(success: @escaping ([LightTally]) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
         
         guard let url = URL(string: Constants.YOUR_VOTES_URL) else {

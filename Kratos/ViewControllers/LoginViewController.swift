@@ -27,7 +27,7 @@ class LoginViewController: UIViewController, ActivityIndicatorPresentable {
     @IBOutlet weak var passwordTextField: KratosTextField!
     @IBOutlet weak var passwordConfirmationTextField: KratosTextField!
     
-    var activityIndicator: KratosActivityIndicator = KratosActivityIndicator()
+    var activityIndicator: KratosActivityIndicator? = KratosActivityIndicator()
     var shadeView: UIView = UIView()
     
     enum ViewType {
@@ -94,7 +94,7 @@ class LoginViewController: UIViewController, ActivityIndicatorPresentable {
         emailTextField.animateOut()
         passwordTextField.animateOut()
         passwordConfirmationTextField.animateOut()
-        setupActivityIndicator()
+        //setupActivityIndicator()
     }
     
     override func viewDidAppear(_ animated: Bool) {

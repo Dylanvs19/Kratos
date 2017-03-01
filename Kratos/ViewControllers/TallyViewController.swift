@@ -7,7 +7,7 @@
 //
 import UIKit
 
-class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPresentable, ActivityIndicatorPresentable {
+class TallyViewController: UIViewController, UIScrollViewDelegate, ActivityIndicatorPresentable, RepInfoViewPresentable {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var stackView: UIStackView!
@@ -26,16 +26,15 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
         }
     }
     var representative: Person?
-    @IBOutlet weak var repInfoView: RepInfoView!
-    var activityIndicator: KratosActivityIndicator = KratosActivityIndicator()
-    var shadeView: UIView = UIView()
+    var repInfoView: RepInfoView?
+    var activityIndicator: KratosActivityIndicator? = KratosActivityIndicator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         scrollView.delegate = self
         enableSwipeBack()
-        setupActivityIndicator()
+//        setupActivityIndicator()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -95,7 +94,7 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
         }
         
         if let votes = tally?.votes {
-            repVotesView.configure(with: "Representatives", topVote: currentRepVote, votes: votes, cellsToShow: 1, actionBlock: layoutStackView, presentRepInfoView: presentRepInfoView)
+            repVotesView.configure(with: "Representatives", topVote: currentRepVote, votes: votes, cellsToShow: 1, actionBlock: layoutStackView, presentRepInfoView: configureForRepInfoView)
         }
         stackView.addArrangedSubview(repVotesView)
     }
@@ -113,8 +112,8 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
     func relatedBillButtonPressed() {
         let vc: BillViewController = BillViewController.instantiate()
         if let relatedBill = tally?.billID {
-            vc.billId = relatedBill
-            FirebaseAnalytics.viewItem(id: relatedBill, name: tally?.billShortTitle, category: ModelType.bill.rawValue).fireEvent()
+            vc.billID = relatedBill
+            
             navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -125,5 +124,25 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, RepInfoViewPr
         vote.person = rep.toLightPerson()
         vote.voteValue = lightTally.voteValue
         return vote
+    }
+    
+    func configureForRepInfoView(cellRectWithinView: CGRect, image: UIImage, imageRect: CGRect, personID: Int) {
+        var repVotesView: RepVotesView?
+        stackView.subviews.forEach { (view) in
+            if type(of: view) == RepVotesView.self {
+                repVotesView = view as? RepVotesView
+            }
+        }
+        // make sure repVotesView exists
+        guard let votesView = repVotesView else { return }
+        
+        //votesView frame with relation to stackView(i.e. content size of scrollview - Content offset of the scrollview = currect Visibile Votes View in scrollView
+        let visibileTableViewYposition = votesView.frame.origin.y - scrollView.contentOffset.y
+        
+        //votesViewPosition + cellRectWithinView.origin.y = top of cell.
+        let topOfCell = visibileTableViewYposition + cellRectWithinView.origin.y
+        let rect = CGRect(x: 10, y: topOfCell + 10, width: cellRectWithinView.size.width, height: cellRectWithinView.size.height)
+        
+        presentRepInfoView(with: rect, personImage: image, initialImageViewPosition: imageRect, personID: personID)
     }
 }

@@ -34,9 +34,6 @@ public protocol  PagingViewDelegate: class {
     /// methods.
     /// - After cellMap is set within `didSet` append(data: [Data], to oldData: [Data]) should be called to append new cells to the UICollectionView or UITableView.
     var data: [Data] { get set }
-    /// The variable that contains the formatted data for the CollectionView or TableView.
-    //var cellMap: [Int: [Data]] { get set }
-
 }
 
 public protocol PagingCollectionViewDelegate: PagingViewDelegate {
@@ -169,7 +166,7 @@ public class Pager<DataSource, Delegate, View>: NSObject where DataSource: Pagin
                 metrics: nil,
                 views: ["view": loadMoreSpinnerView]
             )
-            /// vertically pins Loading Spinner to Bottom of ScrollView's SuperView
+            // vertically pins Loading Spinner to Bottom of ScrollView's SuperView
             let verticalPin = NSLayoutConstraint.constraints(
                 withVisualFormat: "V:[view(50)]-(-50)-|",
                 options: .alignAllLeading,

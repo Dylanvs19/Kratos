@@ -10,23 +10,23 @@
 import UIKit
 import SafariServices
 
-class BillViewController: UIViewController, RepInfoViewPresentable, ActivityIndicatorPresentable {
+class BillViewController: UIViewController, ActivityIndicatorPresentable, RepInfoViewPresentable {
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet var stackView: UIStackView!
-    @IBOutlet weak var repInfoView: RepInfoView!
-    
-    var billId: Int? {
+    var repInfoView: RepInfoView?
+    var billID: Int? {
         didSet {
-            KratosAnalytics.shared.updateBillAnalyicAction(with: billId)
+            KratosAnalytics.shared.updateBillAnalyicAction(with: billID)
         }
     }
     var bill: Bill?
-    var activityIndicator: KratosActivityIndicator = KratosActivityIndicator()
+    var activityIndicator: KratosActivityIndicator? = KratosActivityIndicator()
     var shadeView: UIView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupActivityIndicator()
+        //setupActivityIndicator()
         navigationController?.isNavigationBarHidden = true
         enableSwipeBack()
         loadData()
@@ -38,7 +38,7 @@ class BillViewController: UIViewController, RepInfoViewPresentable, ActivityIndi
     }
     
     func loadData() {
-        if let billId = billId {
+        if let billId = billID {
             presentActivityIndicator()
             APIManager.getBill(for: billId, success: {[weak self] (bill) -> (Void) in
                 self?.hideActivityIndicator()
@@ -75,7 +75,7 @@ class BillViewController: UIViewController, RepInfoViewPresentable, ActivityIndi
         // add SponsorsView to stackView
         if let leadSponsor = bill.sponsor {
             let sponsorView = LeadSponsorView()
-            sponsorView.configure(with: leadSponsor, presentRepInfoView: presentRepInfoView)
+            sponsorView.configure(with: leadSponsor, presentRepInfoView: configureLeadSponsorForRepInfoView)
             stackView.addArrangedSubview(sponsorView)
         }
         
@@ -87,7 +87,7 @@ class BillViewController: UIViewController, RepInfoViewPresentable, ActivityIndi
             })
             let view = RepVotesView()
             let title = lightCoSponsors.count == 1 ? "CoSponsor" : "CoSponsors"
-            view.configure(with: title, votes: lightCoSponsors, presentRepInfoView: presentRepInfoView)
+            view.configure(with: title, votes: lightCoSponsors, presentRepInfoView: configureCosponsorsForRepInfoView)
             stackView.addArrangedSubview(view)
         }
         if bill.billTextURL != nil {
@@ -129,5 +129,41 @@ class BillViewController: UIViewController, RepInfoViewPresentable, ActivityIndi
             self.view.layoutSubviews()
             self.view.layoutIfNeeded()
         })
+    }
+    
+    func configureCosponsorsForRepInfoView(cellRectWithinView: CGRect, image: UIImage, imageRect: CGRect, personID: Int) {
+        var repVotesView: RepVotesView?
+        for view in stackView.subviews where type(of: view) == RepVotesView.self {
+            repVotesView = view as? RepVotesView
+        }
+        // make sure repVotesView exists
+        guard let votesView = repVotesView else { return }
+        
+        //votesView frame with relation to stackView(i.e. content size of scrollview - Content offset of the scrollview = currect Visibile Votes View in scrollView
+        let visibileTableViewYposition = votesView.frame.origin.y - scrollView.contentOffset.y
+        
+        //votesViewPosition + cellRectWithinView.origin.y = top of cell.
+        let topOfCell = visibileTableViewYposition + cellRectWithinView.origin.y
+        let rect = CGRect(x: 10, y: topOfCell + 10, width: cellRectWithinView.size.width, height: cellRectWithinView.size.height)
+        
+        presentRepInfoView(with: rect, personImage: image, initialImageViewPosition: imageRect, personID: personID)
+    }
+    
+    func configureLeadSponsorForRepInfoView(cellRectWithinView: CGRect, image: UIImage, imageRect: CGRect, personID: Int) {
+        var leadSponsorView: LeadSponsorView?
+        for view in stackView.subviews where type(of: view) == LeadSponsorView.self {
+            leadSponsorView = view as? LeadSponsorView
+        }
+               // make sure leadSponsorView exists
+        guard let sponsorView = leadSponsorView else { return }
+        
+        //leadSponsorView frame with relation to stackView(i.e. content size of scrollview - Content offset of the scrollview = currect Visibile Votes View in scrollView
+        let visibileTableViewYposition = sponsorView.frame.origin.y - scrollView.contentOffset.y
+        
+        //leadSponsorView + cellRectWithinView.origin.y = top of repViewToPresent.
+        let topOfCell = visibileTableViewYposition + cellRectWithinView.origin.y
+        let rect = CGRect(x: 10, y: topOfCell + 10, width: cellRectWithinView.size.width, height: cellRectWithinView.size.height)
+        
+        presentRepInfoView(with: rect, personImage: image, initialImageViewPosition: imageRect, personID: personID)
     }
 }

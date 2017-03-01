@@ -32,12 +32,8 @@ class VoteHeaderView: UIView, Loadable {
     }
     
     func configure(with tally: Tally) {
-        var title: String?
-        if let short = tally.billShortTitle {
-            title = short
-        } else if let official = tally.billOfficialTitle {
-            title = official
-        }
+        
+        let title = tally.billShortTitle != nil ? tally.billShortTitle : tally.billOfficialTitle
         titleLabel.text = title ?? ""
         currentStatusLabel.text = tally.result?.rawValue
         

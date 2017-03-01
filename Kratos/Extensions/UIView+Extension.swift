@@ -9,8 +9,8 @@
 import UIKit
 
 /// Tappable Protocol enables a UITapGestureRecognizer on any View that adheres to it's protocol. 
-/// - parameter - addTap() must be called on a view, and adds a UITapGestureRecognizer
-/// - selector - a selector must be implemented with the method that will be called on the tap action. Example - var selector: Selector = #selector(methodName)
+/// - addTap(): must be called on a view, and adds a UITapGestureRecognizer
+/// - selector: a selector must be implemented with the method that will be called on the tap action. Example - var selector: Selector = #selector(methodName)
 protocol Tappable: class {
     func addTap()
     var selector: Selector { get set } 
@@ -29,20 +29,23 @@ extension Tappable where Self: UIView {
 /// 2. Adds nib content View to Loadable conforming class (UIView.Type) as a subview
 /// 3. Translates AutoresizingMaskIntoConstraints to false
 /// 4. Pins content view to Loadable conforming class (UIView.Type) edges. 
-/// - parameter - contentView - the top view in the .xib heirarchy. This must be added to Loadable conforming class as an IBOutlet
-/// - parameter - customInit - function that must be called in init(frame) and init(coder) to ensure proper initialization.
-/// Any other setup such as adding custom autoresizingMasks can be done in other helper methods and placed in awakeFromNib()
+/// - contentView: - the top view in the .xib heirarchy. This must be added to Loadable conforming class as an IBOutlet
+/// - customInit: - function that must be called in init(frame) and init(coder) to ensure proper initialization.
 protocol Loadable: class {
-    var contentView: UIView! { get set }
     func customInit()
 }
 
 extension Loadable where Self: UIView {
     func customInit() {
-        Bundle.main.loadNibNamed(String(describing: Self.self), owner: self, options: nil)
+        guard let contentView = Bundle.main.loadNibNamed(String(describing: Self.self), owner: self, options: nil)?.first as? UIView else {
+            fatalError("could not load Nib \(String(describing: Self.self))")
+        }
         addSubview(contentView)
-        translatesAutoresizingMaskIntoConstraints = false
-        contentView.frame = bounds
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        contentView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        contentView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     }
 }
 
@@ -50,8 +53,8 @@ extension UIView {
     
     func addBlurEffect(front: Bool = true, animate: Bool = true ) {
         
-        let blurEffectView = UIVisualEffectView()
-        blurEffectView.frame = bounds
+        let blurEffectView = UIVisualEffectView(frame: bounds)
+        blurEffectView.effect = UIBlurEffect(style: UIBlurEffectStyle.dark)
         self.addSubview(blurEffectView)
         if front {
             self.bringSubview(toFront: blurEffectView)
@@ -60,7 +63,6 @@ extension UIView {
         }
         
         UIView.animate(withDuration: 0.4) {
-            blurEffectView.effect = UIBlurEffect(style: UIBlurEffectStyle.dark)
             blurEffectView.layoutIfNeeded()
         }
     }
@@ -98,9 +100,9 @@ extension UIView {
     
     
     func addShadow(shadowColor: CGColor = UIColor.black.cgColor,
-                   shadowOffset: CGSize = CGSize(width: 1.0, height: 2.0),
+                   shadowOffset: CGSize = CGSize(width: 1.0, height: 1.0),
                    shadowOpacity: Float = 0.4,
-                   shadowRadius: CGFloat = 3.0) {
+                   shadowRadius: CGFloat = 0) {
         
         layer.masksToBounds = false
         layer.shadowColor = shadowColor
@@ -108,5 +110,25 @@ extension UIView {
         layer.shadowOpacity = shadowOpacity
         layer.shadowRadius = shadowRadius
         layer.shouldRasterize = true 
+    }
+    
+    /// Adds view to a superview, disables translates autoresizing masks into constraints, and pins the view to the edges of the superview.
+    func pin(to superView: UIView) {
+        superView.addSubview(self)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.topAnchor.constraint(equalTo: superView.topAnchor).isActive = true
+        self.bottomAnchor.constraint(equalTo: superView.bottomAnchor).isActive = true
+        self.leadingAnchor.constraint(equalTo: superView.leadingAnchor).isActive = true
+        self.trailingAnchor.constraint(equalTo: superView.trailingAnchor).isActive = true
+        self.layoutSubviews()
+        self.layoutIfNeeded()
+    }
+    
+    
+    /// Removes all subviews from View
+    func clear() {
+        self.subviews.forEach { (view) in
+            view.removeFromSuperview()
+        }
     }
 }

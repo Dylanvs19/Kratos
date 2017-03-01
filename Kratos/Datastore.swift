@@ -13,5 +13,7 @@ class Datastore {
     static let shared = Datastore()
     
     var representatives = [Person]()
+    var temporaryRepresentatives = [Person]()
     var user: User?
+    
 }

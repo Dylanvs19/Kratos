@@ -8,26 +8,28 @@
 
 import UIKit
 
-class RepImageView: UIImageView, Tappable {
+class RepImageView: UIImageView {
     var person: Person?
     var lightPerson: LightPerson?
     var url: String?
-    internal var selector: Selector = #selector(viewTapped)
-    var actionBlock: ((Int) -> ())?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        addTap()
         self.isUserInteractionEnabled = true
         self.clipsToBounds = true
     }
     
-    func setRepresentative(person: Person, repInfoViewActionBlock: ((Int) -> ())?) {
+    func set(image: UIImage) {
+        self.image = image
+        self.contentMode = .scaleAspectFill
+        self.addRepImageViewBorder()
+    }
+    
+    func setRepresentative(person: Person) {
         self.person = person
         if let url = person.imageURL {
             loadRepImage(from: url)
         }
-        self.actionBlock = repInfoViewActionBlock
     }
     
     func setLightPerson(lightPerson: LightPerson) {
@@ -43,15 +45,7 @@ class RepImageView: UIImageView, Tappable {
                 self?.image = self?.person?.currentChamber?.toImage() ?? #imageLiteral(resourceName: "CongressLogo")
                 return
             }
-            self?.image = image
-            self?.contentMode = .scaleAspectFill
-            self?.addRepImageViewBorder()
+            self?.set(image: image)
         })
-    }
-    
-    func viewTapped() {
-        if let id = person?.id {
-            actionBlock?(id)
-        }
     }
 }

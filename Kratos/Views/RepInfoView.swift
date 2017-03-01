@@ -9,19 +9,47 @@
 import UIKit
 
 protocol RepInfoViewPresentable: class {
-    var repInfoView: RepInfoView! { get set }
-    func presentRepInfoView(with personID: Int)
+    var repInfoView: RepInfoView? { get set }
+    func presentRepInfoView(with initalViewPosition: CGRect, personImage: UIImage, initialImageViewPosition: CGRect, personID: Int)
 }
 
 extension RepInfoViewPresentable where Self: UIViewController {
-    func presentRepInfoView(with personID: Int) {
-        FirebaseAnalytics.viewItem(id: personID, name: nil, category: ModelViewType.repInfoView.rawValue).fireEvent()
-        repInfoView.configure(with: personID)
+    
+    func presentRepInfoView(with initalViewPosition: CGRect, personImage: UIImage, initialImageViewPosition: CGRect, personID: Int) {
+        repInfoView = RepInfoView()
+        guard let repInfoView = repInfoView else { return }
+        repInfoView.configure(with: initalViewPosition, personImage: personImage, initialImageViewPosition: initialImageViewPosition, personID: personID)
+        view.addSubview(repInfoView)
+        repInfoView.exitPressed = dismissRepInfoView
+        repInfoView.tallySelected = tallySelected
+        repInfoView.billSelected = billSelected
         repInfoView.repContactView.configureActionBlocks(presentTwitter: self.presentTwitter, presentHome: self.presentHomeAddress)
+    }
+    
+    func tallySelected(with lightTally: LightTally) {
+        let vc: TallyViewController = TallyViewController.instantiate()
+        vc.representative = repInfoView?.person
+        vc.lightTally = lightTally
+        navigationController?.exclusivePush(viewController: vc)
+    }
+    
+    func billSelected(with billID: Int) {
+        let vc: BillViewController = BillViewController.instantiate()
+        vc.billID = billID
+        navigationController?.exclusivePush(viewController: vc)
+    }
+    
+    func dismissRepInfoView() {
+        guard let repInfoView = repInfoView else { return }
+        repInfoView.animateOut(onCompletion: { [weak self] in
+            guard let s = self else { fatalError("deallocated self before attempt to access it") }
+            repInfoView.removeFromSuperview()
+            s.repInfoView = nil
+        })
     }
 }
 
-class RepInfoView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource {
+class RepInfoView: UIView, Loadable, RepInfoManagerDelegate {
     
     @IBOutlet public var contentView: UIView!
     @IBOutlet weak var repImageView: RepImageView!
@@ -29,106 +57,219 @@ class RepInfoView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource 
     @IBOutlet weak var repType: UILabel!
     @IBOutlet weak var repState: UILabel!
     @IBOutlet weak var repParty: UILabel!
+    @IBOutlet weak var kratosLabel: UILabel!
     @IBOutlet weak var repStateView: UIImageView!
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var repContactView: RepContactView!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var repInfoManagerView: RepInfoManagerView!
+    @IBOutlet weak var repInfoBackgroundView: UIView!
+    @IBOutlet weak var repInfoTopView: UIView!
     
-    var terms: [Term]? {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    @IBOutlet weak var repImageViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var repImageViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var repImageViewToTopConstraint: NSLayoutConstraint!
+    @IBOutlet var tableViewButtonToBottomConstraint: NSLayoutConstraint!
+    
+    var viewHeightConstraint: NSLayoutConstraint?
+    var viewWidthConstraint: NSLayoutConstraint?
+    var viewTopConstraint: NSLayoutConstraint?
+    var viewLeadingConstraint: NSLayoutConstraint?
+    
+    var exitPressed: (() -> ())?
+    var tallySelected: ((LightTally) -> ())?
+    var billSelected: ((Int) -> ())?
+    
+    ///Size and position of the expanded ImageView.
+    var expandedImageViewPosition: CGRect = CGRect(x: 10, y: 30, width: 90, height: 90)
+    
+    ///The initial position of the view relative to the UIViewControllers self.view.bounds property. This CGRect should match up with the
+    var initalViewPosition: CGRect?
+    
+    ///Size and position of the full repInfoView. This will be set to the repInfoView superview's self.bounds property.
+    fileprivate var expandedViewPosition: CGRect?
+    
+    ///Inital position of the image view with relation to its superview, not the visible CGRect on the screen.
+    var initialImageViewPosition: CGRect?
+    
+    var person: Person?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         customInit()
-        setupTableView()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         customInit()
-        setupTableView()
     }
     
-    func configure(with personID: Int) {
-        addBlurEffect(front: false)
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        guard let superview = self.superview,
+              let initalViewPosition = initalViewPosition,
+              let initialImageViewPosition = initialImageViewPosition else { return }
+        expandedViewPosition = CGRect(x: 0,
+                                      y: 0,
+                                      width: superview.frame.size.width,
+                                      height: superview.frame.size.height)
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        viewTopConstraint = self.topAnchor.constraint(equalTo: superview.topAnchor, constant: initalViewPosition.origin.y)
+        viewLeadingConstraint = self.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: initalViewPosition.origin.x)
+        viewHeightConstraint = self.heightAnchor.constraint(equalToConstant: initalViewPosition.size.height)
+        viewWidthConstraint = self.widthAnchor.constraint(equalToConstant: initalViewPosition.size.width)
+        
+        viewTopConstraint?.isActive = true
+        viewLeadingConstraint?.isActive = true
+        viewHeightConstraint?.isActive = true
+        viewWidthConstraint?.isActive = true
+        
+        repImageViewToTopConstraint.constant = initialImageViewPosition.origin.y
+        repImageViewLeadingConstraint.constant = initialImageViewPosition.origin.x
+        repImageViewWidthConstraint.constant = initialImageViewPosition.size.width
+        
+        repInfoBackgroundView.addShadow()
+//        repInfoManagerView.addShadow()
+        
+        layoutIfNeeded()
+        
+        repInfoManagerView.delegate = self 
+        
+        alpha = 0
+        UIView.animate(withDuration: 0.1, animations: {
+            self.alpha = 1
+            self.layoutIfNeeded()
+        }) { (success) in
+            self.animateIn()
+        }
+        
+    }
+    
+    func setConstraints(basedOn cgRect: CGRect) {
+        viewTopConstraint?.constant = cgRect.origin.y
+        viewLeadingConstraint?.constant = cgRect.origin.x
+        viewHeightConstraint?.constant = cgRect.size.height
+        viewWidthConstraint?.constant = cgRect.size.width
+    }
+    
+    func configure(with initalViewPosition: CGRect, personImage: UIImage, initialImageViewPosition: CGRect, personID: Int) {
+        alpha(shouldShow: false)
+        hide(shouldHide: true)
+        repInfoBackgroundView.backgroundColor = UIColor.white
+        self.repImageView.set(image: personImage)
+        self.initalViewPosition = initalViewPosition
+        self.initialImageViewPosition = initialImageViewPosition
+        self.layoutIfNeeded()
         APIManager.getPerson(for: personID, success: { [weak self] (person) in
-            guard let firstName = person.firstName,
-                let lastName = person.lastName else { return }
-            self?.repName.text = "\(firstName) \(lastName)"
-            self?.repType.text = person.currentChamber?.toRepresentativeType().rawValue
-            self?.repState.text = person.currentState?.fullStateName()
-            self?.repImageView.setRepresentative(person: person, repInfoViewActionBlock: nil)
-            self?.repParty.text = person.currentParty?.capitalLetter()
-            self?.repParty.textColor = person.currentParty?.color()
-            self?.repImageView.isUserInteractionEnabled = false
-            if let state =  person.currentState {
-                self?.repStateView.image = UIImage.imageForState(state)
-            }
+            self?.person = person
+            self?.configure(with: person)
             self?.repContactView.configure(with: person)
-            self?.terms = person.terms
+            self?.repInfoManagerView.configure(with: person)
+            self?.repInfoTopView.backgroundColor = person.currentParty?.color()
+
         }) { (error) in
             print(error)
         }
-        alphaOut()
-        animateIn()
     }
     
-    func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UINib(nibName: String(describing: TermTableViewCell.self), bundle: nil), forCellReuseIdentifier: String(describing: TermTableViewCell.self))
-        tableView.tableFooterView = UIView() 
-        backgroundColor = UIColor.clear
-        alphaOut()
+    func configure(with person: Person) {
+        guard let firstName = person.firstName,
+            let lastName = person.lastName else { return }
+        self.repName.text = "\(firstName) \(lastName)"
+        self.repType.text = person.currentChamber?.toRepresentativeType().rawValue
+        self.repState.text = person.currentState?.fullStateName()
+        self.repParty.text = person.currentParty?.capitalLetter()
+        self.repParty.textColor = person.currentParty?.color()
+        self.repImageView.isUserInteractionEnabled = false
+        if let state =  person.currentState {
+            self.repStateView.image = UIImage.imageForState(state)
+        }
     }
     
     func animateIn() {
-        UIView.animate(withDuration: 0.2, delay: 0.2, options: [], animations: {
-            self.alpha = 1
-            self.repImageView.alpha = 1
-            self.repName.alpha = 1
-            self.repType.alpha = 1
-            self.repState.alpha = 1
-            self.repStateView.alpha = 1
-            self.exitButton.alpha = 1
-            self.repContactView.alpha = 1
+        guard let expandedViewPosition = expandedViewPosition else { return }
+        // Animate everything except Image view & repInfoManager view
+        UIView.animate(withDuration: 0.7, delay: 0.1, options: [], animations: {
+            self.setConstraints(basedOn: expandedViewPosition)
+            self.repImageViewToTopConstraint.constant = self.expandedImageViewPosition.origin.y
+            self.repImageViewLeadingConstraint.constant = self.expandedImageViewPosition.origin.x
+            self.repImageViewWidthConstraint.constant = self.expandedImageViewPosition.size.width
+            self.tableViewButtonToBottomConstraint.isActive = true
+            self.superview?.layoutSubviews()
             self.layoutIfNeeded()
         }) { (success) in
+            UIView.animate(withDuration: 0.2, animations: {
+                self.hide(shouldHide: false)
+                self.alpha(shouldShow: true)
+                self.contentView.backgroundColor = UIColor.kratosLightGray
+                self.layoutIfNeeded()
+            })
             self.repContactView.animateIn()
         }
     }
     
-    func alphaOut() {
-        alpha = 0
-        repImageView.alpha = 0
-        repName.alpha = 0
-        repType.alpha = 0
-        repState.alpha = 0
-        repStateView.alpha = 0
-        exitButton.alpha = 0
-        repContactView.alpha = 0
-    }
-
-    @IBAction func exitButtonPressed(_ sender: Any) {
-        UIView.animate(withDuration: 0.2) {
-            self.alphaOut()
-            self.repImageView.image = nil 
+    func animateOut(onCompletion: (() -> ())? = nil) {
+        
+        tableViewButtonToBottomConstraint.isActive = false
+        guard let initalViewPosition = initalViewPosition,
+              let initialImageViewPosition = initialImageViewPosition else { return }
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.alpha(shouldShow: false)
+            self.setConstraints(basedOn: initalViewPosition)
+            self.repImageViewToTopConstraint.constant = initialImageViewPosition.origin.y
+            self.repImageViewLeadingConstraint.constant = initialImageViewPosition.origin.x
+            self.repImageViewWidthConstraint.constant = initialImageViewPosition.size.width
             self.repContactView.animateOut()
+            self.contentView.backgroundColor = UIColor.white
             self.layoutIfNeeded()
+        }) { (success) in
+            onCompletion?()
         }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return terms?.count ?? 0
+    func alpha(shouldShow: Bool) {
+        let alpha: CGFloat = shouldShow ? 1 : 0
+        repName.alpha = alpha
+        repType.alpha = alpha
+        repState.alpha = alpha
+        repParty.alpha = alpha
+        repStateView.alpha = alpha
+        exitButton.alpha = alpha
+        repContactView.alpha = alpha
+        repInfoManagerView.alpha = alpha
+        exitButton.alpha = alpha
+        repInfoBackgroundView.alpha = alpha
+        kratosLabel.alpha = alpha
     }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TermTableViewCell.self), for: indexPath) as? TermTableViewCell,
-            let term = terms?[indexPath.row] else { return UITableViewCell()}
-        cell.configure(with: term)
-        cell.backgroundColor = UIColor.clear
-        return cell
+    
+    func hide(shouldHide: Bool) {
+        repName.isHidden = shouldHide
+        repType.isHidden = shouldHide
+        repState.isHidden = shouldHide
+        repParty.isHidden = shouldHide
+        repStateView.isHidden = shouldHide
+        exitButton.isHidden = shouldHide
+        repContactView.isHidden = shouldHide
+        repInfoManagerView.isHidden = shouldHide
+        exitButton.isHidden = shouldHide
+        kratosLabel.isHidden = shouldHide
+        repInfoBackgroundView.isHidden = shouldHide
+        tableViewButtonToBottomConstraint.isActive = !shouldHide
+        
     }
+
+    @IBAction func exitButtonPressed(_ sender: Any) {
+        exitPressed?()
+    }
+    
+    //MARK: RepInfoManagerDelegate Methods
+    func tallySelected(with lightTally: LightTally) {
+        self.tallySelected?(lightTally)
+    }
+    
+    func billSelect(with billID: Int) {
+        self.billSelected?(billID)
+    }
+    
 }

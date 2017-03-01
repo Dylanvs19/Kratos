@@ -25,6 +25,7 @@ struct Person: Hashable {
     var gender: String?
     var terms: [Term]?
     var tallies: [LightTally]?
+    var biography: String?
     
     var currentDistrict: Int?
     var officialFullName: String?
@@ -53,6 +54,7 @@ struct Person: Hashable {
         }
         self.currentDistrict = json["current_district"] as? Int
         self.officialFullName = json["official_full_name"] as? String
+        self.biography = json["bio"] as? String
         self.religion = json["religion"] as? String
         self.isCurrent = json["is_current"] as? Bool
         if let chamber = json["current_office"] as? String {

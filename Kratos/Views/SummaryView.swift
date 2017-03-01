@@ -56,8 +56,12 @@ class SummaryView: UIView, Loadable {
         self.layoutView = layoutView
     }
     
+    func invertStyling() {
+        
+    }
+    
     @IBAction func overlayButtonPressed(_ sender: Any) {
-        FirebaseAnalytics.selectedContent(content: ModelViewType.summary.rawValue, id: 0).fireEvent()
+        
             if self.shouldExpand {
                 self.textField.isScrollEnabled = true
                 self.textViewHeightConstraint.constant = 600

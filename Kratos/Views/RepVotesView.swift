@@ -39,7 +39,10 @@ class RepVotesView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource
     var maxTableViewHeight: CGFloat = 400
     var contractedTableViewHeight: CGFloat = 50
     var rowHeight: CGFloat = 50
-    var presentRepInfoView: ((Int) -> ())?
+    var presentRepInfoView: ((CGRect, UIImage, CGRect, Int) -> ())?
+    var distanceFromTopToTableView: CGFloat {
+        return tableView.frame.origin.y
+    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -51,7 +54,7 @@ class RepVotesView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource
         customInit()
     }
     
-    func configure(with title: String, topVote: Vote? = nil, votes: [Vote], cellsToShow: Int = 1, actionBlock: (() -> ())? = nil, presentRepInfoView: ((Int) -> ())?) {
+    func configure(with title: String, topVote: Vote? = nil, votes: [Vote], cellsToShow: Int = 1, actionBlock: (() -> ())? = nil, presentRepInfoView: ((CGRect, UIImage, CGRect, Int) -> ())?) {
         titleLabel.text = title
         self.cellsToShow = cellsToShow
         setupTableView()
@@ -117,14 +120,22 @@ class RepVotesView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let id = votes?[indexPath.row].person?.id {
-            FirebaseAnalytics.selectedContent(content: ModelType.person.rawValue, id: id).fireEvent()
-            presentRepInfoView?(id)
+            
+            var rectInView: CGRect {
+                var rect = tableView.rectForRow(at: indexPath)
+                rect.origin.y += -tableView.contentOffset.y + distanceFromTopToTableView
+                return rect
+            }
+            
+            guard let imageView = (tableView.cellForRow(at: indexPath) as? RepVoteTableViewCell)?.repImageView,
+                  let image = imageView.image else { return }
+            presentRepInfoView?(rectInView, image, imageView.frame, id)
         }
     }
     
     @IBAction func showMoreButtonPressed(_ sender: Any) {
         if shouldExpand {
-            FirebaseAnalytics.selectedContent(content: ModelViewType.repListView.rawValue, id: nil).fireEvent()
+            
             tableViewHeightConstraint.constant = maxTableViewHeight
         } else {
             tableViewHeightConstraint.constant = contractedTableViewHeight

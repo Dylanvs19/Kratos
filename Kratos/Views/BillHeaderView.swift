@@ -41,12 +41,8 @@ class BillHeaderView: UIView, Loadable {
     }
     
     func configure(with bill: Bill) {
-        var title: String?
-        if let short = bill.title {
-            title = short
-        } else if let official = bill.officialTitle {
-            title = official
-        }
+        let title = bill.title != nil ? bill.title : bill.officialTitle
+        
         billTitle.text = title
         billNumber.text = bill.billNumber
         billSummaryTextView.text = bill.officialTitle
