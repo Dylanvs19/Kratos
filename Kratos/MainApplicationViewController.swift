@@ -71,10 +71,12 @@ class MainApplicationViewController: UIViewController, ActivityIndicatorPresenta
     }
     
     func embedMainViewController(with reps: [Person]? = nil) {
+        let tabVC = UITabBarController()
         let navVC = UINavigationController()
         let vc: MainViewController = MainViewController.instantiate()
         navVC.setViewControllers([vc], animated: false)
-        embedViewController(navVC)
+        tabVC.setViewControllers([navVC], animated: false)
+        embedViewController(tabVC)
     }
     
     func embedLoginViewController() {

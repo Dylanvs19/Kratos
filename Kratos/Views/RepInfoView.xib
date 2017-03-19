@@ -66,7 +66,7 @@
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9rX-sB-FOV">
                     <rect key="frame" x="275" y="32" width="90" height="90"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="90" id="gMZ-6i-xbk"/>
+                        <constraint firstAttribute="height" priority="999" constant="90" id="gMZ-6i-xbk"/>
                         <constraint firstAttribute="width" secondItem="9rX-sB-FOV" secondAttribute="height" multiplier="1:1" id="sGw-4K-ejT"/>
                     </constraints>
                 </imageView>

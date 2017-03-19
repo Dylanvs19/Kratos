@@ -27,9 +27,15 @@ extension RepInfoViewPresentable where Self: UIViewController {
     }
     
     func tallySelected(with lightTally: LightTally) {
-        let vc: TallyViewController = TallyViewController.instantiate()
-        vc.representative = repInfoView?.person
-        vc.lightTally = lightTally
+        guard let id = lightTally.billID else {
+            let vc: TallyViewController = TallyViewController.instantiate()
+            vc.representative = repInfoView?.person
+            vc.lightTally = lightTally
+            navigationController?.exclusivePush(viewController: vc)
+            return
+        }
+        let vc: BillViewController = BillViewController.instantiate()
+        vc.billID = id
         navigationController?.exclusivePush(viewController: vc)
     }
     
@@ -92,6 +98,7 @@ class RepInfoView: UIView, Loadable, RepInfoManagerDelegate {
     var initialImageViewPosition: CGRect?
     
     var person: Person?
+    var personID: Int?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -106,8 +113,8 @@ class RepInfoView: UIView, Loadable, RepInfoManagerDelegate {
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         guard let superview = self.superview,
-              let initalViewPosition = initalViewPosition,
-              let initialImageViewPosition = initialImageViewPosition else { return }
+            let initalViewPosition = initalViewPosition,
+            let initialImageViewPosition = initialImageViewPosition else { return }
         expandedViewPosition = CGRect(x: 0,
                                       y: 0,
                                       width: superview.frame.size.width,
@@ -129,20 +136,29 @@ class RepInfoView: UIView, Loadable, RepInfoManagerDelegate {
         repImageViewWidthConstraint.constant = initialImageViewPosition.size.width
         
         repInfoBackgroundView.addShadow()
-//        repInfoManagerView.addShadow()
+        //        repInfoManagerView.addShadow()
         
         layoutIfNeeded()
         
-        repInfoManagerView.delegate = self 
+        repInfoManagerView.delegate = self
         
         alpha = 0
-        UIView.animate(withDuration: 0.1, animations: {
-            self.alpha = 1
-            self.layoutIfNeeded()
-        }) { (success) in
-            self.animateIn()
-        }
         
+        if let personID = personID {
+            APIManager.getPerson(for: personID, success: { [weak self] (person) in
+                self?.person = person
+                self?.repInfoTopView.backgroundColor = person.currentParty?.color()
+                UIView.animate(withDuration: 0.1, animations: {
+                    self?.alpha = 1
+                    self?.layoutIfNeeded()
+                }) { (success) in
+                    self?.animateIn()
+                }
+            }) { (error) in
+                print(error)
+            }
+        }
+        //self.layoutIfNeeded()
     }
     
     func setConstraints(basedOn cgRect: CGRect) {
@@ -159,17 +175,7 @@ class RepInfoView: UIView, Loadable, RepInfoManagerDelegate {
         self.repImageView.set(image: personImage)
         self.initalViewPosition = initalViewPosition
         self.initialImageViewPosition = initialImageViewPosition
-        self.layoutIfNeeded()
-        APIManager.getPerson(for: personID, success: { [weak self] (person) in
-            self?.person = person
-            self?.configure(with: person)
-            self?.repContactView.configure(with: person)
-            self?.repInfoManagerView.configure(with: person)
-            self?.repInfoTopView.backgroundColor = person.currentParty?.color()
-
-        }) { (error) in
-            print(error)
-        }
+        self.personID = personID
     }
     
     func configure(with person: Person) {
@@ -198,6 +204,11 @@ class RepInfoView: UIView, Loadable, RepInfoManagerDelegate {
             self.superview?.layoutSubviews()
             self.layoutIfNeeded()
         }) { (success) in
+            if let person = self.person {
+                self.configure(with: person)
+                self.repContactView.configure(with: person)
+                self.repInfoManagerView.configure(with: person)
+            }
             UIView.animate(withDuration: 0.2, animations: {
                 self.hide(shouldHide: false)
                 self.alpha(shouldShow: true)

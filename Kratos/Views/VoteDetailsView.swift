@@ -13,7 +13,6 @@ class VoteDetailsView: UIView, Loadable {
     @IBOutlet var contentView: UIView!
     
     @IBOutlet weak var requiredLabel: UILabel!
-    @IBOutlet weak var chamberLabel: UILabel!
     @IBOutlet weak var questionTextView: UITextView!
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,8 +27,6 @@ class VoteDetailsView: UIView, Loadable {
 
     func configure(with tally: Tally) {
         requiredLabel.text = tally.requires ?? ""
-        chamberLabel.text = tally.chamber?.rawValue ?? ""
         questionTextView.text = tally.question ?? ""
-        
     }
 }

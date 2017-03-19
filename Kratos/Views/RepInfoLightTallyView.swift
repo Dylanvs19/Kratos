@@ -71,8 +71,8 @@ class RepInfoLightTallyView: UIView, Loadable, UITableViewDelegate, UITableViewD
     
     fileprivate func loadInitialData() {
         guard let id = representative?.id else { return }
-        APIManager.getTallies(for: id, nextPage: 1, success: { (lightTallies) in
-            self.pager.set(initialData: lightTallies)
+        APIManager.getTallies(for: id, nextPage: 1, success: { [weak self] (lightTallies) in
+            self?.pager.set(initialData: lightTallies)
         }) { (error) in
             print(error)
         }

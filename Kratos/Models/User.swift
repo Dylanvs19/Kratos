@@ -13,7 +13,7 @@ struct User {
     var email: String?
     var firstName: String?
     var lastName: String?
-    var phoneNumber: Int?
+    //var phoneNumber: Int?
     var address: Address?
     var district: Int?
     var id: Int?
@@ -23,7 +23,7 @@ struct User {
     var party: Party?
     var apnToken: String?
     
-    init() { }
+    init() { } 
     
     init?(json: [String: AnyObject], pureUser: Bool = false) {
         var jsonDict = json
@@ -33,7 +33,7 @@ struct User {
             self.token = jsonDict["token"] as? String
         }
         
-        guard let phone = jsonDict["user"]?["phone"] as? Int,
+        guard //let phone = jsonDict["user"]?["phone"] as? Int,
               let street = jsonDict["user"]?["address"] as? String,
               let email = jsonDict["user"]?["email"] as? String,
               let firstName = jsonDict["user"]?["first_name"] as? String,
@@ -51,7 +51,7 @@ struct User {
             self.dob = DateFormatter.billDateFormatter.date(from: dob)
         }
         
-        self.phoneNumber = phone
+        //self.phoneNumber = phone
         self.district = district
         self.id = id
         self.email = email
@@ -68,7 +68,7 @@ struct User {
     }
     
     init?(forUpdate json: [String: AnyObject]) {
-        guard let phone = json["phone"] as? Int,
+        guard //let phone = json["phone"] as? Int,
             let street = json["address"] as? String,
             let email = json["email"] as? String,
             let firstName = json["first_name"] as? String,
@@ -86,7 +86,7 @@ struct User {
             self.dob = DateFormatter.billDateFormatter.date(from: dob)
         }
         
-        self.phoneNumber = phone
+        //self.phoneNumber = phone
         self.district = district
         self.id = id
         self.email = email
@@ -106,7 +106,7 @@ struct User {
             let city = self.address?.city,
             let state = self.address?.state?.uppercased(),
             let zip = self.address?.zipCode,
-            let phoneNumber = self.phoneNumber,
+            //let phoneNumber = self.phoneNumber,
             let party = party?.rawValue,
             let dob = dob,
             let email = email,
@@ -114,7 +114,7 @@ struct User {
             let last = lastName else { return nil }
         
         let dict:[String:[String:AnyObject]] = ["user":[
-                                                "phone": phoneNumber as AnyObject,
+                                                //"phone": phoneNumber as AnyObject,
                                                 "email": email.lowercased() as AnyObject,
                                                 "first_name": first as AnyObject,
                                                 "last_name": last as AnyObject,
@@ -136,14 +136,14 @@ struct User {
               let city = self.address?.city,
               let state = self.address?.state?.uppercased(),
               let zip = self.address?.zipCode,
-              let phoneNumber = phoneNumber,
+              //let phoneNumber = phoneNumber,
               let party = party?.rawValue,
               let dob = dob,
               let first = firstName,
               let last = lastName else { return nil }
         
         let userDict = [
-            "phone": phoneNumber,
+            //"phone": phoneNumber,
             "first_name": first,
             "last_name": last,
             "apn_token": apnToken ?? "",

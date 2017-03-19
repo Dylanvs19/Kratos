@@ -513,9 +513,9 @@ struct APIService {
         task.resume()
     }
     
-    static func fetchSponsoredBills(for personID: Int, success: @escaping ([Bill]) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+    static func fetchSponsoredBills(for personID: Int, with pageNumber: Int, success: @escaping ([Bill]) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
         
-        guard let url = URL(string: "\(Constants.PERSON_URL)/\(personID)/bills") else {
+        guard let url = URL(string: "\(Constants.PERSON_URL)/\(personID)/bills?id=\(personID)&page=\(pageNumber)") else {
             failure(.invalidURL(error:nil))
             return
         }

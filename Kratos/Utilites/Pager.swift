@@ -155,27 +155,13 @@ public class Pager<DataSource, Delegate, View>: NSObject where DataSource: Pagin
     public func addLoadMoreSpinnerView() {
         loadMoreSpinnerEnabled = true
         if let loadMoreSpinnerView = loadMoreSpinnerView,
-            let scrollView = self.scrollView , view?.loadMoreSpinnerView?.superview == nil {
+            let scrollView = self.scrollView,
+            let superView = scrollView.superview ,view?.loadMoreSpinnerView?.superview == nil {
             scrollView.superview?.addSubview(loadMoreSpinnerView)
             loadMoreSpinnerView.translatesAutoresizingMaskIntoConstraints = false
-            let screen = UIScreen.main.bounds
-            //Centers Loading Spinner to ScrollView's SuperView
-            let horizontalPin = NSLayoutConstraint.constraints(
-                withVisualFormat: "|-(0)-[view(==\(screen.width))]-(0)-|",
-                options: .alignAllLeading,
-                metrics: nil,
-                views: ["view": loadMoreSpinnerView]
-            )
-            // vertically pins Loading Spinner to Bottom of ScrollView's SuperView
-            let verticalPin = NSLayoutConstraint.constraints(
-                withVisualFormat: "V:[view(50)]-(-50)-|",
-                options: .alignAllLeading,
-                metrics: nil,
-                views: ["view": loadMoreSpinnerView]
-            )
-            
-            scrollView.superview?.addConstraints(horizontalPin)
-            scrollView.superview?.addConstraints(verticalPin)
+            loadMoreSpinnerView.centerXAnchor.constraint(equalTo: superView.centerXAnchor).isActive = true
+            loadMoreSpinnerView.widthAnchor.constraint(equalTo: superView.widthAnchor).isActive = true
+            loadMoreSpinnerView.bottomAnchor.constraint(equalTo: superView.bottomAnchor).isActive = true
         }
     }
     
@@ -193,7 +179,6 @@ public class Pager<DataSource, Delegate, View>: NSObject where DataSource: Pagin
     }
     
     // MARK: - <KVO>
-    
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoScrollViewDidScrollContext,
             let scrollView = object as? UIScrollView {

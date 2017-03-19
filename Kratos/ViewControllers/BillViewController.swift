@@ -14,6 +14,10 @@ class BillViewController: UIViewController, ActivityIndicatorPresentable, RepInf
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet var stackView: UIStackView!
+    @IBOutlet weak var tallyContainerView: UIView!
+    @IBOutlet weak var tallyContainerViewLeadingConstraint: NSLayoutConstraint!
+    
+    
     var repInfoView: RepInfoView?
     var billID: Int? {
         didSet {
@@ -26,7 +30,6 @@ class BillViewController: UIViewController, ActivityIndicatorPresentable, RepInf
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //setupActivityIndicator()
         navigationController?.isNavigationBarHidden = true
         enableSwipeBack()
         loadData()
@@ -37,7 +40,7 @@ class BillViewController: UIViewController, ActivityIndicatorPresentable, RepInf
         super.viewWillAppear(animated)
     }
     
-    func loadData() {
+    private func loadData() {
         if let billId = billID {
             presentActivityIndicator()
             APIManager.getBill(for: billId, success: {[weak self] (bill) -> (Void) in
@@ -52,7 +55,15 @@ class BillViewController: UIViewController, ActivityIndicatorPresentable, RepInf
         }
     }
     
-    func configureView(with bill:Bill) {
+    public func configure(with billID: Int, tallyID: Int?) {
+        self.billID = billID
+        if let tallyID = tallyID {
+            // should pop out tallyID
+            
+        }
+    }
+    
+    private func configureView(with bill:Bill) {
         
         // add HeaderView to stackView
         let headerView = BillHeaderView()
@@ -102,10 +113,9 @@ class BillViewController: UIViewController, ActivityIndicatorPresentable, RepInf
             actionsView.configure(with: sortedActions, layoutStackView: layoutStackView)
             stackView.addArrangedSubview(actionsView)
         }
-        
     }
     
-    func billTextButtonPressed() {
+    private func billTextButtonPressed() {
         if let billUrl = bill?.billTextURL,
            let url = URL(string:billUrl) {
             let vc = SFSafariViewController(url: url)
@@ -113,25 +123,38 @@ class BillViewController: UIViewController, ActivityIndicatorPresentable, RepInf
         }
     }
     
-    func committeeWebsiteButtonPressed(with url: String) {
+    private func committeeWebsiteButtonPressed(with url: String) {
         if let url = URL(string: url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     
-    func layoutStackView() {
+    //MARK: Tally VC Handling.
+    private func pushTallyVC() {
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: { 
+            self.tallyContainerViewLeadingConstraint.constant = -self.view.frame.width + 30
+        }, completion: nil)
+    }
+    
+    private func popTallyVC() {
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+            self.tallyContainerViewLeadingConstraint.constant = 0
+        }, completion: nil)
+    }
+    
+    private func layoutStackView() {
         self.stackView.layoutSubviews()
         self.stackView.layoutIfNeeded()
     }
     
-    func layoutStackViewWithAnimation() {
+    private func layoutStackViewWithAnimation() {
         UIView.animate(withDuration: 0.4, animations: {
             self.view.layoutSubviews()
             self.view.layoutIfNeeded()
         })
     }
     
-    func configureCosponsorsForRepInfoView(cellRectWithinView: CGRect, image: UIImage, imageRect: CGRect, personID: Int) {
+    private func configureCosponsorsForRepInfoView(cellRectWithinView: CGRect, image: UIImage, imageRect: CGRect, personID: Int) {
         var repVotesView: RepVotesView?
         for view in stackView.subviews where type(of: view) == RepVotesView.self {
             repVotesView = view as? RepVotesView
@@ -149,7 +172,7 @@ class BillViewController: UIViewController, ActivityIndicatorPresentable, RepInf
         presentRepInfoView(with: rect, personImage: image, initialImageViewPosition: imageRect, personID: personID)
     }
     
-    func configureLeadSponsorForRepInfoView(cellRectWithinView: CGRect, image: UIImage, imageRect: CGRect, personID: Int) {
+    private func configureLeadSponsorForRepInfoView(cellRectWithinView: CGRect, image: UIImage, imageRect: CGRect, personID: Int) {
         var leadSponsorView: LeadSponsorView?
         for view in stackView.subviews where type(of: view) == LeadSponsorView.self {
             leadSponsorView = view as? LeadSponsorView

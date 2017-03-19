@@ -169,10 +169,6 @@ class MainViewController: UIViewController, RepViewDelegate, RepInfoViewPresenta
         popMenuBar()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        menuViewController = segue.destination as? MenuViewController
-    }
-
     //MARK: Handle SwipeGesture Recognizer
     func handleSwipeRightToMenu(_ gestureRecognizer: UIGestureRecognizer) {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "show_menu"), object: nil)

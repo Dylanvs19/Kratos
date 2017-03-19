@@ -65,8 +65,8 @@ class RepInfoBillSponsorView: UIView, Loadable, UITableViewDelegate, UITableView
     
     func loadInitialData() {
         guard let id = person?.id else { return }
-        APIManager.getBills(for: id, success: { (bills) in
-            self.pager.set(initialData: bills)
+        APIManager.getBills(for: id, nextPage: 1, success: { [weak self] (bills) in
+            self?.pager.set(initialData: bills)
         }) { (error) in
             print(error)
         }
@@ -74,7 +74,7 @@ class RepInfoBillSponsorView: UIView, Loadable, UITableViewDelegate, UITableView
     
     func makeRequestForResults(at page: UInt, onComplete: @escaping (([Bill]?) -> Void)) {
         guard let id = person?.id else { return }
-        APIManager.getBills(for: id, success: { (bills) in
+        APIManager.getBills(for: id, nextPage: Int(page), success: { (bills) in
             onComplete(bills)
         }) { (error) in
             print(error)

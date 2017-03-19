@@ -32,7 +32,6 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
     @IBOutlet weak var cityTextField: KratosTextField!
     @IBOutlet weak var stateTextField: KratosTextField!
     @IBOutlet weak var zipcodeTextField: KratosTextField!
-    @IBOutlet weak var phoneNumberTextField: KratosTextField!
     @IBOutlet weak var oldPasswordTextField: KratosTextField!
     @IBOutlet weak var newPasswordTextField: KratosTextField!
     
@@ -80,17 +79,17 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
     }
     fileprivate var registrationTextFieldArray: [KratosTextField] {
         get {
-            return [firstNameTextField, lastNameTextField, partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField, phoneNumberTextField]
+            return [firstNameTextField, lastNameTextField, partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField]
         }
     }
     fileprivate var accountDetailsTextFieldArray: [KratosTextField] {
         get {
-            return [firstNameTextField, lastNameTextField, partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField, phoneNumberTextField]
+            return [firstNameTextField, lastNameTextField, partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField]
         }
     }
     fileprivate var editTextFieldArray: [KratosTextField] {
         get {
-            return [firstNameTextField, lastNameTextField, partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField, phoneNumberTextField]
+            return [firstNameTextField, lastNameTextField, partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField]
             //, oldPasswordTextField, newPasswordTextField Need to eventually be added.
         }
     }
@@ -176,13 +175,13 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                 return nil
             }
         }
-        var phone: String? {
-            if let phone = Datastore.shared.user?.phoneNumber {
-                return String(phone)
-            } else {
-                return nil
-            }
-        }
+//        var phone: String? {
+//            if let phone = Datastore.shared.user?.phoneNumber {
+//                return String(phone)
+//            } else {
+//                return nil
+//            }
+//        }
         firstNameTextField.configureWith(validationFunction: InputValidation.validateAddress, text: firstName, textlabelText: "F I R S T", expandedWidth: (view.frame.width * 0.35), secret: false, textFieldType: .first)
         lastNameTextField.configureWith(validationFunction: InputValidation.validateAddress, text: lastName, textlabelText: "L A S T", expandedWidth: (view.frame.width * 0.35), secret: false, textFieldType: .last)
         partyTextField.configureWith(validationFunction: InputValidation.validateAddress, text: party, textlabelText: "P A R T Y", expandedWidth: (view.frame.width * 0.35), secret: false, shouldPresentKeyboard: false)
@@ -191,7 +190,6 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
         cityTextField.configureWith(validationFunction: InputValidation.validateCity, text: city, textlabelText: "C I T Y", expandedWidth: (view.frame.width * 0.3), secret: false)
         stateTextField.configureWith(validationFunction: InputValidation.validateState, text: state, textlabelText: "S T A T E", expandedWidth: (view.frame.width * 0.16), secret: false, textFieldType: .state)
         zipcodeTextField.configureWith(validationFunction: InputValidation.validateZipCode, text: zip, textlabelText: "Z I P", expandedWidth: (view.frame.width * 0.3), secret: false, textFieldType: .zip)
-        phoneNumberTextField.configureWith(validationFunction: InputValidation.validatePhoneNumber, text: phone, textlabelText: "P H O N E", expandedWidth: (view.frame.width * 0.5), secret: false, textFieldType: .phone)
         //oldPasswordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "O L D  P A S S W O R D", expandedWidth: (view.frame.width * 0.8), secret: true)
         //newPasswordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "N E W  P A S S W O R D", expandedWidth: (view.frame.width * 0.8), secret: true)
     }
@@ -269,10 +267,6 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                 }
                 if let last = lastNameTextField.text {
                     user?.lastName = last.localizedCapitalized
-                }
-                if let phone = phoneNumberTextField.text,
-                   let number = Int(phone.removePhoneNumberFormat()) {
-                    user?.phoneNumber = number
                 }
                 user?.address = address
                 Datastore.shared.user = user
@@ -357,13 +351,13 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                     return nil
                 }
             }
-            var phone: String? {
-                if let phone = Datastore.shared.user?.phoneNumber {
-                    return String(phone)
-                } else {
-                    return nil
-                }
-            }
+//            var phone: String? {
+//                if let phone = Datastore.shared.user?.phoneNumber {
+//                    return String(phone)
+//                } else {
+//                    return nil
+//                }
+//            }
             // set all textFields back to original values
             firstNameTextField.setText(first ?? "")
             lastNameTextField.setText(last ?? "")
@@ -373,7 +367,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             cityTextField.setText((city ?? ""))
             zipcodeTextField.setText((zip ?? ""))
             stateTextField.setText((state ?? ""))
-            phoneNumberTextField.setText((phone ?? ""))
+            //phoneNumberTextField.setText((phone ?? ""))
             oldPasswordTextField.setText("")
             newPasswordTextField.setText("")
         }
