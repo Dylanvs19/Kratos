@@ -109,6 +109,12 @@ extension UIViewController {
             self.present(alertVC, animated: true, completion: nil)
         }
     }
+    
+    func embedInNavVC() -> UINavigationController {
+        let navVC = UINavigationController()
+        navVC.setViewControllers([self], animated: false)
+        return navVC
+    }
 }
 
 

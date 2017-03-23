@@ -13,6 +13,7 @@
 		AF0EED481E0A0E8300E7A19C /* Tally.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED471E0A0E8300E7A19C /* Tally.swift */; };
 		AF0EED4C1E0A245200E7A19C /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED4B1E0A245200E7A19C /* Person.swift */; };
 		AF0EED4E1E0A246300E7A19C /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0EED4D1E0A246300E7A19C /* Term.swift */; };
+		AF11EF731E7616DF00FE007B /* TransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF11EF721E7616DF00FE007B /* TransitionManager.swift */; };
 		AF1823261E29DC75005912D2 /* RepInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1823251E29DC75005912D2 /* RepInfoView.swift */; };
 		AF1823281E29DC82005912D2 /* RepInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF1823271E29DC82005912D2 /* RepInfoView.xib */; };
 		AF18232A1E29DCC3005912D2 /* RepImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1823291E29DCC3005912D2 /* RepImageView.swift */; };
@@ -24,6 +25,8 @@
 		AF2843991D5AD4D3007B3F18 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2843981D5AD4D3007B3F18 /* Constants.swift */; };
 		AF28439B1D5AD686007B3F18 /* Datastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF28439A1D5AD686007B3F18 /* Datastore.swift */; };
 		AF28439D1D5ADAD9007B3F18 /* Pager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF28439C1D5ADAD9007B3F18 /* Pager.swift */; };
+		AF289D1B1E7EF480007A0546 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF289D1A1E7EF480007A0546 /* TabBarController.swift */; };
+		AF289D1D1E7EF4BF007A0546 /* ScrollTabBarControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF289D1C1E7EF4BF007A0546 /* ScrollTabBarControllerDelegate.swift */; };
 		AF2B8C6C1D62D21300C31FA9 /* RepresentativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B8C6B1D62D21300C31FA9 /* RepresentativeView.swift */; };
 		AF2B8C6E1D62D22600C31FA9 /* RepresentativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2B8C6D1D62D22600C31FA9 /* RepresentativeView.xib */; };
 		AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2D3D051D5D85EF006B75D1 /* UIImage+Extension.swift */; };
@@ -36,6 +39,8 @@
 		AF2F92431E15CFC30041369E /* RepVotesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2F92421E15CFC30041369E /* RepVotesView.xib */; };
 		AF2F92451E15CFD20041369E /* RepVotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2F92441E15CFD20041369E /* RepVotesView.swift */; };
 		AF2F92481E15DB470041369E /* RepVoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2F92471E15DB470041369E /* RepVoteTableViewCell.xib */; };
+		AF324B611E834AC100FB3D66 /* PresentMenuAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF324B601E834AC100FB3D66 /* PresentMenuAnimator.swift */; };
+		AF324B631E8367F800FB3D66 /* DismissMenuAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF324B621E8367F800FB3D66 /* DismissMenuAnimator.swift */; };
 		AF3912F61DF84D2A00123B5C /* KratosTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3912F41DF84D2A00123B5C /* KratosTabBarController.swift */; };
 		AF3913081DFA36F000123B5C /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3913071DFA36F000123B5C /* KeychainManager.swift */; };
 		AF39130A1DFA56E500123B5C /* YourVotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3913091DFA56E500123B5C /* YourVotesViewController.swift */; };
@@ -111,7 +116,6 @@
 		AFA9D1601E30269B00CD6BF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */; };
 		AFA9D1621E3063CB00CD6BF9 /* KratosAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA9D1611E3063CB00CD6BF9 /* KratosAnalytics.swift */; };
 		AFA9D1641E30F37C00CD6BF9 /* FirebaseAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA9D1631E30F37C00CD6BF9 /* FirebaseAnalytics.swift */; };
-		AFAC56EA1DDB3E5A007C1629 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC56E91DDB3E5A007C1629 /* MenuViewController.swift */; };
 		AFB5CCA21DE0B595006E51A2 /* VoteHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCA11DE0B595006E51A2 /* VoteHeaderView.swift */; };
 		AFB5CCA41DE0B5BB006E51A2 /* VoteHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCA31DE0B5BB006E51A2 /* VoteHeaderView.xib */; };
 		AFB5CCA81DE0B6DD006E51A2 /* RepVoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCA71DE0B6DD006E51A2 /* RepVoteTableViewCell.swift */; };
@@ -123,6 +127,9 @@
 		AFB5CCB81DE0B821006E51A2 /* BillCommitteesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCB71DE0B821006E51A2 /* BillCommitteesView.swift */; };
 		AFB5CCBA1DE0B834006E51A2 /* LeadSponsorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5CCB91DE0B834006E51A2 /* LeadSponsorView.swift */; };
 		AFB5CCBC1DE0B83F006E51A2 /* LeadSponsorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFB5CCBB1DE0B83F006E51A2 /* LeadSponsorView.xib */; };
+		AFB6FE9B1E82B65F0040C119 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB6FE9A1E82B65F0040C119 /* MenuViewController.swift */; };
+		AFB6FE9D1E82B7410040C119 /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB6FE9C1E82B7410040C119 /* Interactor.swift */; };
+		AFB6FE9F1E82B7850040C119 /* MenuHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB6FE9E1E82B7850040C119 /* MenuHelper.swift */; };
 		AFD5AA971D9C3D0C00A5714C /* KratosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974731D4D80E500C19020 /* KratosTests.swift */; };
 		AFD5AA9B1D9C618800A5714C /* URLRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5AA9A1D9C618800A5714C /* URLRequest+Extension.swift */; };
 		AFD82F921D88FBFA00AEB559 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */; };
@@ -182,6 +189,7 @@
 		AF0EED471E0A0E8300E7A19C /* Tally.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tally.swift; sourceTree = "<group>"; };
 		AF0EED4B1E0A245200E7A19C /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		AF0EED4D1E0A246300E7A19C /* Term.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Term.swift; sourceTree = "<group>"; };
+		AF11EF721E7616DF00FE007B /* TransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionManager.swift; sourceTree = "<group>"; };
 		AF1823251E29DC75005912D2 /* RepInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepInfoView.swift; sourceTree = "<group>"; };
 		AF1823271E29DC82005912D2 /* RepInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepInfoView.xib; sourceTree = "<group>"; };
 		AF1823291E29DCC3005912D2 /* RepImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepImageView.swift; sourceTree = "<group>"; };
@@ -198,6 +206,8 @@
 		AF2843981D5AD4D3007B3F18 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AF28439A1D5AD686007B3F18 /* Datastore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Datastore.swift; sourceTree = "<group>"; };
 		AF28439C1D5ADAD9007B3F18 /* Pager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pager.swift; sourceTree = "<group>"; };
+		AF289D1A1E7EF480007A0546 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		AF289D1C1E7EF4BF007A0546 /* ScrollTabBarControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollTabBarControllerDelegate.swift; sourceTree = "<group>"; };
 		AF2B8C6B1D62D21300C31FA9 /* RepresentativeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RepresentativeView.swift; path = TableViewCells/RepresentativeView.swift; sourceTree = "<group>"; };
 		AF2B8C6D1D62D22600C31FA9 /* RepresentativeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RepresentativeView.xib; path = TableViewCells/RepresentativeView.xib; sourceTree = "<group>"; };
 		AF2D3D051D5D85EF006B75D1 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
@@ -210,6 +220,8 @@
 		AF2F92421E15CFC30041369E /* RepVotesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepVotesView.xib; sourceTree = "<group>"; };
 		AF2F92441E15CFD20041369E /* RepVotesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepVotesView.swift; sourceTree = "<group>"; };
 		AF2F92471E15DB470041369E /* RepVoteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepVoteTableViewCell.xib; sourceTree = "<group>"; };
+		AF324B601E834AC100FB3D66 /* PresentMenuAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentMenuAnimator.swift; sourceTree = "<group>"; };
+		AF324B621E8367F800FB3D66 /* DismissMenuAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissMenuAnimator.swift; sourceTree = "<group>"; };
 		AF3912F41DF84D2A00123B5C /* KratosTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KratosTabBarController.swift; path = Navigation/KratosTabBarController.swift; sourceTree = "<group>"; };
 		AF3913071DFA36F000123B5C /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		AF3913091DFA56E500123B5C /* YourVotesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourVotesViewController.swift; sourceTree = "<group>"; };
@@ -292,7 +304,6 @@
 		AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AFA9D1611E3063CB00CD6BF9 /* KratosAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KratosAnalytics.swift; path = Utilites/KratosAnalytics.swift; sourceTree = "<group>"; };
 		AFA9D1631E30F37C00CD6BF9 /* FirebaseAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseAnalytics.swift; path = Utilites/FirebaseAnalytics.swift; sourceTree = "<group>"; };
-		AFAC56E91DDB3E5A007C1629 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		AFB5CCA11DE0B595006E51A2 /* VoteHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteHeaderView.swift; sourceTree = "<group>"; };
 		AFB5CCA31DE0B5BB006E51A2 /* VoteHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteHeaderView.xib; sourceTree = "<group>"; };
 		AFB5CCA71DE0B6DD006E51A2 /* RepVoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RepVoteTableViewCell.swift; path = ../RepVoteTableViewCell.swift; sourceTree = "<group>"; };
@@ -304,6 +315,9 @@
 		AFB5CCB71DE0B821006E51A2 /* BillCommitteesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillCommitteesView.swift; sourceTree = "<group>"; };
 		AFB5CCB91DE0B834006E51A2 /* LeadSponsorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeadSponsorView.swift; sourceTree = "<group>"; };
 		AFB5CCBB1DE0B83F006E51A2 /* LeadSponsorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeadSponsorView.xib; sourceTree = "<group>"; };
+		AFB6FE9A1E82B65F0040C119 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		AFB6FE9C1E82B7410040C119 /* Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
+		AFB6FE9E1E82B7850040C119 /* MenuHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuHelper.swift; sourceTree = "<group>"; };
 		AFD5AA9A1D9C618800A5714C /* URLRequest+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLRequest+Extension.swift"; sourceTree = "<group>"; };
 		AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kratos.entitlements; sourceTree = "<group>"; };
 		AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -410,6 +424,23 @@
 			name = Misc;
 			sourceTree = "<group>";
 		};
+		AF289D191E7EF464007A0546 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AF2EA6681E80BF140021064A /* TabBarController */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		AF2EA6681E80BF140021064A /* TabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				AF289D1A1E7EF480007A0546 /* TabBarController.swift */,
+				AF289D1C1E7EF4BF007A0546 /* ScrollTabBarControllerDelegate.swift */,
+			);
+			name = TabBarController;
+			sourceTree = "<group>";
+		};
 		AF2F92461E15D9030041369E /* TallyTableViewCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -424,6 +455,10 @@
 			isa = PBXGroup;
 			children = (
 				AF3912F41DF84D2A00123B5C /* KratosTabBarController.swift */,
+				AFB6FE9C1E82B7410040C119 /* Interactor.swift */,
+				AFB6FE9E1E82B7850040C119 /* MenuHelper.swift */,
+				AF324B601E834AC100FB3D66 /* PresentMenuAnimator.swift */,
+				AF324B621E8367F800FB3D66 /* DismissMenuAnimator.swift */,
 			);
 			name = Navigation;
 			sourceTree = "<group>";
@@ -433,6 +468,7 @@
 			children = (
 				AF3913071DFA36F000123B5C /* KeychainManager.swift */,
 				AF9307C61E5E954D003F3C8A /* NavigationManager.swift */,
+				AF11EF721E7616DF00FE007B /* TransitionManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -513,6 +549,7 @@
 				AF8974B01D4E997D00C19020 /* Utilites */,
 				AF89748E1D4D862B00C19020 /* Extensions */,
 				AF89748F1D4D862B00C19020 /* Models */,
+				AF289D191E7EF464007A0546 /* Controllers */,
 				AF8974901D4D862B00C19020 /* ViewControllers */,
 				AF8974911D4D862B00C19020 /* Views */,
 				AF8974651D4D80E500C19020 /* Assets.xcassets */,
@@ -584,10 +621,10 @@
 				AF8974951D4D88C500C19020 /* MainViewController.swift */,
 				AF6C29101DB9B94E004AA104 /* TallyViewController.swift */,
 				AF8974991D4D88F600C19020 /* BillViewController.swift */,
-				AFAC56E91DDB3E5A007C1629 /* MenuViewController.swift */,
 				AF3913091DFA56E500123B5C /* YourVotesViewController.swift */,
 				AF6B74081E38DEA400962FD6 /* FeedbackViewController.swift */,
 				AF6B740A1E38DEBD00962FD6 /* NotificationsRegistrationViewController.swift */,
+				AFB6FE9A1E82B65F0040C119 /* MenuViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1106,12 +1143,13 @@
 				AFE47F511DF4DC9100008CCB /* LoadMoreSpinnerView.swift in Sources */,
 				AFB5CCB21DE0B7F5006E51A2 /* BillHeaderView.swift in Sources */,
 				AF4F6E801E1D2AA6003E7C9C /* SummaryView.swift in Sources */,
+				AF289D1D1E7EF4BF007A0546 /* ScrollTabBarControllerDelegate.swift in Sources */,
 				AF8974611D4D80E500C19020 /* MainApplicationViewController.swift in Sources */,
 				AFB5CCBA1DE0B834006E51A2 /* LeadSponsorView.swift in Sources */,
 				AF6BD7111E3D549D0003346E /* KratosActivityIndicator.swift in Sources */,
-				AFAC56EA1DDB3E5A007C1629 /* MenuViewController.swift in Sources */,
 				AF44AB571E49838100CFBC4D /* KratosFonts.swift in Sources */,
 				AF4F6E921E284E6C003E7C9C /* MinorActionView.swift in Sources */,
+				AFB6FE9B1E82B65F0040C119 /* MenuViewController.swift in Sources */,
 				AF8974B81D4F058E00C19020 /* UIColor+Extension.swift in Sources */,
 				AFB5CCB81DE0B821006E51A2 /* BillCommitteesView.swift in Sources */,
 				AF28439D1D5ADAD9007B3F18 /* Pager.swift in Sources */,
@@ -1140,23 +1178,28 @@
 				AF9476C81E421FCC00C676D1 /* MainTableViewCellVoteView.swift in Sources */,
 				AF2D3D061D5D85EF006B75D1 /* UIImage+Extension.swift in Sources */,
 				AFF748171DCFF2F100F519AE /* PieChartView.swift in Sources */,
+				AF324B631E8367F800FB3D66 /* DismissMenuAnimator.swift in Sources */,
 				AFA9D1641E30F37C00CD6BF9 /* FirebaseAnalytics.swift in Sources */,
 				AF8974AF1D4E98C700C19020 /* User.swift in Sources */,
 				AF26E16C1E5890B700FFD405 /* RepInfoButtonView.swift in Sources */,
 				AF4F6E8A1E227C40003E7C9C /* BillActionTableViewCell.swift in Sources */,
+				AFB6FE9F1E82B7850040C119 /* MenuHelper.swift in Sources */,
 				AF3DBCE91DD0C34B006B146F /* Array+Extensions.swift in Sources */,
 				AF482EFE1E6357470073AAD0 /* RepInfoManagerBarView.swift in Sources */,
 				AF6B740B1E38DEBD00962FD6 /* NotificationsRegistrationViewController.swift in Sources */,
 				AF89749C1D4D8ADC00C19020 /* Vote.swift in Sources */,
 				AF3913081DFA36F000123B5C /* KeychainManager.swift in Sources */,
+				AF11EF731E7616DF00FE007B /* TransitionManager.swift in Sources */,
 				AFE47F4D1DF34F1C00008CCB /* DatePickerView.swift in Sources */,
 				AF258C241E3AE68F0084FE26 /* CharacterSet+Extensions.swift in Sources */,
+				AF324B611E834AC100FB3D66 /* PresentMenuAnimator.swift in Sources */,
 				AF2F923B1E147D090041369E /* ButtonView.swift in Sources */,
 				AF8974B41D4EB71800C19020 /* UIViewController+Extensions.swift in Sources */,
 				AF5793181D6D440400D86B73 /* Bill.swift in Sources */,
 				AF28439B1D5AD686007B3F18 /* Datastore.swift in Sources */,
 				AF89749A1D4D88F600C19020 /* BillViewController.swift in Sources */,
 				AFF748191DCFF37700F519AE /* UIView+Extension.swift in Sources */,
+				AFB6FE9D1E82B7410040C119 /* Interactor.swift in Sources */,
 				AF89745F1D4D80E500C19020 /* AppDelegate.swift in Sources */,
 				AF2F923C1E15AC7A0041369E /* ShowMoreView.swift in Sources */,
 				AF8974961D4D88C500C19020 /* MainViewController.swift in Sources */,
@@ -1177,6 +1220,7 @@
 				AFF748101DC97FF500F519AE /* RepContactView.swift in Sources */,
 				AF1823261E29DC75005912D2 /* RepInfoView.swift in Sources */,
 				AF482F081E64FDE70073AAD0 /* RepInfoBillSponsorTableViewCell.swift in Sources */,
+				AF289D1B1E7EF480007A0546 /* TabBarController.swift in Sources */,
 				AF39130E1DFA577400123B5C /* YourVoteTableViewCell.swift in Sources */,
 				AF0EED481E0A0E8300E7A19C /* Tally.swift in Sources */,
 				AF8974AD1D4E969000C19020 /* APIService.swift in Sources */,

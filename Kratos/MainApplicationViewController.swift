@@ -11,10 +11,7 @@ import UIKit
 class MainApplicationViewController: UIViewController, ActivityIndicatorPresentable {
     
     @IBOutlet var mainAppContainerView: UIView!
-    
-    @IBOutlet weak var containerViewCenterXConstraint: NSLayoutConstraint!
-    @IBOutlet var containerViewHeightConstraint: NSLayoutConstraint!
-    
+    @IBOutlet weak var containerViewTrailingConstraint: NSLayoutConstraint!
     var activityIndicator: KratosActivityIndicator?
     
     override func viewDidLoad() {
@@ -25,8 +22,6 @@ class MainApplicationViewController: UIViewController, ActivityIndicatorPresenta
     
     func setupNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleLoginFlow), name: NSNotification.Name(rawValue: "toMainVC"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showMenu), name: NSNotification.Name(rawValue: "show_menu"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(hideMenu), name: NSNotification.Name(rawValue: "hide_menu"), object: nil)
     }
     
     func hasToken() -> Bool {
@@ -51,31 +46,9 @@ class MainApplicationViewController: UIViewController, ActivityIndicatorPresenta
         }
     }
     
-    func showMenu() {
-        UIView.animate(withDuration: 10, delay: 0, options: [], animations: {
-            self.containerViewHeightConstraint.constant = -30
-            self.containerViewCenterXConstraint.constant = self.view.frame.width / 2
-            self.mainAppContainerView.layoutIfNeeded()
-        }) { (success) in
-            
-        }
-    }
-    
-    func hideMenu() {
-        UIView.animate(withDuration: 0.3) {
-            self.containerViewHeightConstraint.constant = 0
-            self.containerViewCenterXConstraint.constant = 0
-            self.mainAppContainerView.layoutIfNeeded()
-            self.view.layoutIfNeeded()
-        }
-    }
-    
     func embedMainViewController(with reps: [Person]? = nil) {
-        let tabVC = UITabBarController()
-        let navVC = UINavigationController()
-        let vc: MainViewController = MainViewController.instantiate()
-        navVC.setViewControllers([vc], animated: false)
-        tabVC.setViewControllers([navVC], animated: false)
+        let tabVC:TabBarController = TabBarController.instantiate()
+        tabVC.configure()
         embedViewController(tabVC)
     }
     
@@ -110,6 +83,5 @@ class MainApplicationViewController: UIViewController, ActivityIndicatorPresenta
         controller.view.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         controller.didMove(toParentViewController: self)
     }
-    
 }
 

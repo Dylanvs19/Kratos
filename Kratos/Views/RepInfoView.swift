@@ -158,7 +158,7 @@ class RepInfoView: UIView, Loadable, RepInfoManagerDelegate {
                 print(error)
             }
         }
-        //self.layoutIfNeeded()
+        self.layoutIfNeeded()
     }
     
     func setConstraints(basedOn cgRect: CGRect) {

@@ -11,6 +11,8 @@ import UIKit
 class YourVotesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
+    let interactor = Interactor()
+
     
     var userVotes: [LightTally]? {
         didSet {
@@ -23,6 +25,7 @@ class YourVotesViewController: UIViewController, UITableViewDelegate, UITableVie
         navigationController?.isNavigationBarHidden = true
         loadData()
         setupTableView()
+        configureGestureRecognizer()
     }
     
     func setupTableView() {
@@ -39,6 +42,33 @@ class YourVotesViewController: UIViewController, UITableViewDelegate, UITableVie
             self.userVotes = tallies
         }) { (error) in
             self.showError(error: error)
+        }
+    }
+    
+    
+    func configureGestureRecognizer() {
+        let pan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan(_:)))
+        view.addGestureRecognizer(pan)
+    }
+    
+    func presentMenuVC() {
+        let vc: MenuViewController = MenuViewController.instantiate()
+        vc.transitioningDelegate = self
+        vc.interactor = interactor
+        vc.modalPresentationStyle = .custom
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    func handleScreenEdgePan(_ sender: UIScreenEdgePanGestureRecognizer) {
+        let translation = sender.translation(in: view)
+        
+        let progress = MenuHelper.calculateProgress(translationInView: translation, viewBounds: view.bounds, direction: .Right)
+        
+        MenuHelper.mapGestureStateToInteractor(
+            gestureState: sender.state,
+            progress: progress,
+            interactor: interactor) {
+                self.presentMenuVC()
         }
     }
     
@@ -61,8 +91,21 @@ class YourVotesViewController: UIViewController, UITableViewDelegate, UITableVie
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    @IBAction func dismissButtonPressed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+    @IBAction func settingsButtonPressed(_ sender: Any) {
+        presentMenuVC()
+    }
+}
+
+extension YourVotesViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return PresentMenuAnimator()
     }
     
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return DismissMenuAnimator()
+    }
+    // 3
+    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return interactor.hasStarted ? interactor : nil
+    }
 }

@@ -2,22 +2,20 @@
 //  MenuViewController.swift
 //  Kratos
 //
-//  Created by Dylan Straughan on 11/15/16.
-//  Copyright © 2016 Dylan Straughan. All rights reserved.
+//  Created by Dylan Straughan on 3/22/17.
+//  Copyright © 2017 Dylan Straughan. All rights reserved.
 //
 
 import UIKit
 
 class MenuViewController: UIViewController {
     
+    var interactor:Interactor? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 3, height: 0)
-        view.layer.shadowOpacity = 0.3
-        view.layer.shadowRadius = 1
     }
-    
+
     @IBAction func accountButtonPressed(_ sender: Any) {
         
         let vc: SubmitAddressViewController = SubmitAddressViewController.instantiate()
@@ -26,17 +24,7 @@ class MenuViewController: UIViewController {
         self.present(vc, animated: true, completion: nil)
     }
     
-    @IBAction func votesButtonPressed(_ sender: Any) {
-        
-        let navVC = UINavigationController()
-        let vc: YourVotesViewController = YourVotesViewController.instantiate()
-        navVC.setViewControllers([vc], animated: false)
-        vc.loadViewIfNeeded()
-        self.present(navVC, animated: true, completion: nil)
-    }
-    
-    @IBAction func infoButtonPressed(_ sender: Any) {
-        
+    @IBAction func feedbackButtonPressed(_ sender: Any) {
         let vc: FeedbackViewController = FeedbackViewController.instantiate()
         self.present(vc, animated: true, completion: nil)
     }
@@ -52,4 +40,22 @@ class MenuViewController: UIViewController {
             }
         }
     }
+    
+    func handleGesture(sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: view)
+        
+        let progress = MenuHelper.calculateProgress(translationInView: translation, viewBounds: view.bounds, direction: .Left)
+        
+        MenuHelper.mapGestureStateToInteractor(
+            gestureState: sender.state,
+            progress: progress,
+            interactor: interactor){
+                self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func closeMenu(_ sender: Any) {
+        dismiss(animated: true, completion: nil) 
+    }
 }
+
