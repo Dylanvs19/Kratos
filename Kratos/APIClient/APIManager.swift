@@ -10,6 +10,8 @@ import Foundation
 
 struct APIManager {
     
+    //MARK: Sign In
+    
     static func register(with password: String, user: User? = Datastore.shared.user, keyChainSuccess: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
         if let user = user {
             APIService.register(user, with: password, success: { (user) -> (Void) in
@@ -51,6 +53,8 @@ struct APIManager {
         }
     }
     
+    //MARK: Feedback
+    
     static func getFeedback(success: @escaping ([String]) -> (), failure: @escaping (NetworkError) -> ()) {
         APIService.fetchFeedback(success: { (questions) in
             success(questions)
@@ -66,6 +70,8 @@ struct APIManager {
             failure(error)
         })
     }
+    
+    //MARK: User
     
     static func updateUser(with user: User? = Datastore.shared.user, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
         if let user = user {
@@ -93,66 +99,6 @@ struct APIManager {
             }, failure: { (error) in
                 failure(error)
             })
-        }
-    }
-    
-    //MARK: Representatives & Votes
-    static func getRepresentatives(_ success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
-        if let user = Datastore.shared.user,
-            let state = user.address?.state,
-            let district = user.district {
-            
-            APIService.fetchRepresentatives(for: state, and: district, success: { (representativesArray) in
-                DispatchQueue.main.async(execute: {
-                    Datastore.shared.representatives = representativesArray
-                    success(true)
-                })
-            }, failure: { (error) in
-                failure(error)
-            })
-        }
-    }
-    
-    static func getPerson(for personID: Int, success: @escaping (Person) -> (), failure: @escaping (NetworkError) -> ()) {
-        APIService.fetchPerson(for: personID, success: { (person) in
-            success(person)
-        }, failure: { (error) in
-            failure(error)
-        })
-    }
-    
-    static func getTallies(for personID: Int, nextPage: Int, success: @escaping (_ tallies: [LightTally]) -> (), failure: @escaping (NetworkError) -> ()) {
-    
-        APIService.fetchTallies(for: personID, with: nextPage, success: { (tallies) -> (Void) in
-            success(tallies)
-        }) { (error) -> (Void) in
-            failure(error)
-        }
-    }
-    
-    static func getTally(for lightTallyID: Int, success: @escaping (Tally) -> (), failure: @escaping (NetworkError) -> ()) {
-        
-        APIService.fetchTally(for: lightTallyID, success: { (tally) -> (Void) in
-            success(tally)
-        }) { (error) -> (Void) in
-            failure(error)
-        }
-    }
-    
-    static func getBill(for billId: Int, success: @escaping (Bill) -> (), failure: @escaping (NetworkError) -> ()) {
-        
-        APIService.fetchBill(from: billId, success: { (bill) -> (Void) in
-            success(bill)
-        }) { (error) -> (Void) in
-            failure(error)
-        }
-    }
-    
-    static func getBills(for personID: Int, nextPage: Int, success: @escaping ([Bill]) -> (), failure: @escaping (NetworkError) -> ()) {
-        APIService.fetchSponsoredBills(for: personID, with: nextPage, success: { (bills) -> (Void) in
-            success(bills)
-        }) { (error) -> (Void) in
-            failure(error)
         }
     }
     
@@ -191,6 +137,71 @@ struct APIManager {
     static func deleteUserTally(with tallyID: Int, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
         APIService.deleteUserTally(tallyID: tallyID, success: { (didSucceed) -> (Void) in
             success(didSucceed)
+        }) { (error) -> (Void) in
+            failure(error)
+        }
+    }
+    
+    //MARK: Representatives 
+    
+    static func getRepresentatives(_ success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+        if let user = Datastore.shared.user,
+            let state = user.address?.state,
+            let district = user.district {
+            
+            APIService.fetchRepresentatives(for: state, and: district, success: { (representativesArray) in
+                DispatchQueue.main.async(execute: {
+                    Datastore.shared.representatives = representativesArray
+                    success(true)
+                })
+            }, failure: { (error) in
+                failure(error)
+            })
+        }
+    }
+    
+    static func getPerson(for personID: Int, success: @escaping (Person) -> (), failure: @escaping (NetworkError) -> ()) {
+        APIService.fetchPerson(for: personID, success: { (person) in
+            success(person)
+        }, failure: { (error) in
+            failure(error)
+        })
+    }
+    
+    //MARK: Tallies
+    
+    static func getTallies(for personID: Int, nextPage: Int, success: @escaping (_ tallies: [LightTally]) -> (), failure: @escaping (NetworkError) -> ()) {
+    
+        APIService.fetchTallies(for: personID, with: nextPage, success: { (tallies) -> (Void) in
+            success(tallies)
+        }) { (error) -> (Void) in
+            failure(error)
+        }
+    }
+    
+    static func getTally(for lightTallyID: Int, success: @escaping (Tally) -> (), failure: @escaping (NetworkError) -> ()) {
+        
+        APIService.fetchTally(for: lightTallyID, success: { (tally) -> (Void) in
+            success(tally)
+        }) { (error) -> (Void) in
+            failure(error)
+        }
+    }
+    
+    //MARK: Bills
+    
+    static func getBill(for billId: Int, success: @escaping (Bill) -> (), failure: @escaping (NetworkError) -> ()) {
+        
+        APIService.fetchBill(from: billId, success: { (bill) -> (Void) in
+            success(bill)
+        }) { (error) -> (Void) in
+            failure(error)
+        }
+    }
+    
+    static func getBills(for personID: Int, nextPage: Int, success: @escaping ([Bill]) -> (), failure: @escaping (NetworkError) -> ()) {
+        APIService.fetchSponsoredBills(for: personID, with: nextPage, success: { (bills) -> (Void) in
+            success(bills)
         }) { (error) -> (Void) in
             failure(error)
         }

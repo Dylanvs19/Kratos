@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, DatePickerViewDelegate, UIScrollViewDelegate, ActivityIndicatorPresentable {
+class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, DatePickerViewDelegate, UIScrollViewDelegate, ActivityIndicatorPresenter {
     
     @IBOutlet weak var scrollView: UIScrollView!
     

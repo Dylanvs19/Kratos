@@ -8,53 +8,78 @@
 
 import Foundation
 
-enum TallyType: String, RawRepresentable {
-    case amendment = "Amendment"
-    case conviction = "Conviction"
-    case vetoOverride = "Veto Override"
-    case unknown = "Unknown"
-    case impeachment = "Impeachment"
-    case passageSuspension = "Passage Suspension"
-    case passagePart = "Passage Part"
-    case other = "Other"
-    case ratification = "Ratification"
-    case cloture = "Cloture"
-    case passage = "Passage"
-    case nomination = "Nomination"
-    case procedural = "Procedural"
+enum TallyType {
+    case amendment
+    case conviction
+    case vetoOverride
+    case unknown
+    case impeachment
+    case passageSuspension
+    case passagePart
+    case ratification
+    case cloture
+    case passage
+    case nomination
+    case procedural
+    case other(name: String?)
+    
+    var string: String {
+        switch self {
+        case .amendment: return "Amendment"
+        case .conviction: return "Conviction"
+        case .vetoOverride: return "Veto Override"
+        case .unknown: return "Unknown"
+        case .impeachment: return "Impeachment"
+        case .passageSuspension: return "Passage Suspension"
+        case .passagePart: return "Passage Part"
+        case .ratification: return "Ratification"
+        case .cloture: return "Cloture"
+        case .passage: return "Passage"
+        case .nomination: return "Nomination"
+        case .procedural: return "Procedural"
+        case .other(let string): return string ?? "Unknown"
+        }
+    }
+    
+    var rawValue: Int {
+        switch self {
+        case .amendment: return 0
+        case .conviction: return 1
+        case .vetoOverride: return 2
+        case .unknown: return 3
+        case .impeachment: return 4
+        case .passageSuspension: return 5
+        case .passagePart: return 6
+        case .ratification: return 7
+        case .cloture: return 8
+        case .passage: return 9
+        case .nomination: return 10
+        case .procedural: return 11
+        case .other: return 12
+        }
+    }
     
     static func tallyType(for string: String) -> TallyType {
         switch string {
-        case "amendment":
-            return .amendment
-        case "conviction":
-            return .conviction
-        case "veto_override":
-            return .vetoOverride
-        case "unknown":
-            return .unknown
-        case "impeachment":
-            return .impeachment
-        case "passage_suspension":
-            return .passageSuspension
-        case "passage_part":
-            return .passagePart
-        case "other":
-            return .other
-        case "ratification":
-            return .ratification
-        case "cloture":
-            return .cloture
-        case "passage":
-            return .passage
-        case "nomination":
-            return .nomination
-        case "procedural":
-            return .procedural
-        default:
-            return .unknown
+        case "amendment": return .amendment
+        case "conviction": return .conviction
+        case "veto_override": return .vetoOverride
+        case "unknown": return .unknown
+        case "impeachment": return .impeachment
+        case "passage_suspension": return .passageSuspension
+        case "passage_part": return .passagePart
+        case "ratification": return .ratification
+        case "cloture": return .cloture
+        case "passage": return .passage
+        case "nomination": return .nomination
+        case "procedural": return .procedural
+        default: return .other(name: string)
         }
     }
+}
+
+func ==(lhs:TallyType,rhs:TallyType) -> Bool {
+    return (lhs.rawValue == rhs.rawValue)
 }
 
 enum TallyResultType: String, RawRepresentable {

@@ -7,16 +7,44 @@
 //
 
 import Foundation
+import UIKit
+
+protocol ErrorPresenter {
+    func handle(error: NetworkError)
+}
+
+extension ErrorPresenter where Self: UIViewController, Self: Toaster {
+    func handle(error: NetworkError) {
+        switch error.type {
+        case .surfaceable:
+            present(error: error)
+        case .silent:
+            break
+        case .critical:
+            fatalError()
+        }
+    }
+}
+
+enum ErrorType {
+    case surfaceable
+    case silent
+    case critical
+}
 
 enum NetworkError: Error {
     case timeout
-    case invalidSerialization
     case nilData
+    case invalidSerialization
+    case appSideError(error: [[String: String]]?)
     case invalidURL(error: [[String: String]]?)
     case duplicateUserCredentials(error: [[String: String]]?)
     case invalidCredentials(error: [[String: String]]?)
-    case appSideError(error: [[String: String]]?)
     case serverSideError(error: [[String: String]]?)
+    
+    var type: ErrorType {
+        return .surfaceable
+    }
     
     static func error(for statusCode:Int, error: [[String: String]]?) -> NetworkError? {
         switch statusCode {
@@ -36,6 +64,8 @@ enum NetworkError: Error {
             return nil
         }
     }
+    
+    
 }
 
 func ==(lhs: NetworkError, rhs: NetworkError) -> Bool {

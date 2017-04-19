@@ -10,13 +10,13 @@ import Foundation
 import UIKit
 
 /// Protcol that provides an API to configure, present, and hide a Kratos activity indicator
-protocol ActivityIndicatorPresentable: class {
+protocol ActivityIndicatorPresenter: class {
     var activityIndicator: KratosActivityIndicator? { get set }
     func presentActivityIndicator()
     func hideActivityIndicator()
 }
 
-extension ActivityIndicatorPresentable where Self: UIViewController {
+extension ActivityIndicatorPresenter where Self: UIViewController {
     
     func presentActivityIndicator() {
         activityIndicator = KratosActivityIndicator()
@@ -86,7 +86,7 @@ class KratosActivityIndicator: UIVisualEffectView {
     
     func startSpin() {
         UIView.animate(withDuration: 0.7, delay: 0, options: [.autoreverse, .repeat], animations: {
-            self.imageView.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI), 0.0, 1.0, 0.0)
+            self.imageView.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0.0, 1.0, 0.0)
             self.imageView.layoutIfNeeded()
         })
     }

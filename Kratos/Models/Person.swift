@@ -177,7 +177,7 @@ enum Party: String, RawRepresentable {
         }
         
     }
-    func capitalLetter() -> String {
+    var capitalLetter: String {
         switch self {
         case .democrat:
             return "D"
@@ -187,7 +187,7 @@ enum Party: String, RawRepresentable {
             return "I"
         }
     }
-    func short() -> String {
+    var short: String {
         switch self {
         case .democrat:
             return "Dem"
@@ -198,7 +198,7 @@ enum Party: String, RawRepresentable {
         }
     }
     
-    func color() -> UIColor {
+    var color: UIColor {
         switch self {
         case .democrat:
             return UIColor.kratosBlue

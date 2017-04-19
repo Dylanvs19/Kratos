@@ -8,7 +8,7 @@
 
 import UIKit
 import SafariServices
-class LoginViewController: UIViewController, ActivityIndicatorPresentable {
+class LoginViewController: UIViewController, ActivityIndicatorPresenter {
     
     @IBOutlet var kratosImageView: UIImageView!
     

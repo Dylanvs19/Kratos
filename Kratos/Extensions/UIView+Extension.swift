@@ -49,6 +49,14 @@ extension Loadable where Self: UIView {
     }
 }
 
+//Enum that defines edges of a view.
+enum Edges {
+    case top
+    case bottom
+    case leading
+    case trailing
+}
+
 extension UIView {
     
     func addBlurEffect(front: Bool = true, animate: Bool = true ) {
@@ -113,15 +121,21 @@ extension UIView {
     }
     
     /// Adds view to a superview, disables translates autoresizing masks into constraints, and pins the view to the edges of the superview.
-    func pin(to superView: UIView) {
+    func pin(to superView: UIView, for edges: [Edges] = [.top, .bottom, .leading, .trailing]) {
         superView.addSubview(self)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.topAnchor.constraint(equalTo: superView.topAnchor).isActive = true
-        self.bottomAnchor.constraint(equalTo: superView.bottomAnchor).isActive = true
-        self.leadingAnchor.constraint(equalTo: superView.leadingAnchor).isActive = true
-        self.trailingAnchor.constraint(equalTo: superView.trailingAnchor).isActive = true
-        self.layoutSubviews()
-        self.layoutIfNeeded()
+        edges.forEach {
+            switch $0 {
+            case .top:
+                self.topAnchor.constraint(equalTo: superView.topAnchor).isActive = true
+            case .bottom:
+                self.bottomAnchor.constraint(equalTo: superView.bottomAnchor).isActive = true
+            case .leading:
+                self.leadingAnchor.constraint(equalTo: superView.leadingAnchor).isActive = true
+            case .trailing:
+                self.trailingAnchor.constraint(equalTo: superView.trailingAnchor).isActive = true
+            }
+        }
     }
     
     
@@ -130,5 +144,14 @@ extension UIView {
         self.subviews.forEach { (view) in
             view.removeFromSuperview()
         }
+    }
+    
+    func snapshot() -> UIImageView {
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.main.scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return UIImageView() }
+        self.layer.render(in: context)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return UIImageView(image: image)
     }
 }

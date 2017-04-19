@@ -115,6 +115,13 @@ extension UIViewController {
         navVC.setViewControllers([self], animated: false)
         return navVC
     }
+    
+    func presentSafariView(with url: String) {
+        if let url = URL(string:url) {
+            let vc = SFSafariViewController(url: url)
+            self.present(vc, animated: true, completion: nil)
+        }
+    }
 }
 
 

@@ -10,7 +10,7 @@
 import UIKit
 import SafariServices
 
-class MainViewController: UIViewController, RepViewDelegate, RepInfoViewPresentable, ActivityIndicatorPresentable {
+class MainViewController: UIViewController, RepViewDelegate, RepInfoViewPresentable, ActivityIndicatorPresenter {
     
     @IBOutlet var repViewOne: RepresentativeView!
     @IBOutlet var repViewTwo: RepresentativeView!
@@ -51,8 +51,6 @@ class MainViewController: UIViewController, RepViewDelegate, RepInfoViewPresenta
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationController?.isNavigationBarHidden = true
         edgesForExtendedLayout = []
         configureStateImage()
     }

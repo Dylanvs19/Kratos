@@ -7,7 +7,7 @@
 //
 import UIKit
 
-class TallyViewController: UIViewController, UIScrollViewDelegate, ActivityIndicatorPresentable, RepInfoViewPresentable {
+class TallyViewController: UIViewController, UIScrollViewDelegate, ActivityIndicatorPresenter, RepInfoViewPresentable {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var stackView: UIStackView!
@@ -72,7 +72,7 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, ActivityIndic
         
         if let _ = tally.billID  {
             let relatedBillView = ButtonView()
-            relatedBillView.configure(with: "Bill Information", actionBlock: relatedBillButtonPressed)
+            relatedBillView.configure(with: "Bill Information", font: Font.title, actionBlock: relatedBillButtonPressed)
             stackView.addArrangedSubview(relatedBillView)
         }
         

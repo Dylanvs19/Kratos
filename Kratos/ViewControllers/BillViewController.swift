@@ -10,42 +10,77 @@
 import UIKit
 import SafariServices
 
-class BillViewController: UIViewController, ActivityIndicatorPresentable, RepInfoViewPresentable {
+class BillViewController: UIViewController, ActivityIndicatorPresenter, RepInfoViewPresentable, BillInfoViewDelegate {
     
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
+    //Header Level
+    @IBOutlet weak var numberLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var currentStatusLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    //Control Level
+    @IBOutlet weak var summaryButton: UIButton!
+    @IBOutlet weak var sponsorsButton: UIButton!
+    @IBOutlet weak var votesButton: UIButton!
+    @IBOutlet weak var activityButton: UIButton!
+    @IBOutlet weak var slideView: UIView!
+    @IBOutlet weak var slideViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var slideViewWidthConstraint: NSLayoutConstraint!
+    
+    //Info Level
+    @IBOutlet weak var infoScrollView: UIScrollView!
     @IBOutlet var stackView: UIStackView!
-    @IBOutlet weak var tallyContainerView: UIView!
-    @IBOutlet weak var tallyContainerViewLeadingConstraint: NSLayoutConstraint!
+
+    enum ViewType: Int {
+        //ViewType's Int property matches up with index for views
+        case summary
+        case sponsor
+        case vote
+        case activity
+    }
     
-    
+    fileprivate var viewType: ViewType = .summary {
+        didSet {
+            let width = self.view.frame.size.width
+            infoScrollView.scrollRectToVisible(CGRect(x: CGFloat(viewType.rawValue) * width - CGFloat(viewType.rawValue) * 20, y: 0, width: width - 20, height: 10), animated: true)
+            
+            UIView.animate(withDuration: 0.2) { 
+                // move slideView
+                self.slideViewLeadingConstraint.constant = CGFloat(self.viewType.rawValue) * width/4
+                // move stackview
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
     var repInfoView: RepInfoView?
     var billID: Int? {
         didSet {
             KratosAnalytics.shared.updateBillAnalyicAction(with: billID)
         }
     }
-    var bill: Bill?
+    fileprivate var bill: Bill?
     var activityIndicator: KratosActivityIndicator? = KratosActivityIndicator()
     var shadeView: UIView = UIView()
+    var initialHeaderViewHeight: CGFloat = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
+        setupInitialView()
         enableSwipeBack()
         loadData()
         self.view.layoutIfNeeded()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
+    //MARK: Data Loading
     
-    private func loadData() {
+    fileprivate func loadData() {
         if let billId = billID {
             presentActivityIndicator()
             APIManager.getBill(for: billId, success: {[weak self] (bill) -> (Void) in
                 self?.hideActivityIndicator()
                 self?.configureView(with: bill)
+                self?.setHeaderView(with: bill)
                 self?.bill = bill
                 }, failure: { (error) -> (Void) in
                     self.hideActivityIndicator()
@@ -55,93 +90,132 @@ class BillViewController: UIViewController, ActivityIndicatorPresentable, RepInf
         }
     }
     
+    //MARK: View configuration and Setup
+    
+    fileprivate func setupInitialView() {
+        
+        slideViewWidthConstraint.constant = self.view.frame.size.width/4
+        slideViewLeadingConstraint.constant = CGFloat(viewType.rawValue) * self.view.frame.size.width/4
+    }
+    
+    fileprivate func setHeaderView(with bill: Bill) {
+        titleLabel.text = bill.title ?? bill.officialTitle
+        headerView.layoutIfNeeded()
+        initialHeaderViewHeight = headerView.frame.size.height
+        headerViewHeightConstraint.constant = initialHeaderViewHeight
+        headerViewHeightConstraint.isActive = true
+    }
+    
     public func configure(with billID: Int, tallyID: Int?) {
-        self.billID = billID
-        if let tallyID = tallyID {
-            // should pop out tallyID
-            
-        }
+        //set bill ID - 
+        // configure screen for bill
+        // then pop out tallyView
+        
+//        self.billID = billID
+//        if let tallyID = tallyID {
+//            // should pop out tallyID
+//            
+//        }
     }
     
     private func configureView(with bill:Bill) {
         
-        // add HeaderView to stackView
-        let headerView = BillHeaderView()
-        headerView.configure(with: bill)
-        stackView.addArrangedSubview(headerView)
         
-        if let summary = bill.summary {
-            let summaryView = SummaryView()
-            summaryView.configure(with: summary, title: "Bill Summary", showMorePresentable: true, layoutView: layoutStackViewWithAnimation)
-            stackView.addArrangedSubview(summaryView)
-        }
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        //setup summaryView
+        let billSummaryView = BillSummaryView()
+        stackView.addArrangedSubview(billSummaryView)
+
+        billSummaryView.translatesAutoresizingMaskIntoConstraints = false
+        billSummaryView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -20).isActive = true
+        billSummaryView.configure(with: bill, width: view.frame.size.width - 20, urlPressed: presentSafariView)
+        billSummaryView.billInfoViewDelegate = self
+        stackView.layoutSubviews()
+        //setup sponsorsView
+        let sponsorsView = BillSponsorsView()
+        stackView.addArrangedSubview(sponsorsView)
+        stackView.layoutSubviews()
+        sponsorsView.configure(with: bill)
+        sponsorsView.billInfoViewDelegate = self 
+        //setup VotesView
         
-        // add CommitteesView to stackView
-        if let committees =  bill.committees {
-            let committeesView = BillCommitteesView()
-            committeesView.configure(with: committees, layoutStackView: layoutStackView, websiteButtonPressed: committeeWebsiteButtonPressed)
-            stackView.addArrangedSubview(committeesView)
-        }
+        //setup ActivityView
         
-        // add SponsorsView to stackView
-        if let leadSponsor = bill.sponsor {
-            let sponsorView = LeadSponsorView()
-            sponsorView.configure(with: leadSponsor, presentRepInfoView: configureLeadSponsorForRepInfoView)
-            stackView.addArrangedSubview(sponsorView)
-        }
+        //must set scrollviewDelegate of each to self.
+        print(stackView.subviews)
         
-        if let cosponsors = bill.coSponsors, cosponsors.count > 0 {
-            let lightCoSponsors = cosponsors.map({ (person) -> Vote in
-                var vote = Vote()
-                vote.person = person.toLightPerson()
-                return vote
-            })
-            let view = RepVotesView()
-            let title = lightCoSponsors.count == 1 ? "CoSponsor" : "CoSponsors"
-            view.configure(with: title, votes: lightCoSponsors, presentRepInfoView: configureCosponsorsForRepInfoView)
-            stackView.addArrangedSubview(view)
-        }
-        if bill.billTextURL != nil {
-            let relatedBillView = ButtonView()
-            relatedBillView.configure(with: "Bill Text", actionBlock: billTextButtonPressed)
-            stackView.addArrangedSubview(relatedBillView)
-        }
-        
-        if let actions = bill.actions {
-            let actionsView = BillCommitteesView()
-            let sortedActions = actions.sorted { $0.date ?? Date() > $1.date ?? Date() }
-            actionsView.configure(with: sortedActions, layoutStackView: layoutStackView)
-            stackView.addArrangedSubview(actionsView)
-        }
     }
     
-    private func billTextButtonPressed() {
-        if let billUrl = bill?.billTextURL,
-           let url = URL(string:billUrl) {
-            let vc = SFSafariViewController(url: url)
-            self.present(vc, animated: true, completion: nil)
+    func scrollViewDid(translate translation: CGFloat) {
+        print(translation)
+        if translation < 0 {
+            if headerViewHeightConstraint.constant > 40 {
+                headerViewHeightConstraint.constant += translation
+            }
+        } else if translation > 0 {
+            if headerViewHeightConstraint.constant < initialHeaderViewHeight {
+                headerViewHeightConstraint.constant += translation
+            }
         }
     }
+ 
     
-    private func committeeWebsiteButtonPressed(with url: String) {
-        if let url = URL(string: url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
+    //MARK: InfoButton Handling
+    
+    @IBAction func summaryButtonPressed(_ sender: Any) {
+        viewType = .summary
+    }
+    @IBAction func sponsorButtonPressed(_ sender: Any) {
+        viewType = .sponsor
+    }
+    @IBAction func votesButtonPressed(_ sender: Any) {
+        viewType = .vote
+    }
+    @IBAction func activityButtonPressed(_ sender: Any) {
+        viewType = .activity
     }
     
     //MARK: Tally VC Handling.
     private func pushTallyVC() {
-        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: { 
-            self.tallyContainerViewLeadingConstraint.constant = -self.view.frame.width + 30
-        }, completion: nil)
+        let vc: TallyViewController = TallyViewController.instantiate()
+        
+        let transition = CATransition()
+        transition.duration = 0.3
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromRight
+        self.view.window?.layer.add(transition, forKey: nil)
+        
+        self.present(vc, animated: false, completion: nil)
     }
     
     private func popTallyVC() {
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
-            self.tallyContainerViewLeadingConstraint.constant = 0
+            //AnimateVC in
         }, completion: nil)
     }
     
+    
+    //MARK: RepInfo Configuration
+    private func configureCosponsorsForRepInfoView(cellRectWithinView: CGRect, image: UIImage, imageRect: CGRect, personID: Int) {
+        var repVotesView: RepVotesView?
+        for view in stackView.subviews where type(of: view) == RepVotesView.self {
+            repVotesView = view as? RepVotesView
+        }
+        // make sure repVotesView exists
+        guard let votesView = repVotesView else { return }
+//        
+//        //votesView frame with relation to stackView(i.e. content size of scrollview - Content offset of the scrollview = currect Visibile Votes View in scrollView
+//        //let visibileTableViewYposition = votesView.frame.origin.y - scrollView.contentOffset.y
+//        
+//        //votesViewPosition + cellRectWithinView.origin.y = top of cell.
+//        let topOfCell = visibileTableViewYposition + cellRectWithinView.origin.y
+//        let rect = CGRect(x: 10, y: topOfCell + 10, width: cellRectWithinView.size.width, height: cellRectWithinView.size.height)
+//        
+//        presentRepInfoView(with: rect, personImage: image, initialImageViewPosition: imageRect, personID: personID)
+    }
+    
+    //MARK: Custom Layout Methods
     private func layoutStackView() {
         self.stackView.layoutSubviews()
         self.stackView.layoutIfNeeded()
@@ -153,40 +227,5 @@ class BillViewController: UIViewController, ActivityIndicatorPresentable, RepInf
             self.view.layoutIfNeeded()
         })
     }
-    
-    private func configureCosponsorsForRepInfoView(cellRectWithinView: CGRect, image: UIImage, imageRect: CGRect, personID: Int) {
-        var repVotesView: RepVotesView?
-        for view in stackView.subviews where type(of: view) == RepVotesView.self {
-            repVotesView = view as? RepVotesView
-        }
-        // make sure repVotesView exists
-        guard let votesView = repVotesView else { return }
-        
-        //votesView frame with relation to stackView(i.e. content size of scrollview - Content offset of the scrollview = currect Visibile Votes View in scrollView
-        let visibileTableViewYposition = votesView.frame.origin.y - scrollView.contentOffset.y
-        
-        //votesViewPosition + cellRectWithinView.origin.y = top of cell.
-        let topOfCell = visibileTableViewYposition + cellRectWithinView.origin.y
-        let rect = CGRect(x: 10, y: topOfCell + 10, width: cellRectWithinView.size.width, height: cellRectWithinView.size.height)
-        
-        presentRepInfoView(with: rect, personImage: image, initialImageViewPosition: imageRect, personID: personID)
-    }
-    
-    private func configureLeadSponsorForRepInfoView(cellRectWithinView: CGRect, image: UIImage, imageRect: CGRect, personID: Int) {
-        var leadSponsorView: LeadSponsorView?
-        for view in stackView.subviews where type(of: view) == LeadSponsorView.self {
-            leadSponsorView = view as? LeadSponsorView
-        }
-               // make sure leadSponsorView exists
-        guard let sponsorView = leadSponsorView else { return }
-        
-        //leadSponsorView frame with relation to stackView(i.e. content size of scrollview - Content offset of the scrollview = currect Visibile Votes View in scrollView
-        let visibileTableViewYposition = sponsorView.frame.origin.y - scrollView.contentOffset.y
-        
-        //leadSponsorView + cellRectWithinView.origin.y = top of repViewToPresent.
-        let topOfCell = visibileTableViewYposition + cellRectWithinView.origin.y
-        let rect = CGRect(x: 10, y: topOfCell + 10, width: cellRectWithinView.size.width, height: cellRectWithinView.size.height)
-        
-        presentRepInfoView(with: rect, personImage: image, initialImageViewPosition: imageRect, personID: personID)
-    }
+
 }

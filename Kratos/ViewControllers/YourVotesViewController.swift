@@ -55,7 +55,6 @@ class YourVotesViewController: UIViewController, UITableViewDelegate, UITableVie
         let vc: MenuViewController = MenuViewController.instantiate()
         vc.transitioningDelegate = self
         vc.interactor = interactor
-        vc.modalPresentationStyle = .custom
         self.present(vc, animated: true, completion: nil)
     }
     
@@ -102,9 +101,14 @@ extension YourVotesViewController: UIViewControllerTransitioningDelegate {
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return DismissMenuAnimator()
+           return DismissMenuAnimator()
+
     }
-    // 3
+    
+    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return interactor.hasStarted ? interactor : nil
+    }
+    
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return interactor.hasStarted ? interactor : nil
     }
