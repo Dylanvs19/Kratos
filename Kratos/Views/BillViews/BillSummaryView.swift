@@ -9,7 +9,7 @@
 import UIKit
 
 protocol BillInfoViewDelegate: class {
-    func scrollViewDid(translate translation: CGFloat)
+    func scrollViewDid(translate translation: CGFloat, contentOffsetY: CGFloat)
 }
 
 class BillSummaryView: UIView, UIScrollViewDelegate {
@@ -23,35 +23,49 @@ class BillSummaryView: UIView, UIScrollViewDelegate {
     weak var billInfoViewDelegate:BillInfoViewDelegate?
     
     public func configure(with bill: Bill, width: CGFloat, urlPressed:@escaping (String) -> Void) {
-        stackView.axis = .vertical
-        scrollView.alwaysBounceHorizontal = false
-        stackView.translatesAutoresizingMaskIntoConstraints = false 
-        stackView.widthAnchor.constraint(equalToConstant: width).isActive = true
-        stackView.spacing = 2
-        
         self.urlPressed = urlPressed
         
         scrollView.pin(to: self)
+        scrollView.alwaysBounceHorizontal = false
+        
         stackView.pin(to: scrollView)
+        stackView.widthAnchor.constraint(equalToConstant: width)
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .equalCentering
+        scrollView.alwaysBounceHorizontal = false
+        stackView.spacing = 2
+
         
         if let summary = bill.summary {
             let summaryView = SummaryView()
+            summaryView.translatesAutoresizingMaskIntoConstraints = false
+            summaryView.widthAnchor.constraint(equalToConstant: width).isActive = true
             summaryView.configure(with: summary, title: "Bill Summary", showMorePresentable: true, layoutView: layoutStackViewWithAnimation)
+            summaryView.layoutSubviews()
             stackView.addArrangedSubview(summaryView)
+            
         }
         
         // add CommitteesView to stackView
         if let committees =  bill.committees {
             let committeesView = BillCommitteesView()
+            committeesView.translatesAutoresizingMaskIntoConstraints = false
+            committeesView.widthAnchor.constraint(equalToConstant: width).isActive = true
             committeesView.configure(with: committees, layoutStackView: layoutStackView, websiteButtonPressed: urlPressed)
             stackView.addArrangedSubview(committeesView)
         }
         
         if bill.billTextURL != nil {
             let relatedBillView = ButtonView()
+            relatedBillView.translatesAutoresizingMaskIntoConstraints = false
+            relatedBillView.widthAnchor.constraint(equalToConstant: width).isActive = true 
             relatedBillView.configure(with: "Bill Text", font: Font.title, actionBlock: billTextPressed)
             stackView.addArrangedSubview(relatedBillView)
         }
+        
+        stackView.layoutSubviews()
+        stackView.layoutIfNeeded()
     }
     
     private func billTextPressed() {
@@ -65,7 +79,7 @@ class BillSummaryView: UIView, UIScrollViewDelegate {
         let offsetY = scrollView.contentOffset.y
         let translation =  offsetY - lastContentOffset
         lastContentOffset = offsetY
-        billInfoViewDelegate?.scrollViewDid(translate: translation)
+        billInfoViewDelegate?.scrollViewDid(translate: translation, contentOffsetY: offsetY)
     }
     
     private func layoutStackViewWithAnimation() {

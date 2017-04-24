@@ -15,14 +15,30 @@ protocol VoteTableViewCellDelegate {
 
 class VoteTableViewCell: UITableViewCell {
     
-    @IBOutlet var stackView: UIStackView!
+    let stackView = UIStackView()
+    let topTermLabel = UILabel()
     
-    var delegate:VoteTableViewCellDelegate?
+    var delegate: VoteTableViewCellDelegate?
     
     var tallies: [LightTally]?
     var firstTally: LightTally?
     
     func configureWith(_ tallies: [LightTally]) {
+        
+        addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5).isActive = true
+        
+        addSubview(topTermLabel)
+        topTermLabel.translatesAutoresizingMaskIntoConstraints = false
+        topTermLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5).isActive = true
+        topTermLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: topAnchor, constant: 2).isActive = true
+        
+        stackView.bottomAnchor.constraint(equalTo: topTermLabel.topAnchor, constant: 5).isActive = true
+
         selectionStyle = .none
         
         self.stackView.arrangedSubviews.forEach { (view) in

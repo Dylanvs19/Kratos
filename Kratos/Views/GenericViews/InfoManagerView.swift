@@ -32,6 +32,7 @@ class InfoManagerView: UIView {
     }
     
     fileprivate func buildViews(with viewMap: [String: Int]) {
+        translatesAutoresizingMaskIntoConstraints = false
         let stackView = UIStackView()
         stackView.pin(to: self)
         stackView.alignment = .fill
@@ -40,10 +41,12 @@ class InfoManagerView: UIView {
         viewMap.keys.forEach {
             let button = UIButton()
             button.setTitle($0, for: .normal)
-            button.titleLabel?.font = Font.futuraBold(size: 15).font
-            button.titleLabel?.textColor = UIColor.kratosRed
-            button.target(forAction: #selector(buttonPressed), withSender: button)
+            button.titleLabel?.font = Font.futura(size: 15).font
+            button.setTitleColor(UIColor.kratosRed, for: .normal)
+            button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+            button.backgroundColor = UIColor.clear
             stackView.addArrangedSubview(button)
+            
         }
         
         let slideView = UIView()

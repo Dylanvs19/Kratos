@@ -8,25 +8,14 @@
 
 import UIKit
 
-class MainTableViewCellTitleView: UIView, Loadable, Tappable {
+class MainTableViewCellTitleView: UIView, Tappable {
     
-    @IBOutlet var contentView: UIView!
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet weak var resultTextLabel: UILabel!
-    @IBOutlet weak var resultView: UIView!
+    var titleLabel = UILabel()
+    var resultTextLabel = UILabel()
+    var resultView = UIView()
     var selector: Selector = #selector(viewTapped)
     var tapped: ((LightTally) -> ())?
     var lightTally: LightTally?
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        customInit()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        customInit()
-    }
     
     func configure(with lightTally: LightTally, tapped: @escaping ((LightTally) -> ())) {
         addTap()

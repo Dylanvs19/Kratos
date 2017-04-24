@@ -20,9 +20,9 @@ enum Font {
     var font: UIFont {
         switch self {
         case .futuraStandard:
-            return UIFont(name: "Futura-Regular", size: 15)!
+            return UIFont(name: "Futura", size: 15)!
         case .futura(let size):
-            return UIFont(name: "Futura-Regular", size: size)!
+            return UIFont(name: "Futura", size: size)!
         case .futuraBold(let size):
             return UIFont(name: "Futura-Bold", size: size)!
         case .avenirNextStandard:

@@ -43,7 +43,7 @@ class TallyTableView: UITableView, UITableViewDelegate, UITableViewDataSource, U
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let translation = scrollView.panGestureRecognizer.translation(in: self).y
-        billInfoViewDelegate?.scrollViewDid(translate: translation)
+        billInfoViewDelegate?.scrollViewDid(translate: translation, contentOffsetY: scrollView.contentOffset.y)
     }
     
 }

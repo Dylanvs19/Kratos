@@ -28,14 +28,14 @@ extension RepInfoViewPresentable where Self: UIViewController {
     
     func tallySelected(with lightTally: LightTally) {
         guard let id = lightTally.billID else { return }
-        let vc: BillViewController = BillViewController.instantiate()
-        vc.billID = id
+        let vc: BillViewController = BillViewController()
+        vc.configure(with: id)
         navigationController?.exclusivePush(viewController: vc)
     }
     
     func billSelected(with billID: Int) {
-        let vc: BillViewController = BillViewController.instantiate()
-        vc.billID = billID
+        let vc: BillViewController = BillViewController()
+        vc.configure(with: billID)
         navigationController?.exclusivePush(viewController: vc)
     }
     

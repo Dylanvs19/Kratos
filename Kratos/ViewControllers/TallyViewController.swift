@@ -112,7 +112,7 @@ class TallyViewController: UIViewController, UIScrollViewDelegate, ActivityIndic
     func relatedBillButtonPressed() {
         let vc: BillViewController = BillViewController.instantiate()
         if let relatedBill = tally?.billID {
-            vc.billID = relatedBill
+            vc.configure(with: relatedBill)
             
             navigationController?.pushViewController(vc, animated: true)
         }

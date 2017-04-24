@@ -50,11 +50,13 @@ extension Loadable where Self: UIView {
 }
 
 //Enum that defines edges of a view.
-enum Edges {
+enum Dimension {
     case top
     case bottom
     case leading
     case trailing
+    case height
+    case width
 }
 
 extension UIView {
@@ -121,7 +123,7 @@ extension UIView {
     }
     
     /// Adds view to a superview, disables translates autoresizing masks into constraints, and pins the view to the edges of the superview.
-    func pin(to superView: UIView, for edges: [Edges] = [.top, .bottom, .leading, .trailing]) {
+    func pin(to superView: UIView, for edges: [Dimension] = [.top, .bottom, .leading, .trailing]) {
         superView.addSubview(self)
         self.translatesAutoresizingMaskIntoConstraints = false
         edges.forEach {
@@ -134,6 +136,10 @@ extension UIView {
                 self.leadingAnchor.constraint(equalTo: superView.leadingAnchor).isActive = true
             case .trailing:
                 self.trailingAnchor.constraint(equalTo: superView.trailingAnchor).isActive = true
+            case .height:
+                self.heightAnchor.constraint(equalTo: superView.heightAnchor).isActive = true
+            case .width:
+                self.widthAnchor.constraint(equalTo: superView.widthAnchor).isActive = true
             }
         }
     }

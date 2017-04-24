@@ -801,20 +801,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="activityButton" destination="6Mj-FS-lzm" id="Qwb-Ex-ChJ"/>
-                        <outlet property="currentStatusLabel" destination="TC3-CA-J5d" id="VlH-28-hCn"/>
-                        <outlet property="dateLabel" destination="33h-Ag-xzu" id="R5x-wJ-f0j"/>
-                        <outlet property="headerView" destination="DgU-8r-QNz" id="FfP-iK-BbU"/>
-                        <outlet property="headerViewHeightConstraint" destination="U7k-JC-cVT" id="736-S7-7x0"/>
-                        <outlet property="infoScrollView" destination="Hhc-0r-XA8" id="9Ww-0U-7Ck"/>
-                        <outlet property="numberLabel" destination="qCb-Hw-D0q" id="Ng6-FO-NpS"/>
-                        <outlet property="slideView" destination="dbg-W8-zW1" id="qi0-IX-Dz2"/>
-                        <outlet property="slideViewLeadingConstraint" destination="him-hq-9HJ" id="ZoX-cD-q8I"/>
-                        <outlet property="slideViewWidthConstraint" destination="nqv-8z-GWJ" id="g7w-9R-3IC"/>
-                        <outlet property="sponsorsButton" destination="XMj-mG-ghc" id="Zlg-Dg-n0T"/>
-                        <outlet property="stackView" destination="XK7-YG-z2H" id="1s8-Bp-l3s"/>
-                        <outlet property="summaryButton" destination="sYk-pC-KD7" id="B8R-Ht-qVx"/>
-                        <outlet property="titleLabel" destination="DCA-DI-zrG" id="Jww-9D-chz"/>
                         <outlet property="votesButton" destination="FQ3-3K-b69" id="2oa-2q-889"/>
                     </connections>
                 </viewController>
@@ -883,7 +869,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3dQ-g8-3mX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2799" y="556"/>
+            <point key="canvasLocation" x="2762" y="517"/>
         </scene>
         <!--Item-->
         <scene sceneID="JKz-0R-7ba">

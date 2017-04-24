@@ -133,6 +133,7 @@ struct Tally: Hashable {
     var billID: Int?
     var billShortTitle: String?
     var billOfficialTitle: String?
+    var nominationID: Int? 
     
     var date: Date?
     var chamber: Chamber?
@@ -165,6 +166,7 @@ struct Tally: Hashable {
         self.billID = json["bill_id"] as? Int
         self.billShortTitle = json["bill_short_title"] as? String
         self.billOfficialTitle = json["bill_official_title"] as? String
+        self.nominationID = json["tally"]?["nomination_id"] as? Int
         
         if let holdDate = json["date"] as? String {
             self.date = holdDate.stringToDate()
@@ -246,6 +248,7 @@ struct LightTally: Hashable {
     var billShortTitle: String?
     var billOfficialTitle: String?
     var billID: Int?
+    var nominationID: Int?
     
     init?(json: [String: AnyObject]) {
         
@@ -274,6 +277,7 @@ struct LightTally: Hashable {
         self.billID = json["tally"]?["bill_id"] as? Int
         self.billShortTitle = json["tally"]?["bill_short_title"] as? String
         self.billOfficialTitle = json["tally"]?["bill_official_title"] as? String
+        self.nominationID = json["tally"]?["nomination_id"] as? Int 
         
         if let holdDate = json["tally"]?["date"] as? String {
             self.date = holdDate.stringToDate()

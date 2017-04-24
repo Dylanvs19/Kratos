@@ -31,6 +31,7 @@
 		AF4F6E881E214980003E7C9C /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4F6E871E214980003E7C9C /* UIImageView+Extensions.swift */; };
 		AF5793181D6D440400D86B73 /* Bill.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5793171D6D440400D86B73 /* Bill.swift */; };
 		AF57931A1D6D4C0000D86B73 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5793191D6D4C0000D86B73 /* DateFormatter+Extensions.swift */; };
+		AF5A58541EA7073F0012EFA8 /* TrackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5A58531EA7073F0012EFA8 /* TrackButton.swift */; };
 		AF6116701EA6CE8E00F62E07 /* InfoManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF61166F1EA6CE8E00F62E07 /* InfoManagerView.swift */; };
 		AF6116721EA6FB3100F62E07 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6116711EA6FB3100F62E07 /* UILabel+Extensions.swift */; };
 		AF6B74091E38DEA400962FD6 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6B74081E38DEA400962FD6 /* FeedbackViewController.swift */; };
@@ -98,7 +99,6 @@
 		AFBF25EA1E8DED2000EDA2A1 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBF259A1E8DED2000EDA2A1 /* SummaryView.swift */; };
 		AFBF25EB1E8DED2000EDA2A1 /* SummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFBF259B1E8DED2000EDA2A1 /* SummaryView.xib */; };
 		AFBF25EC1E8DED2000EDA2A1 /* MainTableViewCellTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBF259E1E8DED2000EDA2A1 /* MainTableViewCellTitleView.swift */; };
-		AFBF25ED1E8DED2000EDA2A1 /* MainTableViewCellTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFBF259F1E8DED2000EDA2A1 /* MainTableViewCellTitleView.xib */; };
 		AFBF25EE1E8DED2000EDA2A1 /* MainTableViewCellVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBF25A01E8DED2000EDA2A1 /* MainTableViewCellVoteView.swift */; };
 		AFBF25EF1E8DED2100EDA2A1 /* MainTableViewCellVoteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFBF25A11E8DED2000EDA2A1 /* MainTableViewCellVoteView.xib */; };
 		AFBF25F01E8DED2100EDA2A1 /* RepBioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBF25A21E8DED2000EDA2A1 /* RepBioView.swift */; };
@@ -148,7 +148,6 @@
 		AFD82F921D88FBFA00AEB559 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */; };
 		AFE47F4B1DF344D500008CCB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE47F4A1DF344D500008CCB /* APIManager.swift */; };
 		AFE6F2D41E8DF7DE0023F6AB /* VoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE6F2D31E8DF7DE0023F6AB /* VoteTableViewCell.swift */; };
-		AFE6F2D61E8DF7F80023F6AB /* VoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFE6F2D51E8DF7F80023F6AB /* VoteTableViewCell.xib */; };
 		AFE6F2D81E8DFA000023F6AB /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE6F2D71E8DFA000023F6AB /* Toast.swift */; };
 		AFE6F2DA1E8E572B0023F6AB /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE6F2D91E8E572B0023F6AB /* Definition.swift */; };
 		AFE6F2DC1E8F5B0A0023F6AB /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE6F2DB1E8F5B0A0023F6AB /* Result.swift */; };
@@ -224,6 +223,7 @@
 		AF4F6E871E214980003E7C9C /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
 		AF5793171D6D440400D86B73 /* Bill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bill.swift; sourceTree = "<group>"; };
 		AF5793191D6D4C0000D86B73 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
+		AF5A58531EA7073F0012EFA8 /* TrackButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackButton.swift; sourceTree = "<group>"; };
 		AF61166F1EA6CE8E00F62E07 /* InfoManagerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoManagerView.swift; sourceTree = "<group>"; };
 		AF6116711EA6FB3100F62E07 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		AF6B74081E38DEA400962FD6 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
@@ -298,7 +298,6 @@
 		AFBF259A1E8DED2000EDA2A1 /* SummaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		AFBF259B1E8DED2000EDA2A1 /* SummaryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SummaryView.xib; sourceTree = "<group>"; };
 		AFBF259E1E8DED2000EDA2A1 /* MainTableViewCellTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewCellTitleView.swift; sourceTree = "<group>"; };
-		AFBF259F1E8DED2000EDA2A1 /* MainTableViewCellTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainTableViewCellTitleView.xib; sourceTree = "<group>"; };
 		AFBF25A01E8DED2000EDA2A1 /* MainTableViewCellVoteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewCellVoteView.swift; sourceTree = "<group>"; };
 		AFBF25A11E8DED2000EDA2A1 /* MainTableViewCellVoteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainTableViewCellVoteView.xib; sourceTree = "<group>"; };
 		AFBF25A21E8DED2000EDA2A1 /* RepBioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepBioView.swift; sourceTree = "<group>"; };
@@ -348,7 +347,6 @@
 		AFD82F911D88FBFA00AEB559 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AFE47F4A1DF344D500008CCB /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		AFE6F2D31E8DF7DE0023F6AB /* VoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteTableViewCell.swift; sourceTree = "<group>"; };
-		AFE6F2D51E8DF7F80023F6AB /* VoteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteTableViewCell.xib; sourceTree = "<group>"; };
 		AFE6F2D71E8DFA000023F6AB /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		AFE6F2D91E8E572B0023F6AB /* Definition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
 		AFE6F2DB1E8F5B0A0023F6AB /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
@@ -643,6 +641,7 @@
 			isa = PBXGroup;
 			children = (
 				AF61166F1EA6CE8E00F62E07 /* InfoManagerView.swift */,
+				AF5A58531EA7073F0012EFA8 /* TrackButton.swift */,
 				AFBF258D1E8DED2000EDA2A1 /* ButtonView.swift */,
 				AFBF258E1E8DED2000EDA2A1 /* ButtonView.xib */,
 				AFBF258F1E8DED2000EDA2A1 /* DatePickerView.swift */,
@@ -675,7 +674,6 @@
 			isa = PBXGroup;
 			children = (
 				AFBF259E1E8DED2000EDA2A1 /* MainTableViewCellTitleView.swift */,
-				AFBF259F1E8DED2000EDA2A1 /* MainTableViewCellTitleView.xib */,
 				AFBF25A01E8DED2000EDA2A1 /* MainTableViewCellVoteView.swift */,
 				AFBF25A11E8DED2000EDA2A1 /* MainTableViewCellVoteView.xib */,
 				AFBF25A21E8DED2000EDA2A1 /* RepBioView.swift */,
@@ -707,7 +705,6 @@
 				AFBF25BC1E8DED2000EDA2A1 /* VoteHeaderView.swift */,
 				AFBF25BD1E8DED2000EDA2A1 /* VoteHeaderView.xib */,
 				AFE6F2D31E8DF7DE0023F6AB /* VoteTableViewCell.swift */,
-				AFE6F2D51E8DF7F80023F6AB /* VoteTableViewCell.xib */,
 			);
 			path = RepInfoViews;
 			sourceTree = "<group>";
@@ -914,10 +911,8 @@
 				AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */,
 				AFBF25E01E8DED2000EDA2A1 /* DatePickerView.xib in Resources */,
 				AFBF25EB1E8DED2000EDA2A1 /* SummaryView.xib in Resources */,
-				AFBF25ED1E8DED2000EDA2A1 /* MainTableViewCellTitleView.xib in Resources */,
 				AFBF26001E8DED2100EDA2A1 /* RepInfoManagerView.xib in Resources */,
 				AFF348591E9C696F000F84E8 /* RepTableViewCell.xib in Resources */,
-				AFE6F2D61E8DF7F80023F6AB /* VoteTableViewCell.xib in Resources */,
 				AFBF25F81E8DED2100EDA2A1 /* RepInfoBillSponsorView.xib in Resources */,
 				AFBF260D1E8DED2100EDA2A1 /* UserVoteView.xib in Resources */,
 				AFBF25E21E8DED2000EDA2A1 /* KratosTextField.xib in Resources */,
@@ -1204,6 +1199,7 @@
 				AF89745F1D4D80E500C19020 /* AppDelegate.swift in Sources */,
 				AFBF25FD1E8DED2100EDA2A1 /* RepInfoManagerBarView.swift in Sources */,
 				AF8974961D4D88C500C19020 /* MainViewController.swift in Sources */,
+				AF5A58541EA7073F0012EFA8 /* TrackButton.swift in Sources */,
 				AFD82F921D88FBFA00AEB559 /* LoginViewController.swift in Sources */,
 				AF482EFC1E62652E0073AAD0 /* UINavigationController+Extensions.swift in Sources */,
 				AFBF25F71E8DED2100EDA2A1 /* RepInfoBillSponsorView.swift in Sources */,

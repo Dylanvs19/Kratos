@@ -45,6 +45,12 @@ struct Bill: Hashable {
     //Wanted variables
     var billTextURL: String?
     
+    var isCurrentlyTracked: Bool {
+        //TODO
+        //Contains in set on user or bill manager.
+        return false
+    }
+    
     init?(json: [String: AnyObject]) {
         self.title = json["short_title"] as? String
         self.officialTitle = json["official_title"] as? String

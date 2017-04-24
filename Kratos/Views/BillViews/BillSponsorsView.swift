@@ -37,6 +37,7 @@ class BillSponsorsView: UIView, UITableViewDelegate, UITableViewDataSource, UISc
         tableView.dataSource = self
         tableView.register(UINib(nibName: RepTableViewCell.identifier, bundle: nil) , forCellReuseIdentifier: RepTableViewCell.identifier)
         tableView.rowHeight = 70
+        tableView.bounces = false 
     }
     
     //MARK: UITableView Delegate & Datasource Methods
@@ -79,6 +80,6 @@ class BillSponsorsView: UIView, UITableViewDelegate, UITableViewDataSource, UISc
         let offsetY = scrollView.contentOffset.y
         let translation =  offsetY - lastContentOffset
         lastContentOffset = offsetY
-        billInfoViewDelegate?.scrollViewDid(translate: translation)
+        billInfoViewDelegate?.scrollViewDid(translate: translation, contentOffsetY: offsetY)
     }
 }
