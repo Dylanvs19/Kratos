@@ -6,7 +6,7 @@
 
 <details><summary>UITableViewCells</summary><p>
 
-> Each tableViewCell should have a string static variable named `identifier`. This should be a string defined as such: 
+> To reduce stringyness within the application, each tableViewCell should have a string static variable named `identifier`. This should be a string defined as such: 
 
 ```
 
@@ -16,7 +16,7 @@ class TableViewCell: UITableViewCell {
 
 ```
 
-> Cells should always have a configuration function that lays out the cell. Cells content should not be set or altered from the TableView class if possible. 
+> Cells should always have a configuration function that lays out the cell. A cells' content should not be set or altered from the TableView class if possible. Cell's should be completely responsible for their own behavior.
 
 </p></details>
 
