@@ -1,5 +1,9 @@
 # Kratos
 
+### Major Types & Reference Structure
+
+![alt text](References.png)
+
 ### Conventions
 
 ---
