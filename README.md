@@ -16,6 +16,8 @@ class TableViewCell: UITableViewCell {
 
 ```
 
+> Cells should always have a configuration function that lays out the cell. Cells content should not be set or altered from the TableView class if possible. 
+
 </p></details>
 
 ---
