@@ -56,7 +56,7 @@ class FeedbackViewController: UIViewController, UIScrollViewDelegate {
         stackView.addArrangedSubview(cancelView)
     }
     
-    func submitTapped() {
+    func submitTapped(selected: Bool) {
         var responseDict = [String: String]()
         stackView.arrangedSubviews.forEach { (view) in
             if type(of: view) == FeedbackQuestionView.self {
@@ -84,7 +84,7 @@ class FeedbackViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    func cancelTapped() {
+    func cancelTapped(selected: Bool) {
         self.dismiss(animated: true, completion: nil)
     }
     

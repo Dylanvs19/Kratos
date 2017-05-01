@@ -18,7 +18,9 @@ class RepInfoBillSponsorTableViewCell: UITableViewCell {
         let title = bill.title != nil ? bill.title : bill.officialTitle
         
         titleLabel.text = title ?? ""
-        topTermLabel.text = bill.topTerm ?? ""
+        if let term = bill.topTerm {
+            topTermLabel.text = String(term)
+        }
         statusLabel.text = bill.status ?? ""
     }
     

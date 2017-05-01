@@ -8,10 +8,9 @@
 
 import UIKit
 
-class RepInfoLightTallyView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource, PagingDataSource, PagingTableViewDelegate, PagingView, VoteTableViewCellDelegate {
+class RepInfoLightTallyView: UIView, UITableViewDelegate, UITableViewDataSource, PagingDataSource, PagingTableViewDelegate, PagingView, RepVoteTableViewCellDelegate {
     
-    @IBOutlet var contentView: UIView!
-    @IBOutlet weak var tableView: UITableView!
+    var tableView = UITableView()
     var scrollView: UIScrollView {
         return tableView
     }
@@ -30,16 +29,6 @@ class RepInfoLightTallyView: UIView, Loadable, UITableViewDelegate, UITableViewD
     var pager = Pager<RepInfoLightTallyView, RepInfoLightTallyView, RepInfoLightTallyView>()
     var representative: Person?
     var lightTallySelected: ((LightTally) -> ())?
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        customInit()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        customInit()
-    }
     
     fileprivate func format(tallies: [LightTally], with oldTallies: [LightTally]) {
         if !tallies.isEmpty {
@@ -93,14 +82,21 @@ class RepInfoLightTallyView: UIView, Loadable, UITableViewDelegate, UITableViewD
     }
     
     fileprivate func configureTableView () {
+        //Position Configuration
+        tableView.pin(to: self)
+        
+        //Delegate Configuration
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.register(UINib(nibName: String(describing: VoteTableViewCell.self), bundle: nil), forCellReuseIdentifier: String(describing: VoteTableViewCell.self))
+        //Misc Configuration
+        tableView.basicSetup()
+        
+        //Row Configuration
+        tableView.register(RepVoteTableViewCell.self, forCellReuseIdentifier: RepVoteTableViewCell.identifier)
         tableView.register(UINib(nibName: "VoteDateHeaderView", bundle: nil), forHeaderFooterViewReuseIdentifier: "VoteDateHeaderView")
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.tableFooterView = UIView()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -112,12 +108,8 @@ class RepInfoLightTallyView: UIView, Loadable, UITableViewDelegate, UITableViewD
         return count
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: VoteTableViewCell.self), for: indexPath) as? VoteTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: RepVoteTableViewCell.identifier, for: indexPath) as? RepVoteTableViewCell else { return UITableViewCell() }
         guard let tally = cellMap[indexPath.section]?[indexPath.row] else { return UITableViewCell()}
         cell.configureWith(tally)
         cell.delegate = self
@@ -130,13 +122,8 @@ class RepInfoLightTallyView: UIView, Loadable, UITableViewDelegate, UITableViewD
         view.awakeFromNib()
         view.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: 25)
         view.configure(with: date)
-        view.contentView.backgroundColor = UIColor.darkGray
+        view.contentView.backgroundColor = UIColor.lightGray
         return view
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.separatorInset = .zero
-        cell.layoutMargins = .zero
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -145,5 +132,20 @@ class RepInfoLightTallyView: UIView, Loadable, UITableViewDelegate, UITableViewD
     
     func didSelect(lightTally: LightTally) {
         lightTallySelected?(lightTally)
+    }
+    
+    func showMorePressed(selected: Bool, cell: RepVoteTableViewCell) {
+    
+        for (i, view) in cell.stackView.subviews.enumerated() {
+            if i > 1 && i != cell.stackView.subviews.count - 1 {
+                view.isHidden = !selected
+            }
+        }
+        
+        tableView.beginUpdates()
+        tableView.endUpdates()
+        if let indexPath = tableView.indexPath(for: cell) {
+            tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        }
     }
 }

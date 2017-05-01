@@ -10,7 +10,7 @@
 import UIKit
 import SafariServices
 
-class BillViewController: UIViewController, ActivityIndicatorPresenter, RepInfoViewPresentable, BillInfoViewDelegate, InfoManagerViewDelegate {
+class BillViewController: UIViewController, ActivityIndicatorPresenter, RepInfoViewPresentable, BillInfoViewDelegate, InfoManagerViewDelegate, BillVotesViewDelegate {
     
     enum ViewType: Int, RawRepresentable {
         //ViewType's Int property matches up with index for views
@@ -30,7 +30,6 @@ class BillViewController: UIViewController, ActivityIndicatorPresenter, RepInfoV
     fileprivate var infoView = UIView()
     fileprivate var infoScrollView = UIScrollView()
     fileprivate var stackView = UIStackView()
-    
     //View State
     fileprivate var viewType: ViewType = .summary {
         didSet {
@@ -85,21 +84,18 @@ class BillViewController: UIViewController, ActivityIndicatorPresenter, RepInfoV
     
     //MARK: Build Views
     fileprivate func buildAndConfigureViews(with bill: Bill) {        
-        headerView.pin(to: view, for: [.leading, .trailing, .top])
+        headerView.pin(to: view, for: [.leading(0), .trailing(0), .top(0)])
         setHeaderView(with: bill)
         
-        infoManagerView.pin(to: view, for: [.width])
+        infoManagerView.pin(to: view, for: [.width(0)])
         infoManagerView.configure(with: buildInfoManagerStringArray(from: bill))
         infoManagerView.heightAnchor.constraint(equalToConstant: 40)
-        infoManagerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        infoManagerView.topAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
+        infoManagerView.centerXAnchor.constrain(equalTo: view.centerXAnchor)
+        infoManagerView.topAnchor.constrain(equalTo: headerView.bottomAnchor)
         infoManagerView.delegate = self
         
         view.addSubview(infoView)
-        infoView.translatesAutoresizingMaskIntoConstraints = false
-        infoView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 10).isActive = true
-        infoView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        infoView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        infoView.pin(to: view, for: [.bottom(10), .leading(10), .trailing(-10)])
         infoView.topAnchor.constraint(equalTo: infoManagerView.bottomAnchor).isActive = true
         
         infoScrollView.pin(to: infoView)
@@ -125,11 +121,11 @@ class BillViewController: UIViewController, ActivityIndicatorPresenter, RepInfoV
         if bill.summary != nil || bill.committees != nil {
             retVal.append("Details")
         }
-        if bill.sponsor != nil {
-            retVal.append("Sponsors")
-        }
         if bill.tallies != nil {
             retVal.append("Votes")
+        }
+        if bill.sponsor != nil {
+            retVal.append("Sponsors")
         }
         if bill.actions != nil {
             retVal.append("Activity")
@@ -162,12 +158,17 @@ class BillViewController: UIViewController, ActivityIndicatorPresenter, RepInfoV
         billSummaryView.widthAnchor.constraint(equalTo: infoView.widthAnchor).isActive = true
         billSummaryView.configure(with: bill, width: infoView.frame.width, urlPressed: presentSafariView)
         billSummaryView.billInfoViewDelegate = self
+        //setup VotesView
+        let votesView = BillVotesView()
+        stackView.addArrangedSubview(votesView)
+        votesView.configure(with: bill)
+        votesView.billVotesViewDelegate = self
+        
         //setup sponsorsView
         let sponsorsView = BillSponsorsView()
         stackView.addArrangedSubview(sponsorsView)
         sponsorsView.configure(with: bill)
         sponsorsView.billInfoViewDelegate = self 
-        //setup VotesView
         
         //setup ActivityView
         
@@ -199,6 +200,10 @@ class BillViewController: UIViewController, ActivityIndicatorPresenter, RepInfoV
         viewType = ViewType(rawValue: index) ?? .summary
     }
     
+    func didSelect(tally: Tally) {
+        //Show repPopover
+    }
+    
     //MARK: Tally VC Handling.
     fileprivate func pushTallyVC() {
         let vc: TallyViewController = TallyViewController.instantiate()
@@ -222,12 +227,7 @@ class BillViewController: UIViewController, ActivityIndicatorPresenter, RepInfoV
     
     //MARK: RepInfo Configuration
     private func configureCosponsorsForRepInfoView(cellRectWithinView: CGRect, image: UIImage, imageRect: CGRect, personID: Int) {
-        var repVotesView: RepVotesView?
-        for view in stackView.subviews where type(of: view) == RepVotesView.self {
-            repVotesView = view as? RepVotesView
-        }
-        // make sure repVotesView exists
-        guard let votesView = repVotesView else { return }
+        
 //        
 //        //votesView frame with relation to stackView(i.e. content size of scrollview - Content offset of the scrollview = currect Visibile Votes View in scrollView
 //        //let visibileTableViewYposition = votesView.frame.origin.y - scrollView.contentOffset.y

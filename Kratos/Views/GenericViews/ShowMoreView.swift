@@ -10,12 +10,11 @@ import UIKit
 
 class ShowMoreView: UIView, Loadable {
     
-    @IBOutlet var contentView: UIView!
     @IBOutlet var button: UIButton!
     var title: String?
     var alternativeTitle: String?
-    var actionBlock: (() -> ())?
-
+    var actionBlock: ((Bool) -> Void)?
+    var selected = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,16 +31,17 @@ class ShowMoreView: UIView, Loadable {
     }
 
     @IBAction func buttonPressed(_ sender: Any) {
-        actionBlock?()
+        selected = !selected
+        actionBlock?(selected)
         if let alternativeTitle = alternativeTitle,
            let title = title {
-            let newTitle = button.titleLabel?.text == self.title ? alternativeTitle : title
+            let newTitle = selected ? alternativeTitle : title
             button.setTitle(newTitle, for: .normal)
         }
     }
     
-    func configure(with buttonTitle: String, alternativeTitle: String? = nil, actionBlock: @escaping (() -> ())) {
-        self.contentView.layer.cornerRadius = 4.0
+    func configure(with buttonTitle: String, alternativeTitle: String? = nil, actionBlock: @escaping ((Bool) -> Void)) {
+        self.layer.cornerRadius = 4.0
         title = buttonTitle
         self.alternativeTitle = alternativeTitle
         button.setTitle(buttonTitle, for: .normal)

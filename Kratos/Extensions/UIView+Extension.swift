@@ -49,14 +49,14 @@ extension Loadable where Self: UIView {
     }
 }
 
-//Enum that defines edges of a view.
+//Enum that defines dimensions of a view.
 enum Dimension {
-    case top
-    case bottom
-    case leading
-    case trailing
-    case height
-    case width
+    case top(CGFloat)
+    case bottom(CGFloat)
+    case leading(CGFloat)
+    case trailing(CGFloat)
+    case height(CGFloat)
+    case width(CGFloat)
 }
 
 extension UIView {
@@ -123,27 +123,26 @@ extension UIView {
     }
     
     /// Adds view to a superview, disables translates autoresizing masks into constraints, and pins the view to the edges of the superview.
-    func pin(to superView: UIView, for edges: [Dimension] = [.top, .bottom, .leading, .trailing]) {
+    func pin(to superView: UIView, for edges: [Dimension] = [.top(0), .bottom(0), .leading(0), .trailing(0)]) {
         superView.addSubview(self)
         self.translatesAutoresizingMaskIntoConstraints = false
         edges.forEach {
             switch $0 {
-            case .top:
-                self.topAnchor.constraint(equalTo: superView.topAnchor).isActive = true
-            case .bottom:
-                self.bottomAnchor.constraint(equalTo: superView.bottomAnchor).isActive = true
-            case .leading:
-                self.leadingAnchor.constraint(equalTo: superView.leadingAnchor).isActive = true
-            case .trailing:
-                self.trailingAnchor.constraint(equalTo: superView.trailingAnchor).isActive = true
-            case .height:
-                self.heightAnchor.constraint(equalTo: superView.heightAnchor).isActive = true
-            case .width:
-                self.widthAnchor.constraint(equalTo: superView.widthAnchor).isActive = true
+            case .top(let constant):
+                self.topAnchor.constrain(equalTo: superView.topAnchor, constant: constant)
+            case .bottom(let constant):
+                self.bottomAnchor.constrain(equalTo: superView.bottomAnchor, constant: constant)
+            case .leading(let constant):
+                self.leadingAnchor.constrain(equalTo: superView.leadingAnchor, constant: constant)
+            case .trailing(let constant):
+                self.trailingAnchor.constrain(equalTo: superView.trailingAnchor, constant: constant)
+            case .height(let constant):
+                self.heightAnchor.constrain(equalTo: superView.heightAnchor, constant: constant)
+            case .width(let constant):
+                self.widthAnchor.constrain(equalTo: superView.widthAnchor, constant: constant)
             }
         }
     }
-    
     
     /// Removes all subviews from View
     func clear() {

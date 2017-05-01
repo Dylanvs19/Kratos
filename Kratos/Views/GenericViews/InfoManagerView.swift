@@ -51,7 +51,7 @@ class InfoManagerView: UIView {
         
         let slideView = UIView()
         slideView.backgroundColor = UIColor.kratosRed
-        slideView.pin(to: self, for: [.bottom])
+        slideView.pin(to: self, for: [.bottom(0)])
         slideView.heightAnchor.constraint(equalToConstant: 2).isActive = true
         slideView.widthAnchor.constraint(equalToConstant: frame.size.width/CGFloat(viewMap.count)).isActive = true
         slideViewConstraint = slideView.leadingAnchor.constraint(equalTo: leadingAnchor)

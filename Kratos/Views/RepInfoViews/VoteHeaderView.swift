@@ -35,21 +35,13 @@ class VoteHeaderView: UIView, Loadable {
         
         let title = tally.billShortTitle != nil ? tally.billShortTitle : tally.billOfficialTitle
         titleLabel.text = title ?? ""
-        currentStatusLabel.text = tally.result?.rawValue
+        currentStatusLabel.text = tally.result?.presentable
         
         if let date = tally.date {
             currentStatusDateLabel.text = DateFormatter.presentationDateFormatter.string(from:date)
         } else {
             currentStatusDateLabel.text = ""
         }
-        if let votesFor = tally.yea,
-            let against = tally.nay,
-            let abstain = tally.abstain {
-            let data = [PieChartData(with: votesFor, and: .yea),
-                        PieChartData(with: abstain, and: .abstain),
-                        PieChartData(with: against, and: .nay)
-            ]
-            pieChartView.configure(with: data)
-        }
+        pieChartView.configure(with: tally)
     }
 }

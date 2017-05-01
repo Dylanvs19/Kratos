@@ -37,7 +37,8 @@ class BillSponsorsView: UIView, UITableViewDelegate, UITableViewDataSource, UISc
         tableView.dataSource = self
         tableView.register(UINib(nibName: RepTableViewCell.identifier, bundle: nil) , forCellReuseIdentifier: RepTableViewCell.identifier)
         tableView.rowHeight = 70
-        tableView.bounces = false 
+        tableView.bounces = false
+        tableView.showsVerticalScrollIndicator = false 
     }
     
     //MARK: UITableView Delegate & Datasource Methods

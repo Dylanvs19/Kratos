@@ -29,22 +29,19 @@ enum VoteValue: String {
 
 struct Vote {
     
+    var id: Int?
     var voteValue: VoteValue?
     var person: LightPerson?
-    var id: Int?
-        
+    
     init?(json: [String: AnyObject]) {
+        guard let id = json["id"] as? Int else { return nil }
+        self.id = id
         if let holdVote = json["value"] as? String {
             self.voteValue = VoteValue.vote(value: holdVote)
         }
         
         if let person = json["person"] as? [String: AnyObject] {
             self.person = LightPerson(from: person)
-        }
-        if let id = json["id"] as? Int {
-            self.id = id
-        } else {
-            return nil
         }
     }
     

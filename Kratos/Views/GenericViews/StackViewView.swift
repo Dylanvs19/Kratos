@@ -15,7 +15,7 @@ class KratosStackView: UIView {
     func configure(with label: String? = nil, labelSize: CGFloat) {
         stackView = UIStackView()
         guard let stackView = stackView else { return }
-        stackView.pin(to: self, for: [.bottom, .trailing, .leading])
+        stackView.pin(to: self, for: [.bottom(0), .trailing(0), .leading(0)])
         if let label = label {
             let titleLabel = UILabel()
             addSubview(titleLabel)

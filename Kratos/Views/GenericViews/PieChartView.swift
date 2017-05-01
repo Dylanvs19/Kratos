@@ -33,8 +33,16 @@ class PieChartView: UIView, Loadable {
         customInit()
     }
     
-    func configure(with data: [PieChartData], hideLabels: Bool = false ) {
-        self.data = data
+    func configure(with tally: Tally, hideLabels: Bool = false ) {
+        
+        let votesFor = tally.yea ?? 0
+        let against = tally.nay ?? 0
+        let abstain = tally.abstain ?? 0
+        self.data = [PieChartData(with: votesFor, and: .yea),
+                     PieChartData(with: abstain, and: .abstain),
+                     PieChartData(with: against, and: .nay)
+                    ]
+        
         self.hideLables = hideLabels
         self.setNeedsDisplay()
         contentView.backgroundColor = UIColor.clear
@@ -85,7 +93,7 @@ class PieChartView: UIView, Loadable {
         data.forEach { (datum) in
             let center = CGPoint(x:contentView.bounds.width/2, y: contentView.bounds.height/2)
             let radius: CGFloat = max(contentView.bounds.width, contentView.bounds.height)
-            let arcWidth: CGFloat = 20
+            let arcWidth: CGFloat = 5
             
             let additionToStartAngle = datum.value/total * 2 * CGFloat.pi
             

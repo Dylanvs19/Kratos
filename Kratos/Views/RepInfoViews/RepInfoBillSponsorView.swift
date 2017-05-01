@@ -10,7 +10,7 @@ import UIKit
 
 class RepInfoBillSponsorView: UIView, Loadable, UITableViewDelegate, UITableViewDataSource, PagingView, PagingDataSource, PagingTableViewDelegate {
     
-    @IBOutlet weak var tableView: UITableView!
+    var tableView = UITableView()
     var scrollView: UIScrollView {
         return tableView
     }
@@ -27,18 +27,6 @@ class RepInfoBillSponsorView: UIView, Loadable, UITableViewDelegate, UITableView
     var pager = Pager<RepInfoBillSponsorView, RepInfoBillSponsorView, RepInfoBillSponsorView>()
     var person: Person?
     var billSelected: ((Int) -> ())?
-    
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        customInit()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        customInit()
-    }
 
     func configurePager() {
         pager.set(view: self, dataSource: self, delegate: self)
@@ -46,13 +34,15 @@ class RepInfoBillSponsorView: UIView, Loadable, UITableViewDelegate, UITableView
     }
     
     func configureTableView() {
+        tableView.pin(to: self)
         tableView.delegate = self
         tableView.dataSource = self
+        
+        tableView.basicSetup()
         
         tableView.register(UINib(nibName: String(describing: RepInfoBillSponsorTableViewCell.self), bundle: nil), forCellReuseIdentifier: String(describing: RepInfoBillSponsorTableViewCell.self))
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.tableFooterView = UIView()
     }
     
     func configure(with person: Person, billSelected: @escaping ((Int) -> ())) {
@@ -99,10 +89,5 @@ class RepInfoBillSponsorView: UIView, Loadable, UITableViewDelegate, UITableView
         guard let bill = cellMap[indexPath.section]?[indexPath.row] else { return UITableViewCell()}
         cell.configure(with: bill)
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.separatorInset = .zero
-        cell.layoutMargins = .zero
     }
 }

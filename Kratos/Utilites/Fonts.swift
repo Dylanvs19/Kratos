@@ -36,13 +36,20 @@ enum Font {
         }
     }
     
+    static var cellTitle: UIFont {
+        return UIFont(name: "Futura", size: 15)!
+    }
+    static var cellSubtitle: UIFont {
+        return UIFont(name: "AvenirNext-Regular", size: 13)!
+    }
+    
     static var title: UIFont {
         return UIFont(name: "Futura-Bold", size: 17)!
     }
-    var subTitle: UIFont {
+    static var subTitle: UIFont {
         return UIFont(name: "Futura-Bold", size: 15)!
     }
-    var text: UIFont {
+    static var text: UIFont {
         return UIFont(name: "AvenirNext-Regular", size: 14)!
     }
 }

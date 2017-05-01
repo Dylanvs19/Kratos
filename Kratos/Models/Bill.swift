@@ -10,41 +10,50 @@ import Foundation
 import UIKit
 
 struct Bill: Hashable {
+    //Id
     var hashValue: Int {
         return id
     }
-    
+    var id: Int
+    //Titles
     var title: String? // short title
     var officialTitle: String?
     var popularTitle: String?
     var titles: [Title]?
-    var id: Int
-    var billNumber: String?
+    //GPO Id's
+    var gpoID: String?
+    var prettyGpoID: String?
+    var congressNumber: Int?
+    //Committees
     var committees: [Committee]?
+    //Sponsors
     var sponsor: Person?
     var coSponsors: [Person]?
+    //Status
     var status: String?
     var statusDate: Date?
-    var subjects: [String]?
     var introductionDate: Date?
-    var relatedBills: [RelatedBill]?
-    var actions: [Action]?
-    var billHistory: BillHistory?
     var active: Bool?
     var vetoed: Bool?
-    var urls: [String]?
-    var topTerm: String?
-    var summary: String?
-    var summaryDate: Date?
     var enacted: Bool?
     var enactedAs: String?
     var awaitingSignature: Bool?
+    var actions: [Action]?
+    //Term
+    var topTerm: Int?
+    //RelatedBills
+    var relatedBills: [RelatedBill]?
+    //Summary
+    var summary: String?
+    var summaryDate: Date?
+    //Amendments
     var amendments: [Amendment]?
+    //Tallies
     var tallies: [Tally]?
-    
-    //Wanted variables
+    //BillText
     var billTextURL: String?
     
+    //Computed Properties
     var isCurrentlyTracked: Bool {
         //TODO
         //Contains in set on user or bill manager.
@@ -52,6 +61,9 @@ struct Bill: Hashable {
     }
     
     init?(json: [String: AnyObject]) {
+        guard let id = json["id"] as? Int else { return nil }
+        self.id = id
+        
         self.title = json["short_title"] as? String
         self.officialTitle = json["official_title"] as? String
         self.popularTitle = json["popular_title"] as? String
@@ -60,12 +72,7 @@ struct Bill: Hashable {
                 return Title(from: obj)
             })
         }
-        if let id = json["id"] as? Int {
-            self.id = id
-        } else {
-            return nil
-        }
-        self.billNumber = json["display_number"] as? String
+        
         if let committeeArray = json["committees"] as? [[String: AnyObject]] {
             self.committees = committeeArray.map({ (obj) -> Committee in
                 return Committee(from: obj)
@@ -90,11 +97,11 @@ struct Bill: Hashable {
                 return Person(from: obj)
              }).flatMap({$0})
         }
+        
         self.status = json["status"] as? String
         if let statusDate = json["status_at"] as? String {
             self.statusDate = statusDate.stringToDate()
         }
-        self.subjects = json["subjects"] as? [String]
         if let introduction = json["introduced_at"] as? String {
             self.introductionDate = introduction.stringToDate()
         }
@@ -108,68 +115,31 @@ struct Bill: Hashable {
                 return Action(from: action)
             })
         }
-        if let history = json["history"] as? [String: AnyObject] {
-            self.billHistory = BillHistory(from: history)
-        }
+        
         self.active = json["active"] as? Bool
         self.vetoed = json["vetoed"] as? Bool
-        self.urls = json["urls"] as? [String]
-        self.topTerm = json["top_term"] as? String
+        self.enacted = json["enacted"] as? Bool
+        self.enactedAs = json["enactedAs"] as? String
+        self.awaitingSignature = json["awaiting_signature"] as? Bool
+        
+        self.topTerm = json["top_term"] as? Int
+        self.billTextURL = json["full_text_url"] as? String
+        
         self.summary = json["summary_text"] as? String
         if let summaryDate = json["summary_date"] as? String {
             self.summaryDate = summaryDate.stringToDate()
         }
-        self.enacted = json["enacted"] as? Bool
-        self.enactedAs = json["enactedAs"] as? String
-        self.awaitingSignature = json["awaiting_signature"] as? Bool
+
         if let amendments = json["amendments"] as? [[String: AnyObject]] {
             self.amendments = amendments.map({ (amendment) -> Amendment in
                 return Amendment(from: amendment)
             })
         }
+        
         if let tallyArray = json["tallies"] as? [[String: AnyObject]] {
             self.tallies = tallyArray.map({ (obj) -> Tally? in
                 return Tally(json: obj)
             }).flatMap({$0})
-        }
-        
-        // Wanted Variables
-        self.billTextURL = json["full_text_url"] as? String
-    }
-    
-    struct BillHistory {
-        var vetoed: Bool?
-        var senatePassageDate: Date?
-        var senatePassageResult: String?
-        var senateClotureDate: Date?
-        var senateClotureResult: String?
-        var housePassageDate: Date?
-        var housePassageResult: String?
-        var enacted: Bool?
-        var awaitingSignatureSince: Date?
-        var introducedDate: Date?
-        var active: Bool?
-        
-        init(from json: [String: AnyObject]) {
-            self.vetoed = json["vetoed"] as? Bool
-            if let date = json["senate_passage_result_at"] as? String {
-                self.senatePassageDate = date.stringToDate()
-            }
-            self.senatePassageResult = json["senate_passage_result"] as? String
-            if let date = json["senate_cloture_result_at"] as? String {
-                self.senateClotureDate = date.stringToDate()
-            }
-            self.senateClotureResult = json["senate_cloture_result"] as? String
-            if let date = json["house_passage_result_at"] as? String {
-                self.housePassageDate = date.stringToDate()
-            }
-            self.housePassageResult = json["house_passage_result"] as? String
-            self.enacted = json["enacted"] as? Bool
-            if let date = json["awaiting_signature_since"] as? String {
-                self.awaitingSignatureSince = date.stringToDate()
-            }
-            self.introducedDate = json["active_at"] as? Date
-            self.active = json["active"] as? Bool
         }
     }
     

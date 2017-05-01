@@ -41,7 +41,7 @@ public protocol PagingCollectionViewDelegate: PagingViewDelegate {
 }
 
 public protocol PagingTableViewDelegate: PagingViewDelegate {
-    var tableView: UITableView! { get }
+    var tableView: UITableView { get }
 }
 
 

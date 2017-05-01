@@ -6,7 +6,7 @@
 //  Copyright © 2016 Dylan Straughan. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 enum TallyType {
     case amendment
@@ -41,25 +41,7 @@ enum TallyType {
         }
     }
     
-    var rawValue: Int {
-        switch self {
-        case .amendment: return 0
-        case .conviction: return 1
-        case .vetoOverride: return 2
-        case .unknown: return 3
-        case .impeachment: return 4
-        case .passageSuspension: return 5
-        case .passagePart: return 6
-        case .ratification: return 7
-        case .cloture: return 8
-        case .passage: return 9
-        case .nomination: return 10
-        case .procedural: return 11
-        case .other: return 12
-        }
-    }
-    
-    static func tallyType(for string: String) -> TallyType {
+    static func type(for string: String) -> TallyType {
         switch string {
         case "amendment": return .amendment
         case "conviction": return .conviction
@@ -78,37 +60,110 @@ enum TallyType {
     }
 }
 
-func ==(lhs:TallyType,rhs:TallyType) -> Bool {
-    return (lhs.rawValue == rhs.rawValue)
+func ==(lhs:TallyType, rhs:TallyType) -> Bool {
+    return (lhs.string == rhs.string)
 }
 
-enum TallyResultType: String, RawRepresentable {
+enum TallyResultType {
     // Agreed To
-    case billPassed = "Bill Passed"
-    case clotureMotionAgreedTo = "Cloture Motion Agreed to"
-    case motionToTableAgreedTo = "Motion to Table Agreed to"
-    case motionToProceedAgreedTo = "Motion to Proceed Agreed to"
-    case concurrentResolutionAgreedTo = "Concurrent Resolution Agreed to"
-    case amendmentAgreedTo = "Amendment Agreed to"
-    case clotureOnTheMotionToProceedAgreedTo = "Cloture on the Motion to Proceed Agreed to"
-    case motionAgreedTo = "Motion Agreed to"
-    case agreedTo = "Agreed to"
-    case conferenceReportAgreedTo = "Conference Report Agreed to"
-    case passed = "Passed"
-    case resolutionAgreedTo = "Resolution Agreed to"
-    case jointResolutionPassed = "Joint Resolution Passed"
-    case vetoOverridden = "Veto Overridden"
+    case billPassed
+    case clotureMotionAgreedTo
+    case motionToTableAgreedTo
+    case motionToProceedAgreedTo
+    case concurrentResolutionAgreedTo
+    case amendmentAgreedTo
+    case clotureOnTheMotionToProceedAgreedTo
+    case motionAgreedTo
+    case agreedTo
+    case conferenceReportAgreedTo
+    case passed
+    case resolutionAgreedTo
+    case jointResolutionPassed
+    case vetoOverridden
     
     // Rejected
-    case clotureOnTheMotionToProceedRejected = "Cloture on the Motion to Proceed Rejected"
-    case failed = "Failed"
-    case motionRejected = "Motion Rejected"
-    case amendmentRejected = "Amendment Rejected"
-    case motionToTableFailed = "Motion to Table Failed"
-    case clotureMotionRejected = "Cloture Motion Rejected"
-
+    case clotureOnTheMotionToProceedRejected
+    case failed
+    case motionRejected
+    case amendmentRejected
+    case motionToTableFailed
+    case clotureMotionRejected
+    
     // Other
-    case unknown = "Unknown"
+    case unknown
+    
+    var presentable: String {
+        switch self {
+        // Agreed To
+        case .billPassed: return "Bill Passed"
+        case .clotureMotionAgreedTo: return "Cloture Motion Agreed to"
+        case .motionToTableAgreedTo: return "Motion to Table Agreed to"
+        case .motionToProceedAgreedTo: return "Motion to Proceed Agreed to"
+        case .concurrentResolutionAgreedTo: return "Concurrent Resolution Agreed to"
+        case .amendmentAgreedTo: return "Amendment Agreed to"
+        case .clotureOnTheMotionToProceedAgreedTo: return "Cloture on the Motion to Proceed Agreed to"
+        case .motionAgreedTo: return "Motion Agreed to"
+        case .agreedTo: return "Agreed to"
+        case .conferenceReportAgreedTo: return "Conference Report Agreed to"
+        case .passed: return "Passed"
+        case .resolutionAgreedTo: return "Resolution Agreed to"
+        case .jointResolutionPassed: return "Joint Resolution Passed"
+        case .vetoOverridden: return "Veto Overridden"
+            
+        // Rejected
+        case .clotureOnTheMotionToProceedRejected: return "Cloture on the Motion to Proceed Rejected"
+        case .failed: return "Failed"
+        case .motionRejected: return "Motion Rejected"
+        case .amendmentRejected: return "Amendment Rejected"
+        case .motionToTableFailed: return "Motion to Table Failed"
+        case .clotureMotionRejected: return "Cloture Motion Rejected"
+            
+        // Other
+        default: return "Unknown"
+        }
+    }
+    
+    static func value(from string: String) -> TallyResultType {
+        switch string {
+        // Agreed To
+        case "Bill Passed" : return .billPassed
+        case "Cloture Motion Agreed to": return .clotureMotionAgreedTo
+        case "Motion to Table Agreed to": return .motionToTableAgreedTo
+        case "Motion to Proceed Agreed to": return .motionToProceedAgreedTo
+        case "Concurrent Resolution Agreed to": return .concurrentResolutionAgreedTo
+        case "Amendment Agreed to": return .amendmentAgreedTo
+        case "Cloture on the Motion to Proceed Agreed to": return .clotureOnTheMotionToProceedAgreedTo
+        case "Motion Agreed to": return .motionAgreedTo
+        case "Agreed to": return .agreedTo
+        case "Conference Report Agreed to":  return .conferenceReportAgreedTo
+        case "Passed": return .passed
+        case "Resolution Agreed to": return .resolutionAgreedTo
+        case "Joint Resolution Passed": return .jointResolutionPassed
+        case "Veto Overridden": return .vetoOverridden
+            
+        // Rejected
+        case "Cloture on the Motion to Proceed Rejected": return .clotureOnTheMotionToProceedRejected
+        case "Failed": return .failed
+        case "Motion Rejected": return .motionRejected 
+        case "Amendment Rejected": return .amendmentRejected
+        case "Motion to Table Failed": return .motionToTableFailed 
+        case "Cloture Motion Rejected":  return .clotureMotionRejected
+            
+        // Other
+        default: return .unknown
+        }
+    }
+    
+    var color: UIColor {
+        switch self {
+        case .billPassed, .clotureMotionAgreedTo, .motionToTableAgreedTo, .motionToProceedAgreedTo, .concurrentResolutionAgreedTo, .amendmentAgreedTo, .clotureOnTheMotionToProceedAgreedTo, .motionAgreedTo, .agreedTo, .conferenceReportAgreedTo, .passed, .resolutionAgreedTo, .jointResolutionPassed, .vetoOverridden:
+            return UIColor.yeaVoteGreen
+        case .clotureOnTheMotionToProceedRejected, .failed, .motionRejected, .amendmentRejected, .motionToTableAgreedTo, .clotureMotionRejected:
+            return UIColor.kratosRed
+        default:
+            return UIColor.lightGray
+        }
+    }
     
 }
 
@@ -121,39 +176,49 @@ struct Tally: Hashable {
     var yea: Int?
     var nay: Int?
     var abstain: Int?
+    
     var result: TallyResultType?
     var resultText: String?
     var question: String?
-    var treaty: String?
+    
     var subject: String?
     var requires: String?
     var lastRecordUpdate: String?
     var amendment: Amendment?
     var type: String?
+    
     var billID: Int?
     var billShortTitle: String?
     var billOfficialTitle: String?
-    var nominationID: Int? 
+    var billChamber: Chamber?
+    var topSubject: Int?
+    var prettyGpoID: String?
+    var gpoID: String?
+    var congressNumber: Int?
+    
+    var treaty: String?
+    var nominationID: Int?
     
     var date: Date?
     var chamber: Chamber?
     var category: TallyType?
     var votes: [Vote]?
     
+    var billTitle: String? {
+        return billShortTitle != nil ? billShortTitle : billOfficialTitle
+    }
+    
     init?(json: [String: AnyObject]) {
         
-        if let id = json["id"] as? Int {
-            self.id = id
-        } else {
-            return nil
-        }
+        guard let id = json["id"] as? Int else { return nil }
+        self.id = id
         
         self.yea = buildYeaVote(from: json) ?? 0
         self.abstain = buildAbstainVote(from: json) ?? 0
         self.nay = buildNayVote(from: json) ?? 0
         self.resultText = json["result_text"] as? String
         if let result = json["result"] as? String {
-            self.result = TallyResultType(rawValue: result)
+            self.result = TallyResultType.value(from: result)
         }
         self.treaty = json["treaty"] as? String
         self.subject = json["subject"] as? String
@@ -163,9 +228,20 @@ struct Tally: Hashable {
             self.amendment = Amendment(from: amendment)
         }
         self.type = json["type"] as? String
-        self.billID = json["bill_id"] as? Int
-        self.billShortTitle = json["bill_short_title"] as? String
-        self.billOfficialTitle = json["bill_official_title"] as? String
+        
+        if let bill = json["bill"] as? [String: AnyObject] {
+            self.billID = bill["id"] as? Int
+            self.billShortTitle = bill["short_title"] as? String
+            self.billOfficialTitle = bill["official_title"] as? String
+            if let chamber = bill["type"] as? String {
+                self.billChamber = Chamber.chamber(value: chamber)
+            }
+            self.topSubject = bill["top_subject_id"] as? Int
+            self.prettyGpoID = bill["pretty_gpo"] as? String
+            self.gpoID = bill["gpo_id"] as? String
+            self.congressNumber = bill["congress_number"] as? Int
+        }
+        
         self.nominationID = json["tally"]?["nomination_id"] as? Int
         
         if let holdDate = json["date"] as? String {
@@ -173,7 +249,7 @@ struct Tally: Hashable {
         }
         self.question = json["question"] as? String
         if let category = json["category"] as? String {
-            self.category = TallyType.tallyType(for: category)
+            self.category = TallyType.type(for: category)
         }
         if let holdChamber = json["chamber"] as? String {
             self.chamber = Chamber.chamber(value: holdChamber)
@@ -196,6 +272,7 @@ struct Tally: Hashable {
         }
         return int
     }
+    
     fileprivate func buildNayVote(from json: [String: AnyObject]) -> Int? {
         var int:Int? = nil
         if let no = json["Nay"] as?  Int {
@@ -205,6 +282,7 @@ struct Tally: Hashable {
         }
         return int
     }
+
     fileprivate func buildAbstainVote(from json: [String: AnyObject]) -> Int? {
         var int:Int? = nil
         if let abstain = json["Not Voting"] as?  Int {
@@ -245,24 +323,31 @@ struct LightTally: Hashable {
     var category: TallyType?
     var voteValue: VoteValue?
     
+    var billID: Int?
     var billShortTitle: String?
     var billOfficialTitle: String?
-    var billID: Int?
+    var billChamber: Chamber?
+    var topSubject: Int?
+    var prettyGpoID: String?
+    var gpoID: String?
+    var congressNumber: Int?
+    
     var nominationID: Int?
+    
+    var billTitle: String? {
+        return billShortTitle != nil ? billShortTitle : billOfficialTitle
+    }
     
     init?(json: [String: AnyObject]) {
         
-        if let id = json["tally"]?["id"] as? Int {
-            self.id = id
-        } else {
-            return nil
-        }
+        guard let id = json["tally"]?["id"] as? Int else { return nil }
+        self.id = id
 
         self.yea = json["tally"]?["total_plus"] as? Int
         self.abstain = json["tally"]?["total_other"] as? Int
         self.nay = json["tally"]?["total_minus"] as? Int
         if let result = json["tally"]?["result"] as? String {
-            self.result = TallyResultType(rawValue: result)
+            self.result = TallyResultType.value(from: result)
         }
         self.resultText = json["tally"]?["result_text"] as? String
         self.treaty = json["tally"]?["treaty"] as? String
@@ -274,9 +359,19 @@ struct LightTally: Hashable {
         }
         self.type = json["tally"]?["type"] as? String
         
-        self.billID = json["tally"]?["bill_id"] as? Int
-        self.billShortTitle = json["tally"]?["bill_short_title"] as? String
-        self.billOfficialTitle = json["tally"]?["bill_official_title"] as? String
+        if let bill = json["tally"]?["bill"] as? [String: AnyObject] {
+            self.billID = bill["id"] as? Int
+            self.billShortTitle = bill["short_title"] as? String
+            self.billOfficialTitle = bill["official_title"] as? String
+            if let chamber = bill["type"] as? String {
+                self.billChamber = Chamber.chamber(value: chamber)
+            }
+            self.topSubject = bill["top_subject_id"] as? Int
+            self.prettyGpoID = bill["pretty_gpo"] as? String
+            self.gpoID = bill["gpo_id"] as? String
+            self.congressNumber = bill["congress_number"] as? Int
+        }
+        
         self.nominationID = json["tally"]?["nomination_id"] as? Int 
         
         if let holdDate = json["tally"]?["date"] as? String {
@@ -284,7 +379,7 @@ struct LightTally: Hashable {
         }
         self.question = json["tally"]?["question"] as? String
         if let category = json["tally"]?["category"] as? String {
-            self.category = TallyType.tallyType(for: category)
+            self.category = TallyType.type(for: category)
         }
         if let holdChamber = json["tally"]?["chamber"] as? String {
             self.chamber = Chamber(rawValue: holdChamber)

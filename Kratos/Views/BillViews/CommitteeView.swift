@@ -54,7 +54,7 @@ class CommitteeView: UIView, Loadable, Tappable {
     
     func configure(with committee: Committee, layoutStackView: (() -> ())?, buttonViewPressedWithString:((String) -> ())?) {
         let sanitizedCommitteeName = committee.name?.replacingOccurrences(of: "House Committee on ", with: "").replacingOccurrences(of: "Senate Committee on ", with: "").replacingOccurrences(of: "the ", with: "")
-        chamberLabel.transform = CGAffineTransform(rotationAngle: CGFloat(3 * M_PI / Double(2)))
+        chamberLabel.transform = CGAffineTransform(rotationAngle: CGFloat(3 * Double.pi / Double(2)))
         sideView.layer.cornerRadius = 2.0
         committeeNameLabel.text = sanitizedCommitteeName
         if committee.commmitteeType == .senate {

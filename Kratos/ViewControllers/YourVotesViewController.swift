@@ -83,11 +83,7 @@ class YourVotesViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let lightTally = userVotes?[indexPath.row] else { return }
-        let vc: TallyViewController = TallyViewController.instantiate()
-        vc.lightTally = lightTally
-        FirebaseAnalytics.selectedUserVote(userVoteId: lightTally.id).fireEvent()
-        navigationController?.pushViewController(vc, animated: true)
+       
     }
     
     @IBAction func settingsButtonPressed(_ sender: Any) {

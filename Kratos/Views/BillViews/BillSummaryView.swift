@@ -20,7 +20,7 @@ class BillSummaryView: UIView, UIScrollViewDelegate {
     fileprivate var bill: Bill?
     fileprivate var lastContentOffset: CGFloat = 0
     
-    weak var billInfoViewDelegate:BillInfoViewDelegate?
+    weak var billInfoViewDelegate: BillInfoViewDelegate?
     
     public func configure(with bill: Bill, width: CGFloat, urlPressed:@escaping (String) -> Void) {
         self.urlPressed = urlPressed
