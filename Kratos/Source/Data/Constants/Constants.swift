@@ -15,9 +15,9 @@ enum Environment {
     var URL: String {
         switch self {
         case .staging:
-            return Constants.BASE_STAGING_URL
+            return "https://kratos.site/api/"
         case .production:
-            return Constants.BASE_PRODUCTION_URL
+            return "https://kratos.website/api/"
         }
     }
 }
@@ -25,9 +25,6 @@ enum Environment {
 struct Constants {
     
     static let environment: Environment = .production
-
-    static let BASE_PRODUCTION_URL = "https://kratos.site/api/"
-    static let BASE_STAGING_URL = "https://kratos.website/api/"
     
     static let REGISTRATION_URL =  Constants.environment.URL + "registrations"
     static let LOGIN_URL = Constants.environment.URL + "login"
