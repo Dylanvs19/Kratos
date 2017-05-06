@@ -13,12 +13,21 @@ class VoteTableViewCellTitleView: UIView, Tappable {
     var titleLabel = UILabel()
     var resultTextLabel = UILabel()
     var selector: Selector = #selector(viewTapped)
-    var tappedClosure: ((LightTally) -> ())?
+    var tapped: ((LightTally) -> Void)?
     var lightTally: LightTally?
     
-    func configure(with lightTally: LightTally, tapped: @escaping ((LightTally) -> ())) {
+    init(lightTally: LightTally, tapped: @escaping ((LightTally) -> Void)) {
+        super.init(frame: .zero)
+        configure(with: lightTally, tapped: tapped)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(with lightTally: LightTally, tapped: @escaping ((LightTally) -> Void)) {
         addTap()
-        self.tappedClosure = tapped
+        self.tapped = tapped
         self.lightTally = lightTally
         
         buildViews()
@@ -43,8 +52,9 @@ class VoteTableViewCellTitleView: UIView, Tappable {
     }
     
     func buildViews() {
-        titleLabel.pin(to: self, for: [.top(0), .trailing(0), .leading(10)])
+        titleLabel.pin(to: self, for: [.top(0), .leading(10)])
         resultTextLabel.pin(to: self, for: [.bottom(0), .trailing(0)])
+        titleLabel.trailingAnchor.constrain(equalTo: trailingAnchor, constant: 0, priority: 999)
         titleLabel.bottomAnchor.constrain(equalTo: resultTextLabel.topAnchor, constant: -5)
     }
     
@@ -58,8 +68,8 @@ class VoteTableViewCellTitleView: UIView, Tappable {
     }
     
     func viewTapped() {
-        if let lightTally = lightTally {
-            tappedClosure?(lightTally)
+        if let lightTally = lightTally{
+            tapped?(lightTally)
         }
     }
     

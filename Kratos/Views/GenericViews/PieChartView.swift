@@ -93,7 +93,7 @@ class PieChartView: UIView, Loadable {
         data.forEach { (datum) in
             let center = CGPoint(x:contentView.bounds.width/2, y: contentView.bounds.height/2)
             let radius: CGFloat = max(contentView.bounds.width, contentView.bounds.height)
-            let arcWidth: CGFloat = 5
+            let arcWidth: CGFloat = 7
             
             let additionToStartAngle = datum.value/total * 2 * CGFloat.pi
             

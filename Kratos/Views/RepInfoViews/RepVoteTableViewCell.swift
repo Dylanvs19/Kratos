@@ -8,49 +8,63 @@
 
 import UIKit
 
-class RepVoteTableViewCell: UITableViewCell {
-    
-    @IBOutlet var nameLabel: UILabel!
-    @IBOutlet var repImageView: RepImageView!
-    @IBOutlet var repVoteTypeView: UIImageView!
-    @IBOutlet weak var stateLabel: UILabel!
-    @IBOutlet weak var districtLabel: UILabel!
-    @IBOutlet weak var partyLabel: UILabel!
+protocol RepTallyTableViewCellDelegate: class {
+    func lightTallySelected(lightTally: LightTally, tallySelected: Bool)
+    func showMorePressed(shouldExpand: Bool, cell: RepTallyTableViewCell)
+}
 
-    func configure(with vote: Vote) {
-        guard let rep = vote.person else { return }
+class RepTallyTableViewCell: UITableViewCell {
+    
+    static let identifier = String(describing: RepTallyTableViewCell.self)
+    var stackView = UIStackView()
+    weak var delegate: RepTallyTableViewCellDelegate?
+
+    func configure(with lightTallies: [LightTally]) {
         
         selectionStyle = .none
-                
-        if let first = rep.firstName,
-            let last = rep.lastName {
-            nameLabel.text = first + " " + last
-        }
-        if let stateString = rep.state {
-            let state = stateString.trimmingCharacters(in: .decimalDigits)
-            stateLabel.text = state
-        } else {
-            stateLabel.text = ""
-        }
-        if let party = rep.party {
-            partyLabel.text = party.capitalLetter
-            partyLabel.textColor = UIColor.color(for: party)
-        } else {
-            partyLabel.text = ""
-        }
-        if let district = rep.district {
-            districtLabel.text = "District \(String(district))"
-        } else {
-            districtLabel.text = ""
+        if !subviews.contains { $0 is UIStackView } {
+            buildViews()
         }
         
-        repImageView.setLightPerson(lightPerson: rep)
+        if let first = lightTallies.first {
+            stackView.addArrangedSubview(VoteTableViewCellTitleView(lightTally: first, tapped: titleTapped))
+        }
         
-        if let voteValue = vote.voteValue {
-            repVoteTypeView.image = UIImage.imageFor(vote: voteValue)
+        for (i, lightTally) in lightTallies.enumerated() {
+            let view = VoteTableViewCellVoteView(lightTally: lightTally, tapped: tallyTapped)
+            stackView.addArrangedSubview(view)
+            view.isHidden = i > 0 ? true : false
         }
-        if rep.isCurrent == false {
-            stateLabel.text = "Former Congressperson"
+        
+        if lightTallies.count > 1 {
+            let view = ShowMoreView()
+            stackView.addArrangedSubview(view)
+            view.configure(with: "Show \(lightTallies.count - 1) Votes", alternativeTitle: "Hide Votes", actionBlock: showMorePressed)
         }
+    }
+    
+    func buildViews() {
+        stackView.pin(to: self, for: [.top(0), .bottom(0), .leading(0), .trailing(0)])
+        stackView.alignment = .fill
+        stackView.distribution = .fillProportionally
+        stackView.axis = .vertical
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        stackView.subviews.forEach { $0.removeFromSuperview() }
+    }
+    
+    //MARK: Delegate Methods
+    func titleTapped(lightTally: LightTally) {
+        delegate?.lightTallySelected(lightTally: lightTally, tallySelected: false)
+    }
+    
+    func tallyTapped(lightTally: LightTally) {
+        delegate?.lightTallySelected(lightTally: lightTally, tallySelected: true)
+    }
+    
+    func showMorePressed(selected: Bool) {
+        delegate?.showMorePressed(shouldExpand: selected, cell: self)
     }
 }

@@ -26,6 +26,9 @@
 		AF39130A1DFA56E500123B5C /* YourVotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3913091DFA56E500123B5C /* YourVotesViewController.swift */; };
 		AF3C2FF41DD35C5500353638 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3C2FF31DD35C5500353638 /* Date+Extensions.swift */; };
 		AF3DBCE91DD0C34B006B146F /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3DBCE81DD0C34B006B146F /* Array+Extensions.swift */; };
+		AF3F5BB31EBAD40F00809AA3 /* KratosTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BB21EBAD40F00809AA3 /* KratosTarget.swift */; };
+		AF3F5BB61EBC9FE100809AA3 /* NSData+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BB51EBC9FE100809AA3 /* NSData+Extensions.swift */; };
+		AF3F5BB91EBCA45200809AA3 /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BB81EBCA45200809AA3 /* Decodable.swift */; };
 		AF44AB571E49838100CFBC4D /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44AB561E49838100CFBC4D /* Fonts.swift */; };
 		AF482EFC1E62652E0073AAD0 /* UINavigationController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF482EFB1E62652E0073AAD0 /* UINavigationController+Extensions.swift */; };
 		AF4F6E881E214980003E7C9C /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4F6E871E214980003E7C9C /* UIImageView+Extensions.swift */; };
@@ -214,6 +217,9 @@
 		AF3913091DFA56E500123B5C /* YourVotesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourVotesViewController.swift; sourceTree = "<group>"; };
 		AF3C2FF31DD35C5500353638 /* Date+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		AF3DBCE81DD0C34B006B146F /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
+		AF3F5BB21EBAD40F00809AA3 /* KratosTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosTarget.swift; sourceTree = "<group>"; };
+		AF3F5BB51EBC9FE100809AA3 /* NSData+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+Extensions.swift"; sourceTree = "<group>"; };
+		AF3F5BB81EBCA45200809AA3 /* Decodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decodable.swift; sourceTree = "<group>"; };
 		AF44AB561E49838100CFBC4D /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		AF482EFB1E62652E0073AAD0 /* UINavigationController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extensions.swift"; sourceTree = "<group>"; };
 		AF4F6E871E214980003E7C9C /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
@@ -411,6 +417,21 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
+		AF3F5BB41EBADCE300809AA3 /* Targets */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Targets;
+			sourceTree = "<group>";
+		};
+		AF3F5BB71EBCA44700809AA3 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				AF3F5BB81EBCA45200809AA3 /* Decodable.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		AF8974521D4D80E500C19020 = {
 			isa = PBXGroup;
 			children = (
@@ -437,13 +458,15 @@
 		AF89745D1D4D80E500C19020 /* Kratos */ = {
 			isa = PBXGroup;
 			children = (
+				AF3F5BB71EBCA44700809AA3 /* Protocols */,
+				AF3F5BB41EBADCE300809AA3 /* Targets */,
 				AFBF26121E8DED9B00EDA2A1 /* Analytics */,
 				AF89745E1D4D80E500C19020 /* AppDelegate.swift */,
 				AF28439A1D5AD686007B3F18 /* Datastore.swift */,
 				AF8974621D4D80E500C19020 /* Main.storyboard */,
 				AF3913061DFA36F000123B5C /* Managers */,
 				AFBF26171E8DEE2E00EDA2A1 /* Navigation */,
-				AF8974AB1D4E965600C19020 /* APIClient */,
+				AF8974AB1D4E965600C19020 /* Client */,
 				AF8974B01D4E997D00C19020 /* Utilites */,
 				AF89748E1D4D862B00C19020 /* Extensions */,
 				AF89748F1D4D862B00C19020 /* Models */,
@@ -495,6 +518,7 @@
 				AF6116711EA6FB3100F62E07 /* UILabel+Extensions.swift */,
 				AFADEEF01EB4F03600A7CD64 /* UITableView+Extensions.swift */,
 				AF6CFA181EB63B8A00D50745 /* NSLayoutAnchor+Extensions.swift */,
+				AF3F5BB51EBC9FE100809AA3 /* NSData+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -534,13 +558,15 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		AF8974AB1D4E965600C19020 /* APIClient */ = {
+		AF8974AB1D4E965600C19020 /* Client */ = {
 			isa = PBXGroup;
 			children = (
+				AF3F5BB21EBAD40F00809AA3 /* KratosTarget.swift */,
 				AF8974AC1D4E969000C19020 /* APIService.swift */,
 				AFE47F4A1DF344D500008CCB /* APIManager.swift */,
 				AF0EED451E0A078700E7A19C /* ErrorTypes.swift */,
 			);
+			name = Client;
 			path = APIClient;
 			sourceTree = "<group>";
 		};
@@ -1092,6 +1118,7 @@
 				AF6C29111DB9B94E004AA104 /* TallyViewController.swift in Sources */,
 				AFE6F2D41E8DF7DE0023F6AB /* RepVoteTableViewCell.swift in Sources */,
 				AF6116701EA6CE8E00F62E07 /* InfoManagerView.swift in Sources */,
+				AF3F5BB61EBC9FE100809AA3 /* NSData+Extensions.swift in Sources */,
 				AF8974BA1D5036DA00C19020 /* NSCharacterSet+Extensions.swift in Sources */,
 				AF8974B21D4E999C00C19020 /* InputValidation.swift in Sources */,
 				AF6116721EA6FB3100F62E07 /* UILabel+Extensions.swift in Sources */,
@@ -1161,6 +1188,7 @@
 				AF3DBCE91DD0C34B006B146F /* Array+Extensions.swift in Sources */,
 				AF6B740B1E38DEBD00962FD6 /* NotificationsRegistrationViewController.swift in Sources */,
 				AFBF25DF1E8DED2000EDA2A1 /* DatePickerView.swift in Sources */,
+				AF3F5BB91EBCA45200809AA3 /* Decodable.swift in Sources */,
 				AF89749C1D4D8ADC00C19020 /* Vote.swift in Sources */,
 				AF3913081DFA36F000123B5C /* KeychainManager.swift in Sources */,
 				AF258C241E3AE68F0084FE26 /* CharacterSet+Extensions.swift in Sources */,
@@ -1187,6 +1215,7 @@
 				AFD82F921D88FBFA00AEB559 /* LoginViewController.swift in Sources */,
 				AF482EFC1E62652E0073AAD0 /* UINavigationController+Extensions.swift in Sources */,
 				AFBF25F71E8DED2100EDA2A1 /* RepInfoBillSponsorView.swift in Sources */,
+				AF3F5BB31EBAD40F00809AA3 /* KratosTarget.swift in Sources */,
 				AFBF256D1E8DEB2700EDA2A1 /* DismissMenuAnimator.swift in Sources */,
 				AF0EED481E0A0E8300E7A19C /* Tally.swift in Sources */,
 				AFBF25F01E8DED2100EDA2A1 /* RepBioView.swift in Sources */,

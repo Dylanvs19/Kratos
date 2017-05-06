@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum URLRequestType: String {
+enum HTTPMethod: String {
     case post = "POST"
     case get = "GET"
     case put = "PUT"
@@ -21,7 +21,7 @@ extension URLRequest {
     /// - parameter - url: NSURL - URL
     /// - parameter - requestType: URLRequestType - HTTPMethod
     /// - parameter - body: [String: AnyObject]? - HTTPBody
-    init(url: URL, requestType: URLRequestType, body: [String: Any]? = nil, addToken: Bool = true) {
+    init(url: URL, requestType: HTTPMethod, body: [String: Any]? = nil, addToken: Bool = true) {
         //self.url = url
         self.init(url: url)
         httpMethod = requestType.rawValue

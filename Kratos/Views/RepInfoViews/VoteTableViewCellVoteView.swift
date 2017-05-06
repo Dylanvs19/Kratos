@@ -17,6 +17,15 @@ class VoteTableViewCellVoteView: UIView, Tappable {
     var tapped: ((LightTally) -> ())?
     var lightTally: LightTally?
     
+    init(lightTally: LightTally, tapped: @escaping ((LightTally) -> Void)) {
+        super.init(frame: .zero)
+        configure(with: lightTally, tapped: tapped)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func configure(with lightTally: LightTally, tapped: @escaping ((LightTally) -> ())) {
         addTap()
         self.tapped = tapped

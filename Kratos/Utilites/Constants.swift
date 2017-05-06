@@ -8,21 +8,21 @@
 
 import Foundation
 
-struct Constants {
+enum Environment {
+    case staging
+    case production
     
-    enum Environment {
-        case staging
-        case production
-        
-        var URL: String {
-            switch self {
-            case .staging:
-                return Constants.BASE_STAGING_URL
-            case .production:
-                return Constants.BASE_PRODUCTION_URL
-            }
+    var URL: String {
+        switch self {
+        case .staging:
+            return Constants.BASE_STAGING_URL
+        case .production:
+            return Constants.BASE_PRODUCTION_URL
         }
     }
+}
+
+struct Constants {
     
     static let environment: Environment = .production
 

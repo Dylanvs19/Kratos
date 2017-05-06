@@ -8,6 +8,10 @@ target 'Kratos' do
 pod 'Locksmith'
 pod 'Firebase/Core'
 pod 'Firebase/Messaging'
+pod 'SnapKit'
+pod 'AwesomeCache'
+pod 'RxSwift'
+pod 'RxCocoa'
 
 end
 
