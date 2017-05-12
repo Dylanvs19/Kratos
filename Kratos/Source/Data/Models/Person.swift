@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Person: Hashable {
+struct Person: Hashable, Decodable {
     var hashValue: Int {
         return id
     }
@@ -33,7 +33,7 @@ struct Person: Hashable {
     var currentChamber: Chamber?
     var religion: String?
     
-    init?(from json: [String: AnyObject]) {
+    init?(json: [String: Any]) {
         if let id = json["id"] as? Int {
             self.id = id
         } else {

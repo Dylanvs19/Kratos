@@ -31,7 +31,7 @@ class UserVoteView: UIView, Loadable {
     }
     fileprivate var shouldAnimate: Bool = false
     fileprivate var userVoteExists: Bool = false
-    var presentError: ((NetworkError) -> ())?
+    var presentError: ((KratosError) -> ())?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -45,7 +45,7 @@ class UserVoteView: UIView, Loadable {
         setupGestureRecognizers()
     }
     
-    func configure(with tallyID: Int, presentError: @escaping ((NetworkError) -> ())) {
+    func configure(with tallyID: Int, presentError: @escaping ((KratosError) -> ())) {
         self.presentError = presentError
         self.shouldAnimate = true
         self.tallyID = tallyID

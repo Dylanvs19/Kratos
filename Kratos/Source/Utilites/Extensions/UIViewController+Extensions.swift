@@ -56,7 +56,7 @@ extension UIViewController {
         present(alertVC, animated: true, completion: nil)
     }
     
-    func showError(error: NetworkError, onClose: (()->())? = nil) {
+    func showError(error: KratosError, onClose: (() -> Void)? = nil) {
         var title = "Error"
         var message = ""
 
@@ -64,7 +64,8 @@ extension UIViewController {
         case .timeout:
             title = "Error"
             message = "Our server timed out. We are on it. Check back soon."
-        case .invalidSerialization:
+        case .invalidSerialization,
+             .unknown:
             title = "Error"
             message = "Something went wrong on our end. We are on it. Check back soon."
         case .nilData:
@@ -81,6 +82,10 @@ extension UIViewController {
                 title = key.capitalized
                 message = value.lowercased().localizedCapitalized
             }
+        case .nonHTTPResponse,
+             .mappingError:
+            title = "Error"
+            message = "Something went wrong on our end. We are on it. Check back soon."
         }
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
@@ -91,7 +96,7 @@ extension UIViewController {
         }
     }
     
-    func showError(_ error: NetworkError) {
+    func showError(_ error: KratosError) {
         showError(error: error, onClose: nil)
     }
     

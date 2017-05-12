@@ -12,7 +12,7 @@ struct APIManager {
     
     //MARK: Sign In
     
-    static func register(with password: String, user: User? = Datastore.shared.user, keyChainSuccess: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func register(with password: String, user: User? = Datastore.shared.user, keyChainSuccess: @escaping (Bool) -> (), failure: @escaping (KratosError) -> ()) {
         if let user = user {
             APIService.register(user, with: password, success: { (user) -> (Void) in
                 Datastore.shared.user = user
@@ -29,7 +29,7 @@ struct APIManager {
         }
     }
     
-    static func login(with email: String, and password: String, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func login(with email: String, and password: String, success: @escaping (Bool) -> (), failure: @escaping (KratosError) -> ()) {
         APIService.logIn(with: email, password: password, success: { (user) in
             if let _ = user.token {
                 KeychainManager.update(user, success: { (didSucceed) in
@@ -45,7 +45,7 @@ struct APIManager {
         }
     }
     
-    static func forgotPassword(with email: String, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func forgotPassword(with email: String, success: @escaping (Bool) -> (), failure: @escaping (KratosError) -> ()) {
         APIService.forgotPassword(with: email, success: { (successVar) in
             success(successVar)
         }) { (error) in
@@ -55,7 +55,7 @@ struct APIManager {
     
     //MARK: Feedback
     
-    static func getFeedback(success: @escaping ([String]) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func getFeedback(success: @escaping ([String]) -> (), failure: @escaping (KratosError) -> ()) {
         APIService.fetchFeedback(success: { (questions) in
             success(questions)
         }) { (error) in
@@ -63,7 +63,7 @@ struct APIManager {
         }
     }
     
-    static func postFeedback(with answers: [String: String], success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func postFeedback(with answers: [String: String], success: @escaping (Bool) -> (), failure: @escaping (KratosError) -> ()) {
         APIService.postFeedback(with: answers, success: { (successVal) in
             success(successVal)
         }, failure: { (error) in
@@ -73,7 +73,7 @@ struct APIManager {
     
     //MARK: User
     
-    static func updateUser(with user: User? = Datastore.shared.user, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func updateUser(with user: User? = Datastore.shared.user, success: @escaping (Bool) -> (), failure: @escaping (KratosError) -> ()) {
         if let user = user {
             APIService.update(with: user, success: { (user) -> (Void) in
                 if let _ = KeychainManager.fetchToken() {
@@ -91,7 +91,7 @@ struct APIManager {
         }
     }
     
-    static func getUser(_ success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func getUser(_ success: @escaping (Bool) -> (), failure: @escaping (KratosError) -> ()) {
         if KeychainManager.fetchToken() != nil {
             APIService.fetchUser({ (user) in
                 Datastore.shared.user = user
@@ -102,7 +102,7 @@ struct APIManager {
         }
     }
     
-    static func getUserVotingRecord(success: @escaping ([LightTally]) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func getUserVotingRecord(success: @escaping ([LightTally]) -> (), failure: @escaping (KratosError) -> ()) {
         APIService.fetchUserVotingRecord(success: { (lightTallies) -> (Void) in
             success(lightTallies)
         }) { (error) -> (Void) in
@@ -110,7 +110,7 @@ struct APIManager {
         }
     }
     
-    static func createUserTally(with voteValue:VoteValue, and tallyID: Int, success: @escaping (LightTally) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func createUserTally(with voteValue:VoteValue, and tallyID: Int, success: @escaping (LightTally) -> (), failure: @escaping (KratosError) -> ()) {
         APIService.createUserTally(with: voteValue, tallyID: tallyID, success: { (tally) -> (Void) in
             success(tally)
         }) { (error) -> (Void) in
@@ -118,7 +118,7 @@ struct APIManager {
         }
     }
     
-    static func getUserTally(with tallyID: Int, success: @escaping (LightTally) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func getUserTally(with tallyID: Int, success: @escaping (LightTally) -> (), failure: @escaping (KratosError) -> ()) {
         APIService.fetchUserTally(tallyID: tallyID, success: { (tally) -> (Void) in
             success(tally)
         }) { (error) -> (Void) in
@@ -126,7 +126,7 @@ struct APIManager {
         }
     }
     
-    static func updateUserTally(with voteValue:VoteValue, and tallyID: Int, success: @escaping (LightTally) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func updateUserTally(with voteValue:VoteValue, and tallyID: Int, success: @escaping (LightTally) -> (), failure: @escaping (KratosError) -> ()) {
         APIService.updateUserTally(with: voteValue, tallyID: tallyID, success: { (tally) -> (Void) in
             success(tally)
         }) { (error) -> (Void) in
@@ -134,7 +134,7 @@ struct APIManager {
         }
     }
     
-    static func deleteUserTally(with tallyID: Int, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func deleteUserTally(with tallyID: Int, success: @escaping (Bool) -> (), failure: @escaping (KratosError) -> ()) {
         APIService.deleteUserTally(tallyID: tallyID, success: { (didSucceed) -> (Void) in
             success(didSucceed)
         }) { (error) -> (Void) in
@@ -144,7 +144,7 @@ struct APIManager {
     
     //MARK: Representatives 
     
-    static func getRepresentatives(_ success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func getRepresentatives(_ success: @escaping (Bool) -> (), failure: @escaping (KratosError) -> ()) {
         if let user = Datastore.shared.user,
             let state = user.address?.state,
             let district = user.district {
@@ -160,7 +160,7 @@ struct APIManager {
         }
     }
     
-    static func getPerson(for personID: Int, success: @escaping (Person) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func getPerson(for personID: Int, success: @escaping (Person) -> (), failure: @escaping (KratosError) -> ()) {
         APIService.fetchPerson(for: personID, success: { (person) in
             success(person)
         }, failure: { (error) in
@@ -170,7 +170,7 @@ struct APIManager {
     
     //MARK: Tallies
     
-    static func getTallies(for personID: Int, nextPage: Int, success: @escaping (_ tallies: [LightTally]) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func getTallies(for personID: Int, nextPage: Int, success: @escaping (_ tallies: [LightTally]) -> (), failure: @escaping (KratosError) -> ()) {
     
         APIService.fetchTallies(for: personID, with: nextPage, success: { (tallies) -> (Void) in
             success(tallies)
@@ -179,7 +179,7 @@ struct APIManager {
         }
     }
     
-    static func getTally(for lightTallyID: Int, success: @escaping (Tally) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func getTally(for lightTallyID: Int, success: @escaping (Tally) -> (), failure: @escaping (KratosError) -> ()) {
         
         APIService.fetchTally(for: lightTallyID, success: { (tally) -> (Void) in
             success(tally)
@@ -190,7 +190,7 @@ struct APIManager {
     
     //MARK: Bills
     
-    static func getBill(for billId: Int, success: @escaping (Bill) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func getBill(for billId: Int, success: @escaping (Bill) -> (), failure: @escaping (KratosError) -> ()) {
         
         APIService.fetchBill(from: billId, success: { (bill) -> (Void) in
             success(bill)
@@ -199,7 +199,7 @@ struct APIManager {
         }
     }
     
-    static func getBills(for personID: Int, nextPage: Int, success: @escaping ([Bill]) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func getBills(for personID: Int, nextPage: Int, success: @escaping ([Bill]) -> (), failure: @escaping (KratosError) -> ()) {
         APIService.fetchSponsoredBills(for: personID, with: nextPage, success: { (bills) -> (Void) in
             success(bills)
         }) { (error) -> (Void) in
@@ -207,7 +207,7 @@ struct APIManager {
         }
     }
     
-    static func postKratosAnalyticEvent(event: KratosAnalytics.ContactAnalyticType, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func postKratosAnalyticEvent(event: KratosAnalytics.ContactAnalyticType, success: @escaping (Bool) -> (), failure: @escaping (KratosError) -> ()) {
         APIService.postKratosAnalyticEvent(with: event, success: { (didSucceed) -> (Void) in
             success(didSucceed)
         }) { (error) -> (Void) in

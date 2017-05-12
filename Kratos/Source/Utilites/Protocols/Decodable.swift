@@ -12,5 +12,7 @@ typealias JSONObject = [String: Any]
 
 protocol Decodable {
     // initializes with Json
-    init?(withJson: JSONObject)
+    init?(json: JSONObject)
 }
+
+

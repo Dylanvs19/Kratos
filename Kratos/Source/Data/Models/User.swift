@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct User {
+struct User: Decodable {
     
     var email: String?
     var firstName: String?
@@ -23,7 +23,42 @@ struct User {
     var party: Party?
     var apnToken: String?
     
-    init() { } 
+    init() {}
+        
+    init?(json: [String: Any]) {
+        guard //let phone = jsonDict["user"]?["phone"] as? Int,
+            let street = json["address"] as? String,
+            let email = json["email"] as? String,
+            let firstName = json["first_name"] as? String,
+            let lastName = json["last_name"] as? String,
+            let city = json["city"] as? String,
+            let state = json["state"] as? String,
+            let district = json["district"] as? Int,
+            let id = json["id"] as? Int,
+            let zip = json["zip"] as? Int else { return nil }
+        
+        if let party = json["party"] as? String {
+            self.party = Party.party(value: party)
+        }
+        if let dob = json["birthday"] as? String {
+            self.dob = DateFormatter.billDateFormatter.date(from: dob)
+        }
+        
+        //self.phoneNumber = phone
+        self.district = district
+        self.id = id
+        self.email = email
+        self.apnToken = json["apn_token"] as? String
+        self.firstName = firstName
+        self.lastName = lastName
+        var address = Address()
+        address.city = city
+        address.street = street
+        address.zipCode = zip
+        address.state = state.uppercased()
+        self.address = address
+    }
+    
     
     init?(json: [String: AnyObject], pureUser: Bool = false) {
         var jsonDict = json

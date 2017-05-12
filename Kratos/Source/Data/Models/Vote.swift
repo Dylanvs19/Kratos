@@ -27,13 +27,13 @@ enum VoteValue: String {
     }
 }
 
-struct Vote {
+struct Vote: Decodable {
     
     var id: Int?
     var voteValue: VoteValue?
     var person: LightPerson?
     
-    init?(json: [String: AnyObject]) {
+    init?(json: [String: Any]) {
         guard let id = json["id"] as? Int else { return nil }
         self.id = id
         if let holdVote = json["value"] as? String {

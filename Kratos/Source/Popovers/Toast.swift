@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol Toaster {
-    func present(error: NetworkError)
+    func present(error: KratosError)
     func present(definition: Definition)
     func expand()
     func didSelect()
@@ -18,9 +18,7 @@ protocol Toaster {
 }
 
 extension Toaster where Self: UIViewController {
-    func present(error: NetworkError) {
-        guard error.type == .surfaceable else { return }
-    }
+    func present(error: KratosError) { }
 }
 
 class Toast: UIView {

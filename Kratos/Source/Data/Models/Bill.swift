@@ -9,13 +9,13 @@
 import Foundation
 import UIKit
 
-struct Bill: Hashable {
+struct Bill: Hashable, Decodable {
     //Id
     var hashValue: Int {
         return id
     }
     var id: Int
-    //Titles
+    //Titles 
     var title: String? // short title
     var officialTitle: String?
     var popularTitle: String?
@@ -60,7 +60,7 @@ struct Bill: Hashable {
         return false
     }
     
-    init?(json: [String: AnyObject]) {
+    init?(json: [String: Any]) {
         guard let id = json["id"] as? Int else { return nil }
         self.id = id
         
@@ -90,11 +90,11 @@ struct Bill: Hashable {
             })
         }
         if let sponsor = json["sponsor"] as? [String: AnyObject] {
-            self.sponsor = Person(from: sponsor)
+            self.sponsor = Person(json: sponsor)
         }
         if let coSponsorsArray = json["cosponsors"] as? [[String: AnyObject]] {
              self.coSponsors = coSponsorsArray.map({ (obj) -> Person? in
-                return Person(from: obj)
+                return Person(json: obj)
              }).flatMap({$0})
         }
         

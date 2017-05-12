@@ -12,7 +12,7 @@ struct APIService {
     
     //MARK: Sign In
     
-    static func register(_ user: User, with password: String, success: @escaping (User) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func register(_ user: User, with password: String, success: @escaping (User) -> (), failure: @escaping (KratosError) -> ()) {
         
         // URL Components
         guard let url = URL(string: Constants.REGISTRATION_URL) else {
@@ -39,7 +39,7 @@ struct APIService {
                 }
                 
                 if let httpResponse = response as? HTTPURLResponse {
-                    if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                    if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                         failure(error)
                     }
                 }
@@ -55,7 +55,7 @@ struct APIService {
         }
     }
     
-    static func forgotPassword(with email: String, success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func forgotPassword(with email: String, success: @escaping (Bool) -> (), failure: @escaping (KratosError) -> ()) {
         
         // URL Components
         guard let url = URL(string: Constants.FORGOT_PASSWORD_URL) else {
@@ -82,7 +82,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
@@ -98,7 +98,7 @@ struct APIService {
     
     //MARK: Feedback
     
-    static func fetchFeedback(success: @escaping ([String]) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func fetchFeedback(success: @escaping ([String]) -> (), failure: @escaping (KratosError) -> ()) {
         
         // URL Components
         guard let url = URL(string: Constants.FEEDBACK_URL) else {
@@ -124,7 +124,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
@@ -138,7 +138,7 @@ struct APIService {
         task.resume()
     }
     
-    static func postFeedback(with questions: [String: String], success: @escaping (Bool) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func postFeedback(with questions: [String: String], success: @escaping (Bool) -> (), failure: @escaping (KratosError) -> ()) {
         
         // URL Components
         guard let url = URL(string: Constants.FEEDBACK_URL) else {
@@ -170,7 +170,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
@@ -186,7 +186,7 @@ struct APIService {
 
     //MARK: User
     
-    static func fetchUser(_ success: @escaping (User) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func fetchUser(_ success: @escaping (User) -> (), failure: @escaping (KratosError) -> ()) {
         // URL Components
         guard let url = URL(string: Constants.USER_URL) else {
             failure(.invalidURL(error:nil))
@@ -211,7 +211,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
@@ -226,7 +226,7 @@ struct APIService {
         task.resume()
     }
     
-    static func logIn(with email: String, password: String, success: @escaping (User) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func logIn(with email: String, password: String, success: @escaping (User) -> (), failure: @escaping (KratosError) -> ()) {
         let parameters: [String: AnyObject] = [
             "email": email.lowercased() as AnyObject,
             "password": password as AnyObject
@@ -257,7 +257,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
@@ -272,7 +272,7 @@ struct APIService {
         task.resume()
     }
     
-    static func update(with user: User, success: @escaping (User) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func update(with user: User, success: @escaping (User) -> (), failure: @escaping (KratosError) -> ()) {
         
         if let dict = user.toJsonForUpdate() {
             
@@ -298,7 +298,7 @@ struct APIService {
                 }
                 
                 if let httpResponse = response as? HTTPURLResponse {
-                    if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                    if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                         failure(error)
                     }
                 }
@@ -314,7 +314,7 @@ struct APIService {
         }
     }
     
-    static func fetchUserVotingRecord(success: @escaping ([LightTally]) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+    static func fetchUserVotingRecord(success: @escaping ([LightTally]) -> (Void), failure: @escaping (KratosError) -> (Void)) {
         
         guard let url = URL(string: Constants.YOUR_VOTES_URL) else {
             failure(.invalidURL(error:nil))
@@ -338,7 +338,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
@@ -355,7 +355,7 @@ struct APIService {
         task.resume()
     }
     
-    static func createUserTally(with voteValue: VoteValue, tallyID: Int, success: @escaping (LightTally) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+    static func createUserTally(with voteValue: VoteValue, tallyID: Int, success: @escaping (LightTally) -> (Void), failure: @escaping (KratosError) -> (Void)) {
         
         let body: [String: [String: AnyObject]] = ["vote": ["tally_id": tallyID as AnyObject,
                                                             "value": voteValue.rawValue as AnyObject
@@ -384,7 +384,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
@@ -400,7 +400,7 @@ struct APIService {
         task.resume()
     }
     
-    static func fetchUserTally(tallyID: Int, success: @escaping (LightTally) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+    static func fetchUserTally(tallyID: Int, success: @escaping (LightTally) -> (Void), failure: @escaping (KratosError) -> (Void)) {
         
         guard let url = URL(string: "\(Constants.YOUR_VOTES_INDIVIDUAL_VOTE_URL)\(tallyID)") else {
             failure(.invalidURL(error:nil))
@@ -424,7 +424,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
@@ -440,7 +440,7 @@ struct APIService {
     }
     
     
-    static func updateUserTally(with voteValue: VoteValue, tallyID: Int, success: @escaping (LightTally) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+    static func updateUserTally(with voteValue: VoteValue, tallyID: Int, success: @escaping (LightTally) -> (Void), failure: @escaping (KratosError) -> (Void)) {
         
         let body: [String: [String: AnyObject]] = ["vote": [
             "value": voteValue.rawValue as AnyObject
@@ -469,7 +469,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
@@ -484,7 +484,7 @@ struct APIService {
         task.resume()
     }
     
-    static func deleteUserTally(tallyID: Int, success: @escaping (Bool) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+    static func deleteUserTally(tallyID: Int, success: @escaping (Bool) -> (Void), failure: @escaping (KratosError) -> (Void)) {
         
         guard let url = URL(string: "\(Constants.YOUR_VOTES_INDIVIDUAL_VOTE_URL)\(tallyID)") else {
             failure(.invalidURL(error:nil))
@@ -508,7 +508,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
@@ -524,7 +524,7 @@ struct APIService {
     
     //MARK: Representatives
     
-    static func fetchRepresentatives(for state: String, and district: Int, success: @escaping ([Person]) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func fetchRepresentatives(for state: String, and district: Int, success: @escaping ([Person]) -> (), failure: @escaping (KratosError) -> ()) {
         
         guard let url = URL(string: "\(Constants.REPRESENTATIVES_URL)\(state)/\(district)") else {
             failure(.invalidURL(error:nil))
@@ -548,7 +548,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
@@ -556,7 +556,7 @@ struct APIService {
             
             if let repArray = obj?["data"] as? [[String: AnyObject]] {
                 let reps = repArray.map({ (dictionary) -> Person? in
-                    return Person(from: dictionary)
+                    return Person(json: dictionary)
                 }).flatMap({ $0 })
                 
                 DispatchQueue.main.async(execute: {
@@ -567,7 +567,7 @@ struct APIService {
         task.resume()
     }
     
-    static func fetchPerson(for personID: Int, success: @escaping (Person) -> (), failure: @escaping (NetworkError) -> ()) {
+    static func fetchPerson(for personID: Int, success: @escaping (Person) -> (), failure: @escaping (KratosError) -> ()) {
         
         guard let url = URL(string: "\(Constants.PERSON_URL)\(personID)") else {
             failure(.invalidURL(error:nil))
@@ -591,13 +591,13 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
             
             if let obj = obj,
-               let person = Person(from: obj) {
+               let person = Person(json: obj) {
                 DispatchQueue.main.async(execute: {
                     success(person)
                 })
@@ -608,7 +608,7 @@ struct APIService {
     
     //MARK: Tallies
     
-    static func fetchTallies(for personID: Int, with pageNumber: Int, success: @escaping (_ tallies: [LightTally]) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+    static func fetchTallies(for personID: Int, with pageNumber: Int, success: @escaping (_ tallies: [LightTally]) -> (Void), failure: @escaping (KratosError) -> (Void)) {
         
         guard let url = URL(string: "\(Constants.VOTES_URL)\(personID)/votes?id=\(personID)&page=\(pageNumber)") else {
                 failure(.invalidURL(error: nil))
@@ -633,7 +633,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
@@ -650,7 +650,7 @@ struct APIService {
         task.resume()
     }
     
-    static func fetchTally(for lightTallyID: Int, success: @escaping (Tally) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+    static func fetchTally(for lightTallyID: Int, success: @escaping (Tally) -> (Void), failure: @escaping (KratosError) -> (Void)) {
         
         guard let url = URL(string: "\(Constants.TALLY_URL)\(lightTallyID)") else {
                 failure(.invalidURL(error:nil))
@@ -674,7 +674,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
@@ -691,7 +691,7 @@ struct APIService {
     
     //MARK: Bills
     
-    static func fetchBill(from billId: Int, success: @escaping (Bill) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+    static func fetchBill(from billId: Int, success: @escaping (Bill) -> (Void), failure: @escaping (KratosError) -> (Void)) {
         
         guard let url = URL(string: "\(Constants.BILL_URL)\(billId)") else {
             failure(.invalidURL(error:nil))
@@ -715,7 +715,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
@@ -730,7 +730,7 @@ struct APIService {
         task.resume()
     }
     
-    static func fetchSponsoredBills(for personID: Int, with pageNumber: Int, success: @escaping ([Bill]) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+    static func fetchSponsoredBills(for personID: Int, with pageNumber: Int, success: @escaping ([Bill]) -> (Void), failure: @escaping (KratosError) -> (Void)) {
         
         guard let url = URL(string: "\(Constants.PERSON_URL)/\(personID)/bills?id=\(personID)&page=\(pageNumber)") else {
             failure(.invalidURL(error:nil))
@@ -755,7 +755,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }
@@ -774,7 +774,7 @@ struct APIService {
 
     //MARK: Analytics
     
-    static func postKratosAnalyticEvent(with event: KratosAnalytics.ContactAnalyticType, success: @escaping (Bool) -> (Void), failure: @escaping (NetworkError) -> (Void)) {
+    static func postKratosAnalyticEvent(with event: KratosAnalytics.ContactAnalyticType, success: @escaping (Bool) -> (Void), failure: @escaping (KratosError) -> (Void)) {
         guard let url = URL(string: Constants.YOUR_ACTION_URL) else {
             failure(.invalidURL(error:nil))
             return
@@ -803,7 +803,7 @@ struct APIService {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-                if let error = NetworkError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
+                if let error = KratosError.error(for: httpResponse.statusCode, error: obj?["errors"] as? [[String: String]]) {
                     failure(error)
                 }
             }

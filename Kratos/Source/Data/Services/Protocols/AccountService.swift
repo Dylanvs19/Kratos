@@ -7,8 +7,21 @@
 //
 
 import Foundation
+import RxSwift
 
-struct AccountService {
+protocol AccountService {
+    
+    func register(user: User, password: String) -> Observable<User>
+    
+    func login(email: String, password: String) -> Observable<(String, User)>
+    
+    func forgotPassword(email: String) -> Observable<Bool>
+    
+    func resentConfirmation(email: String) -> Observable<Void>
+    
+    func fetchUser() -> Observable<User>
+    
+    func updateUser(user: User) -> Observable<User> 
     
 }
 

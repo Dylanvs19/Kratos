@@ -10,32 +10,56 @@ import Foundation
 import UIKit
 
 protocol ErrorPresenter {
-    func handle(error: NetworkError)
+    func handle(error: KratosError)
 }
 
 extension ErrorPresenter where Self: UIViewController, Self: Toaster {
-    func handle(error: NetworkError) {
+    func handle(error: KratosError) {
         switch error.type {
         case .surfaceable:
             present(error: error)
         case .silent:
-            break
+            print("\(error)")
         case .critical:
-            fatalError()
+            fatalError("\(error)")
         }
     }
 }
 
 enum ErrorType {
-    case surfaceable
+    case surfaceable(style: ErrorPresentationStyle)
     case silent
     case critical
+    
+    var hashValue: Int {
+        switch self {
+        case .surfaceable:
+            return 1
+        case .silent:
+            return 2
+        case .critical:
+            return 3
+        }
+    }
 }
 
-enum NetworkError: Error {
+enum ErrorPresentationStyle {
+    case toaster
+    case alert
+}
+
+enum MappingError {
+    case unexpectedValue
+    case failure
+}
+
+enum KratosError: Error {
     case timeout
     case nilData
     case invalidSerialization
+    case unknown
+    case mappingError(type: MappingError)
+    case nonHTTPResponse(response: URLResponse?)
     case appSideError(error: [[String: String]]?)
     case invalidURL(error: [[String: String]]?)
     case duplicateUserCredentials(error: [[String: String]]?)
@@ -43,10 +67,15 @@ enum NetworkError: Error {
     case serverSideError(error: [[String: String]]?)
     
     var type: ErrorType {
-        return .surfaceable
+        switch self {
+        case .nilData:
+            return .silent
+        default:
+            return .surfaceable(style: .toaster)
+        }
     }
     
-    static func error(for statusCode:Int, error: [[String: String]]?) -> NetworkError? {
+    static func error(for statusCode:Int, error: [[String: String]]?) -> KratosError? {
         switch statusCode {
         case 200...299:
             return nil
@@ -64,10 +93,12 @@ enum NetworkError: Error {
             return nil
         }
     }
-    
-    
 }
 
-func ==(lhs: NetworkError, rhs: NetworkError) -> Bool {
+func ==(lhs: KratosError, rhs: KratosError) -> Bool {
     return lhs.localizedDescription == rhs.localizedDescription
+}
+
+func ==(lhs: ErrorType, rhs: ErrorType) -> Bool {
+    return lhs.hashValue == rhs.hashValue
 }

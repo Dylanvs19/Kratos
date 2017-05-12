@@ -167,7 +167,7 @@ enum TallyResultType {
     
 }
 
-struct Tally: Hashable {
+struct Tally: Hashable, Decodable {
     var hashValue: Int {
         return id
     }
@@ -208,14 +208,14 @@ struct Tally: Hashable {
         return billShortTitle != nil ? billShortTitle : billOfficialTitle
     }
     
-    init?(json: [String: AnyObject]) {
+    init?(json: [String: Any]) {
         
         guard let id = json["id"] as? Int else { return nil }
         self.id = id
         
-        self.yea = buildYeaVote(from: json) ?? 0
-        self.abstain = buildAbstainVote(from: json) ?? 0
-        self.nay = buildNayVote(from: json) ?? 0
+        self.yea = buildYeaVote(from: json as [String : AnyObject]) ?? 0
+        self.abstain = buildAbstainVote(from: json as [String : AnyObject]) ?? 0
+        self.nay = buildNayVote(from: json as [String : AnyObject]) ?? 0
         self.resultText = json["result_text"] as? String
         if let result = json["result"] as? String {
             self.result = TallyResultType.value(from: result)
@@ -241,8 +241,9 @@ struct Tally: Hashable {
             self.gpoID = bill["gpo_id"] as? String
             self.congressNumber = bill["congress_number"] as? Int
         }
-        
-        self.nominationID = json["tally"]?["nomination_id"] as? Int
+        if let tally = json["tally"] as? [String: Int] {
+            self.nominationID = tally["nomination_id"] as? Int
+        }
         
         if let holdDate = json["date"] as? String {
             self.date = holdDate.stringToDate()
@@ -300,7 +301,7 @@ func ==(lhs: Tally, rhs: Tally) -> Bool {
     return lhs.id == rhs.id
 }
 
-struct LightTally: Hashable {
+struct LightTally: Hashable, Decodable {
     var hashValue: Int {
         return id
     }
@@ -338,28 +339,29 @@ struct LightTally: Hashable {
         return billShortTitle != nil ? billShortTitle : billOfficialTitle
     }
     
-    init?(json: [String: AnyObject]) {
+    init?(json: [String: Any]) {
+        guard let tally = json["tally"] as? [String: Any],
+              let id = tally["id"] as? Int else { return nil }
         
-        guard let id = json["tally"]?["id"] as? Int else { return nil }
         self.id = id
 
-        self.yea = json["tally"]?["total_plus"] as? Int
-        self.abstain = json["tally"]?["total_other"] as? Int
-        self.nay = json["tally"]?["total_minus"] as? Int
-        if let result = json["tally"]?["result"] as? String {
+        self.yea = tally["total_plus"] as? Int
+        self.abstain = tally["total_other"] as? Int
+        self.nay = tally["total_minus"] as? Int
+        if let result = tally["result"] as? String {
             self.result = TallyResultType.value(from: result)
         }
-        self.resultText = json["tally"]?["result_text"] as? String
-        self.treaty = json["tally"]?["treaty"] as? String
-        self.subject = json["tally"]?["subject"] as? String
-        self.requires = json["tally"]?["requires"] as? String
-        self.lastRecordUpdate = json["tally"]?["record_updated_at"] as? String
-        if let amendment = json["tally"]?["amendment"] as? [String: AnyObject] {
+        self.resultText = tally["result_text"] as? String
+        self.treaty = tally["treaty"] as? String
+        self.subject = tally["subject"] as? String
+        self.requires = tally["requires"] as? String
+        self.lastRecordUpdate = tally["record_updated_at"] as? String
+        if let amendment = tally["amendment"] as? [String: AnyObject] {
             self.amendment = Amendment(from: amendment)
         }
-        self.type = json["tally"]?["type"] as? String
+        self.type = tally["type"] as? String
         
-        if let bill = json["tally"]?["bill"] as? [String: AnyObject] {
+        if let bill = tally["bill"] as? [String: AnyObject] {
             self.billID = bill["id"] as? Int
             self.billShortTitle = bill["short_title"] as? String
             self.billOfficialTitle = bill["official_title"] as? String
@@ -372,16 +374,16 @@ struct LightTally: Hashable {
             self.congressNumber = bill["congress_number"] as? Int
         }
         
-        self.nominationID = json["tally"]?["nomination_id"] as? Int 
+        self.nominationID = tally["nomination_id"] as? Int
         
-        if let holdDate = json["tally"]?["date"] as? String {
+        if let holdDate = tally["date"] as? String {
             self.date = holdDate.stringToDate()
         }
-        self.question = json["tally"]?["question"] as? String
-        if let category = json["tally"]?["category"] as? String {
+        self.question = tally["question"] as? String
+        if let category = tally["category"] as? String {
             self.category = TallyType.type(for: category)
         }
-        if let holdChamber = json["tally"]?["chamber"] as? String {
+        if let holdChamber = tally["chamber"] as? String {
             self.chamber = Chamber(rawValue: holdChamber)
         }
         if let vote = json["value"] as? String {

@@ -20,10 +20,10 @@ enum KratosTarget {
     case update(user: User)
     
     //BillTracking
-    case fetchTrackedBills
-    case trackBill(billId: Int)
-    case viewTrackedBill(billId: Int)
-    case untrackBill(billId: Int)
+    case fetchTrackedBills(pageNumber: Int)
+    case trackBill(billID: Int)
+    case viewTrackedBill(billID: Int)
+    case untrackBill(billID: Int)
     
     //SubjectTracking
     case fetchTrackedSubjects
@@ -51,8 +51,8 @@ enum KratosTarget {
     case fetchTally(lightTallyID: Int)
 
     //Bill
-    case fetchAllBills
-    case fetchBill(billId: Int)
+    case fetchAllBills(pageNumber: Int)
+    case fetchBill(billID: Int)
     case fetchBills(subjects: [Int], pageNumber: Int)
     
     //Subjects
@@ -93,8 +93,8 @@ enum KratosTarget {
         //BillTracking
         case .fetchTrackedBills:
             return nil
-        case .trackBill(let billId):
-            return ["track": ["bill_id": billId ] ]
+        case .trackBill(let billID):
+            return ["track": ["bill_id": billID ] ]
         case .viewTrackedBill:
             return nil
         case .untrackBill:
@@ -182,13 +182,14 @@ enum KratosTarget {
             return "/me"
             
         //BillTracking
-        case .fetchTrackedBills,
-             .trackBill:
+        case .fetchTrackedBills(let pageNumber):
+            return "/me/bills?page=\(pageNumber)"
+        case .trackBill:
             return "/me/bills"
             
-        case .viewTrackedBill(let billId),
-             .untrackBill(let billId):
-            return "/me/bills/\(billId)"
+        case .viewTrackedBill(let billID),
+             .untrackBill(let billID):
+            return "/me/bills/\(billID)"
             
         //SubjectTracking
         case .fetchTrackedSubjects,
@@ -325,6 +326,75 @@ enum KratosTarget {
         //Analytics
         case .postKratosAnalyticEvent:
             return .post
+        }
+    }
+    
+    var addToken: Bool {
+        switch self {
+        //Login
+        case .register,
+             .logIn,
+             .forgotPassword,
+             .resendConfirmation:
+            return false
+            
+            //User
+        //Metadata
+        case .fetchUser,
+             .update:
+            return true
+            
+        //BillTracking
+        case .fetchTrackedBills,
+             .viewTrackedBill,
+             .trackBill,
+             .untrackBill:
+            return true
+            
+        //SubjectTracking
+        case .fetchTrackedSubjects,
+             .followSubject,
+             .unfollowSubject:
+            return true
+            
+        //UserVotes
+        case .fetchUserVotingRecord,
+             .fetchUserVote,
+             .createUserVote,
+             .deleteUserVote,
+             .updateUserVote:
+            return true
+            
+            //Congress
+        //Metadata
+        case .determineRecess:
+            return true
+            
+        // Representatives
+        case .fetchRepresentatives,
+             .fetchPerson,
+             .fetchTallies,
+             .fetchSponsoredBills,
+             //Vote
+            .fetchTally,
+            //Bill
+            .fetchAllBills,
+            .fetchBill,
+            .fetchBills,
+            //Subjects
+            .fetchAllSubjects,
+            //State
+            .getStateDistricts,
+            .getStateImage:
+            return true
+            
+        //Feedback
+        case .fetchFeedback,
+             .postFeedback:
+            return true
+        //Analytics
+        case .postKratosAnalyticEvent:
+            return true 
         }
     }
 }
