@@ -31,21 +31,27 @@ class Client {
         }
     }
     
-    fileprivate func request(_ key: String, observable: Observable<Data>, forceRefresh: Bool) -> Observable<Data> {
+    fileprivate func request(_ key: String, observable: Observable<Data>, forceRefresh: Bool, omitFromCache: Bool  = false) -> Observable<Data> {
         if let object = cache.object(forKey: key, returnExpiredObjectIfPresent: true),
-                        forceRefresh == false {
+                        !forceRefresh,
+                        !omitFromCache {
             return Observable.just(object as Data)
         } else if let request = ongoingRequests[key] {
             return request
         }
         
-        let request = observable.do(onNext: {
-            self.cache.setObject(($0 as NSData), forKey: key, expires: .seconds(300))
-            }, onError: { [unowned self] value in
+        let request = observable.do(
+            onNext: {
+                if !omitFromCache {
+                    self.cache.setObject(($0 as NSData), forKey: key, expires: .seconds(300))
+                }
+            },
+            onError: { [unowned self] value in
                 self.ongoingRequests[key] = nil
-            }, onCompleted: { [unowned self] value in
+            },
+            onCompleted: { [unowned self] value in
                 self.ongoingRequests[key] = nil
-            }, onSubscribe: nil, onDispose: nil)
+            })
         .observeOn(MainScheduler.instance)
         .shareReplay(1)
         
@@ -54,9 +60,10 @@ class Client {
     }
     
     //Make requests for KratosTarget.
-    func request(_ target: KratosTarget, forceRefresh: Bool = false) -> Observable<Data> {
+    func request(_ target: KratosTarget, forceRefresh: Bool = false, omitFromCache: Bool = false) -> Observable<Data> {
         return request("\(target)",
-            observable: URLSession.shared.rx.send(client: self, target: target),
-                forceRefresh: forceRefresh)
+                observable: URLSession.shared.rx.send(client: self, target: target),
+                forceRefresh: forceRefresh,
+                omitFromCache: omitFromCache)
     }
 }

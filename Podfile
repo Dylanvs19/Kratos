@@ -12,6 +12,7 @@ pod 'SnapKit'
 pod 'AwesomeCache'
 pod 'RxSwift'
 pod 'RxCocoa'
+pod 'RxDataSources'
 
 end
 

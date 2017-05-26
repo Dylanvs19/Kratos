@@ -28,7 +28,7 @@ class MinorActionView: UIView, Loadable  {
         customInit()
     }
     
-    func configure(with action: Action, first: Bool = false, last: Bool = false) {
+    func configure(with action: BillAction, first: Bool = false, last: Bool = false) {
         topView.isHidden = first
         bottomView.isHidden = last
         actionTypeLabel.text = action.presentableType()

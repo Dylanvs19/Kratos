@@ -45,7 +45,7 @@ struct Person: Hashable, Decodable {
         self.youtube = json["youtube"] as? String
         self.currentState = json["current_state"] as? String
         if let party = json["current_party"] as? String {
-            self.currentParty = Party.party(value: party)
+            self.currentParty = Party.value(for: party)
         }
         self.imageURL = json["image_url"] as? String
         self.gender = json["gender"] as? String
@@ -139,7 +139,7 @@ struct LightPerson: Hashable {
         self.lastName = json["last_name"] as? String
         self.isCurrent = json["is_current"] as? Bool
         if let party = json["current_party"] as? String {
-            self.party = Party.party(value: party)
+            self.party = Party.value(for: party)
         }
         if let state = json["current_state"] as? String {
             if state.characters.count > 2 {
@@ -164,8 +164,8 @@ enum Party: String, RawRepresentable {
     case democrat = "Democrat"
     case independent = "Independent"
     
-    static func party(value: String) -> Party? {
-        switch value {
+    static func value(for string: String) -> Party? {
+        switch string {
         case "R", "Republican", "republican":
             return .republican
         case "D", "Democrat", "democrat":

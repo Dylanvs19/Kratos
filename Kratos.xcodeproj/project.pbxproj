@@ -142,8 +142,6 @@
 		AF3F5CEC1EBE72F700809AA3 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C5E1EBE72F700809AA3 /* UIViewController+Extensions.swift */; };
 		AF3F5CEE1EBE72F700809AA3 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C601EBE72F700809AA3 /* Fonts.swift */; };
 		AF3F5CEF1EBE72F700809AA3 /* InputValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C611EBE72F700809AA3 /* InputValidation.swift */; };
-		AF3F5CF01EBE72F700809AA3 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C631EBE72F700809AA3 /* NavigationController.swift */; };
-		AF3F5CF11EBE72F700809AA3 /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C641EBE72F700809AA3 /* NavigationManager.swift */; };
 		AF3F5CF21EBE72F700809AA3 /* Pager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C651EBE72F700809AA3 /* Pager.swift */; };
 		AF3F5CF31EBE72F700809AA3 /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C671EBE72F700809AA3 /* Decodable.swift */; };
 		AF3F5CF51EBE74E400809AA3 /* KratosTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5CF41EBE74E400809AA3 /* KratosTarget.swift */; };
@@ -152,6 +150,11 @@
 		AF3F5CFD1EBE755000809AA3 /* FeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5CFC1EBE755000809AA3 /* FeedbackService.swift */; };
 		AF3F5CFF1EBE756800809AA3 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5CFE1EBE756800809AA3 /* AnalyticsService.swift */; };
 		AF3F5D011EBE759500809AA3 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5D001EBE759500809AA3 /* UserService.swift */; };
+		AF5B23421ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B23411ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift */; };
+		AF5B23441ED68A3B00DD9F9E /* ConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B23431ED68A3B00DD9F9E /* ConfirmationViewModel.swift */; };
+		AF6271B11ED0820E00BDE8DB /* AccountDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6271B01ED0820E00BDE8DB /* AccountDetailsViewModel.swift */; };
+		AF6271B31ED085BC00BDE8DB /* AccountDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6271B21ED085BC00BDE8DB /* AccountDetailViewController.swift */; };
+		AF6271B51ED3DF8400BDE8DB /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */; };
 		AF8974641D4D80E500C19020 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8974621D4D80E500C19020 /* Main.storyboard */; };
 		AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF8974651D4D80E500C19020 /* Assets.xcassets */; };
 		AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8974671D4D80E500C19020 /* LaunchScreen.storyboard */; };
@@ -175,6 +178,10 @@
 		AFFA95241EC1F2C500144C3A /* Observable+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95231EC1F2C500144C3A /* Observable+JSON.swift */; };
 		AFFA95261EC1F56F00144C3A /* Observable+Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95251EC1F56F00144C3A /* Observable+Decode.swift */; };
 		AFFA95281EC4170500144C3A /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95271EC4170500144C3A /* LoginViewModel.swift */; };
+		AFFA95641EC79C4100144C3A /* ApplicationLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95631EC79C4100144C3A /* ApplicationLauncher.swift */; };
+		AFFA95661EC79D8100144C3A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95651EC79D8100144C3A /* SplashViewController.swift */; };
+		AFFA95681EC7A1DD00144C3A /* UIApplicationDelegate+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95671EC7A1DD00144C3A /* UIApplicationDelegate+Extensions.swift */; };
+		AFFA956A1EC95B0100144C3A /* RxBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95691EC95B0100144C3A /* RxBinder.swift */; };
 		E0BAAA2EC661D1AE55726E1A /* Pods_KratosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3106BBC49F4921A587E0B9 /* Pods_KratosUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -353,8 +360,6 @@
 		AF3F5C5E1EBE72F700809AA3 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		AF3F5C601EBE72F700809AA3 /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		AF3F5C611EBE72F700809AA3 /* InputValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValidation.swift; sourceTree = "<group>"; };
-		AF3F5C631EBE72F700809AA3 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
-		AF3F5C641EBE72F700809AA3 /* NavigationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		AF3F5C651EBE72F700809AA3 /* Pager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pager.swift; sourceTree = "<group>"; };
 		AF3F5C671EBE72F700809AA3 /* Decodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decodable.swift; sourceTree = "<group>"; };
 		AF3F5CF41EBE74E400809AA3 /* KratosTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosTarget.swift; sourceTree = "<group>"; };
@@ -363,6 +368,11 @@
 		AF3F5CFC1EBE755000809AA3 /* FeedbackService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
 		AF3F5CFE1EBE756800809AA3 /* AnalyticsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		AF3F5D001EBE759500809AA3 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		AF5B23411ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationViewModel.swift; sourceTree = "<group>"; };
+		AF5B23431ED68A3B00DD9F9E /* ConfirmationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationViewModel.swift; sourceTree = "<group>"; };
+		AF6271B01ED0820E00BDE8DB /* AccountDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailsViewModel.swift; sourceTree = "<group>"; };
+		AF6271B21ED085BC00BDE8DB /* AccountDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailViewController.swift; sourceTree = "<group>"; };
+		AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		AF89745B1D4D80E500C19020 /* Kratos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kratos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF8974631D4D80E500C19020 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AF8974651D4D80E500C19020 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -393,6 +403,10 @@
 		AFFA95231EC1F2C500144C3A /* Observable+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+JSON.swift"; sourceTree = "<group>"; };
 		AFFA95251EC1F56F00144C3A /* Observable+Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Decode.swift"; sourceTree = "<group>"; };
 		AFFA95271EC4170500144C3A /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		AFFA95631EC79C4100144C3A /* ApplicationLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationLauncher.swift; sourceTree = "<group>"; };
+		AFFA95651EC79D8100144C3A /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		AFFA95671EC7A1DD00144C3A /* UIApplicationDelegate+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplicationDelegate+Extensions.swift"; sourceTree = "<group>"; };
+		AFFA95691EC95B0100144C3A /* RxBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxBinder.swift; sourceTree = "<group>"; };
 		CC1513D8F9B156933DC665E0 /* Pods-Kratos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.release.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.release.xcconfig"; sourceTree = "<group>"; };
 		D3612F895CFC028A6B2F2353 /* Pods-KratosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KratosUITests/Pods-KratosUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F565D52ED48E5392122D4225 /* Pods-KratosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KratosTests/Pods-KratosTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -467,6 +481,7 @@
 			isa = PBXGroup;
 			children = (
 				AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */,
+				AFFA95631EC79C4100144C3A /* ApplicationLauncher.swift */,
 				AF3F5BBF1EBE72F700809AA3 /* Datastore.swift */,
 				AF3F5BC01EBE72F700809AA3 /* MainApplicationViewController.swift */,
 				AF3F5BC11EBE72F700809AA3 /* TabBarController.swift */,
@@ -626,11 +641,16 @@
 		AF3F5BE61EBE72F700809AA3 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				AF3F5BE71EBE72F700809AA3 /* ConfirmationViewController.swift */,
+				AFFA95651EC79D8100144C3A /* SplashViewController.swift */,
 				AFFA95271EC4170500144C3A /* LoginViewModel.swift */,
 				AF3F5BE81EBE72F700809AA3 /* LoginViewController.swift */,
-				AF3F5BE91EBE72F700809AA3 /* NotificationsRegistrationViewController.swift */,
 				AF3F5BEA1EBE72F700809AA3 /* SubmitAddressViewController.swift */,
+				AF6271B01ED0820E00BDE8DB /* AccountDetailsViewModel.swift */,
+				AF6271B21ED085BC00BDE8DB /* AccountDetailViewController.swift */,
+				AF3F5BE71EBE72F700809AA3 /* ConfirmationViewController.swift */,
+				AF5B23431ED68A3B00DD9F9E /* ConfirmationViewModel.swift */,
+				AF3F5BE91EBE72F700809AA3 /* NotificationsRegistrationViewController.swift */,
+				AF5B23411ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -839,6 +859,8 @@
 				AF3F5C5C1EBE72F700809AA3 /* UITableView+Extensions.swift */,
 				AF3F5C5D1EBE72F700809AA3 /* UIView+Extension.swift */,
 				AF3F5C5E1EBE72F700809AA3 /* UIViewController+Extensions.swift */,
+				AFFA95671EC7A1DD00144C3A /* UIApplicationDelegate+Extensions.swift */,
+				AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -846,8 +868,6 @@
 		AF3F5C621EBE72F700809AA3 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				AF3F5C631EBE72F700809AA3 /* NavigationController.swift */,
-				AF3F5C641EBE72F700809AA3 /* NavigationManager.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -857,6 +877,7 @@
 			children = (
 				AF3F5C671EBE72F700809AA3 /* Decodable.swift */,
 				AFFA95091EBF506B00144C3A /* ViewLoader.swift */,
+				AFFA95691EC95B0100144C3A /* RxBinder.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1270,12 +1291,15 @@
 				AF3F5CDD1EBE72F700809AA3 /* Array+Extensions.swift in Sources */,
 				AF3F5C771EBE72F700809AA3 /* APIManager.swift in Sources */,
 				AF3F5CD81EBE72F700809AA3 /* MenuHelper.swift in Sources */,
+				AFFA95641EC79C4100144C3A /* ApplicationLauncher.swift in Sources */,
 				AFFA95281EC4170500144C3A /* LoginViewModel.swift in Sources */,
 				AF3F5C951EBE72F700809AA3 /* BillTallyTableViewCell.swift in Sources */,
 				AF3F5C901EBE72F700809AA3 /* BillCommitteesView.swift in Sources */,
 				AF3F5CC11EBE72F700809AA3 /* RepInfoView.swift in Sources */,
+				AF6271B51ED3DF8400BDE8DB /* UIButton+Extensions.swift in Sources */,
 				AF3F5CA21EBE72F700809AA3 /* DatePickerView.swift in Sources */,
 				AF3F5C871EBE72F700809AA3 /* YourVotesViewController.swift in Sources */,
+				AF6271B31ED085BC00BDE8DB /* AccountDetailViewController.swift in Sources */,
 				AF3F5CC31EBE72F700809AA3 /* RepVoteTableViewCell.swift in Sources */,
 				AF3F5CFD1EBE755000809AA3 /* FeedbackService.swift in Sources */,
 				AF3F5C8D1EBE72F700809AA3 /* BillActionsView.swift in Sources */,
@@ -1300,9 +1324,11 @@
 				AFFA95221EC1F08700144C3A /* ImageService.swift in Sources */,
 				AFFA94F61EBE789800144C3A /* Subject.swift in Sources */,
 				AF3F5CB41EBE72F700809AA3 /* RepContactView.swift in Sources */,
+				AFFA956A1EC95B0100144C3A /* RxBinder.swift in Sources */,
 				AF3F5C861EBE72F700809AA3 /* MenuViewController.swift in Sources */,
 				AF3F5C841EBE72F700809AA3 /* NotificationsRegistrationViewController.swift in Sources */,
 				AF3F5CB61EBE72F700809AA3 /* RepImageView.swift in Sources */,
+				AF5B23441ED68A3B00DD9F9E /* ConfirmationViewModel.swift in Sources */,
 				AF3F5C8E1EBE72F700809AA3 /* BillActionTableViewCell.swift in Sources */,
 				AF3F5C821EBE72F700809AA3 /* ConfirmationViewController.swift in Sources */,
 				AF3F5C6B1EBE72F700809AA3 /* TabBarController.swift in Sources */,
@@ -1314,13 +1340,13 @@
 				AF3F5CAD1EBE72F700809AA3 /* StackViewView.swift in Sources */,
 				AFFA94FA1EBF485E00144C3A /* Client.swift in Sources */,
 				AF3F5CFF1EBE756800809AA3 /* AnalyticsService.swift in Sources */,
-				AF3F5CF01EBE72F700809AA3 /* NavigationController.swift in Sources */,
 				AF3F5CC81EBE72F700809AA3 /* VoteHeaderView.swift in Sources */,
 				AF3F5C681EBE72F700809AA3 /* AppDelegate.swift in Sources */,
 				AF3F5C721EBE72F700809AA3 /* Term.swift in Sources */,
 				AF3F5CE91EBE72F700809AA3 /* UINavigationController+Extensions.swift in Sources */,
 				AF3F5C881EBE72F700809AA3 /* MainViewController.swift in Sources */,
 				AFFA94F81EBE796F00144C3A /* StateService.swift in Sources */,
+				AFFA95681EC7A1DD00144C3A /* UIApplicationDelegate+Extensions.swift in Sources */,
 				AFFA95201EC0926400144C3A /* URLRequest+Extension.swift in Sources */,
 				AF3F5CAE1EBE72F700809AA3 /* SummaryView.swift in Sources */,
 				AF3F5CD41EBE72F700809AA3 /* YourVoteTableViewCell.swift in Sources */,
@@ -1348,6 +1374,7 @@
 				AFFA95021EBF4EB300144C3A /* Client+StateService.swift in Sources */,
 				AFFA951E1EBF60A600144C3A /* URLSession+Rx.swift in Sources */,
 				AF3F5CD91EBE72F700809AA3 /* PresentMenuAnimator.swift in Sources */,
+				AFFA95661EC79D8100144C3A /* SplashViewController.swift in Sources */,
 				AF3F5C9E1EBE72F700809AA3 /* MinorActionView.swift in Sources */,
 				AF3F5D011EBE759500809AA3 /* UserService.swift in Sources */,
 				AF3F5C971EBE72F700809AA3 /* BillVotesView.swift in Sources */,
@@ -1360,6 +1387,7 @@
 				AF3F5CE41EBE72F700809AA3 /* String+Extensions.swift in Sources */,
 				AF3F5CEA1EBE72F700809AA3 /* UITableView+Extensions.swift in Sources */,
 				AF3F5C9A1EBE72F700809AA3 /* CommitteeView.swift in Sources */,
+				AF6271B11ED0820E00BDE8DB /* AccountDetailsViewModel.swift in Sources */,
 				AF3F5CEC1EBE72F700809AA3 /* UIViewController+Extensions.swift in Sources */,
 				AF3F5CD61EBE72F700809AA3 /* DismissMenuAnimator.swift in Sources */,
 				AF3F5C6D1EBE72F700809AA3 /* Bill.swift in Sources */,
@@ -1384,11 +1412,11 @@
 				AF3F5CE51EBE72F700809AA3 /* UIColor+Extension.swift in Sources */,
 				AF3F5CDF1EBE72F700809AA3 /* Date+Extensions.swift in Sources */,
 				AF3F5CB21EBE72F700809AA3 /* RepBioView.swift in Sources */,
-				AF3F5CF11EBE72F700809AA3 /* NavigationManager.swift in Sources */,
 				AF3F5C711EBE72F700809AA3 /* Tally.swift in Sources */,
 				AF3F5CBA1EBE72F700809AA3 /* RepInfoButtonView.swift in Sources */,
 				AF3F5C831EBE72F700809AA3 /* LoginViewController.swift in Sources */,
 				AF3F5CE31EBE72F700809AA3 /* NSLayoutAnchor+Extensions.swift in Sources */,
+				AF5B23421ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift in Sources */,
 				AF3F5C691EBE72F700809AA3 /* Datastore.swift in Sources */,
 				AFFA95001EBF4E9F00144C3A /* Client+CongressService.swift in Sources */,
 				AF3F5C891EBE72F700809AA3 /* RepresentativeView.swift in Sources */,

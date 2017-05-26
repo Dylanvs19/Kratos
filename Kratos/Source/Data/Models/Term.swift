@@ -57,7 +57,7 @@ struct Term: Hashable {
             self.endDate = end.stringToDate()
         }
         if let party = json["party"] as? String {
-            self.party = Party.party(value: party)
+            self.party = Party.value(for: party)
         }
     }
 }

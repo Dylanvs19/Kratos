@@ -8,256 +8,283 @@
 
 import UIKit
 import SafariServices
+import RxSwift
+import RxCocoa
+import SnapKit
+
 class LoginViewController: UIViewController, ActivityIndicatorPresenter {
     
-    @IBOutlet var kratosImageView: UIImageView!
+    fileprivate let client: Client
+    fileprivate let viewModel: LoginViewModel
+    fileprivate let disposeBag = DisposeBag()
+    fileprivate let scrollView = UIScrollView()
+    fileprivate let contentView = UIView()
     
-    @IBOutlet var kratosImageViewLarge: NSLayoutConstraint!
-    @IBOutlet var kratosImageViewSmall: NSLayoutConstraint!
-    @IBOutlet var kratosImageViewTop: NSLayoutConstraint!
-    @IBOutlet var kratosImageViewCentered: NSLayoutConstraint!
+    fileprivate var kratosImageView = UIImageView(image: #imageLiteral(resourceName: "Kratos"))
+    fileprivate var loginContinueButton = UIButton()
+    fileprivate var signUpRegisterButton = UIButton()
+    fileprivate var forgotPasswordButton = UIButton()
     
-    @IBOutlet var kratosLabel: UILabel!
-    @IBOutlet var nextButton: UIButton!
+    fileprivate let emailTextField = KratosTextField()
+    fileprivate let passwordTextField = KratosTextField()
     
-    @IBOutlet var nextOrSubmitButton: UIButton!
-    @IBOutlet var registerOrSignInButton: UIButton!
+    var imageViewHeightConstraint: Constraint?
+    var imageViewYConstraint: Constraint?
     
-    @IBOutlet weak var emailTextField: KratosTextField!
-    @IBOutlet weak var passwordTextField: KratosTextField!
-    @IBOutlet weak var passwordConfirmationTextField: KratosTextField!
-    
-    var activityIndicator: KratosActivityIndicator? = KratosActivityIndicator()
+    internal var activityIndicator: KratosActivityIndicator? = KratosActivityIndicator()
     var shadeView: UIView = UIView()
     
-    enum ViewType {
-        case login
-        case registration
-        case forgotPassword
+    init(client: Client) {
+        self.client = client
+        viewModel = LoginViewModel(client: client)
+        super.init(nibName: nil, bundle: nil)
     }
     
-    var viewType: ViewType = .login {
-        didSet {
-            shouldCheckIfTextFieldsValid()
-
-            var submitButtonTitle = "L O G I N"
-            var registerButton = "C R E A T E  A C C O U N T"
-            switch viewType {
-            case .login:
-                submitButtonTitle = "L O G I N"
-                registerButton = "C R E A T E  A C C O U N T"
-            case .registration:
-                submitButtonTitle = "C O N T I N U E"
-                registerButton = "S I G N  I N"
-            case .forgotPassword:
-                submitButtonTitle = "S U B M I T"
-                registerButton = "S I G N  I N"
-            }
-            UIView.animate(withDuration: 0.15, animations: {
-                self.registerOrSignInButton.setTitle(registerButton, for: UIControlState())
-                self.nextOrSubmitButton.setTitle(submitButtonTitle, for: UIControlState())
-                self.view.layoutIfNeeded()
-            })
-        }
-    }
-    
-    fileprivate var textFieldsValid: Bool {
-        var valid = true
-        var collection: [KratosTextField] {
-            switch viewType {
-            case .login:
-                return [emailTextField, passwordTextField]
-            case .registration:
-                return [emailTextField, passwordTextField, passwordConfirmationTextField]
-            case .forgotPassword:
-                return [emailTextField]
-            }
-        }
-        collection.forEach {
-            if !$0.isValid {
-                valid = false
-            }
-        }
-        return valid
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.nextButton.alpha = 0
-        viewType = .login
+        style()
+        buildViews()
+        bind()
+        configureTextFields()
+        
         setupGestureRecognizer()
         navigationController?.isNavigationBarHidden = true
-        navigationController?.navigationBar.tintColor = UIColor.kratosBlue
-        // If keyboard is hiding - should validate textFields
-        NotificationCenter.default.addObserver(self, selector:#selector(shouldCheckIfTextFieldsValid), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
-        // set initial state for textFields
-        emailTextField.animateOut()
-        passwordTextField.animateOut()
-        passwordConfirmationTextField.animateOut()
-        //setupActivityIndicator()
+        setInitialState()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let expandedWidth = self.view.frame.width * 0.8
-        emailTextField.configureWith(validationFunction: InputValidation.validateEmail, text: nil, textlabelText: "E M A I L", expandedWidth: expandedWidth, secret: false, textFieldType: .email)
-        passwordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "P A S S W O R D", expandedWidth: expandedWidth, secret: true, textFieldType: .password)
-        passwordConfirmationTextField.configureWith(validationFunction: validatePasswordConfimation, text: nil, textlabelText: "C O N F I R M A T I O N", expandedWidth: expandedWidth, secret: true, textFieldType: .password)
         beginningAnimations()
     }
     
+    func configureTextFields() {
+        let expandedWidth = self.view.frame.width * 0.8
+        emailTextField.configureWith(textlabelText: "E M A I L", expandedWidth: expandedWidth, textFieldType: .email)
+        passwordTextField.configureWith(textlabelText: "P A S S W O R D", expandedWidth: expandedWidth, textFieldType: .password,  secret: true)
+    }
+    
+    func setInitialState() {
+        emailTextField.isHidden = true
+        passwordTextField.isHidden = true
+        emailTextField.animateOut()
+        passwordTextField.animateOut()
+        self.view.layoutIfNeeded()
+    }
+    
     fileprivate func beginningAnimations() {
-        
-        if textFieldsValid {
-            self.nextButton.alpha = 1
-            self.kratosLabel.alpha = 0
-        } else {
-            self.nextButton.alpha = 0
-            self.kratosLabel.alpha = 1
-        }
-        UIView.animate(withDuration: 0.5, animations: {
-            self.kratosImageViewLarge.isActive = false
-            self.kratosImageViewSmall.isActive = true
-            self.kratosImageViewCentered.isActive = false
-            self.kratosImageViewTop.isActive = true
-            self.view.layoutIfNeeded()
-        })
         UIView.animate(withDuration: 0.25, delay: 0.5, options: [], animations: {
+            self.emailTextField.isHidden = false
+            self.passwordTextField.isHidden = false
             self.emailTextField.animateIn()
             self.passwordTextField.animateIn()
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
     
-    //MARK: Helper Validation Function
-    fileprivate func validatePasswordConfimation(text: String) -> Bool {
-        var valid = false
-        if let passwordText = passwordTextField.text,
-           let confirmationText = passwordConfirmationTextField.text , passwordTextField.isValid {
-            valid = passwordText == confirmationText ? true : false
-        }
-        return valid
-    }
-    
-    @IBAction func registerButtonPressed(_ sender: AnyObject) {
-        switch viewType {
-        case .login:
-            UIView.animate(withDuration: 0.25, animations: {
-                self.passwordConfirmationTextField.animateIn()
-                self.view.layoutIfNeeded()
-            }, completion: { (success) in
-                self.viewType = .registration
-            })
-        case .registration:
-            UIView.animate(withDuration: 0.25, animations: { 
-                self.passwordConfirmationTextField.animateOut()
-                self.view.layoutIfNeeded()
-            }, completion: { (success) in
-                self.viewType = .login
-            })
-        case .forgotPassword:
-            UIView.animate(withDuration: 0.25, animations: {
-                self.passwordTextField.animateIn()
-                self.passwordConfirmationTextField.animateOut()
-                self.view.layoutIfNeeded()
-            }, completion: { (success) in
-                self.viewType = .login
-            })
-            
-        }
-        shouldCheckIfTextFieldsValid()
-    }
-    
-    @IBAction func nextButtonPressed(_ sender: AnyObject) {
-        switch viewType {
-        case .login:
-            if let email = emailTextField.text,
-                let password = passwordTextField.text , textFieldsValid {
-                presentActivityIndicator()
-                APIManager.login(with: email, and: password, success: { (success) in
-                    self.hideActivityIndicator()
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
-                }, failure: { (error) in
-                    self.hideActivityIndicator()
-                    self.showError(error: error)
-                })
-            } else {
-                let alertVC = UIAlertController(title: "Invalid Input", message: "Your phone and/or password are invalid", preferredStyle: .alert)
-                alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                    self.dismiss(animated: false, completion: nil)
-                }))
-                self.present(alertVC, animated: true, completion: nil)
-            }
-        case .registration:
-            let viewController: SubmitAddressViewController = SubmitAddressViewController.instantiate()
-            var user = User()
-            guard let email = emailTextField.text else { return }
-            user.email = email
-            user.password = passwordTextField.text
-            Datastore.shared.user = user
-            viewController.loadViewIfNeeded()
-            viewController.displayType = .registration
-            self.navigationController?.pushViewController(viewController, animated: true)
-        case .forgotPassword:
-            guard let email = emailTextField.text else { self.presentMessageAlert(title: "Error", message: "We couldn't validate your email address.", buttonOneTitle: "O K")
-                return
-            }
-            
-            APIManager.forgotPassword(with:email, success: { (success) in
-                self.presentMessageAlert(title: "Email Sent", message: "An email was sent to your email address.", buttonOneTitle: "O K")
-                
-            }, failure: { (error) in
-                self.showError(error: error)
-            })
-        }
-    }
-    
-    @IBAction func forgotPasswordButtonPressed(_ sender: Any) {
-        switch viewType {
-        case .login:
-            UIView.animate(withDuration: 0.25, animations: {
-                self.passwordTextField.animateOut()
-                self.passwordConfirmationTextField.animateOut()
-                self.view.layoutIfNeeded()
-            }, completion: { (success) in
-                self.viewType = .forgotPassword
-            })
-        case .registration:
-            UIView.animate(withDuration: 0.25, animations: {
-                self.passwordTextField.animateOut()
-                self.passwordConfirmationTextField.animateOut()
-                self.view.layoutIfNeeded()
-            }, completion: { (success) in
-                self.viewType = .forgotPassword
-            })
-        case .forgotPassword:
-            break
-        }
-    }
-    
-    func shouldCheckIfTextFieldsValid() {
-        if textFieldsValid {
-            UIView.animate(withDuration: 1, animations: {
-                self.nextButton.alpha = 1
-                self.kratosLabel.alpha = 0
-                self.view.layoutIfNeeded()
-            })
-        } else {
-            UIView.animate(withDuration: 1, animations: {
-                self.kratosLabel.alpha = 1
-                self.nextButton.alpha = 0
-                self.view.layoutIfNeeded()
-            })
-        }
-    }
-    
     func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
-        shouldCheckIfTextFieldsValid()
         view.endEditing(true)
     }
     
     fileprivate func setupGestureRecognizer() {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(SubmitAddressViewController.handleTapOutside(_:)))
         view.addGestureRecognizer(tapRecognizer)
+    }
+}
+
+extension LoginViewController: ViewBuilder {
+    
+    func buildViews() {
+        buildScrollView()
+        buildContentView()
+        buildKratosImageView()
+        buildKratosTextFieldViews()
+        buildLoginContinueButton()
+        buildSignUpRegisterButton()
+        buildForgotPasswordButton()
+    }
+    
+    func buildScrollView() {
+        self.view.addSubview(scrollView)
+        scrollView.snp.makeConstraints { (make) in
+            make.edges.equalTo(view)
+        }
+    }
+    func buildContentView() {
+        scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints { (make) in
+            make.edges.equalTo(view)
+        }
+    }
+    func buildKratosImageView() {
+        contentView.addSubview(kratosImageView)
+        kratosImageView.snp.makeConstraints { make in
+            make.height.equalTo(kratosImageView.snp.width)
+            make.height.equalTo(150)
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view).multipliedBy(0.3)
+        }
+    }
+    func buildKratosTextFieldViews() {
+        contentView.addSubview(emailTextField)
+        emailTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(kratosImageView.snp.bottom).offset(40)
+            make.centerX.equalTo(view)
+        }
+        
+        contentView.addSubview(passwordTextField)
+        passwordTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(kratosImageView.snp.bottom).offset(90)
+            make.centerX.equalTo(view)
+        }
+    }
+    func buildLoginContinueButton() {
+        contentView.addSubview(loginContinueButton)
+        loginContinueButton.snp.makeConstraints { (make) in
+            make.top.equalTo(kratosImageView.snp.bottom).offset(150)
+            make.centerX.equalTo(view)
+        }
+    }
+    func buildSignUpRegisterButton() {
+        contentView.addSubview(signUpRegisterButton)
+        signUpRegisterButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(view).inset(15)
+            make.trailing.equalTo(view).inset(15)
+        }
+    }
+    func buildForgotPasswordButton() {
+        contentView.addSubview(forgotPasswordButton)
+        forgotPasswordButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(view).inset(15)
+            make.leading.equalTo(view).inset(15)
+        }
+    }
+    
+    func style() {
+        loginContinueButton.setTitleColor(.kratosRed, for: .normal)
+        loginContinueButton.setTitleColor(.red, for: .highlighted)
+        loginContinueButton.setTitleColor(.lightGray, for: .disabled)
+        signUpRegisterButton.setTitleColor(.lightGray, for: .normal)
+        forgotPasswordButton.setTitleColor(.lightGray, for: .normal)
+        
+        loginContinueButton.titleLabel?.font = Font.futura(size: 24).font
+        signUpRegisterButton.titleLabel?.font = Font.futura(size: 14).font
+        forgotPasswordButton.titleLabel?.font = Font.futura(size: 14).font
+        
+        signUpRegisterButton.isUserInteractionEnabled = true
+        forgotPasswordButton.isUserInteractionEnabled = true
+        loginContinueButton.isUserInteractionEnabled = true
+    }
+}
+
+extension LoginViewController: RxBinder {
+    func bind() {
+        setupButtonBindings()
+        setupTextFieldBindings()
+        navigationBindings()
+    }
+    
+    func setupButtonBindings() {
+        
+        viewModel.viewState.asObservable()
+            .map { $0 == .forgotPassword }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] (isForgotPassword) in
+                UIView.animate(withDuration: 0.2, animations: { 
+                    isForgotPassword ? self?.passwordTextField.animateOut() : self?.passwordTextField.animateIn()
+                    self?.view.layoutIfNeeded()
+                })
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.viewState.asObservable()
+            .map { $0.signInSignUpButtonTitle }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] (title) in
+                self?.signUpRegisterButton.animateTitleChange(to: title)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.viewState.asObservable()
+            .map { $0.loginButtonTitle }
+            .subscribe(onNext: { [weak self] (title) in
+                self?.loginContinueButton.animateTitleChange(to: title)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.viewState.asObservable()
+            .map { $0.forgotPasswordTitle }
+            .bind(to: forgotPasswordButton.rx.title(for: .normal))
+            .disposed(by: disposeBag)
+        
+        viewModel.formValid.asObservable()
+            .subscribe(onNext: { [weak self] (valid) in
+                self?.loginContinueButton.rx.base.isEnabled = valid
+            })
+            .disposed(by: disposeBag)
+        
+        signUpRegisterButton.rx.controlEvent([.touchUpInside])
+            .bind(to: viewModel.signInSignUpButtonTap)
+            .disposed(by: disposeBag)
+        
+        loginContinueButton.rx.controlEvent([.touchUpInside])
+            .bind(to: viewModel.loginButtonTap)
+            .disposed(by: disposeBag)
+        
+        forgotPasswordButton.rx.controlEvent([.touchUpInside])
+            .bind(to: viewModel.forgotPasswordButtonTap)
+            .disposed(by: disposeBag)
+    }
+    
+    func setupTextFieldBindings() {
+        emailTextField.textField.rx.text
+            .map { $0 ?? "" }
+            .bind(to: viewModel.email)
+            .disposed(by: disposeBag)
+        
+        passwordTextField.textField.rx.text
+            .map { $0 ?? "" }
+            .bind(to: viewModel.password)
+            .disposed(by: disposeBag)
+        
+        //Animations
+        Observable.combineLatest(passwordTextField.textField.rx.controlEvent([.editingDidBegin, .editingDidEnd]), viewModel.password.asObservable(), resultSelector: { (didEnd, password) -> Bool in
+                !password.isEmpty
+            })
+            .subscribe(onNext: { [weak self] (shoudAnimateUp) in
+                self?.passwordTextField.animateTextLabelPosistion(shouldAnimateUp: shoudAnimateUp)
+            })
+            .disposed(by: disposeBag)
+        
+        Observable.combineLatest(emailTextField.textField.rx.controlEvent([.editingDidBegin, .editingDidEnd]), viewModel.email.asObservable(), resultSelector: { (didEnd, email) -> Bool in
+            !email.isEmpty
+            })
+            .subscribe(onNext: { [weak self] (shoudAnimateUp) in
+                self?.emailTextField.animateTextLabelPosistion(shouldAnimateUp: shoudAnimateUp)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.emailValid.asObservable()
+            .subscribe(onNext: { [weak self] (valid) in
+                self?.emailTextField.changeColor(for: valid)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.passwordValid.asObservable()
+            .subscribe(onNext: { [weak self] (valid) in
+                self?.passwordTextField.changeColor(for: valid)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func navigationBindings() {
+        viewModel.nextViewController.asObservable()
+            .subscribe(onNext: { [weak self] vc in
+                self?.navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
     }
 }

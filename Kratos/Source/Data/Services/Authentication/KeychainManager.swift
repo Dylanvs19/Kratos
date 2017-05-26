@@ -10,51 +10,39 @@ import Foundation
 import Locksmith
 
 struct KeychainManager {
-        
-    static func create(_ user: User, success:(Bool) -> ()) {
-        guard let token = user.token else {
-            success(false)
-            return
-        }
-        let dictionary = ["token": token]
-        do {
-            try Locksmith.saveData(data: dictionary, forUserAccount: "Kratos")
-            success(true)
-        } catch {
-            success(false)
-        }
-    }
     
-    static func fetchToken() -> String? {
+    static var token: String? {
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: "Kratos")
         return dictionary?["token"] as? String
     }
     
-    static func update(_ user: User, success:(Bool) -> ()) {
-        if fetchToken() == nil {
-            create(user, success: { (createSuccess) in
-                success(createSuccess)
-            })
-        } else {
-            guard let token = user.token else {
-                success(false)
-                return
-            }
-            do {
-                try Locksmith.updateData(data: ["token": token], forUserAccount: "Kratos")
-                success(true)
-            } catch {
-                success(false)
-            }
+    static func create(_ token: String) -> Bool {
+        let dictionary = ["token": token]
+        do {
+            try Locksmith.saveData(data: dictionary, forUserAccount: "Kratos")
+            return true
+        } catch {
+            //Retry with update token
+            return update(token)
         }
     }
     
-    static func delete(_ success:(Bool) -> ()) {
+    static func update(_ token: String) -> Bool {
+        do {
+            try Locksmith.updateData(data: ["token": token], forUserAccount: "Kratos")
+            return true
+        } catch {
+            //Retry to create token
+            return create(token)
+        }
+    }
+    
+    static func delete() -> Bool {
         do {
             try Locksmith.deleteDataForUserAccount(userAccount: "Kratos")
-            success(true)
+            return true
         } catch {
-            success(false)
+            return false
         }
     }
 }

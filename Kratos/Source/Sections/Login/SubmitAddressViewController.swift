@@ -10,6 +10,12 @@ import UIKit
 
 class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, DatePickerViewDelegate, UIScrollViewDelegate, ActivityIndicatorPresenter {
     
+    enum DisplayType {
+        case editProfile
+        case accountDetails
+        case registration
+    }
+    
     @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var kratosLabel: UILabel!
@@ -43,8 +49,6 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             switch displayType {
             case .editProfile:
                 cancelDoneButton.alpha = 1
-                //newPasswordTextField.animateIn()
-                //oldPasswordTextField.animateIn()
                 UIView.animate(withDuration: 0.25, animations: {
                     self.saveEditRegisterButtonButton.setTitle("S A V E", for: .normal)
                     self.cancelDoneButton.setTitle("C A N C E L", for: .normal)
@@ -56,8 +60,6 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                 })
             case .accountDetails:
                 cancelDoneButton.alpha = 1
-                //newPasswordTextField.animateOut()
-                //oldPasswordTextField.animateOut()
                 UIView.animate(withDuration: 0.25, animations: {
                     self.saveEditRegisterButtonButton.setTitle("E D I T", for: .normal)
                     self.cancelDoneButton.setTitle("D O N E", for: .normal)
@@ -90,33 +92,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
     fileprivate var editTextFieldArray: [KratosTextField] {
         get {
             return [firstNameTextField, lastNameTextField, partyTextField, dobTextField, addressTextField, cityTextField, stateTextField, zipcodeTextField]
-            //, oldPasswordTextField, newPasswordTextField Need to eventually be added.
         }
-    }
-    fileprivate var textFieldsValid: Bool {
-        var valid = true
-        var collection: [KratosTextField] {
-            switch displayType {
-            case .editProfile:
-                return editTextFieldArray
-            case .accountDetails:
-                return accountDetailsTextFieldArray
-            case .registration:
-                return registrationTextFieldArray
-            }
-        }
-        collection.forEach({
-            if !$0.isValid {
-                valid = false
-            }
-        })
-        return valid
-    }
-    
-    enum DisplayType {
-        case editProfile
-        case accountDetails
-        case registration
     }
     
     var tapView: UIView?
@@ -142,8 +118,6 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
         datePicker.delegate = self
         scrollView.delegate = self
         
-        //setupActivityIndicator()
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -175,23 +149,6 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                 return nil
             }
         }
-//        var phone: String? {
-//            if let phone = Datastore.shared.user?.phoneNumber {
-//                return String(phone)
-//            } else {
-//                return nil
-//            }
-//        }
-        firstNameTextField.configureWith(validationFunction: InputValidation.validateAddress, text: firstName, textlabelText: "F I R S T", expandedWidth: (view.frame.width * 0.35), secret: false, textFieldType: .first)
-        lastNameTextField.configureWith(validationFunction: InputValidation.validateAddress, text: lastName, textlabelText: "L A S T", expandedWidth: (view.frame.width * 0.35), secret: false, textFieldType: .last)
-        partyTextField.configureWith(validationFunction: InputValidation.validateAddress, text: party, textlabelText: "P A R T Y", expandedWidth: (view.frame.width * 0.35), secret: false, shouldPresentKeyboard: false)
-        dobTextField.configureWith(validationFunction: InputValidation.validateAddress, text: dob, textlabelText: "B I R T H D A Y", expandedWidth: (view.frame.width * 0.35), secret: false, shouldPresentKeyboard: false)
-        addressTextField.configureWith(validationFunction: InputValidation.validateAddress, text: address, textlabelText: "A D D R E S S", expandedWidth: (view.frame.width * 0.8), secret: false)
-        cityTextField.configureWith(validationFunction: InputValidation.validateCity, text: city, textlabelText: "C I T Y", expandedWidth: (view.frame.width * 0.3), secret: false)
-        stateTextField.configureWith(validationFunction: InputValidation.validateState, text: state, textlabelText: "S T A T E", expandedWidth: (view.frame.width * 0.16), secret: false, textFieldType: .state)
-        zipcodeTextField.configureWith(validationFunction: InputValidation.validateZipCode, text: zip, textlabelText: "Z I P", expandedWidth: (view.frame.width * 0.3), secret: false, textFieldType: .zip)
-        //oldPasswordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "O L D  P A S S W O R D", expandedWidth: (view.frame.width * 0.8), secret: true)
-        //newPasswordTextField.configureWith(validationFunction: InputValidation.validatePassword, text: nil, textlabelText: "N E W  P A S S W O R D", expandedWidth: (view.frame.width * 0.8), secret: true)
     }
     
     fileprivate func beginningAnimations() {
@@ -245,7 +202,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
     @IBAction func saveEditRegisterButtonPressed(_ sender: Any) {
         // Updates user in the Datastore
         func updateUser() {
-            if textFieldsValid {
+            
                 var user = Datastore.shared.user
                 var address = Address()
                 address.street = addressTextField.text?.localizedCapitalized
@@ -270,7 +227,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                 }
                 user?.address = address
                 Datastore.shared.user = user
-            }
+            
         }
         
         //TODO: - need to talk about how to store this information
@@ -351,13 +308,7 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
                     return nil
                 }
             }
-//            var phone: String? {
-//                if let phone = Datastore.shared.user?.phoneNumber {
-//                    return String(phone)
-//                } else {
-//                    return nil
-//                }
-//            }
+
             // set all textFields back to original values
             firstNameTextField.setText(first ?? "")
             lastNameTextField.setText(last ?? "")
@@ -367,25 +318,8 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             cityTextField.setText((city ?? ""))
             zipcodeTextField.setText((zip ?? ""))
             stateTextField.setText((state ?? ""))
-            //phoneNumberTextField.setText((phone ?? ""))
             oldPasswordTextField.setText("")
             newPasswordTextField.setText("")
-        }
-    }
-    
-    func shouldCheckIfTextFieldsValid() {
-        if textFieldsValid {
-            UIView.animate(withDuration: 1, animations: {
-                self.saveEditRegisterButtonButton.alpha = 1
-                self.kratosLabel.alpha = 0
-                self.view.layoutIfNeeded()
-            })
-        } else {
-            UIView.animate(withDuration: 1, animations: {
-                self.kratosLabel.alpha = 1
-                self.saveEditRegisterButtonButton.alpha = 0
-                self.view.layoutIfNeeded()
-            })
         }
     }
     
@@ -406,7 +340,6 @@ class SubmitAddressViewController: UIViewController, KratosTextFieldDelegate, Da
             self.view.layoutIfNeeded()
         })
         
-        shouldCheckIfTextFieldsValid()
     }
     
     //MARK: KratosTextFieldDelegate Methods

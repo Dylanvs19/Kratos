@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ViewLoader {
+protocol ViewBuilder {
     
     func style()
     

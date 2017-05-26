@@ -26,7 +26,8 @@ extension URLRequest {
         self.init(url: url)
         httpMethod = requestType.rawValue
         addValue("application/json", forHTTPHeaderField: "Content-Type")
-        if let token = KeychainManager.fetchToken(), addToken {
+        if let token = KeychainManager.token,
+            addToken {
             addValue("Bearer \(token)", forHTTPHeaderField:"Authorization")
         }
         if let body = body {

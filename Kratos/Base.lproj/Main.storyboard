@@ -1,50 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="TaR-ot-Tic">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Main Application View Controller-->
-        <scene sceneID="QWw-dq-VU8">
-            <objects>
-                <viewController id="TaR-ot-Tic" customClass="MainApplicationViewController" customModule="Kratos" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="NPm-5p-Vcg"/>
-                        <viewControllerLayoutGuide type="bottom" id="EQa-1H-0p0"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="UWC-Cg-JV3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ggY-dn-TvH">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                            </containerView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="ggY-dn-TvH" firstAttribute="height" secondItem="UWC-Cg-JV3" secondAttribute="height" id="GdX-oF-P14"/>
-                            <constraint firstItem="ggY-dn-TvH" firstAttribute="width" secondItem="UWC-Cg-JV3" secondAttribute="width" id="HU4-RF-uDe"/>
-                            <constraint firstAttribute="trailing" secondItem="ggY-dn-TvH" secondAttribute="trailing" id="W1d-1l-cOi"/>
-                            <constraint firstItem="ggY-dn-TvH" firstAttribute="centerY" secondItem="UWC-Cg-JV3" secondAttribute="centerY" id="jpc-X7-uZW"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="containerViewTrailingConstraint" destination="W1d-1l-cOi" id="r9E-w3-04O"/>
-                        <outlet property="mainAppContainerView" destination="ggY-dn-TvH" id="clk-SO-rqf"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wcz-FA-xWS" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-74" y="517"/>
-        </scene>
         <!--Login View Controller-->
         <scene sceneID="bno-nP-v87">
             <objects>
@@ -86,15 +53,15 @@
                                     <action selector="nextButtonPressed:" destination="r7O-hR-zvu" eventType="touchUpInside" id="5gN-Uf-5HW"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SNL-sY-m3J" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SNL-sY-m3J" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                 <rect key="frame" x="112.5" y="544" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xVt-AG-YmO" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xVt-AG-YmO" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                 <rect key="frame" x="112.5" y="599" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nAq-VY-Q74" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nAq-VY-Q74" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                 <rect key="frame" x="112.5" y="654" width="150" height="26"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -681,43 +648,43 @@
                                                 <color key="textColor" red="0.56025641029999995" green="0.56025641029999995" blue="0.56025641029999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bbl-S9-Suk" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bbl-S9-Suk" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="19" y="220" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YY3-OE-X1I" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YY3-OE-X1I" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="112.5" y="275" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hta-nh-Ach" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hta-nh-Ach" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="19" y="330" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IdL-ng-n9E" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IdL-ng-n9E" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="112.5" y="330" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="19C-vv-N9K" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="19C-vv-N9K" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="206.5" y="330" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mbY-gR-gw9" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mbY-gR-gw9" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="112.5" y="440" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rmN-8y-tMd" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rmN-8y-tMd" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="112.5" y="495" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XeW-eI-YJV" userLabel="First Name TextField" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XeW-eI-YJV" userLabel="First Name TextField" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="19" y="165" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dh4-2r-7nK" userLabel="Last Name TextField" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dh4-2r-7nK" userLabel="Last Name TextField" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="206.5" y="165" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3g3-nd-pYZ" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3g3-nd-pYZ" customClass="KratosTextField" customModule="Kratos" customModuleProvider="target">
                                                 <rect key="frame" x="206.5" y="220" width="150" height="26"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>

@@ -14,13 +14,9 @@ import UserNotifications
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    static var shared: AppDelegate {
-        get {
-            return UIApplication.shared.delegate as! AppDelegate
-        }
-    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
         // Override point for customization after application launch.
         FIRApp.configure()
         if #available(iOS 10.0, *) {
@@ -29,7 +25,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // For iOS 10 data message (sent via FCM)
             FIRMessaging.messaging().remoteMessageDelegate = self
         }
-        //application.registerForRemoteNotifications()
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.backgroundColor = .white
+        ApplicationLauncher.launch(from: self)
+    
         return true
     }
     
@@ -41,9 +41,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         print("Registered")
     }
+    
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("Message ID: \(userInfo)")
     }
+    
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to Register")
     }
@@ -82,7 +84,7 @@ extension AppDelegate : FIRMessagingDelegate {
     func connectToFcm() {
         FIRMessaging.messaging().connect { (error) in
             if (error != nil) {
-                print("Unable to connect with FCM. \(error)")
+                print("Unable to connect with FCM. \(String(describing: error))")
             } else {
                 print("Connected to FCM.")
             }

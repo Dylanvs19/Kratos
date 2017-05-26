@@ -10,7 +10,7 @@ import Foundation
 
 enum KratosTarget {
     //Login
-    case register(user: User, password: String)
+    case register(user: User)
     case logIn(email: String, password: String)
     case forgotPassword(email: String)
     case resendConfirmation(email: String)
@@ -71,8 +71,8 @@ enum KratosTarget {
     var parameters: [String: Any]? {
         switch self {
         //Login
-        case .register(let user, let password):
-            return user.toJson(with: password)
+        case .register(let user):
+            return user.toJson()
         case .logIn(let email, let password):
             return [
                     "email": email.lowercased(),

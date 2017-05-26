@@ -19,7 +19,7 @@ struct APIService {
             failure(.invalidURL(error:nil))
             return
         }
-        if let dict = user.toJson(with: password) {
+        if let dict = user.toJson() {
             
             let session: URLSession = URLSession.shared
             let request = URLRequest(url: url, requestType: .post, body: dict, addToken: false)

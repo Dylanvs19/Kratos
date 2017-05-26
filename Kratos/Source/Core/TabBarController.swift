@@ -18,7 +18,7 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = scrollDelegate
-        
+        configure()
         
     }
     

@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import RxSwift
+import SnapKit
 
-class MainApplicationViewController: UIViewController, ActivityIndicatorPresenter {
+class MainApplicationViewController: UIViewController, ViewBuilder, ActivityIndicatorPresenter {
     
-    @IBOutlet var mainAppContainerView: UIView!
-    @IBOutlet weak var containerViewTrailingConstraint: NSLayoutConstraint!
+    lazy var mainAppContainerView = UIView()
     var activityIndicator: KratosActivityIndicator?
     
     override func viewDidLoad() {
@@ -20,12 +21,21 @@ class MainApplicationViewController: UIViewController, ActivityIndicatorPresente
         handleLoginFlow()
     }
     
+    func style() {}
+    
+    func buildViews() {
+        self.view.addSubview(mainAppContainerView)
+        mainAppContainerView.snp.makeConstraints { make in
+            make.edges.equalTo(self.view)
+        }
+    }
+    
     func setupNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleLoginFlow), name: NSNotification.Name(rawValue: "toMainVC"), object: nil)
     }
     
     func hasToken() -> Bool {
-        return KeychainManager.fetchToken() == nil ? false : true
+        return KeychainManager.token == nil ? false : true
     }
     
     func handleLoginFlow() {

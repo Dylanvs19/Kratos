@@ -44,10 +44,10 @@ class BillCommitteesView: UIView, Loadable {
         }
     }
     
-    func configure(with actionsArray: [Action], layoutStackView: (() -> Void)?) {
+    func configure(with actionsArray: [BillAction], layoutStackView: (() -> Void)?) {
         title.text =  actionsArray.count == 1 ? "Action" : "Actions"
-        var actionsMap = [[Action]]()
-        var holdArray = [Action]()
+        var actionsMap = [[BillAction]]()
+        var holdArray = [BillAction]()
         for (idx, action) in actionsArray.enumerated() {
             if action.status != nil && !holdArray.isEmpty {
                 actionsMap.append(holdArray)

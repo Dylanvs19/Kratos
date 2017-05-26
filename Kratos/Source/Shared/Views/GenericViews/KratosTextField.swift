@@ -23,11 +23,9 @@ import UIKit
     @IBOutlet weak var textFieldWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var underlineView: UIView!
     
-    private var validationFunction: ((String) -> Bool)?
     private var expandedWidth: CGFloat = 0
     
     weak var delegate: KratosTextFieldDelegate?
-    var isValid = false
     var shouldPresentKeyboard = true
     var isEditable = true {
         didSet {
@@ -75,9 +73,8 @@ import UIKit
     
     /// Configuration for TextFieldView - must be put in ViewDidAppear()
     /// To reset View - use Animate out in ViewDidLoad() 
-    public func configureWith(validationFunction: ((String) -> Bool)? = nil, text: String? = nil, textlabelText: String, expandedWidth: CGFloat, secret: Bool?, shouldPresentKeyboard: Bool = true, textFieldType: TextFieldType = .address) {
+    public func configureWith(textlabelText: String, expandedWidth: CGFloat, textFieldType: TextFieldType = .address, secret: Bool = false, shouldPresentKeyboard: Bool = true ) {
         self.expandedWidth = expandedWidth
-        self.validationFunction = validationFunction
         self.textLabel.text = textlabelText
         self.textFieldType = textFieldType
         switch textFieldType {
@@ -90,76 +87,30 @@ import UIKit
         default:
             textField.keyboardType = .default
         }
-        if let text = text {
-            var textFieldText = text
-            if textFieldType == .phone {
-                textFieldText = text.toPhoneNumberFormat()
-            }
-            textField.text = textFieldText
-            self.textLabelToTopConstraint.isActive = false
-            self.textLabelToBottomConstraint.isActive = true
-            self.textLabel.transform = CGAffineTransform(scaleX: 0.66, y: 0.66)
-            self.layoutIfNeeded()
-            validate()
-        }
-        if let secret = secret {
-            textField.isSecureTextEntry = secret ? true : false 
-        }
+        textField.isSecureTextEntry = secret ? true : false
         self.shouldPresentKeyboard = shouldPresentKeyboard
     }
     
-    fileprivate func shouldAnimateTextLabelDown() {
+    func animateTextLabelPosistion(shouldAnimateUp: Bool) {
         UIView.animate(withDuration: 0.25, animations: {
-            self.textLabelToTopConstraint.isActive = false
-            self.textLabelToBottomConstraint.isActive = true
+            self.textLabelToTopConstraint.isActive = !shouldAnimateUp
+            self.textLabelToBottomConstraint.isActive = shouldAnimateUp
             self.textLabel.transform = CGAffineTransform(scaleX: 0.66, y: 0.66)
-            self.layoutSubviews()
             self.layoutIfNeeded()
         })
     }
     
-    fileprivate func shouldAnimateTextLabelUp() {
+    fileprivate func animateTextLabelUp() {
         UIView.animate(withDuration: 0.5, animations: {
             self.textLabelToBottomConstraint.isActive = false
             self.textLabelToTopConstraint.isActive = true
             self.textLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
-            self.layoutSubviews()
             self.layoutIfNeeded()
         })
     }
     
     //MARK: Textfield delegates
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        //NOTE: this delegate is not consuming the textField
-        // it is consuming the entire class
-        delegate?.didSelectTextField?(textField: self)
-        
-        shouldAnimateTextLabelDown()
-        // Do not present Keyboard if should not be able to edit.
-        return shouldPresentKeyboard
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
-        validate()
-    }
-    
-    func validate() {
-        // check to see if text should be validated
-        if let validationFunction = validationFunction {
-            var color = UIColor.kratosRed
-            isValid = false
-            if let text = textField.text , validationFunction(text) {
-                color = UIColor.kratosBlue
-                isValid = true
-            }
-            underlineView.backgroundColor = color
-        }
-        
-        // bring text label back up if textField.text is empty or nil
-        if textField.text?.isEmpty ?? true {
-            shouldAnimateTextLabelUp()
-        }
-    }
+
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         resignFirstResponder()
@@ -179,14 +130,24 @@ import UIKit
         textFieldWidthConstraint.constant = 0
     }
     
+    public func changeColor(for isValid: Bool) {
+        UIView.animate(withDuration: 0.2) { 
+            self.underlineView.backgroundColor = isValid ? UIColor.kratosBlue : UIColor.kratosRed
+        }
+    }
+    
     public func setText(_ text: String) {
         self.textField.alpha = 0
         self.textField.text = text
         UIView.animate(withDuration: 0.25, animations: {
             self.textField.alpha = 1
+            if text.characters.count > 0 {
+                self.textLabelToTopConstraint.isActive = false
+                self.textLabelToBottomConstraint.isActive = true
+                self.textLabel.transform = CGAffineTransform(scaleX: 0.66, y: 0.66)
+            }
             self.layoutIfNeeded()
         })
-        validate()
     }
     
     override func layoutSubviews() {
@@ -232,7 +193,7 @@ import UIKit
         if string == "" { //BackSpace
             return true
         } else if count < 3 {
-            if count == 1{
+            if count == 1 {
                 textField.text = "("
             }
         } else if count == 5 {

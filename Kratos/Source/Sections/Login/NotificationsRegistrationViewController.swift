@@ -12,8 +12,18 @@ import UserNotifications
 
 class NotificationsRegistrationViewController: UIViewController {
 
-    @IBOutlet weak var registerForNotificationsButton: UIButton!
-    @IBOutlet weak var skipButton: UIButton!
+    let client: Client
+    let viewModel: NotificationsRegistrationViewModel
+    
+    init(client: Client) {
+        self.client = client
+        self.viewModel = NotificationsRegistrationViewModel(client: client)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

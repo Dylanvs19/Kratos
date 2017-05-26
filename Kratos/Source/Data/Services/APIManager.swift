@@ -16,10 +16,10 @@ struct APIManager {
         if let user = user {
             APIService.register(user, with: password, success: { (user) -> (Void) in
                 Datastore.shared.user = user
-                if let _ = user.token {
-                    KeychainManager.create(user, success: { (didSucceed) in
-                        keyChainSuccess(didSucceed)
-                    })
+                if let token = user.token {
+                   // KeychainManager.create(token, success: { (didSucceed) in
+                        keyChainSuccess(true)
+                    //})
                 } else {
                     keyChainSuccess(false)
                 }
@@ -31,12 +31,12 @@ struct APIManager {
     
     static func login(with email: String, and password: String, success: @escaping (Bool) -> (), failure: @escaping (KratosError) -> ()) {
         APIService.logIn(with: email, password: password, success: { (user) in
-            if let _ = user.token {
-                KeychainManager.update(user, success: { (didSucceed) in
-                    if !didSucceed {
+            if let token = user.token {
+                //KeychainManager.update(token, success: { (didSucceed) in
+                 //   if !didSucceed {
                         debugPrint("KeychainManager update:_ not succeding")
-                    }
-                })
+                 //   }
+                //})
                 Datastore.shared.user = user
                 success(true)
             }
@@ -76,11 +76,11 @@ struct APIManager {
     static func updateUser(with user: User? = Datastore.shared.user, success: @escaping (Bool) -> (), failure: @escaping (KratosError) -> ()) {
         if let user = user {
             APIService.update(with: user, success: { (user) -> (Void) in
-                if let _ = KeychainManager.fetchToken() {
+                if let token = KeychainManager.token {
                     Datastore.shared.user = user
-                    KeychainManager.update(user, success: { (didSucceed) in
-                        success(didSucceed)
-                    })
+                    //KeychainManager.update(token, success: { (didSucceed) in
+                        success(true)
+                    //})
                 } else {
                     success(false)
                     debugPrint("KeychainManager create:_ not succeding")
@@ -92,7 +92,7 @@ struct APIManager {
     }
     
     static func getUser(_ success: @escaping (Bool) -> (), failure: @escaping (KratosError) -> ()) {
-        if KeychainManager.fetchToken() != nil {
+        if KeychainManager.token != nil {
             APIService.fetchUser({ (user) in
                 Datastore.shared.user = user
                 success(true)

@@ -38,7 +38,7 @@ struct Bill: Hashable, Decodable {
     var enacted: Bool?
     var enactedAs: String?
     var awaitingSignature: Bool?
-    var actions: [Action]?
+    var actions: [BillAction]?
     //Term
     var topTerm: Int?
     //RelatedBills
@@ -79,23 +79,22 @@ struct Bill: Hashable, Decodable {
             })
         }
         if let committeeHistoryArray = json["committee_history"] as? [[String: AnyObject]] {
-            self.committees = self.committees?.map({ (committee) -> Committee in
-                var returnCommittee = committee
+            self.committees = self.committees?.map{
+                var returnCommittee = $0
                 committeeHistoryArray.forEach({ (committeeHistory) in
-                    if let activity = committeeHistory["activity"] as? [String], committeeHistory["committee_id"] as? String == committee.committeCode {
+                    if let activity = committeeHistory["activity"] as? [String],
+                        committeeHistory["committee_id"] as? String == returnCommittee.committeCode {
                         returnCommittee.activity = activity
                     }
                 })
                 return returnCommittee
-            })
+            }
         }
         if let sponsor = json["sponsor"] as? [String: AnyObject] {
             self.sponsor = Person(json: sponsor)
         }
         if let coSponsorsArray = json["cosponsors"] as? [[String: AnyObject]] {
-             self.coSponsors = coSponsorsArray.map({ (obj) -> Person? in
-                return Person(json: obj)
-             }).flatMap({$0})
+             self.coSponsors = coSponsorsArray.flatMap { Person(json: $0) }
         }
         
         self.status = json["status"] as? String
@@ -106,14 +105,10 @@ struct Bill: Hashable, Decodable {
             self.introductionDate = introduction.stringToDate()
         }
         if let relatedBills = json["related_bills"] as? [[String: AnyObject]] {
-            self.relatedBills = relatedBills.map({ (bill) -> RelatedBill in
-                return RelatedBill(from: bill)
-            })
+            self.relatedBills = relatedBills.flatMap { return RelatedBill(json: $0) }
         }
         if let actions = json["actions"] as? [[String: AnyObject]] {
-            self.actions = actions.map({ (action) -> Action in
-                return Action(from: action)
-            })
+            self.actions = actions.flatMap { return BillAction(json: $0) }
         }
         
         self.active = json["active"] as? Bool
@@ -137,9 +132,7 @@ struct Bill: Hashable, Decodable {
         }
         
         if let tallyArray = json["tallies"] as? [[String: AnyObject]] {
-            self.tallies = tallyArray.map({ (obj) -> Tally? in
-                return Tally(json: obj)
-            }).flatMap({$0})
+            self.tallies = tallyArray.flatMap { Tally(json: $0) }
         }
     }
     
@@ -215,7 +208,7 @@ enum Chamber: String, RawRepresentable {
     }
 }
 
-struct Action {
+struct BillAction: Decodable {
     var type: String?
     var text: String?
     var references: [Reference]?
@@ -229,7 +222,7 @@ struct Action {
     var roll: Int?
     var id: Int?
     
-    init(from json: [String: AnyObject]) {
+    init?(json: [String: Any]) {
         self.type = json["type"] as? String
         self.text = json["text"] as? String
         if let references =  json["references"] as? [[String: AnyObject]] {
@@ -308,11 +301,11 @@ struct Committee {
     }
 }
 
-struct RelatedBill {
+struct RelatedBill: Decodable {
     var relatedBillID: Int?
     var reason: String?
     
-    init(from json: [String: AnyObject]) {
+    init?(json: [String: Any]) {
         self.relatedBillID = json["related_bill_id"] as? Int
         self.reason = json["reason"] as? String
     }

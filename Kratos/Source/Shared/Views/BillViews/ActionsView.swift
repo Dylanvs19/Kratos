@@ -36,7 +36,7 @@ class ActionsView: UIView, Loadable, Tappable {
     var layoutStackView: (() -> ())?
     var hideTopView = false
     var viewType: ViewType = .majorAndMinorActions
-    var actions = [Action]()
+    var actions = [BillAction]()
     
     enum ViewType {
         case onlyMinorActions
@@ -60,7 +60,7 @@ class ActionsView: UIView, Loadable, Tappable {
         }
     }
     
-    func configure(with actionArray: [Action], first: Bool, last: Bool, viewType: ViewType, layoutStackView: (() -> ())?) {
+    func configure(with actionArray: [BillAction], first: Bool, last: Bool, viewType: ViewType, layoutStackView: (() -> ())?) {
         
         var cpyArray = actionArray
         
@@ -70,8 +70,8 @@ class ActionsView: UIView, Loadable, Tappable {
             bottomView.isHidden = true
         }
         
-        func popFirst() -> Action? {
-            var action: Action? = nil
+        func popFirst() -> BillAction? {
+            var action: BillAction? = nil
             if let firstAction = actionArray.first {
                 action = firstAction
                 cpyArray.remove(at: 0)
