@@ -159,12 +159,13 @@ struct LightPerson: Hashable {
     }
 }
 
-enum Party: String, RawRepresentable {
-    case republican = "Republican"
-    case democrat = "Democrat"
-    case independent = "Independent"
+enum Party {
+    case republican
+    case democrat
+    case independent
     
-    static func value(for string: String) -> Party? {
+    static func value(for string: String?) -> Party? {
+        guard let string = string else { return nil }
         switch string {
         case "R", "Republican", "republican":
             return .republican
@@ -195,6 +196,17 @@ enum Party: String, RawRepresentable {
             return "Rep"
         case .independent:
             return "Ind"
+        }
+    }
+    
+    var long: String {
+        switch self {
+        case .democrat:
+            return "Democrat"
+        case .republican:
+            return "Republican"
+        case .independent:
+            return "Independent"
         }
     }
     

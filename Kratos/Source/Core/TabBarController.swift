@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class TabBarController: UITabBarController {
     
@@ -15,21 +17,26 @@ class TabBarController: UITabBarController {
     var secondItemImageView: UIImageView?
     var thirdItemImageView: UIImageView?
     
+    init(client: Client) {
+        super.init(nibName: nil, bundle: nil)
+        configure(with: client)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = scrollDelegate
-        configure()
         
     }
     
-    func configure() {
-        let mainVC: MainViewController = MainViewController.instantiate()
-        let navMainVC = mainVC.embedInNavVC()
-        let yourVotesVC: YourVotesViewController = YourVotesViewController.instantiate()
-        let navYourVotesVC = yourVotesVC.embedInNavVC()
-        let exploreVC: ExplorationViewController = ExplorationViewController.instantiate()
-        let exploreNavVC: UINavigationController = exploreVC.embedInNavVC()
-        setViewControllers([navYourVotesVC, navMainVC, exploreNavVC], animated: true)
+    func configure(with client: Client) {
+        let navUserRepsVC = UserRepsViewController(client: client).embedInNavVC()
+//        let navUserRepsVC = UserRepsViewController(client: client).embedInNavVC()
+//        let navUserRepsVC = UserRepsViewController(client: client).embedInNavVC()
+        setViewControllers([navUserRepsVC, navUserRepsVC, navUserRepsVC], animated: true)
         
         for (idx, item) in tabBar.items!.enumerated() where tabBar.items != nil {
             switch idx {

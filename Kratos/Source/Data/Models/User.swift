@@ -10,19 +10,39 @@ import UIKit
 
 struct User: Decodable {
     
-    var email: String?
-    var firstName: String?
-    var lastName: String?
-    var address: Address?
-    var district: Int?
-    var id: Int?
-    var password: String?
-    var token: String?
-    var dob: Date?
+    var id: Int
+    var email: String
+    var firstName: String
+    var lastName: String
+    var address: Address
+    var district: Int
+    var dob: Date
     var party: Party?
+    var password: String?
     var apnToken: String?
     
-    init() {}
+    init(id: Int,
+         email: String,
+         firstName: String, 
+         lastName: String,
+         district: Int,
+         address: Address,
+         dob: Date,
+         party: Party?,
+         password: String? = nil,
+         apnToken: String? = nil ) {
+        
+        self.id = id
+        self.email = email
+        self.firstName = firstName
+        self.lastName = lastName
+        self.district = district
+        self.address = address
+        self.dob = dob
+        self.party = party
+        self.password = password
+        self.apnToken = apnToken
+    }
         
     init?(json: [String: Any]) {
         guard let street = json["address"] as? String,
@@ -33,130 +53,65 @@ struct User: Decodable {
               let state = json["state"] as? String,
               let district = json["district"] as? Int,
               let id = json["id"] as? Int,
-              let zip = json["zip"] as? Int else { return nil }
+              let zip = json["zip"] as? Int,
+              let dob = json["birthday"] as? String else { return nil }
         
-        if let party = json["party"] as? String {
-            self.party = Party.value(for: party)
-        }
-        if let dob = json["birthday"] as? String {
-            self.dob = DateFormatter.billDateFormatter.date(from: dob)
-        }
-        
-        //self.phoneNumber = phone
-        self.district = district
         self.id = id
         self.email = email
+        self.firstName = firstName
+        self.lastName = lastName
+        self.district = district
+        self.party = Party.value(for: (json["party"] as? String))
+        self.dob = DateFormatter.billDateFormatter.date(from: dob) ?? Date()
         self.apnToken = json["apn_token"] as? String
-        self.firstName = firstName
-        self.lastName = lastName
-        var address = Address()
-        address.city = city
-        address.street = street
-        address.zipCode = zip
-        address.state = state.uppercased()
-        self.address = address
-    }
-    
-    
-    init?(json: [String: AnyObject], pureUser: Bool = false) {
-        var jsonDict = json
-        if pureUser {
-            jsonDict = ["user": jsonDict as AnyObject]
-        } else {
-            self.token = jsonDict["token"] as? String
-        }
-        
-        guard //let phone = jsonDict["user"]?["phone"] as? Int,
-              let street = jsonDict["user"]?["address"] as? String,
-              let email = jsonDict["user"]?["email"] as? String,
-              let firstName = jsonDict["user"]?["first_name"] as? String,
-              let lastName = jsonDict["user"]?["last_name"] as? String,
-              let city = jsonDict["user"]?["city"] as? String,
-              let state = jsonDict["user"]?["state"] as? String,
-              let district = jsonDict["user"]?["district"] as? Int,
-              let id = jsonDict["user"]?["id"] as? Int,
-              let zip = jsonDict["user"]?["zip"] as? Int else { return nil }
-        
-        if let party = json["party"] as? String {
-            self.party = Party.value(for: party)
-        }
-        if let dob = json["birthday"] as? String {
-            self.dob = DateFormatter.billDateFormatter.date(from: dob)
-        }
-        
-        //self.phoneNumber = phone
-        self.district = district
-        self.id = id
-        self.email = email
-        self.apnToken = jsonDict["user"]?["apn_token"] as? String
-        self.firstName = firstName
-        self.lastName = lastName
-        var address = Address()
-        address.city = city
-        address.street = street
-        address.zipCode = zip
-        address.state = state.uppercased()
-        self.address = address
-        
+        self.address = Address(street: street,
+                               city: city,
+                               state: state.uppercased(),
+                               zipCode: zip)
     }
     
     init?(forUpdate json: [String: AnyObject]) {
-        guard //let phone = json["phone"] as? Int,
-            let street = json["address"] as? String,
-            let email = json["email"] as? String,
-            let firstName = json["first_name"] as? String,
-            let lastName = json["last_name"] as? String,
-            let city = json["city"] as? String,
-            let state = json["state"] as? String,
-            let district = json["district"] as? Int,
-            let id = json["id"] as? Int,
-            let zip = json["zip"] as? Int else { return nil }
-        
-        if let party = json["party"] as? String {
-            self.party = Party.value(for: party)
-        }
-        if let dob = json["birthday"] as? String {
-            self.dob = DateFormatter.billDateFormatter.date(from: dob)
-        }
-        
-        //self.phoneNumber = phone
-        self.district = district
+        guard let street = json["address"] as? String,
+              let email = json["email"] as? String,
+              let firstName = json["first_name"] as? String,
+              let lastName = json["last_name"] as? String,
+              let city = json["city"] as? String,
+              let state = json["state"] as? String,
+              let district = json["district"] as? Int,
+              let id = json["id"] as? Int,
+              let zip = json["zip"] as? Int,
+              let dob = json["birthday"] as? String else { return nil }
+
         self.id = id
         self.email = email
-        self.apnToken = json["apn_token"] as? String
         self.firstName = firstName
         self.lastName = lastName
-        var address = Address()
-        address.city = city
-        address.street = street
-        address.zipCode = zip
-        address.state = state.uppercased()
-        self.address = address
+        self.district = district
+        self.dob = DateFormatter.billDateFormatter.date(from: dob) ?? Date()
+        self.apnToken = json["apn_token"] as? String
+        self.party = Party.value(for: (json["party"] as? String))
+        self.address = Address(street: street,
+                               city: city,
+                               state: state.uppercased(),
+                               zipCode: zip)
     }
     
-    func toJson() -> [String: Any]? {
-        guard let street = self.address?.street,
-            let city = self.address?.city,
-            let state = self.address?.state?.uppercased(),
-            let zip = self.address?.zipCode,
-            let party = party?.rawValue,
-            let dob = dob,
-            let email = email,
-            let first = firstName,
-            let last = lastName else { return nil }
+    func toJson() -> [String: Any] {
         
         var dict:[String: Any] = [
                                   "email": email.lowercased(),
-                                  "first_name": first,
-                                  "last_name": last,
-                                  "party": party as AnyObject,
+                                  "first_name": firstName,
+                                  "last_name": lastName,
                                   "birthday": DateFormatter.utcDateFormatter.string(from: dob),
-                                  "address": street,
-                                  "city": city,
-                                  "state": state,
-                                  "zip": zip
+                                  "address": self.address.street,
+                                  "city": self.address.city,
+                                  "state": self.address.state.uppercased(),
+                                  "zip": self.address.zipCode
                                   ]
         
+        if let party = party {
+            dict["party"] = party.long
+        }
         if let password = password {
             dict["password"] = password
         }
@@ -167,48 +122,40 @@ struct User: Decodable {
         return ["user":dict]
     }
     
-    func toJsonForUpdate() -> [String: AnyObject]? {
-        guard let street = self.address?.street,
-              let city = self.address?.city,
-              let state = self.address?.state?.uppercased(),
-              let zip = self.address?.zipCode,
-              let party = party?.rawValue,
-              let dob = dob,
-              let first = firstName,
-              let last = lastName else { return nil }
+    func update(email: String?,
+         firstName: String?,
+         lastName: String?,
+         district: Int?,
+         address: Address?,
+         dob: Date?,
+         party: Party?,
+         password: String? = nil,
+         apnToken: String? = nil ) -> User {
         
-        let userDict = [
-            "first_name": first,
-            "last_name": last,
-            "apn_token": apnToken ?? "",
-            "party": party,
-            "birthday": DateFormatter.utcDateFormatter.string(from: dob),
-            "address": street,
-            "city": city,
-            "state": state,
-            "zip": zip
-        ] as [String : Any]
-        
-        return ["user": userDict as AnyObject]
+        return User(id: self.id,
+                    email: email ?? self.email,
+                    firstName: firstName ?? self.firstName,
+                    lastName: lastName ?? self.lastName,
+                    district: district ?? self.district,
+                    address: address ?? self.address,
+                    dob: dob ?? self.dob,
+                    party: party ?? self.party,
+                    password: password ?? self.password,
+                    apnToken: apnToken ?? self.apnToken)
     }
 }
 
 struct Address {
     
-    var street: String?
-    var city: String?
-    var state: String?
-    var zipCode: Int?
-    var dictionaryFormat: [String: String]? {
-        var returnDictionary: [String: String]?
-        if let
-            street = self.street,
-            let city = self.city,
-            let state = self.state,
-            let zipCode = self.zipCode {
-            
-            returnDictionary = [ "address" : "\(street) \(city) \(state) \(zipCode)" ]
-        }
+    var street: String
+    var city: String
+    var state: String
+    var zipCode: Int
+    
+    var dictionaryFormat: [String: String] {
+        let returnDictionary: [String: String]
+        returnDictionary = [ "address" : "\(street) \(city) \(state) \(zipCode)" ]
+        
         return returnDictionary
     }
 }

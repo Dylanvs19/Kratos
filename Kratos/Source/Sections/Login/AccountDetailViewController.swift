@@ -23,8 +23,8 @@ class AccountDetailsViewController: UIViewController {
     fileprivate var saveEditRegisterButton = UIButton()
     fileprivate var cancelDoneButton = UIButton()
     
-    fileprivate let firstNameTextField = KratosTextField()
-    fileprivate let lastNameTextField = KratosTextField()
+    fileprivate let firstTextField = KratosTextField()
+    fileprivate let lastTextField = KratosTextField()
     fileprivate let partyTextField = KratosTextField()
     fileprivate let dobTextField = KratosTextField()
     fileprivate let streetTextField = KratosTextField()
@@ -35,10 +35,30 @@ class AccountDetailsViewController: UIViewController {
     fileprivate let datePicker = DatePickerView()
     fileprivate var datePickerTopConstraint: Constraint?
     
+    lazy fileprivate var fieldData: [FieldData] = {
+        return [FieldData(field: self.firstTextField, fieldType: .first, viewModelVariable: self.viewModel.first, validation: self.viewModel.firstValid),
+                FieldData(field: self.lastTextField, fieldType: .last, viewModelVariable: self.viewModel.last, validation: self.viewModel.lastValid),
+                FieldData(field: self.partyTextField, fieldType: .party, viewModelVariable: self.viewModel.party, validation: self.viewModel.partyValid),
+                FieldData(field: self.dobTextField, fieldType: .dob, viewModelVariable: self.viewModel.dob, validation: self.viewModel.dobValid),
+                FieldData(field: self.streetTextField, fieldType: .address, viewModelVariable: self.viewModel.street, validation: self.viewModel.streetValid),
+                FieldData(field: self.cityTextField, fieldType: .city, viewModelVariable: self.viewModel.city, validation: self.viewModel.cityValid),
+                FieldData(field: self.stateTextField, fieldType: .state, viewModelVariable: self.viewModel.state, validation: self.viewModel.stateValid),
+                FieldData(field: self.zipTextField, fieldType: .zip, viewModelVariable: self.viewModel.zip, validation: self.viewModel.zipValid)]
+    }()
+    
     init(client: Client, state: AccountDetailsViewModel.ViewState) {
         self.client = client
         self.viewModel = AccountDetailsViewModel(client: client, viewState: state)
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    //Initializer for registration flow
+    init(client: Client, accountDetails: (email: String, password: String)) {
+        self.client = client
+        self.viewModel = AccountDetailsViewModel(client: client, viewState: .registration)
+        super.init(nibName: nil, bundle: nil)
+        viewModel.email.value = accountDetails.email
+        viewModel.password.value = accountDetails.password
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -48,10 +68,16 @@ class AccountDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = false
+
+        datePicker.configureDatePicker()
+        datePicker.delegate = self
+    
+        configureTextFields()
         style()
         buildViews()
         bind()
-        configureTextFields()
+        
+        setupGestureRecognizer()
         setInitialState()
     }
     
@@ -65,61 +91,39 @@ class AccountDetailsViewController: UIViewController {
         viewModel.password.value = password
     }
     
-    func configureTextFields() {
-        firstNameTextField.configureWith(textlabelText: "F I R S T", expandedWidth: (view.frame.width * 0.35), textFieldType: .first)
-        lastNameTextField.configureWith(textlabelText: "L A S T", expandedWidth: (view.frame.width * 0.35), textFieldType: .last)
-        partyTextField.configureWith(textlabelText: "P A R T Y", expandedWidth: (view.frame.width * 0.35), secret: false, shouldPresentKeyboard: false)
-        dobTextField.configureWith(textlabelText: "B I R T H D A Y", expandedWidth: (view.frame.width * 0.35), secret: false, shouldPresentKeyboard: false)
-        streetTextField.configureWith(textlabelText: "A D D R E S S", expandedWidth: (view.frame.width * 0.8))
-        cityTextField.configureWith(textlabelText: "C I T Y", expandedWidth: (view.frame.width * 0.3))
-        stateTextField.configureWith(textlabelText: "S T A T E", expandedWidth: (view.frame.width * 0.16), textFieldType: .state)
-        zipTextField.configureWith(textlabelText: "Z I P", expandedWidth: (view.frame.width * 0.3), textFieldType: .zip)
-    }
-    
     func setInitialState() {
-        self.firstNameTextField.isHidden = true
-        self.lastNameTextField.isHidden = true
-        self.partyTextField.isHidden = true
-        self.dobTextField.isHidden = true
-        self.streetTextField.isHidden = true
-        self.cityTextField.isHidden = true
-        self.stateTextField.isHidden = true
-        self.zipTextField.isHidden = true
-        
-        self.firstNameTextField.animateOut()
-        self.lastNameTextField.animateOut()
-        self.partyTextField.animateOut()
-        self.dobTextField.animateOut()
-        self.streetTextField.animateOut()
-        self.cityTextField.animateOut()
-        self.stateTextField.animateOut()
-        self.zipTextField.animateOut()
-        
+        fieldData.forEach { (data) in
+            data.field.isHidden = true
+            data.field.animateOut()
+        }
         self.view.layoutIfNeeded()
     }
     
+    func configureTextFields() {
+        fieldData.forEach { (data) in
+            data.field.configureView(with: data.fieldType)
+        }
+    }
+    
     fileprivate func beginningAnimations() {
-        UIView.animate(withDuration: 0.25, delay: 0.5, options: [], animations: {
-            self.firstNameTextField.isHidden = false
-            self.lastNameTextField.isHidden = false
-            self.partyTextField.isHidden = false
-            self.dobTextField.isHidden = false
-            self.streetTextField.isHidden = false
-            self.cityTextField.isHidden = false
-            self.stateTextField.isHidden = false
-            self.zipTextField.isHidden = false
-            
-            self.firstNameTextField.animateIn()
-            self.lastNameTextField.animateIn()
-            self.partyTextField.animateIn()
-            self.dobTextField.animateIn()
-            self.streetTextField.animateIn()
-            self.cityTextField.animateIn()
-            self.stateTextField.animateIn()
-            self.zipTextField.animateIn()
-            
+        UIView.animate(withDuration: 0.25, delay: 0.25, options: [], animations: {
+            self.fieldData.forEach { (data) in
+                data.field.isHidden = false
+                data.field.animateIn()
+            }
+            self.animateIn()
             self.view.layoutIfNeeded()
         }, completion: nil)
+    }
+    
+    fileprivate func animateIn() {
+        fieldData.forEach { (data) in
+            data.field.snp.remakeConstraints({ make in
+                make.top.equalTo(kratosImageView.snp.bottom).offset(data.fieldType.offsetYPosition)
+                make.centerX.equalTo(view).multipliedBy(data.fieldType.centerXPosition)
+                make.width.equalTo(self.view.frame.width * data.fieldType.expandedWidthMultiplier)
+            })
+        }
     }
     
     func presentPartySelectionActionSheet() {
@@ -139,11 +143,12 @@ class AccountDetailsViewController: UIViewController {
     func showDatePicker() {
         UIView.animate(withDuration: 0.25) { 
             self.datePicker.snp.remakeConstraints { (make) in
-                make.top.equalTo(self.view.snp.bottom).offset(200)
-                make.height.equalTo(200)
+                make.bottom.equalTo(self.view.snp.bottom).inset(10)
+                make.height.equalTo(250)
                 make.width.equalTo(self.view).inset(20)
                 make.centerX.equalTo(self.view)
             }
+            self.view.layoutIfNeeded()
         }
     }
     
@@ -151,22 +156,35 @@ class AccountDetailsViewController: UIViewController {
         UIView.animate(withDuration: 0.25) {
             self.datePicker.snp.remakeConstraints { (make) in
                 make.top.equalTo(self.view.snp.bottom)
-                make.height.equalTo(200)
+                make.height.equalTo(250)
                 make.width.equalTo(self.view).inset(20)
                 make.centerX.equalTo(self.view)
             }
+            self.view.layoutIfNeeded()
         }
+    }
+    
+    func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
+    
+    fileprivate func setupGestureRecognizer() {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapOutside(_:)))
+        view.addGestureRecognizer(tapRecognizer)
     }
 }
 
 extension AccountDetailsViewController: DatePickerViewDelegate {
     
     func selectedDate(date: Date) {
-        Observable.just(DateFormatter.utcDateFormatter.string(from: date))
+        Observable.just(DateFormatter.presentationDateFormatter.string(from: date))
             .do(onNext: { [weak self] (date) in
                 self?.hideDatePicker()
             })
-            .bind(to: dobTextField.textField.rx.text)
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] (date) in
+                self?.dobTextField.setText(date)
+            })
             .disposed(by: disposeBag)
     }
 }
@@ -205,45 +223,13 @@ extension AccountDetailsViewController: ViewBuilder {
         }
     }
     func buildKratosTextFieldViews() {
-        contentView.addSubview(firstNameTextField)
-        firstNameTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(kratosImageView.snp.bottom).offset(15)
-            make.centerX.equalTo(view).multipliedBy(0.5)
-        }
-        contentView.addSubview(lastNameTextField)
-        lastNameTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(kratosImageView.snp.bottom).offset(15)
-            make.centerX.equalTo(view).multipliedBy(1.5)
-        }
-        contentView.addSubview(partyTextField)
-        partyTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(kratosImageView.snp.bottom).offset(70)
-            make.centerX.equalTo(view).multipliedBy(0.5)
-        }
-        contentView.addSubview(dobTextField)
-        dobTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(kratosImageView.snp.bottom).offset(70)
-            make.centerX.equalTo(view).multipliedBy(1.5)
-        }
-        contentView.addSubview(streetTextField)
-        streetTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(kratosImageView.snp.bottom).offset(125)
-            make.centerX.equalTo(view)
-        }
-        contentView.addSubview(cityTextField)
-        cityTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(kratosImageView.snp.bottom).offset(180)
-            make.centerX.equalTo(view).multipliedBy(0.5)
-        }
-        contentView.addSubview(stateTextField)
-        stateTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(kratosImageView.snp.bottom).offset(180)
-            make.centerX.equalTo(view)
-        }
-        contentView.addSubview(zipTextField)
-        zipTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(kratosImageView.snp.bottom).offset(180)
-            make.centerX.equalTo(view).multipliedBy(1.5)
+        fieldData.forEach { (data) in
+            contentView.addSubview(data.field)
+            data.field.snp.makeConstraints({ make in
+                make.top.equalTo(kratosImageView.snp.bottom).offset(data.fieldType.offsetYPosition)
+                make.centerX.equalTo(view).multipliedBy(data.fieldType.centerXPosition)
+                make.width.equalTo(0)
+            })
         }
     }
     
@@ -267,7 +253,7 @@ extension AccountDetailsViewController: ViewBuilder {
         view.addSubview(datePicker)
         datePicker.snp.makeConstraints { (make) in
             make.top.equalTo(view.snp.bottom)
-            make.height.equalTo(200)
+            make.height.equalTo(250)
             make.width.equalTo(view).inset(20)
             make.centerX.equalTo(view)
         }
@@ -285,220 +271,48 @@ extension AccountDetailsViewController: ViewBuilder {
         saveEditRegisterButton.isUserInteractionEnabled = true
         cancelDoneButton.isUserInteractionEnabled = true
     }
-    
 }
 
 extension AccountDetailsViewController: RxBinder {
     
     func bind() {
-        bindTextFields()
-        bindButtons()
+        setupButtonBindings()
+        setupTextfieldBindings()
+        setupNavigationBindings()
     }
     
-    func bindTextFields() {
-        
+    func setupTextfieldBindings() {
+        bindTextfieldsToUserObject()
+        bindTextfieldsForAnimations()
+        bindCustomTextfieldInteractions()
+    }
+    
+    func bindTextfieldsToUserObject() {
         //Build from User object
-        viewModel.user.asObservable()
-            .map { $0.firstName ?? ""}
-            .bind(to: firstNameTextField.textField.rx.text)
-            .disposed(by: disposeBag)
-        viewModel.user.asObservable()
-            .map { $0.lastName ?? ""}
-            .bind(to: lastNameTextField.textField.rx.text)
-            .disposed(by: disposeBag)
-        viewModel.user.asObservable()
-            .map { $0.party?.rawValue ?? ""}
-            .bind(to: partyTextField.textField.rx.text)
-            .disposed(by: disposeBag)
-        viewModel.user.asObservable()
-            .map {
-                if let date = $0.dob {
-                    return DateFormatter.presentationDateFormatter.string(from: date)
-                }
-                return ""
-            }
-            .bind(to: dobTextField.textField.rx.text)
-            .disposed(by: disposeBag)
-        viewModel.user.asObservable()
-            .map { $0.address?.street ?? ""}
-            .bind(to: streetTextField.textField.rx.text)
-            .disposed(by: disposeBag)
-        viewModel.user.asObservable()
-            .map { $0.address?.city ?? ""}
-            .bind(to: cityTextField.textField.rx.text)
-            .disposed(by: disposeBag)
-        viewModel.user.asObservable()
-            .map { $0.address?.state ?? ""}
-            .bind(to: stateTextField.textField.rx.text)
-            .disposed(by: disposeBag)
-        viewModel.user.asObservable()
-            .map {
-                if let zip = $0.address?.zipCode {
-                    return "\(zip)"
-                }
-                return ""
-            }
-            .bind(to: zipTextField.textField.rx.text)
-            .disposed(by: disposeBag)
+        fieldData.forEach { (data) in
+            data.field.setText(data.viewModelVariable.value)
+            data.field.textField.rx.text
+                .map { $0 ?? "" }
+                .bind(to: data.viewModelVariable)
+                .disposed(by: disposeBag)
+        }
+    }
+    
+    func bindTextfieldsForAnimations() {
         
-        //Bind textFields text to viewModel variables 
-        firstNameTextField.textField.rx.text
-            .map { $0 ?? "" }
-            .bind(to: viewModel.first)
-            .disposed(by: disposeBag)
-        lastNameTextField.textField.rx.text
-            .map { $0 ?? "" }
-            .bind(to: viewModel.last)
-            .disposed(by: disposeBag)
-        partyTextField.textField.rx.text
-            .map { $0 ?? "" }
-            .bind(to: viewModel.party)
-            .disposed(by: disposeBag)
-        dobTextField.textField.rx.text
-            .map { $0 ?? "" }
-            .bind(to: viewModel.dob)
-            .disposed(by: disposeBag)
-        streetTextField.textField.rx.text
-            .map { $0 ?? "" }
-            .bind(to: viewModel.street)
-            .disposed(by: disposeBag)
-        cityTextField.textField.rx.text
-            .map { $0 ?? "" }
-            .bind(to: viewModel.city)
-            .disposed(by: disposeBag)
-        stateTextField.textField.rx.text
-            .map { $0 ?? "" }
-            .bind(to: viewModel.state)
-            .disposed(by: disposeBag)
-        zipTextField.textField.rx.text
-            .map { $0 ?? "" }
-            .bind(to: viewModel.zip)
-            .disposed(by: disposeBag)
-        
-        //Animations
-        Observable.combineLatest(
-            firstNameTextField.textField.rx.controlEvent([.editingDidBegin, .editingDidEnd]),
-            viewModel.first.asObservable(),
-            resultSelector: { (didEnd, password) -> Bool in
-            !password.isEmpty
-            })
-            .subscribe(onNext: { [weak self] (shoudAnimateUp) in
-                self?.firstNameTextField.animateTextLabelPosistion(shouldAnimateUp: shoudAnimateUp)
-            })
-            .disposed(by: disposeBag)
-        Observable.combineLatest(
-            lastNameTextField.textField.rx.controlEvent([.editingDidBegin, .editingDidEnd]),
-            viewModel.last.asObservable(), resultSelector: { (didEnd, email) -> Bool in
-            !email.isEmpty
-            })
-            .subscribe(onNext: { [weak self] (shoudAnimateUp) in
-                self?.lastNameTextField.animateTextLabelPosistion(shouldAnimateUp: shoudAnimateUp)
-            })
-            .disposed(by: disposeBag)
-        Observable.combineLatest(
-            partyTextField.textField.rx.controlEvent([.editingDidBegin, .editingDidEnd]),
-            viewModel.party.asObservable(), resultSelector: { (didEnd, party) -> Bool in
-                !party.isEmpty
-        })
-            .subscribe(onNext: { [weak self] (shoudAnimateUp) in
-                self?.partyTextField.animateTextLabelPosistion(shouldAnimateUp: shoudAnimateUp)
-            })
-            .disposed(by: disposeBag)
-        Observable.combineLatest(
-            dobTextField.textField.rx.controlEvent([.editingDidBegin, .editingDidEnd]),
-            viewModel.dob.asObservable(), resultSelector: { (didEnd, email) -> Bool in
-                !email.isEmpty
-        })
-            .subscribe(onNext: { [weak self] (shoudAnimateUp) in
-                self?.dobTextField.animateTextLabelPosistion(shouldAnimateUp: shoudAnimateUp)
-            })
-            .disposed(by: disposeBag)
-        Observable.combineLatest(
-            streetTextField.textField.rx.controlEvent([.editingDidBegin, .editingDidEnd]),
-            viewModel.street.asObservable(), resultSelector: { (didEnd, email) -> Bool in
-                !email.isEmpty
-        })
-            .subscribe(onNext: { [weak self] (shoudAnimateUp) in
-                self?.streetTextField.animateTextLabelPosistion(shouldAnimateUp: shoudAnimateUp)
-            })
-            .disposed(by: disposeBag)
-        Observable.combineLatest(
-            cityTextField.textField.rx.controlEvent([.editingDidBegin, .editingDidEnd]),
-            viewModel.city.asObservable(), resultSelector: { (didEnd, email) -> Bool in
-                !email.isEmpty
-        })
-            .subscribe(onNext: { [weak self] (shoudAnimateUp) in
-                self?.cityTextField.animateTextLabelPosistion(shouldAnimateUp: shoudAnimateUp)
-            })
-            .disposed(by: disposeBag)
-        Observable.combineLatest(
-            stateTextField.textField.rx.controlEvent([.editingDidBegin, .editingDidEnd]),
-            viewModel.state.asObservable(), resultSelector: { (didEnd, email) -> Bool in
-                !email.isEmpty
-        })
-            .subscribe(onNext: { [weak self] (shoudAnimateUp) in
-                self?.stateTextField.animateTextLabelPosistion(shouldAnimateUp: shoudAnimateUp)
-            })
-            .disposed(by: disposeBag)
-        Observable.combineLatest(
-            zipTextField.textField.rx.controlEvent([.editingDidBegin, .editingChanged, .editingDidEnd]),
-            viewModel.zip.asObservable(), resultSelector: { (didEnd, email) -> Bool in
-                !email.isEmpty
-        })
-            .subscribe(onNext: { [weak self] (shoudAnimateUp) in
-                self?.zipTextField.animateTextLabelPosistion(shouldAnimateUp: shoudAnimateUp)
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.firstValid.asObservable()
-            .subscribe(onNext: { [weak self] (valid) in
-                self?.firstNameTextField.changeColor(for: valid)
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.lastValid.asObservable()
-            .subscribe(onNext: { [weak self] (valid) in
-                self?.lastNameTextField.changeColor(for: valid)
-            })
-            .disposed(by: disposeBag)
-        viewModel.partyValid.asObservable()
-            .subscribe(onNext: { [weak self] (valid) in
-                self?.partyTextField.changeColor(for: valid)
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.dobValid.asObservable()
-            .subscribe(onNext: { [weak self] (valid) in
-                self?.dobTextField.changeColor(for: valid)
-            })
-            .disposed(by: disposeBag)
-        viewModel.streetValid.asObservable()
-            .subscribe(onNext: { [weak self] (valid) in
-                self?.streetTextField.changeColor(for: valid)
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.cityValid.asObservable()
-            .subscribe(onNext: { [weak self] (valid) in
-                self?.cityTextField.changeColor(for: valid)
-            })
-            .disposed(by: disposeBag)
-        viewModel.stateValid.asObservable()
-            .subscribe(onNext: { [weak self] (valid) in
-                self?.stateTextField.changeColor(for: valid)
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.zipValid.asObservable()
-            .subscribe(onNext: { [weak self] (valid) in
-                self?.zipTextField.changeColor(for: valid)
-            })
-            .disposed(by: disposeBag)
-        
-        //Custom Interactions
+        fieldData.forEach { (data) in
+            data.validation.asObservable()
+                .subscribe(onNext: { (valid) in
+                    data.field.changeColor(for: valid)
+                })
+                .disposed(by: disposeBag)
+        }
+    }
+    
+    func bindCustomTextfieldInteractions() {
         partyTextField.textField.rx.controlEvent([.editingDidBegin])
             .subscribe { [weak self] (event) in
-               self?.presentPartySelectionActionSheet()
+                self?.presentPartySelectionActionSheet()
             }
             .disposed(by: disposeBag)
         
@@ -509,7 +323,7 @@ extension AccountDetailsViewController: RxBinder {
             .disposed(by: disposeBag)
     }
     
-    func bindButtons() {
+    func setupButtonBindings() {
         viewModel.viewState.asObservable()
             .map { $0.saveEditRegisterButtonTitle}
             .bind(to: saveEditRegisterButton.rx.title(for: .normal))
@@ -527,14 +341,26 @@ extension AccountDetailsViewController: RxBinder {
         cancelDoneButton.rx.controlEvent([.touchUpInside])
             .bind(to: viewModel.cancelDoneButtonTap)
             .disposed(by: disposeBag)
-    }
-    
-    func navigationBinds() {
-        viewModel.nextViewController.asObservable()
-            .subscribe(onNext: { [weak self] vc in
-                self?.navigationController?.pushViewController(vc, animated: true)
+        
+        Observable.combineLatest(
+            viewModel.formValid.asObservable(),
+            viewModel.viewState.asObservable(), resultSelector: { (valid, state) -> Bool in
+                return state == .registration && !valid
+            })
+            .subscribe(onNext: { [weak self] (valid) in
+                self?.saveEditRegisterButton.rx.base.isEnabled = !valid
             })
             .disposed(by: disposeBag)
     }
     
+    func setupNavigationBindings() {
+        viewModel.push.asObservable()
+            .filter { $0 == true }
+            .subscribe(onNext: { [weak self] vc in
+                guard let s = self else { fatalError("self deallocated before it was accessed") }
+                let vc = ConfirmationViewController(client: s.client)
+                s.navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
+    }
 }

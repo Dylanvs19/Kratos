@@ -11,7 +11,7 @@ import RxSwift
 
 extension Client: AccountService {
     
-    func register(user: User) -> Observable<(String, User)> {
+    func register(user: User) -> Observable<String> {
         return request(.register(user: user), forceRefresh: true, omitFromCache: true)
             .toJson()
             .map{
@@ -21,15 +21,11 @@ extension Client: AccountService {
                 guard let token = json["token"] as? String else {
                     throw KratosError.mappingError(type: .unexpectedValue)
                 }
-                guard let userDict = json["user"] as? [String: Any],
-                    let user = User(json: userDict) else {
-                        throw KratosError.mappingError(type: .unexpectedValue)
-                }
-                return (token, user)
+                return token
         }
     }
     
-    func login(email: String, password: String) -> Observable<(String, User)> {
+    func login(email: String, password: String) -> Observable<String> {
         return request(.logIn(email: email, password: password), forceRefresh: true, omitFromCache: true)
             .toJson()
             .map {
@@ -39,11 +35,7 @@ extension Client: AccountService {
                 guard let token = json["token"] as? String else {
                     throw KratosError.mappingError(type: .unexpectedValue)
                 }
-                guard let userDict = json["user"] as? [String: Any],
-                      let user = User(json: userDict) else {
-                    throw KratosError.mappingError(type: .unexpectedValue)
-                }
-                return (token, user)
+                return token
         }
     }
     

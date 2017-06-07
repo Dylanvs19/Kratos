@@ -7,3 +7,8 @@
 //
 
 import Foundation
+import RxSwift
+
+protocol ImageService {
+    func fetchImage(for urlString: String) -> Observable<UIImage>
+}

@@ -20,7 +20,7 @@ class RepTableViewCell: UITableViewCell {
     @IBOutlet weak var stateImage: UIImageView!
 
     public func configure(with representative: Person) {
-        repImageView.setRepresentative(person: representative)
+        //repImageView.setRepresentative(person: representative)
         nameLabel.text = "\(representative.firstName ?? "") \(representative.lastName ?? "")"
         chamberLabel.text = representative.currentChamber?.toRepresentativeType().rawValue ?? ""
         var state = ""
@@ -30,7 +30,7 @@ class RepTableViewCell: UITableViewCell {
             state = representative.currentState ?? ""
         }
         stateLabel.text = state
-        partyLabel.text = representative.currentParty?.rawValue ?? ""
+        partyLabel.text = representative.currentParty?.long ?? ""
         partyLabel.textColor = representative.currentParty?.color ?? UIColor.gray
         stateImage.image = UIImage.imageForState(representative.currentState) ?? UIImage()
         

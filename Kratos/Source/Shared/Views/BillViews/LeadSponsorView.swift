@@ -59,7 +59,7 @@ class LeadSponsorView: UIView, Loadable, Tappable {
         } else {
             districtLabel.text = ""
         }
-        repImageView.setRepresentative(person: sponsor)
+        //repImageView.setRepresentative(person: sponsor)
         if let state = sponsor.currentState {
             stateImageView.image = UIImage.imageForState(state)
         }

@@ -21,26 +21,20 @@ class DatePickerView: UIView, ViewBuilder {
     let doneButton = UIButton()
     
     weak var delegate: DatePickerViewDelegate?
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-    }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
+        fatalError("init(coder:) has not been implemented")
     }
     
-    func customInit() {
+    func configureDatePicker() {
         setupPickerView()
         buildViews()
         style()
+        doneButton.addTarget(self, action: #selector(doneButtonPressed(_:)), for: .touchUpInside)
     }
     
     func buildViews() {
@@ -57,19 +51,22 @@ class DatePickerView: UIView, ViewBuilder {
     }
     
     func style() {
-        
+        doneButton.setTitleColor(.kratosRed, for: .normal)
+        doneButton.setTitleColor(.red, for: .highlighted)
+        doneButton.titleLabel?.font = Font.futura(size: 14).font
+        doneButton.setTitle("D O N E", for: .normal)
     }
     
     func setupPickerView() {
         layer.cornerRadius = 5.0
         layer.masksToBounds = true
-        backgroundColor = UIColor.gray
+        backgroundColor = UIColor.white
         datePicker.datePickerMode = .date
         datePicker.maximumDate = Date()
         datePicker.setDate(Date().addingTimeInterval(-60 * 60 * 24 * 365 * 30) , animated: false)
     }
     
-    @IBAction func doneButtonPressed(_ sender: Any) {
+    func doneButtonPressed(_ sender: Any) {
         delegate?.selectedDate(date: datePicker.date)
     }
 }

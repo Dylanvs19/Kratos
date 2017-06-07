@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import UIKit
 import RxSwift
+import Action
 
 class LoginViewModel {
     
@@ -48,14 +48,16 @@ class LoginViewModel {
     
     let loadStatus = Variable<LoadStatus>(.none)
     let viewState = Variable<ViewState>(.login)
-    let email = Variable<String>("hi")
+    let email = Variable<String>("")
     let password = Variable<String>("")
     
     let loginButtonTap = PublishSubject<Void>()
     let forgotPasswordButtonTap = PublishSubject<Void>()
     let signInSignUpButtonTap = PublishSubject<Void>()
     
-    let nextViewController = PublishSubject<UIViewController>()
+    let loginSuccessful = PublishSubject<Bool>()
+    let forgotPasswordSuccessful = PublishSubject<Bool>()
+    let registrationContinueSuccessful = PublishSubject<(email: String, password: String)>()
     
     let user = Variable<User?>(nil)
         
@@ -69,7 +71,6 @@ class LoginViewModel {
             return email && password
         }
     }
-    
     var emailValid : Observable<Bool> {
         return email.asObservable()
             .map { InputValidation.email(email: $0).isValid }
@@ -79,44 +80,40 @@ class LoginViewModel {
             .map { InputValidation.password(password: $0).isValid }
     }
     
-    fileprivate func postForgotPassword() {
+    fileprivate func postForgotPassword() -> Observable<Bool> {
         loadStatus.value = .loading
-        client.forgotPassword(email: email.value)
-            .subscribe(onNext: { [unowned self] (bool) in
+        return client.forgotPassword(email: email.value)
+            .do(onNext: { [unowned self] (bool) in
                 self.loadStatus.value = .none
                 //Show Alert saying Email has been sent to Email Account
             }, onError: { [unowned self] error in
                 let error = error as? KratosError ?? KratosError.unknown
                 self.loadStatus.value = .error(error: error)
             })
-            .disposed(by: disposeBag)
+
     }
     
-    fileprivate func login() {
+    fileprivate func login() -> Observable<Bool> {
         loadStatus.value = .loading
-        client.login(email: email.value, password: password.value)
-            .subscribe(onNext: { [unowned self] (token, user) in
+        return client.login(email: email.value, password: password.value)
+            .do(onNext: { [unowned self] (token) in
                 self.loadStatus.value = .none
-                let success = KeychainManager.create(token)
-                if success {
-                    let navVC = UINavigationController(rootViewController: TabBarController())
-                    UIApplication.shared.delegate?.rootTransition(to: navVC)
-                } else {
-                    self.loadStatus.value = .error(error:KratosError.invalidSerialization)
-                }
-                
                 }, onError: { [unowned self] error in
                 let error = error as? KratosError ?? KratosError.unknown
                 self.loadStatus.value = .error(error: error)
             })
-            .disposed(by: disposeBag)
+            .map {
+                if KeychainManager.create($0) {
+                    return true
+                } else {
+                    throw KratosError.invalidSerialization
+                }}
     }
     
     func binds() {
         forgotPasswordButtonTap.asObservable()
-            .subscribe(onNext: { [unowned self] (tap) in
-                self.viewState.value = .forgotPassword
-            })
+            .map{ ViewState.forgotPassword }
+            .bind(to: self.viewState)
             .disposed(by: disposeBag)
         
         signInSignUpButtonTap.asObservable()
@@ -125,9 +122,7 @@ class LoginViewModel {
                 switch $0 {
             case .login:
                 return .registration
-            case .registration:
-                return .login
-            case .forgotPassword:
+            case .registration, .forgotPassword:
                 return .login
                 }}
             .bind(to: self.viewState)
@@ -139,12 +134,18 @@ class LoginViewModel {
                 switch state {
                 case .login:
                     self.login()
+                        .bind(to: self.loginSuccessful)
+                        .disposed(by: self.disposeBag)
                 case .registration:
-                    let vc = AccountDetailsViewController(client: self.client, state: .registration)
-                    vc.setInfoFromRegistration(email: self.email.value, password: self.password.value)
-                    self.nextViewController.onNext(vc)
+                    Observable.combineLatest(self.email.asObservable(), self.password.asObservable(), resultSelector: { credentials in
+                        return credentials
+                    })
+                    .bind(to: self.registrationContinueSuccessful)
+                    .disposed(by: self.disposeBag)
                 case .forgotPassword:
                     self.postForgotPassword()
+                        .bind(to: self.forgotPasswordSuccessful)
+                        .disposed(by: self.disposeBag)
                 }
             })
             .disposed(by: disposeBag)

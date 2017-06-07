@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		71FC9AF49B0EB5820A301DE4 /* Pods_KratosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE4ABF9591E077E906036EA /* Pods_KratosTests.framework */; };
 		A0DD548B75376A90182B6EFF /* Pods_Kratos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EC5E845D25026904F837F7 /* Pods_Kratos.framework */; };
+		AF3B2C0B1EDE531300509B01 /* Observable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */; };
 		AF3F5C681EBE72F700809AA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */; };
 		AF3F5C691EBE72F700809AA3 /* Datastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BBF1EBE72F700809AA3 /* Datastore.swift */; };
-		AF3F5C6A1EBE72F700809AA3 /* MainApplicationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BC01EBE72F700809AA3 /* MainApplicationViewController.swift */; };
 		AF3F5C6B1EBE72F700809AA3 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BC11EBE72F700809AA3 /* TabBarController.swift */; };
 		AF3F5C6C1EBE72F700809AA3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BC41EBE72F700809AA3 /* Constants.swift */; };
 		AF3F5C6D1EBE72F700809AA3 /* Bill.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BC61EBE72F700809AA3 /* Bill.swift */; };
@@ -36,12 +36,7 @@
 		AF3F5C821EBE72F700809AA3 /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BE71EBE72F700809AA3 /* ConfirmationViewController.swift */; };
 		AF3F5C831EBE72F700809AA3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BE81EBE72F700809AA3 /* LoginViewController.swift */; };
 		AF3F5C841EBE72F700809AA3 /* NotificationsRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BE91EBE72F700809AA3 /* NotificationsRegistrationViewController.swift */; };
-		AF3F5C851EBE72F700809AA3 /* SubmitAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BEA1EBE72F700809AA3 /* SubmitAddressViewController.swift */; };
 		AF3F5C861EBE72F700809AA3 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BEC1EBE72F700809AA3 /* MenuViewController.swift */; };
-		AF3F5C871EBE72F700809AA3 /* YourVotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BEE1EBE72F700809AA3 /* YourVotesViewController.swift */; };
-		AF3F5C881EBE72F700809AA3 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BF01EBE72F700809AA3 /* MainViewController.swift */; };
-		AF3F5C891EBE72F700809AA3 /* RepresentativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BF11EBE72F700809AA3 /* RepresentativeView.swift */; };
-		AF3F5C8A1EBE72F700809AA3 /* RepresentativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5BF21EBE72F700809AA3 /* RepresentativeView.xib */; };
 		AF3F5C8B1EBE72F700809AA3 /* ActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BF61EBE72F700809AA3 /* ActionsView.swift */; };
 		AF3F5C8C1EBE72F700809AA3 /* ActionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5BF71EBE72F700809AA3 /* ActionsView.xib */; };
 		AF3F5C8D1EBE72F700809AA3 /* BillActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BF81EBE72F700809AA3 /* BillActionsView.swift */; };
@@ -66,10 +61,8 @@
 		AF3F5CA01EBE72F700809AA3 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C0C1EBE72F700809AA3 /* ButtonView.swift */; };
 		AF3F5CA11EBE72F700809AA3 /* ButtonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5C0D1EBE72F700809AA3 /* ButtonView.xib */; };
 		AF3F5CA21EBE72F700809AA3 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C0E1EBE72F700809AA3 /* DatePickerView.swift */; };
-		AF3F5CA31EBE72F700809AA3 /* DatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5C0F1EBE72F700809AA3 /* DatePickerView.xib */; };
 		AF3F5CA41EBE72F700809AA3 /* InfoManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C101EBE72F700809AA3 /* InfoManagerView.swift */; };
 		AF3F5CA51EBE72F700809AA3 /* KratosTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C111EBE72F700809AA3 /* KratosTextField.swift */; };
-		AF3F5CA61EBE72F700809AA3 /* KratosTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5C121EBE72F700809AA3 /* KratosTextField.xib */; };
 		AF3F5CA71EBE72F700809AA3 /* LoadMoreSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C131EBE72F700809AA3 /* LoadMoreSpinnerView.swift */; };
 		AF3F5CA81EBE72F700809AA3 /* PieChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C141EBE72F700809AA3 /* PieChartData.swift */; };
 		AF3F5CA91EBE72F700809AA3 /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C151EBE72F700809AA3 /* PieChartView.swift */; };
@@ -85,7 +78,6 @@
 		AF3F5CB31EBE72F700809AA3 /* RepBioView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5C201EBE72F700809AA3 /* RepBioView.xib */; };
 		AF3F5CB41EBE72F700809AA3 /* RepContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C211EBE72F700809AA3 /* RepContactView.swift */; };
 		AF3F5CB51EBE72F700809AA3 /* RepContactView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5C221EBE72F700809AA3 /* RepContactView.xib */; };
-		AF3F5CB61EBE72F700809AA3 /* RepImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C231EBE72F700809AA3 /* RepImageView.swift */; };
 		AF3F5CB71EBE72F700809AA3 /* RepInfoBillSponsorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C241EBE72F700809AA3 /* RepInfoBillSponsorTableViewCell.swift */; };
 		AF3F5CB81EBE72F700809AA3 /* RepInfoBillSponsorTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5C251EBE72F700809AA3 /* RepInfoBillSponsorTableViewCell.xib */; };
 		AF3F5CB91EBE72F700809AA3 /* RepInfoBillSponsorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C261EBE72F700809AA3 /* RepInfoBillSponsorView.swift */; };
@@ -150,11 +142,20 @@
 		AF3F5CFD1EBE755000809AA3 /* FeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5CFC1EBE755000809AA3 /* FeedbackService.swift */; };
 		AF3F5CFF1EBE756800809AA3 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5CFE1EBE756800809AA3 /* AnalyticsService.swift */; };
 		AF3F5D011EBE759500809AA3 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5D001EBE759500809AA3 /* UserService.swift */; };
+		AF43D5311EE61A9A00F1DA75 /* Client+ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43D5301EE61A9A00F1DA75 /* Client+ImageService.swift */; };
+		AF43D5331EE634BE00F1DA75 /* RepImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43D5321EE634BE00F1DA75 /* RepImageView.swift */; };
 		AF5B23421ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B23411ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift */; };
 		AF5B23441ED68A3B00DD9F9E /* ConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B23431ED68A3B00DD9F9E /* ConfirmationViewModel.swift */; };
 		AF6271B11ED0820E00BDE8DB /* AccountDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6271B01ED0820E00BDE8DB /* AccountDetailsViewModel.swift */; };
 		AF6271B31ED085BC00BDE8DB /* AccountDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6271B21ED085BC00BDE8DB /* AccountDetailViewController.swift */; };
 		AF6271B51ED3DF8400BDE8DB /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */; };
+		AF72F0741EE03F77006B9B0B /* YourVotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF72F06D1EE03F77006B9B0B /* YourVotesViewController.swift */; };
+		AF72F0751EE03F77006B9B0B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF72F06F1EE03F77006B9B0B /* MainViewController.swift */; };
+		AF72F0761EE03F77006B9B0B /* RepresentativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF72F0701EE03F77006B9B0B /* RepresentativeView.xib */; };
+		AF72F0771EE03F77006B9B0B /* UserRepsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF72F0711EE03F77006B9B0B /* UserRepsViewController.swift */; };
+		AF72F0781EE03F77006B9B0B /* UserRepsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF72F0721EE03F77006B9B0B /* UserRepsViewModel.swift */; };
+		AF72F0791EE03F77006B9B0B /* UserRepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF72F0731EE03F77006B9B0B /* UserRepView.swift */; };
+		AF72F07B1EE0E839006B9B0B /* UserRepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF72F07A1EE0E839006B9B0B /* UserRepViewModel.swift */; };
 		AF8974641D4D80E500C19020 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8974621D4D80E500C19020 /* Main.storyboard */; };
 		AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF8974651D4D80E500C19020 /* Assets.xcassets */; };
 		AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8974671D4D80E500C19020 /* LaunchScreen.storyboard */; };
@@ -227,9 +228,9 @@
 		AF1AC5531DF5A6A100DCBA13 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		AF1AC5561DF5A6A100DCBA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		AF1AC5581DF5A6A100DCBA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Extensions.swift"; sourceTree = "<group>"; };
 		AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF3F5BBF1EBE72F700809AA3 /* Datastore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Datastore.swift; sourceTree = "<group>"; };
-		AF3F5BC01EBE72F700809AA3 /* MainApplicationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainApplicationViewController.swift; sourceTree = "<group>"; };
 		AF3F5BC11EBE72F700809AA3 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		AF3F5BC41EBE72F700809AA3 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AF3F5BC61EBE72F700809AA3 /* Bill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bill.swift; sourceTree = "<group>"; };
@@ -254,12 +255,7 @@
 		AF3F5BE71EBE72F700809AA3 /* ConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		AF3F5BE81EBE72F700809AA3 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AF3F5BE91EBE72F700809AA3 /* NotificationsRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationViewController.swift; sourceTree = "<group>"; };
-		AF3F5BEA1EBE72F700809AA3 /* SubmitAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitAddressViewController.swift; sourceTree = "<group>"; };
 		AF3F5BEC1EBE72F700809AA3 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
-		AF3F5BEE1EBE72F700809AA3 /* YourVotesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourVotesViewController.swift; sourceTree = "<group>"; };
-		AF3F5BF01EBE72F700809AA3 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		AF3F5BF11EBE72F700809AA3 /* RepresentativeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeView.swift; sourceTree = "<group>"; };
-		AF3F5BF21EBE72F700809AA3 /* RepresentativeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepresentativeView.xib; sourceTree = "<group>"; };
 		AF3F5BF61EBE72F700809AA3 /* ActionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionsView.swift; sourceTree = "<group>"; };
 		AF3F5BF71EBE72F700809AA3 /* ActionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActionsView.xib; sourceTree = "<group>"; };
 		AF3F5BF81EBE72F700809AA3 /* BillActionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillActionsView.swift; sourceTree = "<group>"; };
@@ -284,10 +280,8 @@
 		AF3F5C0C1EBE72F700809AA3 /* ButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		AF3F5C0D1EBE72F700809AA3 /* ButtonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ButtonView.xib; sourceTree = "<group>"; };
 		AF3F5C0E1EBE72F700809AA3 /* DatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
-		AF3F5C0F1EBE72F700809AA3 /* DatePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerView.xib; sourceTree = "<group>"; };
 		AF3F5C101EBE72F700809AA3 /* InfoManagerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoManagerView.swift; sourceTree = "<group>"; };
 		AF3F5C111EBE72F700809AA3 /* KratosTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosTextField.swift; sourceTree = "<group>"; };
-		AF3F5C121EBE72F700809AA3 /* KratosTextField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KratosTextField.xib; sourceTree = "<group>"; };
 		AF3F5C131EBE72F700809AA3 /* LoadMoreSpinnerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadMoreSpinnerView.swift; sourceTree = "<group>"; };
 		AF3F5C141EBE72F700809AA3 /* PieChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartData.swift; sourceTree = "<group>"; };
 		AF3F5C151EBE72F700809AA3 /* PieChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
@@ -303,7 +297,6 @@
 		AF3F5C201EBE72F700809AA3 /* RepBioView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepBioView.xib; sourceTree = "<group>"; };
 		AF3F5C211EBE72F700809AA3 /* RepContactView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepContactView.swift; sourceTree = "<group>"; };
 		AF3F5C221EBE72F700809AA3 /* RepContactView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepContactView.xib; sourceTree = "<group>"; };
-		AF3F5C231EBE72F700809AA3 /* RepImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepImageView.swift; sourceTree = "<group>"; };
 		AF3F5C241EBE72F700809AA3 /* RepInfoBillSponsorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepInfoBillSponsorTableViewCell.swift; sourceTree = "<group>"; };
 		AF3F5C251EBE72F700809AA3 /* RepInfoBillSponsorTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepInfoBillSponsorTableViewCell.xib; sourceTree = "<group>"; };
 		AF3F5C261EBE72F700809AA3 /* RepInfoBillSponsorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepInfoBillSponsorView.swift; sourceTree = "<group>"; };
@@ -368,11 +361,20 @@
 		AF3F5CFC1EBE755000809AA3 /* FeedbackService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
 		AF3F5CFE1EBE756800809AA3 /* AnalyticsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		AF3F5D001EBE759500809AA3 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		AF43D5301EE61A9A00F1DA75 /* Client+ImageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+ImageService.swift"; sourceTree = "<group>"; };
+		AF43D5321EE634BE00F1DA75 /* RepImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepImageView.swift; sourceTree = "<group>"; };
 		AF5B23411ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationViewModel.swift; sourceTree = "<group>"; };
 		AF5B23431ED68A3B00DD9F9E /* ConfirmationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationViewModel.swift; sourceTree = "<group>"; };
 		AF6271B01ED0820E00BDE8DB /* AccountDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailsViewModel.swift; sourceTree = "<group>"; };
 		AF6271B21ED085BC00BDE8DB /* AccountDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailViewController.swift; sourceTree = "<group>"; };
 		AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
+		AF72F06D1EE03F77006B9B0B /* YourVotesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YourVotesViewController.swift; path = UserBills/YourVotesViewController.swift; sourceTree = "<group>"; };
+		AF72F06F1EE03F77006B9B0B /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		AF72F0701EE03F77006B9B0B /* RepresentativeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepresentativeView.xib; sourceTree = "<group>"; };
+		AF72F0711EE03F77006B9B0B /* UserRepsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepsViewController.swift; sourceTree = "<group>"; };
+		AF72F0721EE03F77006B9B0B /* UserRepsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepsViewModel.swift; sourceTree = "<group>"; };
+		AF72F0731EE03F77006B9B0B /* UserRepView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepView.swift; sourceTree = "<group>"; };
+		AF72F07A1EE0E839006B9B0B /* UserRepViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepViewModel.swift; sourceTree = "<group>"; };
 		AF89745B1D4D80E500C19020 /* Kratos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kratos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF8974631D4D80E500C19020 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AF8974651D4D80E500C19020 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -483,7 +485,6 @@
 				AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */,
 				AFFA95631EC79C4100144C3A /* ApplicationLauncher.swift */,
 				AF3F5BBF1EBE72F700809AA3 /* Datastore.swift */,
-				AF3F5BC01EBE72F700809AA3 /* MainApplicationViewController.swift */,
 				AF3F5BC11EBE72F700809AA3 /* TabBarController.swift */,
 			);
 			path = Core;
@@ -564,6 +565,7 @@
 				AFFA95011EBF4EB300144C3A /* Client+StateService.swift */,
 				AFFA95031EBF4EBF00144C3A /* Client+FeedbackService.swift */,
 				AFFA95051EBF4ED800144C3A /* Client+AnalyticsService.swift */,
+				AF43D5301EE61A9A00F1DA75 /* Client+ImageService.swift */,
 			);
 			path = Client;
 			sourceTree = "<group>";
@@ -612,8 +614,9 @@
 				AF3F5BE01EBE72F700809AA3 /* Feedback */,
 				AF3F5BE61EBE72F700809AA3 /* Login */,
 				AF3F5BEB1EBE72F700809AA3 /* Menu */,
-				AF3F5BED1EBE72F700809AA3 /* YourBills */,
-				AF3F5BEF1EBE72F700809AA3 /* YourReps */,
+				AF72F06C1EE03F77006B9B0B /* UserBills */,
+				AF72F06D1EE03F77006B9B0B /* YourVotesViewController.swift */,
+				AF72F06E1EE03F77006B9B0B /* UserReps */,
 			);
 			path = Sections;
 			sourceTree = "<group>";
@@ -644,11 +647,10 @@
 				AFFA95651EC79D8100144C3A /* SplashViewController.swift */,
 				AFFA95271EC4170500144C3A /* LoginViewModel.swift */,
 				AF3F5BE81EBE72F700809AA3 /* LoginViewController.swift */,
-				AF3F5BEA1EBE72F700809AA3 /* SubmitAddressViewController.swift */,
 				AF6271B01ED0820E00BDE8DB /* AccountDetailsViewModel.swift */,
 				AF6271B21ED085BC00BDE8DB /* AccountDetailViewController.swift */,
-				AF3F5BE71EBE72F700809AA3 /* ConfirmationViewController.swift */,
 				AF5B23431ED68A3B00DD9F9E /* ConfirmationViewModel.swift */,
+				AF3F5BE71EBE72F700809AA3 /* ConfirmationViewController.swift */,
 				AF3F5BE91EBE72F700809AA3 /* NotificationsRegistrationViewController.swift */,
 				AF5B23411ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift */,
 			);
@@ -661,24 +663,6 @@
 				AF3F5BEC1EBE72F700809AA3 /* MenuViewController.swift */,
 			);
 			path = Menu;
-			sourceTree = "<group>";
-		};
-		AF3F5BED1EBE72F700809AA3 /* YourBills */ = {
-			isa = PBXGroup;
-			children = (
-				AF3F5BEE1EBE72F700809AA3 /* YourVotesViewController.swift */,
-			);
-			path = YourBills;
-			sourceTree = "<group>";
-		};
-		AF3F5BEF1EBE72F700809AA3 /* YourReps */ = {
-			isa = PBXGroup;
-			children = (
-				AF3F5BF01EBE72F700809AA3 /* MainViewController.swift */,
-				AF3F5BF11EBE72F700809AA3 /* RepresentativeView.swift */,
-				AF3F5BF21EBE72F700809AA3 /* RepresentativeView.xib */,
-			);
-			path = YourReps;
 			sourceTree = "<group>";
 		};
 		AF3F5BF31EBE72F700809AA3 /* Shared */ = {
@@ -736,13 +720,12 @@
 		AF3F5C0B1EBE72F700809AA3 /* GenericViews */ = {
 			isa = PBXGroup;
 			children = (
+				AF43D5321EE634BE00F1DA75 /* RepImageView.swift */,
 				AF3F5C0C1EBE72F700809AA3 /* ButtonView.swift */,
 				AF3F5C0D1EBE72F700809AA3 /* ButtonView.xib */,
 				AF3F5C0E1EBE72F700809AA3 /* DatePickerView.swift */,
-				AF3F5C0F1EBE72F700809AA3 /* DatePickerView.xib */,
 				AF3F5C101EBE72F700809AA3 /* InfoManagerView.swift */,
 				AF3F5C111EBE72F700809AA3 /* KratosTextField.swift */,
-				AF3F5C121EBE72F700809AA3 /* KratosTextField.xib */,
 				AF3F5C131EBE72F700809AA3 /* LoadMoreSpinnerView.swift */,
 				AF3F5C141EBE72F700809AA3 /* PieChartData.swift */,
 				AF3F5C151EBE72F700809AA3 /* PieChartView.swift */,
@@ -764,7 +747,6 @@
 				AF3F5C201EBE72F700809AA3 /* RepBioView.xib */,
 				AF3F5C211EBE72F700809AA3 /* RepContactView.swift */,
 				AF3F5C221EBE72F700809AA3 /* RepContactView.xib */,
-				AF3F5C231EBE72F700809AA3 /* RepImageView.swift */,
 				AF3F5C241EBE72F700809AA3 /* RepInfoBillSponsorTableViewCell.swift */,
 				AF3F5C251EBE72F700809AA3 /* RepInfoBillSponsorTableViewCell.xib */,
 				AF3F5C261EBE72F700809AA3 /* RepInfoBillSponsorView.swift */,
@@ -861,6 +843,7 @@
 				AF3F5C5E1EBE72F700809AA3 /* UIViewController+Extensions.swift */,
 				AFFA95671EC7A1DD00144C3A /* UIApplicationDelegate+Extensions.swift */,
 				AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */,
+				AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -881,6 +864,28 @@
 			);
 			path = Protocols;
 			sourceTree = "<group>";
+		};
+		AF72F06C1EE03F77006B9B0B /* UserBills */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = UserBills;
+			path = Kratos/Source/Sections/UserBills;
+			sourceTree = SOURCE_ROOT;
+		};
+		AF72F06E1EE03F77006B9B0B /* UserReps */ = {
+			isa = PBXGroup;
+			children = (
+				AF72F06F1EE03F77006B9B0B /* MainViewController.swift */,
+				AF72F0701EE03F77006B9B0B /* RepresentativeView.xib */,
+				AF72F0721EE03F77006B9B0B /* UserRepsViewModel.swift */,
+				AF72F0711EE03F77006B9B0B /* UserRepsViewController.swift */,
+				AF72F07A1EE0E839006B9B0B /* UserRepViewModel.swift */,
+				AF72F0731EE03F77006B9B0B /* UserRepView.swift */,
+			);
+			name = UserReps;
+			path = Kratos/Source/Sections/UserReps;
+			sourceTree = SOURCE_ROOT;
 		};
 		AF8974521D4D80E500C19020 = {
 			isa = PBXGroup;
@@ -1106,16 +1111,14 @@
 				AF3F5CBE1EBE72F700809AA3 /* RepInfoManagerBarView.xib in Resources */,
 				AF3F5C9D1EBE72F700809AA3 /* LeadSponsorView.xib in Resources */,
 				AF3F5CC51EBE72F700809AA3 /* TermView.xib in Resources */,
+				AF72F0761EE03F77006B9B0B /* RepresentativeView.xib in Resources */,
 				AF3F5CAC1EBE72F700809AA3 /* ShowMoreView.xib in Resources */,
 				AF3F5CD51EBE72F700809AA3 /* YourVoteTableViewCell.xib in Resources */,
 				AF3F5CC91EBE72F700809AA3 /* VoteHeaderView.xib in Resources */,
-				AF3F5CA31EBE72F700809AA3 /* DatePickerView.xib in Resources */,
 				AF3F5CC21EBE72F700809AA3 /* RepInfoView.xib in Resources */,
 				AF3F5CCD1EBE72F700809AA3 /* RepTableViewCell.xib in Resources */,
-				AF3F5CA61EBE72F700809AA3 /* KratosTextField.xib in Resources */,
 				AF3F5C8C1EBE72F700809AA3 /* ActionsView.xib in Resources */,
 				AF3F5CD11EBE72F700809AA3 /* UserVoteView.xib in Resources */,
-				AF3F5C8A1EBE72F700809AA3 /* RepresentativeView.xib in Resources */,
 				AFA9D1601E30269B00CD6BF9 /* GoogleService-Info.plist in Resources */,
 				AF8974641D4D80E500C19020 /* Main.storyboard in Resources */,
 				AF3F5CB31EBE72F700809AA3 /* RepBioView.xib in Resources */,
@@ -1290,18 +1293,20 @@
 				AF3F5CA01EBE72F700809AA3 /* ButtonView.swift in Sources */,
 				AF3F5CDD1EBE72F700809AA3 /* Array+Extensions.swift in Sources */,
 				AF3F5C771EBE72F700809AA3 /* APIManager.swift in Sources */,
+				AF72F0751EE03F77006B9B0B /* MainViewController.swift in Sources */,
 				AF3F5CD81EBE72F700809AA3 /* MenuHelper.swift in Sources */,
 				AFFA95641EC79C4100144C3A /* ApplicationLauncher.swift in Sources */,
 				AFFA95281EC4170500144C3A /* LoginViewModel.swift in Sources */,
+				AF72F0791EE03F77006B9B0B /* UserRepView.swift in Sources */,
 				AF3F5C951EBE72F700809AA3 /* BillTallyTableViewCell.swift in Sources */,
 				AF3F5C901EBE72F700809AA3 /* BillCommitteesView.swift in Sources */,
 				AF3F5CC11EBE72F700809AA3 /* RepInfoView.swift in Sources */,
 				AF6271B51ED3DF8400BDE8DB /* UIButton+Extensions.swift in Sources */,
 				AF3F5CA21EBE72F700809AA3 /* DatePickerView.swift in Sources */,
-				AF3F5C871EBE72F700809AA3 /* YourVotesViewController.swift in Sources */,
 				AF6271B31ED085BC00BDE8DB /* AccountDetailViewController.swift in Sources */,
 				AF3F5CC31EBE72F700809AA3 /* RepVoteTableViewCell.swift in Sources */,
 				AF3F5CFD1EBE755000809AA3 /* FeedbackService.swift in Sources */,
+				AF72F0741EE03F77006B9B0B /* YourVotesViewController.swift in Sources */,
 				AF3F5C8D1EBE72F700809AA3 /* BillActionsView.swift in Sources */,
 				AF3F5CB11EBE72F700809AA3 /* KratosActivityIndicator.swift in Sources */,
 				AF3F5CBF1EBE72F700809AA3 /* RepInfoManagerView.swift in Sources */,
@@ -1311,10 +1316,10 @@
 				AF3F5C6C1EBE72F700809AA3 /* Constants.swift in Sources */,
 				AFFA95081EBF4F9C00144C3A /* LoadStatus.swift in Sources */,
 				AF3F5CDC1EBE72F700809AA3 /* ErrorTypes.swift in Sources */,
+				AF3B2C0B1EDE531300509B01 /* Observable+Extensions.swift in Sources */,
 				AF3F5C741EBE72F700809AA3 /* Vote.swift in Sources */,
 				AF3F5C7C1EBE72F700809AA3 /* ExploreViewController.swift in Sources */,
 				AF3F5C921EBE72F700809AA3 /* BillHeaderView.swift in Sources */,
-				AF3F5C6A1EBE72F700809AA3 /* MainApplicationViewController.swift in Sources */,
 				AF3F5C761EBE72F700809AA3 /* KratosAnalytics.swift in Sources */,
 				AF3F5CEB1EBE72F700809AA3 /* UIView+Extension.swift in Sources */,
 				AF3F5CA41EBE72F700809AA3 /* InfoManagerView.swift in Sources */,
@@ -1327,9 +1332,9 @@
 				AFFA956A1EC95B0100144C3A /* RxBinder.swift in Sources */,
 				AF3F5C861EBE72F700809AA3 /* MenuViewController.swift in Sources */,
 				AF3F5C841EBE72F700809AA3 /* NotificationsRegistrationViewController.swift in Sources */,
-				AF3F5CB61EBE72F700809AA3 /* RepImageView.swift in Sources */,
 				AF5B23441ED68A3B00DD9F9E /* ConfirmationViewModel.swift in Sources */,
 				AF3F5C8E1EBE72F700809AA3 /* BillActionTableViewCell.swift in Sources */,
+				AF43D5331EE634BE00F1DA75 /* RepImageView.swift in Sources */,
 				AF3F5C821EBE72F700809AA3 /* ConfirmationViewController.swift in Sources */,
 				AF3F5C6B1EBE72F700809AA3 /* TabBarController.swift in Sources */,
 				AF3F5CE11EBE72F700809AA3 /* NSCharacterSet+Extensions.swift in Sources */,
@@ -1344,14 +1349,13 @@
 				AF3F5C681EBE72F700809AA3 /* AppDelegate.swift in Sources */,
 				AF3F5C721EBE72F700809AA3 /* Term.swift in Sources */,
 				AF3F5CE91EBE72F700809AA3 /* UINavigationController+Extensions.swift in Sources */,
-				AF3F5C881EBE72F700809AA3 /* MainViewController.swift in Sources */,
 				AFFA94F81EBE796F00144C3A /* StateService.swift in Sources */,
 				AFFA95681EC7A1DD00144C3A /* UIApplicationDelegate+Extensions.swift in Sources */,
 				AFFA95201EC0926400144C3A /* URLRequest+Extension.swift in Sources */,
 				AF3F5CAE1EBE72F700809AA3 /* SummaryView.swift in Sources */,
+				AF72F0781EE03F77006B9B0B /* UserRepsViewModel.swift in Sources */,
 				AF3F5CD41EBE72F700809AA3 /* YourVoteTableViewCell.swift in Sources */,
 				AF3F5CB91EBE72F700809AA3 /* RepInfoBillSponsorView.swift in Sources */,
-				AF3F5C851EBE72F700809AA3 /* SubmitAddressViewController.swift in Sources */,
 				AF3F5CCB1EBE72F700809AA3 /* VoteTableViewCellVoteView.swift in Sources */,
 				AF3F5CA91EBE72F700809AA3 /* PieChartView.swift in Sources */,
 				AF3F5CF51EBE74E400809AA3 /* KratosTarget.swift in Sources */,
@@ -1364,6 +1368,7 @@
 				AF3F5CCC1EBE72F700809AA3 /* RepTableViewCell.swift in Sources */,
 				AF3F5CE81EBE72F700809AA3 /* UILabel+Extensions.swift in Sources */,
 				AF3F5CE61EBE72F700809AA3 /* UIImage+Extension.swift in Sources */,
+				AF72F07B1EE0E839006B9B0B /* UserRepViewModel.swift in Sources */,
 				AF3F5C941EBE72F700809AA3 /* BillSummaryView.swift in Sources */,
 				AF3F5CDB1EBE72F700809AA3 /* TransitionManager.swift in Sources */,
 				AF3F5CAB1EBE72F700809AA3 /* ShowMoreView.swift in Sources */,
@@ -1381,6 +1386,7 @@
 				AF3F5CF31EBE72F700809AA3 /* Decodable.swift in Sources */,
 				AF3F5CDA1EBE72F700809AA3 /* ScrollTabBarControllerDelegate.swift in Sources */,
 				AF3F5CEF1EBE72F700809AA3 /* InputValidation.swift in Sources */,
+				AF43D5311EE61A9A00F1DA75 /* Client+ImageService.swift in Sources */,
 				AF3F5CCF1EBE72F700809AA3 /* TallyTableView.swift in Sources */,
 				AF3F5CE21EBE72F700809AA3 /* NSData+Extensions.swift in Sources */,
 				AF3F5CC41EBE72F700809AA3 /* TermView.swift in Sources */,
@@ -1393,6 +1399,7 @@
 				AF3F5C6D1EBE72F700809AA3 /* Bill.swift in Sources */,
 				AF3F5C791EBE72F700809AA3 /* KeychainManager.swift in Sources */,
 				AF3F5CA71EBE72F700809AA3 /* LoadMoreSpinnerView.swift in Sources */,
+				AF72F0771EE03F77006B9B0B /* UserRepsViewController.swift in Sources */,
 				AF3F5CCA1EBE72F700809AA3 /* VoteTableViewCellTitleView.swift in Sources */,
 				AF3F5C731EBE72F700809AA3 /* User.swift in Sources */,
 				AFFA950A1EBF506B00144C3A /* ViewLoader.swift in Sources */,
@@ -1419,7 +1426,6 @@
 				AF5B23421ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift in Sources */,
 				AF3F5C691EBE72F700809AA3 /* Datastore.swift in Sources */,
 				AFFA95001EBF4E9F00144C3A /* Client+CongressService.swift in Sources */,
-				AF3F5C891EBE72F700809AA3 /* RepresentativeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1594,6 +1600,7 @@
 				INFOPLIST_FILE = Kratos/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tekratos.kratos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "de3d0162-0075-4f23-9a35-b110bf786e5a";
@@ -1617,6 +1624,7 @@
 				INFOPLIST_FILE = Kratos/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tekratos.kratos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c692e893-d970-4939-b7cf-5942d028be14";

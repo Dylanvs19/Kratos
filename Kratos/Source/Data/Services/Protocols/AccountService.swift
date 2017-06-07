@@ -11,9 +11,9 @@ import RxSwift
 
 protocol AccountService {
     
-    func register(user: User) -> Observable<(String, User)>
+    func register(user: User) -> Observable<(String)>
     
-    func login(email: String, password: String) -> Observable<(String, User)>
+    func login(email: String, password: String) -> Observable<(String)>
     
     func forgotPassword(email: String) -> Observable<Bool>
     

@@ -65,8 +65,12 @@ enum KratosTarget {
     //Feedback
     case fetchFeedback
     case postFeedback(userID: Int, questions: [String: String])
+    
     //Analytics
     case postKratosAnalyticEvent(analytics: KratosAnalytics, event: KratosAnalytics.ContactAnalyticType)
+    
+    //Image 
+    case url(url: String)
     
     var parameters: [String: Any]? {
         switch self {
@@ -88,7 +92,7 @@ enum KratosTarget {
         case .fetchUser:
             return nil
         case .update(let user):
-            return user.toJsonForUpdate()
+            return user.toJson()
         
         //BillTracking
         case .fetchTrackedBills:
@@ -160,6 +164,10 @@ enum KratosTarget {
         //Analytics
         case .postKratosAnalyticEvent(let analytics, let event):
             return analytics.toDict(with: event)
+        
+        //Image
+        case .url:
+            return nil
         }
     }
     
@@ -246,6 +254,10 @@ enum KratosTarget {
         //Analytics
         case .postKratosAnalyticEvent:
             return "/me/actions"
+            
+        //Image
+        case .url(let url):
+            return url
         }
     }
     
@@ -326,6 +338,10 @@ enum KratosTarget {
         //Analytics
         case .postKratosAnalyticEvent:
             return .post
+        
+        //Image
+        case .url:
+            return .get
         }
     }
     
@@ -394,7 +410,11 @@ enum KratosTarget {
             return true
         //Analytics
         case .postKratosAnalyticEvent:
-            return true 
+            return true
+            
+        //Image
+        case .url:
+            return false
         }
     }
 }

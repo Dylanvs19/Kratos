@@ -17,11 +17,7 @@ class MenuViewController: UIViewController {
     }
 
     @IBAction func accountButtonPressed(_ sender: Any) {
-        
-        let vc: SubmitAddressViewController = SubmitAddressViewController.instantiate()
-        vc.loadViewIfNeeded()
-        vc.displayType = .accountDetails
-        self.present(vc, animated: true, completion: nil)
+        //To Account Details
     }
     
     @IBAction func feedbackButtonPressed(_ sender: Any) {

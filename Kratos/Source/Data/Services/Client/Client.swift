@@ -66,4 +66,8 @@ class Client {
                 forceRefresh: forceRefresh,
                 omitFromCache: omitFromCache)
     }
+    
+    func invalidateCache(for target: KratosTarget) {
+        cache.removeObject(forKey: "\(target)")
+    }
 }

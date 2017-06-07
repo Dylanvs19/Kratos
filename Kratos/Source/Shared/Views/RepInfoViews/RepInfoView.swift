@@ -139,18 +139,18 @@ class RepInfoView: UIView, Loadable, RepInfoManagerDelegate {
         alpha = 0
         
         if let personID = personID {
-            APIManager.getPerson(for: personID, success: { [weak self] (person) in
-                self?.person = person
-                self?.repInfoTopView.backgroundColor = person.currentParty?.color
-                UIView.animate(withDuration: 0.1, animations: {
-                    self?.alpha = 1
-                    self?.layoutIfNeeded()
-                }) { (success) in
-                    self?.animateIn()
-                }
-            }) { (error) in
-                print(error)
-            }
+//            APIManager.getPerson(for: personID, success: { [weak self] (person) in
+//                self?.person = person
+//                self?.repInfoTopView.backgroundColor = person.currentParty?.color
+//                UIView.animate(withDuration: 0.1, animations: {
+//                    self?.alpha = 1
+//                    self?.layoutIfNeeded()
+//                }) { (success) in
+//                    self?.animateIn()
+//                }
+//            }) { (error) in
+//                print(error)
+//            }
         }
         self.layoutIfNeeded()
     }
@@ -166,7 +166,7 @@ class RepInfoView: UIView, Loadable, RepInfoManagerDelegate {
         alpha(shouldShow: false)
         hide(shouldHide: true)
         repInfoBackgroundView.backgroundColor = UIColor.white
-        self.repImageView.set(image: personImage)
+        //self.repImageView.set(image: personImage)
         self.initalViewPosition = initalViewPosition
         self.initialImageViewPosition = initialImageViewPosition
         self.personID = personID

@@ -107,8 +107,8 @@ class FeedbackViewController: UIViewController, UIScrollViewDelegate {
     }
     
     fileprivate func setupGestureRecognizer() {
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(SubmitAddressViewController.handleTapOutside(_:)))
-        view.addGestureRecognizer(tapRecognizer)
+//        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(SubmitAddressViewController.handleTapOutside(_:)))
+//        view.addGestureRecognizer(tapRecognizer)
     }
     
     func handleTapOutside(_ recognizer: UITapGestureRecognizer) {

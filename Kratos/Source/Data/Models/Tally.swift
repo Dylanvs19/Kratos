@@ -156,9 +156,27 @@ enum TallyResultType {
     
     var color: UIColor {
         switch self {
-        case .billPassed, .clotureMotionAgreedTo, .motionToTableAgreedTo, .motionToProceedAgreedTo, .concurrentResolutionAgreedTo, .amendmentAgreedTo, .clotureOnTheMotionToProceedAgreedTo, .motionAgreedTo, .agreedTo, .conferenceReportAgreedTo, .passed, .resolutionAgreedTo, .jointResolutionPassed, .vetoOverridden:
+        case .billPassed,
+             .clotureMotionAgreedTo,
+             .motionToTableAgreedTo,
+             .motionToProceedAgreedTo,
+             .concurrentResolutionAgreedTo,
+             .amendmentAgreedTo,
+             .clotureOnTheMotionToProceedAgreedTo,
+             .motionAgreedTo,
+             .agreedTo,
+             .conferenceReportAgreedTo,
+             .passed,
+             .resolutionAgreedTo,
+             .jointResolutionPassed,
+             .vetoOverridden:
             return UIColor.yeaVoteGreen
-        case .clotureOnTheMotionToProceedRejected, .failed, .motionRejected, .amendmentRejected, .motionToTableAgreedTo, .clotureMotionRejected:
+        case .clotureOnTheMotionToProceedRejected,
+             .failed,
+             .motionRejected,
+             .amendmentRejected,
+             .motionToTableAgreedTo,
+             .clotureMotionRejected:
             return UIColor.kratosRed
         default:
             return UIColor.lightGray
@@ -242,7 +260,7 @@ struct Tally: Hashable, Decodable {
             self.congressNumber = bill["congress_number"] as? Int
         }
         if let tally = json["tally"] as? [String: Int] {
-            self.nominationID = tally["nomination_id"] as? Int
+            self.nominationID = tally["nomination_id"]
         }
         
         if let holdDate = json["date"] as? String {

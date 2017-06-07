@@ -28,6 +28,11 @@ class LoginViewController: UIViewController, ActivityIndicatorPresenter {
     fileprivate let emailTextField = KratosTextField()
     fileprivate let passwordTextField = KratosTextField()
     
+    lazy fileprivate var fieldData: [FieldData] = {
+        return [FieldData(field: self.emailTextField, fieldType: .email, viewModelVariable: self.viewModel.email, validation: self.viewModel.emailValid),
+                FieldData(field: self.passwordTextField, fieldType: .password, viewModelVariable: self.viewModel.password, validation: self.viewModel.passwordValid)]
+    }()
+    
     var imageViewHeightConstraint: Constraint?
     var imageViewYConstraint: Constraint?
     
@@ -36,7 +41,7 @@ class LoginViewController: UIViewController, ActivityIndicatorPresenter {
     
     init(client: Client) {
         self.client = client
-        viewModel = LoginViewModel(client: client)
+        self.viewModel = LoginViewModel(client: client)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -46,10 +51,10 @@ class LoginViewController: UIViewController, ActivityIndicatorPresenter {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureTextFields()
         style()
         buildViews()
         bind()
-        configureTextFields()
         
         setupGestureRecognizer()
         navigationController?.isNavigationBarHidden = true
@@ -61,12 +66,7 @@ class LoginViewController: UIViewController, ActivityIndicatorPresenter {
         beginningAnimations()
     }
     
-    func configureTextFields() {
-        let expandedWidth = self.view.frame.width * 0.8
-        emailTextField.configureWith(textlabelText: "E M A I L", expandedWidth: expandedWidth, textFieldType: .email)
-        passwordTextField.configureWith(textlabelText: "P A S S W O R D", expandedWidth: expandedWidth, textFieldType: .password,  secret: true)
-    }
-    
+    //MARK: Animation
     func setInitialState() {
         emailTextField.isHidden = true
         passwordTextField.isHidden = true
@@ -81,8 +81,25 @@ class LoginViewController: UIViewController, ActivityIndicatorPresenter {
             self.passwordTextField.isHidden = false
             self.emailTextField.animateIn()
             self.passwordTextField.animateIn()
+            self.animateIn()
             self.view.layoutIfNeeded()
         }, completion: nil)
+    }
+    
+    fileprivate func animateIn() {
+        fieldData.forEach { (data) in
+            data.field.snp.remakeConstraints { (make) in
+                make.top.equalTo(kratosImageView.snp.bottom).offset(data.fieldType.offsetYPosition)
+                make.centerX.equalTo(view)
+                make.width.equalTo(self.view.frame.width * data.fieldType.expandedWidthMultiplier)
+            }
+        }
+    }
+    
+    func configureTextFields() {
+        fieldData.forEach { (data) in
+            data.field.configureView(with: data.fieldType)
+        }
     }
     
     func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
@@ -90,8 +107,8 @@ class LoginViewController: UIViewController, ActivityIndicatorPresenter {
     }
     
     fileprivate func setupGestureRecognizer() {
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(SubmitAddressViewController.handleTapOutside(_:)))
-        view.addGestureRecognizer(tapRecognizer)
+//        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(SubmitAddressViewController.handleTapOutside(_:)))
+//        view.addGestureRecognizer(tapRecognizer)
     }
 }
 
@@ -129,16 +146,13 @@ extension LoginViewController: ViewBuilder {
         }
     }
     func buildKratosTextFieldViews() {
-        contentView.addSubview(emailTextField)
-        emailTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(kratosImageView.snp.bottom).offset(40)
-            make.centerX.equalTo(view)
-        }
-        
-        contentView.addSubview(passwordTextField)
-        passwordTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(kratosImageView.snp.bottom).offset(90)
-            make.centerX.equalTo(view)
+        fieldData.forEach { (data) in
+            contentView.addSubview(data.field)
+            data.field.snp.makeConstraints { (make) in
+                make.top.equalTo(kratosImageView.snp.bottom).offset(data.fieldType.offsetYPosition)
+                make.centerX.equalTo(view)
+                make.width.equalTo(0)
+            }
         }
     }
     func buildLoginContinueButton() {
@@ -240,49 +254,39 @@ extension LoginViewController: RxBinder {
     }
     
     func setupTextFieldBindings() {
-        emailTextField.textField.rx.text
-            .map { $0 ?? "" }
-            .bind(to: viewModel.email)
-            .disposed(by: disposeBag)
-        
-        passwordTextField.textField.rx.text
-            .map { $0 ?? "" }
-            .bind(to: viewModel.password)
-            .disposed(by: disposeBag)
+        fieldData.forEach { (data) in
+            data.field.textField.rx.text
+                .map { $0 ?? "" }
+                .bind(to: data.viewModelVariable)
+                .disposed(by: disposeBag)
+        }
         
         //Animations
-        Observable.combineLatest(passwordTextField.textField.rx.controlEvent([.editingDidBegin, .editingDidEnd]), viewModel.password.asObservable(), resultSelector: { (didEnd, password) -> Bool in
-                !password.isEmpty
-            })
-            .subscribe(onNext: { [weak self] (shoudAnimateUp) in
-                self?.passwordTextField.animateTextLabelPosistion(shouldAnimateUp: shoudAnimateUp)
-            })
-            .disposed(by: disposeBag)
-        
-        Observable.combineLatest(emailTextField.textField.rx.controlEvent([.editingDidBegin, .editingDidEnd]), viewModel.email.asObservable(), resultSelector: { (didEnd, email) -> Bool in
-            !email.isEmpty
-            })
-            .subscribe(onNext: { [weak self] (shoudAnimateUp) in
-                self?.emailTextField.animateTextLabelPosistion(shouldAnimateUp: shoudAnimateUp)
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.emailValid.asObservable()
-            .subscribe(onNext: { [weak self] (valid) in
-                self?.emailTextField.changeColor(for: valid)
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.passwordValid.asObservable()
-            .subscribe(onNext: { [weak self] (valid) in
-                self?.passwordTextField.changeColor(for: valid)
-            })
-            .disposed(by: disposeBag)
+        fieldData.forEach { (data) in
+            data.validation.asObservable()
+                .subscribe(onNext: { (valid) in
+                    data.field.changeColor(for: valid)
+                })
+                .disposed(by: disposeBag)
+        }
     }
     
     func navigationBindings() {
-        viewModel.nextViewController.asObservable()
-            .subscribe(onNext: { [weak self] vc in
+        viewModel.loginSuccessful.asObservable()
+            .map { $0 }
+            .subscribe(onNext: { [weak self] success in
+                if let client = self?.client,
+                       success {
+                    let vc = UINavigationController(rootViewController: TabBarController(client: client))
+                    UIApplication.shared.delegate?.rootTransition(to: vc)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.registrationContinueSuccessful.asObservable()
+            .subscribe(onNext: { [weak self] credentials in
+                guard let client = self?.client else { fatalError("`self` has been dealocated before it was accessed") }
+                let vc = AccountDetailsViewController(client: client, accountDetails: credentials)
                 self?.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)

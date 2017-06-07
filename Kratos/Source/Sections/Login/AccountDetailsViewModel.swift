@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 class AccountDetailsViewModel {
     
@@ -40,7 +41,7 @@ class AccountDetailsViewModel {
     }
     
     let client: Client
-    let user = PublishSubject<User>()
+    let user = Variable<User?>(nil)
     let viewState = Variable<ViewState>(.viewAccount)
     let loadStatus = Variable<LoadStatus>(.none)
     let disposeBag = DisposeBag()
@@ -60,7 +61,6 @@ class AccountDetailsViewModel {
     
     let saveEditRegisterButtonTap = PublishSubject<Void>()
     let cancelDoneButtonTap = PublishSubject<Void>()
-    let nextViewController = PublishSubject<UIViewController>()
     
     var formValid : Observable<Bool> {
         return Observable.combineLatest(firstValid,
@@ -84,86 +84,62 @@ class AccountDetailsViewModel {
             .map { InputValidation.address(address: $0).isValid }
     }
     var partyValid : Observable<Bool> {
-        return last.asObservable()
+        return party.asObservable()
             .map { InputValidation.address(address: $0).isValid }
     }
     var dobValid : Observable<Bool> {
-        return last.asObservable()
+        return dob.asObservable()
             .map { InputValidation.address(address: $0).isValid }
     }
     var streetValid : Observable<Bool> {
-        return last.asObservable()
+        return street.asObservable()
             .map { InputValidation.address(address: $0).isValid }
     }
     var cityValid : Observable<Bool> {
-        return last.asObservable()
+        return city.asObservable()
             .map { InputValidation.city(city: $0).isValid }
     }
     var stateValid : Observable<Bool> {
-        return last.asObservable()
+        return state.asObservable()
             .map { InputValidation.state(state: $0).isValid }
     }
     var zipValid : Observable<Bool> {
-        return last.asObservable()
+        return zip.asObservable()
             .map { InputValidation.zipcode(zipcode: $0).isValid }
     }
+    
+    var push = Variable<Bool>(false)
     
     //MARK: Methods
     init(client: Client, viewState: ViewState) {
         self.client = client
         self.viewState.value = viewState
-        self.bind()
-        
+        bind()
     }
     
-    func fetchUser() -> Observable<User> {
+    func fetchUser() {
         loadStatus.value = .loading
-        return client.fetchUser()
-            .do(onNext: { [unowned self] user in
+        client.fetchUser()
+            .subscribe(onNext: { [unowned self] user in
                 self.loadStatus.value = .none
+                self.user.value = user
             }, onError: { [unowned self] (error) in
                 let error = error as? KratosError ?? KratosError.unknown
                 self.loadStatus.value = .error(error: error)
             })
+            .disposed(by: disposeBag)
     }
     
-    func buildUser() -> User {
-        
-        var user = User()
-        user.email = email.value
-        user.firstName = first.value
-        user.lastName = last.value
-        user.party = Party.value(for: party.value)
-        user.dob = dob.value.stringToDate()
-        
-        var address = Address()
-        address.street = street.value
-        address.city = city.value
-        address.state = state.value
-        address.zipCode = Int(zip.value)
-        
-        user.address = address
-        
-        return user
-    }
-    
-    func register() {
+    func register() -> Observable<Bool> {
         loadStatus.value = .loading
-        client.register(user: buildUser())
-            .map{ $0.0 }
-            .subscribe(onNext: { [unowned self] in
+        return client.register(user: buildRegistrationUser())
+            .do(onNext: { [unowned self] _ in
                 self.loadStatus.value = .none
-                if KeychainManager.create($0) {
-                    let vc = ConfirmationViewController(client: self.client)
-                    self.nextViewController.onNext(vc)
-                } else {
-                    fatalError("Could not save token for keychain")
-                }
-                }, onError: { (error) in
+                }, onError: { [unowned self] error in
                     let error = error as? KratosError ?? KratosError.unknown
                     self.loadStatus.value = .error(error: error)
             })
-            .disposed(by: disposeBag)
+            .map { KeychainManager.create($0) }
     }
     
     func edit() {
@@ -172,16 +148,14 @@ class AccountDetailsViewModel {
     
     func save() {
         loadStatus.value = .loading
-        client.updateUser(user: buildUser())
-            .do(onNext: { [unowned self] (user) in
+        client.updateUser(user: updateUser())
+            .subscribe(onNext: { [unowned self] (user) in
                 self.loadStatus.value = .none
+                self.user.value = user
             }, onError: { (error) in
                 let error = error as? KratosError ?? KratosError.unknown
                 self.loadStatus.value = .error(error: error)
-            }, onCompleted: { 
-                self.loadStatus.value = .none
             })
-            .bind(to: user)
             .disposed(by: disposeBag)
     }
     
@@ -193,19 +167,66 @@ class AccountDetailsViewModel {
         //dismissVC
     }
     
+    func buildRegistrationUser() -> User {
+        
+        return  User(id: 0,
+                     email: email.value,
+                     firstName: first.value,
+                     lastName: last.value,
+                     district: 0,
+                     address: Address(street: state.value,
+                                      city: city.value,
+                                      state: state.value,
+                                      zipCode: Int(zip.value) ?? 0),
+                     dob: dob.value.stringToDate() ?? Date(),
+                     party: Party.value(for: party.value),
+                     password: password.value)
+        
+    }
+    
+    func updateUser() -> User {
+        guard let user = user.value else { fatalError("No user value to update") }
+        return user.update(email: email.value,
+                    firstName: first.value,
+                    lastName: last.value, 
+                    district: nil,
+                    address: Address(street: street.value,
+                                     city: city.value,
+                                     state: state.value,
+                                     zipCode: Int(zip.value) ?? 0),
+                    dob: dob.value.stringToDate() ?? Date(),
+                    party: Party.value(for: party.value),
+                    password: password.value)
+    }
+}
+
+extension AccountDetailsViewModel: RxBinder {
+
     func bind() {
-        
-        fetchUser().asObservable()
-            .bind(to: user)
+        setupViewStateBindings()
+        setupInteractionBindings()
+        setupUserBindings()
+    }
+    
+    func setupViewStateBindings() {
+        viewState.asObservable()
+            .filter { $0 == .viewAccount }
+            .subscribe(onNext: { [weak self] _ in
+                self?.fetchUser()
+            })
             .disposed(by: disposeBag)
-        
+    }
+    
+    func setupInteractionBindings() {
         saveEditRegisterButtonTap.asObservable()
             .map { self.viewState.value }
             .throttle(2, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [unowned self] (state) in
                 switch state {
                 case .registration:
-                    self.register()
+                    self.register().asObservable()
+                        .bind(to: self.push)
+                        .disposed(by: self.disposeBag)
                 case .editAccount:
                     self.save()
                 case .viewAccount:
@@ -227,5 +248,53 @@ class AccountDetailsViewModel {
                 }
             })
             .disposed(by: disposeBag)
+    }
+    
+    func setupUserBindings() {
+        let nonNilUser = user.asObservable().filterNil()
+        
+        nonNilUser
+            .map { $0.firstName }
+            .bind(to: first)
+            .disposed(by: disposeBag)
+        
+        nonNilUser
+            .map { $0.lastName }
+            .bind(to: last)
+            .disposed(by: disposeBag)
+        
+        nonNilUser
+            .map { $0.party?.long }
+            .filterNil()
+            .bind(to: party)
+            .disposed(by: disposeBag)
+        
+        nonNilUser
+            .map { $0.dob }
+            .map { DateFormatter.presentationDateFormatter.string(from: $0) }
+            .bind(to: dob)
+            .disposed(by: disposeBag)
+        
+        nonNilUser
+            .map { $0.address.street }
+            .bind(to: street)
+            .disposed(by: disposeBag)
+        
+        nonNilUser
+            .map { $0.address.city }
+            .bind(to: city)
+            .disposed(by: disposeBag)
+        
+        nonNilUser
+            .map { $0.address.state }
+            .bind(to: state)
+            .disposed(by: disposeBag)
+        
+        nonNilUser
+            .map { $0.address.zipCode }
+            .map { String($0) }
+            .bind(to: zip)
+            .disposed(by: disposeBag)
+        
     }
 }
