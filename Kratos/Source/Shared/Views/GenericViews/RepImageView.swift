@@ -43,7 +43,7 @@ class RepImageView: UIImageView {
         .disposed(by: disposeBag)
         } else {
             loadStatus.value = .none
-            image = chamber?.toImage() ?? #imageLiteral(resourceName: "CongressLogo")
+            image = chamber?.image ?? #imageLiteral(resourceName: "CongressLogo")
         }
     }
 }

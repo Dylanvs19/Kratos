@@ -7,70 +7,50 @@
 //
 
 import UIKit
+import SnapKit
 
-class VoteTableViewCellVoteView: UIView, Tappable {
+class VoteTableViewCellVoteView: UIView {
     
     var questionLabel =  UILabel()
-    var voteView = UIImageView()
+    var voteResultImageView = UIImageView()
     var statusLabel = UILabel()
-    var selector: Selector = #selector(viewTapped)
-    var tapped: ((LightTally) -> ())?
-    var lightTally: LightTally?
     
-    init(lightTally: LightTally, tapped: @escaping ((LightTally) -> Void)) {
-        super.init(frame: .zero)
-        configure(with: lightTally, tapped: tapped)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        buildViews()
+        style()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with lightTally: LightTally, tapped: @escaping ((LightTally) -> ())) {
-        addTap()
-        self.tapped = tapped
-        self.lightTally = lightTally
-        buildViews()
-        questionLabel.text = lightTally.question
-        statusLabel.text = lightTally.resultText
-        
-        if let voteType = lightTally.voteValue {
-            switch voteType {
-            case .yea:
-                voteView.image = #imageLiteral(resourceName: "Yes")
-            case .nay:
-                voteView.image = #imageLiteral(resourceName: "No")
-            case .abstain:
-                voteView.image = #imageLiteral(resourceName: "Abstain")
-            }
-        }
-        style()
+    func configure(with vote: LightTally) {
+        questionLabel.text = vote.question
+        statusLabel.text = vote.resultText
+        voteResultImageView.image = vote.voteValue?.image
     }
-    
+}
+
+extension VoteTableViewCellVoteView: ViewBuilder {
     func buildViews() {
-        questionLabel.pin(to: self, for: [.top(5), .leading(5)])
-        statusLabel.pin(to: self, for: [.leading(5), .bottom(-5)])
-        questionLabel.bottomAnchor.constrain(equalTo: statusLabel.topAnchor, constant: -3, priority: 999)
-        
-        voteView.pin(to: self, for: [.trailing(-5)])
-        voteView.centerYAnchor.constrain(equalTo: centerYAnchor)
-        voteView.heightAnchor.constrain(equalTo: 30)
-        voteView.widthAnchor.constrain(equalTo: 30)
-        
-        let dividerView = UIView()
-        dividerView.backgroundColor = UIColor.lightGray
-        dividerView.pin(to: self, for: [.bottom(-5)])
-        dividerView.widthAnchor.constrain(equalTo: 1)
-        dividerView.topAnchor.constrain(equalTo: topAnchor, priority: 999)
-        voteView.leadingAnchor.constrain(equalTo: dividerView.trailingAnchor, constant: 3, priority: 999)
-        
-        dividerView.leadingAnchor.constrain(equalTo:statusLabel.trailingAnchor , constant: 3)
-        dividerView.leadingAnchor.constrain(equalTo: questionLabel.trailingAnchor, constant: 3)
-    }
-    
-    func viewTapped() {
-        if let lightTally = lightTally {
-            tapped?(lightTally)
+        addSubview(voteResultImageView)
+        voteResultImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(5)
+            make.trailing.bottom.equalToSuperview().offset(-5)
+            make.height.equalTo(25)
+            make.width.equalTo(self.snp.height)
+        }
+        addSubview(statusLabel)
+        statusLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(5)
+            make.bottom.equalToSuperview().offset(-5)
+        }
+        addSubview(questionLabel)
+        questionLabel.snp.makeConstraints { make in
+            make.leading.top.equalToSuperview().offset(5)
+            make.trailing.equalTo(voteResultImageView.snp.leading).offset(3)
+            make.bottom.equalTo(statusLabel.snp.top).offset(3)
         }
     }
     
@@ -79,12 +59,5 @@ class VoteTableViewCellVoteView: UIView, Tappable {
         questionLabel.textColor = UIColor.lightGray
         questionLabel.numberOfLines = 10
         statusLabel.font = Font.futura(size: 10).font
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        questionLabel.preferredMaxLayoutWidth = questionLabel.frame.size.width
-        statusLabel.preferredMaxLayoutWidth = statusLabel.frame.size.width
-        super.layoutSubviews()
     }
 }

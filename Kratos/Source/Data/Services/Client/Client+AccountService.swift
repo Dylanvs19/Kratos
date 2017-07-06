@@ -11,22 +11,14 @@ import RxSwift
 
 extension Client: AccountService {
     
-    func register(user: User) -> Observable<String> {
+    func register(user: User) -> Observable<Bool> {
         return request(.register(user: user), forceRefresh: true, omitFromCache: true)
             .toJson()
-            .map{
-                guard let json = $0 as? [String: Any] else {
-                    throw KratosError.mappingError(type: .unexpectedValue)
-                }
-                guard let token = json["token"] as? String else {
-                    throw KratosError.mappingError(type: .unexpectedValue)
-                }
-                return token
-        }
+            .map { _ in return true }
     }
     
     func login(email: String, password: String) -> Observable<String> {
-        return request(.logIn(email: email, password: password), forceRefresh: true, omitFromCache: true)
+        return request(.login(email: email, password: password), forceRefresh: true, omitFromCache: true)
             .toJson()
             .map {
                 guard let json = $0 as? [String: Any] else {

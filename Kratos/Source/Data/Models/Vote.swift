@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum VoteValue: String {
     case yea = "Yea"
@@ -23,6 +24,17 @@ enum VoteValue: String {
             return .abstain
         default:
             return nil
+        }
+    }
+    
+    var image: UIImage {
+        switch self {
+        case .yea:
+            return #imageLiteral(resourceName: "Yes")
+        case .nay:
+            return #imageLiteral(resourceName: "No")
+        case .abstain:
+            return #imageLiteral(resourceName: "Abstain")
         }
     }
 }

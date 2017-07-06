@@ -38,11 +38,11 @@ class YourVotesViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func loadData() {
-        APIManager.getUserVotingRecord(success: { (tallies) in
-            self.userVotes = tallies
-        }) { (error) in
-            self.showError(error: error)
-        }
+//        APIManager.getUserVotingRecord(success: { (tallies) in
+//            self.userVotes = tallies
+//        }) { (error) in
+//            self.showError(error: error)
+//        }
     }
     
     

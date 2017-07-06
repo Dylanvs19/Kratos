@@ -40,6 +40,11 @@ class ConfirmationViewController: UIViewController {
         style()
         bind()
     }
+    
+    func setInfoFromRegistration(email: String, password: String) {
+        viewModel.email.value = email
+        viewModel.password.value = password
+    }
 }
 
 extension ConfirmationViewController: ViewBuilder {
@@ -80,7 +85,7 @@ extension ConfirmationViewController: ViewBuilder {
         linkButton.snp.makeConstraints { make in
             make.top.equalTo(textView.snp.bottom).offset(40)
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview().inset(-20)
+            make.width.equalToSuperview().offset(-20)
         }
     }
     
@@ -112,12 +117,18 @@ extension ConfirmationViewController: RxBinder {
             .bind(to: textView.rx.text)
             .disposed(by: disposeBag)
         
-        linkButton.rx.controlEvent(.touchUpInside)
-            .subscribe(onNext: { [weak self] _ in
+        viewModel.push.asObservable()
+            .subscribe(onNext: { [weak self] in
                 guard let s = self else { fatalError("self deallocated before it was accessed") }
                 let vc = NotificationsRegistrationViewController(client: s.client)
                 s.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
+        
+        linkButton.rx.controlEvent(.touchUpInside)
+            .bind(to: viewModel.confirmationPressed)
+            .disposed(by: disposeBag)
     }
+    
+    
 }

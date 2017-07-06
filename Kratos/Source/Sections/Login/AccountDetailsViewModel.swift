@@ -120,26 +120,31 @@ class AccountDetailsViewModel {
     func fetchUser() {
         loadStatus.value = .loading
         client.fetchUser()
+            .catchError({ (error) in
+                let error = error as? KratosError ?? KratosError.unknown
+                self.loadStatus.value = .error(error: error)
+                throw error
+            })
             .subscribe(onNext: { [unowned self] user in
                 self.loadStatus.value = .none
                 self.user.value = user
-            }, onError: { [unowned self] (error) in
-                let error = error as? KratosError ?? KratosError.unknown
-                self.loadStatus.value = .error(error: error)
             })
             .disposed(by: disposeBag)
     }
     
-    func register() -> Observable<Bool> {
+    func register() {
         loadStatus.value = .loading
-        return client.register(user: buildRegistrationUser())
+        client.register(user: buildRegistrationUser())
+            .catchError({ (error) in
+                let error = error as? KratosError ?? KratosError.unknown
+                self.loadStatus.value = .error(error: error)
+                throw error
+            })
             .do(onNext: { [unowned self] _ in
                 self.loadStatus.value = .none
-                }, onError: { [unowned self] error in
-                    let error = error as? KratosError ?? KratosError.unknown
-                    self.loadStatus.value = .error(error: error)
             })
-            .map { KeychainManager.create($0) }
+            .bind(to: push)
+            .disposed(by: disposeBag)
     }
     
     func edit() {
@@ -224,9 +229,7 @@ extension AccountDetailsViewModel: RxBinder {
             .subscribe(onNext: { [unowned self] (state) in
                 switch state {
                 case .registration:
-                    self.register().asObservable()
-                        .bind(to: self.push)
-                        .disposed(by: self.disposeBag)
+                    self.register()
                 case .editAccount:
                     self.save()
                 case .viewAccount:

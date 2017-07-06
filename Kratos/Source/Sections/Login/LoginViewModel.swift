@@ -133,17 +133,13 @@ class LoginViewModel {
             .subscribe(onNext: { [unowned self] state in
                 switch state {
                 case .login:
-                    self.login()
+                    self.login().asObservable()
                         .bind(to: self.loginSuccessful)
                         .disposed(by: self.disposeBag)
                 case .registration:
-                    Observable.combineLatest(self.email.asObservable(), self.password.asObservable(), resultSelector: { credentials in
-                        return credentials
-                    })
-                    .bind(to: self.registrationContinueSuccessful)
-                    .disposed(by: self.disposeBag)
+                    self.registrationContinueSuccessful.onNext((self.email.value, self.password.value))
                 case .forgotPassword:
-                    self.postForgotPassword()
+                    self.postForgotPassword().asObservable()
                         .bind(to: self.forgotPasswordSuccessful)
                         .disposed(by: self.disposeBag)
                 }

@@ -10,7 +10,7 @@
 import UIKit
 import SafariServices
 
-class BillViewController: UIViewController, ActivityIndicatorPresenter, RepInfoViewPresentable, BillInfoViewDelegate, InfoManagerViewDelegate, BillVotesViewDelegate {
+class BillViewController: UIViewController, ActivityIndicatorPresenter, BillInfoViewDelegate, InfoManagerViewDelegate, BillVotesViewDelegate {
     
     enum ViewType: Int, RawRepresentable {
         //ViewType's Int property matches up with index for views
@@ -71,14 +71,14 @@ class BillViewController: UIViewController, ActivityIndicatorPresenter, RepInfoV
     fileprivate func loadData() {
         if let billId = billID {
             presentActivityIndicator()
-            APIManager.getBill(for: billId, success: {[weak self] (bill) -> (Void) in
-                self?.hideActivityIndicator()
-                self?.bill = bill //build & configures views in didSet
-                }, failure: { (error) -> (Void) in
-                    self.hideActivityIndicator()
-                    self.showError(error)
-                    print("COULD NOT LOAD BILL FROM API, \(error)")
-            })
+//            APIManager.getBill(for: billId, success: {[weak self] (bill) -> (Void) in
+//                self?.hideActivityIndicator()
+//                self?.bill = bill //build & configures views in didSet
+//                }, failure: { (error) -> (Void) in
+//                    self.hideActivityIndicator()
+//                    self.showError(error)
+//                    print("COULD NOT LOAD BILL FROM API, \(error)")
+//            })
         }
     }
     

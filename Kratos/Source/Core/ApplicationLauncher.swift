@@ -16,13 +16,13 @@ struct ApplicationLauncher {
         
         let splash = SplashViewController()
         splash.onAnimationCompletion = {
-            let client = Client(environment: .production)
-            //if KeychainManager.token == nil {
+            let client = Client(environment: .staging)
+            if KeychainManager.token == nil {
                 let navVC = UINavigationController(rootViewController: LoginViewController(client: client))
                 appDelegate.rootTransition(to: navVC)
-            //} else {
-              //  appDelegate.rootTransition(to: TabBarController())
-            //}
+            } else {
+                appDelegate.rootTransition(to: TabBarController(client: client))
+            }
         }
         
         appDelegate.window??.rootViewController = splash

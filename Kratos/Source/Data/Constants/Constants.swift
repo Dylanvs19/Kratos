@@ -15,34 +15,16 @@ enum Environment {
     var URL: String {
         switch self {
         case .staging:
-            return "https://kratos.site/api/"
+            return "https://kratos.site/api"
         case .production:
-            return "https://kratos.website/api/"
+            return "https://kratos.website/api"
         }
     }
 }
 
 struct Constants {
     
-    static let environment: Environment = .production
-    
-    static let REGISTRATION_URL =  Constants.environment.URL + "registrations"
-    static let LOGIN_URL = Constants.environment.URL + "login"
-    static let USER_URL = Constants.environment.URL + "me"
-    static let FORGOT_PASSWORD_URL = Constants.environment.URL + "forgot-password"
-    static let FEEDBACK_URL = Constants.environment.URL + "feedback"
-    
-    static let REPRESENTATIVES_URL = Constants.environment.URL + "districts/"
-    static let PERSON_URL = Constants.environment.URL + "people/"
-    static let VOTES_URL = Constants.environment.URL + "people/"
-    static let TALLY_URL = Constants.environment.URL + "tallies/"
-    static let BILL_URL = Constants.environment.URL + "bills/"
-    
-    static let YOUR_VOTES_URL = Constants.environment.URL + "me/votes"
-    static let YOUR_VOTES_CREATE_URL = Constants.environment.URL + "api/me/votes"
-    static let YOUR_VOTES_INDIVIDUAL_VOTE_URL = Constants.environment.URL + "api/me/votes/"
-    
-    static let YOUR_ACTION_URL = Constants.environment.URL + "me/actions"
+    static let environment: Environment = .staging
     
     static let statePictureDict =  [
         "AL": "Alabama",

@@ -359,6 +359,7 @@ extension AccountDetailsViewController: RxBinder {
             .subscribe(onNext: { [weak self] vc in
                 guard let s = self else { fatalError("self deallocated before it was accessed") }
                 let vc = ConfirmationViewController(client: s.client)
+                vc.setInfoFromRegistration(email: s.viewModel.email.value, password: s.viewModel.password.value)
                 s.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)

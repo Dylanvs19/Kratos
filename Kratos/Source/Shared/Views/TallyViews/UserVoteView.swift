@@ -20,12 +20,12 @@ class UserVoteView: UIView, Loadable {
         didSet {
             setView(with: userVote)
             if let tallyID = tallyID, userVote == .abstain {
-                APIManager.deleteUserTally(with: tallyID, success: { (success) in
-                    print("deleteUserTally for \(tallyID) successful")
-                    self.userVoteExists = false
-                }, failure: { (error) in
-                    self.presentError?(error)
-                })
+//                APIManager.deleteUserTally(with: tallyID, success: { (success) in
+//                    print("deleteUserTally for \(tallyID) successful")
+//                    self.userVoteExists = false
+//                }, failure: { (error) in
+//                    self.presentError?(error)
+//                })
             }
         }
     }
@@ -49,20 +49,20 @@ class UserVoteView: UIView, Loadable {
         self.presentError = presentError
         self.shouldAnimate = true
         self.tallyID = tallyID
-        APIManager.getUserTally(with: tallyID, success: { (lightTally) in
-            if let userVote = lightTally.voteValue {
-                self.userVote = userVote
-                self.userVoteExists = true
-                //print("getUserTally for vote success \(tallyID)")
-
-            } else {
-                self.setView(with: .abstain)
-            }
-        }) { (error) in
-            self.setView(with: .abstain)
-            self.userVoteExists = false
-            //print("getUserTally for vote Failed \(tallyID)")
-        }
+//        APIManager.getUserTally(with: tallyID, success: { (lightTally) in
+//            if let userVote = lightTally.voteValue {
+//                self.userVote = userVote
+//                self.userVoteExists = true
+//                //print("getUserTally for vote success \(tallyID)")
+//
+//            } else {
+//                self.setView(with: .abstain)
+//            }
+//        }) { (error) in
+//            self.setView(with: .abstain)
+//            self.userVoteExists = false
+//            //print("getUserTally for vote Failed \(tallyID)")
+//        }
     }
     
     func setView(with voteValue: VoteValue) {
@@ -104,19 +104,19 @@ class UserVoteView: UIView, Loadable {
         userVote = userVote == .yea ? .abstain : .yea
         guard let tallyID = tallyID else { return }
         if userVoteExists {
-            APIManager.updateUserTally(with: userVote, and: tallyID, success: { (success) in
-                // present Success
-                //print("update yea vote success \(tallyID)")
-            }, failure: { (error) in
-                self.presentError?(error)
-            })
+//            APIManager.updateUserTally(with: userVote, and: tallyID, success: { (success) in
+//                // present Success
+//                //print("update yea vote success \(tallyID)")
+//            }, failure: { (error) in
+//                self.presentError?(error)
+//            })
         } else {
-            APIManager.createUserTally(with: userVote, and: tallyID, success: { (lightTally) in
-                // present Success
-                print("create yea vote success \(tallyID)")
-            }, failure: { (error) in
-                self.presentError?(error)
-            })
+//            APIManager.createUserTally(with: userVote, and: tallyID, success: { (lightTally) in
+//                // present Success
+//                print("create yea vote success \(tallyID)")
+//            }, failure: { (error) in
+//                self.presentError?(error)
+//            })
         }
     }
     
@@ -125,19 +125,19 @@ class UserVoteView: UIView, Loadable {
         userVote = userVote == .nay ? .abstain : .nay
         guard let tallyID = tallyID else { return }
         if userVoteExists {
-            APIManager.updateUserTally(with: userVote, and: tallyID, success: { (success) in
-                // present Success
-                print("update nay vote success \(tallyID)")
-            }, failure: { (error) in
-                self.presentError?(error)
-            })
+//            APIManager.updateUserTally(with: userVote, and: tallyID, success: { (success) in
+//                // present Success
+//                print("update nay vote success \(tallyID)")
+//            }, failure: { (error) in
+//                self.presentError?(error)
+//            })
         } else {
-            APIManager.createUserTally(with: userVote, and: tallyID, success: { (lightTally) in
-                // present Success
-                print("create nay vote success \(tallyID)")
-            }, failure: { (error) in
-                self.presentError?(error)
-            })
+//            APIManager.createUserTally(with: userVote, and: tallyID, success: { (lightTally) in
+//                // present Success
+//                print("create nay vote success \(tallyID)")
+//            }, failure: { (error) in
+//                self.presentError?(error)
+//            })
         }
     }
 }

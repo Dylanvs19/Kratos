@@ -110,16 +110,20 @@ extension UIView {
     
     
     func addShadow(shadowColor: CGColor = UIColor.black.cgColor,
-                   shadowOffset: CGSize = CGSize(width: 1.0, height: 1.0),
+                   shadowOffset: CGSize = CGSize(width: 0, height: 1),
                    shadowOpacity: Float = 0.4,
-                   shadowRadius: CGFloat = 0) {
+                   shadowRadius: CGFloat = 1) {
         
-        layer.masksToBounds = false
+        layer.shadowOffset = CGSize(width: 0, height: 1)
         layer.shadowColor = shadowColor
-        layer.shadowOffset = shadowOffset
-        layer.shadowOpacity = shadowOpacity
         layer.shadowRadius = shadowRadius
-        layer.shouldRasterize = true 
+        layer.shadowOpacity = shadowOpacity
+        
+        clipsToBounds = false
+        
+        let shadowFrame: CGRect = layer.bounds
+        let shadowPath: CGPath = UIBezierPath(rect: shadowFrame).cgPath
+        layer.shadowPath = shadowPath
     }
     
     /// Adds view to a superview, disables translates autoresizing masks into constraints, and pins the view to the edges of the superview.

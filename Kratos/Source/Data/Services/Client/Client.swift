@@ -14,7 +14,7 @@ class Client {
     
     public let environment: Environment
     public var baseURL: URL {
-        guard let url = URL(string: Environment.production.URL) else {
+        guard let url = URL(string: environment.URL) else {
             fatalError("Base URL not encodable")
         }
         return url

@@ -19,11 +19,11 @@ class KratosAnalytics {
         case website = "website"
         
         func fireEvent() {
-            APIManager.postKratosAnalyticEvent(event: self, success: { (didSucceed) in
-                debugPrint("KratosAnalytics Contact \(self.rawValue): \(didSucceed)")
-            }, failure: { (error) in
-                debugPrint(error)
-            })
+//            APIManager.postKratosAnalyticEvent(event: self, success: { (didSucceed) in
+//                debugPrint("KratosAnalytics Contact \(self.rawValue): \(didSucceed)")
+//            }, failure: { (error) in
+//                debugPrint(error)
+//            })
         }
     }
     

@@ -189,7 +189,7 @@ enum Chamber: String, RawRepresentable {
         }
     }
     
-    func toRepresentativeType() -> RepresentativeType {
+    var representativeType: RepresentativeType {
         switch self {
         case .house:
             return RepresentativeType.representative
@@ -198,7 +198,7 @@ enum Chamber: String, RawRepresentable {
         }
     }
     
-    func toImage() -> UIImage {
+    var image: UIImage {
         switch self {
         case .house:
             return #imageLiteral(resourceName: "HouseOfRepsLogo")

@@ -37,10 +37,17 @@ extension Client: CongressService {
     func fetchTallies(personID: Int, pageNumber: Int) -> Observable<[LightTally]> {
         return request(.fetchTallies(personID: personID, pageNumber: pageNumber))
             .toJson()
-            .mapArray(at: "data")
+            .map {
+                guard let dict = $0 as? [String: Any],
+                      let retVal = dict["data"] else {
+                    throw KratosError.mappingError(type: .unexpectedValue)
+                }
+                return retVal
+            }
+            .mapArray(at: "voting_record")
     }
     func fetchSponsoredBills(personID: Int, pageNumber: Int) -> Observable<[Bill]> {
-        return request(.fetchTallies(personID: personID, pageNumber: pageNumber))
+        return request(.fetchSponsoredBills(personID: personID, pageNumber: pageNumber))
             .toJson()
             .mapArray(at: "data")
     }

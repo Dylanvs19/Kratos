@@ -22,7 +22,7 @@ class RepTableViewCell: UITableViewCell {
     public func configure(with representative: Person) {
         //repImageView.setRepresentative(person: representative)
         nameLabel.text = "\(representative.firstName ?? "") \(representative.lastName ?? "")"
-        chamberLabel.text = representative.currentChamber?.toRepresentativeType().rawValue ?? ""
+        chamberLabel.text = representative.currentChamber?.representativeType.rawValue ?? ""
         var state = ""
         if let district = representative.currentDistrict {
             state = "\(representative.currentState ?? "") - \(district)"

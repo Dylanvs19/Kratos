@@ -103,9 +103,15 @@ struct Person: Hashable, Decodable {
         person.district = currentDistrict
         person.party = currentParty
         person.state = currentState
-        person.representativeType = currentChamber?.toRepresentativeType()
+        person.representativeType = currentChamber?.representativeType
         person.imageURL = imageURL
         return person 
+    }
+    
+    var fullName: String? {
+        guard let first = firstName,
+            let last = lastName else { return nil }
+        return first + " " + last
     }
 }
 

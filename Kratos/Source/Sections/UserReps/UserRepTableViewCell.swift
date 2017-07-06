@@ -10,20 +10,23 @@ import Foundation
 import UIKit
 import RxSwift
 import RxCocoa
-import RxGesture
 
 protocol RepViewDelegate: class {
     func repViewTapped(at position: Int, personID: Int, image: UIImage, initialImageViewPosition: CGRect)
 }
 
-class UserRepView: UIView {
+class UserRepTableViewCell: UITableViewCell {
+    
+    static let identifier = String(describing: UserRepTableViewCell.self)
     
     var disposeBag = DisposeBag()
     
-    var viewModel: UserRepViewModel?
+    var viewModel: UserRepTableViewCellModel?
     var client: Client? {
         didSet {
             if oldValue == nil {
+                buildViews()
+                style()
                 bind()
             }
         }
@@ -38,26 +41,22 @@ class UserRepView: UIView {
     
     weak var repViewDelegate: RepViewDelegate?
     
-    convenience init() {
-        self.init(frame: .zero)
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        buildViews()
-        style()
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
         
-    func configure(with client: Client, representative: Person) {
-        self.viewModel = UserRepViewModel(client: client, person: representative)
+    func configure(with client: Client, person: Person) {
+        self.viewModel = UserRepTableViewCellModel(client: client, person: person)
+        self.client = client
+        selectionStyle = .none
     }
 }
 
-extension UserRepView: ViewBuilder {
+extension UserRepTableViewCell: ViewBuilder {
     func buildViews() {
         setupRepImageView()
         setupLabels()
@@ -65,20 +64,22 @@ extension UserRepView: ViewBuilder {
     }
     
     func setupRepImageView() {
+        contentView.addSubview(representativeImageView)
         representativeImageView.snp.makeConstraints { make in
-            make.height.equalTo(representativeImageView.snp.width)
-            make.height.equalTo(self).inset(-40)
-            make.centerX.equalTo(self)
+            make.height.equalToSuperview().offset(-50)
+            make.width.equalTo(representativeImageView.snp.height)
+            make.centerY.equalToSuperview()
             make.leading.equalTo(self).offset(10)
         }
     }
     
     func setupLabels() {
+        contentView.addSubview(nameLabel)
         nameLabel.snp.makeConstraints { make in
             make.top.equalTo(representativeImageView.snp.top)
             make.leading.equalTo(representativeImageView.snp.trailing).offset(10)
         }
-        
+        contentView.addSubview(representativeLabel)
         representativeLabel.snp.makeConstraints { make in
             make.bottom.equalTo(representativeImageView.snp.bottom)
             make.leading.equalTo(representativeImageView.snp.trailing).offset(10)
@@ -86,6 +87,7 @@ extension UserRepView: ViewBuilder {
     }
     
     func setupPartyView() {
+        contentView.addSubview(partyIndicatorView)
         partyIndicatorView.snp.makeConstraints { make in
             make.leading.trailing.top.equalTo(self)
             make.height.equalTo(3)
@@ -94,11 +96,12 @@ extension UserRepView: ViewBuilder {
     
     func style() {
         nameLabel.font = Font.futura(size: 20).font
-        representativeLabel.font = Font.avenirNextDemiBold(size: 15).font
+        representativeLabel.font = Font.avenirNextMedium(size: 15).font
+        self.addShadow()
     }
 }
 
-extension UserRepView: RxBinder {
+extension UserRepTableViewCell: RxBinder {
     func bind() {
         guard let viewModel = viewModel else { return }
         viewModel.name.asObservable()
@@ -107,7 +110,7 @@ extension UserRepView: RxBinder {
             .disposed(by: disposeBag)
         
         viewModel.chamber.asObservable()
-            .map { $0.toRepresentativeType().rawValue }
+            .map { $0.representativeType.rawValue }
             .asDriver(onErrorJustReturn: "")
             .drive(representativeLabel.rx.text)
             .disposed(by: disposeBag)
@@ -116,14 +119,19 @@ extension UserRepView: RxBinder {
             .asDriver(onErrorJustReturn: UIColor.kratosLightGray)
             .distinctUntilChanged()
             .drive(onNext: { [weak self] color in
-                self?.backgroundColor = color
+                self?.partyIndicatorView.backgroundColor = color
             })
             .disposed(by: disposeBag)
-        
-        self.rx.tapGesture()
-            .withLatestFrom(representative.asObservable().filterNil())
-            .subscribe(onNext: { person in
-                
+        viewModel.representative.asObservable()
+            .map { user -> (String, Chamber)? in
+                guard let imageURL = user?.imageURL,
+                      let currentChamber = user?.currentChamber else { return nil }
+                return (imageURL, currentChamber)
+            }
+            .filterNil()
+            .subscribe(onNext: { [weak self] (imageURL, currentChamber) in
+                guard let client = self?.client else { return }
+                self?.representativeImageView.loadRepImage(from: imageURL, chamber: currentChamber, with: client)
             })
             .disposed(by: disposeBag)
     }

@@ -11,7 +11,7 @@ import Foundation
 enum KratosTarget {
     //Login
     case register(user: User)
-    case logIn(email: String, password: String)
+    case login(email: String, password: String)
     case forgotPassword(email: String)
     case resendConfirmation(email: String)
     //User
@@ -77,10 +77,11 @@ enum KratosTarget {
         //Login
         case .register(let user):
             return user.toJson()
-        case .logIn(let email, let password):
-            return [
-                    "email": email.lowercased(),
-                    "password": password
+        case .login(let email, let password):
+            return ["session" :[
+                                "email": email.lowercased(),
+                                "password": password
+                                ]
                     ]
         case .forgotPassword(let email):
             return ["email": email.lowercased()]
@@ -176,7 +177,7 @@ enum KratosTarget {
         //Login
         case .register:
             return "/registrations"
-        case .logIn:
+        case .login:
             return "/login"
         case .forgotPassword:
             return "/forgot-password"
@@ -265,9 +266,9 @@ enum KratosTarget {
         switch self {
         //Login
         case .register:
-            return .get
+            return .post
             
-        case .logIn,
+        case .login,
              .forgotPassword,
              .resendConfirmation:
             return .post
@@ -349,7 +350,7 @@ enum KratosTarget {
         switch self {
         //Login
         case .register,
-             .logIn,
+             .login,
              .forgotPassword,
              .resendConfirmation:
             return false
@@ -416,5 +417,87 @@ enum KratosTarget {
         case .url:
             return false
         }
+    }
+}
+
+extension KratosTarget: Equatable {
+    
+    func isSameType(as target: KratosTarget) -> Bool {
+        return self.equatableValue == target.equatableValue
+    }
+    
+    var equatableValue: Int {
+        switch self {
+        //Login
+        case .register: return 1
+        case .login: return 2
+        case .forgotPassword: return 3
+        case .resendConfirmation: return 4
+        //User
+        //Metadata
+        case .fetchUser: return 5
+        case .update: return 6
+        
+        //BillTracking
+        case .fetchTrackedBills: return 7
+        case .trackBill: return 8
+        case .viewTrackedBill: return 9
+        case .untrackBill: return 10
+        
+        //SubjectTracking
+        case .fetchTrackedSubjects: return 11
+        case .followSubject: return 12
+        case .unfollowSubject: return 13
+       
+        //UserVotes
+        case .fetchUserVotingRecord: return 14
+        case .createUserVote: return 15
+        case .fetchUserVote: return 16
+        case .updateUserVote: return 17
+        case .deleteUserVote: return 18
+        
+        //Congress
+        //Metadata
+        case .determineRecess: return 19
+        
+        // Representatives
+        case .fetchRepresentatives: return 20
+        case .fetchPerson: return 21
+        case .fetchTallies: return 22
+        case .fetchSponsoredBills: return 23
+        
+        //Vote
+        case .fetchTally: return 24
+        
+        //Bill
+        case .fetchAllBills: return 25
+        case .fetchBill: return 26
+        case .fetchBills: return 27
+        
+        //Subjects
+        case .fetchAllSubjects: return 28
+        
+        //State
+        case .getStateDistricts: return 29
+        case .getStateImage: return 30
+        
+        //Feedback
+        case .fetchFeedback: return 31
+        case .postFeedback: return 32
+        
+        //Analytics
+        case .postKratosAnalyticEvent: return 33
+        
+        //Image 
+        case .url: return 34
+        }
+    }
+    
+    static func ==(lhs: KratosTarget, rhs: KratosTarget) -> Bool {
+        return lhs.equatableValue == rhs.equatableValue
+    }
+    
+    static func !=(lhs: KratosTarget, rhs: KratosTarget) -> Bool {
+        return !(lhs == rhs)
     }
 }

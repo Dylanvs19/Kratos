@@ -117,7 +117,14 @@ extension UIViewController {
     
     func embedInNavVC() -> UINavigationController {
         let navVC = UINavigationController()
+        navVC.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navVC.navigationBar.shadowImage = UIImage()
+        navVC.navigationBar.isTranslucent = true
+        navVC.navigationBar.backItem?.title = ""
+        navVC.extendedLayoutIncludesOpaqueBars = true
+        navVC.automaticallyAdjustsScrollViewInsets = false 
         navVC.setViewControllers([self], animated: false)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         return navVC
     }
     

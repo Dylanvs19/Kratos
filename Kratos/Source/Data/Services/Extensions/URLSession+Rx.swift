@@ -13,11 +13,21 @@ extension Reactive where Base: URLSession {
 
     func send(client: Client, target: KratosTarget) -> Observable<Data> {
         return Observable.create { observer in
-            guard let url = URL(string: "\(client.baseURL)\(target.path)") else {
+            
+            var url: URL?
+            if target.isSameType(as: .url(url: "")) {
+                url = URL(string: target.path)
+            } else {
+                url = URL(string: "\(client.baseURL)\(target.path)")
+            }
+            
+            guard let finalURL = url else {
                 observer.onError(KratosError.invalidURL(error: nil))
                 return Disposables.create()
             }
-            let request = URLRequest(url: url, requestType: target.method, body: target.parameters, addToken: target.addToken)
+            
+            let request = URLRequest(url: finalURL, requestType: target.method, body: target.parameters, addToken: target.addToken)
+            //print("Request: \(request), Method: \(String(describing: request.httpMethod)), Body: \(String(describing: target.parameters)), Headers: \(String(describing: request.allHTTPHeaderFields))")
             let task = self.base.dataTask(with: request) { (data, response, error) in
                 
                 guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
@@ -31,8 +41,8 @@ extension Reactive where Base: URLSession {
                 }
                 
                 guard 200...300 ~= statusCode else {
-                    var error = [String: AnyObject]()
-                    if let errorDict = data.toJSON() as? [String: AnyObject] {
+                    var error = [String: Any]()
+                    if let errorDict = data.toJSON() as? [String: Any] {
                         error = errorDict
                     }
                     observer.onError(KratosError.error(for: statusCode, error: (error["errors"] as? [[String: String]])) ?? KratosError.unknown)

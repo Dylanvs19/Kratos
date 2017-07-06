@@ -48,7 +48,7 @@ struct Term: Hashable {
         self.contactForm = json["contact_form"] as? String
 
         if let role = json["type"] as? String {
-            self.representativeType = Chamber.chamber(value: role)?.toRepresentativeType()
+            self.representativeType = Chamber.chamber(value: role)?.representativeType
         }
         if let start = json["start"] as? String {
             self.startDate = start.stringToDate()
@@ -59,6 +59,22 @@ struct Term: Hashable {
         if let party = json["party"] as? String {
             self.party = Party.value(for: party)
         }
+    }
+    
+    ///  returns a formatted date range "M/d/yy - M/d/yy" from the terms start and end dates
+    var dateRange: String? {
+        guard let startDate = startDate else { return nil }
+        var date = DateFormatter.shortPresentationDateFormatter.string(from: startDate)
+        date += " - "
+        if let endDate = endDate {
+            date += DateFormatter.shortPresentationDateFormatter.string(from: endDate)
+        }
+        return date
+    }
+    
+    var formattedDistrict: String? {
+        guard let district = district else { return nil }
+        return "District \(district)"
     }
 }
 

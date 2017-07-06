@@ -16,7 +16,7 @@ struct KeychainManager {
         return dictionary?["token"] as? String
     }
     
-    static func create(_ token: String) -> Bool {
+    @discardableResult static func create(_ token: String) -> Bool {
         let dictionary = ["token": token]
         do {
             try Locksmith.saveData(data: dictionary, forUserAccount: "Kratos")
@@ -27,7 +27,7 @@ struct KeychainManager {
         }
     }
     
-    static func update(_ token: String) -> Bool {
+    @discardableResult static func update(_ token: String) -> Bool {
         do {
             try Locksmith.updateData(data: ["token": token], forUserAccount: "Kratos")
             return true
@@ -37,7 +37,7 @@ struct KeychainManager {
         }
     }
     
-    static func delete() -> Bool {
+    @discardableResult static func delete() -> Bool {
         do {
             try Locksmith.deleteDataForUserAccount(userAccount: "Kratos")
             return true

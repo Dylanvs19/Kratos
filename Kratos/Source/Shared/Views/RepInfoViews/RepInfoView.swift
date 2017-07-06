@@ -7,274 +7,386 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
+import RxDataSources
+import SnapKit
 
-protocol RepInfoViewPresentable: class {
-    var repInfoView: RepInfoView? { get set }
-    func presentRepInfoView(with initalViewPosition: CGRect, personImage: UIImage, initialImageViewPosition: CGRect, personID: Int)
-}
-
-extension RepInfoViewPresentable where Self: UIViewController {
+class RepInfoView: UIView {
     
-    func presentRepInfoView(with initalViewPosition: CGRect, personImage: UIImage, initialImageViewPosition: CGRect, personID: Int) {
-        repInfoView = RepInfoView()
-        guard let repInfoView = repInfoView else { return }
-        repInfoView.configure(with: initalViewPosition, personImage: personImage, initialImageViewPosition: initialImageViewPosition, personID: personID)
-        view.addSubview(repInfoView)
-        repInfoView.exitPressed = dismissRepInfoView
-        repInfoView.tallySelected = tallySelected
-        repInfoView.billSelected = billSelected
-        repInfoView.repContactView.configureActionBlocks(presentTwitter: self.presentTwitter, presentHome: self.presentHomeAddress)
+    enum State: Equatable {
+    case bio
+    case votes
+    case bills
+        
+        var displayName: String {
+            switch self {
+            case .bio:
+                return "Biography"
+            case .votes:
+                return "Votes"
+            case .bills:
+                return "Sponsored Bills"
+            }
+        }
+        
+        var button: UIButton {
+            let button = UIButton()
+            button.setTitle(displayName, for: .normal)
+            button.titleLabel?.font = Font.futura(size: 14).font
+            button.setTitleColor(.kratosRed, for: .normal)
+            button.setTitleColor(.red, for: .highlighted)
+            button.backgroundColor = .white
+            button.addShadow()
+            return button
+        }
+        
+        func scrollViewXPosition(in view: UIView) -> CGFloat {
+            switch self {
+            case .bio:
+                return 0
+            case .votes:
+                return view.frame.size.width
+            case .bills:
+                return view.frame.size.width * 2
+            }
+        }
+        func indicatorXPosition(in view: UIView) -> CGFloat {
+            let width = view.frame.size.width / 3
+            switch self {
+            case .bio:
+                return 0
+            case .votes:
+                return width
+            case .bills:
+                return width * 2
+            }
+        }
     }
     
-    func tallySelected(with lightTally: LightTally) {
-        guard let id = lightTally.billID else { return }
-        let vc: BillViewController = BillViewController()
-        vc.configure(with: id)
-        navigationController?.exclusivePush(viewController: vc)
-    }
+    let managerStackView = UIStackView()
+    let managerIndicatorView = UIView()
     
-    func billSelected(with billID: Int) {
-        let vc: BillViewController = BillViewController()
-        vc.configure(with: billID)
-        navigationController?.exclusivePush(viewController: vc)
-    }
+    let scrollView = UIScrollView()
+    let stackView = UIStackView()
     
-    func dismissRepInfoView() {
-        guard let repInfoView = repInfoView else { return }
-        repInfoView.animateOut(onCompletion: { [weak self] in
-            guard let s = self else { fatalError("deallocated self before attempt to access it") }
-            repInfoView.removeFromSuperview()
-            s.repInfoView = nil
-        })
-    }
-}
-
-class RepInfoView: UIView, Loadable, RepInfoManagerDelegate {
+    let bioScrollView = UIScrollView()
+    let bioStackView = UIStackView()
+    let bioView = ExpandableTextFieldView()
+    let termsTableView = UITableView()
     
-    @IBOutlet public var contentView: UIView!
-    @IBOutlet weak var repImageView: RepImageView!
-    @IBOutlet weak var repName: UILabel!
-    @IBOutlet weak var repType: UILabel!
-    @IBOutlet weak var repState: UILabel!
-    @IBOutlet weak var repParty: UILabel!
-    @IBOutlet weak var kratosLabel: UILabel!
-    @IBOutlet weak var repStateView: UIImageView!
-    @IBOutlet weak var exitButton: UIButton!
-    @IBOutlet weak var repContactView: RepContactView!
-    @IBOutlet weak var repInfoManagerView: RepInfoManagerView!
-    @IBOutlet weak var repInfoBackgroundView: UIView!
-    @IBOutlet weak var repInfoTopView: UIView!
+    let termsDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Term>>()
+    let votesDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, LightTally>>()
+    let billsDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Bill>>()
     
-    @IBOutlet weak var repImageViewWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var repImageViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var repImageViewToTopConstraint: NSLayoutConstraint!
-    @IBOutlet var tableViewButtonToBottomConstraint: NSLayoutConstraint!
+    let votesTableView = UITableView()
+    let billsTableView = UITableView()
     
-    var viewHeightConstraint: NSLayoutConstraint?
-    var viewWidthConstraint: NSLayoutConstraint?
-    var viewTopConstraint: NSLayoutConstraint?
-    var viewLeadingConstraint: NSLayoutConstraint?
-    
-    var exitPressed: (() -> ())?
-    var tallySelected: ((LightTally) -> ())?
-    var billSelected: ((Int) -> ())?
-    
-    ///Size and position of the expanded ImageView.
-    var expandedImageViewPosition: CGRect = CGRect(x: 10, y: 30, width: 90, height: 90)
-    
-    ///The initial position of the view relative to the UIViewControllers self.view.bounds property. This CGRect should match up with the
-    var initalViewPosition: CGRect?
-    
-    ///Size and position of the full repInfoView. This will be set to the repInfoView superview's self.bounds property.
-    fileprivate var expandedViewPosition: CGRect?
-    
-    ///Inital position of the image view with relation to its superview, not the visible CGRect on the screen.
-    var initialImageViewPosition: CGRect?
-    
-    var person: Person?
-    var personID: Int?
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        customInit()
-    }
+    var viewModel: RepInfoViewModel?
+    let contentOffset = Variable<CGFloat>(0)
+    let disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        customInit()
     }
     
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-        guard let superview = self.superview,
-            let initalViewPosition = initalViewPosition,
-            let initialImageViewPosition = initialImageViewPosition else { return }
-        expandedViewPosition = CGRect(x: 0,
-                                      y: 0,
-                                      width: superview.frame.size.width,
-                                      height: superview.frame.size.height)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(with client: Client, representative: Person, contentOffset: Variable<CGFloat>) {
+        viewModel = RepInfoViewModel(with: client, representative: representative, contentOffset: contentOffset)
+    }
+    
+    func build() {
+        style()
+        buildViews()
+        configureTermsTableView()
+        configureBillsTableView()
+        bind()
+    }
+    
+    func updateIndicatorView(with state: State) {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: { 
+            self.managerIndicatorView.snp.updateConstraints { make in
+                make.leading.equalToSuperview().offset(state.indicatorXPosition(in: self))
+                make.width.equalTo(self.frame.width / 3)
+            }
+            self.managerStackView.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
+    func updateScrollView(with state: State) {
+        self.scrollView.scrollRectToVisible(CGRect(x: state.scrollViewXPosition(in: self), y: 0, width: self.frame.width, height: 1), animated: true)
+    }
+    
+    func updateTermsTableView() {
+        termsTableView.snp.updateConstraints { make in
+            make.width.equalTo(self.frame.width)
+            make.height.equalTo(self.termsTableView.contentSize.height)
+        }
+        bioScrollView.layoutIfNeeded()
+    }
+    
+    func configureTermsTableView() {
+        termsTableView.isScrollEnabled = false
+        termsTableView.register(TermTableViewCell.self, forCellReuseIdentifier: TermTableViewCell.identifier)
+        termsTableView.rowHeight = 30
+        termsTableView.separatorInset = .zero
+        termsTableView.tableFooterView = UIView()
+        termsTableView.backgroundColor = .clear
+        termsTableView.allowsSelection = false
         
-        self.translatesAutoresizingMaskIntoConstraints = false
-        viewTopConstraint = self.topAnchor.constraint(equalTo: superview.topAnchor, constant: initalViewPosition.origin.y)
-        viewLeadingConstraint = self.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: initalViewPosition.origin.x)
-        viewHeightConstraint = self.heightAnchor.constraint(equalToConstant: initalViewPosition.size.height)
-        viewWidthConstraint = self.widthAnchor.constraint(equalToConstant: initalViewPosition.size.width)
+        termsDataSource.configureCell = { dataSource, tableView, indexPath, item in
+            let basicCell = tableView.dequeueReusableCell(withIdentifier: TermTableViewCell.identifier, for: indexPath)
+            guard let cell = basicCell as? TermTableViewCell else { fatalError() }
+            cell.configure(with: item)
+            return cell
+        }
         
-        viewTopConstraint?.isActive = true
-        viewLeadingConstraint?.isActive = true
-        viewHeightConstraint?.isActive = true
-        viewWidthConstraint?.isActive = true
+        termsDataSource.titleForHeaderInSection = { ds, index in
+            return ds.sectionModels[index].model
+        }
+    }
+    
+    func configureVotesTableView() {
+        votesTableView.register(TermTableViewCell.self, forCellReuseIdentifier: TermTableViewCell.identifier)
+        votesTableView.rowHeight = 30
+        votesTableView.separatorInset = .zero
+        votesTableView.tableFooterView = UIView()
+        votesTableView.backgroundColor = .clear
+        votesTableView.allowsSelection = false
         
-        repImageViewToTopConstraint.constant = initialImageViewPosition.origin.y
-        repImageViewLeadingConstraint.constant = initialImageViewPosition.origin.x
-        repImageViewWidthConstraint.constant = initialImageViewPosition.size.width
+        votesDataSource.configureCell = { dataSource, tableView, indexPath, item in
+            let basicCell = tableView.dequeueReusableCell(withIdentifier: TermTableViewCell.identifier, for: indexPath)
+            guard let cell = basicCell as? TermTableViewCell else { fatalError() }
+            //cell.configure(with: item)
+            return cell
+        }
         
-        repInfoBackgroundView.addShadow()
-        //        repInfoManagerView.addShadow()
+        votesDataSource.titleForHeaderInSection = { ds, index in
+            return ds.sectionModels[index].model
+        }
+        bioScrollView.showsVerticalScrollIndicator = false
+    }
+    
+    func configureBillsTableView() {
+        billsTableView.register(RepInfoBillSponsorTableViewCell.self, forCellReuseIdentifier: RepInfoBillSponsorTableViewCell.identifier)
+        billsTableView.estimatedRowHeight = 45
+        billsTableView.rowHeight = UITableViewAutomaticDimension
+        billsTableView.separatorInset = .zero
+        billsTableView.tableFooterView = UIView()
+        billsTableView.backgroundColor = .clear
+        billsTableView.allowsSelection = false
         
+        billsDataSource.configureCell = { dataSource, tableView, indexPath, item in
+            let basicCell = tableView.dequeueReusableCell(withIdentifier: RepInfoBillSponsorTableViewCell.identifier, for: indexPath)
+            guard let cell = basicCell as? RepInfoBillSponsorTableViewCell else { fatalError() }
+            cell.configure(with: item)
+            return cell
+        }
+        
+        billsDataSource.titleForHeaderInSection = { ds, index in
+            return ds.sectionModels[index].model
+        }
+    }
+}
+
+extension RepInfoView: ViewBuilder {
+    func buildViews() {
+        buildManagerView()
+        buildBaseScrollView()
+        buildBaseStackView()
+        buildBioView()
+        buildVotesView()
+        buildSponsoredView()
+        
+    }
+    
+    func buildManagerView() {
+        addSubview(managerStackView)
+        managerStackView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(25)
+        }
+        
+        managerStackView.addSubview(managerIndicatorView)
+        managerIndicatorView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.width.equalTo(self.frame.width / 3)
+            make.height.equalTo(1)
+            make.leading.equalToSuperview().offset(0)
+        }
+    }
+    
+    func buildBaseScrollView() {
+        addSubview(scrollView)
+        scrollView.snp.makeConstraints { make in
+            make.top.equalTo(self.managerStackView.snp.bottom).offset(3)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+        layoutIfNeeded()
+    }
+    
+    func buildBaseStackView() {
+        scrollView.addSubview(stackView)
+        stackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        layoutIfNeeded()
+    }
+    
+    func buildBioView() {
+        stackView.addArrangedSubview(bioScrollView)
+        bioScrollView.snp.makeConstraints { make in
+            make.width.equalTo(self.scrollView.frame.width)
+            make.height.equalTo(self.scrollView.frame.height)
+        }
         layoutIfNeeded()
         
-        repInfoManagerView.delegate = self
-        
-        alpha = 0
-        
-        if let personID = personID {
-//            APIManager.getPerson(for: personID, success: { [weak self] (person) in
-//                self?.person = person
-//                self?.repInfoTopView.backgroundColor = person.currentParty?.color
-//                UIView.animate(withDuration: 0.1, animations: {
-//                    self?.alpha = 1
-//                    self?.layoutIfNeeded()
-//                }) { (success) in
-//                    self?.animateIn()
-//                }
-//            }) { (error) in
-//                print(error)
-//            }
+        bioScrollView.addSubview(bioStackView)
+        bioStackView.snp.makeConstraints { make in
+            make.width.equalTo(self.frame.width)
+            make.edges.equalToSuperview()
         }
-        self.layoutIfNeeded()
-    }
-    
-    func setConstraints(basedOn cgRect: CGRect) {
-        viewTopConstraint?.constant = cgRect.origin.y
-        viewLeadingConstraint?.constant = cgRect.origin.x
-        viewHeightConstraint?.constant = cgRect.size.height
-        viewWidthConstraint?.constant = cgRect.size.width
-    }
-    
-    func configure(with initalViewPosition: CGRect, personImage: UIImage, initialImageViewPosition: CGRect, personID: Int) {
-        alpha(shouldShow: false)
-        hide(shouldHide: true)
-        repInfoBackgroundView.backgroundColor = UIColor.white
-        //self.repImageView.set(image: personImage)
-        self.initalViewPosition = initalViewPosition
-        self.initialImageViewPosition = initialImageViewPosition
-        self.personID = personID
-    }
-    
-    func configure(with person: Person) {
-        guard let firstName = person.firstName,
-            let lastName = person.lastName else { return }
-        self.repName.text = "\(firstName) \(lastName)"
-        self.repType.text = person.currentChamber?.toRepresentativeType().rawValue
-        self.repState.text = person.currentState?.fullStateName()
-        self.repParty.text = person.currentParty?.capitalLetter
-        self.repParty.textColor = person.currentParty?.color
-        self.repImageView.isUserInteractionEnabled = false
-        if let state =  person.currentState {
-            self.repStateView.image = UIImage.imageForState(state)
-        }
-    }
-    
-    func animateIn() {
-        guard let expandedViewPosition = expandedViewPosition else { return }
-        // Animate everything except Image view & repInfoManager view
-        UIView.animate(withDuration: 0.7, delay: 0.1, options: [], animations: {
-            self.setConstraints(basedOn: expandedViewPosition)
-            self.repImageViewToTopConstraint.constant = self.expandedImageViewPosition.origin.y
-            self.repImageViewLeadingConstraint.constant = self.expandedImageViewPosition.origin.x
-            self.repImageViewWidthConstraint.constant = self.expandedImageViewPosition.size.width
-            self.tableViewButtonToBottomConstraint.isActive = true
-            self.superview?.layoutSubviews()
-            self.layoutIfNeeded()
-        }) { (success) in
-            if let person = self.person {
-                self.configure(with: person)
-                self.repContactView.configure(with: person)
-                self.repInfoManagerView.configure(with: person)
-            }
-            UIView.animate(withDuration: 0.2, animations: {
-                self.hide(shouldHide: false)
-                self.alpha(shouldShow: true)
-                self.contentView.backgroundColor = UIColor.kratosLightGray
-                self.layoutIfNeeded()
-            })
-            self.repContactView.animateIn()
-        }
-    }
-    
-    func animateOut(onCompletion: (() -> ())? = nil) {
+        layoutIfNeeded()
         
-        tableViewButtonToBottomConstraint.isActive = false
-        guard let initalViewPosition = initalViewPosition,
-              let initialImageViewPosition = initialImageViewPosition else { return }
-        
-        UIView.animate(withDuration: 0.4, animations: {
-            self.alpha(shouldShow: false)
-            self.setConstraints(basedOn: initalViewPosition)
-            self.repImageViewToTopConstraint.constant = initialImageViewPosition.origin.y
-            self.repImageViewLeadingConstraint.constant = initialImageViewPosition.origin.x
-            self.repImageViewWidthConstraint.constant = initialImageViewPosition.size.width
-            self.repContactView.animateOut()
-            self.contentView.backgroundColor = UIColor.white
-            self.layoutIfNeeded()
-        }) { (success) in
-            onCompletion?()
+        let view = UIView()
+        view.snp.makeConstraints { make in
+            make.width.equalTo(self.frame.width)
+            make.height.equalTo(1)
         }
-    }
-    
-    func alpha(shouldShow: Bool) {
-        let alpha: CGFloat = shouldShow ? 1 : 0
-        repName.alpha = alpha
-        repType.alpha = alpha
-        repState.alpha = alpha
-        repParty.alpha = alpha
-        repStateView.alpha = alpha
-        exitButton.alpha = alpha
-        repContactView.alpha = alpha
-        repInfoManagerView.alpha = alpha
-        exitButton.alpha = alpha
-        repInfoBackgroundView.alpha = alpha
-        kratosLabel.alpha = alpha
-    }
-    
-    func hide(shouldHide: Bool) {
-        repName.isHidden = shouldHide
-        repType.isHidden = shouldHide
-        repState.isHidden = shouldHide
-        repParty.isHidden = shouldHide
-        repStateView.isHidden = shouldHide
-        exitButton.isHidden = shouldHide
-        repContactView.isHidden = shouldHide
-        repInfoManagerView.isHidden = shouldHide
-        exitButton.isHidden = shouldHide
-        kratosLabel.isHidden = shouldHide
-        repInfoBackgroundView.isHidden = shouldHide
-        tableViewButtonToBottomConstraint.isActive = !shouldHide
         
-    }
+        bioView.snp.makeConstraints { make in
+            make.width.equalTo(self.frame.width)
+        }
 
-    @IBAction func exitButtonPressed(_ sender: Any) {
-        exitPressed?()
+        termsTableView.snp.makeConstraints { make in
+            make.width.equalTo(self.frame.width)
+            make.height.equalTo(1)
+        }
+
+        bioStackView.addArrangedSubview(view)
+        bioStackView.addArrangedSubview(bioView)
+        bioStackView.addArrangedSubview(termsTableView)
+        layoutIfNeeded()
     }
     
-    //MARK: RepInfoManagerDelegate Methods
-    func tallySelected(with lightTally: LightTally) {
-        self.tallySelected?(lightTally)
+    func buildVotesView() {
+        stackView.addArrangedSubview(votesTableView)
+        layoutIfNeeded()
     }
     
-    func billSelect(with billID: Int) {
-        self.billSelected?(billID)
+    func buildSponsoredView() {
+        stackView.addArrangedSubview(billsTableView)
+        layoutIfNeeded()
     }
     
+    func style() {
+        managerStackView.axis = .horizontal
+        managerStackView.alignment = .fill
+        managerStackView.distribution = .fillEqually
+        
+        managerIndicatorView.backgroundColor = .kratosRed
+        
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        
+        scrollView.isScrollEnabled = false
+        
+        bioStackView.axis = .vertical
+        bioStackView.alignment = .fill
+        bioStackView.distribution = .fillProportionally
+    }
+}
+
+extension RepInfoView: RxBinder {
+    func bind() {
+        bindManagerView()
+        bindMainScrollView()
+        bindBioView()
+        bindBillsView()
+    }
+    
+    func bindManagerView() {
+        guard  let viewModel = viewModel else { return }
+        let states = [State.bio, State.votes, State.bills]
+        states.forEach { state in
+            let button = state.button
+            managerStackView.addArrangedSubview(button)
+            button.rx.controlEvent(.touchUpInside).asObservable()
+                .map { state }
+                .bind(to: viewModel.state)
+                .disposed(by: disposeBag)
+        }
+        
+        managerStackView.bringSubview(toFront: managerIndicatorView)
+        
+        viewModel.state.asObservable()
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] state in
+                self?.updateIndicatorView(with: state)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func bindMainScrollView() {
+        guard  let viewModel = viewModel else { return }
+        viewModel.state.asObservable()
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] state in
+                self?.updateScrollView(with: state)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func bindBioView() {
+        guard let viewModel = viewModel else { return }
+        viewModel.bio.asObservable()
+            .subscribe(onNext: { [weak self] bio in
+                self?.bioView.configure(with:  nil, text: bio, expandedButtonTitle: "Show Less", contractedButtonTitle: "Show More")
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.terms.asObservable()
+            .map { [SectionModel(model: "Terms", items: $0)] }
+            .bind(to: termsTableView.rx.items(dataSource: termsDataSource))
+            .disposed(by: disposeBag)
+        
+        viewModel.terms.asObservable()
+            .subscribe(onNext: { [weak self] terms in
+                self?.updateTermsTableView()
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func bindBillsView() {
+        guard let viewModel = viewModel else { return }
+        viewModel.bills.asObservable()
+            .map { [SectionModel(model: "", items: $0)] }
+            .bind(to: billsTableView.rx.items(dataSource: billsDataSource))
+            .disposed(by: disposeBag)
+        
+        billsTableView.rx.contentOffset.asObservable()
+            .map { $0.y > (self.billsTableView.contentSize.height - self.billsTableView.frame.height - 100) }
+            .distinctUntilChanged()
+            .filter { $0 == true }
+            .map { _ in () }
+            .bind(to: viewModel.fetchAction)
+            .disposed(by: disposeBag)
+    }
+}
+
+func ==(lhs: RepInfoView.State, rhs: RepInfoView.State) -> Bool {
+    switch (lhs, rhs) {
+    case (.bio,  .bio), (.votes, .votes), (.bills, .bills):
+        return true
+    default:
+        return false
+    }
+}
+
+func !=(lhs: RepInfoView.State, rhs: RepInfoView.State) -> Bool {
+    return !(lhs == rhs)
 }

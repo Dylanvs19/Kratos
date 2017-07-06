@@ -11,11 +11,11 @@ import UIKit
 import RxSwift
 import Action
 
-class UserRepViewModel {
+class UserRepTableViewCellModel {
     
     let client: Client
     let disposeBag = DisposeBag()
-    let representative: Variable<Person>
+    let representative = Variable<Person?>(nil)
     let name = Variable<String>("")
     let chamber = Variable<Chamber>(.senate)
     let imageURLString = Variable<String?>(nil)
@@ -23,7 +23,8 @@ class UserRepViewModel {
     
     init(client: Client, person: Person) {
         self.client = client
-        self.representative = Variable<Person>(person)
+        self.representative.value = person
+        bind()
     }
     
     func populateVariables(from representative: Person) {
@@ -40,9 +41,10 @@ class UserRepViewModel {
     }
 }
 
-extension UserRepViewModel: RxBinder {
+extension UserRepTableViewCellModel: RxBinder {
     func bind() {
         representative.asObservable()
+            .filterNil()
             .subscribe(onNext: { [weak self] person in
                 self?.populateVariables(from: person)
             })

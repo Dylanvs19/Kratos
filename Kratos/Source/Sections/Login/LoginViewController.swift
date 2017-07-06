@@ -56,7 +56,6 @@ class LoginViewController: UIViewController, ActivityIndicatorPresenter {
         buildViews()
         bind()
         
-        setupGestureRecognizer()
         navigationController?.isNavigationBarHidden = true
         setInitialState()
     }
@@ -100,15 +99,6 @@ class LoginViewController: UIViewController, ActivityIndicatorPresenter {
         fieldData.forEach { (data) in
             data.field.configureView(with: data.fieldType)
         }
-    }
-    
-    func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
-        view.endEditing(true)
-    }
-    
-    fileprivate func setupGestureRecognizer() {
-//        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(SubmitAddressViewController.handleTapOutside(_:)))
-//        view.addGestureRecognizer(tapRecognizer)
     }
 }
 

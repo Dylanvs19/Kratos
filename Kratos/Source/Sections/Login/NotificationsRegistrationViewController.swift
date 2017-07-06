@@ -52,7 +52,9 @@ class NotificationsRegistrationViewController: UIViewController {
 
 extension NotificationsRegistrationViewController: ViewBuilder {
     func buildViews() {
-        
+        buildKratosImageView()
+        buildTextElements()
+        buildButtons()
     }
     
     func buildKratosImageView() {

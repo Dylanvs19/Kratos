@@ -30,11 +30,11 @@ class FeedbackViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func loadData() {
-        APIManager.getFeedback(success: { (questions) in
-            self.questions = questions
-        }) { (error) in
-            self.showError(error)
-        }
+//        APIManager.getFeedback(success: { (questions) in
+//            self.questions = questions
+//        }) { (error) in
+//            self.showError(error)
+//        }
     }
     
     func configure() {
@@ -72,13 +72,13 @@ class FeedbackViewController: UIViewController, UIScrollViewDelegate {
             send = true
         }
         if send {
-        APIManager.postFeedback(with: responseDict, success: { (success) in
-            self.presentMessageAlert(title: "Thank You!", message: "We have gotten your feedback! Thanks!", buttonOneTitle: "OK", buttonTwoTitle: nil, buttonOneAction: {
-                self.dismiss(animated: true, completion: nil)
-            }, buttonTwoAction: nil)
-        }) { (error) in
-            self.showError(error: error)
-        }
+//        APIManager.postFeedback(with: responseDict, success: { (success) in
+//            self.presentMessageAlert(title: "Thank You!", message: "We have gotten your feedback! Thanks!", buttonOneTitle: "OK", buttonTwoTitle: nil, buttonOneAction: {
+//                self.dismiss(animated: true, completion: nil)
+//            }, buttonTwoAction: nil)
+//        }) { (error) in
+//            self.showError(error: error)
+//        }
         } else {
             self.presentMessageAlert(title: "Error", message: "It seems like all your fields are empty.", buttonOneTitle: "OK")
         }
