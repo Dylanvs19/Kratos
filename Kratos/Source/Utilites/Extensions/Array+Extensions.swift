@@ -32,6 +32,28 @@ extension Array {
         return mappedItems
     }
     
+    func group<T:Hashable>(by: (Element) -> T) -> [[Element]] {
+        var mappedItems = [T: [Element]]()
+        var index = -1
+        var mapped = [T: Int]()
+        
+        for item in self {
+            let groupingValue = by(item)
+            
+            if mapped[groupingValue] != nil {
+                var cpy = mappedItems[groupingValue]
+                cpy?.append(item)
+                mappedItems[groupingValue] = cpy
+            } else {
+                index += 1
+                mappedItems[groupingValue] = [item]
+                mapped[groupingValue] = index
+            }
+        }
+        
+        return mappedItems.map { $0.1 }
+    }
+    
     func singleSection() -> [Int: [Element]] {
         return [0: self]
     }
@@ -47,6 +69,29 @@ extension Array {
 }
 
 extension Array where Element: Hashable {
+    func groupBySection<T: Hashable> (groupBy: (Element) -> (T)) -> [T: [Element]] {
+        
+        var mappedItems = [T: [Element]]()
+        var index = -1
+        var mapped = [T: Int]()
+        
+        for item in self {
+            let groupingValue = groupBy(item)
+            
+            if mapped[groupingValue] != nil {
+                var cpy = mappedItems[groupingValue]
+                cpy?.append(item)
+                mappedItems[groupingValue] = cpy
+            } else {
+                index += 1
+                mappedItems[groupingValue] = [item]
+                mapped[groupingValue] = index
+            }
+        }
+        
+        return mappedItems
+    }
+    
     func uniqueGroupBySection<T: Hashable> (groupBy: (Element) -> (T)) -> [Int: Set<Element>] {
         
         var mappedItems = [Int: Set<Element>]()

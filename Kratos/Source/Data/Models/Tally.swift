@@ -64,7 +64,7 @@ func ==(lhs:TallyType, rhs:TallyType) -> Bool {
     return (lhs.string == rhs.string)
 }
 
-enum TallyResultType {
+enum TallyResult {
     // Agreed To
     case billPassed
     case clotureMotionAgreedTo
@@ -123,7 +123,7 @@ enum TallyResultType {
         }
     }
     
-    static func value(from string: String) -> TallyResultType {
+    static func value(from string: String) -> TallyResult {
         switch string {
         // Agreed To
         case "Bill Passed" : return .billPassed
@@ -195,7 +195,7 @@ struct Tally: Hashable, Decodable {
     var nay: Int?
     var abstain: Int?
     
-    var result: TallyResultType?
+    var result: TallyResult?
     var resultText: String?
     var question: String?
     
@@ -236,7 +236,7 @@ struct Tally: Hashable, Decodable {
         self.nay = buildNayVote(from: json as [String : AnyObject]) ?? 0
         self.resultText = json["result_text"] as? String
         if let result = json["result"] as? String {
-            self.result = TallyResultType.value(from: result)
+            self.result = TallyResult.value(from: result)
         }
         self.treaty = json["treaty"] as? String
         self.subject = json["subject"] as? String
@@ -327,7 +327,7 @@ struct LightTally: Hashable, Decodable {
     var yea: Int?
     var nay: Int?
     var abstain: Int?
-    var result: TallyResultType?
+    var result: TallyResult?
     var resultText: String?
     var question: String?
     var treaty: String?
@@ -367,7 +367,7 @@ struct LightTally: Hashable, Decodable {
         self.abstain = tally["total_other"] as? Int
         self.nay = tally["total_minus"] as? Int
         if let result = tally["result"] as? String {
-            self.result = TallyResultType.value(from: result)
+            self.result = TallyResult.value(from: result)
         }
         self.resultText = tally["result_text"] as? String
         self.treaty = tally["treaty"] as? String

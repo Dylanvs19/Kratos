@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserVoteView: UIView, Loadable {
+class UserVoteView: UIView {
     
     @IBOutlet var contentView: UIView!
     
@@ -35,13 +35,13 @@ class UserVoteView: UIView, Loadable {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        customInit()
+        
         setupGestureRecognizers()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        customInit()
+        
         setupGestureRecognizers()
     }
     

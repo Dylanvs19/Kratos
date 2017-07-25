@@ -26,22 +26,32 @@ class BillHeaderView: UIView {
         if let status = bill.status {
             currentStatusLabel.text = status.lowercased().localizedCapitalized
             if let date = bill.statusDate {
-                currentStatusDateLabel.text = DateFormatter.presentationDateFormatter.string(from: date)
+                currentStatusDateLabel.text = DateFormatter.presentation.string(from: date)
             }
         }
         style()
         buildViews(with: bill)
     }
+}
+extension BillHeaderView: ViewBuilder {
+    func addSubviews() {
+        
+    }
+    func constrainViews() {
+        
+    }
+    
+    func buildViews() {
+        
+    }
     
     func buildViews(with bill: Bill) {
-        billNumber.pin(to: self, for: [.top(5)])
+        
         billNumber.centerXAnchor.constrain(equalTo: centerXAnchor)
         billNumber.widthAnchor.constrain(to: widthAnchor)
         
-        billTitle.pin(to: self, for: [.leading(10), .trailing(-10)])
         billTitle.topAnchor.constrain(equalTo: billNumber.bottomAnchor, constant: 5)
 
-        
         //DividerView
         dividerView.backgroundColor = UIColor.kratosRed
         addSubview(dividerView)
@@ -51,7 +61,7 @@ class BillHeaderView: UIView {
         dividerView.widthAnchor.constrain(equalTo: widthAnchor, constant: -20)
         dividerView.centerXAnchor.constrain(equalTo: centerXAnchor)
         
-        trackButton.pin(to: self, for: [.bottom(-5)])
+        
 
         trackButton.topAnchor.constraint(equalTo: dividerView.bottomAnchor, constant: 5).isActive = true
         trackButton.widthAnchor.constrain(equalTo: 60)

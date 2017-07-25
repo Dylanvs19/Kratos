@@ -25,7 +25,8 @@ class UserRepTableViewCell: UITableViewCell {
     var client: Client? {
         didSet {
             if oldValue == nil {
-                buildViews()
+                addSubviews()
+                constrainViews()
                 style()
                 bind()
             }
@@ -57,37 +58,27 @@ class UserRepTableViewCell: UITableViewCell {
 }
 
 extension UserRepTableViewCell: ViewBuilder {
-    func buildViews() {
-        setupRepImageView()
-        setupLabels()
-        setupPartyView()
-    }
-    
-    func setupRepImageView() {
+    func addSubviews() {
         contentView.addSubview(representativeImageView)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(representativeLabel)
+        contentView.addSubview(partyIndicatorView)
+    }
+    func constrainViews() {
         representativeImageView.snp.makeConstraints { make in
             make.height.equalToSuperview().offset(-50)
             make.width.equalTo(representativeImageView.snp.height)
             make.centerY.equalToSuperview()
             make.leading.equalTo(self).offset(10)
         }
-    }
-    
-    func setupLabels() {
-        contentView.addSubview(nameLabel)
         nameLabel.snp.makeConstraints { make in
             make.top.equalTo(representativeImageView.snp.top)
             make.leading.equalTo(representativeImageView.snp.trailing).offset(10)
         }
-        contentView.addSubview(representativeLabel)
         representativeLabel.snp.makeConstraints { make in
             make.bottom.equalTo(representativeImageView.snp.bottom)
             make.leading.equalTo(representativeImageView.snp.trailing).offset(10)
         }
-    }
-    
-    func setupPartyView() {
-        contentView.addSubview(partyIndicatorView)
         partyIndicatorView.snp.makeConstraints { make in
             make.leading.trailing.top.equalTo(self)
             make.height.equalTo(3)

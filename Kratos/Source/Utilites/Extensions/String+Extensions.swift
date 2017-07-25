@@ -38,13 +38,13 @@ extension String {
     /// - "yyyy-MM-dd'T'HH:mm:ss"
     /// - "yyyy-MM-dd'T'HH:mm:ssZZZZ"
     func stringToDate() -> Date? {
-        if let holdDate = DateFormatter.billDateFormatter.date(from: self) {
+        if let holdDate = DateFormatter.bill.date(from: self) {
             return holdDate
         }
-        if let holdDate = DateFormatter.longDateFormatter.date(from: self) {
+        if let holdDate = DateFormatter.long.date(from: self) {
             return holdDate
         }
-        if let holdDate = DateFormatter.utcDateFormatter.date(from: self) {
+        if let holdDate = DateFormatter.utc.date(from: self) {
             return holdDate
         }
         return nil

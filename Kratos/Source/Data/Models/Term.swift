@@ -64,10 +64,10 @@ struct Term: Hashable {
     ///  returns a formatted date range "M/d/yy - M/d/yy" from the terms start and end dates
     var dateRange: String? {
         guard let startDate = startDate else { return nil }
-        var date = DateFormatter.shortPresentationDateFormatter.string(from: startDate)
+        var date = DateFormatter.short.string(from: startDate)
         date += " - "
         if let endDate = endDate {
-            date += DateFormatter.shortPresentationDateFormatter.string(from: endDate)
+            date += DateFormatter.short.string(from: endDate)
         }
         return date
     }

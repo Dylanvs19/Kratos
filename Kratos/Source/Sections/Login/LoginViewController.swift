@@ -25,8 +25,8 @@ class LoginViewController: UIViewController, ActivityIndicatorPresenter {
     fileprivate var signUpRegisterButton = UIButton()
     fileprivate var forgotPasswordButton = UIButton()
     
-    fileprivate let emailTextField = KratosTextField()
-    fileprivate let passwordTextField = KratosTextField()
+    fileprivate let emailTextField = KratosTextField(type: .email)
+    fileprivate let passwordTextField = KratosTextField(type: .password)
     
     lazy fileprivate var fieldData: [FieldData] = {
         return [FieldData(field: self.emailTextField, fieldType: .email, viewModelVariable: self.viewModel.email, validation: self.viewModel.emailValid),
@@ -51,9 +51,9 @@ class LoginViewController: UIViewController, ActivityIndicatorPresenter {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTextFields()
+        addSubviews()
+        constrainViews()
         style()
-        buildViews()
         bind()
         
         navigationController?.isNavigationBarHidden = true
@@ -94,73 +94,50 @@ class LoginViewController: UIViewController, ActivityIndicatorPresenter {
             }
         }
     }
-    
-    func configureTextFields() {
-        fieldData.forEach { (data) in
-            data.field.configureView(with: data.fieldType)
-        }
-    }
 }
 
 extension LoginViewController: ViewBuilder {
     
-    func buildViews() {
-        buildScrollView()
-        buildContentView()
-        buildKratosImageView()
-        buildKratosTextFieldViews()
-        buildLoginContinueButton()
-        buildSignUpRegisterButton()
-        buildForgotPasswordButton()
+    func addSubviews() {
+        self.view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(kratosImageView)
+        fieldData.forEach { (data) in
+            contentView.addSubview(data.field)
+        }
+        contentView.addSubview(loginContinueButton)
+        contentView.addSubview(signUpRegisterButton)
+        contentView.addSubview(forgotPasswordButton)
     }
     
-    func buildScrollView() {
-        self.view.addSubview(scrollView)
+    func constrainViews() {
         scrollView.snp.makeConstraints { (make) in
             make.edges.equalTo(view)
         }
-    }
-    func buildContentView() {
-        scrollView.addSubview(contentView)
         contentView.snp.makeConstraints { (make) in
             make.edges.equalTo(view)
         }
-    }
-    func buildKratosImageView() {
-        contentView.addSubview(kratosImageView)
         kratosImageView.snp.makeConstraints { make in
             make.height.equalTo(kratosImageView.snp.width)
             make.height.equalTo(150)
             make.centerX.equalTo(view)
             make.centerY.equalTo(view).multipliedBy(0.3)
         }
-    }
-    func buildKratosTextFieldViews() {
         fieldData.forEach { (data) in
-            contentView.addSubview(data.field)
             data.field.snp.makeConstraints { (make) in
                 make.top.equalTo(kratosImageView.snp.bottom).offset(data.fieldType.offsetYPosition)
                 make.centerX.equalTo(view)
                 make.width.equalTo(0)
             }
         }
-    }
-    func buildLoginContinueButton() {
-        contentView.addSubview(loginContinueButton)
         loginContinueButton.snp.makeConstraints { (make) in
             make.top.equalTo(kratosImageView.snp.bottom).offset(150)
             make.centerX.equalTo(view)
         }
-    }
-    func buildSignUpRegisterButton() {
-        contentView.addSubview(signUpRegisterButton)
         signUpRegisterButton.snp.makeConstraints { (make) in
             make.bottom.equalTo(view).inset(15)
             make.trailing.equalTo(view).inset(15)
         }
-    }
-    func buildForgotPasswordButton() {
-        contentView.addSubview(forgotPasswordButton)
         forgotPasswordButton.snp.makeConstraints { (make) in
             make.bottom.equalTo(view).inset(15)
             make.leading.equalTo(view).inset(15)

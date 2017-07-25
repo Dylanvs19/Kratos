@@ -30,7 +30,7 @@ class RepresentativeViewController: UIViewController {
     
     let contactView = RepContactView()
     
-    let repInfoView = RepInfoView()
+    let repInfoView: RepInfoView
     
     var topViewHeight: Constraint?
     var contactViewHeight: Constraint?
@@ -40,9 +40,10 @@ class RepresentativeViewController: UIViewController {
     init(client: Client, representative: Person) {
         self.client = client
         self.viewModel = RepresentativeViewModel(client: client, representative: representative)
+        self.repInfoView = RepInfoView(with: client, representative: representative)
         super.init(nibName: nil, bundle: nil)
-        repInfoView.configure(with: client, representative: representative, contentOffset: viewModel.contentOffset)
     }
+    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -51,8 +52,10 @@ class RepresentativeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = [.top, .right, .left]
-        buildViews()
         style()
+        addSubviews()
+        constrainViews()
+        view.layoutIfNeeded()
         bind()
         repInfoView.build()
     }
@@ -95,70 +98,52 @@ extension RepresentativeViewController {
 }
 
 extension RepresentativeViewController: ViewBuilder {
-    func buildViews() {
-        buildTopView()
-        buildContactView()
-        buildRepInfoView()
-        view.layoutIfNeeded()
-    }
-    
-    func buildTopView() {
+    func addSubviews() {
         view.addSubview(topView)
+        topView.addSubview(representativeImageView)
+        topView.addSubview(nameLabel)
+        topView.addSubview(partyLabel)
+        topView.addSubview(repTypeLabel)
+        topView.addSubview(stateLabel)
+        view.addSubview(contactView)
+        view.addSubview(repInfoView)
+    }
+    func constrainViews() {
         topView.snp.remakeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             topViewHeight = make.height.equalTo(140).constraint
         }
-        
-        topView.addSubview(representativeImageView)
         representativeImageView.snp.remakeConstraints { make in
             make.top.equalToSuperview().offset(40)
             make.leading.equalToSuperview().offset(10)
             make.height.equalTo(80)
             make.width.equalTo(representativeImageView.snp.height)
         }
-        
-        topView.addSubview(nameLabel)
         nameLabel.snp.makeConstraints { make in
             make.top.equalTo(representativeImageView.snp.top)
             make.leading.equalTo(representativeImageView.snp.trailing).offset(10)
         }
-        
-        topView.addSubview(partyLabel)
         partyLabel.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.centerY.equalTo(representativeImageView.snp.centerY)
             make.leading.equalTo(representativeImageView.snp.trailing).offset(10)
         }
-        
-        topView.addSubview(repTypeLabel)
         repTypeLabel.snp.makeConstraints { make in
             make.bottom.equalTo(representativeImageView.snp.bottom)
             make.leading.equalTo(representativeImageView.snp.trailing).offset(10)
         }
-        
-        topView.addSubview(stateLabel)
         stateLabel.snp.makeConstraints { make in
             make.bottom.equalTo(representativeImageView.snp.bottom)
             make.leading.equalTo(repTypeLabel.snp.trailing).offset(3)
         }
-    }
-    
-    func buildContactView() {
-        view.addSubview(contactView)
         contactView.snp.makeConstraints { make in
             make.top.equalTo(topView.snp.bottom).offset(5)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
+            make.leading.trailing.equalToSuperview().inset(20)
             contactViewHeight = make.height.equalTo(35).constraint
         }
-    }
-    
-    func buildRepInfoView() {
-        view.addSubview(repInfoView)
         repInfoView.snp.makeConstraints { make in
             make.top.equalTo(contactView.snp.bottom).offset(5)
-            make.leading.equalToSuperview().offset(10)
-            make.trailing.equalToSuperview().offset(-10)
+            make.leading.trailing.equalToSuperview().inset(10)
             make.bottom.equalTo(view.snp.bottom).offset(-10)
         }
     }
@@ -182,14 +167,15 @@ extension RepresentativeViewController: RxBinder {
     func bind() {
         bindTopView()
         bindContactView()
+        bindRepInfoView()
     }
     
     func bindTopView() {
         
         viewModel.representative.asObservable()
             .map { user -> (String, Chamber)? in
-                guard let imageURL = user?.imageURL,
-                    let currentChamber = user?.currentChamber else { return nil }
+                guard let imageURL = user.imageURL,
+                    let currentChamber = user.currentChamber else { return nil }
                 return (imageURL, currentChamber)
             }
             .filterNil()
@@ -200,7 +186,7 @@ extension RepresentativeViewController: RxBinder {
             .disposed(by: disposeBag)
         
         viewModel.representative.asObservable()
-            .map { $0?.currentParty?.color }
+            .map { $0.currentParty?.color }
             .filterNil()
             .subscribe(onNext: { [weak self] color in
                 self?.partyLabel.textColor = color
@@ -251,6 +237,21 @@ extension RepresentativeViewController: RxBinder {
             .subscribe(onNext: { [weak self] address in
                 self?.presentOffice(with: address)
             })
+            .disposed(by: disposeBag)
+    }
+    
+    func bindRepInfoView() {
+        repInfoView.selectedBillID
+            .subscribe(onNext: { [weak self] in
+                guard let client = self?.client,
+                    let navVC = self?.navigationController else { return }
+                let vc = BillViewController(client: client, billID: $0)
+                navVC.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        repInfoView.contentOffset.asObservable()
+            .bind(to: viewModel.contentOffset)
             .disposed(by: disposeBag)
     }
 }

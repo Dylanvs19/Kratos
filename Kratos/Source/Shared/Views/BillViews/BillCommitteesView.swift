@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BillCommitteesView: UIView, Loadable {
+class BillCommitteesView: UIView {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet var title: UILabel!
@@ -19,12 +19,12 @@ class BillCommitteesView: UIView, Loadable {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        customInit()
+        
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        customInit() 
+        
     }
     
     override func awakeFromNib() {

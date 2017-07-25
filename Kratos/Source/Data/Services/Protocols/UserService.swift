@@ -14,7 +14,7 @@ protocol UserService {
     func determineRecess() -> Observable<Bool>
     
     func fetchTrackedBills(for pageNumer: Int) -> Observable<[Bill]>
-    func trackBill(billID: Int) -> Observable<Bill>
+    func trackBill(billID: Int) -> Observable<Void>
     func viewTrackedBill(billID: Int) -> Observable<Bill>
     func untrackBill(billID: Int) -> Observable<Void>
     

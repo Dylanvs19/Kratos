@@ -44,7 +44,8 @@ class ExpandableTextFieldView: UIView {
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
-        buildViews()
+        addSubviews()
+        constrainViews()
         style()
     }
     
@@ -72,23 +73,24 @@ class ExpandableTextFieldView: UIView {
 }
 
 extension ExpandableTextFieldView: ViewBuilder {
-    func buildViews() {
+    func addSubviews() {
+        translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(titleLabel)
+        addSubview(toggleButton)
+        addSubview(textView)
+    }
+    func constrainViews() {
         titleLabel.snp.remakeConstraints { make in
             make.top.equalToSuperview().offset(5)
             make.leading.equalToSuperview().offset(10)
         }
-
-        addSubview(toggleButton)
         toggleButton.snp.remakeConstraints { make in
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)
             make.bottom.equalToSuperview().offset(-5)
             make.height.equalTo(30)
         }
-        
-        addSubview(textView)
         textView.snp.remakeConstraints { make in
             make.leading.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-10)

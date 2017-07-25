@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LeadSponsorView: UIView, Loadable, Tappable {
+class LeadSponsorView: UIView {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet var stateImageView: UIImageView!
@@ -24,12 +24,12 @@ class LeadSponsorView: UIView, Loadable, Tappable {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        customInit()
+        
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        customInit()
+        
     }
     
     override func awakeFromNib() {
@@ -64,7 +64,7 @@ class LeadSponsorView: UIView, Loadable, Tappable {
             stateImageView.image = UIImage.imageForState(state)
         }
         self.presentRepInfoView = presentRepInfoView
-        addTap()
+        
     }
 
     func viewTapped() {

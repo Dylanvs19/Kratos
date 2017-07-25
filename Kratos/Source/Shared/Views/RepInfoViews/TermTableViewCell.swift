@@ -20,7 +20,8 @@ class TermTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        buildViews()
+        addSubviews()
+        constrainViews()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,20 +41,20 @@ class TermTableViewCell: UITableViewCell {
 }
 
 extension TermTableViewCell: ViewBuilder {
-    func buildViews() {
+    func addSubviews() {
         contentView.addSubview(representativeTypeLabel)
+        contentView.addSubview(districtLabel)
+        contentView.addSubview(dateRangeLabel)
+    }
+    func constrainViews() {
         representativeTypeLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().offset(5)
         }
-        
-        contentView.addSubview(districtLabel)
         districtLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.centerX.equalToSuperview()
         }
-        
-        contentView.addSubview(dateRangeLabel)
         dateRangeLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().offset(-5)

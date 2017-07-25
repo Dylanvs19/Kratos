@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MinorActionView: UIView, Loadable  {
+class MinorActionView: UIView {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var topView: UIView!
@@ -20,12 +20,12 @@ class MinorActionView: UIView, Loadable  {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        customInit()
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        customInit()
+        
     }
     
     func configure(with action: BillAction, first: Bool = false, last: Bool = false) {
@@ -34,7 +34,7 @@ class MinorActionView: UIView, Loadable  {
         actionTypeLabel.text = action.presentableType()
         textView.text = action.text
         if let date = action.date {
-            dateLabel.text = DateFormatter.shortPresentationDateFormatter.string(from: date)
+            dateLabel.text = DateFormatter.short.string(from: date)
         }
         self.backgroundColor = UIColor.clear
         setupNodeView()

@@ -62,10 +62,10 @@ class KratosAnalytics {
                     ]
         
         if let timeBillLastSeenAt = timeBillLastSeenAt {
-            dict["last_bill_seen_at"] = DateFormatter.utcDateFormatter.string(from: timeBillLastSeenAt) as AnyObject
+            dict["last_bill_seen_at"] = DateFormatter.utc.string(from: timeBillLastSeenAt) as AnyObject
         }
         if let timeTallyLastSeenAt = timeTallyLastSeenAt {
-            dict["last_tally_seen_at"] = DateFormatter.utcDateFormatter.string(from: timeTallyLastSeenAt) as AnyObject
+            dict["last_tally_seen_at"] = DateFormatter.utc.string(from: timeTallyLastSeenAt) as AnyObject
         }
         
         return ["user_action" : dict]

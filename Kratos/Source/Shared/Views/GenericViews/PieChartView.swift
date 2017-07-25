@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PieChartView: UIView, Loadable {
+class PieChartView: UIView {
     
     @IBOutlet var contentView: UIView!
     
@@ -22,16 +22,6 @@ class PieChartView: UIView, Loadable {
     var data: [PieChartData]?
     var startAngle: CGFloat = 3 * CGFloat.pi / 2
     var hideLables = false
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        customInit()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        customInit()
-    }
     
     func configure(with tally: Tally, hideLabels: Bool = false ) {
         

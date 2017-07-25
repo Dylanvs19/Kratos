@@ -31,18 +31,18 @@ class BillTallyTableViewCell: UITableViewCell {
         stackView.alignment = .fill
         stackView.distribution = .fillProportionally
 
-        stackView.pin(to: self, for: [.top(5), .bottom(0), .leading(0), .trailing(0)])
+        
         
         let headerView = UIView()
-        pieChartView.pin(to: headerView, for: [.top(5), .bottom(-5)])
+        
         pieChartView.trailingAnchor.constrain(equalTo: headerView.trailingAnchor, constant: -5, priority: 999)
         pieChartView.widthAnchor.constrain(equalTo: 70)
         pieChartView.heightAnchor.constrain(equalTo: 70)
         
-        tallyQuestionLabel.pin(to: headerView, for: [.top(5), .leading(5)])
+        
         tallyQuestionLabel.trailingAnchor.constrain(equalTo: pieChartView.leadingAnchor, constant: -5)
 
-        tallyDetailsLabel.pin(to: headerView, for: [.leading(5)])
+        
         tallyDetailsLabel.bottomAnchor.constrain(equalTo: headerView.bottomAnchor, constant: -5, priority: 999)
         stackView.addArrangedSubview(headerView)
     }

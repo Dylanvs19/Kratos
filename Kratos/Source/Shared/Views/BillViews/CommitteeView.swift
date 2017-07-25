@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CommitteeView: UIView, Loadable, Tappable {
+class CommitteeView: UIView {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var sideView: UIView!
@@ -31,26 +31,6 @@ class CommitteeView: UIView, Loadable, Tappable {
     var buttonViewPressedWithString: ((String) -> ())?
     var url: String?
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        addTap()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        customInit()
-        configureView()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        customInit()
-        configureView()
-    }
-    
-    func configureView() {
-        addTap()
-    }
     
     func configure(with committee: Committee, layoutStackView: (() -> ())?, buttonViewPressedWithString:((String) -> ())?) {
         let sanitizedCommitteeName = committee.name?.replacingOccurrences(of: "House Committee on ", with: "").replacingOccurrences(of: "Senate Committee on ", with: "").replacingOccurrences(of: "the ", with: "")
@@ -71,16 +51,16 @@ class CommitteeView: UIView, Loadable, Tappable {
         }
         
         if let summary = committee.jusrisdiction {
-            let summaryView = SummaryView()
-            summaryView.configure(with: summary, title: "Jurisdiction")
-            stackView.addArrangedSubview(summaryView)
+//            let summaryView = SummaryView()
+//            summaryView.configure(with: summary, title: "Jurisdiction")
+//            stackView.addArrangedSubview(summaryView)
         }
         
         if let url = committee.url {
-            self.url = url 
-            let buttonView = ButtonView()
-            buttonView.configure(with: "Website", font: Font.title, actionBlock: buttonViewPressed)
-            stackView.addArrangedSubview(buttonView)
+//            self.url = url 
+//            let buttonView = ButtonView()
+//            buttonView.configure(with: "Website", font: Font.title, actionBlock: buttonViewPressed)
+//            stackView.addArrangedSubview(buttonView)
         }
         
         self.buttonViewPressedWithString = buttonViewPressedWithString

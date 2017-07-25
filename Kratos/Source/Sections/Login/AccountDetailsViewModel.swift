@@ -274,7 +274,7 @@ extension AccountDetailsViewModel: RxBinder {
         
         nonNilUser
             .map { $0.dob }
-            .map { DateFormatter.presentationDateFormatter.string(from: $0) }
+            .map { DateFormatter.presentation.string(from: $0) }
             .bind(to: dob)
             .disposed(by: disposeBag)
         

@@ -17,7 +17,7 @@ class RepresentativeViewModel {
     let disposeBag = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
     
-    let representative = Variable<Person?>(nil)
+    let representative: Observable<Person>
     
     let name = Variable<String>("")
     let repType = Variable<String>("")
@@ -32,63 +32,67 @@ class RepresentativeViewModel {
     let officePressed = PublishSubject<String>()
     
     //RepInfo Variables
-    var fetchAction = PublishSubject<RepInfoView.State>()
-
-    let tallies = Variable<[LightTally]>([])
-    let sponsoredBills = Variable<[Bill]>([])
-    
     let contentOffset = Variable<CGFloat>(0)
-    
-    //Bio
+    //Bio Variables
     var bio = Variable<String>("")
     var terms = Variable<[Term]>([])
     
     init(client: Client, representative: Person) {
         self.client = client
-        self.representative.value = representative
+        self.representative = Observable.just(representative)
         bind()
     }
-    
 }
 
 extension RepresentativeViewModel: RxBinder {
     func bind() {
-        let rep = representative.asObservable().filterNil()
-        
-        rep.asObservable()
+        bindHeaderVariables()
+        bindContactVariables()
+        bindRepInfoView()
+    }
+    
+    func bindRepInfoView() {
+    }
+    
+    func bindHeaderVariables() {
+
+        representative.asObservable()
             .map { $0.fullName }
             .filterNil()
             .bind(to: name)
             .disposed(by: disposeBag)
-        rep.asObservable()
+        representative.asObservable()
             .map { $0.currentChamber?.representativeType.rawValue }
             .filterNil()
             .bind(to: repType)
             .disposed(by: disposeBag)
-        rep.asObservable()
+        representative.asObservable()
             .map { $0.currentParty?.long }
             .filterNil()
             .bind(to: party)
             .disposed(by: disposeBag)
-        rep.asObservable()
+        representative.asObservable()
             .map { $0.currentState }
             .filterNil()
             .map { Constants.abbreviationToFullStateNameDict[$0] }
             .filterNil()
             .bind(to: state)
             .disposed(by: disposeBag)
-        rep.asObservable()
+        representative.asObservable()
             .map { $0.biography }
             .filterNil()
             .bind(to: bio)
             .disposed(by: disposeBag)
-        rep.asObservable()
+        representative.asObservable()
             .map { $0.terms }
             .filterNil()
             .bind(to: terms)
             .disposed(by: disposeBag)
-        
-        rep.asObservable()
+    }
+    
+    func bindContactVariables() {
+
+        representative.asObservable()
             .map {
                 var contactMethods = [ContactMethod]()
                 if let phone = $0.terms?.first?.phone {
@@ -111,7 +115,6 @@ extension RepresentativeViewModel: RxBinder {
             }
             .bind(to: contactMethods)
             .disposed(by: disposeBag)
-        
     }
 }
 

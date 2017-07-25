@@ -19,7 +19,9 @@ class RepInfoView: UIView {
     case votes
     case bills
         
-        var displayName: String {
+        static let allValues: [State] = [.bio, .votes, .bills]
+        
+        var title: String {
             switch self {
             case .bio:
                 return "Biography"
@@ -32,7 +34,7 @@ class RepInfoView: UIView {
         
         var button: UIButton {
             let button = UIButton()
-            button.setTitle(displayName, for: .normal)
+            button.setTitle(title, for: .normal)
             button.titleLabel?.font = Font.futura(size: 14).font
             button.setTitleColor(.kratosRed, for: .normal)
             button.setTitleColor(.red, for: .highlighted)
@@ -42,25 +44,13 @@ class RepInfoView: UIView {
         }
         
         func scrollViewXPosition(in view: UIView) -> CGFloat {
-            switch self {
-            case .bio:
-                return 0
-            case .votes:
-                return view.frame.size.width
-            case .bills:
-                return view.frame.size.width * 2
-            }
+            let width = view.frame.size.width
+            return CGFloat(State.allValues.index(of: self)!) * width
         }
+        
         func indicatorXPosition(in view: UIView) -> CGFloat {
-            let width = view.frame.size.width / 3
-            switch self {
-            case .bio:
-                return 0
-            case .votes:
-                return width
-            case .bills:
-                return width * 2
-            }
+            let width = view.frame.size.width / CGFloat(State.allValues.count)
+            return CGFloat(State.allValues.index(of: self)!) * width
         }
     }
     
@@ -76,15 +66,22 @@ class RepInfoView: UIView {
     let termsTableView = UITableView()
     
     let termsDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Term>>()
-    let votesDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, LightTally>>()
+    let votesDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, [LightTally]>>()
     let billsDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Bill>>()
     
     let votesTableView = UITableView()
     let billsTableView = UITableView()
     
     var viewModel: RepInfoViewModel?
-    let contentOffset = Variable<CGFloat>(0)
     let disposeBag = DisposeBag()
+    
+    var contentOffset = PublishSubject<CGFloat>()
+    var selectedBillID = PublishSubject<Int>()
+    
+    convenience init(with client: Client, representative: Person) {
+        self.init(frame: .zero)
+        self.viewModel = RepInfoViewModel(with: client, representative: representative)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -94,15 +91,13 @@ class RepInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with client: Client, representative: Person, contentOffset: Variable<CGFloat>) {
-        viewModel = RepInfoViewModel(with: client, representative: representative, contentOffset: contentOffset)
-    }
-    
     func build() {
         style()
-        buildViews()
+        addSubviews()
+        constrainViews()
         configureTermsTableView()
         configureBillsTableView()
+        configureVotesTableView()
         bind()
     }
     
@@ -147,27 +142,32 @@ class RepInfoView: UIView {
         termsDataSource.titleForHeaderInSection = { ds, index in
             return ds.sectionModels[index].model
         }
+        
+        termsTableView.rx.setDelegate(self)
+            .addDisposableTo(disposeBag)
     }
     
     func configureVotesTableView() {
-        votesTableView.register(TermTableViewCell.self, forCellReuseIdentifier: TermTableViewCell.identifier)
-        votesTableView.rowHeight = 30
+        votesTableView.register(RepVoteTableViewCell.self, forCellReuseIdentifier: RepVoteTableViewCell.identifier)
+        votesTableView.estimatedRowHeight = 500
+        votesTableView.rowHeight = UITableViewAutomaticDimension
         votesTableView.separatorInset = .zero
         votesTableView.tableFooterView = UIView()
         votesTableView.backgroundColor = .clear
-        votesTableView.allowsSelection = false
+        
         
         votesDataSource.configureCell = { dataSource, tableView, indexPath, item in
-            let basicCell = tableView.dequeueReusableCell(withIdentifier: TermTableViewCell.identifier, for: indexPath)
-            guard let cell = basicCell as? TermTableViewCell else { fatalError() }
-            //cell.configure(with: item)
+            let basicCell = tableView.dequeueReusableCell(withIdentifier: RepVoteTableViewCell.identifier, for: indexPath)
+            guard let cell = basicCell as? RepVoteTableViewCell else { fatalError() }
+            cell.configure(with: item)
             return cell
         }
         
         votesDataSource.titleForHeaderInSection = { ds, index in
             return ds.sectionModels[index].model
         }
-        bioScrollView.showsVerticalScrollIndicator = false
+        
+        votesTableView.showsVerticalScrollIndicator = false
     }
     
     func configureBillsTableView() {
@@ -177,7 +177,6 @@ class RepInfoView: UIView {
         billsTableView.separatorInset = .zero
         billsTableView.tableFooterView = UIView()
         billsTableView.backgroundColor = .clear
-        billsTableView.allowsSelection = false
         
         billsDataSource.configureCell = { dataSource, tableView, indexPath, item in
             let basicCell = tableView.dequeueReusableCell(withIdentifier: RepInfoBillSponsorTableViewCell.identifier, for: indexPath)
@@ -189,99 +188,88 @@ class RepInfoView: UIView {
         billsDataSource.titleForHeaderInSection = { ds, index in
             return ds.sectionModels[index].model
         }
+        
+        votesTableView.showsVerticalScrollIndicator = false
+    }
+}
+
+extension RepInfoView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if tableView == votesTableView {
+            let view = UIView()
+            let label = UILabel()
+            view.addSubview(label)
+            label.snp.makeConstraints { make in
+                make.leading.equalToSuperview().offset(5)
+                make.top.bottom.trailing.equalToSuperview()
+            }
+            label.text = votesDataSource.sectionModels[section].model
+            return view
+        }
+        return nil 
     }
 }
 
 extension RepInfoView: ViewBuilder {
-    func buildViews() {
-        buildManagerView()
-        buildBaseScrollView()
-        buildBaseStackView()
-        buildBioView()
-        buildVotesView()
-        buildSponsoredView()
+    func addSubviews() {
+        translatesAutoresizingMaskIntoConstraints = false
         
-    }
-    
-    func buildManagerView() {
         addSubview(managerStackView)
-        managerStackView.snp.makeConstraints { make in
+        addSubview(scrollView)
+        scrollView.addSubview(stackView)
+        managerStackView.addSubview(managerIndicatorView)
+
+        stackView.addArrangedSubview(bioScrollView)
+        bioScrollView.addSubview(bioStackView)
+        bioStackView.addArrangedSubview(bioView)
+        bioStackView.addArrangedSubview(termsTableView)
+        
+        stackView.addArrangedSubview(votesTableView)
+        stackView.addArrangedSubview(billsTableView)
+
+    }
+    func constrainViews() {
+        managerStackView.snp.remakeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(25)
         }
-        
-        managerStackView.addSubview(managerIndicatorView)
-        managerIndicatorView.snp.makeConstraints { make in
+        managerIndicatorView.snp.remakeConstraints { make in
             make.bottom.equalToSuperview()
             make.width.equalTo(self.frame.width / 3)
             make.height.equalTo(1)
             make.leading.equalToSuperview().offset(0)
         }
-    }
-    
-    func buildBaseScrollView() {
-        addSubview(scrollView)
-        scrollView.snp.makeConstraints { make in
+        scrollView.snp.remakeConstraints { make in
             make.top.equalTo(self.managerStackView.snp.bottom).offset(3)
             make.leading.trailing.bottom.equalToSuperview()
         }
-        layoutIfNeeded()
-    }
-    
-    func buildBaseStackView() {
-        scrollView.addSubview(stackView)
-        stackView.snp.makeConstraints { make in
+        stackView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
         }
-        layoutIfNeeded()
-    }
-    
-    func buildBioView() {
-        stackView.addArrangedSubview(bioScrollView)
-        bioScrollView.snp.makeConstraints { make in
-            make.width.equalTo(self.scrollView.frame.width)
-            make.height.equalTo(self.scrollView.frame.height)
+        bioScrollView.snp.remakeConstraints { make in
+            make.width.height.equalTo(self.scrollView)
         }
-        layoutIfNeeded()
-        
-        bioScrollView.addSubview(bioStackView)
-        bioStackView.snp.makeConstraints { make in
-            make.width.equalTo(self.frame.width)
+        bioStackView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
+            make.width.equalTo(self.frame.width)
         }
         layoutIfNeeded()
-        
-        let view = UIView()
-        view.snp.makeConstraints { make in
-            make.width.equalTo(self.frame.width)
-            make.height.equalTo(1)
-        }
-        
-        bioView.snp.makeConstraints { make in
+        bioView.snp.remakeConstraints { make in
             make.width.equalTo(self.frame.width)
         }
+        termsTableView.translatesAutoresizingMaskIntoConstraints = false
+        termsTableView.snp.remakeConstraints { make in
+            make.width.equalTo(self.bioView)
+            let size = termsTableView.contentSize.height == 0 ? 1 : termsTableView.contentSize.height
+            make.height.equalTo(size).priority(999)
+        }
+        stackView.layoutIfNeeded()
+        scrollView.layoutIfNeeded()
+        bioStackView.layoutIfNeeded()
+        bioScrollView.layoutIfNeeded()
+        layoutIfNeeded()
+    }
 
-        termsTableView.snp.makeConstraints { make in
-            make.width.equalTo(self.frame.width)
-            make.height.equalTo(1)
-        }
-
-        bioStackView.addArrangedSubview(view)
-        bioStackView.addArrangedSubview(bioView)
-        bioStackView.addArrangedSubview(termsTableView)
-        layoutIfNeeded()
-    }
-    
-    func buildVotesView() {
-        stackView.addArrangedSubview(votesTableView)
-        layoutIfNeeded()
-    }
-    
-    func buildSponsoredView() {
-        stackView.addArrangedSubview(billsTableView)
-        layoutIfNeeded()
-    }
-    
     func style() {
         managerStackView.axis = .horizontal
         managerStackView.alignment = .fill
@@ -307,6 +295,7 @@ extension RepInfoView: RxBinder {
         bindMainScrollView()
         bindBioView()
         bindBillsView()
+        bindVotesView()
     }
     
     func bindManagerView() {
@@ -356,7 +345,7 @@ extension RepInfoView: RxBinder {
         
         viewModel.terms.asObservable()
             .subscribe(onNext: { [weak self] terms in
-                self?.updateTermsTableView()
+                self?.constrainViews()
             })
             .disposed(by: disposeBag)
     }
@@ -374,6 +363,33 @@ extension RepInfoView: RxBinder {
             .filter { $0 == true }
             .map { _ in () }
             .bind(to: viewModel.fetchAction)
+            .disposed(by: disposeBag)
+        
+        billsTableView.rx.itemSelected.asObservable()
+            .map { self.billsDataSource[$0].id }
+            .bind(to: selectedBillID)
+            .disposed(by: disposeBag)
+    }
+    
+    func bindVotesView() {
+        guard let viewModel = viewModel else { return }
+        viewModel.formattedTallies.asObservable()
+            .map { $0.map { SectionModel(model: "\(DateFormatter.presentation.string(from: $0.key))", items: $0.value) } }
+            .bind(to: votesTableView.rx.items(dataSource: votesDataSource))
+            .disposed(by: disposeBag)
+        
+        votesTableView.rx.contentOffset.asObservable()
+            .map { $0.y > (self.billsTableView.contentSize.height - self.billsTableView.frame.height - 100) }
+            .distinctUntilChanged()
+            .filter { $0 == true }
+            .map { _ in () }
+            .bind(to: viewModel.fetchAction)
+            .disposed(by: disposeBag)
+        
+        votesTableView.rx.itemSelected.asObservable()
+            .map { self.votesDataSource[$0].first?.billID }
+            .filterNil()
+            .bind(to: selectedBillID)
             .disposed(by: disposeBag)
     }
 }

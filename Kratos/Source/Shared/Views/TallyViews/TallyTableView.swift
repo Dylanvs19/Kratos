@@ -20,7 +20,6 @@ class TallyTableView: UITableView, UITableViewDelegate, UITableViewDataSource, U
         }
     }
     weak var tallyTableViewDelegate: TallyTableViewDelegate?
-    weak var billInfoViewDelegate: BillInfoViewDelegate?
     
     func configure(with data: [Tally]) {
         delegate = self
@@ -43,7 +42,6 @@ class TallyTableView: UITableView, UITableViewDelegate, UITableViewDataSource, U
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let translation = scrollView.panGestureRecognizer.translation(in: self).y
-        billInfoViewDelegate?.scrollViewDid(translate: translation, contentOffsetY: scrollView.contentOffset.y)
     }
     
 }

@@ -110,17 +110,9 @@ class KratosTextField: UIView {
     }
     
     //MARK: Initializers
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    //MARK: Configuration
-    public func configureView(with textFieldType: TextFieldType) {
-        self.textFieldType = textFieldType
+    convenience init(type: TextFieldType) {
+        self.init(frame: .zero)
+        self.textFieldType = type
         self.textField.keyboardType = textFieldType.keyboardType
         self.textField.isSecureTextEntry = textFieldType == .password
         self.placeholderLabel.text = textFieldType.placeholderText
@@ -128,8 +120,17 @@ class KratosTextField: UIView {
         textField.delegate = self
         textField.addTarget(self, action: #selector(editingBegan), for: .editingDidBegin)
         textField.addTarget(self, action: #selector(editingEnded), for: .editingDidEnd)
-        self.buildViews()
-        self.style()
+        addSubviews()
+        constrainViews()
+        style()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     //MARK: Public Animations
@@ -182,29 +183,31 @@ class KratosTextField: UIView {
 
 //MARK: ViewBuilder
 extension KratosTextField: ViewBuilder {
-    func buildViews() {
+    func addSubviews() {
         addSubview(textField)
+        addSubview(underlineView)
+        addSubview(placeholderLabel)
+    }
+    
+    func constrainViews() {
         textField.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(self)
             make.bottom.equalTo(self).inset(4)
         }
-        
-        addSubview(underlineView)
         underlineView.snp.makeConstraints { make in
             make.width.centerX.equalTo(self)
             make.height.equalTo(1)
             make.top.equalTo(textField.snp.bottom).offset(2)
         }
-        
-        addSubview(placeholderLabel)
         placeholderLabel.snp.makeConstraints { make in
             make.bottom.equalTo(underlineView.snp.top).offset(0)
             make.centerX.equalTo(self)
         }
-        sendSubview(toBack: placeholderLabel)
     }
     
     func style() {
+        sendSubview(toBack: placeholderLabel)
+
         placeholderLabel.font = Font.futura(size: 14).font
         placeholderLabel.textColor = .lightGray
         

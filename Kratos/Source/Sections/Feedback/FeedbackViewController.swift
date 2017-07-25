@@ -47,13 +47,13 @@ class FeedbackViewController: UIViewController, UIScrollViewDelegate {
             stackView.addArrangedSubview(view)
         }
         
-        let view = ShowMoreView()
-        view.configure(with: "Submit", actionBlock: submitTapped)
-        stackView.addArrangedSubview(view)
-        
-        let cancelView = ShowMoreView()
-        cancelView.configure(with: "Cancel", actionBlock: cancelTapped)
-        stackView.addArrangedSubview(cancelView)
+//        let view = ShowMoreView()
+//        view.configure(with: "Submit", actionBlock: submitTapped)
+//        stackView.addArrangedSubview(view)
+//        
+//        let cancelView = ShowMoreView()
+//        cancelView.configure(with: "Cancel", actionBlock: cancelTapped)
+//        stackView.addArrangedSubview(cancelView)
     }
     
     func submitTapped(selected: Bool) {

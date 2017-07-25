@@ -9,9 +9,11 @@
 import Foundation
 
 protocol ViewBuilder {
+
+    func addSubviews()
+    
+    func constrainViews()
     
     func style()
-    
-    func buildViews()
     
 }

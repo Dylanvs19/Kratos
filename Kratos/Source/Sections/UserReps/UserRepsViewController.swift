@@ -44,7 +44,8 @@ class UserRepsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = [.top, .right, .left]
-        buildViews()
+        addSubviews()
+        constrainViews()
         style()
         bind()
         configureTableView()
@@ -92,46 +93,38 @@ extension UserRepsViewController: UITableViewDelegate {
 }
 
 extension UserRepsViewController: ViewBuilder {
-    func buildViews() {
-        buildTopView()
-        buildTableView()
+    func addSubviews() {        
+        view.addSubview(stateImageView)
+        stateImageView.addSubview(kratosImageView)
+        stateImageView.addSubview(topShadeView)
+        topShadeView.addSubview(stateLabel)
+        topShadeView.addSubview(districtLabel)
+        view.addSubview(tableView)
     }
     
-    func buildTopView() {
-        view.addSubview(stateImageView)
+    func constrainViews() {
         stateImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(190)
         }
-        
-        stateImageView.addSubview(kratosImageView)
         kratosImageView.snp.makeConstraints { make in
             make.width.equalTo(50)
             make.height.equalTo(kratosImageView.snp.width)
             make.top.equalToSuperview().offset(10)
             make.centerX.equalToSuperview()
         }
-        
-        stateImageView.addSubview(topShadeView)
         topShadeView.snp.makeConstraints { make in
             make.leading.bottom.trailing.equalToSuperview()
             make.height.equalTo(50)
         }
-        
-        topShadeView.addSubview(stateLabel)
         stateLabel.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().offset(5)
         }
-        topShadeView.addSubview(districtLabel)
         districtLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.leading.equalTo(stateLabel.snp.leading).offset(10)
         }
-    }
-    
-    func buildTableView() {
-        view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.top.equalTo(stateImageView.snp.bottom).offset(5)
             make.leading.equalToSuperview().offset(10)
@@ -152,7 +145,6 @@ extension UserRepsViewController: ViewBuilder {
         
         districtLabel.font = Font.futura(size: 15).font
         districtLabel.textColor = .white
-        
     }
 }
 

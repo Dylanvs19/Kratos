@@ -36,7 +36,8 @@ class NotificationsRegistrationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        buildViews()
+        addSubviews()
+        constrainViews()
         style()
         bind()
     }
@@ -51,46 +52,35 @@ class NotificationsRegistrationViewController: UIViewController {
 }
 
 extension NotificationsRegistrationViewController: ViewBuilder {
-    func buildViews() {
-        buildKratosImageView()
-        buildTextElements()
-        buildButtons()
+    func addSubviews() {
+        self.view.addSubview(kratosImageView)
+        self.view.addSubview(titleLabel)
+        self.view.addSubview(textView)
+        self.view.addSubview(confirmationButton)
+        self.view.addSubview(skipButton)
     }
     
-    func buildKratosImageView() {
-        self.view.addSubview(kratosImageView)
+    func constrainViews() {
         kratosImageView.snp.makeConstraints { make in
             make.height.equalTo(kratosImageView.snp.width)
             make.height.equalTo(150)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.3)
         }
-    }
-    
-    func buildTextElements() {
-        self.view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(kratosImageView.snp.bottom).offset(15)
             make.centerX.equalToSuperview()
         }
-        
-        self.view.addSubview(textView)
         textView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(15)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().inset(-20)
         }
-    }
-    
-    func buildButtons() {
-        self.view.addSubview(confirmationButton)
         confirmationButton.snp.makeConstraints { make in
             make.top.equalTo(textView.snp.bottom).offset(40)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().inset(-20)
         }
-        
-        self.view.addSubview(skipButton)
         skipButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.centerX.equalToSuperview()

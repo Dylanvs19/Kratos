@@ -23,14 +23,14 @@ class AccountDetailsViewController: UIViewController {
     fileprivate var saveEditRegisterButton = UIButton()
     fileprivate var cancelDoneButton = UIButton()
     
-    fileprivate let firstTextField = KratosTextField()
-    fileprivate let lastTextField = KratosTextField()
-    fileprivate let partyTextField = KratosTextField()
-    fileprivate let dobTextField = KratosTextField()
-    fileprivate let streetTextField = KratosTextField()
-    fileprivate let cityTextField = KratosTextField()
-    fileprivate let stateTextField = KratosTextField()
-    fileprivate let zipTextField = KratosTextField()
+    fileprivate let firstTextField = KratosTextField(type: .first)
+    fileprivate let lastTextField = KratosTextField(type: .last)
+    fileprivate let partyTextField = KratosTextField(type: .party)
+    fileprivate let dobTextField = KratosTextField(type: .dob)
+    fileprivate let streetTextField = KratosTextField(type: .address)
+    fileprivate let cityTextField = KratosTextField(type: .city)
+    fileprivate let stateTextField = KratosTextField(type: .state)
+    fileprivate let zipTextField = KratosTextField(type: .zip)
     
     fileprivate let datePicker = DatePickerView()
     fileprivate var datePickerTopConstraint: Constraint?
@@ -71,10 +71,10 @@ class AccountDetailsViewController: UIViewController {
 
         datePicker.configureDatePicker()
         datePicker.delegate = self
-    
-        configureTextFields()
+        
         style()
-        buildViews()
+        addSubviews()
+        constrainViews()
         bind()
         
         setupGestureRecognizer()
@@ -97,12 +97,6 @@ class AccountDetailsViewController: UIViewController {
             data.field.animateOut()
         }
         self.view.layoutIfNeeded()
-    }
-    
-    func configureTextFields() {
-        fieldData.forEach { (data) in
-            data.field.configureView(with: data.fieldType)
-        }
     }
     
     fileprivate func beginningAnimations() {
@@ -177,7 +171,7 @@ class AccountDetailsViewController: UIViewController {
 extension AccountDetailsViewController: DatePickerViewDelegate {
     
     func selectedDate(date: Date) {
-        Observable.just(DateFormatter.presentationDateFormatter.string(from: date))
+        Observable.just(DateFormatter.presentation.string(from: date))
             .do(onNext: { [weak self] (date) in
                 self?.hideDatePicker()
             })
@@ -191,66 +185,46 @@ extension AccountDetailsViewController: DatePickerViewDelegate {
 
 extension AccountDetailsViewController: ViewBuilder {
     
-    func buildViews() {
-        buildScrollView()
-        buildContentView()
-        buildKratosImageView()
-        buildKratosTextFieldViews()
-        buildcancelDoneButtonButton()
-        buildSaveEditRegisterButtonButton()
-        buildDatePickerView()
+    func addSubviews() {
+        self.view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(kratosImageView)
+        fieldData.forEach { (data) in
+            contentView.addSubview(data.field)
+        }
+        contentView.addSubview(cancelDoneButton)
+        contentView.addSubview(saveEditRegisterButton)
+        view.addSubview(datePicker)
     }
     
-    func buildScrollView() {
-        self.view.addSubview(scrollView)
+    func constrainViews() {
         scrollView.snp.makeConstraints { (make) in
             make.edges.equalTo(view)
         }
-    }
-    func buildContentView() {
-        scrollView.addSubview(contentView)
         contentView.snp.makeConstraints { (make) in
             make.edges.equalTo(view)
         }
-    }
-    func buildKratosImageView() {
-        contentView.addSubview(kratosImageView)
         kratosImageView.snp.makeConstraints { make in
             make.height.equalTo(kratosImageView.snp.width)
             make.height.equalTo(150)
             make.centerX.equalTo(view)
             make.centerY.equalTo(view).multipliedBy(0.3)
         }
-    }
-    func buildKratosTextFieldViews() {
         fieldData.forEach { (data) in
-            contentView.addSubview(data.field)
             data.field.snp.makeConstraints({ make in
                 make.top.equalTo(kratosImageView.snp.bottom).offset(data.fieldType.offsetYPosition)
                 make.centerX.equalTo(view).multipliedBy(data.fieldType.centerXPosition)
                 make.width.equalTo(0)
             })
         }
-    }
-    
-    func buildcancelDoneButtonButton() {
-        contentView.addSubview(cancelDoneButton)
         cancelDoneButton.snp.makeConstraints { (make) in
             make.bottom.equalTo(view).inset(15)
             make.centerX.equalTo(view)
         }
-    }
-    
-    func buildSaveEditRegisterButtonButton() {
-        contentView.addSubview(saveEditRegisterButton)
         saveEditRegisterButton.snp.makeConstraints { (make) in
             make.bottom.equalTo(cancelDoneButton.snp.top).inset(15)
             make.centerX.equalTo(view)
         }
-    }
-    
-    func buildDatePickerView() {
-        view.addSubview(datePicker)
         datePicker.snp.makeConstraints { (make) in
             make.top.equalTo(view.snp.bottom)
             make.height.equalTo(250)

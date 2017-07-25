@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CommitteActivitiesView: UIView, Loadable {
+class CommitteActivitiesView: UIView {
     
     @IBOutlet public var contentView: UIView!
     @IBOutlet weak var title: UILabel!
@@ -16,17 +16,17 @@ class CommitteActivitiesView: UIView, Loadable {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        customInit()
+        
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        customInit()
+        
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        customInit()
+        
     }
     
     func configure(with title: String, activities: [String]) {

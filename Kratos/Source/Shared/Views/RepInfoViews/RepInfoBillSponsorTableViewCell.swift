@@ -18,7 +18,8 @@ class RepInfoBillSponsorTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        buildViews()
+        addSubviews()
+        constrainViews()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -34,26 +35,34 @@ class RepInfoBillSponsorTableViewCell: UITableViewCell {
 }
 
 extension RepInfoBillSponsorTableViewCell: ViewBuilder {
-    func buildViews() {
+    func addSubviews() {
         addSubview(titleLabel)
+        addSubview(statusLabel)
+        addSubview(topTermLabel)
+        style()
+    }
+    
+    func constrainViews() {
         titleLabel.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().offset(5)
             make.trailing.equalToSuperview().offset(5)
         }
-        addSubview(statusLabel)
+        
         statusLabel.snp.makeConstraints { make in
             make.bottom.trailing.equalToSuperview().offset(-5)
         }
-        addSubview(topTermLabel)
+        
         topTermLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(5)
+            make.leading.equalToSuperview().offset(5)
             make.bottom.equalToSuperview().offset(-5)
             make.trailing.lessThanOrEqualTo(statusLabel.snp.leading).offset(3)
         }
-        style()
     }
     
     func style() {
+        selectionStyle = .none
+        
         titleLabel.font = Font.futura(size: 16).font
         statusLabel.font = Font.avenirNext(size: 14).font
         topTermLabel.font = Font.avenirNext(size: 14).font

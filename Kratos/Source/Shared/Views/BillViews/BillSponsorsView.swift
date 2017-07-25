@@ -14,7 +14,6 @@ class BillSponsorsView: UIView, UITableViewDelegate, UITableViewDataSource, UISc
     fileprivate var tableView = UITableView()
     fileprivate var data = [Int: [Person]]()
     fileprivate var lastContentOffset: CGFloat = 0.0
-    weak var billInfoViewDelegate: BillInfoViewDelegate?
     
     func configure(with bill: Bill) {
         // add SponsorsView to stackView
@@ -32,7 +31,7 @@ class BillSponsorsView: UIView, UITableViewDelegate, UITableViewDataSource, UISc
     }
     
     fileprivate func setupTableView() {
-        tableView.pin(to: self)
+
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: RepTableViewCell.identifier, bundle: nil) , forCellReuseIdentifier: RepTableViewCell.identifier)
@@ -81,6 +80,5 @@ class BillSponsorsView: UIView, UITableViewDelegate, UITableViewDataSource, UISc
         let offsetY = scrollView.contentOffset.y
         let translation =  offsetY - lastContentOffset
         lastContentOffset = offsetY
-        billInfoViewDelegate?.scrollViewDid(translate: translation, contentOffsetY: offsetY)
     }
 }

@@ -36,7 +36,8 @@ class ConfirmationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        buildViews()
+        addSubviews()
+        constrainViews()
         style()
         bind()
     }
@@ -48,40 +49,29 @@ class ConfirmationViewController: UIViewController {
 }
 
 extension ConfirmationViewController: ViewBuilder {
-    
-    func buildViews() {
-        buildKratosImageView()
-        buildTextElements()
-        buildLinkButton()
+    func addSubviews() {
+        self.view.addSubview(kratosImageView)
+        self.view.addSubview(titleLabel)
+        self.view.addSubview(textView)
+        self.view.addSubview(linkButton)
     }
     
-    func buildKratosImageView() {
-        self.view.addSubview(kratosImageView)
+    func constrainViews() {
         kratosImageView.snp.makeConstraints { make in
             make.height.equalTo(kratosImageView.snp.width)
             make.height.equalTo(150)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.3)
         }
-    }
-    
-    func buildTextElements() {
-        self.view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(kratosImageView.snp.bottom).offset(15)
             make.centerX.equalToSuperview()
         }
-        
-        self.view.addSubview(textView)
         textView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(15)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().inset(-20)
         }
-    }
-    
-    func buildLinkButton() {
-        self.view.addSubview(linkButton)
         linkButton.snp.makeConstraints { make in
             make.top.equalTo(textView.snp.bottom).offset(40)
             make.centerX.equalToSuperview()

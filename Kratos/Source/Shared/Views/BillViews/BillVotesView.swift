@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol BillVotesViewDelegate: class {
-    func didSelect(tally: Tally)
-}
-
 class BillVotesView: UIView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
     fileprivate var tableView = UITableView()
@@ -21,8 +17,6 @@ class BillVotesView: UIView, UITableViewDelegate, UITableViewDataSource, UIScrol
         }
     }
     fileprivate var lastContentOffset: CGFloat = 0.0
-    weak var billVotesViewDelegate: BillVotesViewDelegate?
-    weak var billInfoViewDelegate: BillInfoViewDelegate?
     
     func configure(with bill: Bill) {
         guard let tallies = bill.tallies else { return }
@@ -31,7 +25,7 @@ class BillVotesView: UIView, UITableViewDelegate, UITableViewDataSource, UIScrol
     }
     
     fileprivate func setupTableView() {
-        tableView.pin(to: self)
+
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -63,13 +57,11 @@ class BillVotesView: UIView, UITableViewDelegate, UITableViewDataSource, UIScrol
         // pass back information to pop RepInfoView
         guard data.count > indexPath.row else { return }
         let tally = data[indexPath.row]
-        billVotesViewDelegate?.didSelect(tally: tally)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let translation =  offsetY - lastContentOffset
         lastContentOffset = offsetY
-        billInfoViewDelegate?.scrollViewDid(translate: translation, contentOffsetY: offsetY)
     }
 }

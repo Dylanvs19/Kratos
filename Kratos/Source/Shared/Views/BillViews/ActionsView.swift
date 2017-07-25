@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ActionsView: UIView, Loadable, Tappable {
+class ActionsView: UIView {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var topView: UIView!
@@ -46,18 +46,12 @@ class ActionsView: UIView, Loadable, Tappable {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        customInit()
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        customInit()
-    }
-    
-    func isTappable(_ tappable: Bool) {
-        if tappable {
-            addTap()
-        }
+        
     }
     
     func configure(with actionArray: [BillAction], first: Bool, last: Bool, viewType: ViewType, layoutStackView: (() -> ())?) {
@@ -84,7 +78,7 @@ class ActionsView: UIView, Loadable, Tappable {
             statusLabel.text = first.presentableStatus()
             textView.text = first.text
             if let date = first.date {
-                dateLabel.text = DateFormatter.shortPresentationDateFormatter.string(from: date)
+                dateLabel.text = DateFormatter.short.string(from: date)
             }
         }
         
@@ -112,7 +106,7 @@ class ActionsView: UIView, Loadable, Tappable {
             dateLabel.isHidden = false
             chevronView.isHidden = true
             hideStackView(true, animate: false)
-            isTappable(false)
+            
         case .onlyMinorActions:
             textViewToBottom.isActive = false
             stackViewTopToTextViewBottom.isActive = true
@@ -121,7 +115,7 @@ class ActionsView: UIView, Loadable, Tappable {
             statusLabel.isHidden = false
             dateLabel.isHidden = false
             hideStackView(true, animate: false)
-            isTappable(true)
+            
         case .majorAndMinorActions:
             textViewToBottom.isActive = false
             stackViewTopToTextViewBottom.isActive = true
@@ -130,7 +124,7 @@ class ActionsView: UIView, Loadable, Tappable {
             statusLabel.isHidden = false
             dateLabel.isHidden = false
             hideStackView(true, animate: false)
-            isTappable(true)
+            
         }
     }
     

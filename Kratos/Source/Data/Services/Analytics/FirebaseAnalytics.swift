@@ -30,7 +30,7 @@ enum FirebaseAnalytics {
         
         func appendData(to dict: [String: NSObject]? = nil) -> [String: NSObject] {
             var returnDict = dict ?? [String: NSObject]()
-            returnDict["date"] = DateFormatter.utcDateFormatter.string(from: Date()) as NSObject
+            returnDict["date"] = DateFormatter.utc.string(from: Date()) as NSObject
             if let id = Datastore.shared.user?.id {
                 returnDict["userId"] = id as NSObject
             }

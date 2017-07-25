@@ -62,7 +62,7 @@ struct User: Decodable {
         self.lastName = lastName
         self.district = district
         self.party = Party.value(for: (json["party"] as? String))
-        self.dob = DateFormatter.billDateFormatter.date(from: dob) ?? Date()
+        self.dob = DateFormatter.bill.date(from: dob) ?? Date()
         self.apnToken = json["apn_token"] as? String
         self.address = Address(street: street,
                                city: city,
@@ -87,7 +87,7 @@ struct User: Decodable {
         self.firstName = firstName
         self.lastName = lastName
         self.district = district
-        self.dob = DateFormatter.billDateFormatter.date(from: dob) ?? Date()
+        self.dob = DateFormatter.bill.date(from: dob) ?? Date()
         self.apnToken = json["apn_token"] as? String
         self.party = Party.value(for: (json["party"] as? String))
         self.address = Address(street: street,
@@ -102,7 +102,7 @@ struct User: Decodable {
                                   "email": email.lowercased(),
                                   "first_name": firstName,
                                   "last_name": lastName,
-                                  "birthday": DateFormatter.utcDateFormatter.string(from: dob),
+                                  "birthday": DateFormatter.utc.string(from: dob),
                                   "address": self.address.street,
                                   "city": self.address.city,
                                   "state": self.address.state.uppercased(),

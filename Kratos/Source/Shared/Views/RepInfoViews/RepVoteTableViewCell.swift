@@ -7,53 +7,65 @@
 //
 
 import UIKit
+import SnapKit
 
-class RepTallyTableViewCell: UITableViewCell {
+class RepVoteTableViewCell: UITableViewCell {
     
-    static let identifier = String(describing: RepTallyTableViewCell.self)
-    let title = UILabel()
-    let status = UIImageView()
-    let dividerView = UIView()
-    let stackView = UIStackView()
-    let showMoreButton = UIButton()
+    static let identifier = String(describing: RepVoteTableViewCell.self)
+    let billTitleLabel = UILabel()
+    let billStatus = UILabel()
+    let statusImageView = UIImageView()
+    let statusImageViewSize: CGFloat = 30
     
-    func configure(with lightTallies: Set<LightTally>) {
-        
-        selectionStyle = .none
-        if !subviews.contains { $0 is UIStackView } {
-            buildViews()
-        }
-        
-        for (i, lightTally) in lightTallies.enumerated() {
-            
-            let view = VoteTableViewCellVoteView()
-            view.configure(with: lightTally)
-            stackView.addArrangedSubview(view)
-            view.isHidden = i > 0 ? true : false
-        }
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        addSubviews()
+        constrainViews()
     }
     
-    func update() {
-        
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        stackView.subviews.forEach { $0.removeFromSuperview() }
+    func configure(with lightTallies: [LightTally]) {
+        guard let first = lightTallies.first else { return }
+        let status = (first.resultText ?? "") + " - " + "\(first.topSubject ?? 0)"
+        billTitleLabel.text = first.billTitle
+        billStatus.text = status
+        statusImageView.image = first.voteValue?.image
+        
     }
 }
 
-extension RepTallyTableViewCell: ViewBuilder {
-    func buildViews() {
-        
+extension RepVoteTableViewCell: ViewBuilder {
+    func addSubviews() {
+        addSubview(billTitleLabel)
+        addSubview(billStatus)
+        addSubview(statusImageView)
+        style()
     }
+    func constrainViews() {
+        billTitleLabel.snp.makeConstraints { make in
+            make.top.leading.equalToSuperview().offset(5)
+            make.trailing.equalToSuperview().offset(-40)
+        }
+        billStatus.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(5)
+            make.top.equalTo(billTitleLabel.snp.bottom).offset(5)
+            make.bottom.equalToSuperview().offset(-5)
+        }
+        statusImageView.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-5)
+            make.centerY.equalToSuperview()
+            make.height.width.equalTo(self.statusImageViewSize)
+        }
+    }
+    
     func style() {
+        selectionStyle = .none
         
-    }
-}
-
-extension RepTallyTableViewCell: RxBinder {
-    func bind() {
-        
+        billTitleLabel.numberOfLines = 3
+        billTitleLabel.font = Font.cellTitle
+        billStatus.font = Font.cellSubtitle
     }
 }

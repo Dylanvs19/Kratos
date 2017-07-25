@@ -17,10 +17,9 @@ extension Client: UserService {
             .mapArray(at: "data")
     }
     
-    func trackBill(billID: Int) -> Observable<Bill> {
+    func trackBill(billID: Int) -> Observable<Void> {
         return request(.trackBill(billID: billID))
-            .toJson()
-            .mapObject()
+            .map { _ in return () }
     }
     
     func viewTrackedBill(billID: Int) -> Observable<Bill> {

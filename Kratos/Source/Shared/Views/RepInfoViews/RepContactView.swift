@@ -68,7 +68,8 @@ class RepContactView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        buildViews()
+        addSubviews()
+        constrainViews()
         style()
     }
     
@@ -93,8 +94,11 @@ class RepContactView: UIView {
 }
 
 extension RepContactView: ViewBuilder {
-    func buildViews() {
+    func addSubviews() {
         addSubview(stackView)
+    }
+    
+    func constrainViews() {
         stackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
