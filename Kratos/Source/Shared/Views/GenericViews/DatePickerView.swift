@@ -70,7 +70,7 @@ extension DatePickerView: ViewBuilder {
     func style() {
         doneButton.setTitleColor(.kratosRed, for: .normal)
         doneButton.setTitleColor(.red, for: .highlighted)
-        doneButton.titleLabel?.font = Font.futura(size: 14).font
+        doneButton.titleLabel?.font = .mediumButton
         doneButton.setTitle("D O N E", for: .normal)
     }
 }

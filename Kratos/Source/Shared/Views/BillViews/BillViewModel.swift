@@ -20,12 +20,18 @@ class BillViewModel {
     let disposeBag = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
     
-    let trackButtonPressed = PublishSubject<Void>()
-    let trackButtonLoadStatus = Variable<LoadStatus>(.none)
-    
-    // Main Variables
+    // Main
     let id: Int
     let bill = PublishSubject<Bill>()
+    
+    let title = Variable<String>("")
+    let status = Variable<String>("")
+    let statusDate = Variable<String>("")
+    
+    let isTracking = Variable<Bool>(false)
+    
+    let trackButtonPressed = PublishSubject<Void>()
+    let trackButtonLoadStatus = Variable<LoadStatus>(.none)
 
     // MARK: - Initialization -
     init(client: Client, billID: Int) {
@@ -67,6 +73,34 @@ class BillViewModel {
                     self.loadStatus.value = .error(error: error)
             })
     }
+}
+
+// MARK: - Binds -
+extension BillViewModel: RxBinder {
+    
+    func bind() {
+        refreshData()
+        
+        bill.asObservable()
+            .map { $0.title ?? $0.officialTitle }
+            .filterNil()
+            .bind(to: title)
+            .disposed(by: disposeBag)
+        
+        bill.asObservable()
+            .map { $0.status }
+            .filterNil()
+            .bind(to: status)
+            .disposed(by: disposeBag)
+        
+        bill.asObservable()
+            .map { $0.statusDate }
+            .filterNil()
+            .map { DateFormatter.presentation.string(from: $0) }
+            .bind(to: statusDate)
+            .disposed(by: disposeBag)
+        
+    }
     
     // MARK: - Initial Data Load -
     func refreshData() {
@@ -75,12 +109,5 @@ class BillViewModel {
             .bind(to: self.bill)
             .disposed(by: disposeBag)
     }
-}
-
-// MARK: - Binds -
-extension BillViewModel: RxBinder {
     
-    func bind() {
-        refreshData()
-    }
 }

@@ -239,8 +239,8 @@ extension AccountDetailsViewController: ViewBuilder {
         cancelDoneButton.setTitleColor(.lightGray, for: .normal)
         cancelDoneButton.setTitleColor(.gray, for: .highlighted)
         
-        saveEditRegisterButton.titleLabel?.font = Font.futura(size: 24).font
-        cancelDoneButton.titleLabel?.font = Font.futura(size: 14).font
+        saveEditRegisterButton.titleLabel?.font = .largeButton
+        cancelDoneButton.titleLabel?.font = .largeButton
         
         saveEditRegisterButton.isUserInteractionEnabled = true
         cancelDoneButton.isUserInteractionEnabled = true

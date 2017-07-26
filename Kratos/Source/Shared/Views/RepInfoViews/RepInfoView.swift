@@ -35,7 +35,7 @@ class RepInfoView: UIView {
         var button: UIButton {
             let button = UIButton()
             button.setTitle(title, for: .normal)
-            button.titleLabel?.font = Font.futura(size: 14).font
+            button.titleLabel?.font = .mediumButton
             button.setTitleColor(.kratosRed, for: .normal)
             button.setTitleColor(.red, for: .highlighted)
             button.backgroundColor = .white

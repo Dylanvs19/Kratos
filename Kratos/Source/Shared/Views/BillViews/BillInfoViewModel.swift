@@ -13,25 +13,27 @@ import RxSwift
 
 class BillInfoViewModel {
     
-    //State
-    let state = Variable<BillInfoView.State>(.summary)
-    let bill: Observable<Bill>
-    let contentOffset = Variable<CGFloat>(0)
-    
+    // MARK: - Variables -
+    // Standard
     let disposeBag = DisposeBag()
     
-    init(with bill: Bill) {
-        self.bill = Observable.just(bill)
-        
+    // Data
+    let state = Variable<BillInfoView.State>(.summary)
+    let bill = Variable<Bill?>(nil)
+    let contentOffset = PublishSubject<CGFloat>()
+    
+    // MARK: - Initialization -
+    init() {
         bind()
-        
-        //Bind up
-        self.contentOffset.asObservable()
-            .bind(to: contentOffset)
-            .disposed(by: disposeBag)
+    }
+    
+    // MARK: - Update -
+    func update(with bill: Bill) {
+        self.bill.value = bill
     }
 }
 
+// MARK: - Binds -
 extension BillInfoViewModel: RxBinder {
     func bind() {
     

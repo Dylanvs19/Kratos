@@ -44,7 +44,6 @@
 		AF3F5C8F1EBE72F700809AA3 /* BillActionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5BFA1EBE72F700809AA3 /* BillActionTableViewCell.xib */; };
 		AF3F5C901EBE72F700809AA3 /* BillCommitteesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BFB1EBE72F700809AA3 /* BillCommitteesView.swift */; };
 		AF3F5C911EBE72F700809AA3 /* BillCommitteesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5BFC1EBE72F700809AA3 /* BillCommitteesView.xib */; };
-		AF3F5C921EBE72F700809AA3 /* BillHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BFD1EBE72F700809AA3 /* BillHeaderView.swift */; };
 		AF3F5C931EBE72F700809AA3 /* BillSponsorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BFE1EBE72F700809AA3 /* BillSponsorsView.swift */; };
 		AF3F5C951EBE72F700809AA3 /* BillTallyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C001EBE72F700809AA3 /* BillTallyTableViewCell.swift */; };
 		AF3F5C971EBE72F700809AA3 /* BillVotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C021EBE72F700809AA3 /* BillVotesView.swift */; };
@@ -99,7 +98,6 @@
 		AF3F5CEA1EBE72F700809AA3 /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C5C1EBE72F700809AA3 /* UITableView+Extensions.swift */; };
 		AF3F5CEB1EBE72F700809AA3 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C5D1EBE72F700809AA3 /* UIView+Extension.swift */; };
 		AF3F5CEC1EBE72F700809AA3 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C5E1EBE72F700809AA3 /* UIViewController+Extensions.swift */; };
-		AF3F5CEE1EBE72F700809AA3 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C601EBE72F700809AA3 /* Fonts.swift */; };
 		AF3F5CEF1EBE72F700809AA3 /* InputValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C611EBE72F700809AA3 /* InputValidation.swift */; };
 		AF3F5CF21EBE72F700809AA3 /* Pager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C651EBE72F700809AA3 /* Pager.swift */; };
 		AF3F5CF31EBE72F700809AA3 /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C671EBE72F700809AA3 /* Decodable.swift */; };
@@ -109,6 +107,7 @@
 		AF3F5CFD1EBE755000809AA3 /* FeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5CFC1EBE755000809AA3 /* FeedbackService.swift */; };
 		AF3F5CFF1EBE756800809AA3 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5CFE1EBE756800809AA3 /* AnalyticsService.swift */; };
 		AF3F5D011EBE759500809AA3 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5D001EBE759500809AA3 /* UserService.swift */; };
+		AF416A311F28336B006380DA /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A301F28336B006380DA /* UIFont+Extensions.swift */; };
 		AF41C4071EF173C200DDBD5F /* RepresentativeAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF41C4061EF173C200DDBD5F /* RepresentativeAnimator.swift */; };
 		AF41C4091EF2220800DDBD5F /* RepresentativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF41C4081EF2220800DDBD5F /* RepresentativeViewController.swift */; };
 		AF41C40B1EF2222200DDBD5F /* RepresentativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF41C40A1EF2222200DDBD5F /* RepresentativeViewModel.swift */; };
@@ -239,7 +238,6 @@
 		AF3F5BFA1EBE72F700809AA3 /* BillActionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillActionTableViewCell.xib; sourceTree = "<group>"; };
 		AF3F5BFB1EBE72F700809AA3 /* BillCommitteesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillCommitteesView.swift; sourceTree = "<group>"; };
 		AF3F5BFC1EBE72F700809AA3 /* BillCommitteesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillCommitteesView.xib; sourceTree = "<group>"; };
-		AF3F5BFD1EBE72F700809AA3 /* BillHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillHeaderView.swift; sourceTree = "<group>"; };
 		AF3F5BFE1EBE72F700809AA3 /* BillSponsorsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillSponsorsView.swift; sourceTree = "<group>"; };
 		AF3F5C001EBE72F700809AA3 /* BillTallyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillTallyTableViewCell.swift; sourceTree = "<group>"; };
 		AF3F5C021EBE72F700809AA3 /* BillVotesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillVotesView.swift; sourceTree = "<group>"; };
@@ -294,7 +292,6 @@
 		AF3F5C5C1EBE72F700809AA3 /* UITableView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
 		AF3F5C5D1EBE72F700809AA3 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		AF3F5C5E1EBE72F700809AA3 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
-		AF3F5C601EBE72F700809AA3 /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		AF3F5C611EBE72F700809AA3 /* InputValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValidation.swift; sourceTree = "<group>"; };
 		AF3F5C651EBE72F700809AA3 /* Pager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pager.swift; sourceTree = "<group>"; };
 		AF3F5C671EBE72F700809AA3 /* Decodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decodable.swift; sourceTree = "<group>"; };
@@ -304,6 +301,7 @@
 		AF3F5CFC1EBE755000809AA3 /* FeedbackService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
 		AF3F5CFE1EBE756800809AA3 /* AnalyticsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		AF3F5D001EBE759500809AA3 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		AF416A301F28336B006380DA /* UIFont+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
 		AF41C4061EF173C200DDBD5F /* RepresentativeAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeAnimator.swift; sourceTree = "<group>"; };
 		AF41C4081EF2220800DDBD5F /* RepresentativeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeViewController.swift; sourceTree = "<group>"; };
 		AF41C40A1EF2222200DDBD5F /* RepresentativeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeViewModel.swift; sourceTree = "<group>"; };
@@ -628,10 +626,10 @@
 		AF3F5BF41EBE72F700809AA3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AF3F5C1E1EBE72F700809AA3 /* RepInfoViews */,
 				AF3F5BF51EBE72F700809AA3 /* BillViews */,
 				AF3F5C0B1EBE72F700809AA3 /* GenericViews */,
 				AF3F5C1D1EBE72F700809AA3 /* KratosActivityIndicator.swift */,
-				AF3F5C1E1EBE72F700809AA3 /* RepInfoViews */,
 				AF3F5C391EBE72F700809AA3 /* RepTableViewCell.swift */,
 				AF3F5C3A1EBE72F700809AA3 /* RepTableViewCell.xib */,
 				AF3F5C3B1EBE72F700809AA3 /* TallyViewController.swift */,
@@ -646,7 +644,6 @@
 			children = (
 				AF4DCC871F165252001D5553 /* BillViewModel.swift */,
 				AF4DCC851F16523D001D5553 /* BillViewController.swift */,
-				AF3F5BFD1EBE72F700809AA3 /* BillHeaderView.swift */,
 				AF4DCC891F171CD3001D5553 /* BillInfoView.swift */,
 				AF4DCC8B1F171D0E001D5553 /* BillInfoViewModel.swift */,
 				AF3F5BF61EBE72F700809AA3 /* ActionsView.swift */,
@@ -728,7 +725,6 @@
 				AF3F5C461EBE72F700809AA3 /* Animations */,
 				AF3F5C4D1EBE72F700809AA3 /* ErrorTypes.swift */,
 				AF3F5C4E1EBE72F700809AA3 /* Extensions */,
-				AF3F5C601EBE72F700809AA3 /* Fonts.swift */,
 				AF3F5C611EBE72F700809AA3 /* InputValidation.swift */,
 				AF3F5C621EBE72F700809AA3 /* Navigation */,
 				AF3F5C651EBE72F700809AA3 /* Pager.swift */,
@@ -774,6 +770,7 @@
 				AFFA95671EC7A1DD00144C3A /* UIApplicationDelegate+Extensions.swift */,
 				AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */,
 				AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */,
+				AF416A301F28336B006380DA /* UIFont+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1236,11 +1233,11 @@
 				AF5B9E5F1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift in Sources */,
 				AF3F5C6C1EBE72F700809AA3 /* Constants.swift in Sources */,
 				AFFA95081EBF4F9C00144C3A /* LoadStatus.swift in Sources */,
+				AF416A311F28336B006380DA /* UIFont+Extensions.swift in Sources */,
 				AF3F5CDC1EBE72F700809AA3 /* ErrorTypes.swift in Sources */,
 				AF3B2C0B1EDE531300509B01 /* Observable+Extensions.swift in Sources */,
 				AF3F5C741EBE72F700809AA3 /* Vote.swift in Sources */,
 				AF3F5C7C1EBE72F700809AA3 /* ExploreViewController.swift in Sources */,
-				AF3F5C921EBE72F700809AA3 /* BillHeaderView.swift in Sources */,
 				AF3F5C761EBE72F700809AA3 /* KratosAnalytics.swift in Sources */,
 				AF3F5CEB1EBE72F700809AA3 /* UIView+Extension.swift in Sources */,
 				AF3F5C8B1EBE72F700809AA3 /* ActionsView.swift in Sources */,
@@ -1319,7 +1316,6 @@
 				AF3F5C981EBE72F700809AA3 /* CommitteActivitiesView.swift in Sources */,
 				AF3F5C6F1EBE72F700809AA3 /* Person.swift in Sources */,
 				AF3F5CF21EBE72F700809AA3 /* Pager.swift in Sources */,
-				AF3F5CEE1EBE72F700809AA3 /* Fonts.swift in Sources */,
 				AF3F5C7B1EBE72F700809AA3 /* Toast.swift in Sources */,
 				AFFA95041EBF4EBF00144C3A /* Client+FeedbackService.swift in Sources */,
 				AF3F5CA81EBE72F700809AA3 /* PieChartData.swift in Sources */,

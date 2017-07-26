@@ -86,8 +86,8 @@ extension UserRepTableViewCell: ViewBuilder {
     }
     
     func style() {
-        nameLabel.font = Font.futura(size: 20).font
-        representativeLabel.font = Font.avenirNextMedium(size: 15).font
+        nameLabel.font = .title
+        representativeLabel.font = .subTitle
         self.addShadow()
     }
 }

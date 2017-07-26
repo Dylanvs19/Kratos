@@ -153,10 +153,10 @@ extension RepresentativeViewController: ViewBuilder {
         topView.backgroundColor = .white
         topView.addShadow()
         
-        nameLabel.font = Font.futuraStandard.font
-        repTypeLabel.font = Font.futura(size: 12).font
-        stateLabel.font = Font.futura(size: 12).font
-        partyLabel.font = Font.futura(size: 12).font
+        nameLabel.font = .title
+        repTypeLabel.font = .subTitle
+        stateLabel.font = .subTitle
+        partyLabel.font = .subTitle
         
         repTypeLabel.textColor = .lightGray
         stateLabel.textColor = .lightGray

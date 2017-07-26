@@ -65,7 +65,7 @@ extension RepVoteTableViewCell: ViewBuilder {
         selectionStyle = .none
         
         billTitleLabel.numberOfLines = 3
-        billTitleLabel.font = Font.cellTitle
-        billStatus.font = Font.cellSubtitle
+        billTitleLabel.font = .cellTitle
+        billStatus.font = .cellSubtitle
     }
 }

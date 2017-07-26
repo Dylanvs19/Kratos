@@ -208,11 +208,11 @@ extension KratosTextField: ViewBuilder {
     func style() {
         sendSubview(toBack: placeholderLabel)
 
-        placeholderLabel.font = Font.futura(size: 14).font
+        placeholderLabel.font = .cellTitle
         placeholderLabel.textColor = .lightGray
         
         textField.textColor = .black
-        textField.font = Font.futura(size: 15).font
+        textField.font = .cellTitle
         
         underlineView.backgroundColor = .kratosBlue
     }

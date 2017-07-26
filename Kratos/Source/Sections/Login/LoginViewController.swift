@@ -151,9 +151,9 @@ extension LoginViewController: ViewBuilder {
         signUpRegisterButton.setTitleColor(.lightGray, for: .normal)
         forgotPasswordButton.setTitleColor(.lightGray, for: .normal)
         
-        loginContinueButton.titleLabel?.font = Font.futura(size: 24).font
-        signUpRegisterButton.titleLabel?.font = Font.futura(size: 14).font
-        forgotPasswordButton.titleLabel?.font = Font.futura(size: 14).font
+        loginContinueButton.titleLabel?.font = .header
+        signUpRegisterButton.titleLabel?.font = .mediumButton
+        forgotPasswordButton.titleLabel?.font = .mediumButton
         
         signUpRegisterButton.isUserInteractionEnabled = true
         forgotPasswordButton.isUserInteractionEnabled = true

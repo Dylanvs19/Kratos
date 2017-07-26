@@ -48,9 +48,9 @@ class BillTallyTableViewCell: UITableViewCell {
     }
     
     func style() {
-        tallyQuestionLabel.font = Font.cellTitle
-        tallyDetailsLabel.font = Font.cellSubtitle
-        tallyDetailsLabel.textColor = UIColor.lightGray
+        tallyQuestionLabel.font = .cellTitle
+        tallyDetailsLabel.font = .cellSubtitle
+        tallyDetailsLabel.textColor = .lightGray
         tallyQuestionLabel.numberOfLines = 10
         tallyDetailsLabel.numberOfLines = 10
     }

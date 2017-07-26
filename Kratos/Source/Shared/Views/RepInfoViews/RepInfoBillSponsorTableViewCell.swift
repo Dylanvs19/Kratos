@@ -63,9 +63,9 @@ extension RepInfoBillSponsorTableViewCell: ViewBuilder {
     func style() {
         selectionStyle = .none
         
-        titleLabel.font = Font.futura(size: 16).font
-        statusLabel.font = Font.avenirNext(size: 14).font
-        topTermLabel.font = Font.avenirNext(size: 14).font
+        titleLabel.font = .title
+        statusLabel.font = .body
+        topTermLabel.font = .body
         titleLabel.numberOfLines = 3
         topTermLabel.numberOfLines = 2
     }

@@ -15,7 +15,7 @@ import SnapKit
 
 class BillInfoView: UIView {
     
-    // MARK: - Enum -
+    // MARK: - Enums -
     enum State: Equatable {
         case sponsors
         case summary
@@ -40,7 +40,7 @@ class BillInfoView: UIView {
         var button: UIButton {
             let button = UIButton()
             button.setTitle(displayName, for: .normal)
-            button.titleLabel?.font = Font.futura(size: 14).font
+            button.titleLabel?.font = .mediumButton
             button.setTitleColor(.kratosRed, for: .normal)
             button.setTitleColor(.red, for: .highlighted)
             button.backgroundColor = .white
@@ -102,12 +102,14 @@ class BillInfoView: UIView {
     let committeesStackView = UIStackView()
     let actionsTableView = UITableView()
     
+    // DataSources
     let sponsorDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, LightPerson>>()
     let voteDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Vote>>()
     
-    convenience init(with client: Client, bill: Bill, contentOffset: Variable<CGFloat>) {
+    // MARK: - Initializers -
+    convenience init() {
         self.init(frame: .zero)
-        viewModel = BillInfoViewModel(with: bill)
+        viewModel = BillInfoViewModel()
     }
     
     override init(frame: CGRect) {
@@ -118,6 +120,13 @@ class BillInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // Mark: - Update Method -
+    
+    func update(with: Bill) {
+        
+    }
+    
+    // MARK: - Helpers -
     func build() {
         style()
         addSubviews()
@@ -148,14 +157,15 @@ class BillInfoView: UIView {
         summaryScrollView.layoutIfNeeded()
     }
     
+    // MARK: - Configuration -
     func configureVotesTableView() {
-        votesTableView.isScrollEnabled = false
-        votesTableView.register(TermTableViewCell.self, forCellReuseIdentifier: TermTableViewCell.identifier)
-        votesTableView.rowHeight = 30
-        votesTableView.separatorInset = .zero
-        votesTableView.tableFooterView = UIView()
-        votesTableView.backgroundColor = .clear
-        votesTableView.allowsSelection = false
+        sponsorsTableView.isScrollEnabled = false
+        sponsorsTableView.register(TermTableViewCell.self, forCellReuseIdentifier: TermTableViewCell.identifier)
+        sponsorsTableView.rowHeight = 30
+        sponsorsTableView.separatorInset = .zero
+        sponsorsTableView.tableFooterView = UIView()
+        sponsorsTableView.backgroundColor = .clear
+        sponsorsTableView.allowsSelection = false
         
         sponsorDataSource.configureCell = { dataSource, tableView, indexPath, item in
             let basicCell = tableView.dequeueReusableCell(withIdentifier: TermTableViewCell.identifier, for: indexPath)

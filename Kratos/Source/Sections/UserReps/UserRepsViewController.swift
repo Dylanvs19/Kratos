@@ -140,10 +140,10 @@ extension UserRepsViewController: ViewBuilder {
         topShadeView.backgroundColor = .black
         topShadeView.alpha = 0.5
         
-        stateLabel.font = Font.futura(size: 17).font
+        stateLabel.font = .title
         stateLabel.textColor = .white
         
-        districtLabel.font = Font.futura(size: 15).font
+        districtLabel.font = .subTitle
         districtLabel.textColor = .white
     }
 }

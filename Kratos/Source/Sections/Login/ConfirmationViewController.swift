@@ -80,13 +80,13 @@ extension ConfirmationViewController: ViewBuilder {
     }
     
     func style() {
-        titleLabel.font = Font.futura(size: 17).font
+        titleLabel.font = .title
         titleLabel.textColor = .gray
         
-        textView.font = Font.avenirNextMedium(size: 15).font
+        textView.font = .body
         
         linkButton.backgroundColor = .kratosLightGray
-        linkButton.titleLabel?.font = Font.futura(size: 17).font
+        linkButton.titleLabel?.font = .largeButton
         linkButton.setTitleColor(.kratosRed, for: .normal)
         linkButton.setTitleColor(.red, for: .highlighted)
     }
