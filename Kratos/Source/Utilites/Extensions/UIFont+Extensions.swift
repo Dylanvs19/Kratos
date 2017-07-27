@@ -11,39 +11,28 @@ import UIKit
 
 extension UIFont {
     
-    static var header: UIFont {
+    static var headerFont: UIFont {
         return UIFont(name: "Futura", size: 24)!
     }
-    static var title: UIFont {
+    static var titleFont: UIFont {
         return UIFont(name: "Futura", size: 17)!
     }
-    static var subTitle: UIFont {
+    static var subHeaderFont: UIFont {
         return UIFont(name: "Futura", size: 15)!
     }
-    
-    static var cellTitle: UIFont {
-        return UIFont(name: "Futura", size: 15)!
+    static var subTitleFont: UIFont {
+        return UIFont(name: "AvenirNext-Medium", size: 15)!
     }
-    static var cellSubtitle: UIFont {
+    static var cellTitleFont: UIFont {
+        return UIFont(name: "Futura", size: 14)!
+    }
+    static var cellSubtitleFont: UIFont {
         return UIFont(name: "AvenirNext-Regular", size: 13)!
     }
-    
-    static var body: UIFont {
+    static var bodyFont: UIFont {
         return UIFont(name: "AvenirNext-Regular", size: 14)!
     }
-    static var text: UIFont {
+    static var textFont: UIFont {
         return UIFont(name: "AvenirNext-Medium", size: 12)!
-    }
-    
-    //UIButton Fonts
-    
-    /// For larger, standAlone buttons
-    static var largeButton: UIFont {
-        return UIFont(name: "Futura", size: 24)!
-    }
-    /// For medium buttons 
-    /// - Note: bioInfoView, repInfoView, etc.
-    static var mediumButton: UIFont {
-        return UIFont(name: "Futura", size: 14)!
     }
 }

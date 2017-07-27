@@ -48,11 +48,6 @@ enum ErrorPresentationStyle {
     case alert
 }
 
-enum MappingError {
-    case unexpectedValue
-    case failure
-}
-
 enum KratosError: Error {
     case timeout
     case nilData

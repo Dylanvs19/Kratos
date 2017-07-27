@@ -182,7 +182,6 @@ enum Party {
         default:
             return nil
         }
-        
     }
     var capitalLetter: String {
         switch self {
@@ -216,14 +215,14 @@ enum Party {
         }
     }
     
-    var color: UIColor {
+    var color: Color {
         switch self {
         case .democrat:
-            return UIColor.kratosBlue
+            return .kratosBlue
         case .republican:
-            return UIColor.kratosRed
+            return .kratosRed
         case .independent:
-            return UIColor.gray
+            return .gray
         }
     }
 }

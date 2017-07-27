@@ -86,8 +86,8 @@ extension UserRepTableViewCell: ViewBuilder {
     }
     
     func style() {
-        nameLabel.font = .title
-        representativeLabel.font = .subTitle
+        nameLabel.style(with: .font(.title))
+        representativeLabel.style(with: .font(.subTitle))
         self.addShadow()
     }
 }
@@ -107,7 +107,7 @@ extension UserRepTableViewCell: RxBinder {
             .disposed(by: disposeBag)
         
         viewModel.partyColor.asObservable()
-            .asDriver(onErrorJustReturn: UIColor.kratosLightGray)
+            .asDriver(onErrorJustReturn: UIColor.slate)
             .distinctUntilChanged()
             .drive(onNext: { [weak self] color in
                 self?.partyIndicatorView.backgroundColor = color

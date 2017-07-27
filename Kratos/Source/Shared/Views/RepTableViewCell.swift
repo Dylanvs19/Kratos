@@ -31,7 +31,7 @@ class RepTableViewCell: UITableViewCell {
         }
         stateLabel.text = state
         partyLabel.text = representative.currentParty?.long ?? ""
-        partyLabel.textColor = representative.currentParty?.color ?? UIColor.gray
+        partyLabel.textColor = representative.currentParty?.color.value ?? UIColor.gray
         stateImage.image = UIImage.imageForState(representative.currentState) ?? UIImage()
         
         setup()

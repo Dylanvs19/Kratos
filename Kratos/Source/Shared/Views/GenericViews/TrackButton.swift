@@ -34,10 +34,10 @@ class TrackButton: UIButton {
     }
     
     func style() {
-        titleLabel?.font = .mediumButton
-        setTitleColor(UIColor.kratosRed, for: .normal)
-        layer.cornerRadius = 5.0
-        layer.borderColor = UIColor.kratosRed.cgColor
-        layer.borderWidth = 1.0
+        titleLabel?.style(with: [.titleColor(.kratosRed), .font(.body)])
+        style(with: [.borderColor(.kratosRed),
+                     .borderWidth(1.0),
+                     .cornerRadius(5.0)
+                    ])
     }
 }

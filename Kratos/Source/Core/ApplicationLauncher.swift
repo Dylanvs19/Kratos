@@ -16,12 +16,16 @@ struct ApplicationLauncher {
         
         let splash = SplashViewController()
         splash.onAnimationCompletion = {
-            let client = Client(environment: .staging)
-            if KeychainManager.token == nil {
-                let navVC = UINavigationController(rootViewController: LoginViewController(client: client))
-                appDelegate.rootTransition(to: navVC)
-            } else {
+            
+            let token: String? = Store.fetch("token")
+            
+            if let token = token {
+                let kratosClient = KratosClient(token: token)
+                let client = Client(kratosClient: kratosClient)
                 appDelegate.rootTransition(to: TabBarController(client: client))
+            } else {
+                let navVC = UINavigationController(rootViewController: LoginViewController(client: Client.default))
+                appDelegate.rootTransition(to: navVC)
             }
         }
         

@@ -207,14 +207,11 @@ extension KratosTextField: ViewBuilder {
     
     func style() {
         sendSubview(toBack: placeholderLabel)
-
-        placeholderLabel.font = .cellTitle
-        placeholderLabel.textColor = .lightGray
         
-        textField.textColor = .black
-        textField.font = .cellTitle
+        placeholderLabel.style(with: [.font(.cellTitle), .titleColor(.lightGray)])
+        textField.style(with: [.font(.cellTitle), .titleColor(.black)])
         
-        underlineView.backgroundColor = .kratosBlue
+        underlineView.style(with: .backgroundColor(.kratosBlue))
     }
 }
 

@@ -48,11 +48,10 @@ class BillTallyTableViewCell: UITableViewCell {
     }
     
     func style() {
-        tallyQuestionLabel.font = .cellTitle
-        tallyDetailsLabel.font = .cellSubtitle
-        tallyDetailsLabel.textColor = .lightGray
-        tallyQuestionLabel.numberOfLines = 10
-        tallyDetailsLabel.numberOfLines = 10
+        tallyQuestionLabel.style(with: [.font(.cellTitle), .numberOfLines(10)])
+        tallyDetailsLabel.style(with: [.font(.cellSubTitle),
+                                       .numberOfLines(10),
+                                       .titleColor(.lightGray)])
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -1,7 +1,5 @@
 PODS:
-  - Action (3.0.0):
-    - RxCocoa (~> 3.4.0)
-    - RxSwift (~> 3.4.0)
+  - Alamofire (4.4.0)
   - AwesomeCache (5.0)
   - Firebase/Core (3.17.0):
     - FirebaseAnalytics (= 3.9.0)
@@ -27,7 +25,6 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - GoogleToolboxForMac/NSData+zlib (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
-  - Locksmith (3.0.0)
   - Protobuf (3.3.0)
   - RxCocoa (3.4.1):
     - RxSwift (~> 3.4)
@@ -41,11 +38,10 @@ PODS:
   - SnapKit (3.2.0)
 
 DEPENDENCIES:
-  - Action
+  - Alamofire
   - AwesomeCache
   - Firebase/Core
   - Firebase/Messaging
-  - Locksmith
   - RxCocoa
   - RxDataSources
   - RxGesture
@@ -53,7 +49,7 @@ DEPENDENCIES:
   - SnapKit
 
 SPEC CHECKSUMS:
-  Action: fed388b9160ad787a58cb34b5064db6dbaae7e45
+  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   AwesomeCache: d8906955242173357caa0be0214d5e77dec32cc5
   Firebase: 4b66b5b59c43edac745b87f0c87e42cdd0279c13
   FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
@@ -61,7 +57,6 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: b9eedd6846fb5e1f0f7279e1deaa7a7e4cf8392e
   FirebaseMessaging: 753d05a925e9eb8eadd09a0ffc9b808578b72fac
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
-  Locksmith: 310b4cc5031af5728bf4db5d4de547a5100c6a3b
   Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
   RxCocoa: a8a5f1d061d0043e28f56976829f31ce63e8eb09
   RxDataSources: a021a0e944ba5f7991259829d973afdbfa719c0b
@@ -69,6 +64,6 @@ SPEC CHECKSUMS:
   RxSwift: 656f8fbeca5bc372121a72d9ebdd3cd3bc0ffade
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
 
-PODFILE CHECKSUM: 1c5bb758225f92435ba917923c6af1da31c24d2c
+PODFILE CHECKSUM: f95e8393dd2f4a3e4625007653694d1003e7f24f
 
 COCOAPODS: 1.1.1

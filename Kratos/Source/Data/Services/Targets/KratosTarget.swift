@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import Alamofire
 
-enum KratosTarget {
+enum KratosTarget: Target {
     //Login
     case register(user: User)
     case login(email: String, password: String)
@@ -262,7 +263,7 @@ enum KratosTarget {
         }
     }
     
-    var method: HTTPMethod {
+    var method: Alamofire.HTTPMethod {
         switch self {
         //Login
         case .register:

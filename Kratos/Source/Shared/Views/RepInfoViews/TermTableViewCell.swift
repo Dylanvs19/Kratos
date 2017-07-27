@@ -62,12 +62,8 @@ extension TermTableViewCell: ViewBuilder {
     }
     
     func style() {
-        dateRangeLabel.font = .body
-        districtLabel.font = .body
-        representativeTypeLabel.font = .body
-        
-        dateRangeLabel.textColor = .gray
-        districtLabel.textColor = .gray
-        representativeTypeLabel.textColor = .gray
+        dateRangeLabel.style(with: [.font(.body), .titleColor(.gray)])
+        districtLabel.style(with: [.font(.body), .titleColor(.gray)])
+        representativeTypeLabel.style(with: [.font(.body), .titleColor(.gray)])
     }
 }

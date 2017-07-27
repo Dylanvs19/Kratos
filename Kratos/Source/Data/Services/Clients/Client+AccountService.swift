@@ -12,13 +12,13 @@ import RxSwift
 extension Client: AccountService {
     
     func register(user: User) -> Observable<Bool> {
-        return request(.register(user: user), forceRefresh: true, omitFromCache: true)
+        return request(.register(user: user), ignoreCache: true)
             .toJson()
             .map { _ in return true }
     }
     
     func login(email: String, password: String) -> Observable<String> {
-        return request(.login(email: email, password: password), forceRefresh: true, omitFromCache: true)
+        return request(.login(email: email, password: password), ignoreCache: true)
             .toJson()
             .map {
                 guard let json = $0 as? [String: Any] else {
@@ -32,7 +32,7 @@ extension Client: AccountService {
     }
     
     func forgotPassword(email: String) -> Observable<Bool> {
-        return request(.forgotPassword(email: email), forceRefresh: true)
+        return request(.forgotPassword(email: email))
             .toJson()
             .map {
                 guard let boolDict = $0 as? [String: Bool],
@@ -44,7 +44,7 @@ extension Client: AccountService {
     }
     
     func resentConfirmation(email: String) -> Observable<Void> {
-        return request(.resendConfirmation(email: email), forceRefresh: true)
+        return request(.resendConfirmation(email: email))
             .map { _ in return () }
     }
     
@@ -55,7 +55,7 @@ extension Client: AccountService {
     }
     
     func updateUser(user: User) -> Observable<User> {
-        return request(.update(user: user), forceRefresh: true)
+        return request(.update(user: user))
             .toJson()
             .mapObject()
     }

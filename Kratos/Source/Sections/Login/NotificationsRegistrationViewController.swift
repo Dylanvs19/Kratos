@@ -89,19 +89,20 @@ extension NotificationsRegistrationViewController: ViewBuilder {
     }
     
     func style() {
-        titleLabel.font = .title
-        titleLabel.textColor = .gray
+        titleLabel.style(with: [.font(.title), .titleColor(.gray)])
+        textView.style(with: .font(.cellTitle))
         
-        textView.font = .cellTitle
-        
-        confirmationButton.backgroundColor = .kratosLightGray
-        confirmationButton.titleLabel?.font = .largeButton
-        confirmationButton.setTitleColor(.kratosRed, for: .normal)
-        confirmationButton.setTitleColor(.red, for: .highlighted)
-        
-        skipButton.titleLabel?.font = .largeButton
-        skipButton.setTitleColor(.gray, for: .normal)
-        skipButton.setTitleColor(.kratosLightGray, for: .highlighted)
+        confirmationButton.style(with: [.backgroundColor(.slate),
+                                        .font(.header),
+                                        .titleColor(.kratosRed),
+                                        .highlightedTitleColor(.red)
+                                        ])
+        skipButton.style(with: [.backgroundColor(.slate),
+                                        .font(.header),
+                                        .titleColor(.gray),
+                                        .highlightedTitleColor(.slate)
+            ])
+
     }
 }
 

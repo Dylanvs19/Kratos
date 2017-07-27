@@ -149,17 +149,14 @@ extension RepresentativeViewController: ViewBuilder {
     }
     
     func style() {
-        view.backgroundColor = .kratosLightGray
-        topView.backgroundColor = .white
+        view.style(with: .backgroundColor(.slate))
+        topView.style(with: .backgroundColor(.white))
         topView.addShadow()
         
-        nameLabel.font = .title
-        repTypeLabel.font = .subTitle
-        stateLabel.font = .subTitle
-        partyLabel.font = .subTitle
-        
-        repTypeLabel.textColor = .lightGray
-        stateLabel.textColor = .lightGray
+        nameLabel.style(with: .font(.title))
+        repTypeLabel.style(with: [.font(.title), .titleColor(.lightGray)])
+        stateLabel.style(with: [.font(.title), .titleColor(.lightGray)])
+        partyLabel.style(with: .font(.title))
     }
 }
 
@@ -189,7 +186,7 @@ extension RepresentativeViewController: RxBinder {
             .map { $0.currentParty?.color }
             .filterNil()
             .subscribe(onNext: { [weak self] color in
-                self?.partyLabel.textColor = color
+                self?.partyLabel.textColor = color.value
             })
             .disposed(by: disposeBag)
         

@@ -145,15 +145,9 @@ extension LoginViewController: ViewBuilder {
     }
     
     func style() {
-        loginContinueButton.setTitleColor(.kratosRed, for: .normal)
-        loginContinueButton.setTitleColor(.red, for: .highlighted)
-        loginContinueButton.setTitleColor(.lightGray, for: .disabled)
-        signUpRegisterButton.setTitleColor(.lightGray, for: .normal)
-        forgotPasswordButton.setTitleColor(.lightGray, for: .normal)
-        
-        loginContinueButton.titleLabel?.font = .header
-        signUpRegisterButton.titleLabel?.font = .mediumButton
-        forgotPasswordButton.titleLabel?.font = .mediumButton
+        loginContinueButton.style(with: [.titleColor(.kratosRed), .highlightedTitleColor(.red), .font(.header), .disabledTitleColor(.lightGray)])
+        signUpRegisterButton.style(with: [.titleColor(.kratosRed), .font(.body)])
+        forgotPasswordButton.style(with: [.titleColor(.kratosRed), .font(.body)])
         
         signUpRegisterButton.isUserInteractionEnabled = true
         forgotPasswordButton.isUserInteractionEnabled = true
@@ -241,9 +235,8 @@ extension LoginViewController: RxBinder {
     func navigationBindings() {
         viewModel.loginSuccessful.asObservable()
             .map { $0 }
-            .subscribe(onNext: { [weak self] success in
-                if let client = self?.client,
-                       success {
+            .subscribe(onNext: { [weak self] _ in
+                if let client = self?.client {
                     let vc = UINavigationController(rootViewController: TabBarController(client: client))
                     UIApplication.shared.delegate?.rootTransition(to: vc)
                 }

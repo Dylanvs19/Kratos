@@ -170,7 +170,7 @@ enum TallyResult {
              .resolutionAgreedTo,
              .jointResolutionPassed,
              .vetoOverridden:
-            return UIColor.yeaVoteGreen
+            return UIColor.kratosGreen
         case .clotureOnTheMotionToProceedRejected,
              .failed,
              .motionRejected,

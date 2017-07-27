@@ -8,7 +8,6 @@
 
 import Foundation
 import RxSwift
-import Action
 
 class LoginViewModel {
     
@@ -55,7 +54,7 @@ class LoginViewModel {
     let forgotPasswordButtonTap = PublishSubject<Void>()
     let signInSignUpButtonTap = PublishSubject<Void>()
     
-    let loginSuccessful = PublishSubject<Bool>()
+    let loginSuccessful = PublishSubject<Void>()
     let forgotPasswordSuccessful = PublishSubject<Bool>()
     let registrationContinueSuccessful = PublishSubject<(email: String, password: String)>()
     
@@ -93,21 +92,19 @@ class LoginViewModel {
 
     }
     
-    fileprivate func login() -> Observable<Bool> {
+    fileprivate func login() -> Observable<Void> {
         loadStatus.value = .loading
         return client.login(email: email.value, password: password.value)
-            .do(onNext: { [unowned self] (token) in
-                self.loadStatus.value = .none
-                }, onError: { [unowned self] error in
-                let error = error as? KratosError ?? KratosError.unknown
-                self.loadStatus.value = .error(error: error)
+            .do(
+                onNext: { [unowned self] (token) in
+                    self.loadStatus.value = .none
+                    Store.shelve(token, key: "token")
+                },
+                onError: { [unowned self] error in
+                    let error = error as? KratosError ?? KratosError.unknown
+                    self.loadStatus.value = .error(error: error)
             })
-            .map {
-                if KeychainManager.create($0) {
-                    return true
-                } else {
-                    throw KratosError.invalidSerialization
-                }}
+            .map { _ in () }
     }
     
     func binds() {

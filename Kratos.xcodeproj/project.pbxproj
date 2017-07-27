@@ -11,7 +11,6 @@
 		A0DD548B75376A90182B6EFF /* Pods_Kratos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EC5E845D25026904F837F7 /* Pods_Kratos.framework */; };
 		AF3B2C0B1EDE531300509B01 /* Observable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */; };
 		AF3F5C681EBE72F700809AA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */; };
-		AF3F5C691EBE72F700809AA3 /* Datastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BBF1EBE72F700809AA3 /* Datastore.swift */; };
 		AF3F5C6B1EBE72F700809AA3 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BC11EBE72F700809AA3 /* TabBarController.swift */; };
 		AF3F5C6C1EBE72F700809AA3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BC41EBE72F700809AA3 /* Constants.swift */; };
 		AF3F5C6D1EBE72F700809AA3 /* Bill.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BC61EBE72F700809AA3 /* Bill.swift */; };
@@ -23,9 +22,6 @@
 		AF3F5C741EBE72F700809AA3 /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BCD1EBE72F700809AA3 /* Vote.swift */; };
 		AF3F5C751EBE72F700809AA3 /* FirebaseAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BD01EBE72F700809AA3 /* FirebaseAnalytics.swift */; };
 		AF3F5C761EBE72F700809AA3 /* KratosAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BD11EBE72F700809AA3 /* KratosAnalytics.swift */; };
-		AF3F5C771EBE72F700809AA3 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BD21EBE72F700809AA3 /* APIManager.swift */; };
-		AF3F5C781EBE72F700809AA3 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BD31EBE72F700809AA3 /* APIService.swift */; };
-		AF3F5C791EBE72F700809AA3 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BD51EBE72F700809AA3 /* KeychainManager.swift */; };
 		AF3F5C7B1EBE72F700809AA3 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BDC1EBE72F700809AA3 /* Toast.swift */; };
 		AF3F5C7C1EBE72F700809AA3 /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BDF1EBE72F700809AA3 /* ExploreViewController.swift */; };
 		AF3F5C7D1EBE72F700809AA3 /* FeedbackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BE11EBE72F700809AA3 /* FeedbackHeaderView.swift */; };
@@ -51,8 +47,6 @@
 		AF3F5C991EBE72F700809AA3 /* CommitteActivitiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5C041EBE72F700809AA3 /* CommitteActivitiesView.xib */; };
 		AF3F5C9A1EBE72F700809AA3 /* CommitteeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C051EBE72F700809AA3 /* CommitteeView.swift */; };
 		AF3F5C9B1EBE72F700809AA3 /* CommitteeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5C061EBE72F700809AA3 /* CommitteeView.xib */; };
-		AF3F5C9C1EBE72F700809AA3 /* LeadSponsorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C071EBE72F700809AA3 /* LeadSponsorView.swift */; };
-		AF3F5C9D1EBE72F700809AA3 /* LeadSponsorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5C081EBE72F700809AA3 /* LeadSponsorView.xib */; };
 		AF3F5C9E1EBE72F700809AA3 /* MinorActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C091EBE72F700809AA3 /* MinorActionView.swift */; };
 		AF3F5C9F1EBE72F700809AA3 /* MinorActionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5C0A1EBE72F700809AA3 /* MinorActionView.xib */; };
 		AF3F5CA21EBE72F700809AA3 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C0E1EBE72F700809AA3 /* DatePickerView.swift */; };
@@ -108,15 +102,32 @@
 		AF3F5CFF1EBE756800809AA3 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5CFE1EBE756800809AA3 /* AnalyticsService.swift */; };
 		AF3F5D011EBE759500809AA3 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5D001EBE759500809AA3 /* UserService.swift */; };
 		AF416A311F28336B006380DA /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A301F28336B006380DA /* UIFont+Extensions.swift */; };
+		AF416A371F28C173006380DA /* MicroClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A361F28C173006380DA /* MicroClient.swift */; };
+		AF416A431F28C1F3006380DA /* Client+AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A391F28C1F3006380DA /* Client+AccountService.swift */; };
+		AF416A441F28C1F3006380DA /* Client+AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A3A1F28C1F3006380DA /* Client+AnalyticsService.swift */; };
+		AF416A451F28C1F3006380DA /* Client+CongressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A3B1F28C1F3006380DA /* Client+CongressService.swift */; };
+		AF416A461F28C1F3006380DA /* Client+FeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A3C1F28C1F3006380DA /* Client+FeedbackService.swift */; };
+		AF416A471F28C1F3006380DA /* Client+ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A3D1F28C1F3006380DA /* Client+ImageService.swift */; };
+		AF416A481F28C1F3006380DA /* Client+StateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A3E1F28C1F3006380DA /* Client+StateService.swift */; };
+		AF416A491F28C1F3006380DA /* Client+UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A3F1F28C1F3006380DA /* Client+UserService.swift */; };
+		AF416A4A1F28C1F3006380DA /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A401F28C1F3006380DA /* Client.swift */; };
+		AF416A4B1F28C1F3006380DA /* KratosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A421F28C1F3006380DA /* KratosClient.swift */; };
+		AF416A4D1F28C1FC006380DA /* AppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A4C1F28C1FC006380DA /* AppClient.swift */; };
+		AF416A4F1F28C206006380DA /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A4E1F28C206006380DA /* Target.swift */; };
+		AF416A511F28C389006380DA /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A501F28C389006380DA /* Configuration.swift */; };
+		AF416A561F28C464006380DA /* KratosEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A551F28C464006380DA /* KratosEnvironment.swift */; };
+		AF416A581F28CFD4006380DA /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A571F28CFD4006380DA /* Store.swift */; };
+		AF416A5A1F28D0F1006380DA /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A591F28D0F1006380DA /* Encodable.swift */; };
+		AF416A5C1F28D147006380DA /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A5B1F28D147006380DA /* JSONDecoder.swift */; };
 		AF41C4071EF173C200DDBD5F /* RepresentativeAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF41C4061EF173C200DDBD5F /* RepresentativeAnimator.swift */; };
 		AF41C4091EF2220800DDBD5F /* RepresentativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF41C4081EF2220800DDBD5F /* RepresentativeViewController.swift */; };
 		AF41C40B1EF2222200DDBD5F /* RepresentativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF41C40A1EF2222200DDBD5F /* RepresentativeViewModel.swift */; };
-		AF43D5311EE61A9A00F1DA75 /* Client+ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43D5301EE61A9A00F1DA75 /* Client+ImageService.swift */; };
 		AF43D5331EE634BE00F1DA75 /* RepImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43D5321EE634BE00F1DA75 /* RepImageView.swift */; };
 		AF4DCC861F16523D001D5553 /* BillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4DCC851F16523D001D5553 /* BillViewController.swift */; };
 		AF4DCC881F165252001D5553 /* BillViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4DCC871F165252001D5553 /* BillViewModel.swift */; };
 		AF4DCC8A1F171CD3001D5553 /* BillInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4DCC891F171CD3001D5553 /* BillInfoView.swift */; };
 		AF4DCC8C1F171D0E001D5553 /* BillInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4DCC8B1F171D0E001D5553 /* BillInfoViewModel.swift */; };
+		AF57F4B61F297D100080978F /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4B51F297D100080978F /* Styler.swift */; };
 		AF5B23421ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B23411ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift */; };
 		AF5B23441ED68A3B00DD9F9E /* ConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B23431ED68A3B00DD9F9E /* ConfirmationViewModel.swift */; };
 		AF5B9E5D1EFEF13A000BF83A /* ExpandableTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B9E5C1EFEF13A000BF83A /* ExpandableTextFieldView.swift */; };
@@ -139,17 +150,8 @@
 		AFD5AA971D9C3D0C00A5714C /* KratosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974731D4D80E500C19020 /* KratosTests.swift */; };
 		AFFA94F61EBE789800144C3A /* Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA94F51EBE789800144C3A /* Subject.swift */; };
 		AFFA94F81EBE796F00144C3A /* StateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA94F71EBE796F00144C3A /* StateService.swift */; };
-		AFFA94FA1EBF485E00144C3A /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA94F91EBF485E00144C3A /* Client.swift */; };
-		AFFA94FC1EBF4E7E00144C3A /* Client+AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA94FB1EBF4E7E00144C3A /* Client+AccountService.swift */; };
-		AFFA94FE1EBF4E8D00144C3A /* Client+UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA94FD1EBF4E8D00144C3A /* Client+UserService.swift */; };
-		AFFA95001EBF4E9F00144C3A /* Client+CongressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA94FF1EBF4E9F00144C3A /* Client+CongressService.swift */; };
-		AFFA95021EBF4EB300144C3A /* Client+StateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95011EBF4EB300144C3A /* Client+StateService.swift */; };
-		AFFA95041EBF4EBF00144C3A /* Client+FeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95031EBF4EBF00144C3A /* Client+FeedbackService.swift */; };
-		AFFA95061EBF4ED800144C3A /* Client+AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95051EBF4ED800144C3A /* Client+AnalyticsService.swift */; };
 		AFFA95081EBF4F9C00144C3A /* LoadStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95071EBF4F9C00144C3A /* LoadStatus.swift */; };
 		AFFA950A1EBF506B00144C3A /* ViewLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95091EBF506B00144C3A /* ViewLoader.swift */; };
-		AFFA951E1EBF60A600144C3A /* URLSession+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA951D1EBF60A600144C3A /* URLSession+Rx.swift */; };
-		AFFA95201EC0926400144C3A /* URLRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA951F1EC0926400144C3A /* URLRequest+Extension.swift */; };
 		AFFA95221EC1F08700144C3A /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95211EC1F08700144C3A /* ImageService.swift */; };
 		AFFA95241EC1F2C500144C3A /* Observable+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95231EC1F2C500144C3A /* Observable+JSON.swift */; };
 		AFFA95261EC1F56F00144C3A /* Observable+Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95251EC1F56F00144C3A /* Observable+Decode.swift */; };
@@ -205,7 +207,6 @@
 		AF1AC5581DF5A6A100DCBA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Extensions.swift"; sourceTree = "<group>"; };
 		AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AF3F5BBF1EBE72F700809AA3 /* Datastore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Datastore.swift; sourceTree = "<group>"; };
 		AF3F5BC11EBE72F700809AA3 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		AF3F5BC41EBE72F700809AA3 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AF3F5BC61EBE72F700809AA3 /* Bill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bill.swift; sourceTree = "<group>"; };
@@ -217,9 +218,6 @@
 		AF3F5BCD1EBE72F700809AA3 /* Vote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
 		AF3F5BD01EBE72F700809AA3 /* FirebaseAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAnalytics.swift; sourceTree = "<group>"; };
 		AF3F5BD11EBE72F700809AA3 /* KratosAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosAnalytics.swift; sourceTree = "<group>"; };
-		AF3F5BD21EBE72F700809AA3 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
-		AF3F5BD31EBE72F700809AA3 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
-		AF3F5BD51EBE72F700809AA3 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		AF3F5BDC1EBE72F700809AA3 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		AF3F5BDF1EBE72F700809AA3 /* ExploreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
 		AF3F5BE11EBE72F700809AA3 /* FeedbackHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackHeaderView.swift; sourceTree = "<group>"; };
@@ -245,8 +243,6 @@
 		AF3F5C041EBE72F700809AA3 /* CommitteActivitiesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommitteActivitiesView.xib; sourceTree = "<group>"; };
 		AF3F5C051EBE72F700809AA3 /* CommitteeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitteeView.swift; sourceTree = "<group>"; };
 		AF3F5C061EBE72F700809AA3 /* CommitteeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommitteeView.xib; sourceTree = "<group>"; };
-		AF3F5C071EBE72F700809AA3 /* LeadSponsorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeadSponsorView.swift; sourceTree = "<group>"; };
-		AF3F5C081EBE72F700809AA3 /* LeadSponsorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeadSponsorView.xib; sourceTree = "<group>"; };
 		AF3F5C091EBE72F700809AA3 /* MinorActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinorActionView.swift; sourceTree = "<group>"; };
 		AF3F5C0A1EBE72F700809AA3 /* MinorActionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MinorActionView.xib; sourceTree = "<group>"; };
 		AF3F5C0E1EBE72F700809AA3 /* DatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
@@ -302,15 +298,32 @@
 		AF3F5CFE1EBE756800809AA3 /* AnalyticsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		AF3F5D001EBE759500809AA3 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		AF416A301F28336B006380DA /* UIFont+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
+		AF416A361F28C173006380DA /* MicroClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MicroClient.swift; sourceTree = "<group>"; };
+		AF416A391F28C1F3006380DA /* Client+AccountService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+AccountService.swift"; sourceTree = "<group>"; };
+		AF416A3A1F28C1F3006380DA /* Client+AnalyticsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+AnalyticsService.swift"; sourceTree = "<group>"; };
+		AF416A3B1F28C1F3006380DA /* Client+CongressService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+CongressService.swift"; sourceTree = "<group>"; };
+		AF416A3C1F28C1F3006380DA /* Client+FeedbackService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+FeedbackService.swift"; sourceTree = "<group>"; };
+		AF416A3D1F28C1F3006380DA /* Client+ImageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+ImageService.swift"; sourceTree = "<group>"; };
+		AF416A3E1F28C1F3006380DA /* Client+StateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+StateService.swift"; sourceTree = "<group>"; };
+		AF416A3F1F28C1F3006380DA /* Client+UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+UserService.swift"; sourceTree = "<group>"; };
+		AF416A401F28C1F3006380DA /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		AF416A421F28C1F3006380DA /* KratosClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosClient.swift; sourceTree = "<group>"; };
+		AF416A4C1F28C1FC006380DA /* AppClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppClient.swift; sourceTree = "<group>"; };
+		AF416A4E1F28C206006380DA /* Target.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
+		AF416A501F28C389006380DA /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		AF416A551F28C464006380DA /* KratosEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosEnvironment.swift; sourceTree = "<group>"; };
+		AF416A571F28CFD4006380DA /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		AF416A591F28D0F1006380DA /* Encodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
+		AF416A5B1F28D147006380DA /* JSONDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
 		AF41C4061EF173C200DDBD5F /* RepresentativeAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeAnimator.swift; sourceTree = "<group>"; };
 		AF41C4081EF2220800DDBD5F /* RepresentativeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeViewController.swift; sourceTree = "<group>"; };
 		AF41C40A1EF2222200DDBD5F /* RepresentativeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeViewModel.swift; sourceTree = "<group>"; };
-		AF43D5301EE61A9A00F1DA75 /* Client+ImageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+ImageService.swift"; sourceTree = "<group>"; };
 		AF43D5321EE634BE00F1DA75 /* RepImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepImageView.swift; sourceTree = "<group>"; };
 		AF4DCC851F16523D001D5553 /* BillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillViewController.swift; sourceTree = "<group>"; };
 		AF4DCC871F165252001D5553 /* BillViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillViewModel.swift; sourceTree = "<group>"; };
 		AF4DCC891F171CD3001D5553 /* BillInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillInfoView.swift; sourceTree = "<group>"; };
 		AF4DCC8B1F171D0E001D5553 /* BillInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillInfoViewModel.swift; sourceTree = "<group>"; };
+		AF57F4B51F297D100080978F /* Styler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
 		AF5B23411ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationViewModel.swift; sourceTree = "<group>"; };
 		AF5B23431ED68A3B00DD9F9E /* ConfirmationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationViewModel.swift; sourceTree = "<group>"; };
 		AF5B9E5C1EFEF13A000BF83A /* ExpandableTextFieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableTextFieldView.swift; sourceTree = "<group>"; };
@@ -340,17 +353,8 @@
 		AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kratos.entitlements; sourceTree = "<group>"; };
 		AFFA94F51EBE789800144C3A /* Subject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subject.swift; sourceTree = "<group>"; };
 		AFFA94F71EBE796F00144C3A /* StateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateService.swift; sourceTree = "<group>"; };
-		AFFA94F91EBF485E00144C3A /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
-		AFFA94FB1EBF4E7E00144C3A /* Client+AccountService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+AccountService.swift"; sourceTree = "<group>"; };
-		AFFA94FD1EBF4E8D00144C3A /* Client+UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+UserService.swift"; sourceTree = "<group>"; };
-		AFFA94FF1EBF4E9F00144C3A /* Client+CongressService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+CongressService.swift"; sourceTree = "<group>"; };
-		AFFA95011EBF4EB300144C3A /* Client+StateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+StateService.swift"; sourceTree = "<group>"; };
-		AFFA95031EBF4EBF00144C3A /* Client+FeedbackService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+FeedbackService.swift"; sourceTree = "<group>"; };
-		AFFA95051EBF4ED800144C3A /* Client+AnalyticsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+AnalyticsService.swift"; sourceTree = "<group>"; };
 		AFFA95071EBF4F9C00144C3A /* LoadStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadStatus.swift; sourceTree = "<group>"; };
 		AFFA95091EBF506B00144C3A /* ViewLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewLoader.swift; sourceTree = "<group>"; };
-		AFFA951D1EBF60A600144C3A /* URLSession+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLSession+Rx.swift"; sourceTree = "<group>"; };
-		AFFA951F1EC0926400144C3A /* URLRequest+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLRequest+Extension.swift"; sourceTree = "<group>"; };
 		AFFA95211EC1F08700144C3A /* ImageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		AFFA95231EC1F2C500144C3A /* Observable+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+JSON.swift"; sourceTree = "<group>"; };
 		AFFA95251EC1F56F00144C3A /* Observable+Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Decode.swift"; sourceTree = "<group>"; };
@@ -434,7 +438,6 @@
 			children = (
 				AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */,
 				AFFA95631EC79C4100144C3A /* ApplicationLauncher.swift */,
-				AF3F5BBF1EBE72F700809AA3 /* Datastore.swift */,
 				AF3F5BC11EBE72F700809AA3 /* TabBarController.swift */,
 			);
 			path = Core;
@@ -476,12 +479,11 @@
 		AF3F5BCE1EBE72F700809AA3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				AF416A4C1F28C1FC006380DA /* AppClient.swift */,
+				AF416A361F28C173006380DA /* MicroClient.swift */,
+				AF416A381F28C1F3006380DA /* Clients */,
 				AFFA951C1EBF604900144C3A /* Extensions */,
 				AF3F5BCF1EBE72F700809AA3 /* Analytics */,
-				AF3F5BD21EBE72F700809AA3 /* APIManager.swift */,
-				AF3F5BD31EBE72F700809AA3 /* APIService.swift */,
-				AF3F5BD41EBE72F700809AA3 /* Authentication */,
-				AF3F5BD61EBE72F700809AA3 /* Client */,
 				AF3F5BD81EBE72F700809AA3 /* Protocols */,
 				AF3F5BD91EBE72F700809AA3 /* Targets */,
 			);
@@ -495,29 +497,6 @@
 				AF3F5BD11EBE72F700809AA3 /* KratosAnalytics.swift */,
 			);
 			path = Analytics;
-			sourceTree = "<group>";
-		};
-		AF3F5BD41EBE72F700809AA3 /* Authentication */ = {
-			isa = PBXGroup;
-			children = (
-				AF3F5BD51EBE72F700809AA3 /* KeychainManager.swift */,
-			);
-			path = Authentication;
-			sourceTree = "<group>";
-		};
-		AF3F5BD61EBE72F700809AA3 /* Client */ = {
-			isa = PBXGroup;
-			children = (
-				AFFA94F91EBF485E00144C3A /* Client.swift */,
-				AFFA94FB1EBF4E7E00144C3A /* Client+AccountService.swift */,
-				AFFA94FD1EBF4E8D00144C3A /* Client+UserService.swift */,
-				AFFA94FF1EBF4E9F00144C3A /* Client+CongressService.swift */,
-				AFFA95011EBF4EB300144C3A /* Client+StateService.swift */,
-				AFFA95031EBF4EBF00144C3A /* Client+FeedbackService.swift */,
-				AFFA95051EBF4ED800144C3A /* Client+AnalyticsService.swift */,
-				AF43D5301EE61A9A00F1DA75 /* Client+ImageService.swift */,
-			);
-			path = Client;
 			sourceTree = "<group>";
 		};
 		AF3F5BD81EBE72F700809AA3 /* Protocols */ = {
@@ -537,6 +516,7 @@
 		AF3F5BD91EBE72F700809AA3 /* Targets */ = {
 			isa = PBXGroup;
 			children = (
+				AF416A4E1F28C206006380DA /* Target.swift */,
 				AF3F5CF41EBE74E400809AA3 /* KratosTarget.swift */,
 			);
 			path = Targets;
@@ -660,8 +640,6 @@
 				AF3F5C041EBE72F700809AA3 /* CommitteActivitiesView.xib */,
 				AF3F5C051EBE72F700809AA3 /* CommitteeView.swift */,
 				AF3F5C061EBE72F700809AA3 /* CommitteeView.xib */,
-				AF3F5C071EBE72F700809AA3 /* LeadSponsorView.swift */,
-				AF3F5C081EBE72F700809AA3 /* LeadSponsorView.xib */,
 				AF3F5C091EBE72F700809AA3 /* MinorActionView.swift */,
 				AF3F5C0A1EBE72F700809AA3 /* MinorActionView.xib */,
 			);
@@ -722,6 +700,8 @@
 		AF3F5C451EBE72F700809AA3 /* Utilites */ = {
 			isa = PBXGroup;
 			children = (
+				AF416A501F28C389006380DA /* Configuration.swift */,
+				AF416A541F28C464006380DA /* Environments */,
 				AF3F5C461EBE72F700809AA3 /* Animations */,
 				AF3F5C4D1EBE72F700809AA3 /* ErrorTypes.swift */,
 				AF3F5C4E1EBE72F700809AA3 /* Extensions */,
@@ -730,6 +710,9 @@
 				AF3F5C651EBE72F700809AA3 /* Pager.swift */,
 				AF3F5C661EBE72F700809AA3 /* Protocols */,
 				AFFA95071EBF4F9C00144C3A /* LoadStatus.swift */,
+				AF416A571F28CFD4006380DA /* Store.swift */,
+				AF416A5B1F28D147006380DA /* JSONDecoder.swift */,
+				AF57F4B51F297D100080978F /* Styler.swift */,
 			);
 			path = Utilites;
 			sourceTree = "<group>";
@@ -788,8 +771,41 @@
 				AF3F5C671EBE72F700809AA3 /* Decodable.swift */,
 				AFFA95091EBF506B00144C3A /* ViewLoader.swift */,
 				AFFA95691EC95B0100144C3A /* RxBinder.swift */,
+				AF416A591F28D0F1006380DA /* Encodable.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		AF416A381F28C1F3006380DA /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				AF416A401F28C1F3006380DA /* Client.swift */,
+				AF416A391F28C1F3006380DA /* Client+AccountService.swift */,
+				AF416A3A1F28C1F3006380DA /* Client+AnalyticsService.swift */,
+				AF416A3B1F28C1F3006380DA /* Client+CongressService.swift */,
+				AF416A3C1F28C1F3006380DA /* Client+FeedbackService.swift */,
+				AF416A3D1F28C1F3006380DA /* Client+ImageService.swift */,
+				AF416A3E1F28C1F3006380DA /* Client+StateService.swift */,
+				AF416A3F1F28C1F3006380DA /* Client+UserService.swift */,
+				AF416A411F28C1F3006380DA /* KratosClient */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
+		AF416A411F28C1F3006380DA /* KratosClient */ = {
+			isa = PBXGroup;
+			children = (
+				AF416A421F28C1F3006380DA /* KratosClient.swift */,
+			);
+			path = KratosClient;
+			sourceTree = "<group>";
+		};
+		AF416A541F28C464006380DA /* Environments */ = {
+			isa = PBXGroup;
+			children = (
+				AF416A551F28C464006380DA /* KratosEnvironment.swift */,
+			);
+			path = Environments;
 			sourceTree = "<group>";
 		};
 		AF72F06C1EE03F77006B9B0B /* UserBills */ = {
@@ -870,8 +886,6 @@
 		AFFA951C1EBF604900144C3A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				AFFA951F1EC0926400144C3A /* URLRequest+Extension.swift */,
-				AFFA951D1EBF60A600144C3A /* URLSession+Rx.swift */,
 				AFFA95231EC1F2C500144C3A /* Observable+JSON.swift */,
 				AFFA95251EC1F56F00144C3A /* Observable+Decode.swift */,
 			);
@@ -1029,7 +1043,6 @@
 				AF3F5C9B1EBE72F700809AA3 /* CommitteeView.xib in Resources */,
 				AF3F5C801EBE72F700809AA3 /* FeedbackQuestionView.xib in Resources */,
 				AF3F5C911EBE72F700809AA3 /* BillCommitteesView.xib in Resources */,
-				AF3F5C9D1EBE72F700809AA3 /* LeadSponsorView.xib in Resources */,
 				AF3F5CD51EBE72F700809AA3 /* YourVoteTableViewCell.xib in Resources */,
 				AF3F5CCD1EBE72F700809AA3 /* RepTableViewCell.xib in Resources */,
 				AF3F5C8C1EBE72F700809AA3 /* ActionsView.xib in Resources */,
@@ -1199,13 +1212,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF416A441F28C1F3006380DA /* Client+AnalyticsService.swift in Sources */,
 				AF3F5C7D1EBE72F700809AA3 /* FeedbackHeaderView.swift in Sources */,
 				AF3F5CDE1EBE72F700809AA3 /* CharacterSet+Extensions.swift in Sources */,
 				AFFA95261EC1F56F00144C3A /* Observable+Decode.swift in Sources */,
-				AF3F5C781EBE72F700809AA3 /* APIService.swift in Sources */,
 				AF5B9E5D1EFEF13A000BF83A /* ExpandableTextFieldView.swift in Sources */,
 				AF3F5CDD1EBE72F700809AA3 /* Array+Extensions.swift in Sources */,
-				AF3F5C771EBE72F700809AA3 /* APIManager.swift in Sources */,
 				AF3F5CD81EBE72F700809AA3 /* MenuHelper.swift in Sources */,
 				AF4DCC881F165252001D5553 /* BillViewModel.swift in Sources */,
 				AFFA95641EC79C4100144C3A /* ApplicationLauncher.swift in Sources */,
@@ -1214,10 +1226,12 @@
 				AF72F0791EE03F77006B9B0B /* UserRepTableViewCell.swift in Sources */,
 				AF3F5C951EBE72F700809AA3 /* BillTallyTableViewCell.swift in Sources */,
 				AF3F5C901EBE72F700809AA3 /* BillCommitteesView.swift in Sources */,
+				AF416A581F28CFD4006380DA /* Store.swift in Sources */,
 				AF3F5CC11EBE72F700809AA3 /* RepInfoView.swift in Sources */,
 				AF4DCC8C1F171D0E001D5553 /* BillInfoViewModel.swift in Sources */,
 				AF41C4071EF173C200DDBD5F /* RepresentativeAnimator.swift in Sources */,
 				AF6271B51ED3DF8400BDE8DB /* UIButton+Extensions.swift in Sources */,
+				AF416A4F1F28C206006380DA /* Target.swift in Sources */,
 				AF3F5CA21EBE72F700809AA3 /* DatePickerView.swift in Sources */,
 				AF6271B31ED085BC00BDE8DB /* AccountDetailViewController.swift in Sources */,
 				AF3F5CC31EBE72F700809AA3 /* RepVoteTableViewCell.swift in Sources */,
@@ -1226,7 +1240,6 @@
 				AF3F5C8D1EBE72F700809AA3 /* BillActionsView.swift in Sources */,
 				AF3F5CB11EBE72F700809AA3 /* KratosActivityIndicator.swift in Sources */,
 				AF3F5CF71EBE74F900809AA3 /* AccountService.swift in Sources */,
-				AFFA94FC1EBF4E7E00144C3A /* Client+AccountService.swift in Sources */,
 				AF41C4091EF2220800DDBD5F /* RepresentativeViewController.swift in Sources */,
 				AF41C40B1EF2222200DDBD5F /* RepresentativeViewModel.swift in Sources */,
 				AFFA95241EC1F2C500144C3A /* Observable+JSON.swift in Sources */,
@@ -1236,13 +1249,13 @@
 				AF416A311F28336B006380DA /* UIFont+Extensions.swift in Sources */,
 				AF3F5CDC1EBE72F700809AA3 /* ErrorTypes.swift in Sources */,
 				AF3B2C0B1EDE531300509B01 /* Observable+Extensions.swift in Sources */,
+				AF416A371F28C173006380DA /* MicroClient.swift in Sources */,
 				AF3F5C741EBE72F700809AA3 /* Vote.swift in Sources */,
 				AF3F5C7C1EBE72F700809AA3 /* ExploreViewController.swift in Sources */,
 				AF3F5C761EBE72F700809AA3 /* KratosAnalytics.swift in Sources */,
 				AF3F5CEB1EBE72F700809AA3 /* UIView+Extension.swift in Sources */,
 				AF3F5C8B1EBE72F700809AA3 /* ActionsView.swift in Sources */,
 				AF3F5CB01EBE72F700809AA3 /* TrackButton.swift in Sources */,
-				AF3F5C9C1EBE72F700809AA3 /* LeadSponsorView.swift in Sources */,
 				AFFA95221EC1F08700144C3A /* ImageService.swift in Sources */,
 				AFFA94F61EBE789800144C3A /* Subject.swift in Sources */,
 				AF3F5CB41EBE72F700809AA3 /* RepContactView.swift in Sources */,
@@ -1252,28 +1265,31 @@
 				AF5B23441ED68A3B00DD9F9E /* ConfirmationViewModel.swift in Sources */,
 				AF3F5C8E1EBE72F700809AA3 /* BillActionTableViewCell.swift in Sources */,
 				AF43D5331EE634BE00F1DA75 /* RepImageView.swift in Sources */,
+				AF416A4B1F28C1F3006380DA /* KratosClient.swift in Sources */,
+				AF416A511F28C389006380DA /* Configuration.swift in Sources */,
 				AF3F5C821EBE72F700809AA3 /* ConfirmationViewController.swift in Sources */,
 				AF3F5C6B1EBE72F700809AA3 /* TabBarController.swift in Sources */,
 				AF3F5CE11EBE72F700809AA3 /* NSCharacterSet+Extensions.swift in Sources */,
+				AF416A461F28C1F3006380DA /* Client+FeedbackService.swift in Sources */,
 				AF4DCC861F16523D001D5553 /* BillViewController.swift in Sources */,
 				AF3F5C7F1EBE72F700809AA3 /* FeedbackQuestionView.swift in Sources */,
 				AF3F5CD71EBE72F700809AA3 /* Interactor.swift in Sources */,
 				AF3F5CE01EBE72F700809AA3 /* DateFormatter+Extensions.swift in Sources */,
 				AF3F5CFB1EBE754800809AA3 /* CongressService.swift in Sources */,
-				AFFA94FA1EBF485E00144C3A /* Client.swift in Sources */,
 				AF3F5CFF1EBE756800809AA3 /* AnalyticsService.swift in Sources */,
 				AF3F5C681EBE72F700809AA3 /* AppDelegate.swift in Sources */,
 				AF3F5C721EBE72F700809AA3 /* Term.swift in Sources */,
 				AF3F5CE91EBE72F700809AA3 /* UINavigationController+Extensions.swift in Sources */,
 				AFFA94F81EBE796F00144C3A /* StateService.swift in Sources */,
 				AFFA95681EC7A1DD00144C3A /* UIApplicationDelegate+Extensions.swift in Sources */,
-				AFFA95201EC0926400144C3A /* URLRequest+Extension.swift in Sources */,
+				AF416A471F28C1F3006380DA /* Client+ImageService.swift in Sources */,
 				AF72F0781EE03F77006B9B0B /* UserRepsViewModel.swift in Sources */,
 				AF3F5CD41EBE72F700809AA3 /* YourVoteTableViewCell.swift in Sources */,
 				AF3F5CA91EBE72F700809AA3 /* PieChartView.swift in Sources */,
 				AFADDCDF1F000DF60031A62D /* RepInfoViewModel.swift in Sources */,
 				AF3F5CF51EBE74E400809AA3 /* KratosTarget.swift in Sources */,
 				AFADDCDD1F0002F60031A62D /* TermTableViewCell.swift in Sources */,
+				AF416A431F28C1F3006380DA /* Client+AccountService.swift in Sources */,
 				AF3F5CE71EBE72F700809AA3 /* UIImageView+Extensions.swift in Sources */,
 				AF3F5CA51EBE72F700809AA3 /* KratosTextField.swift in Sources */,
 				AF3F5C931EBE72F700809AA3 /* BillSponsorsView.swift in Sources */,
@@ -1283,21 +1299,24 @@
 				AF3F5CE61EBE72F700809AA3 /* UIImage+Extension.swift in Sources */,
 				AF72F07B1EE0E839006B9B0B /* UserRepTableViewCellModel.swift in Sources */,
 				AF3F5CDB1EBE72F700809AA3 /* TransitionManager.swift in Sources */,
-				AFFA95061EBF4ED800144C3A /* Client+AnalyticsService.swift in Sources */,
 				AF3F5C751EBE72F700809AA3 /* FirebaseAnalytics.swift in Sources */,
 				AF3F5CB71EBE72F700809AA3 /* RepInfoBillSponsorTableViewCell.swift in Sources */,
 				AF3F5C6E1EBE72F700809AA3 /* Definition.swift in Sources */,
-				AFFA95021EBF4EB300144C3A /* Client+StateService.swift in Sources */,
-				AFFA951E1EBF60A600144C3A /* URLSession+Rx.swift in Sources */,
+				AF416A5A1F28D0F1006380DA /* Encodable.swift in Sources */,
+				AF416A4A1F28C1F3006380DA /* Client.swift in Sources */,
 				AF3F5CD91EBE72F700809AA3 /* PresentMenuAnimator.swift in Sources */,
+				AF416A481F28C1F3006380DA /* Client+StateService.swift in Sources */,
 				AFFA95661EC79D8100144C3A /* SplashViewController.swift in Sources */,
+				AF416A4D1F28C1FC006380DA /* AppClient.swift in Sources */,
 				AF3F5C9E1EBE72F700809AA3 /* MinorActionView.swift in Sources */,
+				AF416A451F28C1F3006380DA /* Client+CongressService.swift in Sources */,
 				AF3F5D011EBE759500809AA3 /* UserService.swift in Sources */,
+				AF416A5C1F28D147006380DA /* JSONDecoder.swift in Sources */,
 				AF3F5C971EBE72F700809AA3 /* BillVotesView.swift in Sources */,
 				AF3F5CF31EBE72F700809AA3 /* Decodable.swift in Sources */,
 				AF3F5CDA1EBE72F700809AA3 /* ScrollTabBarControllerDelegate.swift in Sources */,
 				AF3F5CEF1EBE72F700809AA3 /* InputValidation.swift in Sources */,
-				AF43D5311EE61A9A00F1DA75 /* Client+ImageService.swift in Sources */,
+				AF416A561F28C464006380DA /* KratosEnvironment.swift in Sources */,
 				AF3F5CCF1EBE72F700809AA3 /* TallyTableView.swift in Sources */,
 				AF3F5CE21EBE72F700809AA3 /* NSData+Extensions.swift in Sources */,
 				AF3F5CE41EBE72F700809AA3 /* String+Extensions.swift in Sources */,
@@ -1306,8 +1325,9 @@
 				AF6271B11ED0820E00BDE8DB /* AccountDetailsViewModel.swift in Sources */,
 				AF3F5CEC1EBE72F700809AA3 /* UIViewController+Extensions.swift in Sources */,
 				AF3F5CD61EBE72F700809AA3 /* DismissMenuAnimator.swift in Sources */,
+				AF57F4B61F297D100080978F /* Styler.swift in Sources */,
 				AF3F5C6D1EBE72F700809AA3 /* Bill.swift in Sources */,
-				AF3F5C791EBE72F700809AA3 /* KeychainManager.swift in Sources */,
+				AF416A491F28C1F3006380DA /* Client+UserService.swift in Sources */,
 				AF3F5CA71EBE72F700809AA3 /* LoadMoreSpinnerView.swift in Sources */,
 				AF72F0771EE03F77006B9B0B /* UserRepsViewController.swift in Sources */,
 				AF3F5C731EBE72F700809AA3 /* User.swift in Sources */,
@@ -1317,18 +1337,14 @@
 				AF3F5C6F1EBE72F700809AA3 /* Person.swift in Sources */,
 				AF3F5CF21EBE72F700809AA3 /* Pager.swift in Sources */,
 				AF3F5C7B1EBE72F700809AA3 /* Toast.swift in Sources */,
-				AFFA95041EBF4EBF00144C3A /* Client+FeedbackService.swift in Sources */,
 				AF3F5CA81EBE72F700809AA3 /* PieChartData.swift in Sources */,
 				AF3F5CCE1EBE72F700809AA3 /* TallyViewController.swift in Sources */,
-				AFFA94FE1EBF4E8D00144C3A /* Client+UserService.swift in Sources */,
 				AF3F5CE51EBE72F700809AA3 /* UIColor+Extension.swift in Sources */,
 				AF3F5CDF1EBE72F700809AA3 /* Date+Extensions.swift in Sources */,
 				AF3F5C711EBE72F700809AA3 /* Tally.swift in Sources */,
 				AF3F5C831EBE72F700809AA3 /* LoginViewController.swift in Sources */,
 				AF3F5CE31EBE72F700809AA3 /* NSLayoutAnchor+Extensions.swift in Sources */,
 				AF5B23421ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift in Sources */,
-				AF3F5C691EBE72F700809AA3 /* Datastore.swift in Sources */,
-				AFFA95001EBF4E9F00144C3A /* Client+CongressService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

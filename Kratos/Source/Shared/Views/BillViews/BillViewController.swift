@@ -85,17 +85,20 @@ extension BillViewController: ViewBuilder {
         }
     }
     func style() {
-        titleLabel.numberOfLines = 8
+        titleLabel.style(with: [.numberOfLines(8),
+                                .font(.header),
+                                .textAlignment(.center)
+                                ])
+        
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.minimumScaleFactor = 2.0
-        titleLabel.font = .header
-        titleLabel.textAlignment = .center
         
-        statusLabel.font = .body
-        statusLabel.textColor = UIColor.lightGray
-        
-        statusDateLabel.font = .body
-        statusDateLabel.textColor = UIColor.lightGray
+        statusLabel.style(with: [.font(.body),
+                                 .titleColor(.lightGray)
+                                ])
+        statusDateLabel.style(with: [.font(.body),
+                                 .titleColor(.lightGray)
+                                ])
     }
 }
 

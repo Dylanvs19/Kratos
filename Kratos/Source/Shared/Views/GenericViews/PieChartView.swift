@@ -55,13 +55,13 @@ class PieChartView: UIView {
                 switch datum.type {
                 case .yea:
                     forLabel.text = "\(Int(datum.value))"
-                    forLabel.textColor = UIColor.yeaVoteGreen
+                    forLabel.style(with: .titleColor(.kratosGreen))
                 case .nay:
                     againstLabel.text = "\(Int(datum.value))"
-                    againstLabel.textColor = UIColor.kratosRed
+                    forLabel.style(with: .titleColor(.kratosRed))
                 case .abstain:
                     abstainLabel.text = "\(Int(datum.value))"
-                    abstainLabel.textColor = UIColor.gray
+                    forLabel.style(with: .titleColor(.lightGray))
                 }
             }
         }
@@ -97,7 +97,7 @@ class PieChartView: UIView {
             path.lineWidth = arcWidth
             switch datum.type {
             case .yea:
-                UIColor.yeaVoteGreen.setStroke()
+                UIColor.kratosGreen.setStroke()
             case .nay:
                 UIColor.kratosRed.setStroke()
             case .abstain:

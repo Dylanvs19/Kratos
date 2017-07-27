@@ -36,7 +36,7 @@ class ConfirmationViewModel {
         return client.login(email: email.value, password: password.value)
             .subscribe(onNext: { [weak self] token in
                 self?.loadStatus.value = .none
-                KeychainManager.create(token)
+                Store.shelve(token, key: "token")
                 self?.push.onNext(())
             }, onError: { [weak self] error in
                 let error = error as? KratosError ?? KratosError.unknown

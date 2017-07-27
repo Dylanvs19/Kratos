@@ -134,17 +134,13 @@ extension UserRepsViewController: ViewBuilder {
     }
     
     func style() {
-        view.backgroundColor = .kratosLightGray
         stateImageView.contentMode = .scaleToFill
-        
         topShadeView.backgroundColor = .black
         topShadeView.alpha = 0.5
         
-        stateLabel.font = .title
-        stateLabel.textColor = .white
-        
-        districtLabel.font = .subTitle
-        districtLabel.textColor = .white
+        view.style(with: .backgroundColor(.slate))
+        stateLabel.style(with: [.font(.title), .titleColor(.white)])
+        districtLabel.style(with: [.font(.subTitle), .titleColor(.white)])
     }
 }
 

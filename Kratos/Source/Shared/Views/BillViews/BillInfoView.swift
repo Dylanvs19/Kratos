@@ -39,11 +39,11 @@ class BillInfoView: UIView {
         
         var button: UIButton {
             let button = UIButton()
+            button.style(with: [.font(.body),
+                                .titleColor(.kratosRed),
+                                .highlightedTitleColor(.red),
+                                .backgroundColor(.white)])
             button.setTitle(displayName, for: .normal)
-            button.titleLabel?.font = .mediumButton
-            button.setTitleColor(.kratosRed, for: .normal)
-            button.setTitleColor(.red, for: .highlighted)
-            button.backgroundColor = .white
             button.addShadow()
             return button
         }

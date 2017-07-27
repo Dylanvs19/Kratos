@@ -234,13 +234,15 @@ extension AccountDetailsViewController: ViewBuilder {
     }
     
     func style() {
-        saveEditRegisterButton.setTitleColor(.kratosRed, for: .normal)
-        saveEditRegisterButton.setTitleColor(.red, for: .highlighted)
-        cancelDoneButton.setTitleColor(.lightGray, for: .normal)
-        cancelDoneButton.setTitleColor(.gray, for: .highlighted)
+        saveEditRegisterButton.style(with: [.font(.header),
+                                            .titleColor(.kratosRed),
+                                            .highlightedTitleColor(.red)
+                                            ])
         
-        saveEditRegisterButton.titleLabel?.font = .largeButton
-        cancelDoneButton.titleLabel?.font = .largeButton
+        cancelDoneButton.style(with: [.font(.header),
+                                            .titleColor(.lightGray),
+                                            .highlightedTitleColor(.gray)
+                                     ])
         
         saveEditRegisterButton.isUserInteractionEnabled = true
         cancelDoneButton.isUserInteractionEnabled = true

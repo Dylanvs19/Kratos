@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import RxSwift
-import Action
 
 class UserRepTableViewCellModel {
     
@@ -19,7 +18,7 @@ class UserRepTableViewCellModel {
     let name = Variable<String>("")
     let chamber = Variable<Chamber>(.senate)
     let imageURLString = Variable<String?>(nil)
-    let partyColor = Variable<UIColor>(.kratosLightGray)
+    let partyColor = Variable<UIColor>(.slate)
     
     init(client: Client, person: Person) {
         self.client = client
@@ -33,7 +32,7 @@ class UserRepTableViewCellModel {
             name.value = first + " " + last
         }
         if let repParty = representative.currentParty {
-            partyColor.value = repParty.color
+            partyColor.value = repParty.color.value
         }
         if let repChamber = representative.currentChamber {
             chamber.value = repChamber
