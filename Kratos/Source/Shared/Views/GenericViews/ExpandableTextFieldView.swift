@@ -55,8 +55,8 @@ class ExpandableTextFieldView: UIView {
     
     func configure(with title: String?,
                    text: String,
-                   expandedButtonTitle: String?,
-                   contractedButtonTitle: String?) {
+                   expandedButtonTitle: String? = "Show Less",
+                   contractedButtonTitle: String? = "Show More") {
         
         self.viewModel = ExpandableTextFieldViewModel(with: title, text: text, expandedTitle: expandedButtonTitle, contractedTitle: contractedButtonTitle)
         

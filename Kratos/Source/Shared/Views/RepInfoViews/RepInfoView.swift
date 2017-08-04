@@ -14,6 +14,7 @@ import SnapKit
 
 class RepInfoView: UIView {
     
+    // MARK: - Enums -
     enum State: Equatable {
     case bio
     case votes
@@ -35,7 +36,7 @@ class RepInfoView: UIView {
         var button: UIButton {
             let button = UIButton()
             button.setTitle(title, for: .normal)
-            button.style(with: [.font(.body),
+            button.style(with: [.font(.cellTitle),
                                 .titleColor(.kratosRed),
                                 .highlightedTitleColor(.red),
                                 .backgroundColor(.white)])
@@ -53,6 +54,11 @@ class RepInfoView: UIView {
             return CGFloat(State.allValues.index(of: self)!) * width
         }
     }
+    
+    // MARK: - Variables -
+    
+    var viewModel: RepInfoViewModel?
+    let disposeBag = DisposeBag()
     
     let managerStackView = UIStackView()
     let managerIndicatorView = UIView()
@@ -72,15 +78,17 @@ class RepInfoView: UIView {
     let votesTableView = UITableView()
     let billsTableView = UITableView()
     
-    var viewModel: RepInfoViewModel?
-    let disposeBag = DisposeBag()
-    
     var contentOffset = PublishSubject<CGFloat>()
     var selectedBillID = PublishSubject<Int>()
     
+    // MARK: - Initializers -
     convenience init(with client: Client, representative: Person) {
         self.init(frame: .zero)
         self.viewModel = RepInfoViewModel(with: client, representative: representative)
+        style()
+        configureTermsTableView()
+        configureBillsTableView()
+        configureVotesTableView()
     }
     
     override init(frame: CGRect) {
@@ -91,13 +99,10 @@ class RepInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func build() {
-        style()
+    // MARK: - Helpers -
+    func buildViews() {
         addSubviews()
         constrainViews()
-        configureTermsTableView()
-        configureBillsTableView()
-        configureVotesTableView()
         bind()
     }
     
@@ -123,6 +128,7 @@ class RepInfoView: UIView {
         bioScrollView.layoutIfNeeded()
     }
     
+    // MARK: - Configuration -
     func configureTermsTableView() {
         termsTableView.isScrollEnabled = false
         termsTableView.register(TermTableViewCell.self, forCellReuseIdentifier: TermTableViewCell.identifier)
@@ -204,6 +210,7 @@ extension RepInfoView: UITableViewDelegate {
                 make.top.bottom.trailing.equalToSuperview()
             }
             label.text = votesDataSource.sectionModels[section].model
+            label.style(with: [.font(.subheader)])
             return view
         }
         return nil 
@@ -300,8 +307,7 @@ extension RepInfoView: RxBinder {
     
     func bindManagerView() {
         guard  let viewModel = viewModel else { return }
-        let states = [State.bio, State.votes, State.bills]
-        states.forEach { state in
+        State.allValues.forEach { state in
             let button = state.button
             managerStackView.addArrangedSubview(button)
             button.rx.controlEvent(.touchUpInside).asObservable()

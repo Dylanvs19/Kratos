@@ -17,8 +17,8 @@ class UserRepTableViewCellModel {
     let representative = Variable<Person?>(nil)
     let name = Variable<String>("")
     let chamber = Variable<Chamber>(.senate)
-    let imageURLString = Variable<String?>(nil)
     let partyColor = Variable<UIColor>(.slate)
+    let url = Variable<URL?>(nil)
     
     init(client: Client, person: Person) {
         self.client = client
@@ -47,6 +47,13 @@ extension UserRepTableViewCellModel: RxBinder {
             .subscribe(onNext: { [weak self] person in
                 self?.populateVariables(from: person)
             })
+            .disposed(by: disposeBag)
+        
+        representative.asObservable()
+            .map { $0?.imageURL }
+            .filterNil()
+            .map { URL(string: $0) }
+            .bind(to: url)
             .disposed(by: disposeBag)
     }
 }

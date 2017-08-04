@@ -39,7 +39,7 @@ class BillInfoView: UIView {
         
         var button: UIButton {
             let button = UIButton()
-            button.style(with: [.font(.body),
+            button.style(with: [.font(.cellTitle),
                                 .titleColor(.kratosRed),
                                 .highlightedTitleColor(.red),
                                 .backgroundColor(.white)])
@@ -93,6 +93,7 @@ class BillInfoView: UIView {
     let summaryScrollView = UIScrollView()
     let summaryStackView = UIStackView()
     let summaryView = ExpandableTextFieldView()
+    let committeeStackView = UIStackView()
     // Votes
     let votesTableView = UITableView()
     // Sponsors
@@ -103,8 +104,8 @@ class BillInfoView: UIView {
     let actionsTableView = UITableView()
     
     // DataSources
-    let sponsorDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, LightPerson>>()
-    let voteDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Vote>>()
+    let sponsorsDatasource = RxTableViewSectionedReloadDataSource<SectionModel<String, Person>>()
+    let votesDatasource = RxTableViewSectionedReloadDataSource<SectionModel<String, Tally>>()
     
     // MARK: - Initializers -
     convenience init() {
@@ -132,6 +133,7 @@ class BillInfoView: UIView {
         addSubviews()
         constrainViews()
         configureVotesTableView()
+        configureSponsorsTableView()
         bind()
     }
     
@@ -139,7 +141,7 @@ class BillInfoView: UIView {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             self.managerIndicatorView.snp.updateConstraints { make in
                 make.leading.equalToSuperview().offset(state.indicatorXPosition(in: self))
-                make.width.equalTo(self.frame.width / 3)
+                make.width.equalTo(self.frame.width / CGFloat(State.allValues.count))
             }
             self.managerStackView.layoutIfNeeded()
         }, completion: nil)
@@ -159,6 +161,28 @@ class BillInfoView: UIView {
     
     // MARK: - Configuration -
     func configureVotesTableView() {
+        votesTableView.isScrollEnabled = false
+        votesTableView.register(TermTableViewCell.self, forCellReuseIdentifier: TermTableViewCell.identifier)
+        votesTableView.rowHeight = 30
+        votesTableView.separatorInset = .zero
+        votesTableView.tableFooterView = UIView()
+        votesTableView.backgroundColor = .clear
+        votesTableView.allowsSelection = false
+        
+        votesDatasource.configureCell = { dataSource, tableView, indexPath, item in
+            let basicCell = tableView.dequeueReusableCell(withIdentifier: TermTableViewCell.identifier, for: indexPath)
+            guard let cell = basicCell as? TermTableViewCell else { fatalError() }
+//            cell.configure(with: item)
+            return cell
+        }
+        
+        votesDatasource.titleForHeaderInSection = { ds, index in
+            return ds.sectionModels[index].model
+        }
+    }
+    
+    // MARK: - Configuration -
+    func configureSponsorsTableView() {
         sponsorsTableView.isScrollEnabled = false
         sponsorsTableView.register(TermTableViewCell.self, forCellReuseIdentifier: TermTableViewCell.identifier)
         sponsorsTableView.rowHeight = 30
@@ -167,14 +191,14 @@ class BillInfoView: UIView {
         sponsorsTableView.backgroundColor = .clear
         sponsorsTableView.allowsSelection = false
         
-        sponsorDataSource.configureCell = { dataSource, tableView, indexPath, item in
-            let basicCell = tableView.dequeueReusableCell(withIdentifier: TermTableViewCell.identifier, for: indexPath)
-            guard let cell = basicCell as? TermTableViewCell else { fatalError() }
-//            cell.configure(with: item)
+        sponsorsDatasource.configureCell = { dataSource, tableView, indexPath, item in
+            let basicCell = tableView.dequeueReusableCell(withIdentifier: RepresentativeCell.identifier, for: indexPath)
+            guard let cell = basicCell as? RepresentativeCell else { fatalError() }
+            cell.update(with: item)
             return cell
         }
         
-        sponsorDataSource.titleForHeaderInSection = { ds, index in
+        sponsorsDatasource.titleForHeaderInSection = { ds, index in
             return ds.sectionModels[index].model
         }
     }
@@ -182,13 +206,18 @@ class BillInfoView: UIView {
 
 extension BillInfoView: ViewBuilder {
     func addSubviews() {
+        translatesAutoresizingMaskIntoConstraints = false
+
         addSubview(managerStackView)
-        managerStackView.addSubview(managerIndicatorView)
         addSubview(scrollView)
         scrollView.addSubview(stackView)
+        managerStackView.addSubview(managerIndicatorView)
+        
         stackView.addArrangedSubview(summaryScrollView)
         summaryScrollView.addSubview(summaryStackView)
         summaryStackView.addArrangedSubview(summaryView)
+        summaryStackView.addSubview(committeeStackView)
+        
         stackView.addArrangedSubview(votesTableView)
         stackView.addArrangedSubview(sponsorsTableView)
     }
@@ -282,18 +311,29 @@ extension BillInfoView: RxBinder {
     
     func bindSummaryView() {
         guard let viewModel = viewModel else { return }
+        viewModel.summary.asObservable()
+            .subscribe(onNext: { [weak self] summaryView in
+                self?.summaryView.configure(with:  nil, text: summaryView)
+            })
+            .disposed(by: disposeBag)
     }
-    
-    func bindDetailsView() {
-        guard let viewModel = viewModel else { return }
-    }
-    
-    func bindSponsorsView() {
-        guard let viewModel = viewModel else { return }
-    }
-    
     func bindVotesView() {
         guard let viewModel = viewModel else { return }
+        viewModel.tallies.asObservable()
+            .map { [SectionModel(model: "", items: $0)] }
+            .bind(to: votesTableView.rx.items(dataSource: votesDatasource))
+            .disposed(by: disposeBag)
+    }
+    func bindSponsorsView() {
+        guard let viewModel = viewModel else { return }
+        viewModel.sponsors.asObservable()
+            .map { $0.map { SectionModel(model: $0.key, items: $0.value) } }
+            .bind(to: sponsorsTableView.rx.items(dataSource: sponsorsDatasource))
+            .disposed(by: disposeBag)
+    }
+    func bindDetailsView() {
+        guard let viewModel = viewModel else { return }
+        
     }
 }
 

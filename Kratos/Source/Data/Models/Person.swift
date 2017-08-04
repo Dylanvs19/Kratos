@@ -96,7 +96,7 @@ struct Person: Hashable, Decodable {
         }
     }
     
-    func toLightPerson() -> LightPerson {
+    var lightPerson: LightPerson {
         var person = LightPerson(with: id)
         person.firstName = firstName
         person.lastName = lastName

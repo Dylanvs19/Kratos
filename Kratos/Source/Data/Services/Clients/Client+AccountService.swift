@@ -9,6 +9,12 @@
 import Foundation
 import RxSwift
 
+enum AuthenticationError {
+    case notLoggedIn
+    case invalidToken
+}
+
+
 extension Client: AccountService {
     
     func register(user: User) -> Observable<Bool> {
@@ -21,10 +27,8 @@ extension Client: AccountService {
         return request(.login(email: email, password: password), ignoreCache: true)
             .toJson()
             .map {
-                guard let json = $0 as? [String: Any] else {
-                    throw KratosError.mappingError(type: .unexpectedValue)
-                }
-                guard let token = json["token"] as? String else {
+                guard let json = $0 as? [String: Any],
+                      let token = json["token"] as? String else {
                     throw KratosError.mappingError(type: .unexpectedValue)
                 }
                 return token

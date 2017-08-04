@@ -17,6 +17,16 @@ extension Client: UserService {
             .mapArray(at: "data")
     }
     
+    func fetchTrackedBillIds() -> Observable<[Int]> {
+        return request(.fetchTrackedBillIds, ignoreCache: true)
+            .toJson()
+            .map {
+                guard let json = $0 as? [String: Any],
+                    let ints = json["data"] as? [Int] else { throw KratosError.mappingError(type: .unexpectedValue) }
+                return ints
+        }
+    }
+    
     func trackBill(billID: Int) -> Observable<Void> {
         return request(.trackBill(billID: billID))
             .map { _ in return () }

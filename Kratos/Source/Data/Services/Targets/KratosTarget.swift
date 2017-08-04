@@ -22,6 +22,7 @@ enum KratosTarget: Target {
     
     //BillTracking
     case fetchTrackedBills(pageNumber: Int)
+    case fetchTrackedBillIds
     case trackBill(billID: Int)
     case viewTrackedBill(billID: Int)
     case untrackBill(billID: Int)
@@ -97,6 +98,8 @@ enum KratosTarget: Target {
             return user.toJson()
         
         //BillTracking
+        case .fetchTrackedBillIds:
+            return nil
         case .fetchTrackedBills:
             return nil
         case .trackBill(let billID):
@@ -194,6 +197,8 @@ enum KratosTarget: Target {
         //BillTracking
         case .fetchTrackedBills(let pageNumber):
             return "/me/bills?page=\(pageNumber)"
+        case .fetchTrackedBillIds:
+            return "/me/bills?onlyids=true"
         case .trackBill:
             return "/me/bills"
             
@@ -282,7 +287,8 @@ enum KratosTarget: Target {
             return .post
             
         //BillTracking
-        case .fetchTrackedBills,
+        case .fetchTrackedBillIds,
+             .fetchTrackedBills,
              .viewTrackedBill:
             return .get
         case .trackBill:
@@ -363,7 +369,8 @@ enum KratosTarget: Target {
             return true
             
         //BillTracking
-        case .fetchTrackedBills,
+        case .fetchTrackedBillIds,
+             .fetchTrackedBills,
              .viewTrackedBill,
              .trackBill,
              .untrackBill:
@@ -423,79 +430,46 @@ enum KratosTarget: Target {
 
 extension KratosTarget: Equatable {
     
-    func isSameType(as target: KratosTarget) -> Bool {
-        return self.equatableValue == target.equatableValue
-    }
-    
-    var equatableValue: Int {
-        switch self {
-        //Login
-        case .register: return 1
-        case .login: return 2
-        case .forgotPassword: return 3
-        case .resendConfirmation: return 4
-        //User
-        //Metadata
-        case .fetchUser: return 5
-        case .update: return 6
-        
-        //BillTracking
-        case .fetchTrackedBills: return 7
-        case .trackBill: return 8
-        case .viewTrackedBill: return 9
-        case .untrackBill: return 10
-        
-        //SubjectTracking
-        case .fetchTrackedSubjects: return 11
-        case .followSubject: return 12
-        case .unfollowSubject: return 13
-       
-        //UserVotes
-        case .fetchUserVotingRecord: return 14
-        case .createUserVote: return 15
-        case .fetchUserVote: return 16
-        case .updateUserVote: return 17
-        case .deleteUserVote: return 18
-        
-        //Congress
-        //Metadata
-        case .determineRecess: return 19
-        
-        // Representatives
-        case .fetchRepresentatives: return 20
-        case .fetchPerson: return 21
-        case .fetchTallies: return 22
-        case .fetchSponsoredBills: return 23
-        
-        //Vote
-        case .fetchTally: return 24
-        
-        //Bill
-        case .fetchAllBills: return 25
-        case .fetchBill: return 26
-        case .fetchBills: return 27
-        
-        //Subjects
-        case .fetchAllSubjects: return 28
-        
-        //State
-        case .getStateDistricts: return 29
-        case .getStateImage: return 30
-        
-        //Feedback
-        case .fetchFeedback: return 31
-        case .postFeedback: return 32
-        
-        //Analytics
-        case .postKratosAnalyticEvent: return 33
-        
-        //Image 
-        case .url: return 34
-        }
-    }
-    
     static func ==(lhs: KratosTarget, rhs: KratosTarget) -> Bool {
-        return lhs.equatableValue == rhs.equatableValue
+        switch (lhs, rhs) {
+        case (.register, .register),
+             (.login, .login),
+             (.forgotPassword, .forgotPassword),
+             (.resendConfirmation, .resendConfirmation),
+             (.fetchUser, .fetchUser),
+             (.update, .update),
+             (.fetchTrackedBills, .fetchTrackedBills),
+             (.fetchTrackedBillIds, .fetchTrackedBillIds),
+             (.trackBill, .trackBill),
+             (.viewTrackedBill, .viewTrackedBill),
+             (.untrackBill, .untrackBill),
+             (.fetchTrackedSubjects, .fetchTrackedSubjects),
+             (.followSubject, .followSubject),
+             (.unfollowSubject, .unfollowSubject),
+             (.fetchUserVotingRecord, .fetchUserVotingRecord),
+             (.createUserVote, .createUserVote),
+             (.fetchUserVote, .fetchUserVote),
+             (.updateUserVote, .updateUserVote),
+             (.deleteUserVote, .deleteUserVote),
+             (.determineRecess, .determineRecess),
+             (.fetchRepresentatives, .fetchRepresentatives),
+             (.fetchPerson, .fetchPerson),
+             (.fetchTallies, .fetchTallies),
+             (.fetchSponsoredBills, .fetchSponsoredBills),
+             (.fetchTally, .fetchTally),
+             (.fetchAllBills, .fetchAllBills),
+             (.fetchBill, .fetchBill),
+             (.fetchBills, .fetchBills),
+             (.fetchAllSubjects, .fetchAllSubjects),
+             (.getStateDistricts, .getStateDistricts),
+             (.getStateImage, .getStateImage),
+             (.fetchFeedback, .fetchFeedback),
+             (.postFeedback, .postFeedback),
+             (.postKratosAnalyticEvent, .postKratosAnalyticEvent):
+            return true
+        default:
+            return false
+        }
     }
     
     static func !=(lhs: KratosTarget, rhs: KratosTarget) -> Bool {

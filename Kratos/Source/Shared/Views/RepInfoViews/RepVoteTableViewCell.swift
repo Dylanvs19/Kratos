@@ -33,7 +33,6 @@ class RepVoteTableViewCell: UITableViewCell {
         billTitleLabel.text = first.billTitle
         billStatus.text = status
         statusImageView.image = first.voteValue?.image
-        
     }
 }
 
@@ -65,5 +64,6 @@ extension RepVoteTableViewCell: ViewBuilder {
         selectionStyle = .none
         billTitleLabel.style(with: [.numberOfLines(3), .font(.cellTitle)])
         billTitleLabel.style(with: .font(.cellTitle))
+        billStatus.style(with: [.font(.cellSubTitle), .titleColor(.gray)])
     }
 }

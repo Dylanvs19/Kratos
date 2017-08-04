@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class LoginViewController: UIViewController, ActivityIndicatorPresenter {
+class LoginViewController: UIViewController {
     
     fileprivate let client: Client
     fileprivate let viewModel: LoginViewModel
@@ -35,9 +35,6 @@ class LoginViewController: UIViewController, ActivityIndicatorPresenter {
     
     var imageViewHeightConstraint: Constraint?
     var imageViewYConstraint: Constraint?
-    
-    internal var activityIndicator: KratosActivityIndicator? = KratosActivityIndicator()
-    var shadeView: UIView = UIView()
     
     init(client: Client) {
         self.client = client

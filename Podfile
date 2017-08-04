@@ -14,6 +14,7 @@ pod 'RxCocoa'
 pod 'RxDataSources'
 pod 'RxGesture'
 pod 'Alamofire'
+pod 'AlamofireImage'
 
 end
 

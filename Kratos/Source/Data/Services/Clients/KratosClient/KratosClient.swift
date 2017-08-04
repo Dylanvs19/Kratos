@@ -45,7 +45,7 @@ extension KratosClient: MicroClient {
                 url,
                 method: target.method,
                 parameters: target.parameters,
-                encoding: URLEncoding.default,
+                encoding: URLEncoding.httpBody,
                 headers: self.authorizationHeader
                 )
                 .responseData { response in

@@ -83,7 +83,8 @@ extension UIViewController {
                 message = value.lowercased().localizedCapitalized
             }
         case .nonHTTPResponse,
-             .mappingError:
+             .mappingError,
+             .authError:
             title = "Error"
             message = "Something went wrong on our end. We are on it. Check back soon."
         }

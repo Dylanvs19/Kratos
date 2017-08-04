@@ -55,9 +55,10 @@ class RepresentativeViewController: UIViewController {
         style()
         addSubviews()
         constrainViews()
-        view.layoutIfNeeded()
         bind()
-        repInfoView.build()
+        //RepInfoView needs to be laid out and constrained after view is larger than .zero
+        view.layoutIfNeeded()
+        repInfoView.buildViews()
     }
 }
 
@@ -168,20 +169,10 @@ extension RepresentativeViewController: RxBinder {
     }
     
     func bindTopView() {
-        
-        viewModel.representative.asObservable()
-            .map { user -> (String, Chamber)? in
-                guard let imageURL = user.imageURL,
-                    let currentChamber = user.currentChamber else { return nil }
-                return (imageURL, currentChamber)
-            }
+        viewModel.url.asObservable()
             .filterNil()
-            .subscribe(onNext: { [weak self] (imageURL, currentChamber) in
-                guard let client = self?.client else { return }
-                self?.representativeImageView.loadRepImage(from: imageURL, chamber: currentChamber, with: client)
-            })
+            .bind(to: self.representativeImageView.rx.fetchImage())
             .disposed(by: disposeBag)
-        
         viewModel.representative.asObservable()
             .map { $0.currentParty?.color }
             .filterNil()

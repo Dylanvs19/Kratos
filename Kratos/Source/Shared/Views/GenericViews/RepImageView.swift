@@ -30,30 +30,10 @@ class RepImageView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func loadRepImage(from url: String?, chamber: Chamber?, with client: Client) {
-        if let url = url {
-        loadStatus.value = .loading
-        client.fetchImage(for: url)
-            .do(onNext: { [weak self] _ in
-                self?.loadStatus.value = .none
-            }, onError: { [weak self] _ in
-                self?.loadStatus.value = .error(error: KratosError.serverSideError(error: nil))
-            })
-        .bind(to: rx.image)
-        .disposed(by: disposeBag)
-        } else {
-            loadStatus.value = .none
-            image = chamber?.image ?? #imageLiteral(resourceName: "CongressLogo")
-        }
-    }
-}
-
-extension Reactive where Base: RepImageView {
-    func path(with client: Client) -> UIBindingObserver<Base, (Chamber?, String?)> {
-        return UIBindingObserver(UIElement: base, binding: { (imageView, imageDetails) in
-            let (chamber, url) = imageDetails
-            imageView.loadRepImage(from: url, chamber: chamber, with: client)
-        })
+    func addRepImageViewBorder() {
+        layer.borderColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.2).cgColor
+        layer.borderWidth = 2.0
+        layer.cornerRadius = 2.0
     }
 }
 
