@@ -15,7 +15,7 @@ class Store {
     fileprivate static let cache: Cache<NSString> = {
         do {
             if let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-                let cacheDirectory = url.appendingPathComponent("Tulerie.cache")
+                let cacheDirectory = url.appendingPathComponent("Kratos.cache")
                 return try Cache(name: "localCache", directory: cacheDirectory)
             }
             return try Cache(name: "localCache")
@@ -80,6 +80,20 @@ extension Bool: Encodable, Decodable {
     
     func toJson() -> JSONObject {
         return ["value": self ? "true" : "false"]
+    }
+}
+
+extension Int: Encodable, Decodable {
+    init?(json: JSONObject) {
+        if let jvalue = json["value"] as? Int {
+            self.init(jvalue)
+        } else {
+            return nil
+        }
+    }
+    
+    func toJson() -> JSONObject {
+        return ["value": self ]
     }
 }
 

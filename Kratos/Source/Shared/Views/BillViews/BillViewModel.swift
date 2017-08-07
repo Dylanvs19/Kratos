@@ -51,28 +51,6 @@ class BillViewModel {
                     self.loadStatus.value = .error(error: error)
             })
     }
-    
-    func trackBill() -> Observable<Void> {
-        trackButtonLoadStatus.value = .loading
-        return client.trackBill(billID: id)
-            .do(onNext: { [unowned self] _ in
-                self.trackButtonLoadStatus.value = .none
-                }, onError: { [unowned self] (error) in
-                    let error = error as? KratosError ?? KratosError.unknown
-                    self.loadStatus.value = .error(error: error)
-            })
-    }
-    
-    func untrackBill() -> Observable<Void> {
-        trackButtonLoadStatus.value = .loading
-        return client.untrackBill(billID: id)
-            .do(onNext: { [unowned self] _ in
-                self.trackButtonLoadStatus.value = .none
-                }, onError: { [unowned self] (error) in
-                    let error = error as? KratosError ?? KratosError.unknown
-                    self.loadStatus.value = .error(error: error)
-            })
-    }
 }
 
 // MARK: - Binds -

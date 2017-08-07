@@ -19,9 +19,9 @@ class TrackButton: UIButton {  //CurtainPresenter {
         var backgroundColor: Color {
             switch self {
             case .tracked:
-                return Color.kratosGreen
-            case .untracked:
                 return Color.gray
+            case .untracked:
+                return Color.kratosGreen
             }
         }
         
@@ -69,7 +69,7 @@ class TrackButton: UIButton {  //CurtainPresenter {
 extension TrackButton: RxBinder {
     func bind() {
         guard let viewModel = viewModel else { return }
-        viewModel.isTracked.asObservable()
+        viewModel.state.asObservable()
             .subscribe(onNext: { [weak self] state in
                 self?.update(with: state)
             })

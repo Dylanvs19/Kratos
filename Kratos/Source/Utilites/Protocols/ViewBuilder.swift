@@ -14,6 +14,6 @@ protocol ViewBuilder {
     
     func constrainViews()
     
-    func style()
+    func styleViews()
     
 }

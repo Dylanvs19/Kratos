@@ -122,7 +122,7 @@ class KratosTextField: UIView {
         textField.addTarget(self, action: #selector(editingEnded), for: .editingDidEnd)
         addSubviews()
         constrainViews()
-        style()
+        styleViews()
     }
     
     override init(frame: CGRect) {
@@ -205,7 +205,7 @@ extension KratosTextField: ViewBuilder {
         }
     }
     
-    func style() {
+    func styleViews() {
         sendSubview(toBack: placeholderLabel)
         
         placeholderLabel.style(with: [.font(.cellTitle), .titleColor(.lightGray)])

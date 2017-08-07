@@ -38,7 +38,7 @@ class NotificationsRegistrationViewController: UIViewController {
         super.viewDidLoad()
         addSubviews()
         constrainViews()
-        style()
+        styleViews()
         bind()
     }
     
@@ -88,7 +88,7 @@ extension NotificationsRegistrationViewController: ViewBuilder {
         }
     }
     
-    func style() {
+    func styleViews() {
         titleLabel.style(with: [.font(.title), .titleColor(.gray)])
         textView.style(with: .font(.cellTitle))
         

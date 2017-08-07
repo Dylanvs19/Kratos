@@ -49,7 +49,7 @@ class BillViewController: UIViewController {
         super.viewDidLoad()
         addSubviews()
         constrainViews()
-        style()
+        styleViews()
         bind()
         //RepInfoView needs to be laid out and constrained after view is larger than .zero
         view.layoutIfNeeded()
@@ -66,6 +66,7 @@ extension BillViewController: ViewBuilder {
         billHeader.addSubview(statusLabel)
         billHeader.addSubview(statusDateLabel)
         billHeader.addSubview(trackButton)
+        
         view.addSubview(billInfoView)
     }
     func constrainViews() {
@@ -91,7 +92,7 @@ extension BillViewController: ViewBuilder {
             make.top.equalTo(self.divider.snp.bottom).offset(2)
             make.trailing.equalTo(self.trackButton.snp.leading)
         }
-        statusLabel.snp.remakeConstraints { make in
+        statusDateLabel.snp.remakeConstraints { make in
             make.leading.equalTo(self.divider)
             make.top.equalTo(self.statusLabel.snp.bottom).offset(2)
             make.trailing.equalTo(self.trackButton.snp.leading)
@@ -99,10 +100,10 @@ extension BillViewController: ViewBuilder {
         billInfoView.snp.makeConstraints { make in
             make.top.equalTo(billHeader.snp.bottom).offset(5)
             make.leading.trailing.equalToSuperview().inset(10)
-            make.bottom.equalTo(view.snp.bottom).offset(-10)
+            make.bottom.equalTo(bottomLayoutGuide.snp.top).offset(-10)
         }
     }
-    func style() {
+    func styleViews() {
         view.style(with: .backgroundColor(.slate))
         billHeader.style(with: [.backgroundColor(.white)])
         divider.style(with: [.backgroundColor(.kratosRed)])

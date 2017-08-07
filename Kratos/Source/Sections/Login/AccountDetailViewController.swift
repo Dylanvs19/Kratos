@@ -72,7 +72,7 @@ class AccountDetailsViewController: UIViewController {
         datePicker.configureDatePicker()
         datePicker.delegate = self
         
-        style()
+        styleViews()
         addSubviews()
         constrainViews()
         bind()
@@ -233,7 +233,7 @@ extension AccountDetailsViewController: ViewBuilder {
         }
     }
     
-    func style() {
+    func styleViews() {
         saveEditRegisterButton.style(with: [.font(.header),
                                             .titleColor(.kratosRed),
                                             .highlightedTitleColor(.red)

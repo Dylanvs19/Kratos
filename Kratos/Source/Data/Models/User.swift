@@ -21,6 +21,7 @@ struct User: Decodable {
     var password: String?
     var apnToken: String?
     
+    
     init(id: Int,
          email: String,
          firstName: String, 
@@ -69,32 +70,6 @@ struct User: Decodable {
                                state: state.uppercased(),
                                zipCode: zip)
     }
-    
-//    init?(forUpdate json: [String: AnyObject]) {
-//        guard let street = json["address"] as? String,
-//              let email = json["email"] as? String,
-//              let firstName = json["first_name"] as? String,
-//              let lastName = json["last_name"] as? String,
-//              let city = json["city"] as? String,
-//              let state = json["state"] as? String,
-//              let district = json["district"] as? Int,
-//              let id = json["id"] as? Int,
-//              let zip = json["zip"] as? Int,
-//              let dob = json["birthday"] as? String else { return nil }
-//
-//        self.id = id
-//        self.email = email
-//        self.firstName = firstName
-//        self.lastName = lastName
-//        self.district = district
-//        self.dob = DateFormatter.bill.date(from: dob) ?? Date()
-//        self.apnToken = json["apn_token"] as? String
-//        self.party = Party.value(for: (json["party"] as? String))
-//        self.address = Address(street: street,
-//                               city: city,
-//                               state: state.uppercased(),
-//                               zipCode: zip)
-//    }
     
     func toJson() -> [String: Any] {
         

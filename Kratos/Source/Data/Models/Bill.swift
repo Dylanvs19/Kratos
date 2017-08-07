@@ -73,6 +73,10 @@ struct Bill: Hashable, Decodable {
             })
         }
         
+        self.gpoID = json["gpo_id"] as? String
+        self.prettyGpoID = json["pretty_gpo"] as? String
+        self.congressNumber = json["congress_number"] as? Int
+        
         if let committeeArray = json["committees"] as? [[String: AnyObject]] {
             self.committees = committeeArray.map({ (obj) -> Committee in
                 return Committee(from: obj)
@@ -206,6 +210,15 @@ enum Chamber: String, RawRepresentable {
             return #imageLiteral(resourceName: "SenateLogo")
         }
     }
+    
+    var pathValue: String {
+        switch self {
+        case .house:
+            return "house"
+        case .senate:
+            return "senate"
+        }
+    }
 }
 
 struct BillAction: Decodable {
@@ -310,3 +323,26 @@ struct RelatedBill: Decodable {
         self.reason = json["reason"] as? String
     }
 }
+
+struct LightBill: Decodable {
+    let id: Int
+    let title: String
+    let gpoId: String
+    let prettyGpoId: String
+    var chamber: Chamber
+    
+    init?(json: JSONObject) {
+        guard let id = json["bill_id"] as? Int,
+              let title = json["title"] as? String,
+              let gpoId = json["bill_gpo_id"] as? String,
+              let prettyGpo = json["pretty_bill_gpo_id"] as? String,
+              let chamberString = json["chamber"] as? String,
+              let chamber = Chamber.chamber(value: chamberString) else { return nil }
+        self.id = id
+        self.title = title
+        self.gpoId = gpoId
+        self.prettyGpoId = prettyGpo
+        self.chamber = chamber
+    }
+}
+

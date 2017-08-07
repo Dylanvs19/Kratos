@@ -34,7 +34,7 @@ class DatePickerView: UIView {
         setupPickerView()
         addSubviews()
         constrainViews()
-        style()
+        styleViews()
         doneButton.addTarget(self, action: #selector(doneButtonPressed(_:)), for: .touchUpInside)
     }
     
@@ -67,7 +67,7 @@ extension DatePickerView: ViewBuilder {
             make.bottom.equalTo(doneButton.snp.top)
         }
     }
-    func style() {
+    func styleViews() {
         doneButton.style(with: [.font(.body),
                                 .titleColor(.kratosRed),
                                 .highlightedTitleColor(.red)

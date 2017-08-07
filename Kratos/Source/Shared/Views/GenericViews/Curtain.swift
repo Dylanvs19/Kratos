@@ -89,7 +89,7 @@ class Curtain: UIVisualEffectView {
         self.curtainStyle = style
         self.addSubviews()
         self.constrainViews()
-        self.style()
+        self.styleViews()
     }
     
     override init(effect: UIVisualEffect?) {
@@ -129,7 +129,7 @@ extension Curtain: ViewBuilder {
             }
         }
     }
-    func style() {
+    func styleViews() {
         
     }
 }

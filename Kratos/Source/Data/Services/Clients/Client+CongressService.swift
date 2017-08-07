@@ -77,11 +77,22 @@ extension Client: CongressService {
             .toJson()
             .mapArray(at: "data")
     }
+    
+    //Bills on the floor
+    func fetchBillsOnFloor(with chamber: Chamber) -> Observable<[LightBill]> {
+        return request(.fetchBillsOnFloor(chamber: chamber))
+            .toJson()
+            .mapArray(at: "data")
+    }
 
     //Subjects
     func fetchAllSubjects() -> Observable<[Subject]> {
-        return request(.fetchAllSubjects)
-            .toJson()
-            .mapArray(at: "data")
+        let fetchedSubjects: [Subject]? = Store.fetch(Subject.identifier)
+        guard let subjects = fetchedSubjects else {
+            return request(.fetchAllSubjects)
+                .toJson()
+                .mapArray(at: "data")
+        }
+        return Observable.just(subjects)
     }
 }

@@ -50,7 +50,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         addSubviews()
         constrainViews()
-        style()
+        styleViews()
         bind()
         
         navigationController?.isNavigationBarHidden = true
@@ -141,7 +141,7 @@ extension LoginViewController: ViewBuilder {
         }
     }
     
-    func style() {
+    func styleViews() {
         loginContinueButton.style(with: [.titleColor(.kratosRed), .highlightedTitleColor(.red), .font(.header), .disabledTitleColor(.lightGray)])
         signUpRegisterButton.style(with: [.titleColor(.kratosRed), .font(.body)])
         forgotPasswordButton.style(with: [.titleColor(.kratosRed), .font(.body)])

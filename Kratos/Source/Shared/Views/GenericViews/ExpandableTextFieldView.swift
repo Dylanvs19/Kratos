@@ -13,99 +13,112 @@ import RxSwift
 import RxCocoa
 
 class ExpandableTextFieldView: UIView {
-    
+   // MARK: - Enums -
     enum State {
         case expanded
         case contracted
+        
+        var buttonTitle: String {
+            switch self {
+            case .expanded:
+                return "Show Less"
+            case .contracted:
+                return "Show More"            
+            }
+        }
     }
-
+    // MARK: - Variables -
+    
+    // Standard
+    let viewModel = ExpandableTextFieldViewModel()
+    let disposeBag = DisposeBag()
+    
+    // UIElements
     var titleLabel = UILabel()
     let textView = UITextView()
     var toggleButton = UIButton()
     
+    // Static helpers
     var expandedHeight: CGFloat = 400
     var contractedHeight: CGFloat = 150
     
     var expandedButtonHeight: CGFloat = 30
-    var forceCollapseButton: Bool = false
+    var forceCollapseToggleButton: Bool = false
     
-    var viewModel: ExpandableTextFieldViewModel? {
-        didSet {
-           if viewModel != nil {
-                bind()
-            }
-        }
+    
+    // MARK: - Initialization - 
+    convenience init(forceCollapseToggleButton: Bool) {
+        self.init(frame: .zero)
+        self.forceCollapseToggleButton = forceCollapseToggleButton
     }
-    let disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-    }
-    
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-        addSubviews()
-        constrainViews()
-        style()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with title: String?,
-                   text: String,
-                   expandedButtonTitle: String? = "Show Less",
-                   contractedButtonTitle: String? = "Show More") {
-        
-        self.viewModel = ExpandableTextFieldViewModel(with: title, text: text, expandedTitle: expandedButtonTitle, contractedTitle: contractedButtonTitle)
-        
-        if expandedButtonTitle == nil && contractedButtonTitle == nil {
-            forceCollapseButton = true
-            evaluateButton(forceCollaplse: forceCollapseButton)
-        }
+    func build() {
+        addSubviews()
+        constrainViews()
+        styleViews()
+        bind()
+    }
+    
+    // MARK: - Configuration -
+    func set(title: String) {
+        viewModel.set(title)
+    }
+    func update(with text: String) {
+        viewModel.update(with: text)
     }
     
     func set(contractedHeight: CGFloat, expandedHeight: CGFloat) {
         self.expandedHeight = expandedHeight
         self.contractedHeight = contractedHeight
     }
-}
-
-extension ExpandableTextFieldView: ViewBuilder {
-    func addSubviews() {
-        translatesAutoresizingMaskIntoConstraints = false
-        
-        addSubview(titleLabel)
-        addSubview(toggleButton)
-        addSubview(textView)
-    }
-    func constrainViews() {
+    
+    // MARK: - Helpers - 
+    func collapseTitleLabel() {
         titleLabel.snp.remakeConstraints { make in
-            make.top.equalToSuperview().offset(5)
+            make.top.equalToSuperview().offset(0)
             make.leading.equalToSuperview().offset(10)
-        }
-        toggleButton.snp.remakeConstraints { make in
-            make.leading.equalToSuperview().offset(10)
-            make.trailing.equalToSuperview().offset(-10)
-            make.bottom.equalToSuperview().offset(-5)
-            make.height.equalTo(30)
-        }
-        textView.snp.remakeConstraints { make in
-            make.leading.equalToSuperview().offset(10)
-            make.trailing.equalToSuperview().offset(-10)
-            make.top.equalTo(titleLabel.snp.bottom).offset(5)
-            make.bottom.equalTo(toggleButton.snp.top)
-            make.height.equalTo(self.contractedHeight)
+            make.height.equalTo(0)
         }
     }
+//
+//    func expandTitleLabel() {
+//        titleLabel.snp.remakeConstraints { make in
+//            make.top.equalToSuperview().offset(5)
+//            make.leading.equalToSuperview().offset(10)
+//        }
+//    }
+//
+//    func collapseToggleButton() {
+//        toggleButton.snp.remakeConstraints { make in
+//            make.top.equalToSuperview().offset(0)
+//            make.leading.equalToSuperview().offset(10)
+//            make.height.equalTo(0)
+//        }
+//    }
+//    
+//    func expandToggleButton() {
+//        toggleButton.snp.remakeConstraints { make in
+//            make.top.equalToSuperview().offset(0)
+//            make.leading.equalToSuperview().offset(10)
+//            make.height.equalTo(30)
+//        }
+//    }
     
     func update(for state: State) {
         let isContracted = state == .contracted
         textView.isScrollEnabled = !isContracted
         let totalHeight = textView.sizeThatFits(CGSize(width: textView.frame.size.width, height: .greatestFiniteMagnitude)).height
+        
         let offset = isContracted ? contractedHeight : min(totalHeight, expandedHeight)
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: { 
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
             self.textView.snp.updateConstraints { make in
                 make.height.equalTo(offset)
             }
@@ -113,7 +126,7 @@ extension ExpandableTextFieldView: ViewBuilder {
             //For smooth animation, must call scrollview LayoutIfNeeded
             // general View Heirarchy is ScrollView -> StackView -> ExpandableTextFieldView
             if let scroll = self.superview?.superview,
-               let scrollView = scroll as? UIScrollView {
+                let scrollView = scroll as? UIScrollView {
                 scrollView.layoutIfNeeded()
             } else {
                 self.layoutIfNeeded()
@@ -121,16 +134,23 @@ extension ExpandableTextFieldView: ViewBuilder {
         }, completion: nil)
     }
     
-    func evaluateButton(forceCollaplse: Bool) {
-        let totalHeight = textView.sizeThatFits(CGSize(width: textView.frame.size.width, height: .greatestFiniteMagnitude)).height
+    
+    func evaluateButton() {
+        let size = CGSize(width: textView.frame.size.width,
+                          height: .greatestFiniteMagnitude)
+        
+        let totalHeight = textView.sizeThatFits(size).height
         toggleButton.clipsToBounds = true
         
-        if forceCollaplse || totalHeight < contractedHeight {
+        if forceCollapseToggleButton || totalHeight < contractedHeight {
             toggleButton.isEnabled = false
             toggleButton.snp.updateConstraints { make in
                 make.height.equalTo(0)
             }
-            textView.snp.updateConstraints { make in
+            textView.snp.remakeConstraints { make in
+                make.leading.trailing.equalToSuperview().inset(10)
+                make.top.equalTo(titleLabel.snp.bottom).offset(5)
+                make.bottom.equalTo(toggleButton.snp.top)
                 make.height.equalTo(totalHeight)
             }
         } else {
@@ -139,26 +159,49 @@ extension ExpandableTextFieldView: ViewBuilder {
             toggleButton.snp.updateConstraints { make in
                 make.height.equalTo(buttonHeight)
             }
-            textView.snp.updateConstraints { make in
+            textView.snp.remakeConstraints { make in
+                make.leading.trailing.equalToSuperview().inset(10)
+                make.top.equalTo(titleLabel.snp.bottom).offset(5)
+                make.bottom.equalTo(toggleButton.snp.top)
                 make.height.equalTo(self.contractedHeight)
             }
         }
+        layoutIfNeeded()
     }
-    
-    func collapseTitleLabel() {
+}
+
+extension ExpandableTextFieldView: ViewBuilder {
+    func addSubviews() {
+        addSubview(titleLabel)
+        addSubview(toggleButton)
+        addSubview(textView)
+    }
+    func constrainViews() {
         titleLabel.snp.remakeConstraints { make in
-            make.top.equalToSuperview().offset(0)
-            make.leading.equalToSuperview().offset(10)
-            make.height.equalTo(0)
+            make.top.equalToSuperview().offset(5)
+            make.leading.trailing.equalToSuperview().inset(10)
         }
+        toggleButton.snp.remakeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(10)
+            make.bottom.equalToSuperview().offset(-5)
+            make.height.equalTo(expandedButtonHeight)
+        }
+        textView.snp.remakeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(10)
+            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+            make.bottom.equalTo(toggleButton.snp.top)
+            make.height.equalTo(self.contractedHeight)
+        }
+        textView.layoutIfNeeded()
+        layoutIfNeeded()
     }
 
-    func style() {
+    func styleViews() {
         backgroundColor = .white
         textView.isEditable = false
         titleLabel.style(with: [.font(.subTitle), .titleColor(.lightGray)])
         textView.style(with: .font(.body))
-        toggleButton.style(with: [.font(.body), .titleColor(.kratosRed)])
+        toggleButton.style(with: [.font(.cellTitle), .titleColor(.kratosRed)])
     }
 }
 
@@ -171,7 +214,6 @@ extension ExpandableTextFieldView: RxBinder {
     }
     
     func bindTitleLabel() {
-        guard let viewModel = viewModel else { return }
         viewModel.title.asObservable()
             .bind(to: titleLabel.rx.text)
             .disposed(by: disposeBag)
@@ -189,7 +231,6 @@ extension ExpandableTextFieldView: RxBinder {
     }
     
     func bindTextView() {
-        guard let viewModel = viewModel else { return }
         viewModel.text.asObservable()
             .bind(to: textView.rx.text)
             .disposed(by: disposeBag)
@@ -197,30 +238,21 @@ extension ExpandableTextFieldView: RxBinder {
         viewModel.text.asObservable()
             .filter { !$0.isEmpty }
             .subscribe(onNext: { [weak self] string in
-                if let s = self,
-                    !string.isEmpty {
-                    s.evaluateButton(forceCollaplse: s.forceCollapseButton)
-                }
+                self?.evaluateButton()
             })
             .disposed(by: disposeBag)
-        
         viewModel.state.asObservable()
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] state in
-                guard let s = self else { fatalError("self deallocated before it was accessed") }
-                s.update(for: state)
+                self?.update(for: state)
             })
             .disposed(by: disposeBag)
     }
     
     func bindToggleButton() {
-        guard let viewModel = viewModel else { return }
-        toggleButton.rx.controlEvent(.touchUpInside).asObservable()
-            .withLatestFrom(viewModel.state.asObservable())
-            .map { $0 == .expanded ? .contracted : .expanded }
-            .bind(to: viewModel.state)
+        toggleButton.rx.tap
+            .bind(to: viewModel.toggleButtonPressed)
             .disposed(by: disposeBag)
-        
         viewModel.buttonTitle.asObservable()
             .bind(to: toggleButton.rx.title(for: .normal))
             .disposed(by: disposeBag)

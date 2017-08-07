@@ -11,25 +11,46 @@ import RxCocoa
 import RxSwift
 
 class ExpandableTextFieldViewModel {
-    
+    // MARK: - Variables -
+    // Standard
     let disposeBag = DisposeBag()
     let state = Variable<ExpandableTextFieldView.State>(.contracted)
-    let title = Variable<String>("")
+    
+    // Interactions
+    let toggleButtonPressed = PublishSubject<Void>()
+    
+    // Data
+    let title = Variable<String?>(nil)
     let text = Variable<String>("")
     let buttonTitle = Variable<String>("")
     
-    let expandedButtonTitle: String
-    let contractedButtonTitle: String
+    // MARK: - Initializer -
+    init() {
+        bind()
+    }
     
-    init(with title: String?, text: String, expandedTitle: String? = nil, contractedTitle: String? = nil) {
-        self.expandedButtonTitle = expandedTitle ?? ""
-        self.contractedButtonTitle = contractedTitle ?? ""
-        self.title.value = title ?? ""
+    // MARK: - Configuration -
+    func set(_ title: String) {
+        self.title.value = title
+    }
+    
+    func update(with text: String) {
         self.text.value = text
-        
+    }
+}
+
+// MARK: - Binds -
+extension ExpandableTextFieldViewModel: RxBinder {
+    func bind() {
         state.asObservable()
-            .map { $0 == .contracted ? self.contractedButtonTitle : self.expandedButtonTitle }
+            .map { $0.buttonTitle }
             .bind(to: buttonTitle)
+            .disposed(by: disposeBag)
+        
+        toggleButtonPressed.asObservable()
+            .withLatestFrom(state.asObservable())
+            .map { $0 == .expanded ? .contracted : .expanded }
+            .bind(to: state)
             .disposed(by: disposeBag)
     }
 }

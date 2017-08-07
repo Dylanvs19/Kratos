@@ -38,7 +38,7 @@ class ConfirmationViewController: UIViewController {
         
         addSubviews()
         constrainViews()
-        style()
+        styleViews()
         bind()
     }
     
@@ -79,7 +79,7 @@ extension ConfirmationViewController: ViewBuilder {
         }
     }
     
-    func style() {
+    func styleViews() {
         titleLabel.style(with: [.font(.title), .titleColor(.gray)])
         textView.style(with: .font(.body))
         

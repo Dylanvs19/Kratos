@@ -27,7 +27,7 @@ class UserRepTableViewCell: UITableViewCell {
             if oldValue == nil {
                 addSubviews()
                 constrainViews()
-                style()
+                styleViews()
                 bind()
             }
         }
@@ -85,7 +85,7 @@ extension UserRepTableViewCell: ViewBuilder {
         }
     }
     
-    func style() {
+    func styleViews() {
         nameLabel.style(with: .font(.title))
         representativeLabel.style(with: .font(.subTitle))
         self.addShadow()
@@ -116,7 +116,7 @@ extension UserRepTableViewCell: RxBinder {
         
         viewModel.url.asObservable()
             .filterNil()
-            .bind(to: self.representativeImageView.rx.fetchImage())
+            .bind(to: self.representativeImageView.rx.setImage())
             .disposed(by: disposeBag)
     }
 }

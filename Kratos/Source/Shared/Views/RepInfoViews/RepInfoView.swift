@@ -68,7 +68,7 @@ class RepInfoView: UIView {
     
     let bioScrollView = UIScrollView()
     let bioStackView = UIStackView()
-    let bioView = ExpandableTextFieldView()
+    let bioView = ExpandableTextFieldView(forceCollapseToggleButton: false)
     let termsTableView = UITableView()
     
     let termsDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Term>>()
@@ -85,10 +85,6 @@ class RepInfoView: UIView {
     convenience init(with client: Client, representative: Person) {
         self.init(frame: .zero)
         self.viewModel = RepInfoViewModel(with: client, representative: representative)
-        style()
-        configureTermsTableView()
-        configureBillsTableView()
-        configureVotesTableView()
     }
     
     override init(frame: CGRect) {
@@ -101,9 +97,18 @@ class RepInfoView: UIView {
     
     // MARK: - Helpers -
     func buildViews() {
+        
+        configureTermsTableView()
+        configureBillsTableView()
+        configureVotesTableView()
         addSubviews()
         constrainViews()
+        styleViews()
+        
+        layoutIfNeeded()
+        bioView.build()
         bind()
+        
     }
     
     func updateIndicatorView(with state: State) {
@@ -118,14 +123,6 @@ class RepInfoView: UIView {
     
     func updateScrollView(with state: State) {
         self.scrollView.scrollRectToVisible(CGRect(x: state.scrollViewXPosition(in: self), y: 0, width: self.frame.width, height: 1), animated: true)
-    }
-    
-    func updateTermsTableView() {
-        termsTableView.snp.updateConstraints { make in
-            make.width.equalTo(self.frame.width)
-            make.height.equalTo(self.termsTableView.contentSize.height)
-        }
-        bioScrollView.layoutIfNeeded()
     }
     
     // MARK: - Configuration -
@@ -246,38 +243,41 @@ extension RepInfoView: ViewBuilder {
             make.height.equalTo(1)
             make.leading.equalToSuperview().offset(0)
         }
+        
         scrollView.snp.remakeConstraints { make in
             make.top.equalTo(self.managerStackView.snp.bottom).offset(3)
             make.leading.trailing.bottom.equalToSuperview()
         }
+        scrollView.layoutIfNeeded()
+
         stackView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
         }
+        stackView.layoutIfNeeded()
+
         bioScrollView.snp.remakeConstraints { make in
             make.width.height.equalTo(self.scrollView)
         }
+        bioScrollView.layoutIfNeeded()
+
         bioStackView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
             make.width.equalTo(self.frame.width)
         }
-        layoutIfNeeded()
+        bioStackView.layoutIfNeeded()
+
         bioView.snp.remakeConstraints { make in
             make.width.equalTo(self.frame.width)
         }
         termsTableView.translatesAutoresizingMaskIntoConstraints = false
         termsTableView.snp.remakeConstraints { make in
-            make.width.equalTo(self.bioView)
-            let size = termsTableView.contentSize.height == 0 ? 1 : termsTableView.contentSize.height
-            make.height.equalTo(size).priority(999)
+            make.height.equalTo(termsTableView.contentSize.height).priority(999)
         }
-        stackView.layoutIfNeeded()
-        scrollView.layoutIfNeeded()
-        bioStackView.layoutIfNeeded()
-        bioScrollView.layoutIfNeeded()
+        
         layoutIfNeeded()
     }
 
-    func style() {
+    func styleViews() {
         managerStackView.axis = .horizontal
         managerStackView.alignment = .fill
         managerStackView.distribution = .fillEqually
@@ -290,6 +290,7 @@ extension RepInfoView: ViewBuilder {
         
         scrollView.isScrollEnabled = false
         
+        bioStackView.translatesAutoresizingMaskIntoConstraints = false
         bioStackView.axis = .vertical
         bioStackView.alignment = .fill
         bioStackView.distribution = .fillProportionally
@@ -340,19 +341,13 @@ extension RepInfoView: RxBinder {
         guard let viewModel = viewModel else { return }
         viewModel.bio.asObservable()
             .subscribe(onNext: { [weak self] bio in
-                self?.bioView.configure(with:  nil, text: bio, expandedButtonTitle: "Show Less", contractedButtonTitle: "Show More")
+                self?.bioView.update(with: bio)
             })
             .disposed(by: disposeBag)
         
         viewModel.terms.asObservable()
             .map { [SectionModel(model: "Terms", items: $0)] }
             .bind(to: termsTableView.rx.items(dataSource: termsDataSource))
-            .disposed(by: disposeBag)
-        
-        viewModel.terms.asObservable()
-            .subscribe(onNext: { [weak self] terms in
-                self?.constrainViews()
-            })
             .disposed(by: disposeBag)
     }
     

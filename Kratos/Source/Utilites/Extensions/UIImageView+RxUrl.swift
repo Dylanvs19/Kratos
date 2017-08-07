@@ -13,7 +13,7 @@ import RxCocoa
 import AlamofireImage
 
 extension Reactive where Base: UIImageView {
-    func fetchImage(_ placeholder: UIImage? = nil) -> UIBindingObserver<Base, URL?> {
+    func setImage(_ placeholder: UIImage? = nil) -> UIBindingObserver<Base, URL?> {
         return UIBindingObserver(UIElement: self.base) { imageView, url in
             if let url = url {
                 imageView.af_setImage(withURL: url,

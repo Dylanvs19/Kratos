@@ -52,7 +52,7 @@ class RepresentativeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = [.top, .right, .left]
-        style()
+        styleViews()
         addSubviews()
         constrainViews()
         bind()
@@ -149,7 +149,7 @@ extension RepresentativeViewController: ViewBuilder {
         }
     }
     
-    func style() {
+    func styleViews() {
         view.style(with: .backgroundColor(.slate))
         topView.style(with: .backgroundColor(.white))
         topView.addShadow()
@@ -171,7 +171,7 @@ extension RepresentativeViewController: RxBinder {
     func bindTopView() {
         viewModel.url.asObservable()
             .filterNil()
-            .bind(to: self.representativeImageView.rx.fetchImage())
+            .bind(to: self.representativeImageView.rx.setImage())
             .disposed(by: disposeBag)
         viewModel.representative.asObservable()
             .map { $0.currentParty?.color }

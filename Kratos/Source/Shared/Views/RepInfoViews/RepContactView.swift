@@ -70,7 +70,7 @@ class RepContactView: UIView {
         super.init(frame: frame)
         addSubviews()
         constrainViews()
-        style()
+        styleViews()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -104,7 +104,7 @@ extension RepContactView: ViewBuilder {
         }
     }
     
-    func style() {
+    func styleViews() {
         stackView.alignment = .fill
         stackView.axis = .horizontal
         stackView.distribution = .equalCentering

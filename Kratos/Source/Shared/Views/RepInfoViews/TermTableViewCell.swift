@@ -29,7 +29,7 @@ class TermTableViewCell: UITableViewCell {
     }
     
     func configure(with term: Term) {
-        style()
+        styleViews()
         representativeTypeLabel.text = term.representativeType?.rawValue
         districtLabel.text = term.formattedDistrict
         dateRangeLabel.text = term.dateRange
@@ -61,7 +61,7 @@ extension TermTableViewCell: ViewBuilder {
         }
     }
     
-    func style() {
+    func styleViews() {
         dateRangeLabel.style(with: [.font(.body), .titleColor(.gray)])
         districtLabel.style(with: [.font(.body), .titleColor(.gray)])
         representativeTypeLabel.style(with: [.font(.body), .titleColor(.gray)])

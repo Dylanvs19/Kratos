@@ -27,9 +27,14 @@ extension Client: UserService {
         }
     }
     
-    func trackBill(billID: Int) -> Observable<Void> {
+    func trackBill(billID: Int) -> Observable<[Int]> {
         return request(.trackBill(billID: billID))
-            .map { _ in return () }
+            .toJson()
+            .map {
+                guard let json = $0 as? [String: Any],
+                    let ints = json["data"] as? [Int] else { throw KratosError.mappingError(type: .unexpectedValue) }
+                return ints
+            }
     }
     
     func viewTrackedBill(billID: Int) -> Observable<Bill> {

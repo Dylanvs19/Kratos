@@ -123,13 +123,13 @@ class BillInfoView: UIView {
     
     // Mark: - Update Method -
     
-    func update(with: Bill) {
-        
+    func update(with bill: Bill) {
+        viewModel?.update(with: bill)
     }
     
     // MARK: - Helpers -
     func build() {
-        style()
+        styleViews()
         addSubviews()
         constrainViews()
         configureVotesTableView()
@@ -151,28 +151,21 @@ class BillInfoView: UIView {
         self.scrollView.scrollRectToVisible(CGRect(x: state.scrollViewXPosition(in: self), y: 0, width: self.frame.width, height: 1), animated: true)
     }
     
-    func updateVotesTableView() {
-        votesTableView.snp.updateConstraints { make in
-            make.width.equalTo(self.frame.width)
-            make.height.equalTo(self.votesTableView.contentSize.height)
-        }
-        summaryScrollView.layoutIfNeeded()
-    }
-    
     // MARK: - Configuration -
     func configureVotesTableView() {
         votesTableView.isScrollEnabled = false
-        votesTableView.register(TermTableViewCell.self, forCellReuseIdentifier: TermTableViewCell.identifier)
-        votesTableView.rowHeight = 30
+        votesTableView.register(TallyCell.self, forCellReuseIdentifier: TallyCell.identifier)
+        votesTableView.estimatedRowHeight = 100
+        votesTableView.rowHeight = UITableViewAutomaticDimension
         votesTableView.separatorInset = .zero
         votesTableView.tableFooterView = UIView()
         votesTableView.backgroundColor = .clear
         votesTableView.allowsSelection = false
         
         votesDatasource.configureCell = { dataSource, tableView, indexPath, item in
-            let basicCell = tableView.dequeueReusableCell(withIdentifier: TermTableViewCell.identifier, for: indexPath)
-            guard let cell = basicCell as? TermTableViewCell else { fatalError() }
-//            cell.configure(with: item)
+            let basicCell = tableView.dequeueReusableCell(withIdentifier: TallyCell.identifier, for: indexPath)
+            guard let cell = basicCell as? TallyCell else { fatalError() }
+            cell.configure(with: item)
             return cell
         }
         
@@ -184,8 +177,9 @@ class BillInfoView: UIView {
     // MARK: - Configuration -
     func configureSponsorsTableView() {
         sponsorsTableView.isScrollEnabled = false
-        sponsorsTableView.register(TermTableViewCell.self, forCellReuseIdentifier: TermTableViewCell.identifier)
-        sponsorsTableView.rowHeight = 30
+        sponsorsTableView.register(RepresentativeCell.self, forCellReuseIdentifier: RepresentativeCell.identifier)
+        sponsorsTableView.estimatedRowHeight = 100
+        sponsorsTableView.rowHeight = UITableViewAutomaticDimension
         sponsorsTableView.separatorInset = .zero
         sponsorsTableView.tableFooterView = UIView()
         sponsorsTableView.backgroundColor = .clear
@@ -215,6 +209,7 @@ extension BillInfoView: ViewBuilder {
         
         stackView.addArrangedSubview(summaryScrollView)
         summaryScrollView.addSubview(summaryStackView)
+        
         summaryStackView.addArrangedSubview(summaryView)
         summaryStackView.addSubview(committeeStackView)
         
@@ -236,20 +231,29 @@ extension BillInfoView: ViewBuilder {
             make.top.equalTo(self.managerStackView.snp.bottom).offset(3)
             make.leading.trailing.bottom.equalToSuperview()
         }
+        scrollView.layoutIfNeeded()
         stackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        summaryScrollView.snp.makeConstraints { make in
-            make.width.equalTo(self.scrollView.frame.width)
-            make.height.equalTo(self.scrollView.frame.height)
+        stackView.layoutIfNeeded()
+        summaryScrollView.snp.remakeConstraints { make in
+            make.width.height.equalTo(self.scrollView)
         }
-        summaryStackView.snp.makeConstraints { make in
-            make.width.equalTo(self.frame.width)
+        summaryScrollView.layoutIfNeeded()
+
+        summaryStackView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
+            make.width.equalTo(self.frame.width)
         }
+        summaryStackView.layoutIfNeeded()
+        
+        summaryView.snp.remakeConstraints { make in
+            make.width.equalTo(self.frame.width)
+        }
+        layoutIfNeeded()
     }
     
-    func style() {
+    func styleViews() {
         managerStackView.axis = .horizontal
         managerStackView.alignment = .fill
         managerStackView.distribution = .fillEqually
@@ -312,8 +316,8 @@ extension BillInfoView: RxBinder {
     func bindSummaryView() {
         guard let viewModel = viewModel else { return }
         viewModel.summary.asObservable()
-            .subscribe(onNext: { [weak self] summaryView in
-                self?.summaryView.configure(with:  nil, text: summaryView)
+            .subscribe(onNext: { [weak self] summary in
+                self?.summaryView.update(with: summary)
             })
             .disposed(by: disposeBag)
     }

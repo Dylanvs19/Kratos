@@ -14,4 +14,3 @@ protocol Decodable {
     // initializes with Json
     init?(json: JSONObject)
 }
-

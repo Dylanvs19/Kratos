@@ -41,7 +41,7 @@ extension RepVoteTableViewCell: ViewBuilder {
         addSubview(billTitleLabel)
         addSubview(billStatus)
         addSubview(statusImageView)
-        style()
+        styleViews()
     }
     func constrainViews() {
         billTitleLabel.snp.makeConstraints { make in
@@ -60,7 +60,7 @@ extension RepVoteTableViewCell: ViewBuilder {
         }
     }
     
-    func style() {
+    func styleViews() {
         selectionStyle = .none
         billTitleLabel.style(with: [.numberOfLines(3), .font(.cellTitle)])
         billTitleLabel.style(with: .font(.cellTitle))

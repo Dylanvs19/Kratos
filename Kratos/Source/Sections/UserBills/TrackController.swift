@@ -39,7 +39,7 @@ class TrackController: UIViewController {
         edgesForExtendedLayout = [.top, .right, .left]
         addSubviews()
         constrainViews()
-        style()
+        styleViews()
     }
 }
 
@@ -64,7 +64,7 @@ extension TrackController: ViewBuilder {
         }
     }
     
-    func style() {
+    func styleViews() {
         view.style(with: .backgroundColor(.slate))
     }
 }

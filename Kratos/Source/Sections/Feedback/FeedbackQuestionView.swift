@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedbackQuestionView: UIView, Loadable, UITextViewDelegate {
+class FeedbackQuestionView: UIView, UITextViewDelegate {
 
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var questionLabel: UILabel!
@@ -16,12 +16,10 @@ class FeedbackQuestionView: UIView, Loadable, UITextViewDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        customInit()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        customInit()
     }
 
     func configure(with question: String) {

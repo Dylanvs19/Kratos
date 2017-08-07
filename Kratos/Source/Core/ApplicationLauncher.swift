@@ -22,6 +22,7 @@ struct ApplicationLauncher {
             if let token = token {
                 let kratosClient = KratosClient(token: token)
                 let client = Client(kratosClient: kratosClient)
+                updateStoredData(with: client)
                 appDelegate.rootTransition(to: TabBarController(client: client))
             } else {
                 let navVC = UINavigationController(rootViewController: LoginViewController(client: Client.default))
@@ -31,5 +32,13 @@ struct ApplicationLauncher {
         
         appDelegate.window??.rootViewController = splash
         appDelegate.window??.makeKeyAndVisible()
+    }
+    
+    static func updateStoredData(with client: Client) {
+        client.fetchAllSubjects()
+            .subscribe(onNext: { subjects in
+                Store.shelve(subjects, key: Subject.identifier)
+            })
+            .dispose()
     }
 }

@@ -10,9 +10,10 @@ import Foundation
 import RxSwift
 
 class RepresentativeCellViewModel {
-    // MARK: Variables
+    // MARK: - Variables -
+    // Standard
     let disposeBag = DisposeBag()
-    
+    // Data
     let vote = Variable<Vote?>(nil)
     let rep = Variable<LightPerson?>(nil)
     
@@ -22,10 +23,11 @@ class RepresentativeCellViewModel {
     let imageURL = Variable<URL?>(nil)
     let voteValue = Variable<VoteValue?>(nil)
     
+    // MARK: - Initialization -
     init() {
         bind()
     }
-    
+    // MARK: - Configuration -
     func update(with vote: Vote) {
         self.vote.value = vote
     }
@@ -35,6 +37,7 @@ class RepresentativeCellViewModel {
     }
 }
 
+// MARK: - Binds -
 extension RepresentativeCellViewModel: RxBinder {
     func bind() {
         vote.asObservable()

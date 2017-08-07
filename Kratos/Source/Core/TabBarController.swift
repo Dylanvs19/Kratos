@@ -24,7 +24,7 @@ class TabBarController: UITabBarController {
             case .congress:
                 return #imageLiteral(resourceName: "congressTabIcon").withRenderingMode(.alwaysOriginal)
             case .main:
-                return #imageLiteral(resourceName: "kratosIcon").withRenderingMode(.alwaysOriginal)
+                return #imageLiteral(resourceName: "kratosDeselectedIcon").withRenderingMode(.alwaysOriginal)
             case .user:
                 return #imageLiteral(resourceName: "userTabIcon").withRenderingMode(.alwaysOriginal)
             }

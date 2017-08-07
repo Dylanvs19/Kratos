@@ -46,7 +46,7 @@ class UserRepsViewController: UIViewController {
         edgesForExtendedLayout = [.top, .right, .left]
         addSubviews()
         constrainViews()
-        style()
+        styleViews()
         bind()
         configureTableView()
     }
@@ -74,11 +74,6 @@ class UserRepsViewController: UIViewController {
         
     }
     
-    func cellSelected(with indexPath: IndexPath) {
-        //guard let cell = self.tableView.cellForRow(at: indexPath) as? UserRepTableViewCell else { return }
-        //let cellRect = cell.convert(cell.frame, to: self.view)
-    }
-    
     func presentRepInfoView(with client: Client, person: Person, frame: CGRect, imageRect: CGRect) {}
 }
 
@@ -86,10 +81,6 @@ extension UserRepsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 5))
     }
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print("hi")
-//    }
 }
 
 extension UserRepsViewController: ViewBuilder {
@@ -133,7 +124,7 @@ extension UserRepsViewController: ViewBuilder {
         }
     }
     
-    func style() {
+    func styleViews() {
         stateImageView.contentMode = .scaleToFill
         topShadeView.backgroundColor = .black
         topShadeView.alpha = 0.5

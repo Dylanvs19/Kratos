@@ -44,7 +44,7 @@ class ExploreController: UIViewController {
             edgesForExtendedLayout = [.top, .right, .left]
             addSubviews()
             constrainViews()
-            style()
+            styleViews()
         }
 }
 
@@ -89,7 +89,7 @@ extension ExploreController: ViewBuilder {
             }
         }
         
-        func style() {
+        func styleViews() {
             stateImageView.contentMode = .scaleToFill
             topShadeView.backgroundColor = .black
             topShadeView.alpha = 0.5

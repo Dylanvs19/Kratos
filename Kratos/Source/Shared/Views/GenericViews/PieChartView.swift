@@ -8,87 +8,81 @@
 
 import UIKit
 
+struct PieChartData {
+    var type: VoteValue
+    var value: CGFloat
+    
+    init(with value: Int, type: VoteValue) {
+        self.type = type
+        self.value = CGFloat(value)
+    }
+}
+
 class PieChartView: UIView {
+    // MARK: - Variables -
+    fileprivate let forLabel = UILabel()
+    fileprivate let againstLabel = UILabel()
+    fileprivate let abstainLabel = UILabel()
     
-    @IBOutlet var contentView: UIView!
+    fileprivate var data: [PieChartData]?
+    fileprivate var startAngle: CGFloat = 3 * CGFloat.pi / 2
     
-    @IBOutlet weak var forHeadingLabel: UILabel!
-    @IBOutlet weak var againstHeadingLabel: UILabel!
-    @IBOutlet weak var abstainHeadingLabel: UILabel!
-    @IBOutlet var forLabel: UILabel!
-    @IBOutlet var againstLabel: UILabel!
-    @IBOutlet var abstainLabel: UILabel!
+    // MARK: - Initialization -
+    convenience init() {
+        self.init(frame: .zero)
+        addSubviews()
+        constrainViews()
+        styleViews()
+    }
     
-    var data: [PieChartData]?
-    var startAngle: CGFloat = 3 * CGFloat.pi / 2
-    var hideLables = false
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
     
-    func configure(with tally: Tally, hideLabels: Bool = false ) {
-        
-        let votesFor = tally.yea ?? 0
-        let against = tally.nay ?? 0
-        let abstain = tally.abstain ?? 0
-        self.data = [PieChartData(with: votesFor, and: .yea),
-                     PieChartData(with: abstain, and: .abstain),
-                     PieChartData(with: against, and: .nay)
-                    ]
-        
-        self.hideLables = hideLabels
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Configuration -
+    func configure(with data: [PieChartData]) {
+        self.data = data
         self.setNeedsDisplay()
-        contentView.backgroundColor = UIColor.clear
         backgroundColor = UIColor.white
     }
     
-    func setLabels(with data: [PieChartData]) {
+    // MARK: - Helpers -
+    private func setLabels(with data: [PieChartData]) {
         
-        if hideLables {
-            forHeadingLabel.isHidden = true
-            againstHeadingLabel.isHidden = true
-            abstainHeadingLabel.isHidden = true
-            forLabel.isHidden = true
-            againstLabel.isHidden = true
-            abstainLabel.isHidden = true
-            
-        } else {
-            
-            data.forEach { (datum) in
-                switch datum.type {
-                case .yea:
-                    forLabel.text = "\(Int(datum.value))"
-                    forLabel.style(with: .titleColor(.kratosGreen))
-                case .nay:
-                    againstLabel.text = "\(Int(datum.value))"
-                    forLabel.style(with: .titleColor(.kratosRed))
-                case .abstain:
-                    abstainLabel.text = "\(Int(datum.value))"
-                    forLabel.style(with: .titleColor(.lightGray))
-                }
+        data.forEach { (datum) in
+            switch datum.type {
+            case .yea:
+                forLabel.text = "\(Int(datum.value))"
+                forLabel.style(with: .titleColor(.kratosGreen))
+            case .nay:
+                againstLabel.text = "\(Int(datum.value))"
+                forLabel.style(with: .titleColor(.kratosRed))
+            case .abstain:
+                abstainLabel.text = "\(Int(datum.value))"
+                forLabel.style(with: .titleColor(.lightGray))
             }
         }
     }
     
-    override func draw(_ rect: CGRect) {
-        if let data = data {
-            createPaths(from: data)
-            setLabels(with: data)
-        }
-    }
-    
-    func createPaths(from data: [PieChartData]) {
+    private func createPaths(from data: [PieChartData]) {
         var total: CGFloat = 0.0
         data.forEach { (datum) in
             total += datum.value
         }
         
         data.forEach { (datum) in
-            let center = CGPoint(x:contentView.bounds.width/2, y: contentView.bounds.height/2)
-            let radius: CGFloat = max(contentView.bounds.width, contentView.bounds.height)
+            let center = CGPoint(x:self.bounds.width/2, y: self.bounds.height/2)
+            let radius: CGFloat = max(self.bounds.width, self.bounds.height)
             let arcWidth: CGFloat = 7
             
             let additionToStartAngle = datum.value/total * 2 * CGFloat.pi
             
             let endAngle = startAngle + additionToStartAngle
-
+            
             let path = UIBezierPath(arcCenter: center,
                                     radius: radius/2 - arcWidth/2,
                                     startAngle: startAngle,
@@ -107,5 +101,43 @@ class PieChartView: UIView {
             
             startAngle = endAngle
         }
+    }
+
+    // MARK: - Draw -
+    override func draw(_ rect: CGRect) {
+        if let data = data {
+            createPaths(from: data)
+            setLabels(with: data)
+        }
+    }
+}
+
+// MARK: - ViewBuilder -
+extension PieChartView: ViewBuilder {
+    func addSubviews() {
+        addSubview(forLabel)
+        addSubview(againstLabel)
+        addSubview(abstainLabel)
+    }
+    func constrainViews() {
+        againstLabel.snp.makeConstraints { make in
+            make.centerY.centerX.equalToSuperview()
+        }
+        forLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(againstLabel.snp.top).offset(-5)
+        }
+        abstainLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(againstLabel.snp.bottom).offset(5)
+        }
+    }
+    func styleViews() {
+        forLabel.style(with: [.font(.text),
+                              .titleColor(.kratosGreen)])
+        againstLabel.style(with: [.font(.text),
+                              .titleColor(.kratosRed)])
+        abstainLabel.style(with: [.font(.text),
+                              .titleColor(.lightGray)])
     }
 }

@@ -52,7 +52,8 @@ extension BillInfoViewModel: RxBinder {
                 if let leadSponsor = bill.sponsor {
                      sponsors["Lead Sponsor"] = [leadSponsor]
                 }
-                if let coSponsors = bill.coSponsors {
+                if let coSponsors = bill.coSponsors,
+                    !coSponsors.isEmpty {
                     sponsors["CoSponsors"] = coSponsors
                 }
                 self?.sponsors.value = sponsors

@@ -23,21 +23,22 @@ class RepresentativeCell: UITableViewCell {
     let viewModel = RepresentativeCellViewModel()
     
     // UIElements
-    let repImageView = UIImageView()
+    let repImageView = RepImageView()
     let voteImageView = UIImageView()
     let nameLabel = UILabel()
     let stateChamberLabel = UILabel()
     let partyLabel = UILabel()
     
     // Constants
-    let imageViewHeight: CGFloat = 40
-    let voteViewHeight: CGFloat = 30
+    let imageViewHeight: CGFloat = 50
+    let voteViewHeight: CGFloat = 40
     
     // MARK: - Initialization -
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubviews()
         constrainViews()
+        styleViews()
         bind()
     }
     
@@ -89,8 +90,11 @@ extension RepresentativeCell: ViewBuilder {
         }
     }
     
-    func style() {
-        
+    func styleViews() {
+        nameLabel.style(with: .font(.cellTitle))
+        stateChamberLabel.style(with: .font(.cellSubTitle))
+        partyLabel.style(with: [.font(.cellSubTitle),
+                                .textAlignment(.right)])
     }
 }
 
@@ -98,7 +102,7 @@ extension RepresentativeCell: RxBinder {
     func bind() {
         viewModel.imageURL.asObservable()
             .filterNil()
-            .bind(to: repImageView.rx.fetchImage())
+            .bind(to: repImageView.rx.setImage())
             .disposed(by: disposeBag)
         viewModel.voteValue.asObservable()
             .filterNil()

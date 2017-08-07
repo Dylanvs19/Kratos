@@ -9,16 +9,15 @@
 import Foundation
 
 enum LoadStatus {
-    case none
-    case empty
-    case actionableEmpty(prompt: String, action: () -> Void)
     case loading
+    case empty
     case error(error: KratosError)
+    case none
 }
 
 func == (lhs: LoadStatus, rhs: LoadStatus) -> Bool {
     switch (lhs, rhs) {
-    case (.loading, .loading), (.none, .none), (.empty, .empty), (.error(_), .error(_)), (.actionableEmpty(_, _), .actionableEmpty(_, _)):
+    case (.loading, .loading), (.none, .none), (.empty, .empty), (.error(_), .error(_)):
         return true
     default:
         return false
@@ -26,10 +25,5 @@ func == (lhs: LoadStatus, rhs: LoadStatus) -> Bool {
 }
 
 func != (lhs: LoadStatus, rhs: LoadStatus) -> Bool {
-    switch (lhs, rhs) {
-    case (.loading, .loading), (.none, .none), (.empty, .empty), (.error(_), .error(_)), (.actionableEmpty(_, _), .actionableEmpty(_, _)):
-        return false
-    default:
-        return true
-    }
+    return !(lhs == rhs)
 }

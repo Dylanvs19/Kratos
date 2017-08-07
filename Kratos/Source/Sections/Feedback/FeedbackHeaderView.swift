@@ -8,9 +8,7 @@
 
 import UIKit
 
-class FeedbackHeaderView: UIView, Loadable {
-
-    @IBOutlet var contentView: UIView!
+class FeedbackHeaderView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -18,12 +16,9 @@ class FeedbackHeaderView: UIView, Loadable {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        customInit()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        customInit()
     }
-
 }

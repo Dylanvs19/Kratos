@@ -39,7 +39,7 @@ extension RepInfoBillSponsorTableViewCell: ViewBuilder {
         addSubview(titleLabel)
         addSubview(statusLabel)
         addSubview(topTermLabel)
-        style()
+        styleViews()
     }
     
     func constrainViews() {
@@ -60,7 +60,7 @@ extension RepInfoBillSponsorTableViewCell: ViewBuilder {
         }
     }
     
-    func style() {
+    func styleViews() {
         selectionStyle = .none
         titleLabel.style(with: [.font(.title), .numberOfLines(3)])
         statusLabel.style(with: .font(.body))

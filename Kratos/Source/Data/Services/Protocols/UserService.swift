@@ -15,7 +15,7 @@ protocol UserService {
     
     func fetchTrackedBills(for pageNumer: Int) -> Observable<[Bill]>
     func fetchTrackedBillIds() -> Observable<[Int]>
-    func trackBill(billID: Int) -> Observable<Void>
+    func trackBill(billID: Int) -> Observable<[Int]>
     func viewTrackedBill(billID: Int) -> Observable<Bill>
     func untrackBill(billID: Int) -> Observable<Void>
     

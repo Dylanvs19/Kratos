@@ -57,6 +57,9 @@ enum KratosTarget: Target {
     case fetchBill(billID: Int)
     case fetchBills(subjects: [Int], pageNumber: Int)
     
+    //Bills on the floor
+    case fetchBillsOnFloor(chamber: Chamber)
+    
     //Subjects
     case fetchAllSubjects
     
@@ -153,6 +156,8 @@ enum KratosTarget: Target {
             .fetchBill,
             .fetchBills,
             .fetchAllBills,
+        //Bills on Floor
+            .fetchBillsOnFloor,
         //Subjects
             .fetchAllSubjects,
         //State
@@ -246,6 +251,8 @@ enum KratosTarget: Target {
             return "/bills/\(billID)"
         case .fetchBills(let subjects, let pageNumber):
             return subjects.reduce("bills?page=\(pageNumber)&") { str, num in str + "subjects%5B%5D=\(num)"}
+        case .fetchBillsOnFloor(let chamber):
+            return "/congress/\(chamber.pathValue)/floor"
         //Subjects
         case .fetchAllSubjects:
             return "/subjects"
@@ -331,6 +338,7 @@ enum KratosTarget: Target {
              .fetchAllBills,
              .fetchBill,
              .fetchBills,
+             .fetchBillsOnFloor,
         //Subjects
              .fetchAllSubjects,
         //State
@@ -350,80 +358,6 @@ enum KratosTarget: Target {
         //Image
         case .url:
             return .get
-        }
-    }
-    
-    var addToken: Bool {
-        switch self {
-        //Login
-        case .register,
-             .login,
-             .forgotPassword,
-             .resendConfirmation:
-            return false
-            
-            //User
-        //Metadata
-        case .fetchUser,
-             .update:
-            return true
-            
-        //BillTracking
-        case .fetchTrackedBillIds,
-             .fetchTrackedBills,
-             .viewTrackedBill,
-             .trackBill,
-             .untrackBill:
-            return true
-            
-        //SubjectTracking
-        case .fetchTrackedSubjects,
-             .followSubject,
-             .unfollowSubject:
-            return true
-            
-        //UserVotes
-        case .fetchUserVotingRecord,
-             .fetchUserVote,
-             .createUserVote,
-             .deleteUserVote,
-             .updateUserVote:
-            return true
-            
-            //Congress
-        //Metadata
-        case .determineRecess:
-            return true
-            
-        // Representatives
-        case .fetchRepresentatives,
-             .fetchPerson,
-             .fetchTallies,
-             .fetchSponsoredBills,
-             //Vote
-            .fetchTally,
-            //Bill
-            .fetchAllBills,
-            .fetchBill,
-            .fetchBills,
-            //Subjects
-            .fetchAllSubjects,
-            //State
-            .getStateDistricts,
-            .getStateImage:
-            return true
-            
-        //Feedback
-        case .fetchFeedback,
-             .postFeedback:
-            return true
-        //Analytics
-        case .postKratosAnalyticEvent:
-            return true
-            
-        //Image
-        case .url:
-            return false
         }
     }
 }

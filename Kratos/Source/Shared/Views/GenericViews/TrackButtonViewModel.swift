@@ -20,7 +20,7 @@ class TrackButtonViewModel {
     
     // Data
     let billId = Variable<Int?>(nil)
-    let isTracked = Variable<TrackButton.State>(.untracked)
+    let state = Variable<TrackButton.State>(.untracked)
     
     // Interaction
     let buttonPressed = PublishSubject<Void>()
@@ -29,19 +29,19 @@ class TrackButtonViewModel {
     init(with client: Client, billId: Int) {
         self.client = client
         self.billId.value = billId
-        updateTrackedValue()
+        
         bind()
     }
     
     // MARK: - Client Requests -
-    func updateTrackedValue() {
+    func setInitialState() {
         guard let billId = billId.value else { return }
         loadStatus.value = .loading
         return client.fetchTrackedBillIds()
             .subscribe(
-                onNext: { [weak self] trackedBills in
+                onNext: { [weak self] in
                 self?.loadStatus.value = .none
-                self?.isTracked.value = trackedBills.contains(billId) ? .tracked : .untracked
+                self?.state.value = $0.contains(billId) ? .tracked : .untracked
             },
                 onError: { [unowned self] (error) in
                 let error = error as? KratosError ?? KratosError.unknown
@@ -57,7 +57,7 @@ class TrackButtonViewModel {
             .subscribe(
                 onNext: { [weak self] in
                 self?.loadStatus.value = .none
-                self?.updateTrackedValue()
+                self?.state.value = $0.contains(billId) ? .tracked : .untracked
                 },
                 onError: { [unowned self] (error) in
                     let error = error as? KratosError ?? KratosError.unknown
@@ -73,7 +73,7 @@ class TrackButtonViewModel {
             .subscribe(
                 onNext: { [weak self] in
                     self?.loadStatus.value = .none
-                    self?.updateTrackedValue()
+                    self?.state.value = .untracked
                 },
                 onError: { [unowned self] (error) in
                     let error = error as? KratosError ?? KratosError.unknown
@@ -86,7 +86,7 @@ class TrackButtonViewModel {
 extension TrackButtonViewModel: RxBinder {
     func bind() {
         buttonPressed.asObservable()
-            .withLatestFrom(isTracked.asObservable())
+            .withLatestFrom(state.asObservable())
             .subscribe(onNext: { [weak self] isTracked in
                 isTracked == .tracked ? self?.untrack() : self?.track()
             })
