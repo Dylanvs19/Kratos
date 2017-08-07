@@ -37,6 +37,17 @@ enum VoteValue: String {
             return #imageLiteral(resourceName: "Abstain")
         }
     }
+    
+    var color: Color {
+        switch self {
+        case .yea:
+            return .kratosGreen
+        case .nay:
+            return .kratosRed
+        case .abstain:
+            return .gray
+        }
+    }
 }
 
 struct Vote: Decodable {

@@ -57,13 +57,13 @@ class PieChartView: UIView {
             switch datum.type {
             case .yea:
                 forLabel.text = "\(Int(datum.value))"
-                forLabel.style(with: .titleColor(.kratosGreen))
+                forLabel.style(with: .titleColor(datum.type.color))
             case .nay:
                 againstLabel.text = "\(Int(datum.value))"
-                forLabel.style(with: .titleColor(.kratosRed))
+                againstLabel.style(with: .titleColor(datum.type.color))
             case .abstain:
                 abstainLabel.text = "\(Int(datum.value))"
-                forLabel.style(with: .titleColor(.lightGray))
+                abstainLabel.style(with: .titleColor(datum.type.color))
             }
         }
     }
