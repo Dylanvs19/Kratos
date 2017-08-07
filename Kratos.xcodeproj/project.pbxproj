@@ -40,7 +40,6 @@
 		AF3F5C8F1EBE72F700809AA3 /* BillActionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5BFA1EBE72F700809AA3 /* BillActionTableViewCell.xib */; };
 		AF3F5C901EBE72F700809AA3 /* BillCommitteesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BFB1EBE72F700809AA3 /* BillCommitteesView.swift */; };
 		AF3F5C911EBE72F700809AA3 /* BillCommitteesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5BFC1EBE72F700809AA3 /* BillCommitteesView.xib */; };
-		AF3F5C931EBE72F700809AA3 /* BillSponsorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BFE1EBE72F700809AA3 /* BillSponsorsView.swift */; };
 		AF3F5C981EBE72F700809AA3 /* CommitteActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C031EBE72F700809AA3 /* CommitteActivitiesView.swift */; };
 		AF3F5C991EBE72F700809AA3 /* CommitteActivitiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5C041EBE72F700809AA3 /* CommitteActivitiesView.xib */; };
 		AF3F5C9A1EBE72F700809AA3 /* CommitteeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C051EBE72F700809AA3 /* CommitteeView.swift */; };
@@ -56,8 +55,6 @@
 		AF3F5CB71EBE72F700809AA3 /* RepInfoBillSponsorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C241EBE72F700809AA3 /* RepInfoBillSponsorTableViewCell.swift */; };
 		AF3F5CC11EBE72F700809AA3 /* RepInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C2E1EBE72F700809AA3 /* RepInfoView.swift */; };
 		AF3F5CC31EBE72F700809AA3 /* RepVoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C301EBE72F700809AA3 /* RepVoteTableViewCell.swift */; };
-		AF3F5CCC1EBE72F700809AA3 /* RepTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C391EBE72F700809AA3 /* RepTableViewCell.swift */; };
-		AF3F5CCD1EBE72F700809AA3 /* RepTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5C3A1EBE72F700809AA3 /* RepTableViewCell.xib */; };
 		AF3F5CCE1EBE72F700809AA3 /* TallyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C3B1EBE72F700809AA3 /* TallyViewController.swift */; };
 		AF3F5CCF1EBE72F700809AA3 /* TallyTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C3D1EBE72F700809AA3 /* TallyTableView.swift */; };
 		AF3F5CD01EBE72F700809AA3 /* UserVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C3E1EBE72F700809AA3 /* UserVoteView.swift */; };
@@ -242,7 +239,6 @@
 		AF3F5BFA1EBE72F700809AA3 /* BillActionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillActionTableViewCell.xib; sourceTree = "<group>"; };
 		AF3F5BFB1EBE72F700809AA3 /* BillCommitteesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillCommitteesView.swift; sourceTree = "<group>"; };
 		AF3F5BFC1EBE72F700809AA3 /* BillCommitteesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillCommitteesView.xib; sourceTree = "<group>"; };
-		AF3F5BFE1EBE72F700809AA3 /* BillSponsorsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillSponsorsView.swift; sourceTree = "<group>"; };
 		AF3F5C031EBE72F700809AA3 /* CommitteActivitiesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitteActivitiesView.swift; sourceTree = "<group>"; };
 		AF3F5C041EBE72F700809AA3 /* CommitteActivitiesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommitteActivitiesView.xib; sourceTree = "<group>"; };
 		AF3F5C051EBE72F700809AA3 /* CommitteeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitteeView.swift; sourceTree = "<group>"; };
@@ -258,8 +254,6 @@
 		AF3F5C241EBE72F700809AA3 /* RepInfoBillSponsorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepInfoBillSponsorTableViewCell.swift; sourceTree = "<group>"; };
 		AF3F5C2E1EBE72F700809AA3 /* RepInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepInfoView.swift; sourceTree = "<group>"; };
 		AF3F5C301EBE72F700809AA3 /* RepVoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepVoteTableViewCell.swift; sourceTree = "<group>"; };
-		AF3F5C391EBE72F700809AA3 /* RepTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepTableViewCell.swift; sourceTree = "<group>"; };
-		AF3F5C3A1EBE72F700809AA3 /* RepTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepTableViewCell.xib; sourceTree = "<group>"; };
 		AF3F5C3B1EBE72F700809AA3 /* TallyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TallyViewController.swift; sourceTree = "<group>"; };
 		AF3F5C3D1EBE72F700809AA3 /* TallyTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TallyTableView.swift; sourceTree = "<group>"; };
 		AF3F5C3E1EBE72F700809AA3 /* UserVoteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserVoteView.swift; sourceTree = "<group>"; };
@@ -624,8 +618,6 @@
 				AF3F5C1E1EBE72F700809AA3 /* RepInfoViews */,
 				AF3F5BF51EBE72F700809AA3 /* BillViews */,
 				AF3F5C0B1EBE72F700809AA3 /* GenericViews */,
-				AF3F5C391EBE72F700809AA3 /* RepTableViewCell.swift */,
-				AF3F5C3A1EBE72F700809AA3 /* RepTableViewCell.xib */,
 				AF3F5C3B1EBE72F700809AA3 /* TallyViewController.swift */,
 				AF3F5C3C1EBE72F700809AA3 /* TallyViews */,
 				AF3F5C421EBE72F700809AA3 /* UserTrackView */,
@@ -651,7 +643,6 @@
 				AF3F5BFA1EBE72F700809AA3 /* BillActionTableViewCell.xib */,
 				AF3F5BFB1EBE72F700809AA3 /* BillCommitteesView.swift */,
 				AF3F5BFC1EBE72F700809AA3 /* BillCommitteesView.xib */,
-				AF3F5BFE1EBE72F700809AA3 /* BillSponsorsView.swift */,
 				AF3F5C031EBE72F700809AA3 /* CommitteActivitiesView.swift */,
 				AF3F5C041EBE72F700809AA3 /* CommitteActivitiesView.xib */,
 				AF3F5C051EBE72F700809AA3 /* CommitteeView.swift */,
@@ -1093,7 +1084,6 @@
 				AF3F5C801EBE72F700809AA3 /* FeedbackQuestionView.xib in Resources */,
 				AF3F5C911EBE72F700809AA3 /* BillCommitteesView.xib in Resources */,
 				AF3F5CD51EBE72F700809AA3 /* YourVoteTableViewCell.xib in Resources */,
-				AF3F5CCD1EBE72F700809AA3 /* RepTableViewCell.xib in Resources */,
 				AF3F5C8C1EBE72F700809AA3 /* ActionsView.xib in Resources */,
 				AF3F5CD11EBE72F700809AA3 /* UserVoteView.xib in Resources */,
 				AFA9D1601E30269B00CD6BF9 /* GoogleService-Info.plist in Resources */,
@@ -1345,10 +1335,8 @@
 				AF416A431F28C1F3006380DA /* Client+AccountService.swift in Sources */,
 				AF3F5CA51EBE72F700809AA3 /* KratosTextField.swift in Sources */,
 				AF57F4BB1F2B6E110080978F /* ViewBuilder.swift in Sources */,
-				AF3F5C931EBE72F700809AA3 /* BillSponsorsView.swift in Sources */,
 				AF83E8A41F37B81600267325 /* BillCellViewModel.swift in Sources */,
 				AF3F5CD01EBE72F700809AA3 /* UserVoteView.swift in Sources */,
-				AF3F5CCC1EBE72F700809AA3 /* RepTableViewCell.swift in Sources */,
 				AF57F4C91F2B6EBB0080978F /* UIImageView+RxUrl.swift in Sources */,
 				AF3F5CE81EBE72F700809AA3 /* UILabel+Extensions.swift in Sources */,
 				AF3F5CE61EBE72F700809AA3 /* UIImage+Extension.swift in Sources */,
