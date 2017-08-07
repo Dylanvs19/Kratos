@@ -63,7 +63,7 @@ extension RepresentativeViewModel: RxBinder {
             .bind(to: name)
             .disposed(by: disposeBag)
         representative.asObservable()
-            .map { $0.currentChamber?.representativeType.rawValue }
+            .map { $0.currentChamber?.representativeType.short() }
             .filterNil()
             .bind(to: repType)
             .disposed(by: disposeBag)

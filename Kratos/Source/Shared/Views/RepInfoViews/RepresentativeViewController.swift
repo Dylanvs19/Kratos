@@ -24,6 +24,7 @@ class RepresentativeViewController: UIViewController {
     let topView = UIView()
     let representativeImageView = RepImageView()
     let nameLabel = UILabel()
+    let repDetailsView = UIView()
     let repTypeLabel = UILabel()
     let stateLabel = UILabel()
     let partyLabel = UILabel()
@@ -36,6 +37,7 @@ class RepresentativeViewController: UIViewController {
     var contactViewHeight: Constraint?
     var repInfoViewHeight: Constraint?
 
+    let repImageViewHeight: CGFloat = 60
     
     init(client: Client, representative: Person) {
         self.client = client
@@ -103,39 +105,41 @@ extension RepresentativeViewController: ViewBuilder {
         view.addSubview(topView)
         topView.addSubview(representativeImageView)
         topView.addSubview(nameLabel)
-        topView.addSubview(partyLabel)
-        topView.addSubview(repTypeLabel)
-        topView.addSubview(stateLabel)
+        topView.addSubview(repDetailsView)
+        repDetailsView.addSubview(partyLabel)
+        repDetailsView.addSubview(repTypeLabel)
+        repDetailsView.addSubview(stateLabel)
         view.addSubview(contactView)
         view.addSubview(repInfoView)
     }
     func constrainViews() {
         topView.snp.remakeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            topViewHeight = make.height.equalTo(140).constraint
+            topViewHeight = make.height.equalTo(115).constraint
         }
         representativeImageView.snp.remakeConstraints { make in
             make.top.equalToSuperview().offset(40)
-            make.leading.equalToSuperview().offset(10)
-            make.height.equalTo(80)
-            make.width.equalTo(representativeImageView.snp.height)
+            make.leading.bottom.equalToSuperview().inset(15)
+            make.height.width.equalTo(repImageViewHeight)
         }
         nameLabel.snp.makeConstraints { make in
-            make.top.equalTo(representativeImageView.snp.top)
-            make.leading.equalTo(representativeImageView.snp.trailing).offset(10)
+            make.top.equalTo(representativeImageView.snp.top).offset(10)
+            make.centerX.equalToSuperview()
         }
-        partyLabel.snp.makeConstraints { make in
-            make.trailing.equalToSuperview()
-            make.centerY.equalTo(representativeImageView.snp.centerY)
-            make.leading.equalTo(representativeImageView.snp.trailing).offset(10)
+        repDetailsView.snp.remakeConstraints { make in
+            make.centerX.equalTo(nameLabel)
+            make.top.equalTo(nameLabel.snp.bottom).offset(5)
         }
         repTypeLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(representativeImageView.snp.bottom)
-            make.leading.equalTo(representativeImageView.snp.trailing).offset(10)
+            make.leading.top.bottom.equalToSuperview()
         }
         stateLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(representativeImageView.snp.bottom)
+            make.top.bottom.equalToSuperview()
             make.leading.equalTo(repTypeLabel.snp.trailing).offset(3)
+        }
+        partyLabel.snp.makeConstraints { make in
+            make.trailing.top.bottom.equalToSuperview()
+            make.leading.equalTo(stateLabel.snp.trailing).offset(3)
         }
         contactView.snp.makeConstraints { make in
             make.top.equalTo(topView.snp.bottom).offset(5)
@@ -155,9 +159,9 @@ extension RepresentativeViewController: ViewBuilder {
         topView.addShadow()
         
         nameLabel.style(with: .font(.title))
-        repTypeLabel.style(with: [.font(.title), .titleColor(.lightGray)])
-        stateLabel.style(with: [.font(.title), .titleColor(.lightGray)])
-        partyLabel.style(with: .font(.title))
+        repTypeLabel.style(with: [.font(.subTitle), .titleColor(.lightGray)])
+        stateLabel.style(with: [.font(.subTitle), .titleColor(.lightGray)])
+        partyLabel.style(with: [.font(.subTitle)])
     }
 }
 
@@ -180,7 +184,6 @@ extension RepresentativeViewController: RxBinder {
                 self?.partyLabel.textColor = color.value
             })
             .disposed(by: disposeBag)
-        
         viewModel.name.asObservable()
             .bind(to: nameLabel.rx.text)
             .disposed(by: disposeBag)
