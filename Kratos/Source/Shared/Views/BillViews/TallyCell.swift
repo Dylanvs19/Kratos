@@ -61,7 +61,7 @@ extension TallyCell: ViewBuilder {
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().inset(5)
             make.top.bottom.greaterThanOrEqualToSuperview().inset(5)
-            make.height.width.equalTo(pieChartHeight)
+            make.height.width.equalTo(pieChartHeight).priority(999)
         }
         titleLabel.snp.makeConstraints { make in
             make.leading.top.equalToSuperview().offset(5)
@@ -80,7 +80,6 @@ extension TallyCell: ViewBuilder {
     
     func styleViews() {
         titleLabel.style(with: [.font(.cellTitle),
-                                .titleColor(.gray),
                                 .numberOfLines(5)])
         statusLabel.style(with: [.font(.body),
                                  .titleColor(.gray)])

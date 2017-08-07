@@ -67,7 +67,7 @@ extension RepresentativeCell: ViewBuilder {
     func constrainViews() {
         repImageView.snp.remakeConstraints { make in
             make.leading.top.bottom.equalToSuperview().inset(5)
-            make.height.width.equalTo(imageViewHeight)
+            make.height.width.equalTo(imageViewHeight).priority(999)
         }
         voteImageView.snp.remakeConstraints { make in
             make.trailing.equalToSuperview().inset(5)
@@ -86,15 +86,17 @@ extension RepresentativeCell: ViewBuilder {
         partyLabel.snp.remakeConstraints { make in
             make.centerY.equalTo(stateChamberLabel.snp.centerY)
             make.leading.equalTo(stateChamberLabel.snp.trailing).offset(5)
-            make.trailing.equalTo(voteImageView.snp.leading).offset(-5)
+            make.trailing.lessThanOrEqualTo(voteImageView.snp.leading).offset(-5)
         }
     }
     
     func styleViews() {
         nameLabel.style(with: .font(.cellTitle))
-        stateChamberLabel.style(with: .font(.cellSubTitle))
+        stateChamberLabel.style(with: [.font(.cellSubTitle),
+                                       .titleColor(.gray)])
         partyLabel.style(with: [.font(.cellSubTitle),
-                                .textAlignment(.right)])
+                                .textAlignment(.right),
+                                .titleColor(.gray)])
     }
 }
 
