@@ -85,12 +85,11 @@ extension BillViewController: ViewBuilder {
         trackButton.snp.remakeConstraints { make in
             make.top.equalTo(divider.snp.bottom).offset(10)
             make.trailing.bottom.equalToSuperview().inset(10)
-            make.width.equalTo(55)
         }
         statusLabel.snp.remakeConstraints { make in
             make.leading.equalTo(self.divider)
             make.top.equalTo(self.divider.snp.bottom).offset(2)
-            make.trailing.equalTo(self.trackButton.snp.leading)
+            make.trailing.lessThanOrEqualTo(self.trackButton.snp.leading)
         }
         statusDateLabel.snp.remakeConstraints { make in
             make.leading.equalTo(self.divider)

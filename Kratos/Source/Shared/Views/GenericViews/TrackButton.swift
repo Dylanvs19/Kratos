@@ -43,6 +43,7 @@ class TrackButton: UIButton {  //CurtainPresenter {
     convenience init(with client: Client, billId: Int) {
         self.init(frame: .zero)
         self.viewModel = TrackButtonViewModel(with: client, billId: billId)
+        customization()
         bind()
     }
     
@@ -54,7 +55,8 @@ class TrackButton: UIButton {  //CurtainPresenter {
         super.init(frame: frame)
     }
     
-    func update(with state: State) {
+    // MARK: - Configuration -
+    fileprivate func update(with state: State) {
         UIView.animate(withDuration: 0.5) { 
             self.style(with: [.backgroundColor(state.backgroundColor),
                          .titleColor(.white),
@@ -64,8 +66,14 @@ class TrackButton: UIButton {  //CurtainPresenter {
             self.layoutIfNeeded()
         }
     }
+    
+    // MARK: - Customization -
+    private func customization() {
+        contentEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 10)
+    }
 }
 
+// MARK: - Binds -
 extension TrackButton: RxBinder {
     func bind() {
         guard let viewModel = viewModel else { return }
