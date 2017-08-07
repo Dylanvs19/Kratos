@@ -50,14 +50,17 @@ class TabBarController: UITabBarController {
             case .congress:
                 let vc = ExploreController(client: client)
                 vc.tabBarItem = tabBarItem
+                vc.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
                 return vc
             case .main:
                 let vc = UserRepsViewController(client: client)
                 vc.tabBarItem = tabBarItem
+                vc.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
                 return vc
             case .user:
                 let vc = TrackController(client: client)
                 vc.tabBarItem = tabBarItem
+                vc.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
                 return vc
             }
         }
@@ -104,7 +107,7 @@ class TabBarController: UITabBarController {
                        initialSpringVelocity: 0,
                        options: .curveEaseIn,
                        animations: { () -> Void in
-            tabImageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+            tabImageView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
         },
                        completion: nil)
         
@@ -114,7 +117,7 @@ class TabBarController: UITabBarController {
                        initialSpringVelocity: 0,
                        options: .curveEaseOut,
                        animations: { () -> Void in
-            tabImageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2)
+            tabImageView.transform = CGAffineTransform.identity
         },
                        completion: nil)
     }
