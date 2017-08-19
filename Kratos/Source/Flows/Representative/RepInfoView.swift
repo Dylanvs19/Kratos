@@ -25,11 +25,11 @@ class RepInfoView: UIView {
         var title: String {
             switch self {
             case .bio:
-                return "Biography"
+                return localize(.repInfoViewBioTitle)
             case .votes:
-                return "Votes"
+                return localize(.repInfoViewVotesTitle)
             case .bills:
-                return "Sponsored Bills"
+                return localize(.repInfoViewBillsTitle)
             }
         }
         
@@ -66,8 +66,8 @@ class RepInfoView: UIView {
     let scrollView = UIScrollView()
     let stackView = UIStackView()
     
+    let bioViewView = UIView()
     let bioScrollView = UIScrollView()
-    let bioStackView = UIStackView()
     let bioView = ExpandableTextFieldView(forceCollapseToggleButton: false)
     let termsTableView = UITableView()
     
@@ -224,9 +224,9 @@ extension RepInfoView: ViewBuilder {
         managerStackView.addSubview(managerIndicatorView)
 
         stackView.addArrangedSubview(bioScrollView)
-        bioScrollView.addSubview(bioStackView)
-        bioStackView.addArrangedSubview(bioView)
-        bioStackView.addArrangedSubview(termsTableView)
+        bioScrollView.addSubview(bioViewView)
+        bioViewView.addSubview(bioView)
+        bioViewView.addSubview(termsTableView)
         
         stackView.addArrangedSubview(votesTableView)
         stackView.addArrangedSubview(billsTableView)
@@ -259,18 +259,19 @@ extension RepInfoView: ViewBuilder {
             make.width.height.equalTo(self.scrollView)
         }
         bioScrollView.layoutIfNeeded()
-
-        bioStackView.snp.remakeConstraints { make in
+        
+        bioViewView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
-            make.width.equalTo(self.frame.width)
         }
-        bioStackView.layoutIfNeeded()
-
         bioView.snp.remakeConstraints { make in
             make.width.equalTo(self.frame.width)
+            make.top.leading.trailing.equalToSuperview()
         }
-        termsTableView.translatesAutoresizingMaskIntoConstraints = false
         termsTableView.snp.remakeConstraints { make in
+            make.width.equalTo(self.frame.width)
+            make.top.equalTo(bioView.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.greaterThanOrEqualTo(5)
             make.height.equalTo(termsTableView.contentSize.height).priority(999)
         }
         
@@ -289,11 +290,7 @@ extension RepInfoView: ViewBuilder {
         stackView.distribution = .fillEqually
         
         scrollView.isScrollEnabled = false
-        
-        bioStackView.translatesAutoresizingMaskIntoConstraints = false
-        bioStackView.axis = .vertical
-        bioStackView.alignment = .fill
-        bioStackView.distribution = .fillProportionally
+        bioScrollView.showsVerticalScrollIndicator = false
     }
 }
 
@@ -346,8 +343,15 @@ extension RepInfoView: RxBinder {
             .disposed(by: disposeBag)
         
         viewModel.terms.asObservable()
-            .map { [SectionModel(model: "Terms", items: $0)] }
+            .map { [SectionModel(model: localize(.repInfoViewTermsSectionTitle), items: $0)] }
             .bind(to: termsTableView.rx.items(dataSource: termsDataSource))
+            .disposed(by: disposeBag)
+        viewModel.terms.asObservable()
+            .delay(0.01, scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                self?.constrainViews()
+                print("Views Constriained")
+            })
             .disposed(by: disposeBag)
     }
     
