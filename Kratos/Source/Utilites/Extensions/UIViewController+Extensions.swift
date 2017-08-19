@@ -119,11 +119,11 @@ extension UIViewController {
     func embedInNavVC() -> UINavigationController {
         let navVC = UINavigationController()
         navVC.setViewControllers([self], animated: false)
-        self.configureNavVC()
+        self.setDefaultNavVC()
         return navVC
     }
     
-    func configureNavVC() {
+    func setDefaultNavVC() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "kratosSelectedIcon"))
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)

@@ -62,6 +62,20 @@ class RepresentativeViewController: UIViewController {
         view.layoutIfNeeded()
         repInfoView.buildViews()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        configureNavVC()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setDefaultNavVC()
+    }
+    
+    func configureNavVC() {
+        
+    }
 }
 
 extension RepresentativeViewController {
