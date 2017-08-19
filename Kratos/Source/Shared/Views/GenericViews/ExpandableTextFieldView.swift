@@ -21,9 +21,9 @@ class ExpandableTextFieldView: UIView {
         var buttonTitle: String {
             switch self {
             case .expanded:
-                return "Show Less"
+                return localize(.expandableTextFieldViewExpandedButtonTitle)
             case .contracted:
-                return "Show More"            
+                return localize(.expandableTextFieldViewContractedButtonTitle)
             }
         }
     }
@@ -88,29 +88,6 @@ class ExpandableTextFieldView: UIView {
             make.height.equalTo(0)
         }
     }
-//
-//    func expandTitleLabel() {
-//        titleLabel.snp.remakeConstraints { make in
-//            make.top.equalToSuperview().offset(5)
-//            make.leading.equalToSuperview().offset(10)
-//        }
-//    }
-//
-//    func collapseToggleButton() {
-//        toggleButton.snp.remakeConstraints { make in
-//            make.top.equalToSuperview().offset(0)
-//            make.leading.equalToSuperview().offset(10)
-//            make.height.equalTo(0)
-//        }
-//    }
-//    
-//    func expandToggleButton() {
-//        toggleButton.snp.remakeConstraints { make in
-//            make.top.equalToSuperview().offset(0)
-//            make.leading.equalToSuperview().offset(10)
-//            make.height.equalTo(30)
-//        }
-//    }
     
     func update(for state: State) {
         let isContracted = state == .contracted
