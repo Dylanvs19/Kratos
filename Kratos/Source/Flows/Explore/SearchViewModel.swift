@@ -7,3 +7,11 @@
 //
 
 import Foundation
+import RxSwift
+
+class SearchViewModel {
+    
+    init(client: Client) {
+        
+    }
+}

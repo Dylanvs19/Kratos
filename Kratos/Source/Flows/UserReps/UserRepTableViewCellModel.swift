@@ -25,15 +25,6 @@ class UserRepTableViewCellModel {
         self.representative.value = person
         bind()
     }
-    
-    func populateVariables(from representative: Person) {
-        self.name.value = representative.fullName
-        self.chamber.value = representative.currentChamber
-        if let repParty = representative.currentParty {
-            partyColor.value = repParty.color.value
-        }
-        
-    }
 }
 
 extension UserRepTableViewCellModel: RxBinder {
@@ -41,7 +32,11 @@ extension UserRepTableViewCellModel: RxBinder {
         representative.asObservable()
             .filterNil()
             .subscribe(onNext: { [weak self] person in
-                self?.populateVariables(from: person)
+                self?.name.value = person.fullName
+                self?.chamber.value = person.currentChamber
+                if let repParty = person.currentParty {
+                    self?.partyColor.value = repParty.color.value
+                }
             })
             .disposed(by: disposeBag)
         

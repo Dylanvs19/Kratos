@@ -55,7 +55,7 @@ class ExploreController: UIViewController {
         addSubviews()
         constrainViews()
         styleViews()
-        localize()
+        localizeStrings()
         bind()
     }
     
@@ -210,10 +210,10 @@ extension ExploreController: ViewBuilder {
     }
 }
 extension ExploreController: Localizer {
-    func localize() {
-        titleLabel.text = "On The Floor"
-        senateButton.setTitle("Senate", for: .normal)
-        houseButton.setTitle("House", for: .normal)
+    func localizeStrings() {
+        titleLabel.text = localize(.exploreTitle)
+        senateButton.setTitle(localize(.exploreSenateButtonTitle), for: .normal)
+        houseButton.setTitle(localize(.exploreHouseButtonTitle), for: .normal)
     }
 }
 

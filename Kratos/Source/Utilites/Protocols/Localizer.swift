@@ -9,5 +9,5 @@
 import Foundation
 
 protocol Localizer {
-    func localize()
+    func localizeStrings()
 }

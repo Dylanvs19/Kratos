@@ -24,7 +24,7 @@ class ExploreViewModel {
     let loadStatus = Variable<LoadStatus>(.none)
     
     let district = Variable<Int?>(nil)
-    let state = Variable<String>("")
+    let state = Variable<Chamber>(.house)
     let representatives = Variable<[Person]>([])
     
     let repSelected = PublishSubject<Person>()
