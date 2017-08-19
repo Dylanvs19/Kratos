@@ -12,32 +12,50 @@ import RxCocoa
 
 
 class ExploreViewModel {
-    
-    // MARK: - Enums -
-    enum State {
-        case house
-        case senate
-    }
-    
+    // MARK: - Variables -
+    // Standard
     let client: Client
     let disposeBag = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
     
-    let district = Variable<Int?>(nil)
-    let state = Variable<Chamber>(.house)
-    let representatives = Variable<[Person]>([])
+    // Data
+    let state = Variable<ExploreController.State>(.house)
+    let houseBills = Variable<[Bill]>([])
+    let senateBills = Variable<[Bill]>([])
     
-    let repSelected = PublishSubject<Person>()
-    
+    // MARK: - Initializer -
     init(client: Client) {
         self.client = client
-        bind()
+        fetchSenateBills()
+        fetchHouseBills()
     }
-}
-
-extension ExploreViewModel: RxBinder {
     
-    func bind() {
+    // MARK: - Service Calls -
+    func fetchSenateBills() {
+        loadStatus.value = .loading
+        client.fetchOnFloor(with: .senate)
+            .debug()
+            .subscribe(onNext: { [weak self] bills in
+                self?.loadStatus.value = .none
+                self?.senateBills.value = bills
+            }, onError: { [weak self] error in
+                guard let error = error as? KratosError else { return }
+                self?.loadStatus.value = .error(error: error)
+            })
+            .disposed(by: disposeBag)
         
+    }
+    func fetchHouseBills() {
+        loadStatus.value = .loading
+        client.fetchOnFloor(with: .house)
+            .debug()
+            .subscribe(onNext: { [weak self] bills in
+                self?.loadStatus.value = .none
+                self?.houseBills.value = bills
+                }, onError: { [weak self] error in
+                    guard let error = error as? KratosError else { return }
+                    self?.loadStatus.value = .error(error: error)
+            })
+            .disposed(by: disposeBag)
     }
 }

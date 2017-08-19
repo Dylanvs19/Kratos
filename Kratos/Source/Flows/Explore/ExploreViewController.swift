@@ -14,6 +14,31 @@ import SnapKit
 
 class ExploreController: UIViewController {
     
+    // MARK: - Enums -
+    enum State {
+        case house
+        case senate
+        case executive
+        
+        static let allValues: [State] = [.house, .senate, .executive]
+        
+        var title: String {
+            switch self {
+            case .house:
+                return localize(.repInfoViewBioTitle)
+            case .senate:
+                return localize(.repInfoViewVotesTitle)
+            case .executive:
+                return localize(.repInfoViewBillsTitle)
+            }
+        }
+        
+        func scrollViewXPosition(in view: UIView) -> CGFloat {
+            let width = view.frame.size.width
+            return CGFloat(State.allValues.index(of: self)!) * width
+        }
+    }
+    
     // MARK: - Variables -
     let client: Client
     let viewModel: ExploreViewModel
@@ -26,6 +51,9 @@ class ExploreController: UIViewController {
     let senateButton = UIButton()
     let titleLabel = UILabel()
     
+    let scrollView = UIScrollView()
+    
+    // TableViews
     let tableViewView = UIView()
     
     let senateTableView = UITableView()
@@ -56,6 +84,8 @@ class ExploreController: UIViewController {
         constrainViews()
         styleViews()
         localizeStrings()
+        configureHouseTableView()
+        configureSenateTableView()
         bind()
     }
     
@@ -67,6 +97,15 @@ class ExploreController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setDefaultNavVC()
+    }
+    
+    // MARK: - Helpers -
+    func updateScrollView(with state: State) {
+        let width = scrollView.frame.width
+        self.scrollView.scrollRectToVisible(CGRect(x: state.scrollViewXPosition(in: scrollView),
+                                                   y: 0,
+                                                   width: width,
+                                                   height: 1), animated: true)
     }
     
     // MARK: - Configuration -
@@ -90,7 +129,7 @@ class ExploreController: UIViewController {
         }
     }
     
-    func configureTableView() {
+    func configureHouseTableView() {
         houseTableView.backgroundColor = .clear
         houseTableView.register(BillCell.self, forCellReuseIdentifier: BillCell.identifier)
         houseTableView.isScrollEnabled = false
@@ -106,8 +145,8 @@ class ExploreController: UIViewController {
         }
     }
     
-    func configure(for chamber: Chamber) {
-        switch chamber {
+    func configure(for state: State) {
+        switch state {
         case .house:
             UIView.animate(withDuration: 0.4, animations: { 
                 self.slideView.snp.remakeConstraints { make in
@@ -133,7 +172,11 @@ class ExploreController: UIViewController {
                 self.senateButton.style(with: .titleColor(.white))
                 self.view.layoutIfNeeded()
             })
+        case .executive:
+            break
         }
+        
+        updateScrollView(with: state)
     }
     
     func presentSearch() {
@@ -153,7 +196,9 @@ extension ExploreController: ViewBuilder {
         topView.addSubview(houseButton)
         topView.addSubview(senateButton)
         
-        view.addSubview(tableViewView)
+        view.addSubview(scrollView)
+        
+        scrollView.addSubview(tableViewView)
         tableViewView.addSubview(senateTableView)
         tableViewView.addSubview(houseTableView)
     }
@@ -184,16 +229,24 @@ extension ExploreController: ViewBuilder {
             make.width.equalTo(buttonWidth)
             make.height.equalTo(buttonHeight)
         }
-        tableViewView.snp.remakeConstraints { make in
+        scrollView.snp.remakeConstraints { make in
             make.top.equalTo(topView.snp.bottom).offset(10)
             make.trailing.leading.equalToSuperview().inset(10)
             make.bottom.equalTo(bottomLayoutGuide.snp.top).inset(10)
         }
-        houseTableView.snp.remakeConstraints { make in
+        tableViewView.snp.remakeConstraints { make in
+            make.width.equalTo(scrollView.snp.width).multipliedBy(2)
+            make.height.equalTo(scrollView.snp.height)
             make.edges.equalToSuperview()
         }
+        houseTableView.snp.remakeConstraints { make in
+            make.top.bottom.leading.equalToSuperview()
+            make.width.equalTo(scrollView.snp.width)
+        }
         senateTableView.snp.remakeConstraints { make in
-            make.edges.equalToSuperview()
+            make.leading.equalTo(houseTableView.snp.trailing)
+            make.top.bottom.trailing.equalToSuperview()
+            make.width.equalTo(scrollView.snp.width)
         }
     }
     
@@ -233,11 +286,11 @@ extension ExploreController: RxBinder {
             })
             .disposed(by: disposeBag)
         houseButton.rx.tap
-            .map { _ in Chamber.house }
+            .map { _ in State.house }
             .bind(to: viewModel.state)
             .disposed(by: disposeBag)
         senateButton.rx.tap
-            .map { _ in Chamber.senate }
+            .map { _ in State.senate }
             .bind(to: viewModel.state)
             .disposed(by: disposeBag)
     }
