@@ -52,6 +52,7 @@ class SearchController: UIViewController {
         searchView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        view.layoutIfNeeded()
     }
     
     func configureSearchTableView() {
