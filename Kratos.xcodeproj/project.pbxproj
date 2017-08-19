@@ -65,8 +65,8 @@
 		AF2C07421F48975E00D7E348 /* RepresentativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C073A1F48975E00D7E348 /* RepresentativeViewModel.swift */; };
 		AF2C07431F48975E00D7E348 /* RepVoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C073B1F48975E00D7E348 /* RepVoteTableViewCell.swift */; };
 		AF2C07441F48975E00D7E348 /* TermTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C073C1F48975E00D7E348 /* TermTableViewCell.swift */; };
-		AF2C07491F48976800D7E348 /* TrackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07461F48976800D7E348 /* TrackController.swift */; };
-		AF2C074A1F48976800D7E348 /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07471F48976800D7E348 /* TrackViewModel.swift */; };
+		AF2C07491F48976800D7E348 /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07461F48976800D7E348 /* UserController.swift */; };
+		AF2C074A1F48976800D7E348 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07471F48976800D7E348 /* UserViewModel.swift */; };
 		AF2C074B1F48976800D7E348 /* YourVotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07481F48976800D7E348 /* YourVotesViewController.swift */; };
 		AF3B2C0B1EDE531300509B01 /* Observable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */; };
 		AF3F5C681EBE72F700809AA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */; };
@@ -268,8 +268,8 @@
 		AF2C073A1F48975E00D7E348 /* RepresentativeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeViewModel.swift; sourceTree = "<group>"; };
 		AF2C073B1F48975E00D7E348 /* RepVoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepVoteTableViewCell.swift; sourceTree = "<group>"; };
 		AF2C073C1F48975E00D7E348 /* TermTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermTableViewCell.swift; sourceTree = "<group>"; };
-		AF2C07461F48976800D7E348 /* TrackController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackController.swift; sourceTree = "<group>"; };
-		AF2C07471F48976800D7E348 /* TrackViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
+		AF2C07461F48976800D7E348 /* UserController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
+		AF2C07471F48976800D7E348 /* UserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		AF2C07481F48976800D7E348 /* YourVotesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourVotesViewController.swift; sourceTree = "<group>"; };
 		AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Extensions.swift"; sourceTree = "<group>"; };
 		AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -554,8 +554,8 @@
 		AF2C07451F48976800D7E348 /* User */ = {
 			isa = PBXGroup;
 			children = (
-				AF2C07461F48976800D7E348 /* TrackController.swift */,
-				AF2C07471F48976800D7E348 /* TrackViewModel.swift */,
+				AF2C07461F48976800D7E348 /* UserController.swift */,
+				AF2C07471F48976800D7E348 /* UserViewModel.swift */,
 				AF2C07481F48976800D7E348 /* YourVotesViewController.swift */,
 			);
 			path = User;
@@ -1286,7 +1286,7 @@
 				AF2C07001F4895F000D7E348 /* SplashViewController.swift in Sources */,
 				AF2C06C31F3D4C9100D7E348 /* Localizer.swift in Sources */,
 				AF3F5CFD1EBE755000809AA3 /* FeedbackService.swift in Sources */,
-				AF2C07491F48976800D7E348 /* TrackController.swift in Sources */,
+				AF2C07491F48976800D7E348 /* UserController.swift in Sources */,
 				AF3F5CF71EBE74F900809AA3 /* AccountService.swift in Sources */,
 				AFFA95241EC1F2C500144C3A /* Observable+JSON.swift in Sources */,
 				AF5B9E5F1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift in Sources */,
@@ -1360,7 +1360,7 @@
 				AF3F5CD91EBE72F700809AA3 /* PresentMenuAnimator.swift in Sources */,
 				AF2C06F91F4895F000D7E348 /* AccountDetailViewController.swift in Sources */,
 				AF416A481F28C1F3006380DA /* Client+StateService.swift in Sources */,
-				AF2C074A1F48976800D7E348 /* TrackViewModel.swift in Sources */,
+				AF2C074A1F48976800D7E348 /* UserViewModel.swift in Sources */,
 				AF416A4D1F28C1FC006380DA /* AppClient.swift in Sources */,
 				AF416A451F28C1F3006380DA /* Client+CongressService.swift in Sources */,
 				AF3F5D011EBE759500809AA3 /* UserService.swift in Sources */,
