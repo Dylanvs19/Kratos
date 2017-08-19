@@ -58,7 +58,7 @@ class TabBarController: UITabBarController {
                 vc.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
                 return vc
             case .user:
-                let vc = TrackController(client: client)
+                let vc = UserController(client: client)
                 vc.tabBarItem = tabBarItem
                 vc.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
                 return vc

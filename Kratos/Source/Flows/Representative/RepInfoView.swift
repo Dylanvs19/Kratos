@@ -122,7 +122,10 @@ class RepInfoView: UIView {
     }
     
     func updateScrollView(with state: State) {
-        self.scrollView.scrollRectToVisible(CGRect(x: state.scrollViewXPosition(in: self), y: 0, width: self.frame.width, height: 1), animated: true)
+        self.scrollView.scrollRectToVisible(CGRect(x: state.scrollViewXPosition(in: self),
+                                                   y: 0,
+                                                   width: self.frame.width,
+                                                   height: 1), animated: true)
     }
     
     // MARK: - Configuration -
