@@ -10,14 +10,13 @@ import Foundation
 
 enum LoadStatus {
     case loading
-    case empty
     case error(error: KratosError)
     case none
 }
 
 func == (lhs: LoadStatus, rhs: LoadStatus) -> Bool {
     switch (lhs, rhs) {
-    case (.loading, .loading), (.none, .none), (.empty, .empty), (.error(_), .error(_)):
+    case (.loading, .loading), (.none, .none), (.error(_), .error(_)):
         return true
     default:
         return false

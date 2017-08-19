@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		71FC9AF49B0EB5820A301DE4 /* Pods_KratosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE4ABF9591E077E906036EA /* Pods_KratosTests.framework */; };
 		A0DD548B75376A90182B6EFF /* Pods_Kratos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EC5E845D25026904F837F7 /* Pods_Kratos.framework */; };
+		AF2C06C31F3D4C9100D7E348 /* Localizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C21F3D4C9100D7E348 /* Localizer.swift */; };
+		AF2C06C51F446DB000D7E348 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C41F446DB000D7E348 /* SearchController.swift */; };
+		AF2C06C71F446DBA00D7E348 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C61F446DBA00D7E348 /* SearchViewModel.swift */; };
+		AF2C06C91F45C74B00D7E348 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C81F45C74B00D7E348 /* State.swift */; };
 		AF3B2C0B1EDE531300509B01 /* Observable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */; };
 		AF3F5C681EBE72F700809AA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */; };
 		AF3F5C6B1EBE72F700809AA3 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BC11EBE72F700809AA3 /* TabBarController.swift */; };
@@ -208,6 +212,10 @@
 		AF1AC5531DF5A6A100DCBA13 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		AF1AC5561DF5A6A100DCBA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		AF1AC5581DF5A6A100DCBA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF2C06C21F3D4C9100D7E348 /* Localizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localizer.swift; sourceTree = "<group>"; };
+		AF2C06C41F446DB000D7E348 /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
+		AF2C06C61F446DBA00D7E348 /* SearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		AF2C06C81F45C74B00D7E348 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Extensions.swift"; sourceTree = "<group>"; };
 		AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF3F5BC11EBE72F700809AA3 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -478,6 +486,7 @@
 				AF3F5BCC1EBE72F700809AA3 /* User.swift */,
 				AF3F5BCD1EBE72F700809AA3 /* Vote.swift */,
 				AFFA94F51EBE789800144C3A /* Subject.swift */,
+				AF2C06C81F45C74B00D7E348 /* State.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -564,6 +573,8 @@
 				AF57F4CC1F3023780080978F /* ExploreViewModel.swift */,
 				AF83E8A11F37B6C100267325 /* BillCell.swift */,
 				AF83E8A31F37B81600267325 /* BillCellViewModel.swift */,
+				AF2C06C41F446DB000D7E348 /* SearchController.swift */,
+				AF2C06C61F446DBA00D7E348 /* SearchViewModel.swift */,
 			);
 			path = Explore;
 			sourceTree = "<group>";
@@ -778,6 +789,7 @@
 				AF3F5C671EBE72F700809AA3 /* Decodable.swift */,
 				AFFA95691EC95B0100144C3A /* RxBinder.swift */,
 				AF416A591F28D0F1006380DA /* Encodable.swift */,
+				AF2C06C21F3D4C9100D7E348 /* Localizer.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1272,6 +1284,7 @@
 				AF6271B51ED3DF8400BDE8DB /* UIButton+Extensions.swift in Sources */,
 				AF416A4F1F28C206006380DA /* Target.swift in Sources */,
 				AF3F5CA21EBE72F700809AA3 /* DatePickerView.swift in Sources */,
+				AF2C06C31F3D4C9100D7E348 /* Localizer.swift in Sources */,
 				AF6271B31ED085BC00BDE8DB /* AccountDetailViewController.swift in Sources */,
 				AF3F5CC31EBE72F700809AA3 /* RepVoteTableViewCell.swift in Sources */,
 				AF3F5CFD1EBE755000809AA3 /* FeedbackService.swift in Sources */,
@@ -1281,6 +1294,7 @@
 				AF41C4091EF2220800DDBD5F /* RepresentativeViewController.swift in Sources */,
 				AF41C40B1EF2222200DDBD5F /* RepresentativeViewModel.swift in Sources */,
 				AFFA95241EC1F2C500144C3A /* Observable+JSON.swift in Sources */,
+				AF2C06C51F446DB000D7E348 /* SearchController.swift in Sources */,
 				AF5B9E5F1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift in Sources */,
 				AF3F5C6C1EBE72F700809AA3 /* Constants.swift in Sources */,
 				AF57F4CF1F30B6440080978F /* TrackController.swift in Sources */,
@@ -1314,6 +1328,7 @@
 				AF3F5CE11EBE72F700809AA3 /* NSCharacterSet+Extensions.swift in Sources */,
 				AF416A461F28C1F3006380DA /* Client+FeedbackService.swift in Sources */,
 				AF4DCC861F16523D001D5553 /* BillViewController.swift in Sources */,
+				AF2C06C91F45C74B00D7E348 /* State.swift in Sources */,
 				AF3F5C7F1EBE72F700809AA3 /* FeedbackQuestionView.swift in Sources */,
 				AF3F5CD71EBE72F700809AA3 /* Interactor.swift in Sources */,
 				AF3F5CE01EBE72F700809AA3 /* DateFormatter+Extensions.swift in Sources */,
@@ -1324,6 +1339,7 @@
 				AF3F5CE91EBE72F700809AA3 /* UINavigationController+Extensions.swift in Sources */,
 				AFFA94F81EBE796F00144C3A /* StateService.swift in Sources */,
 				AFFA95681EC7A1DD00144C3A /* UIApplicationDelegate+Extensions.swift in Sources */,
+				AF2C06C71F446DBA00D7E348 /* SearchViewModel.swift in Sources */,
 				AF416A471F28C1F3006380DA /* Client+ImageService.swift in Sources */,
 				AF72F0781EE03F77006B9B0B /* UserRepsViewModel.swift in Sources */,
 				AF3F5CD41EBE72F700809AA3 /* YourVoteTableViewCell.swift in Sources */,

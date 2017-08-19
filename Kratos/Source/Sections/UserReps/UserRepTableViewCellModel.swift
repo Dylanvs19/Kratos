@@ -27,16 +27,12 @@ class UserRepTableViewCellModel {
     }
     
     func populateVariables(from representative: Person) {
-        if let first = representative.firstName,
-            let last = representative.lastName {
-            name.value = first + " " + last
-        }
+        self.name.value = representative.fullName
+        self.chamber.value = representative.currentChamber
         if let repParty = representative.currentParty {
             partyColor.value = repParty.color.value
         }
-        if let repChamber = representative.currentChamber {
-            chamber.value = repChamber
-        }
+        
     }
 }
 

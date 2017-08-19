@@ -51,10 +51,10 @@ struct Term: Hashable {
             self.representativeType = Chamber.chamber(value: role)?.representativeType
         }
         if let start = json["start"] as? String {
-            self.startDate = start.stringToDate()
+            self.startDate = start.date
         }
         if let end = json["end"] as? String {
-            self.endDate = end.stringToDate()
+            self.endDate = end.date
         }
         if let party = json["party"] as? String {
             self.party = Party.value(for: party)

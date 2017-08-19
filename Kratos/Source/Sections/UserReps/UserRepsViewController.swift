@@ -21,7 +21,6 @@ class UserRepsViewController: UIViewController {
     let loadStatus = Variable<LoadStatus>(.none)
     
     //TopImage
-    let kratosImageView = UIImageView(image: #imageLiteral(resourceName: "Kratos"))
     let topImage = UIImageView()
     let topShadeView = UIView()
     let stateImageView = UIImageView()
@@ -86,7 +85,6 @@ extension UserRepsViewController: UITableViewDelegate {
 extension UserRepsViewController: ViewBuilder {
     func addSubviews() {        
         view.addSubview(stateImageView)
-        stateImageView.addSubview(kratosImageView)
         stateImageView.addSubview(topShadeView)
         topShadeView.addSubview(stateLabel)
         topShadeView.addSubview(districtLabel)
@@ -98,12 +96,6 @@ extension UserRepsViewController: ViewBuilder {
             make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(190)
-        }
-        kratosImageView.snp.makeConstraints { make in
-            make.width.equalTo(50)
-            make.height.equalTo(kratosImageView.snp.width)
-            make.top.equalToSuperview().offset(10)
-            make.centerX.equalToSuperview()
         }
         topShadeView.snp.makeConstraints { make in
             make.leading.bottom.trailing.equalToSuperview()
@@ -157,7 +149,7 @@ extension UserRepsViewController: RxBinder {
             .disposed(by: disposeBag)
         
         viewModel.state.asObservable()
-            .map { Constants.abbreviationToFullStateNameDict[$0] }
+            .map { State(rawValue: $0)?.fullName }
             .filterNil()
             .bind(to: stateLabel.rx.text)
             .disposed(by: disposeBag)

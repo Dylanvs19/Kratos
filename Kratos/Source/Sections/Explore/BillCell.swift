@@ -38,7 +38,7 @@ class BillCell: UITableViewCell {
     }
     
     //MARK: - Configuration -
-    func configure(with bill: LightBill) {
+    func configure(with bill: Bill) {
         viewModel.update(with: bill)
     }
 

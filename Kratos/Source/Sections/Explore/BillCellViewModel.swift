@@ -13,7 +13,7 @@ class BillCellViewModel {
     // MARK: - Variables -
     let disposeBag = DisposeBag()
     
-    let bill = Variable<LightBill?>(nil)
+    let bill = Variable<Bill?>(nil)
     
     let title = Variable<String>("")
     let prettyGpo = Variable<String>("")
@@ -22,7 +22,7 @@ class BillCellViewModel {
         bind()
     }
     
-    func update(with bill: LightBill) {
+    func update(with bill: Bill) {
         self.bill.value = bill
     }
 }
@@ -33,8 +33,8 @@ extension BillCellViewModel: RxBinder {
         bill.asObservable()
             .filterNil()
             .subscribe(onNext: { [weak self] bill in
-                self?.title.value = bill.title
-                self?.prettyGpo.value = bill.prettyGpoId
+                self?.title.value = bill.title ?? ""
+                self?.prettyGpo.value = bill.prettyGpoID ?? ""
             })
             .disposed(by: disposeBag)
     }

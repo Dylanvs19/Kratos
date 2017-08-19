@@ -102,11 +102,11 @@ struct Bill: Hashable, Decodable {
         }
         
         self.status = json["status"] as? String
-        if let statusDate = json["status_at"] as? String {
-            self.statusDate = statusDate.stringToDate()
+        if let statusString = json["status_at"] as? String {
+            self.statusDate = statusString.date
         }
         if let introduction = json["introduced_at"] as? String {
-            self.introductionDate = introduction.stringToDate()
+            self.introductionDate = introduction.date
         }
         if let relatedBills = json["related_bills"] as? [[String: AnyObject]] {
             self.relatedBills = relatedBills.flatMap { return RelatedBill(json: $0) }
@@ -126,7 +126,7 @@ struct Bill: Hashable, Decodable {
         
         self.summary = json["summary_text"] as? String
         if let summaryDate = json["summary_date"] as? String {
-            self.summaryDate = summaryDate.stringToDate()
+            self.summaryDate = summaryDate.date
         }
 
         if let amendments = json["amendments"] as? [[String: AnyObject]] {
@@ -249,7 +249,7 @@ struct BillAction: Decodable {
         self.roll = json["roll"] as? Int
         self.code = json["action_code"] as? String
         if let date = json["acted_at"] as? String {
-            self.date = date.stringToDate()
+            self.date = date.date
         }
     }
     
@@ -321,28 +321,6 @@ struct RelatedBill: Decodable {
     init?(json: [String: Any]) {
         self.relatedBillID = json["related_bill_id"] as? Int
         self.reason = json["reason"] as? String
-    }
-}
-
-struct LightBill: Decodable {
-    let id: Int
-    let title: String
-    let gpoId: String
-    let prettyGpoId: String
-    var chamber: Chamber
-    
-    init?(json: JSONObject) {
-        guard let id = json["bill_id"] as? Int,
-              let title = json["title"] as? String,
-              let gpoId = json["bill_gpo_id"] as? String,
-              let prettyGpo = json["pretty_bill_gpo_id"] as? String,
-              let chamberString = json["chamber"] as? String,
-              let chamber = Chamber.chamber(value: chamberString) else { return nil }
-        self.id = id
-        self.title = title
-        self.gpoId = gpoId
-        self.prettyGpoId = prettyGpo
-        self.chamber = chamber
     }
 }
 

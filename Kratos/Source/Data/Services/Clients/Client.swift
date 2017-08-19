@@ -46,11 +46,13 @@ class Client {
     
     func update(token: String) {
         self.kratosClient = KratosClient(token: token)
+        self.isLoggedIn.value = kratosClient.token != nil
     }
     
     func tearDown() {
         invalidateCache()
         kratosClient = KratosClient(token: nil)
+        self.isLoggedIn.value = kratosClient.token != nil
     }
 }
 

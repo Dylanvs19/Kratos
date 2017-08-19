@@ -14,9 +14,9 @@ struct Person: Hashable, Decodable {
     }
 
     var id: Int
-    var firstName: String?
-    var lastName: String?
-    var currentState: String?
+    var firstName: String
+    var lastName: String
+    var currentState: State
     var currentParty: Party?
     var dob: Date?
     var imageURL: String?
@@ -24,52 +24,47 @@ struct Person: Hashable, Decodable {
     var youtube: String?
     var gender: String?
     var terms: [Term]?
-    var tallies: [LightTally]?
     var biography: String?
     
     var currentDistrict: Int?
     var officialFullName: String?
     var isCurrent: Bool?
-    var currentChamber: Chamber?
+    var currentChamber: Chamber
     var religion: String?
     
     init?(json: [String: Any]) {
-        if let id = json["id"] as? Int {
-            self.id = id
-        } else {
-            return nil 
-        }
-        self.firstName = json["first_name"] as? String
-        self.lastName = json["last_name"] as? String
+        guard let id = json["id"] as? Int,
+              let first = json["first_name"] as? String,
+              let last = json["last_name"] as? String,
+              let stateString = json["current_state"] as? String,
+              let state =  State(rawValue: stateString),
+              let chamberString = json["current_office"] as? String,
+              let chamber =  Chamber.chamber(value: chamberString) else { return nil }
+        
+        self.id = id
+        self.firstName = first
+        self.lastName = last
         self.twitter = json["twitter"] as? String
         self.youtube = json["youtube"] as? String
-        self.currentState = json["current_state"] as? String
+        self.currentState = state
         if let party = json["current_party"] as? String {
             self.currentParty = Party.value(for: party)
         }
         self.imageURL = json["image_url"] as? String
         self.gender = json["gender"] as? String
         if let dob = json["birthday"] as? String {
-            self.dob = dob.stringToDate()
+            self.dob = dob.date
         }
         self.currentDistrict = json["current_district"] as? Int
         self.officialFullName = json["official_full_name"] as? String
         self.biography = json["bio"] as? String
         self.religion = json["religion"] as? String
         self.isCurrent = json["is_current"] as? Bool
-        if let chamber = json["current_office"] as? String {
-            self.currentChamber = Chamber.chamber(value: chamber)
-        }
+        self.currentChamber = chamber
         if let termArray = json["terms"] as? [[String: AnyObject]] {
             self.terms = termArray.map({ (dictionary) -> Term? in
                 let term = Term(json: dictionary)
                 if (term?.isCurrent ?? false) {
-                    if self.currentState == nil {
-                        self.currentState = term?.state
-                    }
-                    if self.currentChamber == nil {
-                        self.currentChamber = term?.representativeType?.toChamber()
-                    }
                     if self.currentParty == nil {
                         self.currentParty = term?.party
                     }
@@ -81,12 +76,6 @@ struct Person: Hashable, Decodable {
             }).flatMap({$0}).sorted(by: {$0.startDate ?? Date() > $1.startDate ?? Date()})
         }
         if !(isCurrent == true) {
-            if self.currentState == nil {
-                self.currentState = terms?.first?.state
-            }
-            if self.currentChamber == nil {
-                self.currentChamber = terms?.first?.representativeType?.toChamber()
-            }
             if self.currentParty == nil {
                 self.currentParty = terms?.first?.party
             }
@@ -97,21 +86,19 @@ struct Person: Hashable, Decodable {
     }
     
     var lightPerson: LightPerson {
-        var person = LightPerson(with: id)
-        person.firstName = firstName
-        person.lastName = lastName
+        var person = LightPerson(with: id,
+                                 first: firstName,
+                                 last: lastName,
+                                 state: currentState)
         person.district = currentDistrict
         person.party = currentParty
-        person.state = currentState
-        person.representativeType = currentChamber?.representativeType
+        person.representativeType = currentChamber.representativeType
         person.imageURL = imageURL
         return person 
     }
     
-    var fullName: String? {
-        guard let first = firstName,
-            let last = lastName else { return nil }
-        return first + " " + last
+    var fullName: String {
+        return firstName + " " + lastName
     }
 }
 
@@ -124,44 +111,50 @@ struct LightPerson: Hashable {
         return id
     }
     
-    var firstName: String?
-    var lastName: String?
     var id: Int
+    var firstName: String
+    var lastName: String
     var imageURL: String?
-    var state: String?
+    var state: State
     var party: Party?
     var representativeType: RepresentativeType?
     var district: Int?
     var isCurrent: Bool?
     
     init?(from json: [String: AnyObject]) {
-        if let id = json["id"] as? Int {
-            self.id = id
-        } else {
-            return nil
-        }
+        guard let id = json["id"] as? Int,
+            let first = json["first_name"] as? String,
+            let last = json["last_name"] as? String,
+            let stateString = json["current_state"] as? String,
+            let state = State(rawValue: stateString.trimmingCharacters(in: CharacterSet.decimalDigits)) else { return nil }
+        
+        self.id = id
+        self.firstName = first
+        self.lastName = last
+        self.state = state
         self.imageURL = json["image_url"] as? String
-        self.firstName = json["first_name"] as? String
-        self.lastName = json["last_name"] as? String
         self.isCurrent = json["is_current"] as? Bool
         if let party = json["current_party"] as? String {
             self.party = Party.value(for: party)
         }
-        if let state = json["current_state"] as? String {
-            if state.characters.count > 2 {
-                self.representativeType = .representative
-                let finalState = state.trimmingCharacters(in: CharacterSet.decimalDigits)
-                self.state = finalState
-                let district = state.trimmingCharacters(in: CharacterSet.decimalDigits.inverted)
-                self.district = Int(district)
-            } else {
-                self.representativeType = .senator
-                self.state = state
-            }
+        if stateString.characters.count > 2 {
+            self.representativeType = .representative
+            let district = stateString.trimmingCharacters(in: CharacterSet.decimalDigits.inverted)
+            self.district = Int(district)
+        } else {
+            self.representativeType = .senator
         }
     }
-    init(with id: Int) {
+    
+    init(with id: Int, first: String, last: String, state: State) {
         self.id = id
+        self.firstName = first
+        self.lastName = last
+        self.state = state
+    }
+    
+    var fullName: String {
+        return firstName + " " + lastName
     }
 }
 
@@ -226,6 +219,7 @@ enum Party {
         }
     }
 }
+
 enum RepresentativeType: String, RawRepresentable {
     case representative = "Representative"
     case senator = "Senator"
@@ -260,5 +254,9 @@ enum RepresentativeType: String, RawRepresentable {
 
 func ==(lhs: LightPerson, rhs: LightPerson) -> Bool {
     return lhs.id == rhs.id
+}
+
+func !=(lhs: LightPerson, rhs: LightPerson) -> Bool {
+    return !(lhs == rhs)
 }
 

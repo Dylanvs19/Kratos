@@ -263,8 +263,8 @@ struct Tally: Hashable, Decodable {
             self.nominationID = tally["nomination_id"]
         }
         
-        if let holdDate = json["date"] as? String {
-            self.date = holdDate.stringToDate()
+        if let dateString = json["date"] as? String {
+            self.date = dateString.date
         }
         self.question = json["question"] as? String
         if let category = json["category"] as? String {
@@ -274,9 +274,9 @@ struct Tally: Hashable, Decodable {
             self.chamber = Chamber.chamber(value: holdChamber)
         }
         if let voteArray = json["votes"] as? [[String: AnyObject]] {
-            votes = voteArray.map({ (dictionary) -> Vote? in
-                return Vote(json: dictionary)
-            }).flatMap({$0}).sorted(by: {$0.person?.state ?? "z" < $1.person?.state ?? "z"})
+            votes = voteArray.map { Vote(json: $0) }
+                             .flatMap { $0 }
+                             .sorted(by: { $0 .person?.state.rawValue ?? "z" < $1.person?.state.rawValue ?? "z" })
         }
     }
     
@@ -395,7 +395,7 @@ struct LightTally: Hashable, Decodable {
         self.nominationID = tally["nomination_id"] as? Int
         
         if let holdDate = tally["date"] as? String {
-            self.date = holdDate.stringToDate()
+            self.date = holdDate.date
         }
         self.question = tally["question"] as? String
         if let category = tally["category"] as? String {

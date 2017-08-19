@@ -13,13 +13,14 @@ import RxDataSources
 import SnapKit
 
 class TrackController: UIViewController {
+    
     let client: Client
     let viewModel: TrackViewModel
     let disposeBag = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
     
     //TopImage
-    let kratosImageView = UIImageView(image: #imageLiteral(resourceName: "Kratos"))
+    let kratosImageView = UIImageView(image: #imageLiteral(resourceName: "kratosIcon"))
     
     let tableView = UITableView()
     let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Bill>>()

@@ -178,7 +178,7 @@ extension RepresentativeViewController: RxBinder {
             .bind(to: self.representativeImageView.rx.setImage())
             .disposed(by: disposeBag)
         viewModel.representative.asObservable()
-            .map { $0.currentParty?.color }
+            .map { $0?.currentParty?.color }
             .filterNil()
             .subscribe(onNext: { [weak self] color in
                 self?.partyLabel.textColor = color.value

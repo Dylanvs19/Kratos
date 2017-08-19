@@ -37,7 +37,7 @@ extension String {
     /// - "YYYY-MM-dd"
     /// - "yyyy-MM-dd'T'HH:mm:ss"
     /// - "yyyy-MM-dd'T'HH:mm:ssZZZZ"
-    func stringToDate() -> Date? {
+    var date: Date? {
         if let holdDate = DateFormatter.bill.date(from: self) {
             return holdDate
         }
@@ -48,20 +48,5 @@ extension String {
             return holdDate
         }
         return nil
-    }
-    
-    func fullStateName() -> String {
-        if let state = Constants.abbreviationToFullStateNameDict[self] {
-            return state
-        }
-        return ""
-    }
-    
-    func toPhoneNumberFormat() -> String {
-        return replacingOccurrences(of: "(\\d{3})(\\d{3})(\\d+)", with: "($1) $2-$3", options: .regularExpression, range: nil)
-    }
-    
-    func removePhoneNumberFormat() -> String {
-        return removeWhiteSpace().replacingOccurrences(of: "(", with: "").replacingOccurrences(of: ")", with: "").replacingOccurrences(of: "-", with: "")
     }
 }

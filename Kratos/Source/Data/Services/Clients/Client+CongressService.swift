@@ -79,8 +79,8 @@ extension Client: CongressService {
     }
     
     //Bills on the floor
-    func fetchBillsOnFloor(with chamber: Chamber) -> Observable<[LightBill]> {
-        return request(.fetchBillsOnFloor(chamber: chamber))
+    func fetchOnFloor(with chamber: Chamber) -> Observable<[Bill]> {
+        return request(.fetchOnFloor(chamber: chamber))
             .toJson()
             .mapArray(at: "data")
     }

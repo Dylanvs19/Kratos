@@ -183,7 +183,7 @@ class AccountDetailsViewModel {
                                       city: city.value,
                                       state: state.value,
                                       zipCode: Int(zip.value) ?? 0),
-                     dob: dob.value.stringToDate() ?? Date(),
+                     dob: dob.value.date ?? Date(),
                      party: Party.value(for: party.value),
                      password: password.value)
         
@@ -199,7 +199,7 @@ class AccountDetailsViewModel {
                                      city: city.value,
                                      state: state.value,
                                      zipCode: Int(zip.value) ?? 0),
-                    dob: dob.value.stringToDate() ?? Date(),
+                    dob: dob.value.date ?? Date(),
                     party: Party.value(for: party.value),
                     password: password.value)
     }

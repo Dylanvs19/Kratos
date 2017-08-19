@@ -56,7 +56,7 @@ extension RepresentativeCellViewModel: RxBinder {
             .filterNil()
             .subscribe(onNext: { [weak self] person in
                 var stateChamber = ""
-                stateChamber += person.state ?? ""
+                stateChamber += person.state.rawValue
                 stateChamber += " "
                 stateChamber += person.representativeType?.rawValue ?? ""
                 self?.stateChamber.value = stateChamber
@@ -65,10 +65,7 @@ extension RepresentativeCellViewModel: RxBinder {
                    let url = URL(string: string) {
                     self?.imageURL.value = url
                 }
-                if let first = person.firstName,
-                    let last = person.lastName {
-                    self?.name.value = first + " " + last
-                }
+                self?.name.value = person.fullName
             })
             .disposed(by: disposeBag)
     }

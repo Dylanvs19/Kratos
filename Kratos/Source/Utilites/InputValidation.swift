@@ -34,7 +34,7 @@ enum InputValidation {
         case .state(let state):
             guard let state = state else { return false }
             let sanitizedState = state.removeWhiteSpace()
-            return Constants.stateSet.contains(sanitizedState.uppercased()) && sanitizedState.characters.count == 2
+            return State(rawValue: sanitizedState) != nil && sanitizedState.characters.count == 2
             
         case .zipcode(let zipcode):
             guard let zipcode = zipcode else { return false }
