@@ -10,9 +10,35 @@
 		71FC9AF49B0EB5820A301DE4 /* Pods_KratosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE4ABF9591E077E906036EA /* Pods_KratosTests.framework */; };
 		A0DD548B75376A90182B6EFF /* Pods_Kratos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EC5E845D25026904F837F7 /* Pods_Kratos.framework */; };
 		AF2C06C31F3D4C9100D7E348 /* Localizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C21F3D4C9100D7E348 /* Localizer.swift */; };
-		AF2C06C51F446DB000D7E348 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C41F446DB000D7E348 /* SearchController.swift */; };
-		AF2C06C71F446DBA00D7E348 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C61F446DBA00D7E348 /* SearchViewModel.swift */; };
 		AF2C06C91F45C74B00D7E348 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C81F45C74B00D7E348 /* State.swift */; };
+		AF2C06ED1F4895F000D7E348 /* BillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06CC1F4895F000D7E348 /* BillCell.swift */; };
+		AF2C06EE1F4895F000D7E348 /* BillCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06CD1F4895F000D7E348 /* BillCellViewModel.swift */; };
+		AF2C06EF1F4895F000D7E348 /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06CE1F4895F000D7E348 /* ExploreViewController.swift */; };
+		AF2C06F01F4895F000D7E348 /* ExploreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06CF1F4895F000D7E348 /* ExploreViewModel.swift */; };
+		AF2C06F11F4895F000D7E348 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D01F4895F000D7E348 /* SearchController.swift */; };
+		AF2C06F21F4895F000D7E348 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D11F4895F000D7E348 /* SearchViewModel.swift */; };
+		AF2C06F31F4895F000D7E348 /* FeedbackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D31F4895F000D7E348 /* FeedbackHeaderView.swift */; };
+		AF2C06F41F4895F000D7E348 /* FeedbackHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2C06D41F4895F000D7E348 /* FeedbackHeaderView.xib */; };
+		AF2C06F51F4895F000D7E348 /* FeedbackQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D51F4895F000D7E348 /* FeedbackQuestionView.swift */; };
+		AF2C06F61F4895F000D7E348 /* FeedbackQuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2C06D61F4895F000D7E348 /* FeedbackQuestionView.xib */; };
+		AF2C06F71F4895F000D7E348 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D71F4895F000D7E348 /* FeedbackViewController.swift */; };
+		AF2C06F81F4895F000D7E348 /* AccountDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D91F4895F000D7E348 /* AccountDetailsViewModel.swift */; };
+		AF2C06F91F4895F000D7E348 /* AccountDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DA1F4895F000D7E348 /* AccountDetailViewController.swift */; };
+		AF2C06FA1F4895F000D7E348 /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DB1F4895F000D7E348 /* ConfirmationViewController.swift */; };
+		AF2C06FB1F4895F000D7E348 /* ConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DC1F4895F000D7E348 /* ConfirmationViewModel.swift */; };
+		AF2C06FC1F4895F000D7E348 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DD1F4895F000D7E348 /* LoginViewController.swift */; };
+		AF2C06FD1F4895F000D7E348 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DE1F4895F000D7E348 /* LoginViewModel.swift */; };
+		AF2C06FE1F4895F000D7E348 /* NotificationsRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DF1F4895F000D7E348 /* NotificationsRegistrationViewController.swift */; };
+		AF2C06FF1F4895F000D7E348 /* NotificationsRegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E01F4895F000D7E348 /* NotificationsRegistrationViewModel.swift */; };
+		AF2C07001F4895F000D7E348 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E11F4895F000D7E348 /* SplashViewController.swift */; };
+		AF2C07011F4895F000D7E348 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E31F4895F000D7E348 /* MenuViewController.swift */; };
+		AF2C07021F4895F000D7E348 /* TrackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E51F4895F000D7E348 /* TrackController.swift */; };
+		AF2C07031F4895F000D7E348 /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E61F4895F000D7E348 /* TrackViewModel.swift */; };
+		AF2C07041F4895F000D7E348 /* YourVotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E71F4895F000D7E348 /* YourVotesViewController.swift */; };
+		AF2C07051F4895F000D7E348 /* UserRepsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E91F4895F000D7E348 /* UserRepsViewController.swift */; };
+		AF2C07061F4895F000D7E348 /* UserRepsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06EA1F4895F000D7E348 /* UserRepsViewModel.swift */; };
+		AF2C07071F4895F000D7E348 /* UserRepTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06EB1F4895F000D7E348 /* UserRepTableViewCell.swift */; };
+		AF2C07081F4895F000D7E348 /* UserRepTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06EC1F4895F000D7E348 /* UserRepTableViewCellModel.swift */; };
 		AF3B2C0B1EDE531300509B01 /* Observable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */; };
 		AF3F5C681EBE72F700809AA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */; };
 		AF3F5C6B1EBE72F700809AA3 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BC11EBE72F700809AA3 /* TabBarController.swift */; };
@@ -27,16 +53,6 @@
 		AF3F5C751EBE72F700809AA3 /* FirebaseAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BD01EBE72F700809AA3 /* FirebaseAnalytics.swift */; };
 		AF3F5C761EBE72F700809AA3 /* KratosAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BD11EBE72F700809AA3 /* KratosAnalytics.swift */; };
 		AF3F5C7B1EBE72F700809AA3 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BDC1EBE72F700809AA3 /* Toast.swift */; };
-		AF3F5C7C1EBE72F700809AA3 /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BDF1EBE72F700809AA3 /* ExploreViewController.swift */; };
-		AF3F5C7D1EBE72F700809AA3 /* FeedbackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BE11EBE72F700809AA3 /* FeedbackHeaderView.swift */; };
-		AF3F5C7E1EBE72F700809AA3 /* FeedbackHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5BE21EBE72F700809AA3 /* FeedbackHeaderView.xib */; };
-		AF3F5C7F1EBE72F700809AA3 /* FeedbackQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BE31EBE72F700809AA3 /* FeedbackQuestionView.swift */; };
-		AF3F5C801EBE72F700809AA3 /* FeedbackQuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5BE41EBE72F700809AA3 /* FeedbackQuestionView.xib */; };
-		AF3F5C811EBE72F700809AA3 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BE51EBE72F700809AA3 /* FeedbackViewController.swift */; };
-		AF3F5C821EBE72F700809AA3 /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BE71EBE72F700809AA3 /* ConfirmationViewController.swift */; };
-		AF3F5C831EBE72F700809AA3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BE81EBE72F700809AA3 /* LoginViewController.swift */; };
-		AF3F5C841EBE72F700809AA3 /* NotificationsRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BE91EBE72F700809AA3 /* NotificationsRegistrationViewController.swift */; };
-		AF3F5C861EBE72F700809AA3 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BEC1EBE72F700809AA3 /* MenuViewController.swift */; };
 		AF3F5C8B1EBE72F700809AA3 /* ActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BF61EBE72F700809AA3 /* ActionsView.swift */; };
 		AF3F5C8C1EBE72F700809AA3 /* ActionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5BF71EBE72F700809AA3 /* ActionsView.xib */; };
 		AF3F5C8D1EBE72F700809AA3 /* BillActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BF81EBE72F700809AA3 /* BillActionsView.swift */; };
@@ -125,28 +141,14 @@
 		AF57F4C71F2B6E2B0080978F /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4C61F2B6E2B0080978F /* Store.swift */; };
 		AF57F4C91F2B6EBB0080978F /* UIImageView+RxUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4C81F2B6EBB0080978F /* UIImageView+RxUrl.swift */; };
 		AF57F4CB1F2E27030080978F /* TrackButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4CA1F2E27030080978F /* TrackButtonViewModel.swift */; };
-		AF57F4CD1F3023780080978F /* ExploreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4CC1F3023780080978F /* ExploreViewModel.swift */; };
-		AF57F4CF1F30B6440080978F /* TrackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4CE1F30B6440080978F /* TrackController.swift */; };
-		AF57F4D11F30B64D0080978F /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4D01F30B64D0080978F /* TrackViewModel.swift */; };
 		AF57F4D31F318EC90080978F /* Curtain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4D21F318EC90080978F /* Curtain.swift */; };
 		AF57F4D51F341F630080978F /* RepresentativeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4D41F341F630080978F /* RepresentativeCell.swift */; };
 		AF57F4D71F3420D20080978F /* RepresentativeCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4D61F3420D20080978F /* RepresentativeCellViewModel.swift */; };
 		AF57F4D91F34A1C40080978F /* TallyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4D81F34A1C40080978F /* TallyCell.swift */; };
 		AF57F4DB1F34A5140080978F /* TallyCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4DA1F34A5140080978F /* TallyCellViewModel.swift */; };
-		AF5B23421ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B23411ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift */; };
-		AF5B23441ED68A3B00DD9F9E /* ConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B23431ED68A3B00DD9F9E /* ConfirmationViewModel.swift */; };
 		AF5B9E5D1EFEF13A000BF83A /* ExpandableTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B9E5C1EFEF13A000BF83A /* ExpandableTextFieldView.swift */; };
 		AF5B9E5F1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B9E5E1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift */; };
-		AF6271B11ED0820E00BDE8DB /* AccountDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6271B01ED0820E00BDE8DB /* AccountDetailsViewModel.swift */; };
-		AF6271B31ED085BC00BDE8DB /* AccountDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6271B21ED085BC00BDE8DB /* AccountDetailViewController.swift */; };
 		AF6271B51ED3DF8400BDE8DB /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */; };
-		AF72F0741EE03F77006B9B0B /* YourVotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF72F06D1EE03F77006B9B0B /* YourVotesViewController.swift */; };
-		AF72F0771EE03F77006B9B0B /* UserRepsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF72F0711EE03F77006B9B0B /* UserRepsViewController.swift */; };
-		AF72F0781EE03F77006B9B0B /* UserRepsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF72F0721EE03F77006B9B0B /* UserRepsViewModel.swift */; };
-		AF72F0791EE03F77006B9B0B /* UserRepTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF72F0731EE03F77006B9B0B /* UserRepTableViewCell.swift */; };
-		AF72F07B1EE0E839006B9B0B /* UserRepTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF72F07A1EE0E839006B9B0B /* UserRepTableViewCellModel.swift */; };
-		AF83E8A21F37B6C100267325 /* BillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF83E8A11F37B6C100267325 /* BillCell.swift */; };
-		AF83E8A41F37B81600267325 /* BillCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF83E8A31F37B81600267325 /* BillCellViewModel.swift */; };
 		AF8974641D4D80E500C19020 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8974621D4D80E500C19020 /* Main.storyboard */; };
 		AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF8974651D4D80E500C19020 /* Assets.xcassets */; };
 		AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8974671D4D80E500C19020 /* LaunchScreen.storyboard */; };
@@ -162,9 +164,7 @@
 		AFFA95221EC1F08700144C3A /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95211EC1F08700144C3A /* ImageService.swift */; };
 		AFFA95241EC1F2C500144C3A /* Observable+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95231EC1F2C500144C3A /* Observable+JSON.swift */; };
 		AFFA95261EC1F56F00144C3A /* Observable+Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95251EC1F56F00144C3A /* Observable+Decode.swift */; };
-		AFFA95281EC4170500144C3A /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95271EC4170500144C3A /* LoginViewModel.swift */; };
 		AFFA95641EC79C4100144C3A /* ApplicationLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95631EC79C4100144C3A /* ApplicationLauncher.swift */; };
-		AFFA95661EC79D8100144C3A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95651EC79D8100144C3A /* SplashViewController.swift */; };
 		AFFA95681EC7A1DD00144C3A /* UIApplicationDelegate+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95671EC7A1DD00144C3A /* UIApplicationDelegate+Extensions.swift */; };
 		AFFA956A1EC95B0100144C3A /* RxBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95691EC95B0100144C3A /* RxBinder.swift */; };
 		E0BAAA2EC661D1AE55726E1A /* Pods_KratosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3106BBC49F4921A587E0B9 /* Pods_KratosUITests.framework */; };
@@ -213,9 +213,35 @@
 		AF1AC5561DF5A6A100DCBA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		AF1AC5581DF5A6A100DCBA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF2C06C21F3D4C9100D7E348 /* Localizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localizer.swift; sourceTree = "<group>"; };
-		AF2C06C41F446DB000D7E348 /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
-		AF2C06C61F446DBA00D7E348 /* SearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		AF2C06C81F45C74B00D7E348 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		AF2C06CC1F4895F000D7E348 /* BillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillCell.swift; sourceTree = "<group>"; };
+		AF2C06CD1F4895F000D7E348 /* BillCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillCellViewModel.swift; sourceTree = "<group>"; };
+		AF2C06CE1F4895F000D7E348 /* ExploreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
+		AF2C06CF1F4895F000D7E348 /* ExploreViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreViewModel.swift; sourceTree = "<group>"; };
+		AF2C06D01F4895F000D7E348 /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
+		AF2C06D11F4895F000D7E348 /* SearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		AF2C06D31F4895F000D7E348 /* FeedbackHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackHeaderView.swift; sourceTree = "<group>"; };
+		AF2C06D41F4895F000D7E348 /* FeedbackHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackHeaderView.xib; sourceTree = "<group>"; };
+		AF2C06D51F4895F000D7E348 /* FeedbackQuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackQuestionView.swift; sourceTree = "<group>"; };
+		AF2C06D61F4895F000D7E348 /* FeedbackQuestionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackQuestionView.xib; sourceTree = "<group>"; };
+		AF2C06D71F4895F000D7E348 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
+		AF2C06D91F4895F000D7E348 /* AccountDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailsViewModel.swift; sourceTree = "<group>"; };
+		AF2C06DA1F4895F000D7E348 /* AccountDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailViewController.swift; sourceTree = "<group>"; };
+		AF2C06DB1F4895F000D7E348 /* ConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
+		AF2C06DC1F4895F000D7E348 /* ConfirmationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationViewModel.swift; sourceTree = "<group>"; };
+		AF2C06DD1F4895F000D7E348 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		AF2C06DE1F4895F000D7E348 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		AF2C06DF1F4895F000D7E348 /* NotificationsRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationViewController.swift; sourceTree = "<group>"; };
+		AF2C06E01F4895F000D7E348 /* NotificationsRegistrationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationViewModel.swift; sourceTree = "<group>"; };
+		AF2C06E11F4895F000D7E348 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		AF2C06E31F4895F000D7E348 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		AF2C06E51F4895F000D7E348 /* TrackController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackController.swift; sourceTree = "<group>"; };
+		AF2C06E61F4895F000D7E348 /* TrackViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
+		AF2C06E71F4895F000D7E348 /* YourVotesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourVotesViewController.swift; sourceTree = "<group>"; };
+		AF2C06E91F4895F000D7E348 /* UserRepsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepsViewController.swift; sourceTree = "<group>"; };
+		AF2C06EA1F4895F000D7E348 /* UserRepsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepsViewModel.swift; sourceTree = "<group>"; };
+		AF2C06EB1F4895F000D7E348 /* UserRepTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepTableViewCell.swift; sourceTree = "<group>"; };
+		AF2C06EC1F4895F000D7E348 /* UserRepTableViewCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepTableViewCellModel.swift; sourceTree = "<group>"; };
 		AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Extensions.swift"; sourceTree = "<group>"; };
 		AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF3F5BC11EBE72F700809AA3 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -230,16 +256,6 @@
 		AF3F5BD01EBE72F700809AA3 /* FirebaseAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAnalytics.swift; sourceTree = "<group>"; };
 		AF3F5BD11EBE72F700809AA3 /* KratosAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosAnalytics.swift; sourceTree = "<group>"; };
 		AF3F5BDC1EBE72F700809AA3 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
-		AF3F5BDF1EBE72F700809AA3 /* ExploreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
-		AF3F5BE11EBE72F700809AA3 /* FeedbackHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackHeaderView.swift; sourceTree = "<group>"; };
-		AF3F5BE21EBE72F700809AA3 /* FeedbackHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackHeaderView.xib; sourceTree = "<group>"; };
-		AF3F5BE31EBE72F700809AA3 /* FeedbackQuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackQuestionView.swift; sourceTree = "<group>"; };
-		AF3F5BE41EBE72F700809AA3 /* FeedbackQuestionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackQuestionView.xib; sourceTree = "<group>"; };
-		AF3F5BE51EBE72F700809AA3 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
-		AF3F5BE71EBE72F700809AA3 /* ConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
-		AF3F5BE81EBE72F700809AA3 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		AF3F5BE91EBE72F700809AA3 /* NotificationsRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationViewController.swift; sourceTree = "<group>"; };
-		AF3F5BEC1EBE72F700809AA3 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		AF3F5BF61EBE72F700809AA3 /* ActionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionsView.swift; sourceTree = "<group>"; };
 		AF3F5BF71EBE72F700809AA3 /* ActionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActionsView.xib; sourceTree = "<group>"; };
 		AF3F5BF81EBE72F700809AA3 /* BillActionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillActionsView.swift; sourceTree = "<group>"; };
@@ -328,28 +344,14 @@
 		AF57F4C61F2B6E2B0080978F /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		AF57F4C81F2B6EBB0080978F /* UIImageView+RxUrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+RxUrl.swift"; sourceTree = "<group>"; };
 		AF57F4CA1F2E27030080978F /* TrackButtonViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackButtonViewModel.swift; sourceTree = "<group>"; };
-		AF57F4CC1F3023780080978F /* ExploreViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreViewModel.swift; sourceTree = "<group>"; };
-		AF57F4CE1F30B6440080978F /* TrackController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackController.swift; sourceTree = "<group>"; };
-		AF57F4D01F30B64D0080978F /* TrackViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
 		AF57F4D21F318EC90080978F /* Curtain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Curtain.swift; sourceTree = "<group>"; };
 		AF57F4D41F341F630080978F /* RepresentativeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeCell.swift; sourceTree = "<group>"; };
 		AF57F4D61F3420D20080978F /* RepresentativeCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeCellViewModel.swift; sourceTree = "<group>"; };
 		AF57F4D81F34A1C40080978F /* TallyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TallyCell.swift; sourceTree = "<group>"; };
 		AF57F4DA1F34A5140080978F /* TallyCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TallyCellViewModel.swift; sourceTree = "<group>"; };
-		AF5B23411ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationViewModel.swift; sourceTree = "<group>"; };
-		AF5B23431ED68A3B00DD9F9E /* ConfirmationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationViewModel.swift; sourceTree = "<group>"; };
 		AF5B9E5C1EFEF13A000BF83A /* ExpandableTextFieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableTextFieldView.swift; sourceTree = "<group>"; };
 		AF5B9E5E1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableTextFieldViewModel.swift; sourceTree = "<group>"; };
-		AF6271B01ED0820E00BDE8DB /* AccountDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailsViewModel.swift; sourceTree = "<group>"; };
-		AF6271B21ED085BC00BDE8DB /* AccountDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailViewController.swift; sourceTree = "<group>"; };
 		AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
-		AF72F06D1EE03F77006B9B0B /* YourVotesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YourVotesViewController.swift; path = UserBills/YourVotesViewController.swift; sourceTree = "<group>"; };
-		AF72F0711EE03F77006B9B0B /* UserRepsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepsViewController.swift; sourceTree = "<group>"; };
-		AF72F0721EE03F77006B9B0B /* UserRepsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepsViewModel.swift; sourceTree = "<group>"; };
-		AF72F0731EE03F77006B9B0B /* UserRepTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepTableViewCell.swift; sourceTree = "<group>"; };
-		AF72F07A1EE0E839006B9B0B /* UserRepTableViewCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepTableViewCellModel.swift; sourceTree = "<group>"; };
-		AF83E8A11F37B6C100267325 /* BillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillCell.swift; sourceTree = "<group>"; };
-		AF83E8A31F37B81600267325 /* BillCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillCellViewModel.swift; sourceTree = "<group>"; };
 		AF89745B1D4D80E500C19020 /* Kratos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kratos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF8974631D4D80E500C19020 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AF8974651D4D80E500C19020 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -372,9 +374,7 @@
 		AFFA95211EC1F08700144C3A /* ImageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		AFFA95231EC1F2C500144C3A /* Observable+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+JSON.swift"; sourceTree = "<group>"; };
 		AFFA95251EC1F56F00144C3A /* Observable+Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Decode.swift"; sourceTree = "<group>"; };
-		AFFA95271EC4170500144C3A /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		AFFA95631EC79C4100144C3A /* ApplicationLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationLauncher.swift; sourceTree = "<group>"; };
-		AFFA95651EC79D8100144C3A /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		AFFA95671EC7A1DD00144C3A /* UIApplicationDelegate+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplicationDelegate+Extensions.swift"; sourceTree = "<group>"; };
 		AFFA95691EC95B0100144C3A /* RxBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxBinder.swift; sourceTree = "<group>"; };
 		CC1513D8F9B156933DC665E0 /* Pods-Kratos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.release.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.release.xcconfig"; sourceTree = "<group>"; };
@@ -433,14 +433,97 @@
 			path = KratoCustomNotification;
 			sourceTree = "<group>";
 		};
+		AF2C06CA1F4895F000D7E348 /* Flows */ = {
+			isa = PBXGroup;
+			children = (
+				AF2C06CB1F4895F000D7E348 /* Explore */,
+				AF2C06D21F4895F000D7E348 /* Feedback */,
+				AF2C06D81F4895F000D7E348 /* Login */,
+				AF2C06E21F4895F000D7E348 /* Menu */,
+				AF2C06E41F4895F000D7E348 /* UserBills */,
+				AF2C06E81F4895F000D7E348 /* UserReps */,
+			);
+			path = Flows;
+			sourceTree = "<group>";
+		};
+		AF2C06CB1F4895F000D7E348 /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				AF2C06CC1F4895F000D7E348 /* BillCell.swift */,
+				AF2C06CD1F4895F000D7E348 /* BillCellViewModel.swift */,
+				AF2C06CE1F4895F000D7E348 /* ExploreViewController.swift */,
+				AF2C06CF1F4895F000D7E348 /* ExploreViewModel.swift */,
+				AF2C06D01F4895F000D7E348 /* SearchController.swift */,
+				AF2C06D11F4895F000D7E348 /* SearchViewModel.swift */,
+			);
+			path = Explore;
+			sourceTree = "<group>";
+		};
+		AF2C06D21F4895F000D7E348 /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				AF2C06D31F4895F000D7E348 /* FeedbackHeaderView.swift */,
+				AF2C06D41F4895F000D7E348 /* FeedbackHeaderView.xib */,
+				AF2C06D51F4895F000D7E348 /* FeedbackQuestionView.swift */,
+				AF2C06D61F4895F000D7E348 /* FeedbackQuestionView.xib */,
+				AF2C06D71F4895F000D7E348 /* FeedbackViewController.swift */,
+			);
+			path = Feedback;
+			sourceTree = "<group>";
+		};
+		AF2C06D81F4895F000D7E348 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				AF2C06D91F4895F000D7E348 /* AccountDetailsViewModel.swift */,
+				AF2C06DA1F4895F000D7E348 /* AccountDetailViewController.swift */,
+				AF2C06DB1F4895F000D7E348 /* ConfirmationViewController.swift */,
+				AF2C06DC1F4895F000D7E348 /* ConfirmationViewModel.swift */,
+				AF2C06DD1F4895F000D7E348 /* LoginViewController.swift */,
+				AF2C06DE1F4895F000D7E348 /* LoginViewModel.swift */,
+				AF2C06DF1F4895F000D7E348 /* NotificationsRegistrationViewController.swift */,
+				AF2C06E01F4895F000D7E348 /* NotificationsRegistrationViewModel.swift */,
+				AF2C06E11F4895F000D7E348 /* SplashViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		AF2C06E21F4895F000D7E348 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				AF2C06E31F4895F000D7E348 /* MenuViewController.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		AF2C06E41F4895F000D7E348 /* UserBills */ = {
+			isa = PBXGroup;
+			children = (
+				AF2C06E51F4895F000D7E348 /* TrackController.swift */,
+				AF2C06E61F4895F000D7E348 /* TrackViewModel.swift */,
+				AF2C06E71F4895F000D7E348 /* YourVotesViewController.swift */,
+			);
+			path = UserBills;
+			sourceTree = "<group>";
+		};
+		AF2C06E81F4895F000D7E348 /* UserReps */ = {
+			isa = PBXGroup;
+			children = (
+				AF2C06E91F4895F000D7E348 /* UserRepsViewController.swift */,
+				AF2C06EA1F4895F000D7E348 /* UserRepsViewModel.swift */,
+				AF2C06EB1F4895F000D7E348 /* UserRepTableViewCell.swift */,
+				AF2C06EC1F4895F000D7E348 /* UserRepTableViewCellModel.swift */,
+			);
+			path = UserReps;
+			sourceTree = "<group>";
+		};
 		AF3F5BBC1EBE72F700809AA3 /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				AF3F5BBD1EBE72F700809AA3 /* Core */,
 				AF3F5BC21EBE72F700809AA3 /* Data */,
+				AF2C06CA1F4895F000D7E348 /* Flows */,
 				AF3F5BDA1EBE72F700809AA3 /* Modals */,
 				AF3F5BDB1EBE72F700809AA3 /* Popovers */,
-				AF3F5BDD1EBE72F700809AA3 /* Sections */,
 				AF3F5BF31EBE72F700809AA3 /* Shared */,
 				AF3F5C451EBE72F700809AA3 /* Utilites */,
 			);
@@ -550,69 +633,6 @@
 				AF3F5BDC1EBE72F700809AA3 /* Toast.swift */,
 			);
 			path = Popovers;
-			sourceTree = "<group>";
-		};
-		AF3F5BDD1EBE72F700809AA3 /* Sections */ = {
-			isa = PBXGroup;
-			children = (
-				AF3F5BDE1EBE72F700809AA3 /* Explore */,
-				AF3F5BE01EBE72F700809AA3 /* Feedback */,
-				AF3F5BE61EBE72F700809AA3 /* Login */,
-				AF3F5BEB1EBE72F700809AA3 /* Menu */,
-				AF72F06C1EE03F77006B9B0B /* Track */,
-				AF72F06D1EE03F77006B9B0B /* YourVotesViewController.swift */,
-				AF72F06E1EE03F77006B9B0B /* UserReps */,
-			);
-			path = Sections;
-			sourceTree = "<group>";
-		};
-		AF3F5BDE1EBE72F700809AA3 /* Explore */ = {
-			isa = PBXGroup;
-			children = (
-				AF3F5BDF1EBE72F700809AA3 /* ExploreViewController.swift */,
-				AF57F4CC1F3023780080978F /* ExploreViewModel.swift */,
-				AF83E8A11F37B6C100267325 /* BillCell.swift */,
-				AF83E8A31F37B81600267325 /* BillCellViewModel.swift */,
-				AF2C06C41F446DB000D7E348 /* SearchController.swift */,
-				AF2C06C61F446DBA00D7E348 /* SearchViewModel.swift */,
-			);
-			path = Explore;
-			sourceTree = "<group>";
-		};
-		AF3F5BE01EBE72F700809AA3 /* Feedback */ = {
-			isa = PBXGroup;
-			children = (
-				AF3F5BE11EBE72F700809AA3 /* FeedbackHeaderView.swift */,
-				AF3F5BE21EBE72F700809AA3 /* FeedbackHeaderView.xib */,
-				AF3F5BE31EBE72F700809AA3 /* FeedbackQuestionView.swift */,
-				AF3F5BE41EBE72F700809AA3 /* FeedbackQuestionView.xib */,
-				AF3F5BE51EBE72F700809AA3 /* FeedbackViewController.swift */,
-			);
-			path = Feedback;
-			sourceTree = "<group>";
-		};
-		AF3F5BE61EBE72F700809AA3 /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				AFFA95651EC79D8100144C3A /* SplashViewController.swift */,
-				AFFA95271EC4170500144C3A /* LoginViewModel.swift */,
-				AF3F5BE81EBE72F700809AA3 /* LoginViewController.swift */,
-				AF6271B01ED0820E00BDE8DB /* AccountDetailsViewModel.swift */,
-				AF6271B21ED085BC00BDE8DB /* AccountDetailViewController.swift */,
-				AF5B23431ED68A3B00DD9F9E /* ConfirmationViewModel.swift */,
-				AF3F5BE71EBE72F700809AA3 /* ConfirmationViewController.swift */,
-				AF3F5BE91EBE72F700809AA3 /* NotificationsRegistrationViewController.swift */,
-				AF5B23411ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift */,
-			);
-			path = Login;
-			sourceTree = "<group>";
-		};
-		AF3F5BEB1EBE72F700809AA3 /* Menu */ = {
-			isa = PBXGroup;
-			children = (
-				AF3F5BEC1EBE72F700809AA3 /* MenuViewController.swift */,
-			);
-			path = Menu;
 			sourceTree = "<group>";
 		};
 		AF3F5BF31EBE72F700809AA3 /* Shared */ = {
@@ -859,28 +879,6 @@
 			path = Handlers;
 			sourceTree = "<group>";
 		};
-		AF72F06C1EE03F77006B9B0B /* Track */ = {
-			isa = PBXGroup;
-			children = (
-				AF57F4CE1F30B6440080978F /* TrackController.swift */,
-				AF57F4D01F30B64D0080978F /* TrackViewModel.swift */,
-			);
-			name = Track;
-			path = Kratos/Source/Sections/UserBills;
-			sourceTree = SOURCE_ROOT;
-		};
-		AF72F06E1EE03F77006B9B0B /* UserReps */ = {
-			isa = PBXGroup;
-			children = (
-				AF72F0721EE03F77006B9B0B /* UserRepsViewModel.swift */,
-				AF72F0711EE03F77006B9B0B /* UserRepsViewController.swift */,
-				AF72F07A1EE0E839006B9B0B /* UserRepTableViewCellModel.swift */,
-				AF72F0731EE03F77006B9B0B /* UserRepTableViewCell.swift */,
-			);
-			name = UserReps;
-			path = Kratos/Source/Sections/UserReps;
-			sourceTree = SOURCE_ROOT;
-		};
 		AF8974521D4D80E500C19020 = {
 			isa = PBXGroup;
 			children = (
@@ -1090,17 +1088,17 @@
 				AF3F5C9F1EBE72F700809AA3 /* MinorActionView.xib in Resources */,
 				AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */,
 				AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */,
-				AF3F5C7E1EBE72F700809AA3 /* FeedbackHeaderView.xib in Resources */,
 				AF3F5C8F1EBE72F700809AA3 /* BillActionTableViewCell.xib in Resources */,
 				AF3F5C9B1EBE72F700809AA3 /* CommitteeView.xib in Resources */,
-				AF3F5C801EBE72F700809AA3 /* FeedbackQuestionView.xib in Resources */,
 				AF3F5C911EBE72F700809AA3 /* BillCommitteesView.xib in Resources */,
 				AF3F5CD51EBE72F700809AA3 /* YourVoteTableViewCell.xib in Resources */,
 				AF3F5C8C1EBE72F700809AA3 /* ActionsView.xib in Resources */,
 				AF3F5CD11EBE72F700809AA3 /* UserVoteView.xib in Resources */,
 				AFA9D1601E30269B00CD6BF9 /* GoogleService-Info.plist in Resources */,
 				AF8974641D4D80E500C19020 /* Main.storyboard in Resources */,
+				AF2C06F41F4895F000D7E348 /* FeedbackHeaderView.xib in Resources */,
 				AF3F5C991EBE72F700809AA3 /* CommitteActivitiesView.xib in Resources */,
+				AF2C06F61F4895F000D7E348 /* FeedbackQuestionView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1264,74 +1262,72 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF416A441F28C1F3006380DA /* Client+AnalyticsService.swift in Sources */,
-				AF3F5C7D1EBE72F700809AA3 /* FeedbackHeaderView.swift in Sources */,
 				AF3F5CDE1EBE72F700809AA3 /* CharacterSet+Extensions.swift in Sources */,
 				AFFA95261EC1F56F00144C3A /* Observable+Decode.swift in Sources */,
+				AF2C06F81F4895F000D7E348 /* AccountDetailsViewModel.swift in Sources */,
 				AF5B9E5D1EFEF13A000BF83A /* ExpandableTextFieldView.swift in Sources */,
 				AF57F4DB1F34A5140080978F /* TallyCellViewModel.swift in Sources */,
 				AF3F5CDD1EBE72F700809AA3 /* Array+Extensions.swift in Sources */,
 				AF3F5CD81EBE72F700809AA3 /* MenuHelper.swift in Sources */,
 				AF4DCC881F165252001D5553 /* BillViewModel.swift in Sources */,
 				AFFA95641EC79C4100144C3A /* ApplicationLauncher.swift in Sources */,
-				AFFA95281EC4170500144C3A /* LoginViewModel.swift in Sources */,
 				AF4DCC8A1F171CD3001D5553 /* BillInfoView.swift in Sources */,
-				AF72F0791EE03F77006B9B0B /* UserRepTableViewCell.swift in Sources */,
 				AFA6F45E1F36818100686697 /* UITextView+Extensions.swift in Sources */,
 				AF3F5C901EBE72F700809AA3 /* BillCommitteesView.swift in Sources */,
 				AF3F5CC11EBE72F700809AA3 /* RepInfoView.swift in Sources */,
+				AF2C06EE1F4895F000D7E348 /* BillCellViewModel.swift in Sources */,
+				AF2C06F31F4895F000D7E348 /* FeedbackHeaderView.swift in Sources */,
 				AF4DCC8C1F171D0E001D5553 /* BillInfoViewModel.swift in Sources */,
 				AF41C4071EF173C200DDBD5F /* RepresentativeAnimator.swift in Sources */,
+				AF2C06FB1F4895F000D7E348 /* ConfirmationViewModel.swift in Sources */,
 				AF6271B51ED3DF8400BDE8DB /* UIButton+Extensions.swift in Sources */,
 				AF416A4F1F28C206006380DA /* Target.swift in Sources */,
 				AF3F5CA21EBE72F700809AA3 /* DatePickerView.swift in Sources */,
+				AF2C06F11F4895F000D7E348 /* SearchController.swift in Sources */,
+				AF2C07001F4895F000D7E348 /* SplashViewController.swift in Sources */,
 				AF2C06C31F3D4C9100D7E348 /* Localizer.swift in Sources */,
-				AF6271B31ED085BC00BDE8DB /* AccountDetailViewController.swift in Sources */,
 				AF3F5CC31EBE72F700809AA3 /* RepVoteTableViewCell.swift in Sources */,
 				AF3F5CFD1EBE755000809AA3 /* FeedbackService.swift in Sources */,
-				AF72F0741EE03F77006B9B0B /* YourVotesViewController.swift in Sources */,
 				AF3F5C8D1EBE72F700809AA3 /* BillActionsView.swift in Sources */,
 				AF3F5CF71EBE74F900809AA3 /* AccountService.swift in Sources */,
 				AF41C4091EF2220800DDBD5F /* RepresentativeViewController.swift in Sources */,
 				AF41C40B1EF2222200DDBD5F /* RepresentativeViewModel.swift in Sources */,
 				AFFA95241EC1F2C500144C3A /* Observable+JSON.swift in Sources */,
-				AF2C06C51F446DB000D7E348 /* SearchController.swift in Sources */,
 				AF5B9E5F1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift in Sources */,
 				AF3F5C6C1EBE72F700809AA3 /* Constants.swift in Sources */,
-				AF57F4CF1F30B6440080978F /* TrackController.swift in Sources */,
 				AFFA95081EBF4F9C00144C3A /* LoadStatus.swift in Sources */,
 				AF57F4B91F2B6D0C0080978F /* ErrorTypes.swift in Sources */,
 				AF416A311F28336B006380DA /* UIFont+Extensions.swift in Sources */,
 				AF3B2C0B1EDE531300509B01 /* Observable+Extensions.swift in Sources */,
 				AF416A371F28C173006380DA /* MicroClient.swift in Sources */,
 				AF3F5C741EBE72F700809AA3 /* Vote.swift in Sources */,
-				AF3F5C7C1EBE72F700809AA3 /* ExploreViewController.swift in Sources */,
 				AF57F4C71F2B6E2B0080978F /* Store.swift in Sources */,
+				AF2C07051F4895F000D7E348 /* UserRepsViewController.swift in Sources */,
+				AF2C07031F4895F000D7E348 /* TrackViewModel.swift in Sources */,
+				AF2C06F01F4895F000D7E348 /* ExploreViewModel.swift in Sources */,
 				AF3F5C761EBE72F700809AA3 /* KratosAnalytics.swift in Sources */,
 				AF3F5CEB1EBE72F700809AA3 /* UIView+Extension.swift in Sources */,
+				AF2C06FD1F4895F000D7E348 /* LoginViewModel.swift in Sources */,
 				AF57F4D91F34A1C40080978F /* TallyCell.swift in Sources */,
 				AF3F5C8B1EBE72F700809AA3 /* ActionsView.swift in Sources */,
-				AF57F4D11F30B64D0080978F /* TrackViewModel.swift in Sources */,
 				AF3F5CB01EBE72F700809AA3 /* TrackButton.swift in Sources */,
 				AFFA95221EC1F08700144C3A /* ImageService.swift in Sources */,
 				AFFA94F61EBE789800144C3A /* Subject.swift in Sources */,
+				AF2C07041F4895F000D7E348 /* YourVotesViewController.swift in Sources */,
 				AF3F5CB41EBE72F700809AA3 /* RepContactView.swift in Sources */,
 				AF57F4C31F2B6E220080978F /* Configuration.swift in Sources */,
 				AFFA956A1EC95B0100144C3A /* RxBinder.swift in Sources */,
-				AF3F5C861EBE72F700809AA3 /* MenuViewController.swift in Sources */,
-				AF3F5C841EBE72F700809AA3 /* NotificationsRegistrationViewController.swift in Sources */,
-				AF5B23441ED68A3B00DD9F9E /* ConfirmationViewModel.swift in Sources */,
 				AF3F5C8E1EBE72F700809AA3 /* BillActionTableViewCell.swift in Sources */,
 				AF43D5331EE634BE00F1DA75 /* RepImageView.swift in Sources */,
 				AF416A4B1F28C1F3006380DA /* KratosClient.swift in Sources */,
-				AF3F5C821EBE72F700809AA3 /* ConfirmationViewController.swift in Sources */,
 				AF3F5C6B1EBE72F700809AA3 /* TabBarController.swift in Sources */,
 				AF3F5CE11EBE72F700809AA3 /* NSCharacterSet+Extensions.swift in Sources */,
 				AF416A461F28C1F3006380DA /* Client+FeedbackService.swift in Sources */,
 				AF4DCC861F16523D001D5553 /* BillViewController.swift in Sources */,
 				AF2C06C91F45C74B00D7E348 /* State.swift in Sources */,
-				AF3F5C7F1EBE72F700809AA3 /* FeedbackQuestionView.swift in Sources */,
 				AF3F5CD71EBE72F700809AA3 /* Interactor.swift in Sources */,
 				AF3F5CE01EBE72F700809AA3 /* DateFormatter+Extensions.swift in Sources */,
+				AF2C07081F4895F000D7E348 /* UserRepTableViewCellModel.swift in Sources */,
 				AF3F5CFB1EBE754800809AA3 /* CongressService.swift in Sources */,
 				AF3F5CFF1EBE756800809AA3 /* AnalyticsService.swift in Sources */,
 				AF3F5C681EBE72F700809AA3 /* AppDelegate.swift in Sources */,
@@ -1339,39 +1335,41 @@
 				AF3F5CE91EBE72F700809AA3 /* UINavigationController+Extensions.swift in Sources */,
 				AFFA94F81EBE796F00144C3A /* StateService.swift in Sources */,
 				AFFA95681EC7A1DD00144C3A /* UIApplicationDelegate+Extensions.swift in Sources */,
-				AF2C06C71F446DBA00D7E348 /* SearchViewModel.swift in Sources */,
 				AF416A471F28C1F3006380DA /* Client+ImageService.swift in Sources */,
-				AF72F0781EE03F77006B9B0B /* UserRepsViewModel.swift in Sources */,
 				AF3F5CD41EBE72F700809AA3 /* YourVoteTableViewCell.swift in Sources */,
 				AF3F5CA91EBE72F700809AA3 /* PieChartView.swift in Sources */,
+				AF2C06FA1F4895F000D7E348 /* ConfirmationViewController.swift in Sources */,
 				AFADDCDF1F000DF60031A62D /* RepInfoViewModel.swift in Sources */,
 				AF3F5CF51EBE74E400809AA3 /* KratosTarget.swift in Sources */,
+				AF2C07011F4895F000D7E348 /* MenuViewController.swift in Sources */,
 				AFADDCDD1F0002F60031A62D /* TermTableViewCell.swift in Sources */,
-				AF83E8A21F37B6C100267325 /* BillCell.swift in Sources */,
 				AF416A431F28C1F3006380DA /* Client+AccountService.swift in Sources */,
 				AF3F5CA51EBE72F700809AA3 /* KratosTextField.swift in Sources */,
 				AF57F4BB1F2B6E110080978F /* ViewBuilder.swift in Sources */,
-				AF83E8A41F37B81600267325 /* BillCellViewModel.swift in Sources */,
 				AF3F5CD01EBE72F700809AA3 /* UserVoteView.swift in Sources */,
 				AF57F4C91F2B6EBB0080978F /* UIImageView+RxUrl.swift in Sources */,
 				AF3F5CE81EBE72F700809AA3 /* UILabel+Extensions.swift in Sources */,
+				AF2C07061F4895F000D7E348 /* UserRepsViewModel.swift in Sources */,
+				AF2C06EF1F4895F000D7E348 /* ExploreViewController.swift in Sources */,
+				AF2C06F21F4895F000D7E348 /* SearchViewModel.swift in Sources */,
 				AF3F5CE61EBE72F700809AA3 /* UIImage+Extension.swift in Sources */,
 				AF57F4CB1F2E27030080978F /* TrackButtonViewModel.swift in Sources */,
-				AF72F07B1EE0E839006B9B0B /* UserRepTableViewCellModel.swift in Sources */,
 				AF3F5CDB1EBE72F700809AA3 /* TransitionManager.swift in Sources */,
 				AF3F5C751EBE72F700809AA3 /* FirebaseAnalytics.swift in Sources */,
 				AF57F4D71F3420D20080978F /* RepresentativeCellViewModel.swift in Sources */,
+				AF2C06F51F4895F000D7E348 /* FeedbackQuestionView.swift in Sources */,
 				AF3F5CB71EBE72F700809AA3 /* RepInfoBillSponsorTableViewCell.swift in Sources */,
 				AF3F5C6E1EBE72F700809AA3 /* Definition.swift in Sources */,
 				AF416A5A1F28D0F1006380DA /* Encodable.swift in Sources */,
 				AF416A4A1F28C1F3006380DA /* Client.swift in Sources */,
 				AF3F5CD91EBE72F700809AA3 /* PresentMenuAnimator.swift in Sources */,
+				AF2C06F91F4895F000D7E348 /* AccountDetailViewController.swift in Sources */,
 				AF416A481F28C1F3006380DA /* Client+StateService.swift in Sources */,
-				AFFA95661EC79D8100144C3A /* SplashViewController.swift in Sources */,
 				AF416A4D1F28C1FC006380DA /* AppClient.swift in Sources */,
 				AF3F5C9E1EBE72F700809AA3 /* MinorActionView.swift in Sources */,
 				AF416A451F28C1F3006380DA /* Client+CongressService.swift in Sources */,
 				AF3F5D011EBE759500809AA3 /* UserService.swift in Sources */,
+				AF2C07071F4895F000D7E348 /* UserRepTableViewCell.swift in Sources */,
 				AF416A5C1F28D147006380DA /* JSONDecoder.swift in Sources */,
 				AF57F4D51F341F630080978F /* RepresentativeCell.swift in Sources */,
 				AF3F5CF31EBE72F700809AA3 /* Decodable.swift in Sources */,
@@ -1379,32 +1377,32 @@
 				AF3F5CEF1EBE72F700809AA3 /* InputValidation.swift in Sources */,
 				AF3F5CCF1EBE72F700809AA3 /* TallyTableView.swift in Sources */,
 				AF3F5CE21EBE72F700809AA3 /* NSData+Extensions.swift in Sources */,
+				AF2C06F71F4895F000D7E348 /* FeedbackViewController.swift in Sources */,
+				AF2C06ED1F4895F000D7E348 /* BillCell.swift in Sources */,
 				AF57F4D31F318EC90080978F /* Curtain.swift in Sources */,
+				AF2C06FF1F4895F000D7E348 /* NotificationsRegistrationViewModel.swift in Sources */,
 				AF3F5CE41EBE72F700809AA3 /* String+Extensions.swift in Sources */,
 				AF3F5CEA1EBE72F700809AA3 /* UITableView+Extensions.swift in Sources */,
 				AF3F5C9A1EBE72F700809AA3 /* CommitteeView.swift in Sources */,
-				AF6271B11ED0820E00BDE8DB /* AccountDetailsViewModel.swift in Sources */,
 				AF3F5CEC1EBE72F700809AA3 /* UIViewController+Extensions.swift in Sources */,
 				AF3F5CD61EBE72F700809AA3 /* DismissMenuAnimator.swift in Sources */,
 				AF3F5C6D1EBE72F700809AA3 /* Bill.swift in Sources */,
 				AF416A491F28C1F3006380DA /* Client+UserService.swift in Sources */,
 				AF57F4C41F2B6E220080978F /* KratosEnvironment.swift in Sources */,
 				AF3F5CA71EBE72F700809AA3 /* LoadMoreSpinnerView.swift in Sources */,
-				AF72F0771EE03F77006B9B0B /* UserRepsViewController.swift in Sources */,
+				AF2C06FE1F4895F000D7E348 /* NotificationsRegistrationViewController.swift in Sources */,
 				AF3F5C731EBE72F700809AA3 /* User.swift in Sources */,
-				AF3F5C811EBE72F700809AA3 /* FeedbackViewController.swift in Sources */,
 				AF3F5C981EBE72F700809AA3 /* CommitteActivitiesView.swift in Sources */,
 				AF3F5C6F1EBE72F700809AA3 /* Person.swift in Sources */,
 				AF3F5C7B1EBE72F700809AA3 /* Toast.swift in Sources */,
-				AF57F4CD1F3023780080978F /* ExploreViewModel.swift in Sources */,
 				AF3F5CCE1EBE72F700809AA3 /* TallyViewController.swift in Sources */,
+				AF2C07021F4895F000D7E348 /* TrackController.swift in Sources */,
 				AF3F5CE51EBE72F700809AA3 /* UIColor+Extension.swift in Sources */,
 				AF57F4BE1F2B6E190080978F /* Styler.swift in Sources */,
 				AF3F5CDF1EBE72F700809AA3 /* Date+Extensions.swift in Sources */,
 				AF3F5C711EBE72F700809AA3 /* Tally.swift in Sources */,
-				AF3F5C831EBE72F700809AA3 /* LoginViewController.swift in Sources */,
+				AF2C06FC1F4895F000D7E348 /* LoginViewController.swift in Sources */,
 				AF3F5CE31EBE72F700809AA3 /* NSLayoutAnchor+Extensions.swift in Sources */,
-				AF5B23421ED6893200DD9F9E /* NotificationsRegistrationViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
