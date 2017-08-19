@@ -16,11 +16,13 @@ import SafariServices
 
 class RepresentativeViewController: UIViewController {
     
+    // MARK: - Variables -
+    // Standard
     let client: Client
     let viewModel: RepresentativeViewModel
     let disposeBag = DisposeBag()
-    let loadStatus = Variable<LoadStatus>(.none)
     
+    // topView
     let topView = UIView()
     let representativeImageView = RepImageView()
     let nameLabel = UILabel()
@@ -29,16 +31,20 @@ class RepresentativeViewController: UIViewController {
     let stateLabel = UILabel()
     let partyLabel = UILabel()
     
+    // RepContactView
     let contactView = RepContactView()
     
+    // RepInfoView
     let repInfoView: RepInfoView
     
+    // Constraint & Static Sizes
     var topViewHeight: Constraint?
     var contactViewHeight: Constraint?
     var repInfoViewHeight: Constraint?
 
     let repImageViewHeight: CGFloat = 60
     
+    // MARK: - Initializer -
     init(client: Client, representative: Person) {
         self.client = client
         self.viewModel = RepresentativeViewModel(client: client, representative: representative)
@@ -51,6 +57,7 @@ class RepresentativeViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = [.top, .right, .left]
@@ -63,21 +70,18 @@ class RepresentativeViewController: UIViewController {
         repInfoView.buildViews()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        configureNavVC()
+        setDefaultNavVC()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setDefaultNavVC()
     }
-    
-    func configureNavVC() {
-        
-    }
 }
 
+// MARK: - Contact Interactions -
 extension RepresentativeViewController {
     func presentWebsite(with websiteAddress: String) {
         guard let url = URL(string: websiteAddress) else { return }
@@ -114,6 +118,7 @@ extension RepresentativeViewController {
     }
 }
 
+// MARK: - View Builder -
 extension RepresentativeViewController: ViewBuilder {
     func addSubviews() {
         view.addSubview(topView)
@@ -179,6 +184,7 @@ extension RepresentativeViewController: ViewBuilder {
     }
 }
 
+// MARK: - Binds -
 extension RepresentativeViewController: RxBinder {
     func bind() {
         bindTopView()

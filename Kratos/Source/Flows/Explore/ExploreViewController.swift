@@ -254,6 +254,7 @@ extension ExploreController: ViewBuilder {
         view.style(with: .backgroundColor(.slate))
         topView.style(with: .backgroundColor(.white))
         topView.addShadow()
+        scrollView.isUserInteractionEnabled = false 
         
         titleLabel.style(with: [.font(.header)])
         slideView.style(with: [.backgroundColor(.kratosRed)])
