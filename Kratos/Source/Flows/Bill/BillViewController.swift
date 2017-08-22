@@ -45,6 +45,7 @@ class BillViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
@@ -54,6 +55,16 @@ class BillViewController: UIViewController {
         //RepInfoView needs to be laid out and constrained after view is larger than .zero
         view.layoutIfNeeded()
         billInfoView.build()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setDefaultNavVC()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setDefaultNavVC()
     }
 }
 
@@ -66,7 +77,6 @@ extension BillViewController: ViewBuilder {
         billHeader.addSubview(statusLabel)
         billHeader.addSubview(statusDateLabel)
         billHeader.addSubview(trackButton)
-        
         view.addSubview(billInfoView)
     }
     func constrainViews() {

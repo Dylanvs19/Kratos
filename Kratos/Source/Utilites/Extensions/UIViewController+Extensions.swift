@@ -126,6 +126,7 @@ extension UIViewController {
     func setDefaultNavVC() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "kratosSelectedIcon"))
+        navigationController?.navigationBar.tintColor = Color.lightGray.value
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true

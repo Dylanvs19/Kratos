@@ -27,13 +27,13 @@ class BillInfoView: UIView {
         var displayName: String {
             switch self {
             case .summary:
-                return "Summary"
+                return localize(.billInfoViewSummaryTitle)
             case .votes:
-                return "Votes"
+                return localize(.billInfoViewVotesTitle)
             case .sponsors:
-                return "Sponsors"
+                return localize(.billInfoViewSponsorsTitle)
             case .details:
-                return "Details"
+                return localize(.billInfoViewDetailsTitle)
             }
         }
         
@@ -49,30 +49,13 @@ class BillInfoView: UIView {
         }
         
         func scrollViewXPosition(in view: UIView) -> CGFloat {
-            switch self {
-            case .summary:
-                return 0
-            case .votes:
-                return view.frame.size.width
-            case .sponsors:
-                return view.frame.size.width * 2
-            case .details:
-                return view.frame.size.width * 3
-            }
+            let width = view.frame.size.width
+            return CGFloat(State.allValues.index(of: self)!) * width
         }
         
         func indicatorXPosition(in view: UIView) -> CGFloat {
             let width = view.frame.size.width / CGFloat(State.allValues.count)
-            switch self {
-            case .summary:
-                return 0
-            case .votes:
-                return width
-            case .sponsors:
-                return width * 2
-            case .details:
-                return width * 3
-            }
+            return CGFloat(State.allValues.index(of: self)!) * width
         }
     }
     
@@ -91,7 +74,7 @@ class BillInfoView: UIView {
     let stackView = UIStackView()
     // Summary
     let summaryScrollView = UIScrollView()
-    let summaryStackView = UIStackView()
+    let summaryViewView = UIView()
     let summaryView = ExpandableTextFieldView()
     let committeeStackView = UIStackView()
     // Votes
@@ -122,7 +105,6 @@ class BillInfoView: UIView {
     }
     
     // Mark: - Update Method -
-    
     func update(with bill: Bill) {
         viewModel?.update(with: bill)
     }
@@ -208,14 +190,15 @@ extension BillInfoView: ViewBuilder {
         managerStackView.addSubview(managerIndicatorView)
         
         stackView.addArrangedSubview(summaryScrollView)
-        summaryScrollView.addSubview(summaryStackView)
+        summaryScrollView.addSubview(summaryViewView)
         
-        summaryStackView.addArrangedSubview(summaryView)
-        summaryStackView.addSubview(committeeStackView)
+        summaryViewView.addSubview(summaryView)
+        summaryViewView.addSubview(committeeStackView)
         
         stackView.addArrangedSubview(votesTableView)
         stackView.addArrangedSubview(sponsorsTableView)
     }
+    
     func constrainViews() {
         managerStackView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
@@ -240,15 +223,13 @@ extension BillInfoView: ViewBuilder {
             make.width.height.equalTo(self.scrollView)
         }
         summaryScrollView.layoutIfNeeded()
-
-        summaryStackView.snp.remakeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalTo(self.frame.width)
-        }
-        summaryStackView.layoutIfNeeded()
         
+        summaryViewView.snp.remakeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         summaryView.snp.remakeConstraints { make in
             make.width.equalTo(self.frame.width)
+            make.top.leading.trailing.bottom.equalToSuperview()
         }
         layoutIfNeeded()
     }
@@ -265,10 +246,6 @@ extension BillInfoView: ViewBuilder {
         stackView.distribution = .fillEqually
         
         scrollView.isScrollEnabled = false
-        
-        summaryStackView.axis = .vertical
-        summaryStackView.alignment = .fill
-        summaryStackView.distribution = .fillProportionally
     }
 }
 
@@ -318,6 +295,7 @@ extension BillInfoView: RxBinder {
         viewModel.summary.asObservable()
             .subscribe(onNext: { [weak self] summary in
                 self?.summaryView.update(with: summary)
+                self?.constrainViews()
             })
             .disposed(by: disposeBag)
     }
