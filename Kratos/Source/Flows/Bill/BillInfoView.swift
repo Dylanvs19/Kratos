@@ -231,6 +231,7 @@ extension BillInfoView: ViewBuilder {
             make.width.equalTo(self.frame.width)
             make.top.leading.trailing.bottom.equalToSuperview()
         }
+        summaryScrollView.layoutIfNeeded()
         layoutIfNeeded()
     }
     
@@ -296,6 +297,7 @@ extension BillInfoView: RxBinder {
             .subscribe(onNext: { [weak self] summary in
                 self?.summaryView.update(with: summary)
                 self?.constrainViews()
+                self?.summaryScrollView.layoutSubviews()
             })
             .disposed(by: disposeBag)
     }

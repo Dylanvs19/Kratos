@@ -55,7 +55,7 @@ class RepInfoView: UIView {
         }
     }
     
-    // MARK: - Variables -
+    // MARK: - Properties -
     
     var viewModel: RepInfoViewModel?
     let disposeBag = DisposeBag()
@@ -353,7 +353,6 @@ extension RepInfoView: RxBinder {
             .delay(0.01, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] _ in
                 self?.constrainViews()
-                print("Views Constriained")
             })
             .disposed(by: disposeBag)
     }

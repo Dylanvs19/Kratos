@@ -45,7 +45,6 @@ class ExpandableTextFieldView: UIView {
     var expandedButtonHeight: CGFloat = 30
     var forceCollapseToggleButton: Bool = false
     
-    
     // MARK: - Initialization - 
     convenience init(forceCollapseToggleButton: Bool) {
         self.init(frame: .zero)
@@ -147,6 +146,7 @@ class ExpandableTextFieldView: UIView {
     }
 }
 
+// MARK: - ViewBuilder -
 extension ExpandableTextFieldView: ViewBuilder {
     func addSubviews() {
         addSubview(titleLabel)
@@ -182,6 +182,7 @@ extension ExpandableTextFieldView: ViewBuilder {
     }
 }
 
+// MARK: - Binds -
 extension ExpandableTextFieldView: RxBinder {
     
     func bind() {
@@ -235,6 +236,3 @@ extension ExpandableTextFieldView: RxBinder {
             .disposed(by: disposeBag)
     }
 }
-
-
-

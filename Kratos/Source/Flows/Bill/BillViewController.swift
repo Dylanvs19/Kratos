@@ -104,7 +104,7 @@ extension BillViewController: ViewBuilder {
         statusDateLabel.snp.remakeConstraints { make in
             make.leading.equalTo(self.divider)
             make.top.equalTo(self.statusLabel.snp.bottom).offset(2)
-            make.trailing.equalTo(self.trackButton.snp.leading)
+            make.trailing.lessThanOrEqualTo(self.trackButton.snp.leading)
         }
         billInfoView.snp.makeConstraints { make in
             make.top.equalTo(billHeader.snp.bottom).offset(5)
