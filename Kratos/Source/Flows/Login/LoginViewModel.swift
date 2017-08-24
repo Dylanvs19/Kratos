@@ -72,11 +72,11 @@ class LoginViewModel {
     }
     var emailValid : Observable<Bool> {
         return email.asObservable()
-            .map { InputValidation.email(email: $0).isValid }
+            .map { $0.isValid(for: .email) }
     }
     var passwordValid : Observable<Bool> {
         return password.asObservable()
-            .map { InputValidation.password(password: $0).isValid }
+            .map { $0.isValid(for: .password) }
     }
     
     fileprivate func postForgotPassword() -> Observable<Bool> {

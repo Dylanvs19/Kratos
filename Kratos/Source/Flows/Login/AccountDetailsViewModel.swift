@@ -77,35 +77,35 @@ class AccountDetailsViewModel {
     
     var firstValid : Observable<Bool> {
         return first.asObservable()
-            .map { InputValidation.address(address:$0).isValid }
+            .map { $0.isValid(for: .address) }
     }
     var lastValid : Observable<Bool> {
         return last.asObservable()
-            .map { InputValidation.address(address: $0).isValid }
+            .map { $0.isValid(for: .address) }
     }
     var partyValid : Observable<Bool> {
         return party.asObservable()
-            .map { InputValidation.address(address: $0).isValid }
+            .map { $0.isValid(for: .address) }
     }
     var dobValid : Observable<Bool> {
         return dob.asObservable()
-            .map { InputValidation.address(address: $0).isValid }
+            .map { $0.isValid(for: .address) }
     }
     var streetValid : Observable<Bool> {
         return street.asObservable()
-            .map { InputValidation.address(address: $0).isValid }
+            .map { $0.isValid(for: .address) }
     }
     var cityValid : Observable<Bool> {
         return city.asObservable()
-            .map { InputValidation.city(city: $0).isValid }
+            .map { $0.isValid(for: .city) }
     }
     var stateValid : Observable<Bool> {
         return state.asObservable()
-            .map { InputValidation.state(state: $0).isValid }
+            .map { $0.isValid(for: .state) }
     }
     var zipValid : Observable<Bool> {
         return zip.asObservable()
-            .map { InputValidation.zipcode(zipcode: $0).isValid }
+            .map { $0.isValid(for: .zipcode) }
     }
     
     var push = Variable<Bool>(false)

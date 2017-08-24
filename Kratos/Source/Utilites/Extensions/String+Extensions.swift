@@ -59,6 +59,11 @@ extension String {
         return nil
     }
     
+    
+    /// Validates string based on inputValidation type passed as parameter
+    ///
+    /// - Parameter inputValidation: inputValidation type
+    /// - Returns: bool indicating whether string is valid based on inputValidation type
     func isValid(for inputValidation: InputValidation) -> Bool {
         switch inputValidation {
         case .email:
