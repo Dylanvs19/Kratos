@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		71FC9AF49B0EB5820A301DE4 /* Pods_KratosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE4ABF9591E077E906036EA /* Pods_KratosTests.framework */; };
 		A0DD548B75376A90182B6EFF /* Pods_Kratos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EC5E845D25026904F837F7 /* Pods_Kratos.framework */; };
+		AF09B3031F4F8E24003CB455 /* InteractionResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF09B3021F4F8E24003CB455 /* InteractionResponder.swift */; };
 		AF2C06C31F3D4C9100D7E348 /* Localizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C21F3D4C9100D7E348 /* Localizer.swift */; };
 		AF2C06C91F45C74B00D7E348 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C81F45C74B00D7E348 /* State.swift */; };
 		AF2C06ED1F4895F000D7E348 /* BillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06CC1F4895F000D7E348 /* BillCell.swift */; };
@@ -114,7 +115,6 @@
 		AF3F5CEA1EBE72F700809AA3 /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C5C1EBE72F700809AA3 /* UITableView+Extensions.swift */; };
 		AF3F5CEB1EBE72F700809AA3 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C5D1EBE72F700809AA3 /* UIView+Extension.swift */; };
 		AF3F5CEC1EBE72F700809AA3 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C5E1EBE72F700809AA3 /* UIViewController+Extensions.swift */; };
-		AF3F5CEF1EBE72F700809AA3 /* InputValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C611EBE72F700809AA3 /* InputValidation.swift */; };
 		AF3F5CF31EBE72F700809AA3 /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C671EBE72F700809AA3 /* Decodable.swift */; };
 		AF3F5CF51EBE74E400809AA3 /* KratosTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5CF41EBE74E400809AA3 /* KratosTarget.swift */; };
 		AF3F5CF71EBE74F900809AA3 /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5CF61EBE74F900809AA3 /* AccountService.swift */; };
@@ -207,6 +207,7 @@
 		76680437267A207995EC63FD /* Pods-KratosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KratosUITests/Pods-KratosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		86EC5E845D25026904F837F7 /* Pods_Kratos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kratos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E2C0D1F0BFAA77B0FD2EA1F /* Pods-Kratos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.debug.xcconfig"; sourceTree = "<group>"; };
+		AF09B3021F4F8E24003CB455 /* InteractionResponder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionResponder.swift; sourceTree = "<group>"; };
 		AF1AC54E1DF5A6A100DCBA13 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		AF1AC5501DF5A6A100DCBA13 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		AF1AC5531DF5A6A100DCBA13 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
@@ -317,7 +318,6 @@
 		AF3F5C5C1EBE72F700809AA3 /* UITableView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
 		AF3F5C5D1EBE72F700809AA3 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		AF3F5C5E1EBE72F700809AA3 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
-		AF3F5C611EBE72F700809AA3 /* InputValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValidation.swift; sourceTree = "<group>"; };
 		AF3F5C671EBE72F700809AA3 /* Decodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decodable.swift; sourceTree = "<group>"; };
 		AF3F5CF41EBE74E400809AA3 /* KratosTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosTarget.swift; sourceTree = "<group>"; };
 		AF3F5CF61EBE74F900809AA3 /* AccountService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
@@ -744,7 +744,6 @@
 				AF57F4B71F2B6D0C0080978F /* Error */,
 				AF3F5C461EBE72F700809AA3 /* Animations */,
 				AF3F5C4E1EBE72F700809AA3 /* Extensions */,
-				AF3F5C611EBE72F700809AA3 /* InputValidation.swift */,
 				AF3F5C621EBE72F700809AA3 /* Navigation */,
 				AF3F5C661EBE72F700809AA3 /* Protocols */,
 				AFFA95071EBF4F9C00144C3A /* LoadStatus.swift */,
@@ -810,6 +809,7 @@
 				AFFA95691EC95B0100144C3A /* RxBinder.swift */,
 				AF416A591F28D0F1006380DA /* Encodable.swift */,
 				AF2C06C21F3D4C9100D7E348 /* Localizer.swift */,
+				AF09B3021F4F8E24003CB455 /* InteractionResponder.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1368,7 +1368,6 @@
 				AF416A5C1F28D147006380DA /* JSONDecoder.swift in Sources */,
 				AF3F5CF31EBE72F700809AA3 /* Decodable.swift in Sources */,
 				AF3F5CDA1EBE72F700809AA3 /* ScrollTabBarControllerDelegate.swift in Sources */,
-				AF3F5CEF1EBE72F700809AA3 /* InputValidation.swift in Sources */,
 				AF3F5CCF1EBE72F700809AA3 /* TallyTableView.swift in Sources */,
 				AF3F5CE21EBE72F700809AA3 /* NSData+Extensions.swift in Sources */,
 				AF2C07421F48975E00D7E348 /* RepresentativeViewModel.swift in Sources */,
@@ -1389,6 +1388,7 @@
 				AF3F5CA71EBE72F700809AA3 /* LoadMoreSpinnerView.swift in Sources */,
 				AF2C07271F48975600D7E348 /* BillInfoViewModel.swift in Sources */,
 				AF2C06FE1F4895F000D7E348 /* NotificationsRegistrationViewController.swift in Sources */,
+				AF09B3031F4F8E24003CB455 /* InteractionResponder.swift in Sources */,
 				AF3F5C731EBE72F700809AA3 /* User.swift in Sources */,
 				AF3F5C6F1EBE72F700809AA3 /* Person.swift in Sources */,
 				AF3F5C7B1EBE72F700809AA3 /* Toast.swift in Sources */,

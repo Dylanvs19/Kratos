@@ -64,3 +64,9 @@ extension UserController: ViewBuilder {
         view.style(with: .backgroundColor(.slate))
     }
 }
+
+extension UserController: InteractionResponder {
+    func setupInteractions() {
+        
+    }
+}
