@@ -11,6 +11,7 @@ import RxSwift
 
 class LoginViewModel {
     
+    // MARK: - Enums -
     enum ViewState: String, RawRepresentable {
         case login = "SIGN UP"
         case registration = "LOGIN"
@@ -41,6 +42,7 @@ class LoginViewModel {
         }
     }
     
+    // MARK: - Variables -
     fileprivate var client: Client
     fileprivate let disposeBag = DisposeBag()
     fileprivate var fetchDisposeBag = DisposeBag()
@@ -59,12 +61,14 @@ class LoginViewModel {
     let registrationContinueSuccessful = PublishSubject<(email: String, password: String)>()
     
     let user = Variable<User?>(nil)
-        
+    
+    // MARK: - Initialization -
     init(client: Client) {
         self.client = client
         binds()
     }
     
+    // MARK: - Configuration -
     var formValid : Observable<Bool> {
         return Observable.combineLatest(emailValid, passwordValid) { (email, password) in
             return email && password

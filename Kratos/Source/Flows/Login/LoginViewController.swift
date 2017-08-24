@@ -14,6 +14,7 @@ import SnapKit
 
 class LoginViewController: UIViewController {
     
+    // MARK: - Variables -
     fileprivate let client: Client
     fileprivate let viewModel: LoginViewModel
     fileprivate let disposeBag = DisposeBag()
@@ -36,6 +37,7 @@ class LoginViewController: UIViewController {
     var imageViewHeightConstraint: Constraint?
     var imageViewYConstraint: Constraint?
     
+    // MARK: - Initialization -
     init(client: Client) {
         self.client = client
         self.viewModel = LoginViewModel(client: client)
@@ -46,6 +48,7 @@ class LoginViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - LifeCycle -
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
@@ -62,7 +65,7 @@ class LoginViewController: UIViewController {
         beginningAnimations()
     }
     
-    //MARK: Animation
+    //MARK: - Animation -
     func setInitialState() {
         emailTextField.isHidden = true
         passwordTextField.isHidden = true
@@ -93,6 +96,7 @@ class LoginViewController: UIViewController {
     }
 }
 
+// MARK: - ViewBuilder -
 extension LoginViewController: ViewBuilder {
     
     func addSubviews() {
@@ -152,6 +156,7 @@ extension LoginViewController: ViewBuilder {
     }
 }
 
+// MARK: - Binds -
 extension LoginViewController: RxBinder {
     func bind() {
         setupButtonBindings()
