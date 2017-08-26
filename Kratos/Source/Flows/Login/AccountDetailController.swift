@@ -11,7 +11,35 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class AccountDetailsViewController: UIViewController {
+class AccountDetailsController: UIViewController {
+    
+    enum State {
+        case createAccount
+        case editAccount
+        case viewAccount
+        
+        var saveEditRegisterButtonTitle: String {
+            switch self {
+            case .createAccount:
+                return localize(.accountDetailsRegisterButtonTitle)
+            case .editAccount:
+                return localize(.accountDetailsSaveButtonTitle)
+            case .viewAccount:
+                return localize(.accountDetailsEditButtonTitle)
+            }
+        }
+        
+        var cancelDoneButtonTitle: String {
+            switch self {
+            case .createAccount:
+                return ""
+            case .editAccount:
+                return localize(.accountDetailsCancelButtonTitle)
+            case .viewAccount:
+                return localize(.accountDetailsRegisterButtonTitle)
+            }
+        }
+    }
     
     fileprivate let client: Client
     fileprivate let viewModel: AccountDetailsViewModel

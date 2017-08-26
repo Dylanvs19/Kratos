@@ -18,6 +18,21 @@ enum Constant {
     case loginSignInButtonTitle
     case loginForgotPasswordButtonTitle
     
+    //AccountDetailsVC
+    case accountDetailsRegisterButtonTitle
+    case accountDetailsSaveButtonTitle
+    case accountDetailsEditButtonTitle
+    case accountDetailsCancelButtonTitle
+    case accountDetailsDoneButtonTitle
+    case accountDetailsPartyActionSheetTitle
+    case accountDetailsPartyActionSheetDescription
+    case accountDetailsDemocratButtonTitle
+    case accountDetailsDemocratText
+    case accountDetailsRepublicanButtonTitle
+    case accountDetailsRepublicanText
+    case accountDetailsIndependentButtonTitle
+    case accountDetailsIndependentText
+    
     //ConfirmationVC
     case confirmationTitle
     case confirmationButtonTitle
@@ -63,6 +78,22 @@ enum Constant {
         case .loginSignUpButtonTitle: return "S I G N  U P"
         case .loginSignInButtonTitle: return "S I G N  I N"
         case .loginForgotPasswordButtonTitle: return "F O R G O T  P A S S W O R D"
+            
+        //AccountDetailsVC
+        case .accountDetailsRegisterButtonTitle: return "R E G I S T E R"
+        case .accountDetailsSaveButtonTitle: return "S A V E"
+        case .accountDetailsEditButtonTitle: return "E D I T"
+        case .accountDetailsCancelButtonTitle: return "C A N C E L"
+        case .accountDetailsDoneButtonTitle: return "D O N E"
+        case .accountDetailsPartyActionSheetTitle: return "P A R T Y"
+        case .accountDetailsPartyActionSheetDescription: return "Choose your party affiliation"
+        case .accountDetailsDemocratButtonTitle: return "D E M O C R A T"
+        case .accountDetailsDemocratText: return "Democrat"
+        case .accountDetailsRepublicanButtonTitle: return "R E P U B L I C A N"
+        case .accountDetailsRepublicanText: return "Republican"
+        case .accountDetailsIndependentButtonTitle: return "I N D E P E N D E N T"
+        case .accountDetailsIndependentText: return "Independent"
+        
             
         //ConfirmationVC
         case .confirmationTitle: return "Confirmation"
