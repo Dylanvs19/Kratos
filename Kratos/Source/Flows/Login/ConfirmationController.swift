@@ -11,7 +11,7 @@ import SnapKit
 import RxCocoa
 import RxSwift
 
-class ConfirmationViewController: UIViewController {
+class ConfirmationController: UIViewController {
     
     let client: Client
     let viewModel: ConfirmationViewModel
@@ -48,7 +48,7 @@ class ConfirmationViewController: UIViewController {
     }
 }
 
-extension ConfirmationViewController: ViewBuilder {
+extension ConfirmationController: ViewBuilder {
     func addSubviews() {
         self.view.addSubview(kratosImageView)
         self.view.addSubview(titleLabel)
@@ -91,7 +91,15 @@ extension ConfirmationViewController: ViewBuilder {
     }
 }
 
-extension ConfirmationViewController: RxBinder {
+extension ConfirmationController: Localizer {
+    func localizeStrings() {
+        titleLabel.text = localize(.confirmationTitle)
+        linkButton.setTitle(localize(.confirmationButtonTitle), for: .normal)
+        textView.text = localize(.confirmationExplainationText)
+    }
+}
+
+extension ConfirmationController: RxBinder {
     
     func bind() {
         viewModel.buttonTitle.asObservable()
@@ -108,9 +116,9 @@ extension ConfirmationViewController: RxBinder {
         
         viewModel.push.asObservable()
             .subscribe(onNext: { [weak self] in
-                guard let s = self else { fatalError("self deallocated before it was accessed") }
-                let vc = NotificationsRegistrationViewController(client: s.client)
-                s.navigationController?.pushViewController(vc, animated: true)
+                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                let vc = NotificationsRegistrationViewController(client: self.client)
+                self.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -118,6 +126,4 @@ extension ConfirmationViewController: RxBinder {
             .bind(to: viewModel.confirmationPressed)
             .disposed(by: disposeBag)
     }
-    
-    
 }

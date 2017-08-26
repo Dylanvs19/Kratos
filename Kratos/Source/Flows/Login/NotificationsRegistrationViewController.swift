@@ -140,14 +140,14 @@ extension NotificationsRegistrationViewController: RxBinder {
                 UIApplication.shared.registerForRemoteNotifications()
                 
                 let rootVC = UINavigationController(rootViewController: UserRepsViewController(client: self.client))
-                UIApplication.shared.delegate?.rootTransition(to: rootVC)
+                ApplicationLauncher.rootTransition(to: rootVC)
             })
             .disposed(by: disposeBag)
         
         skipButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { _ in
-                let rootVC = UINavigationController(rootViewController: UserRepsViewController(client: self.client))
-                UIApplication.shared.delegate?.rootTransition(to: rootVC)
+                let rootVC = TabBarController(with: self.client)
+                ApplicationLauncher.rootTransition(to: rootVC)
             })
             .disposed(by: disposeBag)
     }

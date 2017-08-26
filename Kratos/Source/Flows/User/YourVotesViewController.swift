@@ -52,10 +52,7 @@ class YourVotesViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func presentMenuVC() {
-        let vc: MenuViewController = MenuViewController.instantiate()
-        vc.transitioningDelegate = self
-        vc.interactor = interactor
-        self.present(vc, animated: true, completion: nil)
+        
     }
     
     func handleScreenEdgePan(_ sender: UIScreenEdgePanGestureRecognizer) {
@@ -91,21 +88,4 @@ class YourVotesViewController: UIViewController, UITableViewDelegate, UITableVie
     }
 }
 
-extension YourVotesViewController: UIViewControllerTransitioningDelegate {
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return PresentMenuAnimator()
-    }
-    
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-           return DismissMenuAnimator()
 
-    }
-    
-    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactor.hasStarted ? interactor : nil
-    }
-    
-    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactor.hasStarted ? interactor : nil
-    }
-}

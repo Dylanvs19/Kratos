@@ -12,7 +12,38 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class LoginViewController: UIViewController {
+class LoginController: UIViewController {
+    
+    // MARK: - Enums -
+    enum State {
+        case login
+        case createAccount
+        case forgotPassword
+        
+        var loginButtonTitle: String {
+            switch self {
+            case .login:
+                return localize(.loginLoginButtonTitle)
+            case .createAccount:
+                return localize(.loginContinueButtonTitle)
+            case .forgotPassword:
+                return localize(.loginSendButtonTitle)
+            }
+        }
+        var signInSignUpButtonTitle: String {
+            switch self {
+            case .login:
+                return localize(.loginSignInButtonTitle)
+            case .createAccount:
+                return localize(.loginSignInButtonTitle)
+            case .forgotPassword:
+                return localize(.loginSignUpButtonTitle)
+            }
+        }
+        var forgotPasswordTitle: String {
+            return localize(.loginForgotPasswordButtonTitle)
+        }
+    }
     
     // MARK: - Variables -
     fileprivate let client: Client
@@ -21,7 +52,7 @@ class LoginViewController: UIViewController {
     fileprivate let scrollView = UIScrollView()
     fileprivate let contentView = UIView()
     
-    fileprivate var kratosImageView = UIImageView(image: #imageLiteral(resourceName: "Kratos"))
+    fileprivate var kratosImageView = UIImageView(image: #imageLiteral(resourceName: "KratosLogo"))
     fileprivate var loginContinueButton = UIButton()
     fileprivate var signUpRegisterButton = UIButton()
     fileprivate var forgotPasswordButton = UIButton()
@@ -97,7 +128,7 @@ class LoginViewController: UIViewController {
 }
 
 // MARK: - ViewBuilder -
-extension LoginViewController: ViewBuilder {
+extension LoginController: ViewBuilder {
     
     func addSubviews() {
         self.view.addSubview(scrollView)
@@ -157,7 +188,7 @@ extension LoginViewController: ViewBuilder {
 }
 
 // MARK: - Binds -
-extension LoginViewController: RxBinder {
+extension LoginController: RxBinder {
     func bind() {
         setupButtonBindings()
         setupTextFieldBindings()
@@ -166,7 +197,7 @@ extension LoginViewController: RxBinder {
     
     func setupButtonBindings() {
         
-        viewModel.viewState.asObservable()
+        viewModel.state.asObservable()
             .map { $0 == .forgotPassword }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] (isForgotPassword) in
@@ -177,7 +208,7 @@ extension LoginViewController: RxBinder {
             })
             .disposed(by: disposeBag)
         
-        viewModel.viewState.asObservable()
+        viewModel.state.asObservable()
             .map { $0.signInSignUpButtonTitle }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] (title) in
@@ -185,14 +216,14 @@ extension LoginViewController: RxBinder {
             })
             .disposed(by: disposeBag)
         
-        viewModel.viewState.asObservable()
+        viewModel.state.asObservable()
             .map { $0.loginButtonTitle }
             .subscribe(onNext: { [weak self] (title) in
                 self?.loginContinueButton.animateTitleChange(to: title)
             })
             .disposed(by: disposeBag)
         
-        viewModel.viewState.asObservable()
+        viewModel.state.asObservable()
             .map { $0.forgotPasswordTitle }
             .bind(to: forgotPasswordButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
@@ -208,7 +239,24 @@ extension LoginViewController: RxBinder {
             .disposed(by: disposeBag)
         
         loginContinueButton.rx.controlEvent([.touchUpInside])
-            .bind(to: viewModel.loginButtonTap)
+            .map { _ in self.viewModel.state.value }
+            .subscribe(onNext: { [unowned self] state in
+                switch state {
+                case .login:
+                    self.viewModel.login()
+                case .forgotPassword:
+                    self.viewModel.postForgotPassword()
+                default:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
+        viewModel.pushCreateAccount
+            .subscribe(onNext: { [weak self] credentials in
+                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                let vc = AccountDetailsViewController(client: self.client, accountDetails: credentials)
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
             .disposed(by: disposeBag)
         
         forgotPasswordButton.rx.controlEvent([.touchUpInside])
@@ -238,18 +286,9 @@ extension LoginViewController: RxBinder {
         viewModel.loginSuccessful.asObservable()
             .map { $0 }
             .subscribe(onNext: { [weak self] _ in
-                if let client = self?.client {
-                    let vc = UINavigationController(rootViewController: TabBarController(client: client))
-                    UIApplication.shared.delegate?.rootTransition(to: vc)
-                }
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.registrationContinueSuccessful.asObservable()
-            .subscribe(onNext: { [weak self] credentials in
-                guard let client = self?.client else { fatalError("`self` has been dealocated before it was accessed") }
-                let vc = AccountDetailsViewController(client: client, accountDetails: credentials)
-                self?.navigationController?.pushViewController(vc, animated: true)
+                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                let vc = TabBarController(with: self.client)
+                ApplicationLauncher.rootTransition(to: vc)
             })
             .disposed(by: disposeBag)
     }

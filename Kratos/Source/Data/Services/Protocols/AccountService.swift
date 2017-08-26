@@ -13,7 +13,7 @@ protocol AccountService {
     
     func register(user: User) -> Observable<Bool>
     
-    func login(email: String, password: String) -> Observable<String>
+    func login(email: String, password: String) -> Observable<Void>
     
     func forgotPassword(email: String) -> Observable<Bool>
     

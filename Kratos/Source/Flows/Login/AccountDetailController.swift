@@ -19,7 +19,7 @@ class AccountDetailsViewController: UIViewController {
     fileprivate let scrollView = UIScrollView()
     fileprivate let contentView = UIView()
     
-    fileprivate var kratosImageView = UIImageView(image: #imageLiteral(resourceName: "Kratos"))
+    fileprivate var kratosImageView = UIImageView(image: #imageLiteral(resourceName: "KratosLogo"))
     fileprivate var saveEditRegisterButton = UIButton()
     fileprivate var cancelDoneButton = UIButton()
     
@@ -333,10 +333,10 @@ extension AccountDetailsViewController: RxBinder {
         viewModel.push.asObservable()
             .filter { $0 == true }
             .subscribe(onNext: { [weak self] vc in
-                guard let s = self else { fatalError("self deallocated before it was accessed") }
-                let vc = ConfirmationViewController(client: s.client)
-                vc.setInfoFromRegistration(email: s.viewModel.email.value, password: s.viewModel.password.value)
-                s.navigationController?.pushViewController(vc, animated: true)
+                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                let vc = ConfirmationController(client: self.client)
+                vc.setInfoFromRegistration(email: self.viewModel.email.value, password: self.viewModel.password.value)
+                self.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
     }

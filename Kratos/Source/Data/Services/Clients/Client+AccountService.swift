@@ -23,16 +23,21 @@ extension Client: AccountService {
             .map { _ in return true }
     }
     
-    func login(email: String, password: String) -> Observable<String> {
+    func login(email: String, password: String) -> Observable<Void> {
         return request(.login(email: email, password: password), ignoreCache: true)
             .toJson()
-            .map {
-                guard let json = $0 as? [String: Any],
+            .map { jsonObject -> String in
+                guard let json = jsonObject as? [String: Any],
                       let token = json["token"] as? String else {
                     throw KratosError.mappingError(type: .unexpectedValue)
                 }
                 return token
-        }
+            }
+            .do(onNext: { token in
+                Store.shelve(token, key: "token")
+            })
+            .map { _ in return () }
+        
     }
     
     func forgotPassword(email: String) -> Observable<Bool> {
