@@ -255,7 +255,7 @@ extension LoginController: RxBinder {
         viewModel.pushCreateAccount
             .subscribe(onNext: { [weak self] credentials in
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
-                let vc = AccountDetailsViewController(client: self.client, accountDetails: credentials)
+                let vc = AccountDetailsController(client: self.client, accountDetails: credentials)
                 self.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)

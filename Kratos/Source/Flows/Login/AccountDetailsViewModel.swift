@@ -12,39 +12,13 @@ import RxCocoa
 
 class AccountDetailsViewModel {
     
-    enum ViewState {
-        case registration
-        case editAccount
-        case viewAccount
-        
-        var saveEditRegisterButtonTitle: String {
-            switch self {
-            case .registration:
-                return "R E G I S T E R"
-            case .editAccount:
-                return "S A V E"
-            case .viewAccount:
-                return "E D I T"
-            }
-        }
-        
-        var cancelDoneButtonTitle: String {
-            switch self {
-            case .registration:
-                return ""
-            case .editAccount:
-                return "C A N C E L"
-            case .viewAccount:
-                return "D O N E"
-            }
-        }
-    }
-    
     let client: Client
-    let user = Variable<User?>(nil)
-    let viewState = Variable<ViewState>(.viewAccount)
     let loadStatus = Variable<LoadStatus>(.none)
+    let registerLoadStatus = Variable<LoadStatus>(.none)
     let disposeBag = DisposeBag()
+    
+    let user = Variable<User?>(nil)
+    let state = Variable<AccountDetailsController.State>(.viewAccount)
     
     let email = Variable<String>("")
     let password = Variable<String>("")
@@ -54,101 +28,58 @@ class AccountDetailsViewModel {
     let party = Variable<String>("")
     let street = Variable<String>("")
     let city = Variable<String>("")
-    let state = Variable<String>("")
+    let userState = Variable<String>("")
     let zip = Variable<String>("")
     let oldPassword = Variable<String>("")
     let newPassword = Variable<String>("")
     
-    let saveEditRegisterButtonTap = PublishSubject<Void>()
-    let cancelDoneButtonTap = PublishSubject<Void>()
+    let firstValid = Variable<Bool>(false)
+    let lastValid = Variable<Bool>(false)
+    let partyValid = Variable<Bool>(false)
+    let dobValid = Variable<Bool>(false)
+    let streetValid = Variable<Bool>(false)
+    let cityValid = Variable<Bool>(false)
+    let stateValid = Variable<Bool>(false)
+    let zipValid = Variable<Bool>(false)
     
-    var formValid : Observable<Bool> {
-        return Observable.combineLatest(firstValid,
-                                        lastValid,
-                                        partyValid,
-                                        dobValid,
-                                        streetValid,
-                                        stateValid,
-                                        cityValid,
-                                        zipValid) { (first, last, party, dob, street, city, state, zip) in
-            return first && last && party && dob && street && city && state && zip
-        }
-    }
-    
-    var firstValid : Observable<Bool> {
-        return first.asObservable()
-            .map { $0.isValid(for: .address) }
-    }
-    var lastValid : Observable<Bool> {
-        return last.asObservable()
-            .map { $0.isValid(for: .address) }
-    }
-    var partyValid : Observable<Bool> {
-        return party.asObservable()
-            .map { $0.isValid(for: .address) }
-    }
-    var dobValid : Observable<Bool> {
-        return dob.asObservable()
-            .map { $0.isValid(for: .address) }
-    }
-    var streetValid : Observable<Bool> {
-        return street.asObservable()
-            .map { $0.isValid(for: .address) }
-    }
-    var cityValid : Observable<Bool> {
-        return city.asObservable()
-            .map { $0.isValid(for: .city) }
-    }
-    var stateValid : Observable<Bool> {
-        return state.asObservable()
-            .map { $0.isValid(for: .state) }
-    }
-    var zipValid : Observable<Bool> {
-        return zip.asObservable()
-            .map { $0.isValid(for: .zipcode) }
-    }
-    
-    var push = Variable<Bool>(false)
+    var formValid = Variable<Bool>(false)
     
     //MARK: Methods
-    init(client: Client, viewState: ViewState) {
+    init(client: Client, state: AccountDetailsController.State, credentials: (email: String, password: String) = (email:"", password: "")) {
         self.client = client
-        self.viewState.value = viewState
+        self.state.value = state
+        self.email.value = credentials.email
+        self.password.value = credentials.password
         bind()
     }
     
     func fetchUser() {
         loadStatus.value = .loading
         client.fetchUser()
-            .catchError({ (error) in
+            .subscribe(onNext: { [weak self] user in
+                self?.loadStatus.value = .none
+                self?.user.value = user
+            }, onError: { [weak self] error in
                 let error = error as? KratosError ?? KratosError.unknown
-                self.loadStatus.value = .error(error: error)
-                throw error
-            })
-            .subscribe(onNext: { [unowned self] user in
-                self.loadStatus.value = .none
-                self.user.value = user
+                self?.loadStatus.value = .error(error: error)
             })
             .disposed(by: disposeBag)
     }
     
     func register() {
-        loadStatus.value = .loading
+        registerLoadStatus.value = .loading
         client.register(user: buildRegistrationUser())
-            .catchError({ (error) in
+            .subscribe(onNext: { [weak self] success in
+                self?.registerLoadStatus.value = .none
+            }, onError: { [weak self] error in
                 let error = error as? KratosError ?? KratosError.unknown
-                self.loadStatus.value = .error(error: error)
-                throw error
+                self?.registerLoadStatus.value = .error(error: error)
             })
-            .do(onNext: { [unowned self] _ in
-                self.loadStatus.value = .none
-            })
-            .bind(to: push)
             .disposed(by: disposeBag)
     }
     
     func edit() {
-        viewState.value = .editAccount
+        state.value = .editAccount
     }
     
     func save() {
@@ -165,12 +96,9 @@ class AccountDetailsViewModel {
     }
     
     func cancel() {
-        viewState.value = .viewAccount
+        state.value = .viewAccount
     }
     
-    func done() {
-        //dismissVC
-    }
     
     func buildRegistrationUser() -> User {
         
@@ -179,9 +107,9 @@ class AccountDetailsViewModel {
                      firstName: first.value,
                      lastName: last.value,
                      district: 0,
-                     address: Address(street: state.value,
+                     address: Address(street: userState.value,
                                       city: city.value,
-                                      state: state.value,
+                                      state: userState.value,
                                       zipCode: Int(zip.value) ?? 0),
                      dob: dob.value.date ?? Date(),
                      party: Party.value(for: party.value),
@@ -197,7 +125,7 @@ class AccountDetailsViewModel {
                     district: nil,
                     address: Address(street: street.value,
                                      city: city.value,
-                                     state: state.value,
+                                     state: userState.value,
                                      zipCode: Int(zip.value) ?? 0),
                     dob: dob.value.date ?? Date(),
                     party: Party.value(for: party.value),
@@ -209,12 +137,12 @@ extension AccountDetailsViewModel: RxBinder {
 
     func bind() {
         setupViewStateBindings()
-        setupInteractionBindings()
+        setupValidationBindings()
         setupUserBindings()
     }
     
     func setupViewStateBindings() {
-        viewState.asObservable()
+        state.asObservable()
             .filter { $0 == .viewAccount }
             .subscribe(onNext: { [weak self] _ in
                 self?.fetchUser()
@@ -222,34 +150,51 @@ extension AccountDetailsViewModel: RxBinder {
             .disposed(by: disposeBag)
     }
     
-    func setupInteractionBindings() {
-        saveEditRegisterButtonTap.asObservable()
-            .map { self.viewState.value }
-            .throttle(2, scheduler: MainScheduler.instance)
-            .subscribe(onNext: { [unowned self] (state) in
-                switch state {
-                case .registration:
-                    self.register()
-                case .editAccount:
-                    self.save()
-                case .viewAccount:
-                    self.edit()
-                }
-            })
-            .disposed(by: disposeBag)
+    func setupValidationBindings() {
         
-        cancelDoneButtonTap.asObservable()
-            .map { self.viewState.value }
-            .subscribe(onNext: { [unowned self] (state) in
-                switch state {
-                case .registration:
-                    break
-                case .editAccount:
-                    self.cancel()
-                case .viewAccount:
-                    self.done()
-                }
-            })
+        first.asObservable()
+            .map { $0.isValid(for: .address) }
+            .bind(to: firstValid)
+            .disposed(by: disposeBag)
+        last.asObservable()
+            .map { $0.isValid(for: .address) }
+            .bind(to: lastValid)
+            .disposed(by: disposeBag)
+        party.asObservable()
+            .map { $0.isValid(for: .address) }
+            .bind(to: partyValid)
+            .disposed(by: disposeBag)
+        dob.asObservable()
+            .map { $0.isValid(for: .address) }
+            .bind(to: dobValid)
+            .disposed(by: disposeBag)
+        street.asObservable()
+            .map { $0.isValid(for: .address) }
+            .bind(to: streetValid)
+            .disposed(by: disposeBag)
+        city.asObservable()
+            .map { $0.isValid(for: .city) }
+            .bind(to: cityValid)
+            .disposed(by: disposeBag)
+        userState.asObservable()
+            .map { $0.isValid(for: .state) }
+            .bind(to: stateValid)
+            .disposed(by: disposeBag)
+        zip.asObservable()
+            .map { $0.isValid(for: .zipcode) }
+            .bind(to: zipValid)
+            .disposed(by: disposeBag)
+        Observable.combineLatest(firstValid.asObservable(),
+                                 lastValid.asObservable(),
+                                 partyValid.asObservable(),
+                                 dobValid.asObservable(),
+                                 streetValid.asObservable(),
+                                 stateValid.asObservable(),
+                                 cityValid.asObservable(),
+                                 zipValid.asObservable()) {
+                return $0 && $1 && $2 && $3 && $4 && $5 && $6 && $7
+            }
+            .bind(to: formValid)
             .disposed(by: disposeBag)
     }
     
@@ -290,7 +235,7 @@ extension AccountDetailsViewModel: RxBinder {
         
         nonNilUser
             .map { $0.address.state }
-            .bind(to: state)
+            .bind(to: userState)
             .disposed(by: disposeBag)
         
         nonNilUser
@@ -298,6 +243,5 @@ extension AccountDetailsViewModel: RxBinder {
             .map { String($0) }
             .bind(to: zip)
             .disposed(by: disposeBag)
-        
     }
 }

@@ -259,5 +259,5 @@ struct FieldData {
     let field: KratosTextField
     let fieldType: KratosTextField.TextFieldType
     let viewModelVariable: Variable<String>
-    let validation: Observable<Bool>
+    let validation: Variable<Bool>
 }

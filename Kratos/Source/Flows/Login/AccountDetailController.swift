@@ -42,20 +42,20 @@ class AccountDetailsViewController: UIViewController {
                 FieldData(field: self.dobTextField, fieldType: .dob, viewModelVariable: self.viewModel.dob, validation: self.viewModel.dobValid),
                 FieldData(field: self.streetTextField, fieldType: .address, viewModelVariable: self.viewModel.street, validation: self.viewModel.streetValid),
                 FieldData(field: self.cityTextField, fieldType: .city, viewModelVariable: self.viewModel.city, validation: self.viewModel.cityValid),
-                FieldData(field: self.stateTextField, fieldType: .state, viewModelVariable: self.viewModel.state, validation: self.viewModel.stateValid),
+                FieldData(field: self.stateTextField, fieldType: .state, viewModelVariable: self.viewModel.userState, validation: self.viewModel.stateValid),
                 FieldData(field: self.zipTextField, fieldType: .zip, viewModelVariable: self.viewModel.zip, validation: self.viewModel.zipValid)]
     }()
     
-    init(client: Client, state: AccountDetailsViewModel.ViewState) {
+    init(client: Client, state: State) {
         self.client = client
-        self.viewModel = AccountDetailsViewModel(client: client, viewState: state)
+        self.viewModel = AccountDetailsViewModel(client: client, state: state)
         super.init(nibName: nil, bundle: nil)
     }
     
     //Initializer for registration flow
     init(client: Client, accountDetails: (email: String, password: String)) {
         self.client = client
-        self.viewModel = AccountDetailsViewModel(client: client, viewState: .registration)
+        self.viewModel = AccountDetailsViewModel(client: client, state: .createAccount)
         super.init(nibName: nil, bundle: nil)
         viewModel.email.value = accountDetails.email
         viewModel.password.value = accountDetails.password
@@ -121,15 +121,15 @@ class AccountDetailsViewController: UIViewController {
     }
     
     func presentPartySelectionActionSheet() {
-        let alertVC = UIAlertController.init(title: "P A R T Y", message: "Choose your party affiliation", preferredStyle: .actionSheet)
-        alertVC.addAction(UIAlertAction(title: "D E M O C R A T", style: .destructive, handler: { (action) in
-            self.partyTextField.setText("Democrat")
+        let alertVC = UIAlertController.init(title: localize(.accountDetailsPartyActionSheetTitle), message: localize(.accountDetailsPartyActionSheetDescription), preferredStyle: .actionSheet)
+        alertVC.addAction(UIAlertAction(title: localize(.accountDetailsDemocratButtonTitle), style: .destructive, handler: { (action) in
+            self.partyTextField.setText(localize(.accountDetailsDemocratText))
         }))
-        alertVC.addAction(UIAlertAction(title: "R E P U B L I C A N", style: .destructive, handler: { (action) in
-            self.partyTextField.setText("Republican")
+        alertVC.addAction(UIAlertAction(title: localize(.accountDetailsRepublicanButtonTitle), style: .destructive, handler: { (action) in
+            self.partyTextField.setText(localize(.accountDetailsRepublicanText))
         }))
-        alertVC.addAction(UIAlertAction(title: "I N D E P E N D E N T", style: .destructive, handler: { (action) in
-            self.partyTextField.setText("Independent")
+        alertVC.addAction(UIAlertAction(title: localize(.accountDetailsIndependentButtonTitle), style: .destructive, handler: { (action) in
+            self.partyTextField.setText(localize(.accountDetailsIndependentText))
         }))
         present(alertVC, animated: true, completion: nil)
     }
@@ -168,7 +168,7 @@ class AccountDetailsViewController: UIViewController {
     }
 }
 
-extension AccountDetailsViewController: DatePickerViewDelegate {
+extension AccountDetailsController: DatePickerViewDelegate {
     
     func selectedDate(date: Date) {
         Observable.just(DateFormatter.presentation.string(from: date))
@@ -183,7 +183,7 @@ extension AccountDetailsViewController: DatePickerViewDelegate {
     }
 }
 
-extension AccountDetailsViewController: ViewBuilder {
+extension AccountDetailsController: ViewBuilder {
     
     func addSubviews() {
         self.view.addSubview(scrollView)
@@ -249,7 +249,7 @@ extension AccountDetailsViewController: ViewBuilder {
     }
 }
 
-extension AccountDetailsViewController: RxBinder {
+extension AccountDetailsController: RxBinder {
     
     func bind() {
         setupButtonBindings()
@@ -300,28 +300,48 @@ extension AccountDetailsViewController: RxBinder {
     }
     
     func setupButtonBindings() {
-        viewModel.viewState.asObservable()
+        viewModel.state.asObservable()
             .map { $0.saveEditRegisterButtonTitle}
             .bind(to: saveEditRegisterButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
         
-        viewModel.viewState.asObservable()
+        viewModel.state.asObservable()
             .map { $0.cancelDoneButtonTitle}
             .bind(to: cancelDoneButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
         
-        saveEditRegisterButton.rx.controlEvent([.touchUpInside])
-            .bind(to: viewModel.saveEditRegisterButtonTap)
+        saveEditRegisterButton.rx.tap
+            .withLatestFrom(self.viewModel.state.asObservable())
+            .subscribe(onNext: { [weak self] state in
+                switch state {
+                case .createAccount:
+                    self?.viewModel.register()
+                case .editAccount:
+                    self?.viewModel.save()
+                case .viewAccount:
+                    self?.dismiss(animated: true, completion: nil)
+                }
+            })
             .disposed(by: disposeBag)
         
-        cancelDoneButton.rx.controlEvent([.touchUpInside])
-            .bind(to: viewModel.cancelDoneButtonTap)
+        cancelDoneButton.rx.tap
+            .map { _ in self.viewModel.state.value }
+            .subscribe(onNext: { [weak self] state in
+                switch state {
+                case .createAccount:
+                    break
+                case .editAccount:
+                    self?.viewModel.cancel()
+                case .viewAccount:
+                    self?.dismiss(animated: true, completion: nil)
+                }
+            })
             .disposed(by: disposeBag)
         
         Observable.combineLatest(
             viewModel.formValid.asObservable(),
-            viewModel.viewState.asObservable(), resultSelector: { (valid, state) -> Bool in
-                return state == .registration && !valid
+            viewModel.state.asObservable(), resultSelector: { (valid, state) -> Bool in
+                return state == .createAccount && !valid
             })
             .subscribe(onNext: { [weak self] (valid) in
                 self?.saveEditRegisterButton.rx.base.isEnabled = !valid
@@ -330,14 +350,13 @@ extension AccountDetailsViewController: RxBinder {
     }
     
     func setupNavigationBindings() {
-        viewModel.push.asObservable()
-            .filter { $0 == true }
-            .subscribe(onNext: { [weak self] vc in
+        viewModel.registerLoadStatus.asObservable()
+            .onSuccess { [weak self] in 
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
                 let vc = ConfirmationController(client: self.client)
                 vc.setInfoFromRegistration(email: self.viewModel.email.value, password: self.viewModel.password.value)
                 self.navigationController?.pushViewController(vc, animated: true)
-            })
-            .disposed(by: disposeBag)
+        }
+        .disposed(by: disposeBag)
     }
 }

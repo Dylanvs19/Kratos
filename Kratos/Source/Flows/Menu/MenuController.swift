@@ -121,10 +121,8 @@ extension MenuController: InteractionResponder {
     }
     
     func accountPressed() {
-        self.dismiss(animated: false) { 
-            let vc = AccountDetailsViewController(client: self.client, state: .viewAccount)
-            self.present(vc, animated: true, completion: nil)
-        }
+        let vc = AccountDetailsController(client: self.client, state: .viewAccount)
+        self.present(vc, animated: true)
     }
     
     func feedbackPressed() {

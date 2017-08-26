@@ -22,6 +22,10 @@ class LoginViewModel {
     let email = Variable<String>("")
     let password = Variable<String>("")
     
+    let emailValid = Variable<Bool>(false)
+    let passwordValid = Variable<Bool>(false)
+    let formValid = Variable<Bool>(false)
+    
     let loginButtonTap = PublishSubject<Void>()
     let forgotPasswordButtonTap = PublishSubject<Void>()
     let signInSignUpButtonTap = PublishSubject<Void>()
@@ -36,21 +40,6 @@ class LoginViewModel {
     init(client: Client) {
         self.client = client
         binds()
-    }
-    
-    // MARK: - Variables -
-    var formValid : Observable<Bool> {
-        return Observable.combineLatest(emailValid, passwordValid) { (email, password) in
-            return email && password
-        }
-    }
-    var emailValid : Observable<Bool> {
-        return email.asObservable()
-            .map { $0.isValid(for: .email) }
-    }
-    var passwordValid : Observable<Bool> {
-        return password.asObservable()
-            .map { $0.isValid(for: .password) }
     }
     
     func postForgotPassword() {
@@ -101,6 +90,17 @@ class LoginViewModel {
                 return .login
                 }}
             .bind(to: self.state)
+            .disposed(by: disposeBag)
+        email.asObservable()
+            .map { $0.isValid(for: .email) }
+            .bind(to: emailValid)
+            .disposed(by: disposeBag)
+        password.asObservable()
+            .map { $0.isValid(for: .email) }
+            .bind(to: passwordValid)
+            .disposed(by: disposeBag)
+        Observable.combineLatest(emailValid.asObservable(), passwordValid.asObservable()) { $0 && $1 }
+            .bind(to: formValid)
             .disposed(by: disposeBag)
     }
 }
