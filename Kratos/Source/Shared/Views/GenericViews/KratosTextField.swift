@@ -78,12 +78,12 @@ class KratosTextField: UIView {
         
         var offsetYPosition: CGFloat {
             switch self {
-            case .email: return 40
-            case .password: return 90
-            case .first, .last: return 15
-            case .dob, .party: return 70
-            case .address: return 125
-            case .city, .state, .zip: return 180
+            case .email: return 50
+            case .password: return 100
+            case .first, .last: return 25
+            case .dob, .party: return 80
+            case .address: return 135
+            case .city, .state, .zip: return 190
             }
         }
     }
@@ -247,7 +247,6 @@ extension KratosTextField: UITextFieldDelegate {
             return true
         }
     }
-    
 }
 
 func == (lhs: KratosTextField.TextFieldType, rhs: KratosTextField.TextFieldType) -> Bool {

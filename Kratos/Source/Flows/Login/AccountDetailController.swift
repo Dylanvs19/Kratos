@@ -57,15 +57,24 @@ class AccountDetailsController: UIViewController {
     fileprivate let datePicker = DatePickerView()
     fileprivate var datePickerTopConstraint: Constraint?
     
+    fileprivate let firstTextField = KratosTextField(type: .first)
+    fileprivate let lastTextField = KratosTextField(type: .last)
+    fileprivate let partyTextField = KratosTextField(type: .party)
+    fileprivate let dobTextField = KratosTextField(type: .dob)
+    fileprivate let streetTextField = KratosTextField(type: .address)
+    fileprivate let cityTextField = KratosTextField(type: .city)
+    fileprivate let stateTextField = KratosTextField(type: .state)
+    fileprivate let zipTextField = KratosTextField(type: .zip)
+    
     lazy fileprivate var fieldData: [FieldData] = {
-        return [FieldData(field: KratosTextField(), fieldType: .first, viewModelVariable: self.viewModel.first, validation: self.viewModel.firstValid),
-                FieldData(field: KratosTextField(), fieldType: .last, viewModelVariable: self.viewModel.last, validation: self.viewModel.lastValid),
-                FieldData(field: KratosTextField(), fieldType: .party, viewModelVariable: self.viewModel.party, validation: self.viewModel.partyValid),
-                FieldData(field: KratosTextField(), fieldType: .dob, viewModelVariable: self.viewModel.dob, validation: self.viewModel.dobValid),
-                FieldData(field: KratosTextField(), fieldType: .address, viewModelVariable: self.viewModel.street, validation: self.viewModel.streetValid),
-                FieldData(field: KratosTextField(), fieldType: .city, viewModelVariable: self.viewModel.city, validation: self.viewModel.cityValid),
-                FieldData(field: KratosTextField(), fieldType: .state, viewModelVariable: self.viewModel.userState, validation: self.viewModel.stateValid),
-                FieldData(field: KratosTextField(), fieldType: .zip, viewModelVariable: self.viewModel.zip, validation: self.viewModel.zipValid)]
+        return [FieldData(field: self.firstTextField, fieldType: .first, viewModelVariable: self.viewModel.first, validation: self.viewModel.firstValid),
+                FieldData(field: self.lastTextField, fieldType: .last, viewModelVariable: self.viewModel.last, validation: self.viewModel.lastValid),
+                FieldData(field: self.partyTextField, fieldType: .party, viewModelVariable: self.viewModel.party, validation: self.viewModel.partyValid),
+                FieldData(field: self.dobTextField, fieldType: .dob, viewModelVariable: self.viewModel.dob, validation: self.viewModel.dobValid),
+                FieldData(field: self.streetTextField, fieldType: .address, viewModelVariable: self.viewModel.street, validation: self.viewModel.streetValid),
+                FieldData(field: self.cityTextField, fieldType: .city, viewModelVariable: self.viewModel.city, validation: self.viewModel.cityValid),
+                FieldData(field: self.stateTextField, fieldType: .state, viewModelVariable: self.viewModel.userState, validation: self.viewModel.stateValid),
+                FieldData(field: self.zipTextField, fieldType: .zip, viewModelVariable: self.viewModel.zip, validation: self.viewModel.zipValid)]
     }()
     
     // MARK: - Initialization -
@@ -140,6 +149,7 @@ class AccountDetailsController: UIViewController {
                 make.top.equalTo(kratosImageView.snp.bottom).offset(data.fieldType.offsetYPosition)
                 make.centerX.equalTo(view).multipliedBy(data.fieldType.centerXPosition)
                 make.width.equalTo(self.view.frame.width * data.fieldType.expandedWidthMultiplier)
+                make.height.equalTo(25)
             })
         }
     }
@@ -247,6 +257,7 @@ extension AccountDetailsController: ViewBuilder {
                 make.top.equalTo(kratosImageView.snp.bottom).offset(data.fieldType.offsetYPosition)
                 make.centerX.equalTo(view).multipliedBy(data.fieldType.centerXPosition)
                 make.width.equalTo(0)
+                make.height.equalTo(25)
             })
         }
         cancelDoneButton.snp.makeConstraints { (make) in
@@ -298,11 +309,16 @@ extension AccountDetailsController: RxBinder {
     func bindTextfieldsToUserObject() {
         //Build from User object
         fieldData.forEach { (data) in
-            data.field.setText(data.viewModelVariable.value)
             data.field.textField.rx.text
                 .map { $0 ?? "" }
                 .bind(to: data.viewModelVariable)
                 .disposed(by: disposeBag)
+        }
+    }
+    
+    func setNewUserValues() {
+        fieldData.forEach { (data) in
+            data.field.setText(data.viewModelVariable.value)
         }
     }
     
@@ -346,6 +362,12 @@ extension AccountDetailsController: RxBinder {
             .bind(to: cancelDoneButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
         
+        viewModel.user.asObservable()
+            .filterNil()
+            .subscribe(onNext: { [weak self] _ in
+                self?.setNewUserValues()
+            })
+            .disposed(by: disposeBag)
         saveEditRegisterButton.rx.tap
             .withLatestFrom(self.viewModel.state.asObservable())
             .subscribe(onNext: { [weak self] state in
