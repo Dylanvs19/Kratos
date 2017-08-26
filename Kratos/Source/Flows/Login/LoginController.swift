@@ -235,37 +235,35 @@ extension LoginController: RxBinder {
             })
             .disposed(by: disposeBag)
         
-        signUpRegisterButton.rx.controlEvent([.touchUpInside])
+        signUpRegisterButton.rx.tap
             .bind(to: viewModel.signInSignUpButtonTap)
             .disposed(by: disposeBag)
         
-        loginContinueButton.rx.controlEvent([.touchUpInside])
+        loginContinueButton.rx.tap
             .map { _ in self.viewModel.state.value }
-            .subscribe(onNext: { [unowned self] state in
+            .subscribe(onNext: { [weak self] state in
                 switch state {
                 case .login:
-                    self.viewModel.login()
+                    self?.viewModel.login()
                 case .forgotPassword:
-                    self.viewModel.postForgotPassword()
-                default:
-                    break
+                    self?.viewModel.postForgotPassword()
+                case .createAccount:
+                    guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                    if let credentials = self.viewModel.credentials.value {
+                        let vc = AccountDetailsController(client: self.client, state: .createAccount, credentials: credentials)
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
                 }
             })
             .disposed(by: disposeBag)
-        viewModel.pushCreateAccount
-            .subscribe(onNext: { [weak self] credentials in
-                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
-                let vc = AccountDetailsController(client: self.client, accountDetails: credentials)
-                self.navigationController?.pushViewController(vc, animated: true)
-            })
-            .disposed(by: disposeBag)
         
-        forgotPasswordButton.rx.controlEvent([.touchUpInside])
+        forgotPasswordButton.rx.tap
             .bind(to: viewModel.forgotPasswordButtonTap)
             .disposed(by: disposeBag)
         
         viewModel.loginLoadStatus.asObservable()
-            .onSuccess {
+            .onSuccess { [weak self] in
+                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
                 let vc = TabBarController(with: self.client)
                 ApplicationLauncher.rootTransition(to: vc)
             }
@@ -281,6 +279,7 @@ extension LoginController: RxBinder {
                 // Show alert here
             }
             .disposed(by: disposeBag)
+        
     }
     
     func setupTextFieldBindings() {
@@ -302,13 +301,19 @@ extension LoginController: RxBinder {
     }
     
     func navigationBindings() {
-        viewModel.loginSuccessful.asObservable()
-            .map { $0 }
-            .subscribe(onNext: { [weak self] _ in
+        viewModel.loginLoadStatus.asObservable()
+            .onSuccess { [weak self] in
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
                 let vc = TabBarController(with: self.client)
                 ApplicationLauncher.rootTransition(to: vc)
+        }
+        .disposed(by: disposeBag)
+        
+        viewModel.loginLoadStatus.asObservable()
+            .onError(execute: { error in
+                // deal w error
             })
             .disposed(by: disposeBag)
+        
     }
 }

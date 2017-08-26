@@ -135,6 +135,17 @@ extension UIViewController {
         navigationController?.automaticallyAdjustsScrollViewInsets = false
     }
     
+    func setDefaultLoginNavVC() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationController?.navigationBar.tintColor = Color.lightGray.value
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.backItem?.title = ""
+        navigationController?.extendedLayoutIncludesOpaqueBars = true
+        navigationController?.automaticallyAdjustsScrollViewInsets = false
+    }
+    
     func presentSafariView(with url: String) {
         if let url = URL(string:url) {
             let vc = SFSafariViewController(url: url)

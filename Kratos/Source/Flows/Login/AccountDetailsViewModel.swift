@@ -45,7 +45,7 @@ class AccountDetailsViewModel {
     var formValid = Variable<Bool>(false)
     
     //MARK: Methods
-    init(client: Client, state: AccountDetailsController.State, credentials: (email: String, password: String) = (email:"", password: "")) {
+    init(client: Client, state: AccountDetailsController.State, credentials: (email: String, password: String)) {
         self.client = client
         self.state.value = state
         self.email.value = credentials.email

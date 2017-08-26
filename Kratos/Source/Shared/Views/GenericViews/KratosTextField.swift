@@ -250,6 +250,28 @@ extension KratosTextField: UITextFieldDelegate {
     
 }
 
+func == (lhs: KratosTextField.TextFieldType, rhs: KratosTextField.TextFieldType) -> Bool {
+    switch (lhs, rhs) {
+    case (.email, .email),
+         (.password, .password),
+         (.first, .first),
+         (.last, .last),
+         (.party, .party),
+         (.dob, .dob),
+         (.address, .address),
+         (.city, .city),
+         (.state, .state),
+         (.zip, .zip):
+        return true
+    default:
+        return false
+    }
+}
+
+func != (lhs: KratosTextField.TextFieldType, rhs: KratosTextField.TextFieldType) -> Bool {
+    return !(lhs == rhs)
+}
+
 struct FieldData {
     let field: KratosTextField
     let fieldType: KratosTextField.TextFieldType

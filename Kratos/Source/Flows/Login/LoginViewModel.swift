@@ -26,13 +26,12 @@ class LoginViewModel {
     let passwordValid = Variable<Bool>(false)
     let formValid = Variable<Bool>(false)
     
-    let loginButtonTap = PublishSubject<Void>()
     let forgotPasswordButtonTap = PublishSubject<Void>()
     let signInSignUpButtonTap = PublishSubject<Void>()
     
     let loginSuccessful = PublishSubject<Void>()
     let forgotPasswordSuccessful = PublishSubject<Bool>()
-    let pushCreateAccount = PublishSubject<(email: String, password: String)>()
+    let credentials = Variable<(email: String, password: String)?>(nil)
     
     let user = Variable<User?>(nil)
     
@@ -68,14 +67,10 @@ class LoginViewModel {
     }
     
     func binds() {
-        loginButtonTap
-            .map { _ in self.state.value }
-            .filter { $0 == .createAccount }
-            .subscribe(onNext: { [weak self] state in
-                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
-                self.pushCreateAccount.onNext((self.email.value, self.password.value))
-            })
+        Observable.combineLatest(email.asObservable(), password.asObservable()) { (email: $0, password: $1)}
+            .bind(to: credentials)
             .disposed(by: disposeBag)
+        
         forgotPasswordButtonTap.asObservable()
             .map{ LoginController.State.forgotPassword }
             .bind(to: self.state)
@@ -96,7 +91,7 @@ class LoginViewModel {
             .bind(to: emailValid)
             .disposed(by: disposeBag)
         password.asObservable()
-            .map { $0.isValid(for: .email) }
+            .map { $0.isValid(for: .password) }
             .bind(to: passwordValid)
             .disposed(by: disposeBag)
         Observable.combineLatest(emailValid.asObservable(), passwordValid.asObservable()) { $0 && $1 }

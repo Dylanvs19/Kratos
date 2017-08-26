@@ -13,6 +13,7 @@ import SnapKit
 
 class AccountDetailsController: UIViewController {
     
+    // MARK: - Enums -
     enum State {
         case createAccount
         case editAccount
@@ -41,9 +42,11 @@ class AccountDetailsController: UIViewController {
         }
     }
     
+    // MARK: - Variables -
     fileprivate let client: Client
     fileprivate let viewModel: AccountDetailsViewModel
     fileprivate let disposeBag = DisposeBag()
+    
     fileprivate let scrollView = UIScrollView()
     fileprivate let contentView = UIView()
     
@@ -51,48 +54,32 @@ class AccountDetailsController: UIViewController {
     fileprivate var saveEditRegisterButton = UIButton()
     fileprivate var cancelDoneButton = UIButton()
     
-    fileprivate let firstTextField = KratosTextField(type: .first)
-    fileprivate let lastTextField = KratosTextField(type: .last)
-    fileprivate let partyTextField = KratosTextField(type: .party)
-    fileprivate let dobTextField = KratosTextField(type: .dob)
-    fileprivate let streetTextField = KratosTextField(type: .address)
-    fileprivate let cityTextField = KratosTextField(type: .city)
-    fileprivate let stateTextField = KratosTextField(type: .state)
-    fileprivate let zipTextField = KratosTextField(type: .zip)
-    
     fileprivate let datePicker = DatePickerView()
     fileprivate var datePickerTopConstraint: Constraint?
     
     lazy fileprivate var fieldData: [FieldData] = {
-        return [FieldData(field: self.firstTextField, fieldType: .first, viewModelVariable: self.viewModel.first, validation: self.viewModel.firstValid),
-                FieldData(field: self.lastTextField, fieldType: .last, viewModelVariable: self.viewModel.last, validation: self.viewModel.lastValid),
-                FieldData(field: self.partyTextField, fieldType: .party, viewModelVariable: self.viewModel.party, validation: self.viewModel.partyValid),
-                FieldData(field: self.dobTextField, fieldType: .dob, viewModelVariable: self.viewModel.dob, validation: self.viewModel.dobValid),
-                FieldData(field: self.streetTextField, fieldType: .address, viewModelVariable: self.viewModel.street, validation: self.viewModel.streetValid),
-                FieldData(field: self.cityTextField, fieldType: .city, viewModelVariable: self.viewModel.city, validation: self.viewModel.cityValid),
-                FieldData(field: self.stateTextField, fieldType: .state, viewModelVariable: self.viewModel.userState, validation: self.viewModel.stateValid),
-                FieldData(field: self.zipTextField, fieldType: .zip, viewModelVariable: self.viewModel.zip, validation: self.viewModel.zipValid)]
+        return [FieldData(field: KratosTextField(), fieldType: .first, viewModelVariable: self.viewModel.first, validation: self.viewModel.firstValid),
+                FieldData(field: KratosTextField(), fieldType: .last, viewModelVariable: self.viewModel.last, validation: self.viewModel.lastValid),
+                FieldData(field: KratosTextField(), fieldType: .party, viewModelVariable: self.viewModel.party, validation: self.viewModel.partyValid),
+                FieldData(field: KratosTextField(), fieldType: .dob, viewModelVariable: self.viewModel.dob, validation: self.viewModel.dobValid),
+                FieldData(field: KratosTextField(), fieldType: .address, viewModelVariable: self.viewModel.street, validation: self.viewModel.streetValid),
+                FieldData(field: KratosTextField(), fieldType: .city, viewModelVariable: self.viewModel.city, validation: self.viewModel.cityValid),
+                FieldData(field: KratosTextField(), fieldType: .state, viewModelVariable: self.viewModel.userState, validation: self.viewModel.stateValid),
+                FieldData(field: KratosTextField(), fieldType: .zip, viewModelVariable: self.viewModel.zip, validation: self.viewModel.zipValid)]
     }()
     
-    init(client: Client, state: State) {
+    // MARK: - Initialization -
+    init(client: Client, state: State, credentials: (email: String, password: String) = (email: "", password: "")) {
         self.client = client
-        self.viewModel = AccountDetailsViewModel(client: client, state: state)
+        self.viewModel = AccountDetailsViewModel(client: client, state: .createAccount, credentials: credentials)
         super.init(nibName: nil, bundle: nil)
-    }
-    
-    //Initializer for registration flow
-    init(client: Client, accountDetails: (email: String, password: String)) {
-        self.client = client
-        self.viewModel = AccountDetailsViewModel(client: client, state: .createAccount)
-        super.init(nibName: nil, bundle: nil)
-        viewModel.email.value = accountDetails.email
-        viewModel.password.value = accountDetails.password
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = false
@@ -109,16 +96,24 @@ class AccountDetailsController: UIViewController {
         setInitialState()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setDefaultLoginNavVC()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         beginningAnimations()
     }
     
-    func setInfoFromRegistration(email: String, password: String) {
-        viewModel.email.value = email
-        viewModel.password.value = password
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        setDefaultLoginNavVC()
     }
     
+
+    
+    // MARK - Configuration -
     func setInitialState() {
         fieldData.forEach { (data) in
             data.field.isHidden = true
@@ -127,6 +122,7 @@ class AccountDetailsController: UIViewController {
         self.view.layoutIfNeeded()
     }
     
+    // MARK - Animations -
     fileprivate func beginningAnimations() {
         UIView.animate(withDuration: 0.25, delay: 0.25, options: [], animations: {
             self.fieldData.forEach { (data) in
@@ -151,13 +147,19 @@ class AccountDetailsController: UIViewController {
     func presentPartySelectionActionSheet() {
         let alertVC = UIAlertController.init(title: localize(.accountDetailsPartyActionSheetTitle), message: localize(.accountDetailsPartyActionSheetDescription), preferredStyle: .actionSheet)
         alertVC.addAction(UIAlertAction(title: localize(.accountDetailsDemocratButtonTitle), style: .destructive, handler: { (action) in
-            self.partyTextField.setText(localize(.accountDetailsDemocratText))
+            if let field = self.fieldData.filter({ $0.fieldType == .party }).first {
+                field.field.setText(localize(.accountDetailsDemocratText))
+            }
         }))
         alertVC.addAction(UIAlertAction(title: localize(.accountDetailsRepublicanButtonTitle), style: .destructive, handler: { (action) in
-            self.partyTextField.setText(localize(.accountDetailsRepublicanText))
+            if let field = self.fieldData.filter({ $0.fieldType == .party }).first {
+                field.field.setText(localize(.accountDetailsDemocratText))
+            }
         }))
         alertVC.addAction(UIAlertAction(title: localize(.accountDetailsIndependentButtonTitle), style: .destructive, handler: { (action) in
-            self.partyTextField.setText(localize(.accountDetailsIndependentText))
+            if let field = self.fieldData.filter({ $0.fieldType == .party }).first {
+                field.field.setText(localize(.accountDetailsDemocratText))
+            }
         }))
         present(alertVC, animated: true, completion: nil)
     }
@@ -205,7 +207,9 @@ extension AccountDetailsController: DatePickerViewDelegate {
             })
             .asDriver(onErrorJustReturn: "")
             .drive(onNext: { [weak self] (date) in
-                self?.dobTextField.setText(date)
+                if let field = self?.fieldData.filter({ $0.fieldType == .dob }).first {
+                    field.field.setText(date)
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -314,17 +318,21 @@ extension AccountDetailsController: RxBinder {
     }
     
     func bindCustomTextfieldInteractions() {
-        partyTextField.textField.rx.controlEvent([.editingDidBegin])
-            .subscribe { [weak self] (event) in
-                self?.presentPartySelectionActionSheet()
-            }
-            .disposed(by: disposeBag)
+        if let data = fieldData.filter({ $0.fieldType == .party }).first {
+            data.field.textField.rx.controlEvent([.editingDidBegin])
+                .subscribe { [weak self] (event) in
+                    self?.presentPartySelectionActionSheet()
+                }
+                .disposed(by: disposeBag)
+        }
         
-        dobTextField.textField.rx.controlEvent([.editingDidBegin])
-            .subscribe { [weak self] (event) in
-                self?.showDatePicker()
-            }
-            .disposed(by: disposeBag)
+        if let data = fieldData.filter({ $0.fieldType == .dob }).first {
+            data.field.textField.rx.controlEvent([.editingDidBegin])
+                .subscribe { [weak self] (event) in
+                    self?.showDatePicker()
+                }
+                .disposed(by: disposeBag)
+        }
     }
     
     func setupButtonBindings() {
