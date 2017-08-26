@@ -22,19 +22,35 @@ class ExploreViewModel {
     let state = Variable<ExploreController.State>(.house)
     let houseBills = Variable<[Bill]>([])
     let senateBills = Variable<[Bill]>([])
+    let isInSession = Variable<Bool>(true)
     
     // MARK: - Initializer -
     init(client: Client) {
         self.client = client
         fetchSenateBills()
         fetchHouseBills()
+        fetchIsInSession()
     }
     
-    // MARK: - Service Calls -
+    // MARK: - Client Requests -
+    func fetchIsInSession() {
+        loadStatus.value = .loading
+        client.determineRecess()
+            .debug()
+            .subscribe(onNext: { [weak self] isInSession in
+                self?.loadStatus.value = .none
+                self?.isInSession.value = isInSession
+            }, onError: { [weak self] error in
+                guard let error = error as? KratosError else { return }
+                self?.loadStatus.value = .error(error: error)
+            })
+            .disposed(by: disposeBag)
+//        isInSession.value = false
+    }
+    
     func fetchSenateBills() {
         loadStatus.value = .loading
         client.fetchOnFloor(with: .senate)
-            .debug()
             .subscribe(onNext: { [weak self] bills in
                 self?.loadStatus.value = .none
                 self?.senateBills.value = bills
@@ -48,7 +64,6 @@ class ExploreViewModel {
     func fetchHouseBills() {
         loadStatus.value = .loading
         client.fetchOnFloor(with: .house)
-            .debug()
             .subscribe(onNext: { [weak self] bills in
                 self?.loadStatus.value = .none
                 self?.houseBills.value = bills
