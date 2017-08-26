@@ -51,11 +51,11 @@ extension BillCell: ViewBuilder {
     }
     func constrainViews() {
         titleLabel.snp.makeConstraints { make in
-            make.leading.top.equalToSuperview().offset(5)
+            make.leading.top.trailing.equalToSuperview().offset(5)
         }
         gpoLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(2)
-            make.leading.equalToSuperview().inset(5)
+            make.leading.bottom.equalToSuperview().inset(5)
         }
     }
     
@@ -65,6 +65,9 @@ extension BillCell: ViewBuilder {
                                 .numberOfLines(5)])
         gpoLabel.style(with: [.font(.body),
                                  .titleColor(.gray)])
+        accessoryType = .disclosureIndicator
+        separatorInset = .zero
+        selectionStyle = .none
     }
 }
 
