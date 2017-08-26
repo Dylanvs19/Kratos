@@ -10,10 +10,6 @@ import UIKit
 import RxSwift
 import SnapKit
 
-@objc protocol KratosTextFieldDelegate: class {
-    @objc optional func didSelectTextField(textField: KratosTextField)
-}
-
 class KratosTextField: UIView {
     
     enum TextFieldType {
@@ -48,16 +44,16 @@ class KratosTextField: UIView {
         }
         var placeholderText: String {
             switch self {
-            case .email: return "E M A I L"
-            case .password: return "P A S S W O R D"
-            case .first: return "F I R S T"
-            case .last: return "L A S T"
-            case .dob: return "B I R T H D A T E"
-            case .party: return "P A R T Y"
-            case .address: return "A D D R E S S"
-            case .city: return "C I T Y"
-            case .state: return "S T A T E"
-            case .zip: return "Z I P C O D E"
+            case .email: return localize(.textFieldEmailTitle)
+            case .password: return localize(.textFieldPasswordTitle)
+            case .first: return localize(.textFieldFirstTitle)
+            case .last: return localize(.textFieldLastTitle)
+            case .dob: return localize(.textFieldBirthdayTitle)
+            case .party: return localize(.textFieldPartyTitle)
+            case .address: return localize(.textFieldAddressTitle)
+            case .city: return localize(.textFieldCityTitle)
+            case .state: return localize(.textFieldStateTitle)
+            case .zip: return localize(.textFieldZipcodeTitle)
             }
         }
         
@@ -101,7 +97,6 @@ class KratosTextField: UIView {
     
     //MARK: Public Variables
     public var textFieldType: TextFieldType = .address
-    weak var delegate: KratosTextFieldDelegate?
     
     //MARK: Private Variables
     fileprivate var shouldPresentKeyboard = true

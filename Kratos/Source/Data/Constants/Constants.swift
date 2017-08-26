@@ -33,6 +33,18 @@ enum Constant {
     case accountDetailsIndependentButtonTitle
     case accountDetailsIndependentText
     
+    //KratosTextFields
+    case textFieldEmailTitle
+    case textFieldPasswordTitle
+    case textFieldFirstTitle
+    case textFieldLastTitle
+    case textFieldBirthdayTitle
+    case textFieldPartyTitle
+    case textFieldAddressTitle
+    case textFieldCityTitle
+    case textFieldStateTitle
+    case textFieldZipcodeTitle
+    
     //ConfirmationVC
     case confirmationTitle
     case confirmationButtonTitle
@@ -94,6 +106,17 @@ enum Constant {
         case .accountDetailsIndependentButtonTitle: return "I N D E P E N D E N T"
         case .accountDetailsIndependentText: return "Independent"
         
+        //KratosTextFields
+        case .textFieldEmailTitle: return "E M A I L"
+        case .textFieldPasswordTitle: return "P A S S W O R D"
+        case .textFieldFirstTitle: return "F I R S T"
+        case .textFieldLastTitle: return "L A S T"
+        case .textFieldBirthdayTitle: return "B I R T H D A T E"
+        case .textFieldPartyTitle: return "P A R T Y"
+        case .textFieldAddressTitle: return "A D D R E S S"
+        case .textFieldCityTitle: return "C I T Y"
+        case .textFieldStateTitle: return "S T A T E"
+        case .textFieldZipcodeTitle: return "Z I P C O D E"
             
         //ConfirmationVC
         case .confirmationTitle: return "Confirmation"
