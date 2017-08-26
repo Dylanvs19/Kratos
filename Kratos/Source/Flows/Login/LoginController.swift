@@ -49,6 +49,7 @@ class LoginController: UIViewController {
     fileprivate let client: Client
     fileprivate let viewModel: LoginViewModel
     fileprivate let disposeBag = DisposeBag()
+    
     fileprivate let scrollView = UIScrollView()
     fileprivate let contentView = UIView()
     
@@ -261,6 +262,24 @@ extension LoginController: RxBinder {
         
         forgotPasswordButton.rx.controlEvent([.touchUpInside])
             .bind(to: viewModel.forgotPasswordButtonTap)
+            .disposed(by: disposeBag)
+        
+        viewModel.loginLoadStatus.asObservable()
+            .onSuccess {
+                let vc = TabBarController(with: self.client)
+                ApplicationLauncher.rootTransition(to: vc)
+            }
+            .disposed(by: disposeBag)
+        viewModel.loginLoadStatus.asObservable()
+            .onError(execute: { error in
+                guard let error = error as? KratosError else { return }
+                self.showError(error)
+            })
+            .disposed(by: disposeBag)
+        viewModel.forgotPasswordLoadStatus.asObservable()
+            .onSuccess {
+                // Show alert here
+            }
             .disposed(by: disposeBag)
     }
     

@@ -16,7 +16,8 @@ class LoginViewModel {
     fileprivate let disposeBag = DisposeBag()
     fileprivate var fetchDisposeBag = DisposeBag()
     
-    let loadStatus = Variable<LoadStatus>(.none)
+    let loginLoadStatus = Variable<LoadStatus>(.none)
+    let forgotPasswordLoadStatus = Variable<LoadStatus>(.none)
     let state = Variable<LoginController.State>(.login)
     let email = Variable<String>("")
     let password = Variable<String>("")
@@ -53,33 +54,31 @@ class LoginViewModel {
     }
     
     func postForgotPassword() {
-        loadStatus.value = .loading
+        forgotPasswordLoadStatus.value = .loading
         client.forgotPassword(email: email.value)
             .subscribe(onNext: { [unowned self] (bool) in
-                self.loadStatus.value = .none
+                self.forgotPasswordLoadStatus.value = .none
                 //Show Alert saying Email has been sent to Email Account
             }, onError: { [unowned self] error in
                 let error = error as? KratosError ?? KratosError.unknown
-                self.loadStatus.value = .error(error: error)
+                self.forgotPasswordLoadStatus.value = .error(error: error)
             })
             .disposed(by: disposeBag)
-
     }
     
     func login() {
-        loadStatus.value = .loading
+        loginLoadStatus.value = .loading
         client.login(email: email.value, password: password.value)
             .subscribe(onNext: { [unowned self] state in
-                self.loadStatus.value = .none
+                self.loginLoadStatus.value = .none
                 }, onError: { [unowned self] error in
                     let error = error as? KratosError ?? KratosError.unknown
-                    self.loadStatus.value = .error(error: error)
+                    self.loginLoadStatus.value = .error(error: error)
             })
             .disposed(by: disposeBag)
     }
     
     func binds() {
-        
         loginButtonTap
             .map { _ in self.state.value }
             .filter { $0 == .createAccount }
@@ -92,7 +91,6 @@ class LoginViewModel {
             .map{ LoginController.State.forgotPassword }
             .bind(to: self.state)
             .disposed(by: disposeBag)
-        
         signInSignUpButtonTap.asObservable()
             .map { self.state.value }
             .map {
