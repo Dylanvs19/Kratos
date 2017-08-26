@@ -58,7 +58,7 @@ class UserController: UIViewController {
     
     // MARK: - Configuration -
     func configureNavVC() {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 27, height: 27))
         button.setImage(#imageLiteral(resourceName: "gearIcon").withRenderingMode(.alwaysOriginal), for: .normal)
         button.addTarget(self, action: #selector(gearIconSelected), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: button)
