@@ -30,7 +30,7 @@ class PresentMenuAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         fromVC.view.isHidden = true
         
         UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
-                snapshot.center.x += UIScreen.main.bounds.width * MenuHelper.menuWidth
+                snapshot.center.x -= UIScreen.main.bounds.width * MenuHelper.menuWidth
         }, completion: { _ in
                 fromVC.view.isHidden = false
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)

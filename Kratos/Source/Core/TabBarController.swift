@@ -66,15 +66,15 @@ class TabBarController: UITabBarController {
         }
     }
     
-    
+    let client: Client
+    let disposeBag = DisposeBag()
     let scrollDelegate = ScrollingTabBarControllerDelegate()
-    var firstItemImageView: UIImageView?
-    var secondItemImageView: UIImageView?
-    var thirdItemImageView: UIImageView?
     
-    init(client: Client) {
+    init(with client: Client) {
+        self.client = client
         super.init(nibName: nil, bundle: nil)
         configure(with: client)
+        bind()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -120,5 +120,17 @@ class TabBarController: UITabBarController {
             tabImageView.transform = CGAffineTransform.identity
         },
                        completion: nil)
+    }
+}
+
+extension TabBarController: RxBinder {
+    func bind() {
+        client.isLoggedIn.asObservable()
+            .filter { $0 == false }
+            .subscribe(onNext: { next in
+                let navVC = UINavigationController(rootViewController: LoginController(client: Client.default))
+                ApplicationLauncher.rootTransition(to: navVC)
+            })
+            .disposed(by: disposeBag)
     }
 }

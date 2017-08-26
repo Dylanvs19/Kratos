@@ -10,7 +10,6 @@
 		71FC9AF49B0EB5820A301DE4 /* Pods_KratosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE4ABF9591E077E906036EA /* Pods_KratosTests.framework */; };
 		A0DD548B75376A90182B6EFF /* Pods_Kratos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EC5E845D25026904F837F7 /* Pods_Kratos.framework */; };
 		AF09B3031F4F8E24003CB455 /* InteractionResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF09B3021F4F8E24003CB455 /* InteractionResponder.swift */; };
-		AF09B3051F4F9782003CB455 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF09B3041F4F9782003CB455 /* MenuViewModel.swift */; };
 		AF2C06C31F3D4C9100D7E348 /* Localizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C21F3D4C9100D7E348 /* Localizer.swift */; };
 		AF2C06C91F45C74B00D7E348 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C81F45C74B00D7E348 /* State.swift */; };
 		AF2C06ED1F4895F000D7E348 /* BillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06CC1F4895F000D7E348 /* BillCell.swift */; };
@@ -209,7 +208,6 @@
 		86EC5E845D25026904F837F7 /* Pods_Kratos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kratos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E2C0D1F0BFAA77B0FD2EA1F /* Pods-Kratos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.debug.xcconfig"; sourceTree = "<group>"; };
 		AF09B3021F4F8E24003CB455 /* InteractionResponder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionResponder.swift; sourceTree = "<group>"; };
-		AF09B3041F4F9782003CB455 /* MenuViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		AF1AC54E1DF5A6A100DCBA13 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		AF1AC5501DF5A6A100DCBA13 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		AF1AC5531DF5A6A100DCBA13 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
@@ -495,7 +493,6 @@
 			isa = PBXGroup;
 			children = (
 				AF2C06E31F4895F000D7E348 /* MenuController.swift */,
-				AF09B3041F4F9782003CB455 /* MenuViewModel.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -1313,7 +1310,6 @@
 				AF2C073E1F48975E00D7E348 /* RepInfoBillSponsorTableViewCell.swift in Sources */,
 				AF2C06FD1F4895F000D7E348 /* LoginViewModel.swift in Sources */,
 				AF3F5CB01EBE72F700809AA3 /* TrackButton.swift in Sources */,
-				AF09B3051F4F9782003CB455 /* MenuViewModel.swift in Sources */,
 				AFFA95221EC1F08700144C3A /* ImageService.swift in Sources */,
 				AFFA94F61EBE789800144C3A /* Subject.swift in Sources */,
 				AF57F4C31F2B6E220080978F /* Configuration.swift in Sources */,

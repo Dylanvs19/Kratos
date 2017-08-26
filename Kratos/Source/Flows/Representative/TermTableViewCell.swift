@@ -22,6 +22,7 @@ class TermTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubviews()
         constrainViews()
+        styleViews()
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -23,10 +23,10 @@ struct ApplicationLauncher {
                 let kratosClient = KratosClient(token: token)
                 let client = Client(kratosClient: kratosClient)
                 updateStoredData(with: client)
-                appDelegate.rootTransition(to: TabBarController(client: client))
+                rootTransition(to: TabBarController(with: client))
             } else {
-                let navVC = UINavigationController(rootViewController: LoginViewController(client: Client.default))
-                appDelegate.rootTransition(to: navVC)
+                let navVC = UINavigationController(rootViewController: LoginController(client: Client.default))
+                rootTransition(to: navVC)
             }
         }
         
@@ -40,5 +40,23 @@ struct ApplicationLauncher {
                 Store.shelve(subjects, key: Subject.identifier)
             })
             .dispose()
+    }
+    
+    static func rootTransition(to viewController: UIViewController,
+                               duration: TimeInterval = 1.0,
+                               animationOptions: UIViewAnimationOptions = .transitionCrossDissolve,
+                               completion: ((Bool) -> Void)? = nil) {
+        guard case .some(.some(let window)) = UIApplication.shared.delegate?.window else {
+            fatalError("Could not unwrap application window")
+        }
+        
+        UIView.transition(with: window,
+                          duration: duration,
+                          options: animationOptions,
+                          animations: {
+                            window.addSubview(viewController.view)
+                            window.rootViewController = viewController
+        },
+                          completion: completion)
     }
 }

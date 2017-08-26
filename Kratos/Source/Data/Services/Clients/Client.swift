@@ -52,7 +52,7 @@ class Client {
     func tearDown() {
         invalidateCache()
         kratosClient = KratosClient(token: nil)
-        self.isLoggedIn.value = kratosClient.token != nil
+        self.isLoggedIn.value = false
     }
 }
 
@@ -109,6 +109,7 @@ extension Client {
     
     func invalidateCache() {
         cache.removeAllObjects()
+        Store.remove("token")
     }
 }
 
