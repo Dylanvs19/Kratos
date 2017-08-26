@@ -10,6 +10,7 @@
 		71FC9AF49B0EB5820A301DE4 /* Pods_KratosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE4ABF9591E077E906036EA /* Pods_KratosTests.framework */; };
 		A0DD548B75376A90182B6EFF /* Pods_Kratos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EC5E845D25026904F837F7 /* Pods_Kratos.framework */; };
 		AF09B3031F4F8E24003CB455 /* InteractionResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF09B3021F4F8E24003CB455 /* InteractionResponder.swift */; };
+		AF09B3051F4F9782003CB455 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF09B3041F4F9782003CB455 /* MenuViewModel.swift */; };
 		AF2C06C31F3D4C9100D7E348 /* Localizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C21F3D4C9100D7E348 /* Localizer.swift */; };
 		AF2C06C91F45C74B00D7E348 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C81F45C74B00D7E348 /* State.swift */; };
 		AF2C06ED1F4895F000D7E348 /* BillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06CC1F4895F000D7E348 /* BillCell.swift */; };
@@ -24,15 +25,15 @@
 		AF2C06F61F4895F000D7E348 /* FeedbackQuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2C06D61F4895F000D7E348 /* FeedbackQuestionView.xib */; };
 		AF2C06F71F4895F000D7E348 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D71F4895F000D7E348 /* FeedbackViewController.swift */; };
 		AF2C06F81F4895F000D7E348 /* AccountDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D91F4895F000D7E348 /* AccountDetailsViewModel.swift */; };
-		AF2C06F91F4895F000D7E348 /* AccountDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DA1F4895F000D7E348 /* AccountDetailViewController.swift */; };
-		AF2C06FA1F4895F000D7E348 /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DB1F4895F000D7E348 /* ConfirmationViewController.swift */; };
+		AF2C06F91F4895F000D7E348 /* AccountDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DA1F4895F000D7E348 /* AccountDetailController.swift */; };
+		AF2C06FA1F4895F000D7E348 /* ConfirmationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DB1F4895F000D7E348 /* ConfirmationController.swift */; };
 		AF2C06FB1F4895F000D7E348 /* ConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DC1F4895F000D7E348 /* ConfirmationViewModel.swift */; };
-		AF2C06FC1F4895F000D7E348 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DD1F4895F000D7E348 /* LoginViewController.swift */; };
+		AF2C06FC1F4895F000D7E348 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DD1F4895F000D7E348 /* LoginController.swift */; };
 		AF2C06FD1F4895F000D7E348 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DE1F4895F000D7E348 /* LoginViewModel.swift */; };
 		AF2C06FE1F4895F000D7E348 /* NotificationsRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DF1F4895F000D7E348 /* NotificationsRegistrationViewController.swift */; };
 		AF2C06FF1F4895F000D7E348 /* NotificationsRegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E01F4895F000D7E348 /* NotificationsRegistrationViewModel.swift */; };
 		AF2C07001F4895F000D7E348 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E11F4895F000D7E348 /* SplashViewController.swift */; };
-		AF2C07011F4895F000D7E348 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E31F4895F000D7E348 /* MenuViewController.swift */; };
+		AF2C07011F4895F000D7E348 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E31F4895F000D7E348 /* MenuController.swift */; };
 		AF2C07051F4895F000D7E348 /* UserRepsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E91F4895F000D7E348 /* UserRepsViewController.swift */; };
 		AF2C07061F4895F000D7E348 /* UserRepsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06EA1F4895F000D7E348 /* UserRepsViewModel.swift */; };
 		AF2C07071F4895F000D7E348 /* UserRepTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06EB1F4895F000D7E348 /* UserRepTableViewCell.swift */; };
@@ -208,6 +209,7 @@
 		86EC5E845D25026904F837F7 /* Pods_Kratos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kratos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E2C0D1F0BFAA77B0FD2EA1F /* Pods-Kratos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.debug.xcconfig"; sourceTree = "<group>"; };
 		AF09B3021F4F8E24003CB455 /* InteractionResponder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionResponder.swift; sourceTree = "<group>"; };
+		AF09B3041F4F9782003CB455 /* MenuViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		AF1AC54E1DF5A6A100DCBA13 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		AF1AC5501DF5A6A100DCBA13 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		AF1AC5531DF5A6A100DCBA13 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
@@ -227,15 +229,15 @@
 		AF2C06D61F4895F000D7E348 /* FeedbackQuestionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackQuestionView.xib; sourceTree = "<group>"; };
 		AF2C06D71F4895F000D7E348 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		AF2C06D91F4895F000D7E348 /* AccountDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailsViewModel.swift; sourceTree = "<group>"; };
-		AF2C06DA1F4895F000D7E348 /* AccountDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailViewController.swift; sourceTree = "<group>"; };
-		AF2C06DB1F4895F000D7E348 /* ConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
+		AF2C06DA1F4895F000D7E348 /* AccountDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailController.swift; sourceTree = "<group>"; };
+		AF2C06DB1F4895F000D7E348 /* ConfirmationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationController.swift; sourceTree = "<group>"; };
 		AF2C06DC1F4895F000D7E348 /* ConfirmationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationViewModel.swift; sourceTree = "<group>"; };
-		AF2C06DD1F4895F000D7E348 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		AF2C06DD1F4895F000D7E348 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		AF2C06DE1F4895F000D7E348 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		AF2C06DF1F4895F000D7E348 /* NotificationsRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationViewController.swift; sourceTree = "<group>"; };
 		AF2C06E01F4895F000D7E348 /* NotificationsRegistrationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationViewModel.swift; sourceTree = "<group>"; };
 		AF2C06E11F4895F000D7E348 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
-		AF2C06E31F4895F000D7E348 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		AF2C06E31F4895F000D7E348 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		AF2C06E91F4895F000D7E348 /* UserRepsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepsViewController.swift; sourceTree = "<group>"; };
 		AF2C06EA1F4895F000D7E348 /* UserRepsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepsViewModel.swift; sourceTree = "<group>"; };
 		AF2C06EB1F4895F000D7E348 /* UserRepTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepTableViewCell.swift; sourceTree = "<group>"; };
@@ -477,10 +479,10 @@
 			isa = PBXGroup;
 			children = (
 				AF2C06D91F4895F000D7E348 /* AccountDetailsViewModel.swift */,
-				AF2C06DA1F4895F000D7E348 /* AccountDetailViewController.swift */,
-				AF2C06DB1F4895F000D7E348 /* ConfirmationViewController.swift */,
+				AF2C06DA1F4895F000D7E348 /* AccountDetailController.swift */,
+				AF2C06DB1F4895F000D7E348 /* ConfirmationController.swift */,
 				AF2C06DC1F4895F000D7E348 /* ConfirmationViewModel.swift */,
-				AF2C06DD1F4895F000D7E348 /* LoginViewController.swift */,
+				AF2C06DD1F4895F000D7E348 /* LoginController.swift */,
 				AF2C06DE1F4895F000D7E348 /* LoginViewModel.swift */,
 				AF2C06DF1F4895F000D7E348 /* NotificationsRegistrationViewController.swift */,
 				AF2C06E01F4895F000D7E348 /* NotificationsRegistrationViewModel.swift */,
@@ -492,7 +494,8 @@
 		AF2C06E21F4895F000D7E348 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
-				AF2C06E31F4895F000D7E348 /* MenuViewController.swift */,
+				AF2C06E31F4895F000D7E348 /* MenuController.swift */,
+				AF09B3041F4F9782003CB455 /* MenuViewModel.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -1310,6 +1313,7 @@
 				AF2C073E1F48975E00D7E348 /* RepInfoBillSponsorTableViewCell.swift in Sources */,
 				AF2C06FD1F4895F000D7E348 /* LoginViewModel.swift in Sources */,
 				AF3F5CB01EBE72F700809AA3 /* TrackButton.swift in Sources */,
+				AF09B3051F4F9782003CB455 /* MenuViewModel.swift in Sources */,
 				AFFA95221EC1F08700144C3A /* ImageService.swift in Sources */,
 				AFFA94F61EBE789800144C3A /* Subject.swift in Sources */,
 				AF57F4C31F2B6E220080978F /* Configuration.swift in Sources */,
@@ -1334,10 +1338,10 @@
 				AF416A471F28C1F3006380DA /* Client+ImageService.swift in Sources */,
 				AF3F5CD41EBE72F700809AA3 /* YourVoteTableViewCell.swift in Sources */,
 				AF3F5CA91EBE72F700809AA3 /* PieChartView.swift in Sources */,
-				AF2C06FA1F4895F000D7E348 /* ConfirmationViewController.swift in Sources */,
+				AF2C06FA1F4895F000D7E348 /* ConfirmationController.swift in Sources */,
 				AF3F5CF51EBE74E400809AA3 /* KratosTarget.swift in Sources */,
 				AF2C07301F48975600D7E348 /* RepresentativeCell.swift in Sources */,
-				AF2C07011F4895F000D7E348 /* MenuViewController.swift in Sources */,
+				AF2C07011F4895F000D7E348 /* MenuController.swift in Sources */,
 				AF416A431F28C1F3006380DA /* Client+AccountService.swift in Sources */,
 				AF3F5CA51EBE72F700809AA3 /* KratosTextField.swift in Sources */,
 				AF57F4BB1F2B6E110080978F /* ViewBuilder.swift in Sources */,
@@ -1358,7 +1362,7 @@
 				AF416A5A1F28D0F1006380DA /* Encodable.swift in Sources */,
 				AF416A4A1F28C1F3006380DA /* Client.swift in Sources */,
 				AF3F5CD91EBE72F700809AA3 /* PresentMenuAnimator.swift in Sources */,
-				AF2C06F91F4895F000D7E348 /* AccountDetailViewController.swift in Sources */,
+				AF2C06F91F4895F000D7E348 /* AccountDetailController.swift in Sources */,
 				AF416A481F28C1F3006380DA /* Client+StateService.swift in Sources */,
 				AF2C074A1F48976800D7E348 /* UserViewModel.swift in Sources */,
 				AF416A4D1F28C1FC006380DA /* AppClient.swift in Sources */,
@@ -1401,7 +1405,7 @@
 				AF3F5CDF1EBE72F700809AA3 /* Date+Extensions.swift in Sources */,
 				AF3F5C711EBE72F700809AA3 /* Tally.swift in Sources */,
 				AF2C07291F48975600D7E348 /* BillViewModel.swift in Sources */,
-				AF2C06FC1F4895F000D7E348 /* LoginViewController.swift in Sources */,
+				AF2C06FC1F4895F000D7E348 /* LoginController.swift in Sources */,
 				AF3F5CE31EBE72F700809AA3 /* NSLayoutAnchor+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
