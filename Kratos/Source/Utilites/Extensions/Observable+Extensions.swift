@@ -30,7 +30,6 @@ extension ObservableType where E: OptionalType {
     }
 }
 
-
 extension ObservableType {
     func withPrevious() -> Observable<(E, E)> {
         return Observable.zip(self, self.skip(1))
@@ -38,39 +37,19 @@ extension ObservableType {
     }
 }
 
-protocol Loadable {
-    var isLoading: Bool { get }
-    var isDone: Bool { get }
-    var error: Error? { get }
-}
-
-extension LoadStatus: Loadable {
-    var isLoading: Bool {
-        return self == .loading
-    }
-    
-    var isDone: Bool {
-        return self == .none
-    }
-    
-    var error: Error? {
-        if case let .error(error) = self {
-            return error
-        }
-        return nil
-    }
-}
-
-extension ObservableType where E: Loadable {
+extension ObservableType where E == LoadStatus {
     
     func onSuccess(execute: @escaping () -> Void) -> Disposable {
         return withPrevious()
-            .filter { $0.isLoading && $1.isDone }
+            .filter { ($0  == .loading) && ($1 == LoadStatus.none) }
             .subscribe(onNext: { (_, _) in execute() })
     }
 
     func onError(execute: @escaping (Error) -> Void) -> Disposable {
-        return self.map { $0.error }
+        return self.map { status -> (Error?) in
+                guard case let .error(error) = status else { return nil }
+                return error
+            }
             .filterNil()
             .subscribe(onNext: { execute($0) })
     }
