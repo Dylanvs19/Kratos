@@ -52,14 +52,14 @@ extension Client: CongressService {
                 }
                 return retVal
             }
-            .mapArray(at: "voting_record")
+            .softMapArray(at: "voting_record")
     }
     func fetchSponsoredBills(personID: Int, pageNumber: Int) -> Observable<[Bill]> {
         guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
         
         return request(.fetchSponsoredBills(personID: personID, pageNumber: pageNumber))
             .toJson()
-            .mapArray(at: "data")
+            .softMapArray(at: "data")
     }
     
     //Vote
@@ -77,7 +77,7 @@ extension Client: CongressService {
         
         return request(.fetchAllBills(pageNumber: pageNumber))
             .toJson()
-            .mapArray(at: "data")
+            .softMapArray(at: "data")
     }
 
     func fetchBill(billID: Int) -> Observable<Bill> {

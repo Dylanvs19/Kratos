@@ -11,6 +11,12 @@ import RxSwift
 
 extension ObservableType where E == Any {
     
+    /// Decodes a JSONObject to expected object <T>, which is returned in an observable sequence.
+    /// - Important: Will throw mapping error if a specific T object is not decoded correctly. Should be used if objects are necessary to proceed.
+    ///
+    /// - Parameter keyPath: keypath for navigation to start the decoding process.
+    /// - Returns: Observable<T> sequence.
+    /// - Throws: Mapping Error is thrown if it cannot cast `Any` to `JSONObject`, or if a specific T object is not decoded correctly.
     func mapObject<T: Decodable>(at keyPath: String? = nil) -> Observable<T> {
         return observeOn(SerialDispatchQueueScheduler(qos: .background))
             .flatMap { response -> Observable<T> in
@@ -21,6 +27,13 @@ extension ObservableType where E == Any {
             .observeOn(MainScheduler.instance)
     }
     
+    /// Decodes an expeceted array of JSONObjects to an array of [T], which is returned in an observable sequence.
+    /// - Important: Will throw mapping error if a specific T object is not decoded correctly. Should be used if objects are necessary to proceed.
+    /// - Note: Will throw
+    ///
+    /// - Parameter keyPath: keypath for navigation to start the decoding process.
+    /// - Returns: Observable<[T]> sequence.
+    /// - Throws: Mapping Error is thrown if it cannot cast `Any` to `[JSONObject]`, or if a specific T object is not decoded correctly.
     func mapArray<T: Decodable>(at keyPath: String? = nil ) -> Observable<[T]> {
         return observeOn(SerialDispatchQueueScheduler(qos: .background))
             .flatMap { response -> Observable<[T]> in
@@ -34,6 +47,30 @@ extension ObservableType where E == Any {
     }
     
     
+    /// Decodes an expeceted array of JSONObjects to an array of [T], which is returned in an observable sequence.
+    /// - Important: Does not throw mapping error if a specific T object is not decoded correctly, it will simply omit it.
+    /// - Note: Will throw mapping error if it cannot cast `Any` to `[JSONObject]`.
+    ///
+    /// - Parameter keyPath: keypath for navigation to start the decoding process.
+    /// - Returns: Observable<[T]> sequence, with any decoding failures ommitted.
+    func softMapArray<T: Decodable>(at keyPath: String? = nil) -> Observable<[T]> {
+        return observeOn(SerialDispatchQueueScheduler(qos: .background))
+            .flatMap { response -> Observable<[T]> in
+                let jsonArray: [JSONObject] = try self.json(from: response, at: keyPath)
+                let objects = jsonArray.flatMap { T(json:$0) }
+                return Observable.just(objects)
+            }
+            .observeOn(MainScheduler.instance)
+    }
+    
+    
+    /// Casts Any type to a desired T type.
+    ///
+    /// - Parameters:
+    ///   - response: Serialized JSON used to cast to desired T Type
+    ///   - keyPath: Keypath for value to be returned from JSONObject
+    /// - Returns: returns desired T Type
+    /// - Throws: throws if cannot cast to JSONObject, or to T type.
     func json<T>(from response: Any, at keyPath: String? = nil ) throws -> T {
         var json: Any? = nil
         
