@@ -12,6 +12,5 @@ protocol AppClient: AccountService,
                     AnalyticsService,
                     CongressService,
                     FeedbackService,
-                    ImageService,
                     StateService,
                     UserService {}
