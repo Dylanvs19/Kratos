@@ -38,8 +38,4 @@ extension Date {
             return self
         }
     }
-    
-    var hashValue: Int {
-        return Int(timeIntervalSince1970)
-    }
 }

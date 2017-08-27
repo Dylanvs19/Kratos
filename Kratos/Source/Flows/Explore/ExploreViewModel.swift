@@ -36,7 +36,6 @@ class ExploreViewModel {
     func fetchDetermineRecess() {
         loadStatus.value = .loading
         client.determineRecess()
-            .debug()
             .subscribe(onNext: { [weak self] inRecess in
                 self?.loadStatus.value = .none
                 self?.inRecess.value = inRecess
