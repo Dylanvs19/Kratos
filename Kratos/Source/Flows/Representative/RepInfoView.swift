@@ -195,7 +195,7 @@ class RepInfoView: UIView {
             return ds.sectionModels[index].model
         }
         
-        votesTableView.showsVerticalScrollIndicator = false
+        billsTableView.showsVerticalScrollIndicator = false
     }
 }
 
@@ -293,6 +293,7 @@ extension RepInfoView: ViewBuilder {
         stackView.distribution = .fillEqually
         
         scrollView.isScrollEnabled = false
+        
         bioScrollView.showsVerticalScrollIndicator = false
     }
 }

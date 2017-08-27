@@ -33,6 +33,8 @@ class Client {
     
     var isLoggedIn = Variable<Bool>(false)
     
+    let microStore = MicroStore()
+    
     fileprivate var ongoingRequests = [String: Observable<Data>]()
     
     fileprivate(set) var kratosClient: KratosClient

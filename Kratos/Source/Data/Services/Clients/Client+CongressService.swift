@@ -109,11 +109,13 @@ extension Client: CongressService {
     func fetchAllSubjects() -> Observable<[Subject]> {
         guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
         
-        let fetchedSubjects: [Subject]? = Store.fetch(Subject.identifier)
-        guard let subjects = fetchedSubjects else {
+        guard let subjects = self.microStore.subjects.value else {
             return request(.fetchAllSubjects)
                 .toJson()
                 .mapArray(at: "data")
+                .do(onNext: { [weak self] subjects in
+                    self?.microStore.subjects.value = subjects
+                })
         }
         return Observable.just(subjects)
     }

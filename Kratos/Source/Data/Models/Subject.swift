@@ -12,8 +12,8 @@ struct Subject: Decodable, Encodable {
     
     static let identifier = "kratos_subjects"
     
-    var name: String
-    var id: Int
+    let name: String
+    let id: Int
     
     init?(json: JSONObject) {
         guard let name = json["name"] as? String,

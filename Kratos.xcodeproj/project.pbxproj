@@ -143,7 +143,6 @@
 		AF57F4BE1F2B6E190080978F /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4BD1F2B6E190080978F /* Styler.swift */; };
 		AF57F4C31F2B6E220080978F /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4C01F2B6E220080978F /* Configuration.swift */; };
 		AF57F4C41F2B6E220080978F /* KratosEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4C21F2B6E220080978F /* KratosEnvironment.swift */; };
-		AF57F4C71F2B6E2B0080978F /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4C61F2B6E2B0080978F /* Store.swift */; };
 		AF57F4C91F2B6EBB0080978F /* UIImageView+RxUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4C81F2B6EBB0080978F /* UIImageView+RxUrl.swift */; };
 		AF57F4CB1F2E27030080978F /* TrackButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4CA1F2E27030080978F /* TrackButtonViewModel.swift */; };
 		AF57F4D31F318EC90080978F /* Curtain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4D21F318EC90080978F /* Curtain.swift */; };
@@ -157,6 +156,8 @@
 		AFA6F45E1F36818100686697 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA6F45D1F36818100686697 /* UITextView+Extensions.swift */; };
 		AFA9D1601E30269B00CD6BF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */; };
 		AFD5AA971D9C3D0C00A5714C /* KratosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974731D4D80E500C19020 /* KratosTests.swift */; };
+		AFE19E181F52648F0054EB98 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE19E171F52648F0054EB98 /* Store.swift */; };
+		AFE19E1A1F52649B0054EB98 /* MicroStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE19E191F52649B0054EB98 /* MicroStore.swift */; };
 		AFFA94F61EBE789800144C3A /* Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA94F51EBE789800144C3A /* Subject.swift */; };
 		AFFA94F81EBE796F00144C3A /* StateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA94F71EBE796F00144C3A /* StateService.swift */; };
 		AFFA95081EBF4F9C00144C3A /* LoadStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95071EBF4F9C00144C3A /* LoadStatus.swift */; };
@@ -344,7 +345,6 @@
 		AF57F4BD1F2B6E190080978F /* Styler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
 		AF57F4C01F2B6E220080978F /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		AF57F4C21F2B6E220080978F /* KratosEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosEnvironment.swift; sourceTree = "<group>"; };
-		AF57F4C61F2B6E2B0080978F /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		AF57F4C81F2B6EBB0080978F /* UIImageView+RxUrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+RxUrl.swift"; sourceTree = "<group>"; };
 		AF57F4CA1F2E27030080978F /* TrackButtonViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackButtonViewModel.swift; sourceTree = "<group>"; };
 		AF57F4D21F318EC90080978F /* Curtain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Curtain.swift; sourceTree = "<group>"; };
@@ -365,6 +365,8 @@
 		AFA6F45D1F36818100686697 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
 		AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kratos.entitlements; sourceTree = "<group>"; };
+		AFE19E171F52648F0054EB98 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		AFE19E191F52649B0054EB98 /* MicroStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MicroStore.swift; sourceTree = "<group>"; };
 		AFFA94F51EBE789800144C3A /* Subject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subject.swift; sourceTree = "<group>"; };
 		AFFA94F71EBE796F00144C3A /* StateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateService.swift; sourceTree = "<group>"; };
 		AFFA95071EBF4F9C00144C3A /* LoadStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadStatus.swift; sourceTree = "<group>"; };
@@ -618,6 +620,7 @@
 		AF3F5BCE1EBE72F700809AA3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				AFE19E161F52648F0054EB98 /* Stores */,
 				AF416A4C1F28C1FC006380DA /* AppClient.swift */,
 				AF416A361F28C173006380DA /* MicroClient.swift */,
 				AF416A381F28C1F3006380DA /* Clients */,
@@ -868,7 +871,6 @@
 		AF57F4C51F2B6E2B0080978F /* Handlers */ = {
 			isa = PBXGroup;
 			children = (
-				AF57F4C61F2B6E2B0080978F /* Store.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -926,6 +928,15 @@
 				AF8974801D4D80E500C19020 /* Info.plist */,
 			);
 			path = KratosUITests;
+			sourceTree = "<group>";
+		};
+		AFE19E161F52648F0054EB98 /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				AFE19E171F52648F0054EB98 /* Store.swift */,
+				AFE19E191F52649B0054EB98 /* MicroStore.swift */,
+			);
+			path = Stores;
 			sourceTree = "<group>";
 		};
 		AFFA951C1EBF604900144C3A /* Extensions */ = {
@@ -1290,11 +1301,11 @@
 				AF416A311F28336B006380DA /* UIFont+Extensions.swift in Sources */,
 				AF3B2C0B1EDE531300509B01 /* Observable+Extensions.swift in Sources */,
 				AF2C07321F48975600D7E348 /* TallyCell.swift in Sources */,
+				AFE19E181F52648F0054EB98 /* Store.swift in Sources */,
 				AF2C07221F48975600D7E348 /* BillActionTableViewCell.swift in Sources */,
 				AF416A371F28C173006380DA /* MicroClient.swift in Sources */,
 				AF2C073D1F48975E00D7E348 /* RepContactView.swift in Sources */,
 				AF3F5C741EBE72F700809AA3 /* Vote.swift in Sources */,
-				AF57F4C71F2B6E2B0080978F /* Store.swift in Sources */,
 				AF2C07051F4895F000D7E348 /* UserRepsViewController.swift in Sources */,
 				AF2C06F01F4895F000D7E348 /* ExploreViewModel.swift in Sources */,
 				AF2C072C1F48975600D7E348 /* CommitteeView.swift in Sources */,
@@ -1308,6 +1319,7 @@
 				AF57F4C31F2B6E220080978F /* Configuration.swift in Sources */,
 				AFFA956A1EC95B0100144C3A /* RxBinder.swift in Sources */,
 				AF43D5331EE634BE00F1DA75 /* RepImageView.swift in Sources */,
+				AFE19E1A1F52649B0054EB98 /* MicroStore.swift in Sources */,
 				AF416A4B1F28C1F3006380DA /* KratosClient.swift in Sources */,
 				AF3F5C6B1EBE72F700809AA3 /* TabBarController.swift in Sources */,
 				AF3F5CE11EBE72F700809AA3 /* NSCharacterSet+Extensions.swift in Sources */,
