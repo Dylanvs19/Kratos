@@ -9,109 +9,48 @@
 import Foundation
 
 extension Array {
-    func groupBySection<T: Hashable> (groupBy: (Element) -> (T)) -> [Int: [Element]] {
-        
-        var mappedItems = [Int: [Element]]()
-        var index = -1
-        var mapped = [T: Int]()
-        
-        for item in self {
-            let groupingValue = groupBy(item)
-            
-            if let i = mapped[groupingValue] {
-                var cpy = mappedItems[i]
-                cpy?.append(item)
-                mappedItems[i] = cpy 
-            } else {
-                index += 1
-                mappedItems[index] = [item]
-                mapped[groupingValue] = index
-            }
-        }
-        
-        return mappedItems
-    }
-    
-    func group<T:Hashable>(by: (Element) -> T) -> [[Element]] {
-        var mappedItems = [T: [Element]]()
-        var index = -1
-        var mapped = [T: Int]()
-        
-        for item in self {
-            let groupingValue = by(item)
-            
-            if mapped[groupingValue] != nil {
-                var cpy = mappedItems[groupingValue]
-                cpy?.append(item)
-                mappedItems[groupingValue] = cpy
-            } else {
-                index += 1
-                mappedItems[groupingValue] = [item]
-                mapped[groupingValue] = index
-            }
-        }
-        
-        return mappedItems.map { $0.1 }
-    }
-    
-    func singleSection() -> [Int: [Element]] {
-        return [0: self]
-    }
-    
-    func slice(from: Int, to: Int) -> [Element]? {
-        guard from < self.count,
-            0 <= from,
-            to < self.count,
-            0 <= to,
-            from <= to else { return nil }
-        return Array(self[from...to])
-    }
-}
 
-extension Array where Element: Hashable {
-    func groupBySection<T: Hashable> (groupBy: (Element) -> (T)) -> [T: [Element]] {
+    
+    /// Groups an array into dictionary
+    ///
+    /// - Parameters:
+    ///   - groupBy: Returns element to group by. Elements with equivalent elements are grouped.
+    ///   - elementsSort: Compares elements within one group, returns true if first element should preceed.
+    ///   - groupSort: Compares elements within two groups, return true if first element should preceeed.
+    /// - Returns: Returns dictionary where key is the element that was grouped by, and the value an array whose the elements have an equivalent groupBy value.
+    func groupBySection<T: Hashable> (groupBy: ((Element) -> T),
+                                      sortGroupsBy groupSort: ((T, T) -> Bool)? = nil,
+                                      sortElementsBy elementsSort: ((Element, Element) -> Bool)? = nil) -> [[Element]] {
         
         var mappedItems = [T: [Element]]()
         var index = -1
         var mapped = [T: Int]()
         
-        for item in self {
-            let groupingValue = groupBy(item)
+        let elements = self
+        for element in elements {
+            let groupingValue = groupBy(element)
             
             if mapped[groupingValue] != nil {
                 var cpy = mappedItems[groupingValue]
-                cpy?.append(item)
+                cpy?.append(element)
                 mappedItems[groupingValue] = cpy
             } else {
                 index += 1
-                mappedItems[groupingValue] = [item]
+                mappedItems[groupingValue] = [element]
                 mapped[groupingValue] = index
             }
         }
         
-        return mappedItems
-    }
+        if let elementsSort = elementsSort {
+            for (key, elements) in mappedItems {
+                mappedItems[key] = elements.sorted(by: elementsSort)
+            }
+        }
+        
+        if let sort = groupSort {
+            return mappedItems.keys.sorted(by: sort).flatMap { mappedItems[$0] }
+        }
     
-    func uniqueGroupBySection<T: Hashable> (groupBy: (Element) -> (T)) -> [Int: Set<Element>] {
-        
-        var mappedItems = [Int: Set<Element>]()
-        var index = -1
-        var mapped = [T: Int]()
-        
-        for item in self {
-            let groupingValue = groupBy(item)
-            
-            if let i = mapped[groupingValue] {
-                var cpy = mappedItems[i]
-                cpy?.insert(item)
-                mappedItems[i] = cpy
-            } else {
-                index += 1
-                mappedItems[index] = [item]
-                mapped[groupingValue] = index
-            }
-        }
-        
-        return mappedItems
+        return mappedItems.keys.flatMap { mappedItems[$0] }
     }
 }
