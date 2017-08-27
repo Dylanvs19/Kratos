@@ -34,10 +34,24 @@ class BillViewController: UIViewController {
     let billInfoView = BillInfoView()
     
     // MARK: - Initialization -
-    init(client: Client, billID: Int) {
+    init(client: Client, billId: Int) {
         self.client = client
-        self.viewModel = BillViewModel(client: client, billID: billID)
-        self.trackButton = TrackButton(with: client, billId: billID)
+        self.viewModel = BillViewModel(with: client, billId: billId)
+        self.trackButton = TrackButton(with: client, billId: billId)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(client: Client, lightTally: LightTally) {
+        self.client = client
+        self.viewModel = BillViewModel(with: client, lightTally: lightTally)
+        self.trackButton = TrackButton(with: client, billId: lightTally.billId ?? -1)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(client: Client, bill: Bill) {
+        self.client = client
+        self.viewModel = BillViewModel(with: client, bill: bill)
+        self.trackButton = TrackButton(with: client, billId: bill.id)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -148,6 +162,7 @@ extension BillViewController: RxBinder {
             .bind(to: statusDateLabel.rx.text)
             .disposed(by: disposeBag)
         viewModel.bill.asObservable()
+            .filterNil()
             .subscribe(onNext: { [weak self] bill in
                 self?.billInfoView.update(with: bill)
             })

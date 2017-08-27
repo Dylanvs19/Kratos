@@ -79,7 +79,8 @@ class RepInfoView: UIView {
     let billsTableView = UITableView()
     
     var contentOffset = PublishSubject<CGFloat>()
-    var selectedBillID = PublishSubject<Int>()
+    var selectedLightTally = PublishSubject<LightTally>()
+    var selectedBill = PublishSubject<Bill>()
     
     // MARK: - Initializers -
     convenience init(with client: Client, representative: Person) {
@@ -360,7 +361,7 @@ extension RepInfoView: RxBinder {
     
     func bindBillsView() {
         guard let viewModel = viewModel else { return }
-        viewModel.bills.asObservable()
+        viewModel.formattedBills.asObservable()
             .map { [SectionModel(model: "", items: $0)] }
             .bind(to: billsTableView.rx.items(dataSource: billsDataSource))
             .disposed(by: disposeBag)
@@ -373,9 +374,8 @@ extension RepInfoView: RxBinder {
             .bind(to: viewModel.fetchAction)
             .disposed(by: disposeBag)
         
-        billsTableView.rx.itemSelected.asObservable()
-            .map { self.billsDataSource[$0].id }
-            .bind(to: selectedBillID)
+        billsTableView.rx.modelSelected(Bill.self)
+            .bind(to: selectedBill)
             .disposed(by: disposeBag)
     }
     
@@ -387,17 +387,17 @@ extension RepInfoView: RxBinder {
             .disposed(by: disposeBag)
         
         votesTableView.rx.contentOffset.asObservable()
-            .map { $0.y > (self.billsTableView.contentSize.height - self.billsTableView.frame.height - 100) }
+            .map { $0.y > (self.votesTableView.contentSize.height - self.billsTableView.frame.height - 100) }
             .distinctUntilChanged()
             .filter { $0 == true }
             .map { _ in () }
             .bind(to: viewModel.fetchAction)
             .disposed(by: disposeBag)
         
-        votesTableView.rx.itemSelected.asObservable()
-            .map { self.votesDataSource[$0].first?.billID }
+        votesTableView.rx.modelSelected([LightTally].self)
+            .map { $0.first }
             .filterNil()
-            .bind(to: selectedBillID)
+            .bind(to: selectedLightTally)
             .disposed(by: disposeBag)
     }
 }

@@ -252,11 +252,20 @@ extension RepresentativeViewController: RxBinder {
     }
     
     func bindRepInfoView() {
-        repInfoView.selectedBillID
+        repInfoView.selectedBill
             .subscribe(onNext: { [weak self] in
                 guard let client = self?.client,
                     let navVC = self?.navigationController else { return }
-                let vc = BillViewController(client: client, billID: $0)
+                let vc = BillViewController(client: client, bill: $0)
+                navVC.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        repInfoView.selectedLightTally
+            .subscribe(onNext: { [weak self] in
+                guard let client = self?.client,
+                    let navVC = self?.navigationController else { return }
+                let vc = BillViewController(client: client, lightTally: $0)
                 navVC.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)

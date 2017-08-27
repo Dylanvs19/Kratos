@@ -21,8 +21,8 @@ class BillViewModel {
     let loadStatus = Variable<LoadStatus>(.none)
     
     // Main
-    let id: Int
-    let bill = PublishSubject<Bill>()
+    let id = Variable<Int?>(nil)
+    let bill = Variable<Bill?>(nil)
     
     let title = Variable<String>("")
     let status = Variable<String>("")
@@ -34,22 +34,50 @@ class BillViewModel {
     let trackButtonLoadStatus = Variable<LoadStatus>(.none)
 
     // MARK: - Initialization -
-    init(client: Client, billID: Int) {
+    init(with client: Client, billId: Int) {
         self.client = client
-        self.id = billID
+        self.id.value = billId
+        bind()
+        fetchBill()
+    }
+    
+    init(with client: Client, lightTally: LightTally) {
+        self.client = client
+        if let title = lightTally.billTitle {
+            self.title.value = title
+        }
+        if let result = lightTally.result {
+            self.status.value = result.presentable
+        }
+        if let lastRecordUpdate = lightTally.lastRecordUpdate {
+            self.statusDate.value = lastRecordUpdate
+        }
+        if let id = lightTally.billId {
+            self.id.value = id
+        }
+        bind()
+        fetchBill()
+    }
+    
+    init(with client: Client, bill: Bill) {
+        self.client = client
+        self.bill.value = bill
         bind()
     }
     
     // MARK: - Client Requests -
-    func fetchBill(id: Int) -> Observable<Bill> {
+    func fetchBill() {
+        guard let id = self.id.value else { return }
         loadStatus.value = .loading
         return client.fetchBill(billID: id)
-            .do(onNext: { [unowned self] _ in
+            .subscribe(onNext: { [unowned self] bill in
                 self.loadStatus.value = .none
-                }, onError: { [unowned self] (error) in
+                self.bill.value = bill
+            }, onError: { [unowned self] (error) in
                     let error = error as? KratosError ?? KratosError.unknown
                     self.loadStatus.value = .error(error: error)
             })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -57,35 +85,26 @@ class BillViewModel {
 extension BillViewModel: RxBinder {
     
     func bind() {
-        refreshData()
-        
         bill.asObservable()
+            .filterNil()
             .map { $0.title ?? $0.officialTitle }
             .filterNil()
             .bind(to: title)
             .disposed(by: disposeBag)
         
         bill.asObservable()
+            .filterNil()
             .map { $0.status }
             .filterNil()
             .bind(to: status)
             .disposed(by: disposeBag)
         
         bill.asObservable()
+            .filterNil()
             .map { $0.statusDate }
             .filterNil()
             .map { DateFormatter.presentation.string(from: $0) }
             .bind(to: statusDate)
             .disposed(by: disposeBag)
-        
     }
-    
-    // MARK: - Initial Data Load -
-    func refreshData() {
-        Observable<Int>.just(id)
-            .flatMap{ self.fetchBill(id: $0) }
-            .bind(to: self.bill)
-            .disposed(by: disposeBag)
-    }
-    
 }
