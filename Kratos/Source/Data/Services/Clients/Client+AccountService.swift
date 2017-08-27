@@ -33,7 +33,8 @@ extension Client: AccountService {
                 }
                 return token
             }
-            .do(onNext: { token in
+            .do(onNext: { [weak self] token in
+                self?.update(token: token)
                 Store.shelve(token, key: "token")
             })
             .map { _ in return () }

@@ -149,6 +149,7 @@ class ExploreController: UIViewController {
         }
     }
     
+    // MARK: - Animations -
     func configure(for state: State) {
         switch state {
         case .house:
@@ -183,17 +184,17 @@ class ExploreController: UIViewController {
         updateScrollView(with: state)
     }
     
-    func configure(for isInSession: Bool) {
+    func configure(for inRecess: Bool) {
         UIView.animate(withDuration: 0.4) {
-            self.recessLabel.isHidden = isInSession ? true : false
+            self.recessLabel.isHidden = inRecess ? false : true
             self.recessView.snp.remakeConstraints { make in
                 make.leading.trailing.top.equalToSuperview()
-                if isInSession {
+                if !inRecess {
                     make.height.equalTo(0)
                 }
             }
             self.recessLabel.snp.remakeConstraints { make in
-                if !isInSession {
+                if inRecess {
                     make.edges.equalToSuperview().inset(10)
                 } else {
                     make.edges.equalToSuperview()
@@ -211,6 +212,7 @@ class ExploreController: UIViewController {
     }
 }
 
+// MARK: - ViewBuilder -
 extension ExploreController: ViewBuilder {
     func addSubviews() {
         
@@ -313,6 +315,8 @@ extension ExploreController: ViewBuilder {
         recessLabel.numberOfLines = 4
     }
 }
+
+// MARK: - Localizer -
 extension ExploreController: Localizer {
     func localizeStrings() {
         titleLabel.text = localize(.exploreTitle)
@@ -322,6 +326,7 @@ extension ExploreController: Localizer {
     }
 }
 
+// MARK: - Binds -
 extension ExploreController: RxBinder {
     func bind() {
         viewModel.state.asObservable()
@@ -329,10 +334,10 @@ extension ExploreController: RxBinder {
                 self?.configure(for: state)
             })
             .disposed(by: disposeBag)
-        viewModel.isInSession.asObservable()
+        viewModel.inRecess.asObservable()
             .delay(2, scheduler: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] isInSession in
-                self?.configure(for: isInSession)
+            .subscribe(onNext: { [weak self] inRecess in
+                self?.configure(for: inRecess)
             })
             .disposed(by: disposeBag)
         houseButton.rx.tap
@@ -351,6 +356,5 @@ extension ExploreController: RxBinder {
             .map { [SectionModel(model: "", items: $0)] }
             .bind(to: houseTableView.rx.items(dataSource: houseDataSource))
             .disposed(by: disposeBag)
-        
     }
 }

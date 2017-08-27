@@ -22,30 +22,29 @@ class ExploreViewModel {
     let state = Variable<ExploreController.State>(.house)
     let houseBills = Variable<[Bill]>([])
     let senateBills = Variable<[Bill]>([])
-    let isInSession = Variable<Bool>(true)
+    let inRecess = Variable<Bool>(true)
     
     // MARK: - Initializer -
     init(client: Client) {
         self.client = client
         fetchSenateBills()
         fetchHouseBills()
-        fetchIsInSession()
+        fetchDetermineRecess()
     }
     
     // MARK: - Client Requests -
-    func fetchIsInSession() {
+    func fetchDetermineRecess() {
         loadStatus.value = .loading
         client.determineRecess()
             .debug()
-            .subscribe(onNext: { [weak self] isInSession in
+            .subscribe(onNext: { [weak self] inRecess in
                 self?.loadStatus.value = .none
-                self?.isInSession.value = isInSession
+                self?.inRecess.value = inRecess
             }, onError: { [weak self] error in
                 guard let error = error as? KratosError else { return }
                 self?.loadStatus.value = .error(error: error)
             })
             .disposed(by: disposeBag)
-//        isInSession.value = false
     }
     
     func fetchSenateBills() {
