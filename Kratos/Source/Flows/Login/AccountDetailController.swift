@@ -37,7 +37,7 @@ class AccountDetailsController: UIViewController {
             case .editAccount:
                 return localize(.accountDetailsCancelButtonTitle)
             case .viewAccount:
-                return localize(.accountDetailsRegisterButtonTitle)
+                return localize(.accountDetailsDoneButtonTitle)
             }
         }
     }
@@ -80,7 +80,7 @@ class AccountDetailsController: UIViewController {
     // MARK: - Initialization -
     init(client: Client, state: State, credentials: (email: String, password: String) = (email: "", password: "")) {
         self.client = client
-        self.viewModel = AccountDetailsViewModel(client: client, state: .createAccount, credentials: credentials)
+        self.viewModel = AccountDetailsViewModel(with: client, state: state, credentials: credentials)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -282,7 +282,7 @@ extension AccountDetailsController: ViewBuilder {
                                             .highlightedTitleColor(.red)
                                             ])
         
-        cancelDoneButton.style(with: [.font(.header),
+        cancelDoneButton.style(with: [.font(.subheader),
                                             .titleColor(.lightGray),
                                             .highlightedTitleColor(.gray)
                                      ])

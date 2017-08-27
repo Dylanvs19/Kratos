@@ -13,6 +13,5 @@ import RxSwift
 /// In Memory store of highly used information
 class MicroStore {
     
-   let subjects = Variable<[Subjects]?>(nil)
-    
+   let subjects = Variable<[Subject]?>(nil)
 }

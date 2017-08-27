@@ -228,8 +228,12 @@ struct Tally: Hashable, Decodable {
     
     init?(json: [String: Any]) {
         
-        guard let id = json["id"] as? Int else { return nil }
+        guard let id = json["id"] as? Int,
+              let dateString = json["date"] as? String,
+              let date = dateString.date else { return nil }
+        
         self.id = id
+        self.date = date
         
         self.yea = buildYeaVote(from: json as [String : AnyObject]) ?? 0
         self.abstain = buildAbstainVote(from: json as [String : AnyObject]) ?? 0
@@ -263,9 +267,6 @@ struct Tally: Hashable, Decodable {
             self.nominationID = tally["nomination_id"]
         }
         
-        if let dateString = json["date"] as? String {
-            self.date = dateString.date
-        }
         self.question = json["question"] as? String
         if let category = json["category"] as? String {
             self.category = TallyType.type(for: category)
@@ -337,18 +338,18 @@ struct LightTally: Hashable, Decodable {
     var amendment: Amendment?
     var type: String?
     
-    var date: Date?
+    var date: Date
     var chamber: Chamber?
     var category: TallyType?
     var voteValue: VoteValue?
     
-    var billID: Int?
+    var billId: Int?
     var billShortTitle: String?
     var billOfficialTitle: String?
     var billChamber: Chamber?
     var topSubject: Int?
-    var prettyGpoID: String?
-    var gpoID: String?
+    var prettyGpoId: String?
+    var gpoId: String?
     var congressNumber: Int?
     
     var nominationID: Int?
@@ -359,9 +360,12 @@ struct LightTally: Hashable, Decodable {
     
     init?(json: [String: Any]) {
         guard let tally = json["tally"] as? [String: Any],
-              let id = tally["id"] as? Int else { return nil }
+              let id = tally["id"] as? Int,
+              let holdDate = tally["date"] as? String,
+              let date = holdDate.date else { return nil }
         
         self.id = id
+        self.date = date
 
         self.yea = tally["total_plus"] as? Int
         self.abstain = tally["total_other"] as? Int
@@ -380,23 +384,20 @@ struct LightTally: Hashable, Decodable {
         self.type = tally["type"] as? String
         
         if let bill = tally["bill"] as? [String: AnyObject] {
-            self.billID = bill["id"] as? Int
+            self.billId = bill["id"] as? Int
             self.billShortTitle = bill["short_title"] as? String
             self.billOfficialTitle = bill["official_title"] as? String
             if let chamber = bill["type"] as? String {
                 self.billChamber = Chamber.chamber(value: chamber)
             }
             self.topSubject = bill["top_subject_id"] as? Int
-            self.prettyGpoID = bill["pretty_gpo"] as? String
-            self.gpoID = bill["gpo_id"] as? String
+            self.prettyGpoId = bill["pretty_gpo"] as? String
+            self.gpoId = bill["gpo_id"] as? String
             self.congressNumber = bill["congress_number"] as? Int
         }
         
         self.nominationID = tally["nomination_id"] as? Int
         
-        if let holdDate = tally["date"] as? String {
-            self.date = holdDate.date
-        }
         self.question = tally["question"] as? String
         if let category = tally["category"] as? String {
             self.category = TallyType.type(for: category)
