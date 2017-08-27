@@ -19,7 +19,7 @@ class RepInfoViewModel {
     //State
     let state = Variable<RepInfoView.State>(.bio)
     
-    let representative: Observable<Person>
+    let representative = Variable<Person?>(nil)
     
     //Pagination
     var tallyPageCount = 1
@@ -43,82 +43,94 @@ class RepInfoViewModel {
         self.client = client
         bio.value = representative.biography ?? ""
         terms.value = representative.terms ?? []
-        self.representative = Observable.just(representative)
+        self.representative.value = representative
         bind()
-        refreshData()
+        fetchTallies()
+        fetchBills()
     }
     
-    func refreshData() {
-        state.value = .bills
-        fetchAction.onNext(())
-        state.value = .votes
-        fetchAction.onNext(())
-        state.value = .bio
-    }
-    
-    func fetchTallies(for representative: Person) -> Observable<[LightTally]> {
+    func fetchTallies() {
+        guard let rep = representative.value else { return }
         loadStatus.value = .loading
-        return client.fetchTallies(personID: representative.id, pageNumber: tallyPageCount)
-            .do(onNext: { [unowned self] _ in
-                self.loadStatus.value = .none
-                self.tallyPageCount += 1
-                }, onError: { [unowned self] (error) in
+        client.fetchTallies(personID: rep.id, pageNumber: tallyPageCount)
+            .debug()
+            .subscribe(
+                onNext: { [weak self] tallies in
+                    self?.loadStatus.value = .none
+                    self?.tallies.value = tallies
+                    self?.tallyPageCount += 1
+                },
+                onError: { [unowned self] (error) in
                     let error = error as? KratosError ?? KratosError.unknown
                     self.loadStatus.value = .error(error: error)
             })
+            .disposed(by: disposeBag)
     }
     
-    func fetchBills(for representative: Person) -> Observable<[Bill]> {
+    func fetchBills() {
+        guard let rep = representative.value else { return }
         loadStatus.value = .loading
-        return client.fetchSponsoredBills(personID: representative.id, pageNumber: sponsoredBillCount)
-            .do(onNext: { [unowned self] bills in
-                self.loadStatus.value = .none
-                self.sponsoredBillCount += 1
-                }, onError: { [unowned self] (error) in
+        client.fetchSponsoredBills(personID: rep.id, pageNumber: sponsoredBillCount)
+            .do(onNext: { bills in
+                print("bills \(bills.count)")
+            })
+            .subscribe(
+                onNext: { [weak self] bills in
+                    self?.loadStatus.value = .none
+                    self?.bills.value = bills
+                    self?.sponsoredBillCount += 1
+                },
+                onError: { [unowned self] (error) in
                     let error = error as? KratosError ?? KratosError.unknown
                     self.loadStatus.value = .error(error: error)
             })
+            .disposed(by: disposeBag)
     }
 }
 
 extension RepInfoViewModel: RxBinder {
     func bind() {
-        
-        let stateAndPerson = Observable.combineLatest(representative.asObservable(), state.asObservable())
-        
         fetchAction.asObservable()
-            .withLatestFrom(stateAndPerson.asObservable())
-            .filter { $0.1 == .bills }
-            .flatMap { self.fetchBills(for: $0.0) }
-            .bind(to: bills)
-            .disposed(by: disposeBag)
-        
-        fetchAction.asObservable()
-            .withLatestFrom(stateAndPerson.asObservable())
-            .filter { $0.1 == .votes }
-            .flatMap { self.fetchTallies(for: $0.0)}
-            .bind(to: tallies)
+            .withLatestFrom(state.asObservable())
+            .subscribe(onNext: { [weak self] state in
+                switch state {
+                case .bills: self?.fetchBills()
+                case .votes: self?.fetchTallies()
+                default: break
+                }
+            })
             .disposed(by: disposeBag)
         
         tallies.asObservable()
-            .scan([], accumulator: +)
-            .map { $0.groupBySection(groupBy: { $0.date?.computedDayFromDate ?? Date() }) }
+            .scan([LightTally](), accumulator: { (last, current) -> [LightTally] in
+                var cpy = last
+                cpy += current
+                return cpy
+            })
+            .map { $0.groupBySection(groupBy: { $0.date.computedDayFromDate }) }
             .map {
                 var retVal = [Date: [[LightTally]]]()
                 for (key, value) in $0 {
-                    let dict = value.group(by: { $0.billID ?? 0 })
+                    let dict = value.group(by: { $0.billId ?? 0 })
                     retVal[key] = dict
                 }
                 return retVal
             }
+            .do(onNext: { tallies in
+                print("allTallies \(tallies.count)")
+            })
             .bind(to: formattedTallies)
             .disposed(by: disposeBag)
         
         bills.asObservable()
-            .do(onNext: {
-                print("\($0.count)")
+            .scan([Bill](), accumulator: { (last, current) -> [Bill] in
+                var cpy = last
+                cpy += current
+                return cpy
             })
-            .scan([], accumulator: +)
+            .do(onNext: { bills in
+                print("allbills \(bills.count)")
+            })
             .bind(to: formattedBills)
             .disposed(by: disposeBag)
     }
