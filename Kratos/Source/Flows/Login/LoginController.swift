@@ -230,9 +230,7 @@ extension LoginController: RxBinder {
             .disposed(by: disposeBag)
         
         viewModel.formValid.asObservable()
-            .subscribe(onNext: { [weak self] (valid) in
-                self?.loginContinueButton.rx.base.isEnabled = valid
-            })
+            .bind(to: loginContinueButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
         signUpRegisterButton.rx.tap

@@ -126,8 +126,8 @@ extension MenuController: InteractionResponder {
     }
     
     func feedbackPressed() {
-        let vc: FeedbackViewController = FeedbackViewController.instantiate()
-        self.present(vc, animated: true, completion: nil)
+//        let vc: FeedbackViewController = FeedbackViewController.instantiate()
+//        self.present(vc, animated: true, completion: nil)
     }
     
     func logoutPressed() {
