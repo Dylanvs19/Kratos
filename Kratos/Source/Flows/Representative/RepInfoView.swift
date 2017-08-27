@@ -382,7 +382,10 @@ extension RepInfoView: RxBinder {
     func bindVotesView() {
         guard let viewModel = viewModel else { return }
         viewModel.formattedTallies.asObservable()
-            .map { $0.map { SectionModel(model: "\(DateFormatter.presentation.string(from: $0.key))", items: $0.value) } }
+            .map { arrays in
+                return arrays.map { array in
+                    return SectionModel(model: DateFormatter.presentation.string(from: (array.first?.first?.date ?? Date())),  items: array) }
+            }
             .bind(to: votesTableView.rx.items(dataSource: votesDataSource))
             .disposed(by: disposeBag)
         

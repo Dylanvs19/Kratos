@@ -32,7 +32,7 @@ class RepInfoViewModel {
     let terms = Variable<[Term]>([])
     //votesView
     let tallies = Variable<[LightTally]>([])
-    let formattedTallies = Variable<[Date: [[LightTally]]]>([:])
+    let formattedTallies = Variable<[[[LightTally]]]>([[[]]])
     //billsView
     let bills = Variable<[Bill]>([])
     let formattedBills = Variable<[Bill]>([])
@@ -53,7 +53,6 @@ class RepInfoViewModel {
         guard let rep = representative.value else { return }
         loadStatus.value = .loading
         client.fetchTallies(personID: rep.id, pageNumber: tallyPageCount)
-            .debug()
             .subscribe(
                 onNext: { [weak self] tallies in
                     self?.loadStatus.value = .none
@@ -107,18 +106,10 @@ extension RepInfoViewModel: RxBinder {
                 cpy += current
                 return cpy
             })
-            .map { $0.groupBySection(groupBy: { $0.date.computedDayFromDate }) }
-            .map {
-                var retVal = [Date: [[LightTally]]]()
-                for (key, value) in $0 {
-                    let dict = value.group(by: { $0.billId ?? 0 })
-                    retVal[key] = dict
-                }
-                return retVal
+            .map { tallies in
+                let arrays = tallies.groupBySection(groupBy: { $0.date.computedDayFromDate }, sortGroupsBy: {$0 > $1})
+                return arrays.map { $0.groupBySection(groupBy: { $0.billId ?? 0 }) }
             }
-            .do(onNext: { tallies in
-                print("allTallies \(tallies.count)")
-            })
             .bind(to: formattedTallies)
             .disposed(by: disposeBag)
         
@@ -127,9 +118,6 @@ extension RepInfoViewModel: RxBinder {
                 var cpy = last
                 cpy += current
                 return cpy
-            })
-            .do(onNext: { bills in
-                print("allbills \(bills.count)")
             })
             .bind(to: formattedBills)
             .disposed(by: disposeBag)
