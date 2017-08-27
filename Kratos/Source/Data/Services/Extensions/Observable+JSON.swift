@@ -19,4 +19,15 @@ extension ObservableType where E == Data {
         }
         .observeOn(MainScheduler.instance)
     }
+    
+    func handleAuthError(from client: Client) -> Observable<Data> {
+        return catchError({ error in
+            guard let kratosError = error as? KratosError,
+                  case let .requestError(_, _, statusCode) = kratosError,
+                  statusCode == 403 else { throw error }
+            
+            client.tearDown()
+            throw error
+        })
+    }
 }

@@ -63,6 +63,7 @@ extension Client {
         return request(target,
                        microClient: kratosClient,
                        ignoreCache: ignoreCache)
+               .handleAuthError(from: self)
     }
     
     func request<M: MicroClient>(_ target: M.T,

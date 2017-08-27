@@ -49,17 +49,37 @@ extension KratosClient: MicroClient {
                 headers: self.authorizationHeader
                 )
                 .responseData { response in
+                    defer { observer.onCompleted() }
+                    
+                    guard let statusCode = response.response?.statusCode,
+                        (200...299).contains(statusCode) else {
+                            observer.onError(self.decodeError(from: response))
+                            return
+                    }
+                    
                     if let result = response.result.value {
                         observer.onNext(result)
-                    } else if let error = response.result.error {
-                        observer.onError(error)
+                    } else {
+                        observer.onError(KratosError.unknown)
                     }
-                    observer.onCompleted()
             }
             
             return Disposables.create {
                 request.cancel()
             }
         }
+    }
+    
+    private func decodeError(from response: DataResponse<Data>) -> KratosError {
+        if let error = response.result.error,
+           let statusCode = response.response?.statusCode {
+            return KratosError.server(error: error, statusCode: statusCode)
+        }
+        
+        guard let data = response.result.value,
+              let json = try? JSONSerialization.jsonObject(with: data, options: []),
+              let result = json as? JSONObject,
+              let statusCode = response.response?.statusCode else { return KratosError.unknown }
+        return KratosError.error(from: result, statusCode: statusCode)
     }
 }

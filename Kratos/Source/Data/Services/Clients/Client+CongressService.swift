@@ -12,6 +12,8 @@ import RxSwift
 extension Client: CongressService {
     
     func determineRecess() -> Observable<Bool> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.determineRecess)
             .toJson()
             .map {
@@ -25,16 +27,22 @@ extension Client: CongressService {
     
     // Representatives
     func fetchRepresentatives(state: String, district: Int) -> Observable<[Person]> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.fetchRepresentatives(state: state, district: district))
             .toJson()
             .mapArray(at: "data")
     }
     func fetchPerson(personID: Int) -> Observable<Person> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.fetchPerson(personID: personID))
             .toJson()
             .mapObject()
     }
     func fetchTallies(personID: Int, pageNumber: Int) -> Observable<[LightTally]> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.fetchTallies(personID: personID, pageNumber: pageNumber))
             .toJson()
             .map {
@@ -47,6 +55,8 @@ extension Client: CongressService {
             .mapArray(at: "voting_record")
     }
     func fetchSponsoredBills(personID: Int, pageNumber: Int) -> Observable<[Bill]> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.fetchSponsoredBills(personID: personID, pageNumber: pageNumber))
             .toJson()
             .mapArray(at: "data")
@@ -54,6 +64,8 @@ extension Client: CongressService {
     
     //Vote
     func fetchTally(lightTallyID: Int) -> Observable<Tally> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.fetchTally(lightTallyID: lightTallyID))
             .toJson()
             .mapObject()
@@ -61,18 +73,24 @@ extension Client: CongressService {
     
     //Bill
     func fetchAllBills(for pageNumber: Int) -> Observable<[Bill]> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.fetchAllBills(pageNumber: pageNumber))
             .toJson()
             .mapArray(at: "data")
     }
 
     func fetchBill(billID: Int) -> Observable<Bill> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.fetchBill(billID: billID))
             .toJson()
             .mapObject()
     }
 
     func fetchBills(subjects: [Int], pageNumber: Int) -> Observable<[Bill]> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.fetchBills(subjects: subjects, pageNumber: pageNumber))
             .toJson()
             .mapArray(at: "data")
@@ -80,6 +98,8 @@ extension Client: CongressService {
     
     //Bills on the floor
     func fetchOnFloor(with chamber: Chamber) -> Observable<[Bill]> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.fetchOnFloor(chamber: chamber))
             .toJson()
             .mapArray(at: "data")
@@ -87,6 +107,8 @@ extension Client: CongressService {
 
     //Subjects
     func fetchAllSubjects() -> Observable<[Subject]> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         let fetchedSubjects: [Subject]? = Store.fetch(Subject.identifier)
         guard let subjects = fetchedSubjects else {
             return request(.fetchAllSubjects)

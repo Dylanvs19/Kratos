@@ -12,12 +12,16 @@ import RxSwift
 extension Client: UserService {
     
     func fetchTrackedBills(for pageNumer: Int) -> Observable<[Bill]> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.fetchTrackedBills(pageNumber: pageNumer))
             .toJson()
             .mapArray(at: "data")
     }
     
     func fetchTrackedBillIds() -> Observable<[Int]> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.fetchTrackedBillIds, ignoreCache: true)
             .toJson()
             .map {
@@ -28,6 +32,8 @@ extension Client: UserService {
     }
     
     func trackBill(billID: Int) -> Observable<[Int]> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.trackBill(billID: billID))
             .toJson()
             .map {
@@ -38,58 +44,78 @@ extension Client: UserService {
     }
     
     func viewTrackedBill(billID: Int) -> Observable<Bill> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.viewTrackedBill(billID: billID))
             .toJson()
             .mapObject()
     }
     
     func untrackBill(billID: Int) -> Observable<Void> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.untrackBill(billID: billID))
             .map { _ in return () }
     }
     
     func fetchTrackedSubjects() -> Observable<[Subject]> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.fetchTrackedSubjects)
             .toJson()
             .mapArray(at: "data")
     }
     
     func followSubject(subjectID: Int) -> Observable<Void> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.followSubject(subjectID: subjectID))
             .map { _ in return () }
     }
 
     func unfollowSubject(subjectID: Int) -> Observable<Void> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.unfollowSubject(subjectID: subjectID))
             .map { _ in return () }
     }
     
     //UserVotes
     func fetchUserVotingRecord() -> Observable<[LightTally]> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.fetchUserVotingRecord)
             .toJson()
             .mapArray()
     }
     
     func createUserVote(voteValue: VoteValue, tallyID: Int) -> Observable<LightTally> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.createUserVote(voteValue: voteValue, tallyID: tallyID))
             .toJson()
             .mapObject()
     }
     
     func fetchUserVote(tallyID: Int) -> Observable<LightTally> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.fetchUserVote(tallyID: tallyID))
             .toJson()
             .mapObject()
     }
     
     func updateUserVote(voteValue: VoteValue, tallyID: Int) -> Observable<LightTally> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.updateUserVote(voteValue: voteValue, tallyID: tallyID))
             .toJson()
             .mapObject()
     }
     
     func deleteUserVote(tallyID: Int) -> Observable<Void> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.deleteUserVote(tallyID: tallyID))
             .map { _ in return () }
     }

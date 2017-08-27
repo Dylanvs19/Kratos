@@ -9,13 +9,6 @@ import UIKit
 import SafariServices
 
 extension UIViewController {
-
-    static func instantiate <ViewController: UIViewController> () -> ViewController {
-        if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: String(describing: ViewController.self)) as? ViewController {
-            return viewController
-        }
-        fatalError("\(String(describing: ViewController.self)) was not able to load")
-    }
     
     func enableSwipeBack() {
         let swipeGR = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeRight(_:)))
@@ -57,36 +50,19 @@ extension UIViewController {
     }
     
     func showError(error: KratosError, onClose: (() -> Void)? = nil) {
-        var title = "Error"
+        var title = localize(.errorTitle)
         var message = ""
 
         switch error {
-        case .timeout:
-            title = "Error"
-            message = "Our server timed out. We are on it. Check back soon."
-        case .invalidSerialization,
-             .unknown:
-            title = "Error"
-            message = "Something went wrong on our end. We are on it. Check back soon."
-        case .nilData:
-            title = "Error"
-            message = "We didn't get any data back for this. We are checking it out."
-        case .invalidURL(let error),
-             .duplicateUserCredentials(let error),
-             .invalidCredentials(let error),
-             .appSideError(let error),
-             .serverSideError(let error):
-            if let error = error?.first,
-               let key = error.keys.first,
-               let value = error[key] {
-                title = key.capitalized
-                message = value.lowercased().localizedCapitalized
-            }
-        case .nonHTTPResponse,
+        case .unknown,
              .mappingError,
-             .authError:
-            title = "Error"
-            message = "Something went wrong on our end. We are on it. Check back soon."
+             .server:
+            message = localize(.errorMessage)
+        case .authError(_):
+            break
+        case .requestError(let errorTitle, let errorMessage, _):
+                title = errorTitle
+                message = errorMessage
         }
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in

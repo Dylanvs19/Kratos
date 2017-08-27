@@ -37,7 +37,6 @@ extension Client: AccountService {
                 Store.shelve(token, key: "token")
             })
             .map { _ in return () }
-        
     }
     
     func forgotPassword(email: String) -> Observable<Bool> {
@@ -58,12 +57,16 @@ extension Client: AccountService {
     }
     
     func fetchUser() -> Observable<User> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.fetchUser)
             .toJson()
             .mapObject()
     }
     
     func updateUser(user: User) -> Observable<User> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        
         return request(.update(user: user))
             .toJson()
             .mapObject()

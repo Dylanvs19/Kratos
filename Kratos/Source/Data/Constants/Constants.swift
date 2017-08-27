@@ -81,6 +81,10 @@ enum Constant {
     case menuLogoutButtonTitle
     case menuCloseButtonTitle
     
+    //Error
+    case errorTitle
+    case errorMessage
+    
     var string: String {
         switch self {
         //LoginVC
@@ -154,6 +158,9 @@ enum Constant {
         case .menuLogoutButtonTitle: return "Logout"
         case .menuCloseButtonTitle: return "Close"
             
+        //Error
+        case .errorTitle: return "Error"
+        case .errorMessage: return "Something went wrong on our end. Check back soon."
         }
     }
 }
