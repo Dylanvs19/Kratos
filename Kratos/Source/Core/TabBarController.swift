@@ -13,15 +13,15 @@ import RxCocoa
 class TabBarController: UITabBarController {
     
     enum Tab {
-        case congress
+        case explore
         case main
         case user
         
-        static let allValues: [Tab] = [.congress, .main, .user]
+        static let allValues: [Tab] = [.explore, .main, .user]
         
         var image: UIImage {
             switch self {
-            case .congress:
+            case .explore:
                 return #imageLiteral(resourceName: "congressTabIcon").withRenderingMode(.alwaysOriginal)
             case .main:
                 return #imageLiteral(resourceName: "kratosDeselectedIcon").withRenderingMode(.alwaysOriginal)
@@ -32,7 +32,7 @@ class TabBarController: UITabBarController {
         
         var selectedImage: UIImage {
             switch self {
-            case .congress:
+            case .explore:
                 return #imageLiteral(resourceName: "congressSelectedTabIcon").withRenderingMode(.alwaysOriginal)
             case .main:
                 return #imageLiteral(resourceName: "kratosSelectedIcon").withRenderingMode(.alwaysOriginal)
@@ -47,8 +47,9 @@ class TabBarController: UITabBarController {
         
         func viewController(with client: Client) -> UIViewController {
             switch self {
-            case .congress:
+            case .explore:
                 let vc = ExploreController(client: client)
+                vc.title = localize(.exploreTitle)
                 vc.tabBarItem = tabBarItem
                 vc.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
                 return vc
@@ -59,6 +60,7 @@ class TabBarController: UITabBarController {
                 return vc
             case .user:
                 let vc = UserController(client: client)
+                vc.title = localize(.userTitle)
                 vc.tabBarItem = tabBarItem
                 vc.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
                 return vc

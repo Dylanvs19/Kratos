@@ -124,6 +124,7 @@ class ExploreController: UIViewController {
         senateTableView.rowHeight = UITableViewAutomaticDimension
         senateTableView.allowsSelection = true
         senateTableView.tableFooterView = UIView()
+        senateTableView.showsVerticalScrollIndicator = false
         
         senateDataSource.configureCell = { dataSource, tableView, indexPath, item in
             let basicCell = tableView.dequeueReusableCell(withIdentifier: BillCell.identifier, for: indexPath)
@@ -140,6 +141,7 @@ class ExploreController: UIViewController {
         houseTableView.rowHeight = UITableViewAutomaticDimension
         houseTableView.allowsSelection = true
         houseTableView.tableFooterView = UIView()
+        houseTableView.showsVerticalScrollIndicator = false
         
         houseDataSource.configureCell = { dataSource, tableView, indexPath, item in
             let basicCell = tableView.dequeueReusableCell(withIdentifier: BillCell.identifier, for: indexPath)
