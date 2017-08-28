@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-class BillViewController: UIViewController {
+class BillController: UIViewController {
     
     // MARK: - Properties - 
     
@@ -83,7 +83,7 @@ class BillViewController: UIViewController {
 }
 
 // MARK: - View Builder -
-extension BillViewController: ViewBuilder {
+extension BillController: ViewBuilder {
     func addSubviews() {
         view.addSubview(billHeader)
         billHeader.addSubview(titleLabel)
@@ -150,7 +150,7 @@ extension BillViewController: ViewBuilder {
 }
 
 // MARK: - Binds -
-extension BillViewController: RxBinder {
+extension BillController: RxBinder {
     func bind() {
         viewModel.title.asObservable()
             .bind(to: titleLabel.rx.text)

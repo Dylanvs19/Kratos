@@ -280,4 +280,113 @@ enum State: String, RawRepresentable {
             return #imageLiteral(resourceName: "wyomingWhite")
         }
     }
+    
+    var grayImage: UIImage {
+        switch self {
+        case .alabama:
+            return #imageLiteral(resourceName: "alabamaGray")
+        case .alaska:
+            return #imageLiteral(resourceName: "alaskaGray")
+        case .arizona:
+            return #imageLiteral(resourceName: "arizonaGray")
+        case .arkansas:
+            return #imageLiteral(resourceName: "arkansasGray")
+        case .california:
+            return #imageLiteral(resourceName: "californiaGray")
+        case .colorado:
+            return #imageLiteral(resourceName: "coloradoGray")
+        case .connecticut:
+            return #imageLiteral(resourceName: "conneticutGray")
+        case .washingtonDC:
+            return #imageLiteral(resourceName: "washingtonDCGray")
+        case .delaware:
+            return #imageLiteral(resourceName: "delawareGray")
+        case .florida:
+            return #imageLiteral(resourceName: "floridaGray")
+        case .georgia:
+            return #imageLiteral(resourceName: "georgiaGray")
+        case .hawaii:
+            return #imageLiteral(resourceName: "hawaiiGray")
+        case .idaho:
+            return #imageLiteral(resourceName: "idahoGray")
+        case .illinois:
+            return #imageLiteral(resourceName: "illinoisGray")
+        case .indiana:
+            return #imageLiteral(resourceName: "indianaGray")
+        case .iowa:
+            return #imageLiteral(resourceName: "iowaGray")
+        case .kansas:
+            return #imageLiteral(resourceName: "kansasGray")
+        case .kentucky:
+            return #imageLiteral(resourceName: "kentuckyGray")
+        case .louisiana:
+            return #imageLiteral(resourceName: "louisianaGray")
+        case .maine:
+            return #imageLiteral(resourceName: "maineGray")
+        case .maryland:
+            return #imageLiteral(resourceName: "marylandGray")
+        case .massachusets:
+            return #imageLiteral(resourceName: "massachusetsGray")
+        case .michigan:
+            return #imageLiteral(resourceName: "michiganGray")
+        case .minnesota:
+            return #imageLiteral(resourceName: "minnesotaGray")
+        case .mississippi:
+            return #imageLiteral(resourceName: "mississippiGray")
+        case .missouri:
+            return #imageLiteral(resourceName: "missouriGray")
+        case .montana:
+            return #imageLiteral(resourceName: "montanaGray")
+        case .nebraska:
+            return #imageLiteral(resourceName: "nebraskaGray")
+        case .nevada:
+            return #imageLiteral(resourceName: "nevadaGray")
+        case .newHampshire:
+            return #imageLiteral(resourceName: "newHampshireGray")
+        case .newJersey:
+            return #imageLiteral(resourceName: "newJerseyGray")
+        case .newMexico:
+            return #imageLiteral(resourceName: "newMexicoGray")
+        case .newYork:
+            return #imageLiteral(resourceName: "newYorkGray")
+        case .northCarolina:
+            return #imageLiteral(resourceName: "northCarolinaGray")
+        case .northDakota:
+            return #imageLiteral(resourceName: "northDakotaGray")
+        case .ohio:
+            return #imageLiteral(resourceName: "ohioGray")
+        case .oklahoma:
+            return #imageLiteral(resourceName: "oklahomaGray")
+        case .oregon:
+            return #imageLiteral(resourceName: "oregonGray")
+        case .pennsylvania:
+            return #imageLiteral(resourceName: "pennsylvaniaGray")
+        case .puertoRico:
+            return #imageLiteral(resourceName: "puertoRicoGray")
+        case .rhodeIsland:
+            return #imageLiteral(resourceName: "rhodeIslandGray")
+        case .southCarolina:
+            return #imageLiteral(resourceName: "southCarolinaGray")
+        case .southDakota:
+            return #imageLiteral(resourceName: "southDakotaGray")
+        case .tennessee:
+            return #imageLiteral(resourceName: "tennesseeGray")
+        case .texas:
+            return #imageLiteral(resourceName: "texasGray")
+        case .utah:
+            return #imageLiteral(resourceName: "utahGray")
+        case .vermont:
+            return #imageLiteral(resourceName: "vermontGray")
+        case .virginia:
+            return #imageLiteral(resourceName: "virginiaGray")
+        case .washington:
+            return #imageLiteral(resourceName: "washintonGray")
+        case .westVirginia:
+            return #imageLiteral(resourceName: "westVirginiaGray")
+        case .wisconsin:
+            return #imageLiteral(resourceName: "wisconsinGray")
+        case .wyoming:
+            return #imageLiteral(resourceName: "wyomingGray")
+        }
+    }
 }

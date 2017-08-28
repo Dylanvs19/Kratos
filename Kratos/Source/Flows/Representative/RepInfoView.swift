@@ -56,7 +56,6 @@ class RepInfoView: UIView {
     }
     
     // MARK: - Properties -
-    
     var viewModel: RepInfoViewModel?
     let disposeBag = DisposeBag()
     
@@ -112,11 +111,12 @@ class RepInfoView: UIView {
         
     }
     
+    // MARK - Animations -
     func updateIndicatorView(with state: State) {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: { 
             self.managerIndicatorView.snp.updateConstraints { make in
                 make.leading.equalToSuperview().offset(state.indicatorXPosition(in: self))
-                make.width.equalTo(self.frame.width / 3)
+                make.width.equalTo(self.frame.width / CGFloat(State.allValues.count))
             }
             self.managerStackView.layoutIfNeeded()
         }, completion: nil)
@@ -174,6 +174,10 @@ class RepInfoView: UIView {
             return ds.sectionModels[index].model
         }
         
+        
+        votesTableView.rx.setDelegate(self)
+            .addDisposableTo(disposeBag)
+        
         votesTableView.showsVerticalScrollIndicator = false
     }
     
@@ -192,36 +196,40 @@ class RepInfoView: UIView {
             return cell
         }
         
-        billsDataSource.titleForHeaderInSection = { ds, index in
-            return ds.sectionModels[index].model
-        }
-        
         billsTableView.showsVerticalScrollIndicator = false
     }
 }
 
+// MARK - UITableViewDelegate -
 extension RepInfoView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if tableView == votesTableView {
-            let view = UIView()
-            let label = UILabel()
-            view.addSubview(label)
-            label.snp.makeConstraints { make in
-                make.leading.equalToSuperview().offset(5)
-                make.top.bottom.trailing.equalToSuperview()
-            }
-            label.text = votesDataSource.sectionModels[section].model
-            label.style(with: [.font(.subheader)])
-            return view
+        
+        let view = UIView()
+        let label = UILabel()
+        view.addSubview(label)
+        label.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(5)
+            make.top.bottom.trailing.equalToSuperview()
         }
-        return nil 
+        
+        switch tableView {
+        case votesTableView:
+            label.text = votesDataSource.sectionModels[section].model
+        case termsTableView:
+            label.text = termsDataSource.sectionModels[section].model
+        default:
+            return nil
+        }
+        
+        view.style(with: .backgroundColor(.slate))
+        label.style(with: [.font(.subTitle)])
+        return view
     }
 }
 
+// MARK - ViewBuilder -
 extension RepInfoView: ViewBuilder {
-    func addSubviews() {
-        translatesAutoresizingMaskIntoConstraints = false
-        
+    func addSubviews() {        
         addSubview(managerStackView)
         addSubview(scrollView)
         scrollView.addSubview(stackView)
@@ -299,6 +307,7 @@ extension RepInfoView: ViewBuilder {
     }
 }
 
+// MARK - Binds -
 extension RepInfoView: RxBinder {
     func bind() {
         bindManagerView()

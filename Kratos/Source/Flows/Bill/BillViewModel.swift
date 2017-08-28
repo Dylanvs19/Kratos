@@ -62,7 +62,9 @@ class BillViewModel {
     init(with client: Client, bill: Bill) {
         self.client = client
         self.bill.value = bill
+        self.id.value = bill.id
         bind()
+        fetchBill()
     }
     
     // MARK: - Client Requests -

@@ -66,7 +66,7 @@ extension RepresentativeCell: ViewBuilder {
     
     func constrainViews() {
         repImageView.snp.remakeConstraints { make in
-            make.leading.top.bottom.equalToSuperview().inset(5)
+            make.leading.top.bottom.equalToSuperview().inset(5).priority(999)
             make.height.width.equalTo(imageViewHeight).priority(999)
         }
         voteImageView.snp.remakeConstraints { make in

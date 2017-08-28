@@ -14,7 +14,7 @@ import SnapKit
 import SafariServices
 
 
-class RepresentativeViewController: UIViewController {
+class RepresentativeController: UIViewController {
     
     // MARK: - Variables -
     // Standard
@@ -25,6 +25,7 @@ class RepresentativeViewController: UIViewController {
     // topView
     let topView = UIView()
     let representativeImageView = RepImageView()
+    let stateImageView = UIImageView()
     let nameLabel = UILabel()
     let repDetailsView = UIView()
     let repTypeLabel = UILabel()
@@ -82,7 +83,7 @@ class RepresentativeViewController: UIViewController {
 }
 
 // MARK: - Contact Interactions -
-extension RepresentativeViewController {
+extension RepresentativeController {
     func presentWebsite(with websiteAddress: String) {
         guard let url = URL(string: websiteAddress) else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -119,12 +120,13 @@ extension RepresentativeViewController {
 }
 
 // MARK: - View Builder -
-extension RepresentativeViewController: ViewBuilder {
+extension RepresentativeController: ViewBuilder {
     func addSubviews() {
         view.addSubview(topView)
         topView.addSubview(representativeImageView)
         topView.addSubview(nameLabel)
         topView.addSubview(repDetailsView)
+        topView.addSubview(stateImageView)
         repDetailsView.addSubview(partyLabel)
         repDetailsView.addSubview(repTypeLabel)
         repDetailsView.addSubview(stateLabel)
@@ -148,6 +150,11 @@ extension RepresentativeViewController: ViewBuilder {
         repDetailsView.snp.remakeConstraints { make in
             make.centerX.equalTo(nameLabel)
             make.top.equalTo(nameLabel.snp.bottom).offset(5)
+        }
+        stateImageView.snp.remakeConstraints { make in
+            make.top.equalToSuperview().offset(40)
+            make.trailing.bottom.equalToSuperview().inset(15)
+            make.height.width.equalTo(repImageViewHeight)
         }
         repTypeLabel.snp.makeConstraints { make in
             make.leading.top.bottom.equalToSuperview()
@@ -177,6 +184,9 @@ extension RepresentativeViewController: ViewBuilder {
         topView.style(with: .backgroundColor(.white))
         topView.addShadow()
         
+        stateImageView.alpha = 0.2
+        stateImageView.contentMode = .scaleAspectFit
+        
         nameLabel.style(with: .font(.title))
         repTypeLabel.style(with: [.font(.subTitle), .titleColor(.lightGray)])
         stateLabel.style(with: [.font(.subTitle), .titleColor(.lightGray)])
@@ -185,7 +195,7 @@ extension RepresentativeViewController: ViewBuilder {
 }
 
 // MARK: - Binds -
-extension RepresentativeViewController: RxBinder {
+extension RepresentativeController: RxBinder {
     func bind() {
         bindTopView()
         bindContactView()
@@ -213,9 +223,17 @@ extension RepresentativeViewController: RxBinder {
             .disposed(by: disposeBag)
         
         viewModel.state.asObservable()
+            .filterNil()
+            .map { $0.fullName }
             .bind(to: stateLabel.rx.text)
             .disposed(by: disposeBag)
         
+        viewModel.state.asObservable()
+            .filterNil()
+            .map { $0.grayImage }
+            .bind(to: stateImageView.rx.image)
+            .disposed(by: disposeBag)
+    
         viewModel.party.asObservable()
             .bind(to: partyLabel.rx.text)
             .disposed(by: disposeBag)
@@ -256,7 +274,7 @@ extension RepresentativeViewController: RxBinder {
             .subscribe(onNext: { [weak self] in
                 guard let client = self?.client,
                     let navVC = self?.navigationController else { return }
-                let vc = BillViewController(client: client, bill: $0)
+                let vc = BillController(client: client, bill: $0)
                 navVC.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
@@ -265,7 +283,7 @@ extension RepresentativeViewController: RxBinder {
             .subscribe(onNext: { [weak self] in
                 guard let client = self?.client,
                     let navVC = self?.navigationController else { return }
-                let vc = BillViewController(client: client, lightTally: $0)
+                let vc = BillController(client: client, lightTally: $0)
                 navVC.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)

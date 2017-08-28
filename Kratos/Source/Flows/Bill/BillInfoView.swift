@@ -16,13 +16,14 @@ import SnapKit
 class BillInfoView: UIView {
     
     // MARK: - Enums -
-    enum State: Equatable {
-        case sponsors
-        case summary
-        case details
-        case votes
+    enum State: Int, Equatable {
+        case summary = 0
+        case votes = 1
+        case sponsors = 2
+        case details = 3
+
         
-        static var allValues: [State] = [.summary, .votes, .sponsors, .details]
+        static let allValues: [State] = [.summary, .votes, .sponsors, .details]
         
         var displayName: String {
             switch self {
@@ -50,12 +51,12 @@ class BillInfoView: UIView {
         
         func scrollViewXPosition(in view: UIView) -> CGFloat {
             let width = view.frame.size.width
-            return CGFloat(State.allValues.index(of: self)!) * width
+            return CGFloat(self.rawValue) * width
         }
         
         func indicatorXPosition(in view: UIView) -> CGFloat {
             let width = view.frame.size.width / CGFloat(State.allValues.count)
-            return CGFloat(State.allValues.index(of: self)!) * width
+            return CGFloat(self.rawValue) * width
         }
     }
     
@@ -70,7 +71,6 @@ class BillInfoView: UIView {
     let managerStackView = UIStackView()
     let managerIndicatorView = UIView()
     // Base
-    let scrollView = UIScrollView()
     let stackView = UIStackView()
     // Summary
     let summaryScrollView = UIScrollView()
@@ -83,6 +83,7 @@ class BillInfoView: UIView {
     let sponsorsTableView = UITableView()
     // Details
     let detailsScrollView = UIScrollView()
+    let detailsContentView = UIView()
     let committeesStackView = UIStackView()
     let actionsTableView = UITableView()
     
@@ -112,25 +113,36 @@ class BillInfoView: UIView {
     // MARK: - Helpers -
     func build() {
         styleViews()
-        addSubviews()
-        constrainViews()
         configureVotesTableView()
         configureSponsorsTableView()
+        addSubviews()
+        constrainViews()
+        
+        layoutIfNeeded()
+        summaryView.build()
         bind()
     }
     
+    // MARK - Animations -
     func updateIndicatorView(with state: State) {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-            self.managerIndicatorView.snp.updateConstraints { make in
-                make.leading.equalToSuperview().offset(state.indicatorXPosition(in: self))
+            self.managerIndicatorView.snp.remakeConstraints { make in
+                make.bottom.equalToSuperview()
                 make.width.equalTo(self.frame.width / CGFloat(State.allValues.count))
+                make.height.equalTo(1)
+                make.leading.equalToSuperview().offset(state.indicatorXPosition(in: self))
             }
             self.managerStackView.layoutIfNeeded()
         }, completion: nil)
     }
     
     func updateScrollView(with state: State) {
-        self.scrollView.scrollRectToVisible(CGRect(x: state.scrollViewXPosition(in: self), y: 0, width: self.frame.width, height: 1), animated: true)
+        UIView.animate(withDuration: 0.4) { 
+            self.stackView.snp.updateConstraints { make in
+                make.leading.equalToSuperview().offset(-state.scrollViewXPosition(in: self))
+            }
+            self.layoutIfNeeded()
+        }
     }
     
     // MARK: - Configuration -
@@ -173,10 +185,32 @@ class BillInfoView: UIView {
             cell.update(with: item)
             return cell
         }
+    }
+}
+
+// MARK - UITableViewDelegate -
+extension BillInfoView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var labelText = ""
         
-        sponsorsDatasource.titleForHeaderInSection = { ds, index in
-            return ds.sectionModels[index].model
+        switch tableView {
+        case sponsorsTableView:
+            labelText = sponsorsDatasource.sectionModels[section].model
+        default:
+            return nil
         }
+        
+        let view = UIView()
+        let label = UILabel()
+        view.addSubview(label)
+        label.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(5)
+            make.top.bottom.trailing.equalToSuperview()
+        }
+        label.text = labelText
+        view.style(with: .backgroundColor(.slate))
+        label.style(with: [.font(.subTitle)])
+        return view
     }
 }
 
@@ -185,52 +219,58 @@ extension BillInfoView: ViewBuilder {
         translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(managerStackView)
-        addSubview(scrollView)
-        scrollView.addSubview(stackView)
         managerStackView.addSubview(managerIndicatorView)
         
+        addSubview(stackView)
         stackView.addArrangedSubview(summaryScrollView)
-        summaryScrollView.addSubview(summaryViewView)
-        
-        summaryViewView.addSubview(summaryView)
-        summaryViewView.addSubview(committeeStackView)
-        
         stackView.addArrangedSubview(votesTableView)
         stackView.addArrangedSubview(sponsorsTableView)
+        stackView.addArrangedSubview(detailsScrollView)
+        
+        summaryScrollView.addSubview(summaryView)
+        detailsScrollView.addSubview(detailsContentView)
     }
     
     func constrainViews() {
-        managerStackView.snp.makeConstraints { make in
+        managerStackView.snp.remakeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(25)
         }
-        managerIndicatorView.snp.makeConstraints { make in
+        managerIndicatorView.snp.remakeConstraints { make in
             make.bottom.equalToSuperview()
-            make.width.equalTo(self.frame.width / 3)
+            make.width.equalTo(self.frame.width / CGFloat(State.allValues.count))
             make.height.equalTo(1)
             make.leading.equalToSuperview().offset(0)
         }
-        scrollView.snp.makeConstraints { make in
-            make.top.equalTo(self.managerStackView.snp.bottom).offset(3)
-            make.leading.trailing.bottom.equalToSuperview()
+        stackView.snp.remakeConstraints { make in
+            make.leading.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.top.equalTo(managerStackView.snp.bottom).offset(3)
         }
-        scrollView.layoutIfNeeded()
-        stackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        stackView.layoutIfNeeded()
         summaryScrollView.snp.remakeConstraints { make in
-            make.width.height.equalTo(self.scrollView)
+            make.leading.top.bottom.equalToSuperview()
+            make.width.equalTo(self.snp.width)
         }
-        summaryScrollView.layoutIfNeeded()
-        
-        summaryViewView.snp.remakeConstraints { make in
-            make.edges.equalToSuperview()
+        votesTableView.snp.remakeConstraints { make in
+            make.top.bottom.equalToSuperview()
+            make.width.equalTo(self.snp.width)
+        }
+        sponsorsTableView.snp.remakeConstraints { make in
+            make.top.bottom.equalToSuperview()
+            make.width.equalTo(self.snp.width)
+        }
+        detailsScrollView.snp.remakeConstraints { make in
+            make.top.bottom.trailing.equalToSuperview()
+            make.width.equalTo(self.snp.width)
         }
         summaryView.snp.remakeConstraints { make in
-            make.width.equalTo(self.frame.width)
-            make.top.leading.trailing.bottom.equalToSuperview()
+            make.width.equalTo(self.snp.width)
+            make.edges.equalToSuperview()
         }
+        detailsContentView.snp.remakeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        summaryView.layoutIfNeeded()
         summaryScrollView.layoutIfNeeded()
         layoutIfNeeded()
     }
@@ -246,7 +286,11 @@ extension BillInfoView: ViewBuilder {
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
         
-        scrollView.isScrollEnabled = false
+        summaryScrollView.showsVerticalScrollIndicator = false
+        detailsScrollView.showsVerticalScrollIndicator = false
+        
+        stackView.layoutIfNeeded()
+        clipsToBounds = true
     }
 }
 
@@ -296,8 +340,6 @@ extension BillInfoView: RxBinder {
         viewModel.summary.asObservable()
             .subscribe(onNext: { [weak self] summary in
                 self?.summaryView.update(with: summary)
-                self?.constrainViews()
-                self?.summaryScrollView.layoutSubviews()
             })
             .disposed(by: disposeBag)
     }

@@ -19,7 +19,7 @@ class ExploreViewModel {
     let loadStatus = Variable<LoadStatus>(.none)
     
     // Data
-    let state = Variable<ExploreController.State>(.house)
+    let state = Variable<ExploreController.State>(.senate)
     let houseBills = Variable<[Bill]>([])
     let senateBills = Variable<[Bill]>([])
     let inRecess = Variable<Bool>(true)

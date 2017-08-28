@@ -12,6 +12,7 @@ import RxSwift
 
 class RepInfoViewModel {
     
+    // MARK - Variables -
     let client: Client
     let loadStatus = Variable<LoadStatus>(.none)
     let disposeBag = DisposeBag()
@@ -39,6 +40,7 @@ class RepInfoViewModel {
     
     let contentOffset = Variable<CGFloat>(0)
     
+    // MARK - Initialization -
     init(with client: Client, representative: Person) {
         self.client = client
         bio.value = representative.biography ?? ""
@@ -49,6 +51,7 @@ class RepInfoViewModel {
         fetchBills()
     }
     
+    // MARK - Client Requests -
     func fetchTallies() {
         guard let rep = representative.value else { return }
         loadStatus.value = .loading
@@ -70,9 +73,6 @@ class RepInfoViewModel {
         guard let rep = representative.value else { return }
         loadStatus.value = .loading
         client.fetchSponsoredBills(personID: rep.id, pageNumber: sponsoredBillCount)
-            .do(onNext: { bills in
-                print("bills \(bills.count)")
-            })
             .subscribe(
                 onNext: { [weak self] bills in
                     self?.loadStatus.value = .none
@@ -87,6 +87,7 @@ class RepInfoViewModel {
     }
 }
 
+// MARK - Binds -
 extension RepInfoViewModel: RxBinder {
     func bind() {
         fetchAction.asObservable()

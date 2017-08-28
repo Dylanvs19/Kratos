@@ -51,30 +51,33 @@ class TallyCell: UITableViewCell {
 
 extension TallyCell: ViewBuilder {
     func addSubviews() {
+        translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(pieChartView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(statusLabel)
         contentView.addSubview(statusDateLabel)
     }
     func constrainViews() {
-        pieChartView.snp.makeConstraints { make in
+        pieChartView.snp.remakeConstraints { make in
             make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(5)
+            make.trailing.equalToSuperview().inset(5).priority(999)
             make.top.bottom.greaterThanOrEqualToSuperview().inset(5)
             make.height.width.equalTo(pieChartHeight).priority(999)
         }
-        titleLabel.snp.makeConstraints { make in
+        titleLabel.snp.remakeConstraints { make in
             make.leading.top.equalToSuperview().offset(5)
             make.trailing.equalTo(pieChartView.snp.leading).offset(-2)
         }
-        statusLabel.snp.makeConstraints { make in
+        statusLabel.snp.remakeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(2)
             make.leading.equalToSuperview().inset(5)
+            make.trailing.equalTo(pieChartView.snp.leading).offset(-2)
         }
-        statusDateLabel.snp.makeConstraints { make in
+        statusDateLabel.snp.remakeConstraints { make in
             make.top.equalTo(statusLabel.snp.bottom).offset(2)
             make.leading.equalToSuperview().inset(5)
             make.bottom.equalToSuperview().inset(2)
+            make.trailing.equalTo(pieChartView.snp.leading).offset(-2)
         }
     }
     
