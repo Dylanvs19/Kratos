@@ -29,7 +29,7 @@ class RepInfoBillSponsorTableViewCell: UITableViewCell {
     func configure(with bill: Bill) {
         let title = bill.title != nil ? bill.title : bill.officialTitle
         titleLabel.text = title ?? ""
-        topTermLabel.text = String((bill.topTerm ?? 0))
+        topTermLabel.text = bill.topSubject?.name ?? ""
         statusLabel.text = bill.status ?? ""
     }
 }

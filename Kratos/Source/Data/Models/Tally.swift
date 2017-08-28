@@ -347,7 +347,7 @@ struct LightTally: Hashable, Decodable {
     var billShortTitle: String?
     var billOfficialTitle: String?
     var billChamber: Chamber?
-    var topSubject: Int?
+    var topSubject: Subject?
     var prettyGpoId: String?
     var gpoId: String?
     var congressNumber: Int?
@@ -390,7 +390,9 @@ struct LightTally: Hashable, Decodable {
             if let chamber = bill["type"] as? String {
                 self.billChamber = Chamber.chamber(value: chamber)
             }
-            self.topSubject = bill["top_subject_id"] as? Int
+            if let subject = bill["top_subject"] as? [String: Any] {
+                self.topSubject = Subject(json: subject)
+            }
             self.prettyGpoId = bill["pretty_gpo"] as? String
             self.gpoId = bill["gpo_id"] as? String
             self.congressNumber = bill["congress_number"] as? Int

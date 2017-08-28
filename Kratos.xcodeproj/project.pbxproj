@@ -14,7 +14,7 @@
 		AF2C06C91F45C74B00D7E348 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C81F45C74B00D7E348 /* State.swift */; };
 		AF2C06ED1F4895F000D7E348 /* BillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06CC1F4895F000D7E348 /* BillCell.swift */; };
 		AF2C06EE1F4895F000D7E348 /* BillCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06CD1F4895F000D7E348 /* BillCellViewModel.swift */; };
-		AF2C06EF1F4895F000D7E348 /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06CE1F4895F000D7E348 /* ExploreViewController.swift */; };
+		AF2C06EF1F4895F000D7E348 /* ExploreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06CE1F4895F000D7E348 /* ExploreController.swift */; };
 		AF2C06F01F4895F000D7E348 /* ExploreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06CF1F4895F000D7E348 /* ExploreViewModel.swift */; };
 		AF2C06F11F4895F000D7E348 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D01F4895F000D7E348 /* SearchController.swift */; };
 		AF2C06F21F4895F000D7E348 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D11F4895F000D7E348 /* SearchViewModel.swift */; };
@@ -46,7 +46,7 @@
 		AF2C07251F48975600D7E348 /* BillCommitteesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2C07101F48975600D7E348 /* BillCommitteesView.xib */; };
 		AF2C07261F48975600D7E348 /* BillInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07111F48975600D7E348 /* BillInfoView.swift */; };
 		AF2C07271F48975600D7E348 /* BillInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07121F48975600D7E348 /* BillInfoViewModel.swift */; };
-		AF2C07281F48975600D7E348 /* BillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07131F48975600D7E348 /* BillViewController.swift */; };
+		AF2C07281F48975600D7E348 /* BillController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07131F48975600D7E348 /* BillController.swift */; };
 		AF2C07291F48975600D7E348 /* BillViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07141F48975600D7E348 /* BillViewModel.swift */; };
 		AF2C072A1F48975600D7E348 /* CommitteActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07151F48975600D7E348 /* CommitteActivitiesView.swift */; };
 		AF2C072B1F48975600D7E348 /* CommitteActivitiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2C07161F48975600D7E348 /* CommitteActivitiesView.xib */; };
@@ -62,7 +62,7 @@
 		AF2C073E1F48975E00D7E348 /* RepInfoBillSponsorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07361F48975E00D7E348 /* RepInfoBillSponsorTableViewCell.swift */; };
 		AF2C073F1F48975E00D7E348 /* RepInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07371F48975E00D7E348 /* RepInfoView.swift */; };
 		AF2C07401F48975E00D7E348 /* RepInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07381F48975E00D7E348 /* RepInfoViewModel.swift */; };
-		AF2C07411F48975E00D7E348 /* RepresentativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07391F48975E00D7E348 /* RepresentativeViewController.swift */; };
+		AF2C07411F48975E00D7E348 /* RepresentativeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07391F48975E00D7E348 /* RepresentativeController.swift */; };
 		AF2C07421F48975E00D7E348 /* RepresentativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C073A1F48975E00D7E348 /* RepresentativeViewModel.swift */; };
 		AF2C07431F48975E00D7E348 /* RepVoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C073B1F48975E00D7E348 /* RepVoteTableViewCell.swift */; };
 		AF2C07441F48975E00D7E348 /* TermTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C073C1F48975E00D7E348 /* TermTableViewCell.swift */; };
@@ -155,6 +155,8 @@
 		AF89747F1D4D80E500C19020 /* KratosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89747E1D4D80E500C19020 /* KratosUITests.swift */; };
 		AFA6F45E1F36818100686697 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA6F45D1F36818100686697 /* UITextView+Extensions.swift */; };
 		AFA9D1601E30269B00CD6BF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */; };
+		AFD553061F53BA5800E07D9B /* NumberFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD553051F53BA5800E07D9B /* NumberFormatter+Extensions.swift */; };
+		AFD553081F53BB2100E07D9B /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD553071F53BB2100E07D9B /* Int+Extension.swift */; };
 		AFD5AA971D9C3D0C00A5714C /* KratosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974731D4D80E500C19020 /* KratosTests.swift */; };
 		AFE19E181F52648F0054EB98 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE19E171F52648F0054EB98 /* Store.swift */; };
 		AFE19E1A1F52649B0054EB98 /* MicroStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE19E191F52649B0054EB98 /* MicroStore.swift */; };
@@ -216,7 +218,7 @@
 		AF2C06C81F45C74B00D7E348 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		AF2C06CC1F4895F000D7E348 /* BillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillCell.swift; sourceTree = "<group>"; };
 		AF2C06CD1F4895F000D7E348 /* BillCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillCellViewModel.swift; sourceTree = "<group>"; };
-		AF2C06CE1F4895F000D7E348 /* ExploreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
+		AF2C06CE1F4895F000D7E348 /* ExploreController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreController.swift; sourceTree = "<group>"; };
 		AF2C06CF1F4895F000D7E348 /* ExploreViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreViewModel.swift; sourceTree = "<group>"; };
 		AF2C06D01F4895F000D7E348 /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		AF2C06D11F4895F000D7E348 /* SearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
@@ -248,7 +250,7 @@
 		AF2C07101F48975600D7E348 /* BillCommitteesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillCommitteesView.xib; sourceTree = "<group>"; };
 		AF2C07111F48975600D7E348 /* BillInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillInfoView.swift; sourceTree = "<group>"; };
 		AF2C07121F48975600D7E348 /* BillInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillInfoViewModel.swift; sourceTree = "<group>"; };
-		AF2C07131F48975600D7E348 /* BillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillViewController.swift; sourceTree = "<group>"; };
+		AF2C07131F48975600D7E348 /* BillController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillController.swift; sourceTree = "<group>"; };
 		AF2C07141F48975600D7E348 /* BillViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillViewModel.swift; sourceTree = "<group>"; };
 		AF2C07151F48975600D7E348 /* CommitteActivitiesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitteActivitiesView.swift; sourceTree = "<group>"; };
 		AF2C07161F48975600D7E348 /* CommitteActivitiesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommitteActivitiesView.xib; sourceTree = "<group>"; };
@@ -264,7 +266,7 @@
 		AF2C07361F48975E00D7E348 /* RepInfoBillSponsorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepInfoBillSponsorTableViewCell.swift; sourceTree = "<group>"; };
 		AF2C07371F48975E00D7E348 /* RepInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepInfoView.swift; sourceTree = "<group>"; };
 		AF2C07381F48975E00D7E348 /* RepInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepInfoViewModel.swift; sourceTree = "<group>"; };
-		AF2C07391F48975E00D7E348 /* RepresentativeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeViewController.swift; sourceTree = "<group>"; };
+		AF2C07391F48975E00D7E348 /* RepresentativeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeController.swift; sourceTree = "<group>"; };
 		AF2C073A1F48975E00D7E348 /* RepresentativeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeViewModel.swift; sourceTree = "<group>"; };
 		AF2C073B1F48975E00D7E348 /* RepVoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepVoteTableViewCell.swift; sourceTree = "<group>"; };
 		AF2C073C1F48975E00D7E348 /* TermTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermTableViewCell.swift; sourceTree = "<group>"; };
@@ -364,6 +366,8 @@
 		AF8974801D4D80E500C19020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AFA6F45D1F36818100686697 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
 		AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AFD553051F53BA5800E07D9B /* NumberFormatter+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Extensions.swift"; sourceTree = "<group>"; };
+		AFD553071F53BB2100E07D9B /* Int+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kratos.entitlements; sourceTree = "<group>"; };
 		AFE19E171F52648F0054EB98 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		AFE19E191F52649B0054EB98 /* MicroStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MicroStore.swift; sourceTree = "<group>"; };
@@ -451,7 +455,7 @@
 			children = (
 				AF2C06CC1F4895F000D7E348 /* BillCell.swift */,
 				AF2C06CD1F4895F000D7E348 /* BillCellViewModel.swift */,
-				AF2C06CE1F4895F000D7E348 /* ExploreViewController.swift */,
+				AF2C06CE1F4895F000D7E348 /* ExploreController.swift */,
 				AF2C06CF1F4895F000D7E348 /* ExploreViewModel.swift */,
 				AF2C06D01F4895F000D7E348 /* SearchController.swift */,
 				AF2C06D11F4895F000D7E348 /* SearchViewModel.swift */,
@@ -518,7 +522,7 @@
 				AF2C07101F48975600D7E348 /* BillCommitteesView.xib */,
 				AF2C07111F48975600D7E348 /* BillInfoView.swift */,
 				AF2C07121F48975600D7E348 /* BillInfoViewModel.swift */,
-				AF2C07131F48975600D7E348 /* BillViewController.swift */,
+				AF2C07131F48975600D7E348 /* BillController.swift */,
 				AF2C07141F48975600D7E348 /* BillViewModel.swift */,
 				AF2C07151F48975600D7E348 /* CommitteActivitiesView.swift */,
 				AF2C07161F48975600D7E348 /* CommitteActivitiesView.xib */,
@@ -541,7 +545,7 @@
 				AF2C07361F48975E00D7E348 /* RepInfoBillSponsorTableViewCell.swift */,
 				AF2C07371F48975E00D7E348 /* RepInfoView.swift */,
 				AF2C07381F48975E00D7E348 /* RepInfoViewModel.swift */,
-				AF2C07391F48975E00D7E348 /* RepresentativeViewController.swift */,
+				AF2C07391F48975E00D7E348 /* RepresentativeController.swift */,
 				AF2C073A1F48975E00D7E348 /* RepresentativeViewModel.swift */,
 				AF2C073B1F48975E00D7E348 /* RepVoteTableViewCell.swift */,
 				AF2C073C1F48975E00D7E348 /* TermTableViewCell.swift */,
@@ -788,6 +792,8 @@
 				AF416A301F28336B006380DA /* UIFont+Extensions.swift */,
 				AF57F4C81F2B6EBB0080978F /* UIImageView+RxUrl.swift */,
 				AFA6F45D1F36818100686697 /* UITextView+Extensions.swift */,
+				AFD553051F53BA5800E07D9B /* NumberFormatter+Extensions.swift */,
+				AFD553071F53BB2100E07D9B /* Int+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1310,6 +1316,7 @@
 				AF2C06F01F4895F000D7E348 /* ExploreViewModel.swift in Sources */,
 				AF2C072C1F48975600D7E348 /* CommitteeView.swift in Sources */,
 				AF3F5C761EBE72F700809AA3 /* KratosAnalytics.swift in Sources */,
+				AFD553061F53BA5800E07D9B /* NumberFormatter+Extensions.swift in Sources */,
 				AF3F5CEB1EBE72F700809AA3 /* UIView+Extension.swift in Sources */,
 				AF2C07261F48975600D7E348 /* BillInfoView.swift in Sources */,
 				AF2C073E1F48975E00D7E348 /* RepInfoBillSponsorTableViewCell.swift in Sources */,
@@ -1325,6 +1332,7 @@
 				AF3F5CE11EBE72F700809AA3 /* NSCharacterSet+Extensions.swift in Sources */,
 				AF416A461F28C1F3006380DA /* Client+FeedbackService.swift in Sources */,
 				AF2C06C91F45C74B00D7E348 /* State.swift in Sources */,
+				AFD553081F53BB2100E07D9B /* Int+Extension.swift in Sources */,
 				AF3F5CD71EBE72F700809AA3 /* Interactor.swift in Sources */,
 				AF3F5CE01EBE72F700809AA3 /* DateFormatter+Extensions.swift in Sources */,
 				AF2C07211F48975600D7E348 /* BillActionsView.swift in Sources */,
@@ -1350,7 +1358,7 @@
 				AF3F5CE81EBE72F700809AA3 /* UILabel+Extensions.swift in Sources */,
 				AF2C07441F48975E00D7E348 /* TermTableViewCell.swift in Sources */,
 				AF2C07061F4895F000D7E348 /* UserRepsViewModel.swift in Sources */,
-				AF2C06EF1F4895F000D7E348 /* ExploreViewController.swift in Sources */,
+				AF2C06EF1F4895F000D7E348 /* ExploreController.swift in Sources */,
 				AF2C06F21F4895F000D7E348 /* SearchViewModel.swift in Sources */,
 				AF3F5CE61EBE72F700809AA3 /* UIImage+Extension.swift in Sources */,
 				AF57F4CB1F2E27030080978F /* TrackButtonViewModel.swift in Sources */,
@@ -1387,7 +1395,7 @@
 				AF3F5CD61EBE72F700809AA3 /* DismissMenuAnimator.swift in Sources */,
 				AF3F5C6D1EBE72F700809AA3 /* Bill.swift in Sources */,
 				AF416A491F28C1F3006380DA /* Client+UserService.swift in Sources */,
-				AF2C07281F48975600D7E348 /* BillViewController.swift in Sources */,
+				AF2C07281F48975600D7E348 /* BillController.swift in Sources */,
 				AF57F4C41F2B6E220080978F /* KratosEnvironment.swift in Sources */,
 				AF3F5CA71EBE72F700809AA3 /* LoadMoreSpinnerView.swift in Sources */,
 				AF2C07271F48975600D7E348 /* BillInfoViewModel.swift in Sources */,
@@ -1400,7 +1408,7 @@
 				AF3F5CE51EBE72F700809AA3 /* UIColor+Extension.swift in Sources */,
 				AF57F4BE1F2B6E190080978F /* Styler.swift in Sources */,
 				AF2C07331F48975600D7E348 /* TallyCellViewModel.swift in Sources */,
-				AF2C07411F48975E00D7E348 /* RepresentativeViewController.swift in Sources */,
+				AF2C07411F48975E00D7E348 /* RepresentativeController.swift in Sources */,
 				AF2C071F1F48975600D7E348 /* ActionsView.swift in Sources */,
 				AF3F5CDF1EBE72F700809AA3 /* Date+Extensions.swift in Sources */,
 				AF3F5C711EBE72F700809AA3 /* Tally.swift in Sources */,

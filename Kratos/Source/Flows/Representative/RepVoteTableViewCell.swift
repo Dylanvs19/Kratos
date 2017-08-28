@@ -13,6 +13,7 @@ class RepVoteTableViewCell: UITableViewCell {
     
     static let identifier = String(describing: RepVoteTableViewCell.self)
     let billTitleLabel = UILabel()
+    let billSubjectLabel = UILabel()
     let billStatus = UILabel()
     let statusImageView = UIImageView()
     let statusImageViewSize: CGFloat = 30
@@ -29,9 +30,15 @@ class RepVoteTableViewCell: UITableViewCell {
     
     func configure(with lightTallies: [LightTally]) {
         guard let first = lightTallies.first else { return }
-        let status = (first.resultText ?? "") + " - " + "\(first.topSubject ?? 0)"
-        billTitleLabel.text = first.billTitle
-        billStatus.text = status
+        var title: String? = nil
+        if let billTitle = first.billTitle {
+            title = billTitle
+        } else if let question = first.question {
+            title = question
+        }
+        billTitleLabel.text = title
+        billStatus.text = first.resultText ?? ""
+        billSubjectLabel.text = first.topSubject?.name ?? ""
         statusImageView.image = first.voteValue?.image
     }
 }
@@ -39,6 +46,7 @@ class RepVoteTableViewCell: UITableViewCell {
 extension RepVoteTableViewCell: ViewBuilder {
     func addSubviews() {
         addSubview(billTitleLabel)
+        addSubview(billSubjectLabel)
         addSubview(billStatus)
         addSubview(statusImageView)
         styleViews()
@@ -48,9 +56,13 @@ extension RepVoteTableViewCell: ViewBuilder {
             make.top.leading.equalToSuperview().offset(5)
             make.trailing.equalToSuperview().offset(-40)
         }
-        billStatus.snp.makeConstraints { make in
+        billSubjectLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(5)
             make.top.equalTo(billTitleLabel.snp.bottom).offset(5)
+        }
+        billStatus.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(5)
+            make.top.equalTo(billSubjectLabel.snp.bottom).offset(5)
             make.bottom.equalToSuperview().offset(-5)
         }
         statusImageView.snp.makeConstraints { make in
@@ -65,5 +77,6 @@ extension RepVoteTableViewCell: ViewBuilder {
         billTitleLabel.style(with: [.numberOfLines(3), .font(.cellTitle)])
         billTitleLabel.style(with: .font(.cellTitle))
         billStatus.style(with: [.font(.cellSubTitle), .titleColor(.gray)])
+        billSubjectLabel.style(with: [.font(.cellSubTitle), .titleColor(.gray)])
     }
 }

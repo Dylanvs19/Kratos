@@ -39,8 +39,9 @@ struct Bill: Hashable, Decodable {
     var enactedAs: String?
     var awaitingSignature: Bool?
     var actions: [BillAction]?
-    //Term
-    var topTerm: Int?
+    //Subjects
+    var topSubject: Subject?
+    var subjects: [Subject]?
     //RelatedBills
     var relatedBills: [RelatedBill]?
     //Summary
@@ -121,7 +122,12 @@ struct Bill: Hashable, Decodable {
         self.enactedAs = json["enactedAs"] as? String
         self.awaitingSignature = json["awaiting_signature"] as? Bool
         
-        self.topTerm = json["top_term"] as? Int
+        if let subject = json["top_subject"] as? [String: Any] {
+            self.topSubject = Subject(json: subject)
+        }
+        if let subjects = json["subjects"] as? [[String: Any]] {
+            self.subjects = subjects.flatMap { Subject(json: $0) }
+        }
         self.billTextURL = json["full_text_url"] as? String
         
         self.summary = json["summary_text"] as? String
