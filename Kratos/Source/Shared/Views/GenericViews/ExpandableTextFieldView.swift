@@ -104,6 +104,9 @@ class ExpandableTextFieldView: UIView {
             if let scroll = self.superview?.superview,
                 let scrollView = scroll as? UIScrollView {
                 scrollView.layoutIfNeeded()
+            } else if let scroll = self.superview,
+                      let scrollView = scroll as? UIScrollView {
+                scrollView.layoutIfNeeded()
             } else {
                 self.layoutIfNeeded()
             }
