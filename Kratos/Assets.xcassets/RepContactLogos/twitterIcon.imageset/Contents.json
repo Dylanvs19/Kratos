@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "CongressLogo1x.png",
+      "filename" : "twitterIcon.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "CongressLogo2x.png",
+      "filename" : "twitterIcon@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "CongressLogo3x.png",
+      "filename" : "twitterIcon@3x.png",
       "scale" : "3x"
     }
   ],
