@@ -42,13 +42,11 @@ extension RepresentativeCellViewModel: RxBinder {
     func bind() {
         vote.asObservable()
             .map { $0?.person }
-            .filterNil()
             .bind(to: rep)
             .disposed(by: disposeBag)
         
         vote.asObservable()
             .map { $0?.voteValue }
-            .filterNil()
             .bind(to: voteValue)
             .disposed(by: disposeBag)
         

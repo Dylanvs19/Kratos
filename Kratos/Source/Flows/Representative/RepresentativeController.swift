@@ -26,10 +26,7 @@ class RepresentativeController: UIViewController {
     let topView = UIView()
     let representativeImageView = RepImageView()
     let stateImageView = UIImageView()
-    let nameLabel = UILabel()
-    let repDetailsView = UIView()
-    let repTypeLabel = UILabel()
-    let stateLabel = UILabel()
+    let repTypeStateLabel = UILabel()
     let partyLabel = UILabel()
     
     // RepContactView
@@ -78,7 +75,6 @@ class RepresentativeController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setDefaultNavVC()
     }
 }
 
@@ -124,12 +120,9 @@ extension RepresentativeController: ViewBuilder {
     func addSubviews() {
         view.addSubview(topView)
         topView.addSubview(representativeImageView)
-        topView.addSubview(nameLabel)
-        topView.addSubview(repDetailsView)
         topView.addSubview(stateImageView)
-        repDetailsView.addSubview(partyLabel)
-        repDetailsView.addSubview(repTypeLabel)
-        repDetailsView.addSubview(stateLabel)
+        topView.addSubview(partyLabel)
+        topView.addSubview(repTypeStateLabel)
         view.addSubview(contactView)
         view.addSubview(repInfoView)
     }
@@ -143,29 +136,18 @@ extension RepresentativeController: ViewBuilder {
             make.leading.bottom.equalToSuperview().inset(15)
             make.height.width.equalTo(repImageViewHeight)
         }
-        nameLabel.snp.makeConstraints { make in
-            make.top.equalTo(representativeImageView.snp.top).offset(10)
-            make.centerX.equalToSuperview()
-        }
-        repDetailsView.snp.remakeConstraints { make in
-            make.centerX.equalTo(nameLabel)
-            make.top.equalTo(nameLabel.snp.bottom).offset(5)
-        }
         stateImageView.snp.remakeConstraints { make in
             make.top.equalToSuperview().offset(40)
             make.trailing.bottom.equalToSuperview().inset(15)
             make.height.width.equalTo(repImageViewHeight)
         }
-        repTypeLabel.snp.makeConstraints { make in
-            make.leading.top.bottom.equalToSuperview()
-        }
-        stateLabel.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview()
-            make.leading.equalTo(repTypeLabel.snp.trailing).offset(3)
-        }
         partyLabel.snp.makeConstraints { make in
-            make.trailing.top.bottom.equalToSuperview()
-            make.leading.equalTo(stateLabel.snp.trailing).offset(3)
+            make.top.equalTo(representativeImageView.snp.top).offset(10)
+            make.centerX.equalToSuperview()
+        }
+        repTypeStateLabel.snp.makeConstraints { make in
+            make.top.equalTo(partyLabel.snp.bottom).offset(5)
+            make.centerX.equalToSuperview()
         }
         contactView.snp.makeConstraints { make in
             make.top.equalTo(topView.snp.bottom).offset(5)
@@ -187,10 +169,8 @@ extension RepresentativeController: ViewBuilder {
         stateImageView.alpha = 0.2
         stateImageView.contentMode = .scaleAspectFit
         
-        nameLabel.style(with: .font(.title))
-        repTypeLabel.style(with: [.font(.subTitle), .titleColor(.lightGray)])
-        stateLabel.style(with: [.font(.subTitle), .titleColor(.lightGray)])
         partyLabel.style(with: [.font(.subTitle)])
+        repTypeStateLabel.style(with: [.font(.subTitle), .titleColor(.lightGray)])
     }
 }
 
@@ -203,6 +183,9 @@ extension RepresentativeController: RxBinder {
     }
     
     func bindTopView() {
+        viewModel.title.asObservable()
+            .bind(to: self.rx.title)
+            .disposed(by: disposeBag)
         viewModel.url.asObservable()
             .filterNil()
             .bind(to: self.representativeImageView.rx.setImage())
@@ -214,20 +197,9 @@ extension RepresentativeController: RxBinder {
                 self?.partyLabel.textColor = color.value
             })
             .disposed(by: disposeBag)
-        viewModel.name.asObservable()
-            .bind(to: nameLabel.rx.text)
+        viewModel.repTypeState.asObservable()
+            .bind(to: repTypeStateLabel.rx.text)
             .disposed(by: disposeBag)
-        
-        viewModel.repType.asObservable()
-            .bind(to: repTypeLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        viewModel.state.asObservable()
-            .filterNil()
-            .map { $0.fullName }
-            .bind(to: stateLabel.rx.text)
-            .disposed(by: disposeBag)
-        
         viewModel.state.asObservable()
             .filterNil()
             .map { $0.grayImage }

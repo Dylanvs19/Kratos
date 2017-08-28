@@ -19,8 +19,8 @@ class RepresentativeViewModel {
     
     let representative = Variable<Person?>(nil)
     
-    let name = Variable<String>("")
-    let repType = Variable<String>("")
+    let title = Variable<String>("")
+    let repTypeState = Variable<String>("")
     let state = Variable<State?>(nil)
     let party = Variable<String>("")
     let url = Variable<URL?>(nil)
@@ -43,6 +43,10 @@ class RepresentativeViewModel {
         self.representative.value = representative
         bind()
     }
+    
+    func reloadTitle() {
+        title.value = title.value
+    }
 }
 
 extension RepresentativeViewModel: RxBinder {
@@ -55,16 +59,15 @@ extension RepresentativeViewModel: RxBinder {
     func bindRepInfoView() { }
     
     func bindHeaderVariables() {
-
         representative.asObservable()
             .filterNil()
             .map { $0.fullName }
-            .bind(to: name)
+            .bind(to: title)
             .disposed(by: disposeBag)
         representative.asObservable()
             .filterNil()
-            .map { $0.currentChamber.representativeType.short() + "." }
-            .bind(to: repType)
+            .map { "\($0.currentChamber.representativeType.short()). \($0.currentState.fullName)" }
+            .bind(to: repTypeState)
             .disposed(by: disposeBag)
         representative.asObservable()
             .filterNil()

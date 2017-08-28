@@ -74,11 +74,11 @@ class BillController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setDefaultNavVC()
+        self.title = ""
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setDefaultNavVC()
     }
 }
 
@@ -99,7 +99,8 @@ extension BillController: ViewBuilder {
             make.top.equalToSuperview()
         }
         titleLabel.snp.remakeConstraints { make in
-            make.leading.top.trailing.equalToSuperview().inset(50)
+            make.top.equalToSuperview().inset(10)
+            make.leading.trailing.equalToSuperview().inset(40)
         }
         divider.snp.remakeConstraints { make in
             make.trailing.leading.equalToSuperview().inset(20)
@@ -131,7 +132,7 @@ extension BillController: ViewBuilder {
         billHeader.style(with: [.backgroundColor(.white)])
         divider.style(with: [.backgroundColor(.kratosRed)])
         titleLabel.style(with: [.numberOfLines(8),
-                                .font(.title),
+                                .font(.header),
                                 .textAlignment(.center)
                                 ])
         
@@ -165,6 +166,19 @@ extension BillController: RxBinder {
             .filterNil()
             .subscribe(onNext: { [weak self] bill in
                 self?.billInfoView.update(with: bill)
+            })
+            .disposed(by: disposeBag)
+        billInfoView.selectedPerson
+            .subscribe(onNext: { [weak self] person in
+                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                let vc = RepresentativeController(client: self.client, representative: person)
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
+        billInfoView.selectedTally
+            .subscribe(onNext: { [weak self] Tally in
+                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                // push to Tally VC
             })
             .disposed(by: disposeBag)
     }

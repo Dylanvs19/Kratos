@@ -15,12 +15,13 @@ import SnapKit
 class ExploreController: UIViewController {
     
     // MARK: - Enums -
-    enum State {
-        case house
-        case senate
-        case executive
+    enum State: Int {
+        case executive = 0
+        case house = 1
+        case senate = 2
         
-        static let allValues: [State] = [.house, .senate, .executive]
+        
+        static let allValues: [State] = [.executive, .house, .senate]
         
         var title: String {
             switch self {
@@ -37,6 +38,23 @@ class ExploreController: UIViewController {
             let width = view.frame.size.width
             return CGFloat(State.allValues.index(of: self)!) * width
         }
+        
+        func indicatorXPosition(in view: UIView) -> CGFloat {
+            let width = view.frame.size.width / CGFloat(State.allValues.count)
+            return CGFloat(self.rawValue) * width
+        }
+        
+        var button: UIButton {
+            let button = UIButton()
+            button.style(with: [.font(.title),
+                                .titleColor(.kratosRed),
+                                .borderColor(.gray),
+                                .borderWidth(1)
+                                ])
+            button.setTitle(title, for: .normal)
+            button.tag = self.rawValue
+            return button
+        }
     }
     
     // MARK: - Variables -
@@ -50,6 +68,7 @@ class ExploreController: UIViewController {
     let houseButton = UIButton()
     let senateButton = UIButton()
     let titleLabel = UILabel()
+    let buttons: [UIButton] = State.allValues.map { $0.button }
     
     // RecessView
     let recessView = UIView()
@@ -357,6 +376,20 @@ extension ExploreController: RxBinder {
         viewModel.houseBills.asObservable()
             .map { [SectionModel(model: "", items: $0)] }
             .bind(to: houseTableView.rx.items(dataSource: houseDataSource))
+            .disposed(by: disposeBag)
+        houseTableView.rx.modelSelected(Bill.self).asObservable()
+            .subscribe(onNext: { [weak self] bill in
+                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                let vc = BillController(client: self.client, bill: bill)
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
+        senateTableView.rx.modelSelected(Bill.self).asObservable()
+            .subscribe(onNext: { [weak self] bill in
+                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                let vc = BillController(client: self.client, bill: bill)
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
             .disposed(by: disposeBag)
     }
 }

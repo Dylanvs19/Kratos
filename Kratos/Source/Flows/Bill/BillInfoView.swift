@@ -63,8 +63,12 @@ class BillInfoView: UIView {
     // MARK: - Properties -
     // Standard
     var viewModel: BillInfoViewModel?
-    let contentOffset = Variable<CGFloat>(0)
     let disposeBag = DisposeBag()
+    
+    //Open
+    let contentOffset = PublishSubject<CGFloat>()
+    let selectedPerson = PublishSubject<Person>()
+    let selectedTally = PublishSubject<Tally>()
     
     // UIElements
     // Manager
@@ -147,14 +151,12 @@ class BillInfoView: UIView {
     
     // MARK: - Configuration -
     func configureVotesTableView() {
-        votesTableView.isScrollEnabled = false
         votesTableView.register(TallyCell.self, forCellReuseIdentifier: TallyCell.identifier)
         votesTableView.estimatedRowHeight = 100
         votesTableView.rowHeight = UITableViewAutomaticDimension
         votesTableView.separatorInset = .zero
         votesTableView.tableFooterView = UIView()
         votesTableView.backgroundColor = .clear
-        votesTableView.allowsSelection = false
         
         votesDatasource.configureCell = { dataSource, tableView, indexPath, item in
             let basicCell = tableView.dequeueReusableCell(withIdentifier: TallyCell.identifier, for: indexPath)
@@ -170,14 +172,12 @@ class BillInfoView: UIView {
     
     // MARK: - Configuration -
     func configureSponsorsTableView() {
-        sponsorsTableView.isScrollEnabled = false
         sponsorsTableView.register(RepresentativeCell.self, forCellReuseIdentifier: RepresentativeCell.identifier)
         sponsorsTableView.estimatedRowHeight = 100
         sponsorsTableView.rowHeight = UITableViewAutomaticDimension
         sponsorsTableView.separatorInset = .zero
         sponsorsTableView.tableFooterView = UIView()
         sponsorsTableView.backgroundColor = .clear
-        sponsorsTableView.allowsSelection = false
         
         sponsorsDatasource.configureCell = { dataSource, tableView, indexPath, item in
             let basicCell = tableView.dequeueReusableCell(withIdentifier: RepresentativeCell.identifier, for: indexPath)
@@ -263,6 +263,7 @@ extension BillInfoView: ViewBuilder {
             make.top.bottom.trailing.equalToSuperview()
             make.width.equalTo(self.snp.width)
         }
+        summaryView.set(contractedHeight: 300, expandedHeight: 400)
         summaryView.snp.remakeConstraints { make in
             make.width.equalTo(self.snp.width)
             make.edges.equalToSuperview()
@@ -349,12 +350,18 @@ extension BillInfoView: RxBinder {
             .map { [SectionModel(model: "", items: $0)] }
             .bind(to: votesTableView.rx.items(dataSource: votesDatasource))
             .disposed(by: disposeBag)
+        votesTableView.rx.modelSelected(Tally.self).asObservable()
+            .bind(to: selectedTally)
+            .disposed(by: disposeBag)
     }
     func bindSponsorsView() {
         guard let viewModel = viewModel else { return }
         viewModel.sponsors.asObservable()
             .map { $0.map { SectionModel(model: $0.key, items: $0.value) } }
             .bind(to: sponsorsTableView.rx.items(dataSource: sponsorsDatasource))
+            .disposed(by: disposeBag)
+        sponsorsTableView.rx.modelSelected(Person.self)
+            .bind(to: selectedPerson)
             .disposed(by: disposeBag)
     }
     func bindDetailsView() {
