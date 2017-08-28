@@ -15,6 +15,7 @@ import RxDataSources
 
 class UserRepsViewController: UIViewController {
     
+    // MARK: - Variables -
     let client: Client
     let viewModel: UserRepsViewModel
     let disposeBag = DisposeBag()
@@ -30,6 +31,7 @@ class UserRepsViewController: UIViewController {
     let tableView = UITableView()
     let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Person>>()
     
+    // MARK: - Initialization -
     init(client: Client) {
         self.client = client
         self.viewModel = UserRepsViewModel(client: client)
@@ -40,6 +42,7 @@ class UserRepsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = [.top, .right, .left]
@@ -48,6 +51,22 @@ class UserRepsViewController: UIViewController {
         styleViews()
         bind()
         configureTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setDefaultNavVC()
+        configureNavVC()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        setDefaultNavVC()
+    }
+    
+    // MARK: - Configuration -
+    func configureNavVC() {
+        navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "kratosSelectedIcon"))
     }
     
     func configureTableView() {
@@ -72,16 +91,16 @@ class UserRepsViewController: UIViewController {
             .disposed(by: disposeBag)
         
     }
-    
-    func presentRepInfoView(with client: Client, person: Person, frame: CGRect, imageRect: CGRect) {}
 }
 
+// MARK: - UITableViewDelegate -
 extension UserRepsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 5))
     }
 }
 
+// MARK: - ViewBuilder -
 extension UserRepsViewController: ViewBuilder {
     func addSubviews() {        
         view.addSubview(stateImageView)
@@ -102,11 +121,11 @@ extension UserRepsViewController: ViewBuilder {
             make.height.equalTo(50)
         }
         stateLabel.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().offset(5)
+            make.top.leading.equalToSuperview().offset(10)
         }
         districtLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
-            make.leading.equalTo(stateLabel.snp.leading).offset(10)
+            make.leading.equalTo(stateLabel.snp.leading)
         }
         tableView.snp.makeConstraints { make in
             make.top.equalTo(stateImageView.snp.bottom).offset(5)
@@ -127,6 +146,7 @@ extension UserRepsViewController: ViewBuilder {
     }
 }
 
+// MARK: - Binds -
 extension UserRepsViewController: RxBinder {
     func bind() {
         
@@ -140,7 +160,7 @@ extension UserRepsViewController: RxBinder {
             .map { self.dataSource[$0] }
             .subscribe(onNext: { [weak self] model in
                 guard let client = self?.client else { return }
-                self?.navigationController?.pushViewController(RepresentativeViewController(client: client, representative: model), animated: true)
+                self?.navigationController?.pushViewController(RepresentativeController(client: client, representative: model), animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -156,24 +176,10 @@ extension UserRepsViewController: RxBinder {
         
         viewModel.district.asObservable()
             .filterNil()
-            .map { String($0) }
+            .map { $0.ordinal + " District" }
             .bind(to: districtLabel.rx.text)
             .disposed(by: disposeBag)
         
         //Bind loadStatus to loadStatus
     }
-}
-
-struct UserRepSection {
-    var header: String
-    var items: [Person]
-}
-
-extension UserRepSection: SectionModelType {
-    typealias Item = Person
-    
-    init(original: UserRepSection, items: [Item]) {
-        self = original
-        self.items = items
-    } 
 }

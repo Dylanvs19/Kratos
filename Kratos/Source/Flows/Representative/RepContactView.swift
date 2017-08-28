@@ -27,13 +27,13 @@ struct ContactMethod {
         var image: UIImage {
             switch self {
             case .phone:
-                return #imageLiteral(resourceName: "PhoneLogo")
+                return #imageLiteral(resourceName: "phoneIcon")
             case .website:
-                return #imageLiteral(resourceName: "WebsiteLogo")
+                return #imageLiteral(resourceName: "websiteIcon")
             case .twitter:
-                return #imageLiteral(resourceName: "TwitterLogo")
+                return #imageLiteral(resourceName: "twitterIcon")
             case .office:
-                return #imageLiteral(resourceName: "CongressContactLogo")
+                return #imageLiteral(resourceName: "emailIcon")
             }
         }
         
@@ -48,7 +48,10 @@ struct ContactMethod {
 
 func ==(lhs: ContactMethod, rhs: ContactMethod) -> Bool {
     switch (lhs.contactType, rhs.contactType) {
-    case (.phone, .phone), (.twitter, .twitter), (.office, .office), (.website, .website):
+    case (.phone, .phone),
+         (.twitter, .twitter),
+         (.office, .office),
+         (.website, .website):
         return true
     default:
         return false
