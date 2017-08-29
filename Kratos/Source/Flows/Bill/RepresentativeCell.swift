@@ -97,6 +97,7 @@ extension RepresentativeCell: ViewBuilder {
         partyLabel.style(with: [.font(.cellSubTitle),
                                 .textAlignment(.right),
                                 .titleColor(.gray)])
+        selectionStyle = .none
     }
 }
 

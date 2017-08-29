@@ -102,11 +102,7 @@ extension RepInfoViewModel: RxBinder {
             .disposed(by: disposeBag)
         
         tallies.asObservable()
-            .scan([LightTally](), accumulator: { (last, current) -> [LightTally] in
-                var cpy = last
-                cpy += current
-                return cpy
-            })
+            .scan([]) { $0 + $1 }
             .map { tallies in
                 let arrays = tallies.groupBySection(groupBy: { $0.date.computedDayFromDate }, sortGroupsBy: {$0 > $1})
                 return arrays.map { $0.groupBySection(groupBy: { $0.billId ?? 0 }) }
@@ -115,11 +111,7 @@ extension RepInfoViewModel: RxBinder {
             .disposed(by: disposeBag)
         
         bills.asObservable()
-            .scan([Bill](), accumulator: { (last, current) -> [Bill] in
-                var cpy = last
-                cpy += current
-                return cpy
-            })
+            .scan([]) { $0 + $1 }
             .bind(to: formattedBills)
             .disposed(by: disposeBag)
     }

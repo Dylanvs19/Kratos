@@ -88,6 +88,7 @@ extension TallyCell: ViewBuilder {
                                  .titleColor(.gray)])
         statusDateLabel.style(with: [.font(.body),
                                      .titleColor(.gray)])
+        selectionStyle = .none
     }
 }
 
