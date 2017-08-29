@@ -25,6 +25,10 @@ enum KratosError: Error {
     static func error(from error: Error, statusCode: Int) -> KratosError {
         return .server(error: error, statusCode: statusCode)
     }
+    
+    static func cast(from error: Error) -> KratosError {
+        return error as? KratosError ?? KratosError.unknown
+    }
 }
 
 func ==(lhs: KratosError, rhs: KratosError) -> Bool {
