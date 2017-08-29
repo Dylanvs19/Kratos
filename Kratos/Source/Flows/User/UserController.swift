@@ -23,12 +23,20 @@ class UserController: UIViewController {
     let interactor = Interactor()
     
     // UIElements
+    let headerView = UIView()
+    let topView = UIView()
+    let collectionView: UICollectionView
+    let collectionViewDatasource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, Subject>>()
+    let addMoreSubjectsButton = UIButton()
+    
     let tableView = UITableView()
     let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Bill>>()
 
     // MARK: - Initializers -
     init(client: Client) {
         self.client = client
+        let layout = UICollectionViewLayout()
+        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         self.viewModel = UserViewModel(client: client)
         super.init(nibName: nil, bundle: nil)
     }
@@ -66,26 +74,48 @@ class UserController: UIViewController {
     }
 }
 
-    // MARK: - View Builder -
+// MARK: - View Builder -
 extension UserController: ViewBuilder {
     func addSubviews() {
         view.addSubview(tableView)
+        view.addSubview(headerView)
+        view.addSubview(topView)
+        topView.addSubview(addMoreSubjectsButton)
+        topView.addSubview(collectionView)
     }
     
     func constrainViews() {
+        headerView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(44)
+        }
+        topView.snp.makeConstraints { make in
+            make.top.equalTo(headerView.snp.bottom).offset(10)
+            make.leading.trailing.equalToSuperview().inset(10)
+            make.height.equalTo(35)
+        }
+        addMoreSubjectsButton.snp.makeConstraints { make in
+            make.top.bottom.trailing.equalToSuperview()
+            make.width.equalTo(30)
+        }
+        collectionView.snp.makeConstraints { make in
+            make.leading.top.bottom.equalToSuperview()
+            make.trailing.equalTo(addMoreSubjectsButton.snp.leading)
+        }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(60)
-            make.leading.equalToSuperview().offset(10)
-            make.trailing.equalToSuperview().offset(-10)
+            make.top.equalTo(topView.snp.bottom).offset(10)
+            make.trailing.leading.equalToSuperview().inset(10)
             make.bottom.equalToSuperview().offset(-5)
         }
     }
     
     func styleViews() {
         view.style(with: .backgroundColor(.slate))
+        headerView.style(with: .backgroundColor(.white))
     }
 }
 
+// MARK: - Interaction Responder -
 extension UserController: InteractionResponder {
     func setupInteractions() { }
     
@@ -97,6 +127,7 @@ extension UserController: InteractionResponder {
     }
 }
 
+// MARK: - Transitions  -
 extension UserController: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return PresentMenuAnimator()

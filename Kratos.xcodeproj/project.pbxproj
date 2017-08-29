@@ -68,7 +68,6 @@
 		AF2C07441F48975E00D7E348 /* TermTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C073C1F48975E00D7E348 /* TermTableViewCell.swift */; };
 		AF2C07491F48976800D7E348 /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07461F48976800D7E348 /* UserController.swift */; };
 		AF2C074A1F48976800D7E348 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07471F48976800D7E348 /* UserViewModel.swift */; };
-		AF2C074B1F48976800D7E348 /* YourVotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07481F48976800D7E348 /* YourVotesViewController.swift */; };
 		AF3B2C0B1EDE531300509B01 /* Observable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */; };
 		AF3F5C681EBE72F700809AA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */; };
 		AF3F5C6B1EBE72F700809AA3 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BC11EBE72F700809AA3 /* TabBarController.swift */; };
@@ -272,7 +271,6 @@
 		AF2C073C1F48975E00D7E348 /* TermTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermTableViewCell.swift; sourceTree = "<group>"; };
 		AF2C07461F48976800D7E348 /* UserController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
 		AF2C07471F48976800D7E348 /* UserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
-		AF2C07481F48976800D7E348 /* YourVotesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourVotesViewController.swift; sourceTree = "<group>"; };
 		AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Extensions.swift"; sourceTree = "<group>"; };
 		AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF3F5BC11EBE72F700809AA3 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -558,7 +556,6 @@
 			children = (
 				AF2C07461F48976800D7E348 /* UserController.swift */,
 				AF2C07471F48976800D7E348 /* UserViewModel.swift */,
-				AF2C07481F48976800D7E348 /* YourVotesViewController.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1389,7 +1386,6 @@
 				AF2C06FF1F4895F000D7E348 /* NotificationsRegistrationViewModel.swift in Sources */,
 				AF3F5CE41EBE72F700809AA3 /* String+Extensions.swift in Sources */,
 				AF2C07311F48975600D7E348 /* RepresentativeCellViewModel.swift in Sources */,
-				AF2C074B1F48976800D7E348 /* YourVotesViewController.swift in Sources */,
 				AF3F5CEA1EBE72F700809AA3 /* UITableView+Extensions.swift in Sources */,
 				AF3F5CEC1EBE72F700809AA3 /* UIViewController+Extensions.swift in Sources */,
 				AF3F5CD61EBE72F700809AA3 /* DismissMenuAnimator.swift in Sources */,

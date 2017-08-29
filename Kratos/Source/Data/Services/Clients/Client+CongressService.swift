@@ -88,7 +88,7 @@ extension Client: CongressService {
             .mapObject()
     }
 
-    func fetchBills(subjects: [Int], pageNumber: Int) -> Observable<[Bill]> {
+    func fetchBills(for subjects: [Subject], pageNumber: Int) -> Observable<[Bill]> {
         guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
         
         return request(.fetchBills(subjects: subjects, pageNumber: pageNumber))

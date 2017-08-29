@@ -55,7 +55,7 @@ enum KratosTarget: Target {
     //Bill
     case fetchAllBills(pageNumber: Int)
     case fetchBill(billID: Int)
-    case fetchBills(subjects: [Int], pageNumber: Int)
+    case fetchBills(subjects: [Subject], pageNumber: Int)
     
     //Bills on the floor
     case fetchOnFloor(chamber: Chamber)
@@ -250,7 +250,8 @@ enum KratosTarget: Target {
         case .fetchBill(let billID):
             return "/bills/\(billID)"
         case .fetchBills(let subjects, let pageNumber):
-            return subjects.reduce("bills?page=\(pageNumber)&") { str, num in str + "subjects%5B%5D=\(num)"}
+            
+            return subjects.reduce("bills?page=\(pageNumber)&") { str, num in str + "subjects%5B%5D=\(num.id)"}
         case .fetchOnFloor(let chamber):
             return "/congress/\(chamber.pathValue)/floor"
         //Subjects

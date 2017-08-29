@@ -25,7 +25,7 @@ protocol CongressService {
     //Bill
     func fetchAllBills(for pageNumber: Int) -> Observable<[Bill]>
     func fetchBill(billID: Int) -> Observable<Bill>
-    func fetchBills(subjects: [Int], pageNumber: Int) -> Observable<[Bill]>
+    func fetchBills(for subjects: [Int], pageNumber: Int) -> Observable<[Bill]>
     
     //Bills on the floor
     func fetchOnFloor(with chamber: Chamber) -> Observable<[Bill]>

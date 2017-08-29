@@ -13,48 +13,79 @@ import RxCocoa
 
 class UserViewModel {
     
+    // MARK: - Variables -
     let client: Client
     let disposeBag = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
     
-    let user = Variable<User?>(nil)
+    let trackedSubjects = Variable<[Subject]>([])
+    let selectedSubjects = Variable<[Subject]>([])
     
-    let repSelected = PublishSubject<Person>()
+    let trackedBillsSelected = Variable<Bool>(true)
     
+    let trackedBills = Variable<[Bill]>([])
+    let subjectBills = Variable<[Bill]>([])
+    
+    let presentedBills = Variable<[Bill]>([])
+    
+    var trackedBillsPageNumber = 1
+    var billsForSubjectsPageNumber = 1
+    
+    // MARK: - Initializer -
     init(client: Client) {
         self.client = client
         bind()
     }
     
-    func fetchUser() -> Observable<User> {
+    func fetchTrackedBills() {
         loadStatus.value = .loading
-        return client.fetchUser()
-            .do(onNext: { [unowned self] user in
-                self.loadStatus.value = .none
-                }, onError: { [unowned self] (error) in
-                    let error = error as? KratosError ?? KratosError.unknown
-                    self.loadStatus.value = .error(error: error)
+        client.fetchTrackedBills(for: trackedBillsPageNumber)
+            .subscribe(
+                onNext: { [weak self] bills in
+                    self?.loadStatus.value = .none
+                    self?.trackedBills.value = bills
+                    self?.trackedBillsPageNumber += 1
+                },
+                onError: { [weak self] (error) in
+                    self?.loadStatus.value = .error(error: KratosError.cast(from: error))
             })
+            .disposed(by: disposeBag)
     }
     
-    func fetchRepresentatives(from state: String, district: Int) -> Observable<[Person]> {
+    func fetchSubjects(from state: String, district: Int) {
         loadStatus.value = .loading
-        return client.fetchRepresentatives(state: state, district: district)
-            .do(onNext: { [unowned self] _ in
-                self.loadStatus.value = .none
-                }, onError: { [unowned self] (error) in
-                    let error = error as? KratosError ?? KratosError.unknown
-                    self.loadStatus.value = .error(error: error)
+        client.fetchTrackedSubjects()
+            .subscribe(
+                onNext: { [weak self] subjects in
+                    self?.loadStatus.value = .none
+                    self?.trackedSubjects.value = subjects
+                },
+                onError: { [weak self] (error) in
+                    self?.loadStatus.value = .error(error: KratosError.cast(from: error))
             })
+            .disposed(by: disposeBag)
+    }
+    
+    func fetchBillsBySubject() {
+        loadStatus.value = .loading
+        client.fetchBills(for: trackedSubjects.value, pageNumber: billsForSubjectsPageNumber)
+            .subscribe(
+                onNext: { [weak self] bills in
+                    self?.loadStatus.value = .none
+                    self?.trackedBills.value = bills
+                    self?.trackedBillsPageNumber += 1
+                },
+                onError: { [weak self] (error) in
+                    self?.loadStatus.value = .error(error: KratosError.cast(from: error))
+            })
+            .disposed(by: disposeBag)
     }
 }
 
 extension UserViewModel: RxBinder {
     
     func bind() {
-        fetchUser().asObservable()
-            .bind(to: user)
-            .disposed(by: disposeBag)
+
         
     }
 }
