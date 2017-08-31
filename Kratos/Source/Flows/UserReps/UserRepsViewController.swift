@@ -121,11 +121,12 @@ extension UserRepsViewController: ViewBuilder {
             make.height.equalTo(50)
         }
         stateLabel.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().inset(10)
+            make.centerY.equalToSuperview()
         }
         districtLabel.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.leading.equalTo(stateLabel.snp.leading)
+            make.trailing.equalToSuperview().inset(10)
+            make.centerY.equalToSuperview()
         }
         tableView.snp.makeConstraints { make in
             make.top.equalTo(stateImageView.snp.bottom).offset(5)
@@ -141,8 +142,8 @@ extension UserRepsViewController: ViewBuilder {
         topShadeView.alpha = 0.5
         
         view.style(with: .backgroundColor(.slate))
-        stateLabel.style(with: [.font(.title), .titleColor(.white)])
-        districtLabel.style(with: [.font(.subTitle), .titleColor(.white)])
+        stateLabel.style(with: [.font(.header), .titleColor(.white)])
+        districtLabel.style(with: [.font(.header), .titleColor(.white)])
     }
 }
 

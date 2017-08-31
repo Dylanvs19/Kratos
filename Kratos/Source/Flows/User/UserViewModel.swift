@@ -35,6 +35,7 @@ class UserViewModel {
     init(client: Client) {
         self.client = client
         bind()
+        fetchTrackedSubjects()
     }
     
     func fetchTrackedBills() {
@@ -52,13 +53,18 @@ class UserViewModel {
             .disposed(by: disposeBag)
     }
     
-    func fetchSubjects(from state: String, district: Int) {
+    func fetchTrackedSubjects() {
         loadStatus.value = .loading
         client.fetchTrackedSubjects()
             .subscribe(
                 onNext: { [weak self] subjects in
                     self?.loadStatus.value = .none
-                    self?.trackedSubjects.value = subjects
+                    let trackedBills = [Subject(name: "Tracked", id: -1),
+                                        Subject(name: "Tracked Bills", id: -1),
+                                        Subject(name: "s", id: -1),
+                                        Subject(name: "Tracked Bills", id: -1),
+                                        Subject(name: "New Hampshire LongTooth Salamander", id: -1)]
+                    self?.trackedSubjects.value = trackedBills + subjects
                 },
                 onError: { [weak self] (error) in
                     self?.loadStatus.value = .error(error: KratosError.cast(from: error))
@@ -68,7 +74,7 @@ class UserViewModel {
     
     func fetchBillsBySubject() {
         loadStatus.value = .loading
-        client.fetchBills(for: trackedSubjects.value, pageNumber: billsForSubjectsPageNumber)
+        client.fetchBills(for: trackedSubjects.value, tracked: true, pageNumber: billsForSubjectsPageNumber)
             .subscribe(
                 onNext: { [weak self] bills in
                     self?.loadStatus.value = .none

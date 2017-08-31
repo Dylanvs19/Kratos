@@ -36,7 +36,13 @@ class UserController: UIViewController {
     init(client: Client) {
         self.client = client
         let layout = UICollectionViewLayout()
-        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.estimatedItemSize = CGSize(width: 100, height: 30)
+        flowLayout.minimumLineSpacing = 1000
+        flowLayout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.collectionViewLayout = flowLayout
+        self.collectionView = collectionView
         self.viewModel = UserViewModel(client: client)
         super.init(nibName: nil, bundle: nil)
     }
@@ -49,9 +55,11 @@ class UserController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = [.top, .right, .left]
+        configureCollectionView()
         addSubviews()
         constrainViews()
         styleViews()
+        bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,6 +79,14 @@ class UserController: UIViewController {
         button.addTarget(self, action: #selector(gearIconSelected), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: button)
         navigationItem.rightBarButtonItem = barButton
+    }
+    
+    func configureCollectionView() {
+        collectionView.allowsMultipleSelection = true
+        collectionView.register(SubjectCell.self, forCellWithReuseIdentifier: SubjectCell.identifier)
+        collectionView.rx.setDelegate(self).addDisposableTo(disposeBag)
+        collectionView.backgroundColor = Color.white.value
+        collectionView.showsHorizontalScrollIndicator = false
     }
 }
 
@@ -112,6 +128,8 @@ extension UserController: ViewBuilder {
     func styleViews() {
         view.style(with: .backgroundColor(.slate))
         headerView.style(with: .backgroundColor(.white))
+        addMoreSubjectsButton.setImage(#imageLiteral(resourceName: "plusIcon"), for: .normal)
+        addMoreSubjectsButton.backgroundColor = Color.white.value
     }
 }
 
@@ -124,6 +142,31 @@ extension UserController: InteractionResponder {
         vc.transitioningDelegate = self
         vc.interactor = interactor
         self.present(vc, animated: true, completion: nil)
+    }
+}
+
+extension UserController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 4
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 4
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(5, 5, 0, 0)
+    }
+}
+
+// MARK: - Binds  -
+extension UserController: RxBinder {
+    func bind() {
+        viewModel.trackedSubjects.asObservable()
+            .debug()
+            .bind(to: self.collectionView.rx.items(cellIdentifier: SubjectCell.identifier, cellType: SubjectCell.self)) { row, data, cell in
+                cell.configure(with: data)
+            }
+            .disposed(by: disposeBag)
     }
 }
 

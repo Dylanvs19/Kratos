@@ -156,6 +156,7 @@
 		AFA9D1601E30269B00CD6BF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */; };
 		AFD553061F53BA5800E07D9B /* NumberFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD553051F53BA5800E07D9B /* NumberFormatter+Extensions.swift */; };
 		AFD553081F53BB2100E07D9B /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD553071F53BB2100E07D9B /* Int+Extension.swift */; };
+		AFD5530A1F56346F00E07D9B /* SubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD553091F56346F00E07D9B /* SubjectCell.swift */; };
 		AFD5AA971D9C3D0C00A5714C /* KratosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974731D4D80E500C19020 /* KratosTests.swift */; };
 		AFE19E181F52648F0054EB98 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE19E171F52648F0054EB98 /* Store.swift */; };
 		AFE19E1A1F52649B0054EB98 /* MicroStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE19E191F52649B0054EB98 /* MicroStore.swift */; };
@@ -366,6 +367,7 @@
 		AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AFD553051F53BA5800E07D9B /* NumberFormatter+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		AFD553071F53BB2100E07D9B /* Int+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
+		AFD553091F56346F00E07D9B /* SubjectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectCell.swift; sourceTree = "<group>"; };
 		AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kratos.entitlements; sourceTree = "<group>"; };
 		AFE19E171F52648F0054EB98 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		AFE19E191F52649B0054EB98 /* MicroStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MicroStore.swift; sourceTree = "<group>"; };
@@ -556,6 +558,7 @@
 			children = (
 				AF2C07461F48976800D7E348 /* UserController.swift */,
 				AF2C07471F48976800D7E348 /* UserViewModel.swift */,
+				AFD553091F56346F00E07D9B /* SubjectCell.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1347,6 +1350,7 @@
 				AF3F5CF51EBE74E400809AA3 /* KratosTarget.swift in Sources */,
 				AF2C07301F48975600D7E348 /* RepresentativeCell.swift in Sources */,
 				AF2C07011F4895F000D7E348 /* MenuController.swift in Sources */,
+				AFD5530A1F56346F00E07D9B /* SubjectCell.swift in Sources */,
 				AF416A431F28C1F3006380DA /* Client+AccountService.swift in Sources */,
 				AF3F5CA51EBE72F700809AA3 /* KratosTextField.swift in Sources */,
 				AF57F4BB1F2B6E110080978F /* ViewBuilder.swift in Sources */,
