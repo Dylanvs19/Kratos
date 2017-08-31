@@ -15,6 +15,11 @@ struct Subject: Decodable, Encodable {
     let name: String
     let id: Int
     
+    init(name: String, id: Int) {
+        self.name = name
+        self.id = id
+    }
+    
     init?(json: JSONObject) {
         guard let name = json["name"] as? String,
               let id = json["id"] as? Int else { return nil }
