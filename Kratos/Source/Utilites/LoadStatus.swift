@@ -10,7 +10,7 @@ import Foundation
 
 enum LoadStatus {
     case loading
-    case error(error: Error)
+    case error(Error)
     case none
 }
 

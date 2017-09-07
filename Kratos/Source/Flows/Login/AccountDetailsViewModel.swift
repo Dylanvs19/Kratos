@@ -60,8 +60,7 @@ class AccountDetailsViewModel {
                 self?.loadStatus.value = .none
                 self?.user.value = user
             }, onError: { [weak self] error in
-                let error = error as? KratosError ?? KratosError.unknown
-                self?.loadStatus.value = .error(error: error)
+                self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }
@@ -72,8 +71,7 @@ class AccountDetailsViewModel {
             .subscribe(onNext: { [weak self] success in
                 self?.registerLoadStatus.value = .none
             }, onError: { [weak self] error in
-                let error = error as? KratosError ?? KratosError.unknown
-                self?.registerLoadStatus.value = .error(error: error)
+                self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }
@@ -85,12 +83,11 @@ class AccountDetailsViewModel {
     func save() {
         loadStatus.value = .loading
         client.updateUser(user: updateUser())
-            .subscribe(onNext: { [unowned self] (user) in
-                self.loadStatus.value = .none
-                self.user.value = user
-            }, onError: { (error) in
-                let error = error as? KratosError ?? KratosError.unknown
-                self.loadStatus.value = .error(error: error)
+            .subscribe(onNext: { [weak self] (user) in
+                self?.loadStatus.value = .none
+                self?.user.value = user
+            }, onError: { [weak self] error in
+                self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }

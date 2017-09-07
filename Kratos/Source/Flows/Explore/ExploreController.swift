@@ -21,16 +21,16 @@ class ExploreController: UIViewController {
         case senate = 2
         
         
-        static let allValues: [State] = [.executive, .house, .senate]
+        static let allValues: [State] = [.house, .executive, .senate]
         
         var title: String {
             switch self {
             case .house:
-                return localize(.repInfoViewBioTitle)
+                return localize(.exploreHouseButtonTitle)
             case .senate:
-                return localize(.repInfoViewVotesTitle)
+                return localize(.exploreSenateButtonTitle)
             case .executive:
-                return localize(.repInfoViewBillsTitle)
+                return localize(.exploreExecutiveButtonTitle)
             }
         }
         
@@ -66,8 +66,8 @@ class ExploreController: UIViewController {
     let topView = UIView()
     let slideView = UIView()
     let houseButton = UIButton()
+    let executiveButton = UIButton()
     let senateButton = UIButton()
-    let titleLabel = UILabel()
     let buttons: [UIButton] = State.allValues.map { $0.button }
     
     // RecessView
@@ -80,6 +80,7 @@ class ExploreController: UIViewController {
     let tableViewView = UIView()
     
     let senateTableView = UITableView()
+    let executiveTableView = UITableView()
     let senateDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Bill>>()
     
     let houseTableView = UITableView()
@@ -109,6 +110,8 @@ class ExploreController: UIViewController {
         localizeStrings()
         configureHouseTableView()
         configureSenateTableView()
+        configureExecutiveTableView()
+        configureScrollView()
         bind()
     }
     
@@ -144,13 +147,6 @@ class ExploreController: UIViewController {
         senateTableView.allowsSelection = true
         senateTableView.tableFooterView = UIView()
         senateTableView.showsVerticalScrollIndicator = false
-        
-        senateDataSource.configureCell = { dataSource, tableView, indexPath, item in
-            let basicCell = tableView.dequeueReusableCell(withIdentifier: BillCell.identifier, for: indexPath)
-            guard let cell = basicCell as? BillCell else { fatalError() }
-            cell.configure(with: item)
-            return cell
-        }
     }
     
     func configureHouseTableView() {
@@ -161,13 +157,20 @@ class ExploreController: UIViewController {
         houseTableView.allowsSelection = true
         houseTableView.tableFooterView = UIView()
         houseTableView.showsVerticalScrollIndicator = false
-        
-        houseDataSource.configureCell = { dataSource, tableView, indexPath, item in
-            let basicCell = tableView.dequeueReusableCell(withIdentifier: BillCell.identifier, for: indexPath)
-            guard let cell = basicCell as? BillCell else { fatalError() }
-            cell.configure(with: item)
-            return cell
-        }
+    }
+    
+    func configureExecutiveTableView() {
+        executiveTableView.backgroundColor = .clear
+        executiveTableView.register(BillCell.self, forCellReuseIdentifier: BillCell.identifier)
+        executiveTableView.estimatedRowHeight = 200
+        executiveTableView.rowHeight = UITableViewAutomaticDimension
+        executiveTableView.allowsSelection = true
+        executiveTableView.tableFooterView = UIView()
+        executiveTableView.showsVerticalScrollIndicator = false
+    }
+    
+    func configureScrollView() {
+        scrollView.isScrollEnabled = false 
     }
     
     // MARK: - Animations -
@@ -178,28 +181,40 @@ class ExploreController: UIViewController {
                 self.slideView.snp.remakeConstraints { make in
                     make.leading.equalTo(self.houseButton.snp.leading)
                     make.centerY.equalToSuperview()
-                    make.width.equalTo(self.buttonWidth)
+                    make.width.equalTo(self.houseButton.snp.width)
                     make.height.equalTo(self.buttonHeight)
                 }
                 self.houseButton.style(with: .titleColor(.white))
                 self.senateButton.style(with: .titleColor(.kratosRed))
+                self.executiveButton.style(with: .titleColor(.kratosRed))
                 self.view.layoutIfNeeded()
             })
-            
+        case .executive:
+            UIView.animate(withDuration: 0.4, animations: {
+                self.slideView.snp.remakeConstraints { make in
+                    make.leading.equalTo(self.executiveButton.snp.leading)
+                    make.centerY.equalToSuperview()
+                    make.width.equalTo(self.executiveButton.snp.width)
+                    make.height.equalTo(self.buttonHeight)
+                }
+                self.houseButton.style(with: .titleColor(.kratosRed))
+                self.executiveButton.style(with: .titleColor(.white))
+                self.senateButton.style(with: .titleColor(.kratosRed))
+                self.view.layoutIfNeeded()
+            })
         case .senate:
             UIView.animate(withDuration: 0.4, animations: {
                 self.slideView.snp.remakeConstraints { make in
                     make.leading.equalTo(self.senateButton.snp.leading)
                     make.centerY.equalToSuperview()
-                    make.width.equalTo(self.buttonWidth)
+                    make.width.equalTo(self.senateButton.snp.width)
                     make.height.equalTo(self.buttonHeight)
                 }
                 self.houseButton.style(with: .titleColor(.kratosRed))
                 self.senateButton.style(with: .titleColor(.white))
+                self.executiveButton.style(with: .titleColor(.kratosRed))
                 self.view.layoutIfNeeded()
             })
-        case .executive:
-            break
         }
         
         updateScrollView(with: state)
@@ -209,16 +224,16 @@ class ExploreController: UIViewController {
         UIView.animate(withDuration: 0.4) {
             self.recessLabel.isHidden = inRecess ? false : true
             self.recessView.snp.remakeConstraints { make in
+                self.recessLabel.snp.remakeConstraints { make in
+                    if inRecess {
+                        make.edges.equalToSuperview().inset(10)
+                    } else {
+                        make.edges.equalToSuperview()
+                    }
+                }
                 make.leading.trailing.top.equalToSuperview()
                 if !inRecess {
                     make.height.equalTo(0)
-                }
-            }
-            self.recessLabel.snp.remakeConstraints { make in
-                if inRecess {
-                    make.edges.equalToSuperview().inset(10)
-                } else {
-                    make.edges.equalToSuperview()
                 }
             }
             self.view.layoutIfNeeded()
@@ -238,9 +253,9 @@ extension ExploreController: ViewBuilder {
     func addSubviews() {
         
         view.addSubview(topView)
-        topView.addSubview(titleLabel)
         topView.addSubview(slideView)
         topView.addSubview(houseButton)
+        topView.addSubview(executiveButton)
         topView.addSubview(senateButton)
         
         view.addSubview(recessView)
@@ -251,6 +266,7 @@ extension ExploreController: ViewBuilder {
         scrollView.addSubview(tableViewView)
         tableViewView.addSubview(senateTableView)
         tableViewView.addSubview(houseTableView)
+        tableViewView.addSubview(executiveTableView)
     }
     
     func constrainViews() {
@@ -264,20 +280,24 @@ extension ExploreController: ViewBuilder {
         topView.snp.remakeConstraints { make in
             make.top.equalTo(recessView.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(10)
+            make.height.equalTo(45)
         }
-        titleLabel.snp.remakeConstraints { make in
-            make.leading.top.bottom.equalToSuperview().inset(10)
+        houseButton.snp.remakeConstraints { make in
+            make.leading.equalToSuperview().inset(10)
+            make.centerY.equalToSuperview()
+            make.width.equalTo(self.topView.snp.width).offset(-20).dividedBy(3)
+            make.height.equalTo(buttonHeight)
+        }
+        executiveButton.snp.remakeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(houseButton.snp.trailing).offset(-1)
+            make.trailing.equalTo(senateButton.snp.leading).offset(1)
+            make.height.equalTo(buttonHeight)
         }
         senateButton.snp.remakeConstraints { make in
             make.trailing.equalToSuperview().inset(10)
             make.centerY.equalToSuperview()
-            make.width.equalTo(buttonWidth)
-            make.height.equalTo(buttonHeight)
-        }
-        houseButton.snp.remakeConstraints { make in
-            make.trailing.equalTo(senateButton.snp.leading).offset(1)
-            make.centerY.equalToSuperview()
-            make.width.equalTo(buttonWidth)
+            make.width.equalTo(self.topView.snp.width).offset(-20).dividedBy(3)
             make.height.equalTo(buttonHeight)
         }
         slideView.snp.remakeConstraints { make in
@@ -292,7 +312,7 @@ extension ExploreController: ViewBuilder {
             make.bottom.equalTo(bottomLayoutGuide.snp.top).offset(-10)
         }
         tableViewView.snp.remakeConstraints { make in
-            make.width.equalTo(scrollView.snp.width).multipliedBy(2)
+            make.width.equalTo(scrollView.snp.width).multipliedBy(3)
             make.height.equalTo(scrollView.snp.height)
             make.edges.equalToSuperview()
         }
@@ -300,8 +320,13 @@ extension ExploreController: ViewBuilder {
             make.top.bottom.leading.equalToSuperview()
             make.width.equalTo(scrollView.snp.width)
         }
-        senateTableView.snp.remakeConstraints { make in
+        executiveTableView.snp.remakeConstraints { make in
             make.leading.equalTo(houseTableView.snp.trailing)
+            make.top.bottom.equalToSuperview()
+            make.width.equalTo(scrollView.snp.width)
+        }
+        senateTableView.snp.remakeConstraints { make in
+            make.leading.equalTo(executiveTableView.snp.trailing)
             make.top.bottom.trailing.equalToSuperview()
             make.width.equalTo(scrollView.snp.width)
         }
@@ -316,7 +341,7 @@ extension ExploreController: ViewBuilder {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.isDirectionalLockEnabled = true
         
-        titleLabel.style(with: [.font(.header)])
+        
         slideView.style(with: [.backgroundColor(.kratosRed)])
         houseButton.style(with: [.font(.title),
                                  .titleColor(.kratosRed),
@@ -327,6 +352,11 @@ extension ExploreController: ViewBuilder {
                                  .titleColor(.kratosRed),
                                  .borderColor(.gray),
                                  .borderWidth(1)
+                                ])
+        executiveButton.style(with: [.font(.title),
+                                  .titleColor(.kratosRed),
+                                  .borderColor(.gray),
+                                  .borderWidth(1)
                                 ])
         recessView.style(with: .backgroundColor(.kratosRed))
         recessLabel.style(with: [.font(.cellTitle),
@@ -340,9 +370,9 @@ extension ExploreController: ViewBuilder {
 // MARK: - Localizer -
 extension ExploreController: Localizer {
     func localizeStrings() {
-        titleLabel.text = localize(.exploreTitle)
         senateButton.setTitle(localize(.exploreSenateButtonTitle), for: .normal)
         houseButton.setTitle(localize(.exploreHouseButtonTitle), for: .normal)
+        executiveButton.setTitle(localize(.exploreExecutiveButtonTitle), for: .normal)
         recessLabel.text = localize(.exploreRecessLabelTitle)
     }
 }
@@ -350,12 +380,14 @@ extension ExploreController: Localizer {
 // MARK: - Binds -
 extension ExploreController: RxBinder {
     func bind() {
-        viewModel.state.asObservable()
+        viewModel.state
+            .asObservable()
             .subscribe(onNext: { [weak self] state in
                 self?.configure(for: state)
             })
             .disposed(by: disposeBag)
-        viewModel.inRecess.asObservable()
+        viewModel.inRecess
+            .asObservable()
             .delay(2, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] inRecess in
                 self?.configure(for: inRecess)
@@ -369,22 +401,46 @@ extension ExploreController: RxBinder {
             .map { _ in State.senate }
             .bind(to: viewModel.state)
             .disposed(by: disposeBag)
-        viewModel.senateBills.asObservable()
-            .map { [SectionModel(model: "", items: $0)] }
-            .bind(to: senateTableView.rx.items(dataSource: senateDataSource))
+        executiveButton.rx.tap
+            .map { _ in State.executive }
+            .bind(to: viewModel.state)
             .disposed(by: disposeBag)
-        viewModel.houseBills.asObservable()
-            .map { [SectionModel(model: "", items: $0)] }
-            .bind(to: houseTableView.rx.items(dataSource: houseDataSource))
+        viewModel.senateBills
+            .asObservable()
+            .bind(to: senateTableView.rx.items(cellIdentifier: BillCell.identifier, cellType: BillCell.self)) { row, data, cell in
+                cell.configure(with: data)
+            }
             .disposed(by: disposeBag)
-        houseTableView.rx.modelSelected(Bill.self).asObservable()
+        viewModel.houseBills
+            .asObservable()
+            .bind(to: houseTableView.rx.items(cellIdentifier: BillCell.identifier, cellType: BillCell.self)) { row, data, cell in
+                cell.configure(with: data)
+            }
+            .disposed(by: disposeBag)
+        viewModel.executiveBills
+            .asObservable()
+            .bind(to: executiveTableView.rx.items(cellIdentifier: BillCell.identifier, cellType: BillCell.self)) { row, data, cell in
+                cell.configure(with: data)
+            }
+            .disposed(by: disposeBag)
+        houseTableView.rx.modelSelected(Bill.self)
+            .asObservable()
             .subscribe(onNext: { [weak self] bill in
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
                 let vc = BillController(client: self.client, bill: bill)
                 self.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
-        senateTableView.rx.modelSelected(Bill.self).asObservable()
+        executiveTableView.rx.modelSelected(Bill.self)
+            .asObservable()
+            .subscribe(onNext: { [weak self] bill in
+                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                let vc = BillController(client: self.client, bill: bill)
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
+        senateTableView.rx.modelSelected(Bill.self)
+            .asObservable()
             .subscribe(onNext: { [weak self] bill in
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
                 let vc = BillController(client: self.client, bill: bill)

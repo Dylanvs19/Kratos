@@ -22,6 +22,7 @@ class BillCell: UITableViewCell {
     
     // UIElements
     let titleLabel = UILabel()
+    let subjectLabel = UILabel()
     let gpoLabel = UILabel()
     
     // MARK: - Initializer -
@@ -41,30 +42,36 @@ class BillCell: UITableViewCell {
     func configure(with bill: Bill) {
         viewModel.update(with: bill)
     }
-
 }
 
 extension BillCell: ViewBuilder {
     func addSubviews() {
         contentView.addSubview(titleLabel)
+        contentView.addSubview(subjectLabel)
         contentView.addSubview(gpoLabel)
     }
     func constrainViews() {
         titleLabel.snp.makeConstraints { make in
             make.leading.top.trailing.equalToSuperview().offset(5)
         }
-        gpoLabel.snp.makeConstraints { make in
+        subjectLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(2)
+            make.leading.trailing.equalToSuperview().offset(5)
+        }
+        gpoLabel.snp.makeConstraints { make in
+            make.top.equalTo(subjectLabel.snp.bottom).offset(2)
             make.leading.bottom.equalToSuperview().inset(5)
         }
     }
     
     func styleViews() {
         titleLabel.style(with: [.font(.cellTitle),
-                                .titleColor(.gray),
+                                .titleColor(.black),
                                 .numberOfLines(5)])
-        gpoLabel.style(with: [.font(.body),
+        subjectLabel.style(with: [.font(.body),
                                  .titleColor(.gray)])
+        gpoLabel.style(with: [.font(.body),
+                              .titleColor(.gray)])
         accessoryType = .disclosureIndicator
         separatorInset = .zero
         selectionStyle = .none
@@ -75,6 +82,9 @@ extension BillCell: RxBinder {
     func bind() {
         viewModel.title.asObservable()
             .bind(to: titleLabel.rx.text)
+            .disposed(by: disposeBag)
+        viewModel.subject.asObservable()
+            .bind(to: subjectLabel.rx.text)
             .disposed(by: disposeBag)
         viewModel.prettyGpo.asObservable()
             .bind(to: gpoLabel.rx.text)

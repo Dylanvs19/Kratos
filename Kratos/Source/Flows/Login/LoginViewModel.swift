@@ -47,9 +47,8 @@ class LoginViewModel {
             .subscribe(onNext: { [unowned self] (bool) in
                 self.forgotPasswordLoadStatus.value = .none
                 //Show Alert saying Email has been sent to Email Account
-            }, onError: { [unowned self] error in
-                let error = error as? KratosError ?? KratosError.unknown
-                self.forgotPasswordLoadStatus.value = .error(error: error)
+            }, onError: { [weak self] error in
+                self?.forgotPasswordLoadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }
@@ -59,9 +58,8 @@ class LoginViewModel {
         client.login(email: email.value, password: password.value)
             .subscribe(onNext: { [unowned self] state in
                 self.loginLoadStatus.value = .none
-                }, onError: { [unowned self] error in
-                    let error = error as? KratosError ?? KratosError.unknown
-                    self.loginLoadStatus.value = .error(error: error)
+                }, onError: { [weak self] error in
+                    self?.loginLoadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }

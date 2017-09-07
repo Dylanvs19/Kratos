@@ -94,10 +94,10 @@ extension MenuController: ViewBuilder {
     }
     
     func styleViews() {
-        accountButton.style(with: [.titleColor(.gray), .font(.title)])
-        feedbackButton.style(with: [.titleColor(.gray), .font(.title)])
-        logoutButton.style(with: [.titleColor(.gray), .font(.title)])
-        closeButton.style(with: [.titleColor(.kratosRed), .font(.subTitle)])
+        accountButton.style(with: [.titleColor(.gray), .font(.header)])
+        feedbackButton.style(with: [.titleColor(.gray), .font(.header)])
+        logoutButton.style(with: [.titleColor(.gray), .font(.header)])
+        closeButton.style(with: [.titleColor(.kratosRed), .font(.title)])
     }
 }
 

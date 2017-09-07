@@ -33,22 +33,20 @@ class UserRepsViewModel {
     func fetchUser() -> Observable<User> {
         loadStatus.value = .loading
         return client.fetchUser()
-            .do(onNext: { [unowned self] user in
-                self.loadStatus.value = .none
-                }, onError: { [unowned self] (error) in
-                    let error = error as? KratosError ?? KratosError.unknown
-                    self.loadStatus.value = .error(error: error)
+            .do(onNext: { [weak self] user in
+                self?.loadStatus.value = .none
+                }, onError: { [weak self] (error) in
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
     }
     
     func fetchRepresentatives(from state: String, district: Int) -> Observable<[Person]> {
         loadStatus.value = .loading
         return client.fetchRepresentatives(state: state, district: district)
-            .do(onNext: { [unowned self] _ in
-                self.loadStatus.value = .none
-                }, onError: { [unowned self] (error) in
-                    let error = error as? KratosError ?? KratosError.unknown
-                    self.loadStatus.value = .error(error: error)
+            .do(onNext: { [weak self] _ in
+                self?.loadStatus.value = .none
+                }, onError: { [weak self] (error) in
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
     }
 }

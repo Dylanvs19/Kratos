@@ -72,12 +72,11 @@ class BillViewModel {
         guard let id = self.id.value else { return }
         loadStatus.value = .loading
         return client.fetchBill(billID: id)
-            .subscribe(onNext: { [unowned self] bill in
-                self.loadStatus.value = .none
-                self.bill.value = bill
-            }, onError: { [unowned self] (error) in
-                    let error = error as? KratosError ?? KratosError.unknown
-                    self.loadStatus.value = .error(error: error)
+            .subscribe(onNext: { [weak self] bill in
+                self?.loadStatus.value = .none
+                self?.bill.value = bill
+            }, onError: { [weak self] (error) in
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }

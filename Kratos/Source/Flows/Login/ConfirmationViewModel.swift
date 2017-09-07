@@ -38,8 +38,7 @@ class ConfirmationViewModel {
                 self?.loadStatus.value = .none
                 self?.push.onNext(())
             }, onError: { [weak self] error in
-                let error = error as? KratosError ?? KratosError.unknown
-                self?.loadStatus.value = .error(error: error)
+                self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }

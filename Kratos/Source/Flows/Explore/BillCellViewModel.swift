@@ -16,6 +16,7 @@ class BillCellViewModel {
     let bill = Variable<Bill?>(nil)
     
     let title = Variable<String>("")
+    let subject = Variable<String>("")
     let prettyGpo = Variable<String>("")
     
     init() {
@@ -33,8 +34,13 @@ extension BillCellViewModel: RxBinder {
         bill.asObservable()
             .filterNil()
             .subscribe(onNext: { [weak self] bill in
-                self?.title.value = bill.title ?? ""
+                if let title = bill.title {
+                    self?.title.value = title
+                } else {
+                    self?.title.value = bill.officialTitle ?? ""
+                }
                 self?.prettyGpo.value = bill.prettyGpoID ?? ""
+                self?.subject.value = bill.topSubject?.name ?? ""
             })
             .disposed(by: disposeBag)
     }

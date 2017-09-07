@@ -62,9 +62,8 @@ class RepInfoViewModel {
                     self?.tallies.value = tallies
                     self?.tallyPageCount += 1
                 },
-                onError: { [unowned self] (error) in
-                    let error = error as? KratosError ?? KratosError.unknown
-                    self.loadStatus.value = .error(error: error)
+                onError: { [weak self] (error) in
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }
@@ -79,9 +78,8 @@ class RepInfoViewModel {
                     self?.bills.value = bills
                     self?.sponsoredBillCount += 1
                 },
-                onError: { [unowned self] (error) in
-                    let error = error as? KratosError ?? KratosError.unknown
-                    self.loadStatus.value = .error(error: error)
+                onError: { [weak self] (error) in
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }

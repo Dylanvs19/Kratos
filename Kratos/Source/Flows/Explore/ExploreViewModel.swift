@@ -22,7 +22,8 @@ class ExploreViewModel {
     let state = Variable<ExploreController.State>(.senate)
     let houseBills = Variable<[Bill]>([])
     let senateBills = Variable<[Bill]>([])
-    let inRecess = Variable<Bool>(true)
+    let executiveBills = Variable<[Bill]>([])
+    let inRecess = Variable<Bool>(false)
     
     // MARK: - Initializer -
     init(client: Client) {
@@ -40,8 +41,7 @@ class ExploreViewModel {
                 self?.loadStatus.value = .none
                 self?.inRecess.value = inRecess
             }, onError: { [weak self] error in
-                guard let error = error as? KratosError else { return }
-                self?.loadStatus.value = .error(error: error)
+                self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }
@@ -53,8 +53,7 @@ class ExploreViewModel {
                 self?.loadStatus.value = .none
                 self?.senateBills.value = bills
             }, onError: { [weak self] error in
-                guard let error = error as? KratosError else { return }
-                self?.loadStatus.value = .error(error: error)
+                self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
         
@@ -66,8 +65,7 @@ class ExploreViewModel {
                 self?.loadStatus.value = .none
                 self?.houseBills.value = bills
                 }, onError: { [weak self] error in
-                    guard let error = error as? KratosError else { return }
-                    self?.loadStatus.value = .error(error: error)
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }
