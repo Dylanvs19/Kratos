@@ -70,7 +70,7 @@ extension SubjectCell: ViewBuilder {
         label.style(with: [.font(.cellTitle),
                            .titleColor(.kratosRed)])
         contentView.style(with: [.borderColor(.gray),
-                                 .borderWidth(2),
+                                 .borderWidth(1),
                                  .cornerRadius(12)])
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Subject: Decodable, Encodable {
+struct Subject: Decodable, Encodable, Equatable {
     
     static let identifier = "kratos_subjects"
     
@@ -31,4 +31,11 @@ struct Subject: Decodable, Encodable {
         return ["name": self.name,
                 "id": self.id]
     }
+}
+
+func ==(lhs: Subject, rhs: Subject) -> Bool {
+    return lhs.id == rhs.id
+}
+func !=(lhs: Subject, rhs: Subject) -> Bool {
+    return !(lhs == rhs)
 }

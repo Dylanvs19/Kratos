@@ -250,7 +250,11 @@ enum KratosTarget: Target {
         case .fetchBill(let billID):
             return "/bills/\(billID)"
         case .fetchBills(let subjects, let tracked, let pageNumber):
-            return subjects.reduce("bills?page=\(pageNumber)&") { str, num in str + "subjects%5B%5D=\(num.id)"} + "&singles=\(tracked)"
+            if subjects.isEmpty {
+                return "/me/bills?page=\(pageNumber)/&subjects5B%B5D=false&userbills=\(tracked)"
+            } else {
+                return subjects.reduce("/me/bills?page=\(pageNumber)&userbills=\(tracked)") { $0 + "&subjects%5B%5D=\($1.id)"}
+            }
         case .fetchOnFloor(let chamber):
             return "/congress/\(chamber.pathValue)/floor"
         //Subjects

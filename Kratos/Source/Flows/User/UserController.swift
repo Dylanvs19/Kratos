@@ -26,8 +26,8 @@ class UserController: UIViewController {
     let headerView = UIView()
     let topView = UIView()
     let collectionView: UICollectionView
-    let collectionViewDatasource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, Subject>>()
     let addMoreSubjectsButton = UIButton()
+    let clearSelectedSubjectButton = UIButton()
     
     let tableView = UITableView()
     let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Bill>>()
@@ -54,8 +54,9 @@ class UserController: UIViewController {
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        edgesForExtendedLayout = [.top, .right, .left]
+        edgesForExtendedLayout = [.top, .right, .left, .bottom]
         configureCollectionView()
+        configureTableView()
         addSubviews()
         constrainViews()
         styleViews()
@@ -88,6 +89,19 @@ class UserController: UIViewController {
         collectionView.backgroundColor = Color.white.value
         collectionView.showsHorizontalScrollIndicator = false
     }
+    
+    func configureTableView() {
+        self.automaticallyAdjustsScrollViewInsets = false
+        tableView.contentInset = .zero
+        tableView.backgroundColor = .clear
+        tableView.register(BillCell.self, forCellReuseIdentifier: BillCell.identifier)
+        tableView.estimatedRowHeight = 100
+        tableView.tableHeaderView = nil
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.allowsSelection = true
+        tableView.tableFooterView = UIView()
+        tableView.showsVerticalScrollIndicator = false
+    }
 }
 
 // MARK: - View Builder -
@@ -112,7 +126,7 @@ extension UserController: ViewBuilder {
         }
         addMoreSubjectsButton.snp.makeConstraints { make in
             make.top.bottom.trailing.equalToSuperview()
-            make.width.equalTo(30)
+            make.width.equalTo(35)
         }
         collectionView.snp.makeConstraints { make in
             make.leading.top.bottom.equalToSuperview()
@@ -128,7 +142,8 @@ extension UserController: ViewBuilder {
     func styleViews() {
         view.style(with: .backgroundColor(.slate))
         headerView.style(with: .backgroundColor(.white))
-        addMoreSubjectsButton.setImage(#imageLiteral(resourceName: "plusIcon"), for: .normal)
+        let image = #imageLiteral(resourceName: "plusIcon").af_imageScaled(to: CGSize(width: 25, height: 25))
+        addMoreSubjectsButton.setImage(image, for: .normal)
         addMoreSubjectsButton.backgroundColor = Color.white.value
     }
 }
@@ -161,11 +176,65 @@ extension UserController: UICollectionViewDelegateFlowLayout {
 // MARK: - Binds  -
 extension UserController: RxBinder {
     func bind() {
-        viewModel.trackedSubjects.asObservable()
-            .debug()
+        viewModel.trackedSubjects
+            .asObservable()
             .bind(to: self.collectionView.rx.items(cellIdentifier: SubjectCell.identifier, cellType: SubjectCell.self)) { row, data, cell in
                 cell.configure(with: data)
             }
+            .disposed(by: disposeBag)
+        
+        viewModel.presentedBills
+            .asObservable()
+            .do(onNext: { (bills) in
+                print(bills.count)
+            })
+            .bind(to: tableView.rx.items(cellIdentifier: BillCell.identifier, cellType: BillCell.self)) { row, data, cell in
+                cell.configure(with: data)
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.selectedSubjects
+            .asObservable()
+            .take(1)
+            .delay(0.2, scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] subjects in
+                Array(0..<subjects.count).forEach { index in
+                    self?.collectionView.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .centeredHorizontally)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        collectionView.rx.itemSelected
+            .map { _ in self.collectionView.indexPathsForSelectedItems ?? [] }
+            .map { $0.map { self.viewModel.trackedSubjects.value[$0.row] }}
+            .bind(to: viewModel.selectedSubjects)
+            .disposed(by: disposeBag)
+        
+        collectionView.rx.itemDeselected
+            .map { _ in self.collectionView.indexPathsForSelectedItems ?? [] }
+            .map { $0.map { self.viewModel.trackedSubjects.value[$0.row] }}
+            .bind(to: viewModel.selectedSubjects)
+            .disposed(by: disposeBag)
+        tableView.rx.modelSelected(Bill.self)
+            .subscribe(onNext: { [weak self] bill in
+                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                let vc = BillController(client: self.client, bill: bill)
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
+        tableView.rx.contentOffset
+            .map { $0.y > (self.tableView.contentSize.height - self.tableView.frame.height - 100) }
+            .distinctUntilChanged()
+            .filter { $0 == true }
+            .map { _ in () }
+            .bind(to: viewModel.fetchAction)
+            .disposed(by: disposeBag)
+        addMoreSubjectsButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                let vc = SubjectSelectionController(client: self.client)
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
             .disposed(by: disposeBag)
     }
 }

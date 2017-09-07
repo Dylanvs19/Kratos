@@ -16,6 +16,7 @@ class UserViewModel {
     // MARK: - Variables -
     let client: Client
     let disposeBag = DisposeBag()
+    var billsDisposeBag: DisposeBag? = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
     
     let trackedSubjects = Variable<[Subject]>([])
@@ -23,13 +24,14 @@ class UserViewModel {
     
     let trackedBillsSelected = Variable<Bool>(true)
     
-    let trackedBills = Variable<[Bill]>([])
-    let subjectBills = Variable<[Bill]>([])
-    
+    let bills = Variable<[Bill]>([])
     let presentedBills = Variable<[Bill]>([])
     
-    var trackedBillsPageNumber = 1
-    var billsForSubjectsPageNumber = 1
+    let fetchAction = PublishSubject<Void>()
+
+    var pageNumber = 1
+    
+    let trackedBillsSubject = Subject(name: "Tracked Bills", id: -1)
     
     // MARK: - Initializer -
     init(client: Client) {
@@ -38,17 +40,17 @@ class UserViewModel {
         fetchTrackedSubjects()
     }
     
-    func fetchTrackedBills() {
+    func fetchBills(for subjects: [Subject]) {
         loadStatus.value = .loading
-        client.fetchTrackedBills(for: trackedBillsPageNumber)
+        client.fetchBills(for: subjects, tracked: trackedBillsSelected.value, pageNumber: pageNumber)
             .subscribe(
                 onNext: { [weak self] bills in
                     self?.loadStatus.value = .none
-                    self?.trackedBills.value = bills
-                    self?.trackedBillsPageNumber += 1
+                    self?.bills.value = bills
+                    self?.pageNumber += 1
                 },
                 onError: { [weak self] (error) in
-                    self?.loadStatus.value = .error(error: KratosError.cast(from: error))
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }
@@ -58,40 +60,61 @@ class UserViewModel {
         client.fetchTrackedSubjects()
             .subscribe(
                 onNext: { [weak self] subjects in
-                    self?.loadStatus.value = .none
-                    let trackedBills = [Subject(name: "Tracked", id: -1),
-                                        Subject(name: "Tracked Bills", id: -1),
-                                        Subject(name: "s", id: -1),
-                                        Subject(name: "Tracked Bills", id: -1),
-                                        Subject(name: "New Hampshire LongTooth Salamander", id: -1)]
-                    self?.trackedSubjects.value = trackedBills + subjects
+                    guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                    self.loadStatus.value = .none
+                    self.trackedSubjects.value = [self.trackedBillsSubject] + subjects
+                    self.selectedSubjects.value = self.trackedSubjects.value
                 },
                 onError: { [weak self] (error) in
-                    self?.loadStatus.value = .error(error: KratosError.cast(from: error))
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }
     
-    func fetchBillsBySubject() {
-        loadStatus.value = .loading
-        client.fetchBills(for: trackedSubjects.value, tracked: true, pageNumber: billsForSubjectsPageNumber)
-            .subscribe(
-                onNext: { [weak self] bills in
-                    self?.loadStatus.value = .none
-                    self?.trackedBills.value = bills
-                    self?.trackedBillsPageNumber += 1
-                },
-                onError: { [weak self] (error) in
-                    self?.loadStatus.value = .error(error: KratosError.cast(from: error))
+    func resetBills() {
+        billsDisposeBag = nil
+        billsDisposeBag = DisposeBag()
+        guard let billsDisposeBag = billsDisposeBag else { return }
+        bills.asObservable()
+            .do(onNext: { bills in
+                for bill in bills {
+                    print(bill.topSubject?.name)
+                }
             })
-            .disposed(by: disposeBag)
+            .scan([]) { $0 + $1 }
+            .bind(to: presentedBills)
+            .disposed(by: billsDisposeBag)
     }
 }
 
 extension UserViewModel: RxBinder {
     
     func bind() {
-
+        selectedSubjects
+            .asObservable()
+            .map { $0.contains(where: { $0 == self.trackedBillsSubject }) }
+            .bind(to: trackedBillsSelected)
+            .disposed(by: disposeBag)
         
+        selectedSubjects
+            .asObservable()
+            .map { $0.filter { $0 != self.trackedBillsSubject } }
+            .subscribe(onNext: { [weak self] subjects in
+                self?.pageNumber = 1
+                self?.resetBills()
+                self?.presentedBills.value = []
+                self?.fetchBills(for: subjects)
+            })
+            .disposed(by: disposeBag)
+        
+        fetchAction.asObservable()
+            .withLatestFrom(selectedSubjects.asObservable())
+            .map { $0.filter { $0 != self.trackedBillsSubject } }
+            .subscribe(onNext: { [weak self] subjects in
+                self?.fetchBills(for: subjects)
+            })
+            .disposed(by: disposeBag)
+        
+       resetBills()
     }
 }

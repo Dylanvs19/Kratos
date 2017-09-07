@@ -54,10 +54,14 @@ enum Constant {
     case exploreTitle
     case exploreSenateButtonTitle
     case exploreHouseButtonTitle
+    case exploreExecutiveButtonTitle
     case exploreRecessLabelTitle
     
     //UserVC
     case userTitle
+    
+    //SubjectSelectionVC
+    case subjectSelectionTitle
     
     // RepInfoView
     case repInfoViewBioTitle
@@ -131,10 +135,14 @@ enum Constant {
         case .exploreTitle: return  "On The Floor"
         case .exploreSenateButtonTitle: return "Senate"
         case .exploreHouseButtonTitle: return "House"
+        case .exploreExecutiveButtonTitle: return "Executive"
         case .exploreRecessLabelTitle: return "Congress is currently in recess. Check out your representatives' websites for events."
             
         //UserVC
         case .userTitle: return "My Bills"
+        
+        //SubjectSelectionVC
+        case .subjectSelectionTitle: return "Select Subjects"
             
         // RepInfoView
         case .repInfoViewBioTitle: return "Biography"
