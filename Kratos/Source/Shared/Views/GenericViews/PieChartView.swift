@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 struct PieChartData {
     var type: VoteValue
@@ -141,3 +143,12 @@ extension PieChartView: ViewBuilder {
                               .titleColor(.lightGray)])
     }
 }
+
+extension Reactive where Base: PieChartView {
+    var data: UIBindingObserver<Base, [PieChartData]> {
+        return UIBindingObserver(UIElement: self.base, binding: { (pieChartView, data) in
+            pieChartView.configure(with: data)
+        })
+    }
+}
+

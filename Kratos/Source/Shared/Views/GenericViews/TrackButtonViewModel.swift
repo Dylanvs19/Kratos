@@ -43,9 +43,8 @@ class TrackButtonViewModel {
                 self?.loadStatus.value = .none
                 self?.state.value = $0.contains(billId) ? .tracked : .untracked
             },
-                onError: { [unowned self] (error) in
-                let error = error as? KratosError ?? KratosError.unknown
-                self.loadStatus.value = .error(error: error)
+                onError: { [weak self] (error) in
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }
@@ -56,12 +55,11 @@ class TrackButtonViewModel {
         return client.trackBill(billID: billId)
             .subscribe(
                 onNext: { [weak self] in
-                self?.loadStatus.value = .none
-                self?.state.value = $0.contains(billId) ? .tracked : .untracked
+                    self?.loadStatus.value = .none
+                    self?.state.value = $0.contains(billId) ? .tracked : .untracked
                 },
-                onError: { [unowned self] (error) in
-                    let error = error as? KratosError ?? KratosError.unknown
-                    self.loadStatus.value = .error(error: error)
+                onError: { [weak self] (error) in
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }
@@ -75,9 +73,8 @@ class TrackButtonViewModel {
                     self?.loadStatus.value = .none
                     self?.state.value = .untracked
                 },
-                onError: { [unowned self] (error) in
-                    let error = error as? KratosError ?? KratosError.unknown
-                    self.loadStatus.value = .error(error: error)
+                onError: { [weak self] (error) in
+                     self?.loadStatus.value = .error(KratosError.cast(from: error))
             })
             .disposed(by: disposeBag)
     }

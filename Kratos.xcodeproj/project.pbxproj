@@ -87,12 +87,6 @@
 		AF3F5CA71EBE72F700809AA3 /* LoadMoreSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C131EBE72F700809AA3 /* LoadMoreSpinnerView.swift */; };
 		AF3F5CA91EBE72F700809AA3 /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C151EBE72F700809AA3 /* PieChartView.swift */; };
 		AF3F5CB01EBE72F700809AA3 /* TrackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C1C1EBE72F700809AA3 /* TrackButton.swift */; };
-		AF3F5CCE1EBE72F700809AA3 /* TallyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C3B1EBE72F700809AA3 /* TallyViewController.swift */; };
-		AF3F5CCF1EBE72F700809AA3 /* TallyTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C3D1EBE72F700809AA3 /* TallyTableView.swift */; };
-		AF3F5CD01EBE72F700809AA3 /* UserVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C3E1EBE72F700809AA3 /* UserVoteView.swift */; };
-		AF3F5CD11EBE72F700809AA3 /* UserVoteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5C3F1EBE72F700809AA3 /* UserVoteView.xib */; };
-		AF3F5CD41EBE72F700809AA3 /* YourVoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C431EBE72F700809AA3 /* YourVoteTableViewCell.swift */; };
-		AF3F5CD51EBE72F700809AA3 /* YourVoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5C441EBE72F700809AA3 /* YourVoteTableViewCell.xib */; };
 		AF3F5CD61EBE72F700809AA3 /* DismissMenuAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C471EBE72F700809AA3 /* DismissMenuAnimator.swift */; };
 		AF3F5CD71EBE72F700809AA3 /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C481EBE72F700809AA3 /* Interactor.swift */; };
 		AF3F5CD81EBE72F700809AA3 /* MenuHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C491EBE72F700809AA3 /* MenuHelper.swift */; };
@@ -160,6 +154,10 @@
 		AFD5AA971D9C3D0C00A5714C /* KratosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974731D4D80E500C19020 /* KratosTests.swift */; };
 		AFE19E181F52648F0054EB98 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE19E171F52648F0054EB98 /* Store.swift */; };
 		AFE19E1A1F52649B0054EB98 /* MicroStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE19E191F52649B0054EB98 /* MicroStore.swift */; };
+		AFE9A3431F5ECF6D00CBAD0D /* TallyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE9A3421F5ECF6D00CBAD0D /* TallyController.swift */; };
+		AFE9A3451F5ECF7600CBAD0D /* TallyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE9A3441F5ECF7600CBAD0D /* TallyViewModel.swift */; };
+		AFE9A3471F601ED400CBAD0D /* SubjectSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE9A3461F601ED400CBAD0D /* SubjectSelectionController.swift */; };
+		AFE9A3491F601F1300CBAD0D /* SubjectSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE9A3481F601F1300CBAD0D /* SubjectSelectionViewModel.swift */; };
 		AFFA94F61EBE789800144C3A /* Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA94F51EBE789800144C3A /* Subject.swift */; };
 		AFFA94F81EBE796F00144C3A /* StateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA94F71EBE796F00144C3A /* StateService.swift */; };
 		AFFA95081EBF4F9C00144C3A /* LoadStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFA95071EBF4F9C00144C3A /* LoadStatus.swift */; };
@@ -291,12 +289,6 @@
 		AF3F5C131EBE72F700809AA3 /* LoadMoreSpinnerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadMoreSpinnerView.swift; sourceTree = "<group>"; };
 		AF3F5C151EBE72F700809AA3 /* PieChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
 		AF3F5C1C1EBE72F700809AA3 /* TrackButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackButton.swift; sourceTree = "<group>"; };
-		AF3F5C3B1EBE72F700809AA3 /* TallyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TallyViewController.swift; sourceTree = "<group>"; };
-		AF3F5C3D1EBE72F700809AA3 /* TallyTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TallyTableView.swift; sourceTree = "<group>"; };
-		AF3F5C3E1EBE72F700809AA3 /* UserVoteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserVoteView.swift; sourceTree = "<group>"; };
-		AF3F5C3F1EBE72F700809AA3 /* UserVoteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserVoteView.xib; sourceTree = "<group>"; };
-		AF3F5C431EBE72F700809AA3 /* YourVoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourVoteTableViewCell.swift; sourceTree = "<group>"; };
-		AF3F5C441EBE72F700809AA3 /* YourVoteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YourVoteTableViewCell.xib; sourceTree = "<group>"; };
 		AF3F5C471EBE72F700809AA3 /* DismissMenuAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissMenuAnimator.swift; sourceTree = "<group>"; };
 		AF3F5C481EBE72F700809AA3 /* Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
 		AF3F5C491EBE72F700809AA3 /* MenuHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuHelper.swift; sourceTree = "<group>"; };
@@ -371,6 +363,10 @@
 		AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kratos.entitlements; sourceTree = "<group>"; };
 		AFE19E171F52648F0054EB98 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		AFE19E191F52649B0054EB98 /* MicroStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MicroStore.swift; sourceTree = "<group>"; };
+		AFE9A3421F5ECF6D00CBAD0D /* TallyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TallyController.swift; sourceTree = "<group>"; };
+		AFE9A3441F5ECF7600CBAD0D /* TallyViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TallyViewModel.swift; sourceTree = "<group>"; };
+		AFE9A3461F601ED400CBAD0D /* SubjectSelectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectSelectionController.swift; sourceTree = "<group>"; };
+		AFE9A3481F601F1300CBAD0D /* SubjectSelectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectSelectionViewModel.swift; sourceTree = "<group>"; };
 		AFFA94F51EBE789800144C3A /* Subject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subject.swift; sourceTree = "<group>"; };
 		AFFA94F71EBE796F00144C3A /* StateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateService.swift; sourceTree = "<group>"; };
 		AFFA95071EBF4F9C00144C3A /* LoadStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadStatus.swift; sourceTree = "<group>"; };
@@ -438,6 +434,7 @@
 		AF2C06CA1F4895F000D7E348 /* Flows */ = {
 			isa = PBXGroup;
 			children = (
+				AFE9A3411F5ECF6000CBAD0D /* Tallies */,
 				AF2C07451F48976800D7E348 /* User */,
 				AF2C07341F48975E00D7E348 /* Representative */,
 				AF2C07091F48975600D7E348 /* Bill */,
@@ -559,6 +556,8 @@
 				AF2C07461F48976800D7E348 /* UserController.swift */,
 				AF2C07471F48976800D7E348 /* UserViewModel.swift */,
 				AFD553091F56346F00E07D9B /* SubjectCell.swift */,
+				AFE9A3461F601ED400CBAD0D /* SubjectSelectionController.swift */,
+				AFE9A3481F601F1300CBAD0D /* SubjectSelectionViewModel.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -694,7 +693,6 @@
 			isa = PBXGroup;
 			children = (
 				AF3F5C0B1EBE72F700809AA3 /* GenericViews */,
-				AF3F5C3B1EBE72F700809AA3 /* TallyViewController.swift */,
 				AF3F5C3C1EBE72F700809AA3 /* TallyViews */,
 				AF3F5C421EBE72F700809AA3 /* UserTrackView */,
 			);
@@ -721,9 +719,6 @@
 		AF3F5C3C1EBE72F700809AA3 /* TallyViews */ = {
 			isa = PBXGroup;
 			children = (
-				AF3F5C3D1EBE72F700809AA3 /* TallyTableView.swift */,
-				AF3F5C3E1EBE72F700809AA3 /* UserVoteView.swift */,
-				AF3F5C3F1EBE72F700809AA3 /* UserVoteView.xib */,
 			);
 			path = TallyViews;
 			sourceTree = "<group>";
@@ -731,8 +726,6 @@
 		AF3F5C421EBE72F700809AA3 /* UserTrackView */ = {
 			isa = PBXGroup;
 			children = (
-				AF3F5C431EBE72F700809AA3 /* YourVoteTableViewCell.swift */,
-				AF3F5C441EBE72F700809AA3 /* YourVoteTableViewCell.xib */,
 			);
 			path = UserTrackView;
 			sourceTree = "<group>";
@@ -945,6 +938,15 @@
 			path = Stores;
 			sourceTree = "<group>";
 		};
+		AFE9A3411F5ECF6000CBAD0D /* Tallies */ = {
+			isa = PBXGroup;
+			children = (
+				AFE9A3421F5ECF6D00CBAD0D /* TallyController.swift */,
+				AFE9A3441F5ECF7600CBAD0D /* TallyViewModel.swift */,
+			);
+			path = Tallies;
+			sourceTree = "<group>";
+		};
 		AFFA951C1EBF604900144C3A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -1099,8 +1101,6 @@
 				AF2C072F1F48975600D7E348 /* MinorActionView.xib in Resources */,
 				AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */,
 				AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */,
-				AF3F5CD51EBE72F700809AA3 /* YourVoteTableViewCell.xib in Resources */,
-				AF3F5CD11EBE72F700809AA3 /* UserVoteView.xib in Resources */,
 				AF2C07201F48975600D7E348 /* ActionsView.xib in Resources */,
 				AF2C072B1F48975600D7E348 /* CommitteActivitiesView.xib in Resources */,
 				AF2C07251F48975600D7E348 /* BillCommitteesView.xib in Resources */,
@@ -1275,6 +1275,7 @@
 				AF416A441F28C1F3006380DA /* Client+AnalyticsService.swift in Sources */,
 				AF3F5CDE1EBE72F700809AA3 /* CharacterSet+Extensions.swift in Sources */,
 				AF2C07401F48975E00D7E348 /* RepInfoViewModel.swift in Sources */,
+				AFE9A3451F5ECF7600CBAD0D /* TallyViewModel.swift in Sources */,
 				AFFA95261EC1F56F00144C3A /* Observable+Decode.swift in Sources */,
 				AF2C07241F48975600D7E348 /* BillCommitteesView.swift in Sources */,
 				AF2C06F81F4895F000D7E348 /* AccountDetailsViewModel.swift in Sources */,
@@ -1292,6 +1293,7 @@
 				AF6271B51ED3DF8400BDE8DB /* UIButton+Extensions.swift in Sources */,
 				AF2C073F1F48975E00D7E348 /* RepInfoView.swift in Sources */,
 				AF416A4F1F28C206006380DA /* Target.swift in Sources */,
+				AFE9A3471F601ED400CBAD0D /* SubjectSelectionController.swift in Sources */,
 				AF3F5CA21EBE72F700809AA3 /* DatePickerView.swift in Sources */,
 				AF2C06F11F4895F000D7E348 /* SearchController.swift in Sources */,
 				AF2C07001F4895F000D7E348 /* SplashViewController.swift in Sources */,
@@ -1323,6 +1325,7 @@
 				AF2C06FD1F4895F000D7E348 /* LoginViewModel.swift in Sources */,
 				AF3F5CB01EBE72F700809AA3 /* TrackButton.swift in Sources */,
 				AFFA94F61EBE789800144C3A /* Subject.swift in Sources */,
+				AFE9A3431F5ECF6D00CBAD0D /* TallyController.swift in Sources */,
 				AF57F4C31F2B6E220080978F /* Configuration.swift in Sources */,
 				AFFA956A1EC95B0100144C3A /* RxBinder.swift in Sources */,
 				AF43D5331EE634BE00F1DA75 /* RepImageView.swift in Sources */,
@@ -1344,7 +1347,6 @@
 				AF3F5CE91EBE72F700809AA3 /* UINavigationController+Extensions.swift in Sources */,
 				AFFA94F81EBE796F00144C3A /* StateService.swift in Sources */,
 				AFFA95681EC7A1DD00144C3A /* UIApplicationDelegate+Extensions.swift in Sources */,
-				AF3F5CD41EBE72F700809AA3 /* YourVoteTableViewCell.swift in Sources */,
 				AF3F5CA91EBE72F700809AA3 /* PieChartView.swift in Sources */,
 				AF2C06FA1F4895F000D7E348 /* ConfirmationController.swift in Sources */,
 				AF3F5CF51EBE74E400809AA3 /* KratosTarget.swift in Sources */,
@@ -1354,7 +1356,6 @@
 				AF416A431F28C1F3006380DA /* Client+AccountService.swift in Sources */,
 				AF3F5CA51EBE72F700809AA3 /* KratosTextField.swift in Sources */,
 				AF57F4BB1F2B6E110080978F /* ViewBuilder.swift in Sources */,
-				AF3F5CD01EBE72F700809AA3 /* UserVoteView.swift in Sources */,
 				AF57F4C91F2B6EBB0080978F /* UIImageView+RxUrl.swift in Sources */,
 				AF3F5CE81EBE72F700809AA3 /* UILabel+Extensions.swift in Sources */,
 				AF2C07441F48975E00D7E348 /* TermTableViewCell.swift in Sources */,
@@ -1362,6 +1363,7 @@
 				AF2C06EF1F4895F000D7E348 /* ExploreController.swift in Sources */,
 				AF2C06F21F4895F000D7E348 /* SearchViewModel.swift in Sources */,
 				AF3F5CE61EBE72F700809AA3 /* UIImage+Extension.swift in Sources */,
+				AFE9A3491F601F1300CBAD0D /* SubjectSelectionViewModel.swift in Sources */,
 				AF57F4CB1F2E27030080978F /* TrackButtonViewModel.swift in Sources */,
 				AF2C072E1F48975600D7E348 /* MinorActionView.swift in Sources */,
 				AF3F5CDB1EBE72F700809AA3 /* TransitionManager.swift in Sources */,
@@ -1381,7 +1383,6 @@
 				AF416A5C1F28D147006380DA /* JSONDecoder.swift in Sources */,
 				AF3F5CF31EBE72F700809AA3 /* Decodable.swift in Sources */,
 				AF3F5CDA1EBE72F700809AA3 /* ScrollTabBarControllerDelegate.swift in Sources */,
-				AF3F5CCF1EBE72F700809AA3 /* TallyTableView.swift in Sources */,
 				AF3F5CE21EBE72F700809AA3 /* NSData+Extensions.swift in Sources */,
 				AF2C07421F48975E00D7E348 /* RepresentativeViewModel.swift in Sources */,
 				AF2C06F71F4895F000D7E348 /* FeedbackViewController.swift in Sources */,
@@ -1404,7 +1405,6 @@
 				AF3F5C731EBE72F700809AA3 /* User.swift in Sources */,
 				AF3F5C6F1EBE72F700809AA3 /* Person.swift in Sources */,
 				AF3F5C7B1EBE72F700809AA3 /* Toast.swift in Sources */,
-				AF3F5CCE1EBE72F700809AA3 /* TallyViewController.swift in Sources */,
 				AF3F5CE51EBE72F700809AA3 /* UIColor+Extension.swift in Sources */,
 				AF57F4BE1F2B6E190080978F /* Styler.swift in Sources */,
 				AF2C07331F48975600D7E348 /* TallyCellViewModel.swift in Sources */,
