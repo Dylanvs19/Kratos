@@ -74,7 +74,7 @@ struct Term: Hashable {
     
     var formattedDistrict: String? {
         guard let district = district else { return nil }
-        return "District \(district)"
+        return district != 0 ? district.ordinal + " District" : "At Large"
     }
 }
 

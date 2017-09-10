@@ -92,9 +92,9 @@ extension RepresentativeCell: ViewBuilder {
     
     func styleViews() {
         nameLabel.style(with: .font(.cellTitle))
-        stateChamberLabel.style(with: [.font(.cellSubTitle),
+        stateChamberLabel.style(with: [.font(.cellSubtitle),
                                        .titleColor(.gray)])
-        partyLabel.style(with: [.font(.cellSubTitle),
+        partyLabel.style(with: [.font(.cellSubtitle),
                                 .textAlignment(.right),
                                 .titleColor(.gray)])
         selectionStyle = .none

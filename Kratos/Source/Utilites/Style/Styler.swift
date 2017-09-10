@@ -33,7 +33,8 @@ enum Font {
     case title
     case subTitle
     case cellTitle
-    case cellSubTitle
+    case tab
+    case cellSubtitle
     case body
     case text
     
@@ -49,7 +50,9 @@ enum Font {
             return .subTitleFont
         case .cellTitle:
             return .cellTitleFont
-        case .cellSubTitle:
+        case .tab:
+            return .tabFont
+        case .cellSubtitle:
             return .cellSubtitleFont
         case .body:
             return .bodyFont
@@ -70,6 +73,7 @@ enum Color {
     case kratosBlue
     case darkBlue
     case kratosGreen
+    case clear
     
     var value: UIColor {
         switch self {
@@ -93,6 +97,8 @@ enum Color {
             return .darkBlue
         case .kratosGreen:
             return .kratosGreen
+        case .clear:
+            return .clear
         }
     }
 }

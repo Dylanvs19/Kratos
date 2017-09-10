@@ -251,7 +251,7 @@ enum KratosTarget: Target {
             return "/bills/\(billID)"
         case .fetchBills(let subjects, let tracked, let pageNumber):
             if subjects.isEmpty {
-                return "/me/bills?page=\(pageNumber)/&subjects5B%B5D=false&userbills=\(tracked)"
+                return "/me/bills?page=\(pageNumber)&subjects5B%B5D=false&userbills=\(tracked)"
             } else {
                 return subjects.reduce("/me/bills?page=\(pageNumber)&userbills=\(tracked)") { $0 + "&subjects%5B%5D=\($1.id)"}
             }

@@ -42,11 +42,6 @@ class ExpandableTextFieldViewModel {
 // MARK: - Binds -
 extension ExpandableTextFieldViewModel: RxBinder {
     func bind() {
-        state.asObservable()
-            .map { $0.buttonTitle }
-            .bind(to: buttonTitle)
-            .disposed(by: disposeBag)
-        
         toggleButtonPressed.asObservable()
             .withLatestFrom(state.asObservable())
             .map { $0 == .expanded ? .contracted : .expanded }

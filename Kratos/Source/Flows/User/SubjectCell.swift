@@ -71,6 +71,6 @@ extension SubjectCell: ViewBuilder {
                            .titleColor(.kratosRed)])
         contentView.style(with: [.borderColor(.gray),
                                  .borderWidth(1),
-                                 .cornerRadius(12)])
+                                 .cornerRadius(14)])
     }
 }

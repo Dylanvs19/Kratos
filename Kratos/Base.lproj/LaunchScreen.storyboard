@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,15 +23,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="KratosLogo" translatesAutoresizingMaskIntoConstraints="NO" id="UFZ-5a-Tdl">
-                                <rect key="frame" x="37.5" y="183.5" width="300" height="300"/>
+                                <rect key="frame" x="37.5" y="150" width="300" height="300"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="VNs-t5-nNe"/>
                                     <constraint firstAttribute="height" constant="300" id="WUj-YH-p4a"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="K R A T O S" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O7K-0g-hvA">
-                                <rect key="frame" x="109.5" y="586" width="156" height="41"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="30"/>
+                                <rect key="frame" x="105" y="588" width="165.5" height="39"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="30"/>
                                 <color key="textColor" red="0.56025641025641026" green="0.56025641025641026" blue="0.56025641025641026" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -39,7 +40,7 @@
                         <constraints>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="O7K-0g-hvA" secondAttribute="bottom" constant="40" id="PVc-Qe-bZ8"/>
                             <constraint firstItem="UFZ-5a-Tdl" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Wed-6B-dyp"/>
-                            <constraint firstItem="UFZ-5a-Tdl" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="wqf-6Q-em2"/>
+                            <constraint firstItem="UFZ-5a-Tdl" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.9" id="wqf-6Q-em2"/>
                             <constraint firstItem="O7K-0g-hvA" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="xrX-il-KhN"/>
                         </constraints>
                     </view>

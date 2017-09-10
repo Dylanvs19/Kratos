@@ -152,7 +152,8 @@ extension UserRepsViewController: RxBinder {
     func bind() {
         
         //Assumption of having 3 representatives.
-        viewModel.representatives.asObservable()
+        viewModel.representatives
+            .asObservable()
             .map { $0.map {SectionModel(model: "", items: [$0]) } }
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
@@ -165,19 +166,22 @@ extension UserRepsViewController: RxBinder {
             })
             .disposed(by: disposeBag)
         
-        viewModel.stateImage.asObservable()
+        viewModel.stateImage
+            .asObservable()
             .bind(to: stateImageView.rx.image)
             .disposed(by: disposeBag)
         
-        viewModel.state.asObservable()
+        viewModel.state
+            .asObservable()
             .map { State(rawValue: $0)?.fullName }
             .filterNil()
             .bind(to: stateLabel.rx.text)
             .disposed(by: disposeBag)
         
-        viewModel.district.asObservable()
+        viewModel.district
+            .asObservable()
             .filterNil()
-            .map { $0.ordinal + " District" }
+            .map { $0 != 0 ? $0.ordinal + " District" : "At Large" }
             .bind(to: districtLabel.rx.text)
             .disposed(by: disposeBag)
         

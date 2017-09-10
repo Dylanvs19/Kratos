@@ -63,13 +63,14 @@ class TrackButton: UIButton {  //CurtainPresenter {
                          .font(.cellTitle),
                          .cornerRadius(5)])
             self.setTitle(state.title, for: .normal)
-            self.layoutIfNeeded()
+            self.superview?.layoutIfNeeded()
         }
     }
     
     // MARK: - Customization -
     private func customization() {
         contentEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 10)
+        setTitle("L", for: .highlighted)
     }
 }
 
@@ -83,7 +84,8 @@ extension TrackButton: RxBinder {
             })
             .disposed(by: disposeBag)
         
-        rx.controlEvent(.touchUpInside).asObservable()
+        rx.controlEvent(.touchUpInside)
+            .asObservable()
             .bind(to: viewModel.buttonPressed)
             .disposed(by: disposeBag)
     }

@@ -23,7 +23,6 @@ class UserController: UIViewController {
     let interactor = Interactor()
     
     // UIElements
-    let headerView = UIView()
     let topView = UIView()
     let collectionView: UICollectionView
     let addMoreSubjectsButton = UIButton()
@@ -54,7 +53,7 @@ class UserController: UIViewController {
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        edgesForExtendedLayout = [.top, .right, .left, .bottom]
+        edgesForExtendedLayout = []
         configureCollectionView()
         configureTableView()
         addSubviews()
@@ -75,6 +74,7 @@ class UserController: UIViewController {
     
     // MARK: - Configuration -
     func configureNavVC() {
+        self.navigationItem.title = localize(.userTitle)
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 27, height: 27))
         button.setImage(#imageLiteral(resourceName: "gearIcon").withRenderingMode(.alwaysOriginal), for: .normal)
         button.addTarget(self, action: #selector(gearIconSelected), for: .touchUpInside)
@@ -108,20 +108,15 @@ class UserController: UIViewController {
 extension UserController: ViewBuilder {
     func addSubviews() {
         view.addSubview(tableView)
-        view.addSubview(headerView)
         view.addSubview(topView)
         topView.addSubview(addMoreSubjectsButton)
         topView.addSubview(collectionView)
     }
     
     func constrainViews() {
-        headerView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(44)
-        }
         topView.snp.makeConstraints { make in
-            make.top.equalTo(headerView.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(10)
+//            make.top.equalTo(top.snp.bottom).offset(10)
+            make.top.leading.trailing.equalToSuperview().inset(10)
             make.height.equalTo(35)
         }
         addMoreSubjectsButton.snp.makeConstraints { make in
@@ -141,7 +136,6 @@ extension UserController: ViewBuilder {
     
     func styleViews() {
         view.style(with: .backgroundColor(.slate))
-        headerView.style(with: .backgroundColor(.white))
         let image = #imageLiteral(resourceName: "plusIcon").af_imageScaled(to: CGSize(width: 25, height: 25))
         addMoreSubjectsButton.setImage(image, for: .normal)
         addMoreSubjectsButton.backgroundColor = Color.white.value

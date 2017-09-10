@@ -49,7 +49,7 @@ extension UIViewController {
         present(alertVC, animated: true, completion: nil)
     }
     
-    func showError(error: KratosError, onClose: (() -> Void)? = nil) {
+    func showError(_ error: KratosError, onClose: (() -> Void)? = nil) {
         var title = localize(.errorTitle)
         var message = ""
 
@@ -71,10 +71,6 @@ extension UIViewController {
         DispatchQueue.main.async { 
             self.present(alertVC, animated: true, completion: nil)
         }
-    }
-    
-    func showError(_ error: KratosError) {
-        showError(error: error, onClose: nil)
     }
     
     func presentMessageAlert(title: String, message: String, buttonOneTitle: String, buttonTwoTitle: String? = nil, buttonOneAction:(() -> ())? = nil, buttonTwoAction:(() -> ())? = nil) {
@@ -102,7 +98,7 @@ extension UIViewController {
     func setDefaultNavVC() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = Color.lightGray.value
-        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: Font.header.value]
+        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: Font.subheader.value]
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
@@ -114,7 +110,7 @@ extension UIViewController {
     func setDefaultLoginNavVC() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = Color.lightGray.value
-        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: Font.header.value]
+        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: Font.subheader.value]
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true

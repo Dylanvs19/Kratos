@@ -37,23 +37,9 @@
 		AF2C07061F4895F000D7E348 /* UserRepsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06EA1F4895F000D7E348 /* UserRepsViewModel.swift */; };
 		AF2C07071F4895F000D7E348 /* UserRepTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06EB1F4895F000D7E348 /* UserRepTableViewCell.swift */; };
 		AF2C07081F4895F000D7E348 /* UserRepTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06EC1F4895F000D7E348 /* UserRepTableViewCellModel.swift */; };
-		AF2C071F1F48975600D7E348 /* ActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C070A1F48975600D7E348 /* ActionsView.swift */; };
-		AF2C07201F48975600D7E348 /* ActionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2C070B1F48975600D7E348 /* ActionsView.xib */; };
-		AF2C07211F48975600D7E348 /* BillActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C070C1F48975600D7E348 /* BillActionsView.swift */; };
-		AF2C07221F48975600D7E348 /* BillActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C070D1F48975600D7E348 /* BillActionTableViewCell.swift */; };
-		AF2C07231F48975600D7E348 /* BillActionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2C070E1F48975600D7E348 /* BillActionTableViewCell.xib */; };
-		AF2C07241F48975600D7E348 /* BillCommitteesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C070F1F48975600D7E348 /* BillCommitteesView.swift */; };
-		AF2C07251F48975600D7E348 /* BillCommitteesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2C07101F48975600D7E348 /* BillCommitteesView.xib */; };
-		AF2C07261F48975600D7E348 /* BillInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07111F48975600D7E348 /* BillInfoView.swift */; };
 		AF2C07271F48975600D7E348 /* BillInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07121F48975600D7E348 /* BillInfoViewModel.swift */; };
 		AF2C07281F48975600D7E348 /* BillController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07131F48975600D7E348 /* BillController.swift */; };
 		AF2C07291F48975600D7E348 /* BillViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07141F48975600D7E348 /* BillViewModel.swift */; };
-		AF2C072A1F48975600D7E348 /* CommitteActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07151F48975600D7E348 /* CommitteActivitiesView.swift */; };
-		AF2C072B1F48975600D7E348 /* CommitteActivitiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2C07161F48975600D7E348 /* CommitteActivitiesView.xib */; };
-		AF2C072C1F48975600D7E348 /* CommitteeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07171F48975600D7E348 /* CommitteeView.swift */; };
-		AF2C072D1F48975600D7E348 /* CommitteeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2C07181F48975600D7E348 /* CommitteeView.xib */; };
-		AF2C072E1F48975600D7E348 /* MinorActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07191F48975600D7E348 /* MinorActionView.swift */; };
-		AF2C072F1F48975600D7E348 /* MinorActionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2C071A1F48975600D7E348 /* MinorActionView.xib */; };
 		AF2C07301F48975600D7E348 /* RepresentativeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C071B1F48975600D7E348 /* RepresentativeCell.swift */; };
 		AF2C07311F48975600D7E348 /* RepresentativeCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C071C1F48975600D7E348 /* RepresentativeCellViewModel.swift */; };
 		AF2C07321F48975600D7E348 /* TallyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C071D1F48975600D7E348 /* TallyCell.swift */; };
@@ -64,8 +50,8 @@
 		AF2C07401F48975E00D7E348 /* RepInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07381F48975E00D7E348 /* RepInfoViewModel.swift */; };
 		AF2C07411F48975E00D7E348 /* RepresentativeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07391F48975E00D7E348 /* RepresentativeController.swift */; };
 		AF2C07421F48975E00D7E348 /* RepresentativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C073A1F48975E00D7E348 /* RepresentativeViewModel.swift */; };
-		AF2C07431F48975E00D7E348 /* RepVoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C073B1F48975E00D7E348 /* RepVoteTableViewCell.swift */; };
-		AF2C07441F48975E00D7E348 /* TermTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C073C1F48975E00D7E348 /* TermTableViewCell.swift */; };
+		AF2C07431F48975E00D7E348 /* RepVoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C073B1F48975E00D7E348 /* RepVoteCell.swift */; };
+		AF2C07441F48975E00D7E348 /* TermCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C073C1F48975E00D7E348 /* TermCell.swift */; };
 		AF2C07491F48976800D7E348 /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07461F48976800D7E348 /* UserController.swift */; };
 		AF2C074A1F48976800D7E348 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07471F48976800D7E348 /* UserViewModel.swift */; };
 		AF3B2C0B1EDE531300509B01 /* Observable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */; };
@@ -142,10 +128,10 @@
 		AF5B9E5D1EFEF13A000BF83A /* ExpandableTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B9E5C1EFEF13A000BF83A /* ExpandableTextFieldView.swift */; };
 		AF5B9E5F1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B9E5E1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift */; };
 		AF6271B51ED3DF8400BDE8DB /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */; };
-		AF8974641D4D80E500C19020 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8974621D4D80E500C19020 /* Main.storyboard */; };
 		AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF8974651D4D80E500C19020 /* Assets.xcassets */; };
 		AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8974671D4D80E500C19020 /* LaunchScreen.storyboard */; };
 		AF89747F1D4D80E500C19020 /* KratosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89747E1D4D80E500C19020 /* KratosUITests.swift */; };
+		AF9D0E4C1F6450E00049D8D8 /* BillInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9D0E4B1F6450E00049D8D8 /* BillInfoView.swift */; };
 		AFA6F45E1F36818100686697 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA6F45D1F36818100686697 /* UITextView+Extensions.swift */; };
 		AFA9D1601E30269B00CD6BF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */; };
 		AFD553061F53BA5800E07D9B /* NumberFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD553051F53BA5800E07D9B /* NumberFormatter+Extensions.swift */; };
@@ -239,23 +225,9 @@
 		AF2C06EA1F4895F000D7E348 /* UserRepsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepsViewModel.swift; sourceTree = "<group>"; };
 		AF2C06EB1F4895F000D7E348 /* UserRepTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepTableViewCell.swift; sourceTree = "<group>"; };
 		AF2C06EC1F4895F000D7E348 /* UserRepTableViewCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepTableViewCellModel.swift; sourceTree = "<group>"; };
-		AF2C070A1F48975600D7E348 /* ActionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionsView.swift; sourceTree = "<group>"; };
-		AF2C070B1F48975600D7E348 /* ActionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActionsView.xib; sourceTree = "<group>"; };
-		AF2C070C1F48975600D7E348 /* BillActionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillActionsView.swift; sourceTree = "<group>"; };
-		AF2C070D1F48975600D7E348 /* BillActionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillActionTableViewCell.swift; sourceTree = "<group>"; };
-		AF2C070E1F48975600D7E348 /* BillActionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillActionTableViewCell.xib; sourceTree = "<group>"; };
-		AF2C070F1F48975600D7E348 /* BillCommitteesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillCommitteesView.swift; sourceTree = "<group>"; };
-		AF2C07101F48975600D7E348 /* BillCommitteesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillCommitteesView.xib; sourceTree = "<group>"; };
-		AF2C07111F48975600D7E348 /* BillInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillInfoView.swift; sourceTree = "<group>"; };
 		AF2C07121F48975600D7E348 /* BillInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillInfoViewModel.swift; sourceTree = "<group>"; };
 		AF2C07131F48975600D7E348 /* BillController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillController.swift; sourceTree = "<group>"; };
 		AF2C07141F48975600D7E348 /* BillViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillViewModel.swift; sourceTree = "<group>"; };
-		AF2C07151F48975600D7E348 /* CommitteActivitiesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitteActivitiesView.swift; sourceTree = "<group>"; };
-		AF2C07161F48975600D7E348 /* CommitteActivitiesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommitteActivitiesView.xib; sourceTree = "<group>"; };
-		AF2C07171F48975600D7E348 /* CommitteeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitteeView.swift; sourceTree = "<group>"; };
-		AF2C07181F48975600D7E348 /* CommitteeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommitteeView.xib; sourceTree = "<group>"; };
-		AF2C07191F48975600D7E348 /* MinorActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinorActionView.swift; sourceTree = "<group>"; };
-		AF2C071A1F48975600D7E348 /* MinorActionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MinorActionView.xib; sourceTree = "<group>"; };
 		AF2C071B1F48975600D7E348 /* RepresentativeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeCell.swift; sourceTree = "<group>"; };
 		AF2C071C1F48975600D7E348 /* RepresentativeCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeCellViewModel.swift; sourceTree = "<group>"; };
 		AF2C071D1F48975600D7E348 /* TallyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TallyCell.swift; sourceTree = "<group>"; };
@@ -266,8 +238,8 @@
 		AF2C07381F48975E00D7E348 /* RepInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepInfoViewModel.swift; sourceTree = "<group>"; };
 		AF2C07391F48975E00D7E348 /* RepresentativeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeController.swift; sourceTree = "<group>"; };
 		AF2C073A1F48975E00D7E348 /* RepresentativeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeViewModel.swift; sourceTree = "<group>"; };
-		AF2C073B1F48975E00D7E348 /* RepVoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepVoteTableViewCell.swift; sourceTree = "<group>"; };
-		AF2C073C1F48975E00D7E348 /* TermTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermTableViewCell.swift; sourceTree = "<group>"; };
+		AF2C073B1F48975E00D7E348 /* RepVoteCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepVoteCell.swift; sourceTree = "<group>"; };
+		AF2C073C1F48975E00D7E348 /* TermCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermCell.swift; sourceTree = "<group>"; };
 		AF2C07461F48976800D7E348 /* UserController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
 		AF2C07471F48976800D7E348 /* UserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Extensions.swift"; sourceTree = "<group>"; };
@@ -345,7 +317,6 @@
 		AF5B9E5E1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableTextFieldViewModel.swift; sourceTree = "<group>"; };
 		AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		AF89745B1D4D80E500C19020 /* Kratos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kratos.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		AF8974631D4D80E500C19020 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AF8974651D4D80E500C19020 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AF8974681D4D80E500C19020 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AF89746A1D4D80E500C19020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -355,6 +326,7 @@
 		AF89747A1D4D80E500C19020 /* KratosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KratosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF89747E1D4D80E500C19020 /* KratosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KratosUITests.swift; sourceTree = "<group>"; };
 		AF8974801D4D80E500C19020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF9D0E4B1F6450E00049D8D8 /* BillInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillInfoView.swift; sourceTree = "<group>"; };
 		AFA6F45D1F36818100686697 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
 		AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AFD553051F53BA5800E07D9B /* NumberFormatter+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Extensions.swift"; sourceTree = "<group>"; };
@@ -510,23 +482,10 @@
 		AF2C07091F48975600D7E348 /* Bill */ = {
 			isa = PBXGroup;
 			children = (
-				AF2C070A1F48975600D7E348 /* ActionsView.swift */,
-				AF2C070B1F48975600D7E348 /* ActionsView.xib */,
-				AF2C070C1F48975600D7E348 /* BillActionsView.swift */,
-				AF2C070D1F48975600D7E348 /* BillActionTableViewCell.swift */,
-				AF2C070E1F48975600D7E348 /* BillActionTableViewCell.xib */,
-				AF2C070F1F48975600D7E348 /* BillCommitteesView.swift */,
-				AF2C07101F48975600D7E348 /* BillCommitteesView.xib */,
-				AF2C07111F48975600D7E348 /* BillInfoView.swift */,
+				AF9D0E4B1F6450E00049D8D8 /* BillInfoView.swift */,
 				AF2C07121F48975600D7E348 /* BillInfoViewModel.swift */,
 				AF2C07131F48975600D7E348 /* BillController.swift */,
 				AF2C07141F48975600D7E348 /* BillViewModel.swift */,
-				AF2C07151F48975600D7E348 /* CommitteActivitiesView.swift */,
-				AF2C07161F48975600D7E348 /* CommitteActivitiesView.xib */,
-				AF2C07171F48975600D7E348 /* CommitteeView.swift */,
-				AF2C07181F48975600D7E348 /* CommitteeView.xib */,
-				AF2C07191F48975600D7E348 /* MinorActionView.swift */,
-				AF2C071A1F48975600D7E348 /* MinorActionView.xib */,
 				AF2C071B1F48975600D7E348 /* RepresentativeCell.swift */,
 				AF2C071C1F48975600D7E348 /* RepresentativeCellViewModel.swift */,
 				AF2C071D1F48975600D7E348 /* TallyCell.swift */,
@@ -544,8 +503,8 @@
 				AF2C07381F48975E00D7E348 /* RepInfoViewModel.swift */,
 				AF2C07391F48975E00D7E348 /* RepresentativeController.swift */,
 				AF2C073A1F48975E00D7E348 /* RepresentativeViewModel.swift */,
-				AF2C073B1F48975E00D7E348 /* RepVoteTableViewCell.swift */,
-				AF2C073C1F48975E00D7E348 /* TermTableViewCell.swift */,
+				AF2C073B1F48975E00D7E348 /* RepVoteCell.swift */,
+				AF2C073C1F48975E00D7E348 /* TermCell.swift */,
 			);
 			path = Representative;
 			sourceTree = "<group>";
@@ -565,6 +524,7 @@
 		AF3F5BBC1EBE72F700809AA3 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				AFE9A34A1F622CC700CBAD0D /* Resources */,
 				AF3F5BBD1EBE72F700809AA3 /* Core */,
 				AF3F5BC21EBE72F700809AA3 /* Data */,
 				AF2C06CA1F4895F000D7E348 /* Flows */,
@@ -901,7 +861,6 @@
 			isa = PBXGroup;
 			children = (
 				AF3F5BBC1EBE72F700809AA3 /* Source */,
-				AF8974621D4D80E500C19020 /* Main.storyboard */,
 				AF8974651D4D80E500C19020 /* Assets.xcassets */,
 				AF8974671D4D80E500C19020 /* LaunchScreen.storyboard */,
 				AF89746A1D4D80E500C19020 /* Info.plist */,
@@ -945,6 +904,13 @@
 				AFE9A3441F5ECF7600CBAD0D /* TallyViewModel.swift */,
 			);
 			path = Tallies;
+			sourceTree = "<group>";
+		};
+		AFE9A34A1F622CC700CBAD0D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		AFFA951C1EBF604900144C3A /* Extensions */ = {
@@ -1098,16 +1064,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AF2C072F1F48975600D7E348 /* MinorActionView.xib in Resources */,
 				AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */,
 				AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */,
-				AF2C07201F48975600D7E348 /* ActionsView.xib in Resources */,
-				AF2C072B1F48975600D7E348 /* CommitteActivitiesView.xib in Resources */,
-				AF2C07251F48975600D7E348 /* BillCommitteesView.xib in Resources */,
 				AFA9D1601E30269B00CD6BF9 /* GoogleService-Info.plist in Resources */,
-				AF2C07231F48975600D7E348 /* BillActionTableViewCell.xib in Resources */,
-				AF8974641D4D80E500C19020 /* Main.storyboard in Resources */,
-				AF2C072D1F48975600D7E348 /* CommitteeView.xib in Resources */,
 				AF2C06F41F4895F000D7E348 /* FeedbackHeaderView.xib in Resources */,
 				AF2C06F61F4895F000D7E348 /* FeedbackQuestionView.xib in Resources */,
 			);
@@ -1277,18 +1236,16 @@
 				AF2C07401F48975E00D7E348 /* RepInfoViewModel.swift in Sources */,
 				AFE9A3451F5ECF7600CBAD0D /* TallyViewModel.swift in Sources */,
 				AFFA95261EC1F56F00144C3A /* Observable+Decode.swift in Sources */,
-				AF2C07241F48975600D7E348 /* BillCommitteesView.swift in Sources */,
 				AF2C06F81F4895F000D7E348 /* AccountDetailsViewModel.swift in Sources */,
 				AF5B9E5D1EFEF13A000BF83A /* ExpandableTextFieldView.swift in Sources */,
 				AF3F5CDD1EBE72F700809AA3 /* Array+Extensions.swift in Sources */,
 				AF3F5CD81EBE72F700809AA3 /* MenuHelper.swift in Sources */,
-				AF2C07431F48975E00D7E348 /* RepVoteTableViewCell.swift in Sources */,
+				AF2C07431F48975E00D7E348 /* RepVoteCell.swift in Sources */,
 				AFFA95641EC79C4100144C3A /* ApplicationLauncher.swift in Sources */,
 				AFA6F45E1F36818100686697 /* UITextView+Extensions.swift in Sources */,
 				AF2C06EE1F4895F000D7E348 /* BillCellViewModel.swift in Sources */,
 				AF2C06F31F4895F000D7E348 /* FeedbackHeaderView.swift in Sources */,
 				AF41C4071EF173C200DDBD5F /* RepresentativeAnimator.swift in Sources */,
-				AF2C072A1F48975600D7E348 /* CommitteActivitiesView.swift in Sources */,
 				AF2C06FB1F4895F000D7E348 /* ConfirmationViewModel.swift in Sources */,
 				AF6271B51ED3DF8400BDE8DB /* UIButton+Extensions.swift in Sources */,
 				AF2C073F1F48975E00D7E348 /* RepInfoView.swift in Sources */,
@@ -1297,6 +1254,7 @@
 				AF3F5CA21EBE72F700809AA3 /* DatePickerView.swift in Sources */,
 				AF2C06F11F4895F000D7E348 /* SearchController.swift in Sources */,
 				AF2C07001F4895F000D7E348 /* SplashViewController.swift in Sources */,
+				AF9D0E4C1F6450E00049D8D8 /* BillInfoView.swift in Sources */,
 				AF2C06C31F3D4C9100D7E348 /* Localizer.swift in Sources */,
 				AF3F5CFD1EBE755000809AA3 /* FeedbackService.swift in Sources */,
 				AF2C07491F48976800D7E348 /* UserController.swift in Sources */,
@@ -1310,17 +1268,14 @@
 				AF3B2C0B1EDE531300509B01 /* Observable+Extensions.swift in Sources */,
 				AF2C07321F48975600D7E348 /* TallyCell.swift in Sources */,
 				AFE19E181F52648F0054EB98 /* Store.swift in Sources */,
-				AF2C07221F48975600D7E348 /* BillActionTableViewCell.swift in Sources */,
 				AF416A371F28C173006380DA /* MicroClient.swift in Sources */,
 				AF2C073D1F48975E00D7E348 /* RepContactView.swift in Sources */,
 				AF3F5C741EBE72F700809AA3 /* Vote.swift in Sources */,
 				AF2C07051F4895F000D7E348 /* UserRepsViewController.swift in Sources */,
 				AF2C06F01F4895F000D7E348 /* ExploreViewModel.swift in Sources */,
-				AF2C072C1F48975600D7E348 /* CommitteeView.swift in Sources */,
 				AF3F5C761EBE72F700809AA3 /* KratosAnalytics.swift in Sources */,
 				AFD553061F53BA5800E07D9B /* NumberFormatter+Extensions.swift in Sources */,
 				AF3F5CEB1EBE72F700809AA3 /* UIView+Extension.swift in Sources */,
-				AF2C07261F48975600D7E348 /* BillInfoView.swift in Sources */,
 				AF2C073E1F48975E00D7E348 /* RepInfoBillSponsorTableViewCell.swift in Sources */,
 				AF2C06FD1F4895F000D7E348 /* LoginViewModel.swift in Sources */,
 				AF3F5CB01EBE72F700809AA3 /* TrackButton.swift in Sources */,
@@ -1338,7 +1293,6 @@
 				AFD553081F53BB2100E07D9B /* Int+Extension.swift in Sources */,
 				AF3F5CD71EBE72F700809AA3 /* Interactor.swift in Sources */,
 				AF3F5CE01EBE72F700809AA3 /* DateFormatter+Extensions.swift in Sources */,
-				AF2C07211F48975600D7E348 /* BillActionsView.swift in Sources */,
 				AF2C07081F4895F000D7E348 /* UserRepTableViewCellModel.swift in Sources */,
 				AF3F5CFB1EBE754800809AA3 /* CongressService.swift in Sources */,
 				AF3F5CFF1EBE756800809AA3 /* AnalyticsService.swift in Sources */,
@@ -1358,14 +1312,13 @@
 				AF57F4BB1F2B6E110080978F /* ViewBuilder.swift in Sources */,
 				AF57F4C91F2B6EBB0080978F /* UIImageView+RxUrl.swift in Sources */,
 				AF3F5CE81EBE72F700809AA3 /* UILabel+Extensions.swift in Sources */,
-				AF2C07441F48975E00D7E348 /* TermTableViewCell.swift in Sources */,
+				AF2C07441F48975E00D7E348 /* TermCell.swift in Sources */,
 				AF2C07061F4895F000D7E348 /* UserRepsViewModel.swift in Sources */,
 				AF2C06EF1F4895F000D7E348 /* ExploreController.swift in Sources */,
 				AF2C06F21F4895F000D7E348 /* SearchViewModel.swift in Sources */,
 				AF3F5CE61EBE72F700809AA3 /* UIImage+Extension.swift in Sources */,
 				AFE9A3491F601F1300CBAD0D /* SubjectSelectionViewModel.swift in Sources */,
 				AF57F4CB1F2E27030080978F /* TrackButtonViewModel.swift in Sources */,
-				AF2C072E1F48975600D7E348 /* MinorActionView.swift in Sources */,
 				AF3F5CDB1EBE72F700809AA3 /* TransitionManager.swift in Sources */,
 				AF3F5C751EBE72F700809AA3 /* FirebaseAnalytics.swift in Sources */,
 				AF2C06F51F4895F000D7E348 /* FeedbackQuestionView.swift in Sources */,
@@ -1409,7 +1362,6 @@
 				AF57F4BE1F2B6E190080978F /* Styler.swift in Sources */,
 				AF2C07331F48975600D7E348 /* TallyCellViewModel.swift in Sources */,
 				AF2C07411F48975E00D7E348 /* RepresentativeController.swift in Sources */,
-				AF2C071F1F48975600D7E348 /* ActionsView.swift in Sources */,
 				AF3F5CDF1EBE72F700809AA3 /* Date+Extensions.swift in Sources */,
 				AF3F5C711EBE72F700809AA3 /* Tally.swift in Sources */,
 				AF2C07291F48975600D7E348 /* BillViewModel.swift in Sources */,
@@ -1456,14 +1408,6 @@
 				AF1AC5561DF5A6A100DCBA13 /* Base */,
 			);
 			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
-		AF8974621D4D80E500C19020 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AF8974631D4D80E500C19020 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		AF8974671D4D80E500C19020 /* LaunchScreen.storyboard */ = {

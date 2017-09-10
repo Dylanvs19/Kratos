@@ -25,7 +25,7 @@ class BillInfoView: UIView {
         
         static let allValues: [State] = [.summary, .votes, .sponsors, .details]
         
-        var displayName: String {
+        var title: String {
             switch self {
             case .summary:
                 return localize(.billInfoViewSummaryTitle)
@@ -38,17 +38,6 @@ class BillInfoView: UIView {
             }
         }
         
-        var button: UIButton {
-            let button = UIButton()
-            button.style(with: [.font(.cellTitle),
-                                .titleColor(.kratosRed),
-                                .highlightedTitleColor(.red),
-                                .backgroundColor(.white)])
-            button.setTitle(displayName, for: .normal)
-            button.addShadow()
-            return button
-        }
-        
         func scrollViewXPosition(in view: UIView) -> CGFloat {
             let width = view.frame.size.width
             return CGFloat(self.rawValue) * width
@@ -57,6 +46,17 @@ class BillInfoView: UIView {
         func indicatorXPosition(in view: UIView) -> CGFloat {
             let width = view.frame.size.width / CGFloat(State.allValues.count)
             return CGFloat(self.rawValue) * width
+        }
+        
+        var button: UIButton {
+            let button = UIButton()
+            button.setTitle(title, for: .normal)
+            button.style(with: [.font(.tab),
+                                .titleColor(.kratosRed),
+                                .highlightedTitleColor(.red)
+                ])
+            button.tag = self.rawValue
+            return button
         }
     }
     
@@ -72,8 +72,8 @@ class BillInfoView: UIView {
     
     // UIElements
     // Manager
-    let managerStackView = UIStackView()
-    let managerIndicatorView = UIView()
+    let managerView = UIView()
+    let slideView = UIView()
     // Base
     let stackView = UIStackView()
     // Summary
@@ -90,6 +90,8 @@ class BillInfoView: UIView {
     let detailsContentView = UIView()
     let committeesStackView = UIStackView()
     let actionsTableView = UITableView()
+    
+    let buttons = State.allValues.map{ $0.button }
     
     // DataSources
     let sponsorsDatasource = RxTableViewSectionedReloadDataSource<SectionModel<String, Person>>()
@@ -125,28 +127,6 @@ class BillInfoView: UIView {
         layoutIfNeeded()
         summaryView.build()
         bind()
-    }
-    
-    // MARK - Animations -
-    func updateIndicatorView(with state: State) {
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-            self.managerIndicatorView.snp.remakeConstraints { make in
-                make.bottom.equalToSuperview()
-                make.width.equalTo(self.frame.width / CGFloat(State.allValues.count))
-                make.height.equalTo(1)
-                make.leading.equalToSuperview().offset(state.indicatorXPosition(in: self))
-            }
-            self.managerStackView.layoutIfNeeded()
-        }, completion: nil)
-    }
-    
-    func updateScrollView(with state: State) {
-        UIView.animate(withDuration: 0.4) { 
-            self.stackView.snp.updateConstraints { make in
-                make.leading.equalToSuperview().offset(-state.scrollViewXPosition(in: self))
-            }
-            self.layoutIfNeeded()
-        }
     }
     
     // MARK: - Configuration -
@@ -186,6 +166,28 @@ class BillInfoView: UIView {
             return cell
         }
     }
+    
+    // MARK - Animations -
+    func updateIndicatorView(with state: State) {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            self.slideView.snp.remakeConstraints { make in
+                make.bottom.equalToSuperview()
+                make.width.equalTo(self.managerView.frame.width / CGFloat(State.allValues.count))
+                make.height.equalTo(2)
+                make.leading.equalToSuperview().offset(state.indicatorXPosition(in: self.managerView))
+            }
+            self.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
+    func updateScrollView(with state: State) {
+        UIView.animate(withDuration: 0.4) {
+            self.stackView.snp.updateConstraints { make in
+                make.leading.equalToSuperview().offset(-state.scrollViewXPosition(in: self))
+            }
+            self.layoutIfNeeded()
+        }
+    }
 }
 
 // MARK - UITableViewDelegate -
@@ -218,8 +220,9 @@ extension BillInfoView: ViewBuilder {
     func addSubviews() {
         translatesAutoresizingMaskIntoConstraints = false
 
-        addSubview(managerStackView)
-        managerStackView.addSubview(managerIndicatorView)
+        addSubview(managerView)
+        buttons.forEach { managerView.addSubview($0) }
+        managerView.addSubview(slideView)
         
         addSubview(stackView)
         stackView.addArrangedSubview(summaryScrollView)
@@ -232,20 +235,30 @@ extension BillInfoView: ViewBuilder {
     }
     
     func constrainViews() {
-        managerStackView.snp.remakeConstraints { make in
+        managerView.snp.remakeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(25)
+            make.height.equalTo(45)
         }
-        managerIndicatorView.snp.remakeConstraints { make in
+        managerView.layoutIfNeeded()
+        buttons.forEach { button in
+            let count = CGFloat(State.allValues.count)
+            let width = managerView.frame.width/count
+            button.snp.remakeConstraints { make in
+                make.leading.equalTo(width * CGFloat(button.tag))
+                make.top.bottom.equalToSuperview()
+                make.width.equalToSuperview().dividedBy(count)
+            }
+        }
+        slideView.snp.remakeConstraints { make in
             make.bottom.equalToSuperview()
-            make.width.equalTo(self.frame.width / CGFloat(State.allValues.count))
+            make.width.equalToSuperview().dividedBy(CGFloat(State.allValues.count))
             make.height.equalTo(1)
             make.leading.equalToSuperview().offset(0)
         }
         stackView.snp.remakeConstraints { make in
             make.leading.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.top.equalTo(managerStackView.snp.bottom).offset(3)
+            make.top.equalTo(managerView.snp.bottom).offset(3)
         }
         summaryScrollView.snp.remakeConstraints { make in
             make.leading.top.bottom.equalToSuperview()
@@ -277,21 +290,21 @@ extension BillInfoView: ViewBuilder {
     }
     
     func styleViews() {
-        managerStackView.axis = .horizontal
-        managerStackView.alignment = .fill
-        managerStackView.distribution = .fillEqually
-        
-        managerIndicatorView.backgroundColor = .kratosRed
-        
+        managerView.style(with: .backgroundColor(.white))
+        managerView.addShadow()
+        slideView.style(with: .backgroundColor(.kratosRed))
+        managerView.bringSubview(toFront: slideView)
+
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
         
         summaryScrollView.showsVerticalScrollIndicator = false
         detailsScrollView.showsVerticalScrollIndicator = false
+        sponsorsTableView.showsVerticalScrollIndicator = false
         
         stackView.layoutIfNeeded()
-        clipsToBounds = true
+        clipsToBounds = true 
     }
 }
 
@@ -307,18 +320,17 @@ extension BillInfoView: RxBinder {
     
     func bindManagerView() {
         guard  let viewModel = viewModel else { return }
-        State.allValues.forEach { state in
-            let button = state.button
-            managerStackView.addArrangedSubview(button)
-            button.rx.controlEvent(.touchUpInside).asObservable()
-                .map { state }
+        
+        buttons.forEach { button in
+            button.rx.tap
+                .map { _ in State(rawValue: button.tag) }
+                .filterNil()
                 .bind(to: viewModel.state)
                 .disposed(by: disposeBag)
         }
         
-        managerStackView.bringSubview(toFront: managerIndicatorView)
-        
-        viewModel.state.asObservable()
+        viewModel.state
+            .asObservable()
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] state in
                 self?.updateIndicatorView(with: state)
@@ -328,7 +340,9 @@ extension BillInfoView: RxBinder {
     
     func bindMainScrollView() {
         guard  let viewModel = viewModel else { return }
-        viewModel.state.asObservable()
+        
+        viewModel.state
+            .asObservable()
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] state in
                 self?.updateScrollView(with: state)
@@ -338,15 +352,20 @@ extension BillInfoView: RxBinder {
     
     func bindSummaryView() {
         guard let viewModel = viewModel else { return }
-        viewModel.summary.asObservable()
+        
+        viewModel.summary
+            .asObservable()
             .subscribe(onNext: { [weak self] summary in
                 self?.summaryView.update(with: summary)
             })
             .disposed(by: disposeBag)
     }
+    
     func bindVotesView() {
         guard let viewModel = viewModel else { return }
-        viewModel.tallies.asObservable()
+        
+        viewModel.tallies
+            .asObservable()
             .map { [SectionModel(model: "", items: $0)] }
             .bind(to: votesTableView.rx.items(dataSource: votesDatasource))
             .disposed(by: disposeBag)
@@ -354,9 +373,12 @@ extension BillInfoView: RxBinder {
             .bind(to: selectedTally)
             .disposed(by: disposeBag)
     }
+    
     func bindSponsorsView() {
         guard let viewModel = viewModel else { return }
-        viewModel.sponsors.asObservable()
+        
+        viewModel.sponsors
+            .asObservable()
             .map { $0.map { SectionModel(model: $0.key, items: $0.value) } }
             .bind(to: sponsorsTableView.rx.items(dataSource: sponsorsDatasource))
             .disposed(by: disposeBag)
@@ -364,8 +386,9 @@ extension BillInfoView: RxBinder {
             .bind(to: selectedPerson)
             .disposed(by: disposeBag)
     }
+    
     func bindDetailsView() {
-        guard let viewModel = viewModel else { return }
+//        guard let viewModel = viewModel else { return }
         
     }
 }
@@ -381,4 +404,12 @@ func ==(lhs: BillInfoView.State, rhs: BillInfoView.State) -> Bool {
 
 func !=(lhs: BillInfoView.State, rhs: BillInfoView.State) -> Bool {
     return !(lhs == rhs)
+}
+
+extension Reactive where Base: BillInfoView {
+    var bill: UIBindingObserver<Base, Bill> {
+        return UIBindingObserver(UIElement: self.base, binding: { (view, bill) in
+            view.update(with: bill)
+        })
+    }
 }

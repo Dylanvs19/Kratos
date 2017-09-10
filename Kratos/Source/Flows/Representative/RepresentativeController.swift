@@ -129,20 +129,20 @@ extension RepresentativeController: ViewBuilder {
     func constrainViews() {
         topView.snp.remakeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            topViewHeight = make.height.equalTo(115).constraint
+            topViewHeight = make.height.equalTo(135).constraint
         }
         representativeImageView.snp.remakeConstraints { make in
-            make.top.equalToSuperview().offset(40)
+            make.top.equalToSuperview().offset(60)
             make.leading.bottom.equalToSuperview().inset(15)
             make.height.width.equalTo(repImageViewHeight)
         }
         stateImageView.snp.remakeConstraints { make in
-            make.top.equalToSuperview().offset(40)
+            make.top.equalTo(representativeImageView.snp.top)
             make.trailing.bottom.equalToSuperview().inset(15)
             make.height.width.equalTo(repImageViewHeight)
         }
         partyLabel.snp.makeConstraints { make in
-            make.top.equalTo(representativeImageView.snp.top).offset(10)
+            make.top.equalTo(representativeImageView.snp.top).offset(5)
             make.centerX.equalToSuperview()
         }
         repTypeStateLabel.snp.makeConstraints { make in

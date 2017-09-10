@@ -9,9 +9,9 @@
 import UIKit
 import SnapKit
 
-class RepVoteTableViewCell: UITableViewCell {
+class RepVoteCell: UITableViewCell {
     
-    static let identifier = String(describing: RepVoteTableViewCell.self)
+    static let identifier = String(describing: RepVoteCell.self)
     let billTitleLabel = UILabel()
     let billSubjectLabel = UILabel()
     let billStatus = UILabel()
@@ -43,7 +43,7 @@ class RepVoteTableViewCell: UITableViewCell {
     }
 }
 
-extension RepVoteTableViewCell: ViewBuilder {
+extension RepVoteCell: ViewBuilder {
     func addSubviews() {
         addSubview(billTitleLabel)
         addSubview(billSubjectLabel)
@@ -74,9 +74,15 @@ extension RepVoteTableViewCell: ViewBuilder {
     
     func styleViews() {
         selectionStyle = .none
-        billTitleLabel.style(with: [.numberOfLines(3), .font(.cellTitle)])
+        billTitleLabel.style(with: [.numberOfLines(3),
+                                    .font(.cellTitle)
+                                    ])
         billTitleLabel.style(with: .font(.cellTitle))
-        billStatus.style(with: [.font(.cellSubTitle), .titleColor(.gray)])
-        billSubjectLabel.style(with: [.font(.cellSubTitle), .titleColor(.gray)])
+        billStatus.style(with: [.font(.cellSubtitle),
+                                .titleColor(.gray)
+                                ])
+        billSubjectLabel.style(with: [.font(.cellSubtitle),
+                                      .titleColor(.gray)
+                                      ])
     }
 }

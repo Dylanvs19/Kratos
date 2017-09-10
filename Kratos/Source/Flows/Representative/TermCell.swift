@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 import SnapKit
 
-class TermTableViewCell: UITableViewCell {
+class TermCell: UITableViewCell {
     
-    static let identifier = String(describing: TermTableViewCell.self)
+    static let identifier = String(describing: TermCell.self)
     
     let dateRangeLabel = UILabel()
     let representativeTypeLabel = UILabel()
@@ -41,7 +41,7 @@ class TermTableViewCell: UITableViewCell {
     }
 }
 
-extension TermTableViewCell: ViewBuilder {
+extension TermCell: ViewBuilder {
     func addSubviews() {
         contentView.addSubview(representativeTypeLabel)
         contentView.addSubview(districtLabel)

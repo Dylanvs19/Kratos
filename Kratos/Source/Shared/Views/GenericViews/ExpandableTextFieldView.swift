@@ -18,12 +18,12 @@ class ExpandableTextFieldView: UIView {
         case expanded
         case contracted
         
-        var buttonTitle: String {
+        var chevronPosition: CGFloat {
             switch self {
             case .expanded:
-                return localize(.expandableTextFieldViewExpandedButtonTitle)
+                return .pi/2
             case .contracted:
-                return localize(.expandableTextFieldViewContractedButtonTitle)
+                return 3 * .pi/2
             }
         }
     }
@@ -37,6 +37,7 @@ class ExpandableTextFieldView: UIView {
     var titleLabel = UILabel()
     let textView = UITextView()
     var toggleButton = UIButton()
+    var chevronImageView = UIImageView(image: #imageLiteral(resourceName: "chevronRedIcon").af_imageScaled(to: CGSize(width: 25, height: 10)))
     
     // Static helpers
     var expandedHeight: CGFloat = 400
@@ -110,6 +111,12 @@ class ExpandableTextFieldView: UIView {
             } else {
                 self.layoutIfNeeded()
             }
+            if !isContracted {
+                self.chevronImageView.transform = self.chevronImageView.transform.rotated(by: .pi)
+            } else {
+                self.chevronImageView.transform = .identity
+            }
+            self.layoutIfNeeded()
         }, completion: nil)
     }
     
@@ -123,6 +130,7 @@ class ExpandableTextFieldView: UIView {
         
         if forceCollapseToggleButton || totalHeight < contractedHeight {
             toggleButton.isEnabled = false
+            chevronImageView.isHidden = true
             toggleButton.snp.updateConstraints { make in
                 make.height.equalTo(0)
             }
@@ -134,6 +142,7 @@ class ExpandableTextFieldView: UIView {
             }
         } else {
             toggleButton.isEnabled = true
+            chevronImageView.isHidden = false
             let buttonHeight = expandedButtonHeight
             toggleButton.snp.updateConstraints { make in
                 make.height.equalTo(buttonHeight)
@@ -155,6 +164,7 @@ extension ExpandableTextFieldView: ViewBuilder {
         addSubview(titleLabel)
         addSubview(toggleButton)
         addSubview(textView)
+        addSubview(chevronImageView)
     }
     func constrainViews() {
         titleLabel.snp.remakeConstraints { make in
@@ -171,6 +181,9 @@ extension ExpandableTextFieldView: ViewBuilder {
             make.top.equalTo(titleLabel.snp.bottom).offset(5)
             make.bottom.equalTo(toggleButton.snp.top)
             make.height.equalTo(self.contractedHeight)
+        }
+        chevronImageView.snp.remakeConstraints { make in
+            make.centerX.centerY.equalTo(toggleButton)
         }
         textView.layoutIfNeeded()
         layoutIfNeeded()
@@ -233,9 +246,6 @@ extension ExpandableTextFieldView: RxBinder {
     func bindToggleButton() {
         toggleButton.rx.tap
             .bind(to: viewModel.toggleButtonPressed)
-            .disposed(by: disposeBag)
-        viewModel.buttonTitle.asObservable()
-            .bind(to: toggleButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
     }
 }

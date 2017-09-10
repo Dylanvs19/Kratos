@@ -62,7 +62,7 @@ extension RepInfoBillSponsorTableViewCell: ViewBuilder {
     
     func styleViews() {
         selectionStyle = .none
-        titleLabel.style(with: [.font(.title), .numberOfLines(3)])
+        titleLabel.style(with: [.font(.cellTitle), .numberOfLines(3)])
         statusLabel.style(with: .font(.body))
         topTermLabel.style(with: [.font(.body), .numberOfLines(2)])
     }

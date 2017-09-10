@@ -12,10 +12,10 @@ import RxCocoa
 
 class TabBarController: UITabBarController {
     
-    enum Tab {
-        case explore
-        case main
-        case user
+    enum Tab: Int {
+        case explore = 0
+        case main = 1
+        case user = 2
         
         static let allValues: [Tab] = [.explore, .main, .user]
         
@@ -42,7 +42,9 @@ class TabBarController: UITabBarController {
         }
         
         var tabBarItem: UITabBarItem {
-            return UITabBarItem(title: "", image: image, selectedImage: selectedImage)
+            let item = UITabBarItem(title: "", image: image, selectedImage: selectedImage)
+            item.tag = self.rawValue
+            return item
         }
         
         func viewController(with client: Client) -> UIViewController {
@@ -95,21 +97,18 @@ class TabBarController: UITabBarController {
     }
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        guard let items = tabBar.items else { return }
-        var imageView: UIImageView?
-        for (i, tabItem) in items.enumerated() where item == tabItem {
-            imageView = tabBar.subviews[i + 1].subviews.first as? UIImageView
-        }
+        guard let imageView = tabBar.subviews[item.tag + 1].subviews.first as? UIImageView else { return }
+        
 
-        guard let tabImageView = imageView else { return }
-        tabImageView.transform = CGAffineTransform.identity
         UIView.animate(withDuration: 0.5,
                        delay: 0,
                        usingSpringWithDamping: 0.5,
                        initialSpringVelocity: 0,
                        options: .curveEaseIn,
                        animations: { () -> Void in
-            tabImageView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+                        imageView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+                        imageView.layoutIfNeeded()
+                        self.tabBar.layoutIfNeeded()
         },
                        completion: nil)
         
@@ -119,7 +118,9 @@ class TabBarController: UITabBarController {
                        initialSpringVelocity: 0,
                        options: .curveEaseOut,
                        animations: { () -> Void in
-            tabImageView.transform = CGAffineTransform.identity
+                        imageView.transform = CGAffineTransform.identity
+                        imageView.layoutIfNeeded()
+                        self.tabBar.layoutIfNeeded()
         },
                        completion: nil)
     }

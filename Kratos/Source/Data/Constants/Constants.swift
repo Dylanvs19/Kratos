@@ -74,11 +74,7 @@ enum Constant {
     case billInfoViewVotesTitle
     case billInfoViewSponsorsTitle
     case billInfoViewDetailsTitle
-    
-    // ExpandableTextFieldView
-    case expandableTextFieldViewExpandedButtonTitle
-    case expandableTextFieldViewContractedButtonTitle
-    
+
     // MenuVC
     case menuAccountDetailsButtonTitle
     case menuFeedbackButtonTitle
@@ -133,9 +129,9 @@ enum Constant {
             
         //ExploreVC
         case .exploreTitle: return  "On The Floor"
-        case .exploreSenateButtonTitle: return "Senate"
-        case .exploreHouseButtonTitle: return "House"
-        case .exploreExecutiveButtonTitle: return "Executive"
+        case .exploreSenateButtonTitle: return "SENATE"
+        case .exploreHouseButtonTitle: return "HOUSE"
+        case .exploreExecutiveButtonTitle: return "EXECUTIVE"
         case .exploreRecessLabelTitle: return "Congress is currently in recess. Check out your representatives' websites for events."
             
         //UserVC
@@ -145,20 +141,16 @@ enum Constant {
         case .subjectSelectionTitle: return "Select Subjects"
             
         // RepInfoView
-        case .repInfoViewBioTitle: return "Biography"
-        case .repInfoViewVotesTitle: return "Votes"
-        case .repInfoViewBillsTitle: return "Sponsored Bills"
+        case .repInfoViewBioTitle: return "BIOGRAPHY"
+        case .repInfoViewVotesTitle: return "VOTES"
+        case .repInfoViewBillsTitle: return "SPONSOR"
         case .repInfoViewTermsSectionTitle: return "Terms"
             
         // BillInfoView
-        case .billInfoViewSummaryTitle: return  "Summary"
-        case .billInfoViewVotesTitle: return "Votes"
-        case .billInfoViewSponsorsTitle: return "Sponsors"
-        case .billInfoViewDetailsTitle: return "Details"
-            
-        // ExpandableTextFieldView
-        case .expandableTextFieldViewExpandedButtonTitle: return "Show Less"
-        case .expandableTextFieldViewContractedButtonTitle: return "Show More"
+        case .billInfoViewSummaryTitle: return  "SUMMARY"
+        case .billInfoViewVotesTitle: return "VOTES"
+        case .billInfoViewSponsorsTitle: return "SPONSORS"
+        case .billInfoViewDetailsTitle: return "DETAILS"
             
         // MenuVC
         case .menuAccountDetailsButtonTitle: return "Account Details"

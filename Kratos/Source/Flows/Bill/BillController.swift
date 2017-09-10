@@ -99,7 +99,7 @@ extension BillController: ViewBuilder {
             make.top.equalToSuperview()
         }
         titleLabel.snp.remakeConstraints { make in
-            make.top.equalToSuperview().inset(10)
+            make.top.equalToSuperview().inset(20)
             make.leading.trailing.equalToSuperview().inset(40)
         }
         divider.snp.remakeConstraints { make in
@@ -132,7 +132,7 @@ extension BillController: ViewBuilder {
         billHeader.style(with: [.backgroundColor(.white)])
         divider.style(with: [.backgroundColor(.kratosRed)])
         titleLabel.style(with: [.numberOfLines(8),
-                                .font(.header),
+                                .font(.subheader),
                                 .textAlignment(.center)
                                 ])
         
@@ -145,7 +145,6 @@ extension BillController: ViewBuilder {
         statusDateLabel.style(with: [.font(.body),
                                  .titleColor(.lightGray)
                                 ])
-        
         trackButton.addShadow()
     }
 }
@@ -153,20 +152,22 @@ extension BillController: ViewBuilder {
 // MARK: - Binds -
 extension BillController: RxBinder {
     func bind() {
-        viewModel.title.asObservable()
+        viewModel.title
+            .asObservable()
             .bind(to: titleLabel.rx.text)
             .disposed(by: disposeBag)
-        viewModel.status.asObservable()
+        viewModel.status
+            .asObservable()
             .bind(to: statusLabel.rx.text)
             .disposed(by: disposeBag)
-        viewModel.statusDate.asObservable()
+        viewModel.statusDate
+            .asObservable()
             .bind(to: statusDateLabel.rx.text)
             .disposed(by: disposeBag)
-        viewModel.bill.asObservable()
+        viewModel.bill
+            .asObservable()
             .filterNil()
-            .subscribe(onNext: { [weak self] bill in
-                self?.billInfoView.update(with: bill)
-            })
+            .bind(to: billInfoView.rx.bill)
             .disposed(by: disposeBag)
         billInfoView.selectedPerson
             .subscribe(onNext: { [weak self] person in
