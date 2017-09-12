@@ -48,15 +48,16 @@ class UserRepsViewController: UIViewController {
         edgesForExtendedLayout = [.top, .right, .left]
         addSubviews()
         constrainViews()
-        styleViews()
         bind()
         configureTableView()
+        styleViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setDefaultNavVC()
         configureNavVC()
+        topImage.addShadow()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -118,32 +119,33 @@ extension UserRepsViewController: ViewBuilder {
         }
         topShadeView.snp.makeConstraints { make in
             make.leading.bottom.trailing.equalToSuperview()
-            make.height.equalTo(50)
         }
         stateLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(10)
-            make.centerY.equalToSuperview()
+            make.top.bottom.trailing.equalToSuperview().inset(10)
         }
         districtLabel.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(10)
-            make.centerY.equalToSuperview()
+            make.top.bottom.leading.equalToSuperview().inset(10)
         }
         tableView.snp.makeConstraints { make in
             make.top.equalTo(stateImageView.snp.bottom).offset(5)
-            make.leading.equalToSuperview().offset(10)
-            make.trailing.equalToSuperview().offset(-10)
-            make.bottom.equalToSuperview().offset(-5)
+            make.trailing.leading.equalToSuperview().inset(10)
+            make.bottom.equalToSuperview().inset(10)
         }
     }
     
     func styleViews() {
+        view.clipsToBounds = false
         stateImageView.contentMode = .scaleToFill
-        topShadeView.backgroundColor = .black
-        topShadeView.alpha = 0.5
+        topShadeView.style(with: .backgroundColor(.black))
+        topShadeView.alpha = 0.8
         
         view.style(with: .backgroundColor(.slate))
-        stateLabel.style(with: [.font(.header), .titleColor(.white)])
-        districtLabel.style(with: [.font(.header), .titleColor(.white)])
+        stateLabel.style(with: [.font(.subTitle),
+                                .titleColor(.white)])
+        districtLabel.style(with: [.font(.subTitle),
+                                   .titleColor(.white)])
+        tableView.clipsToBounds = false
+        topImage.addShadow()
     }
 }
 

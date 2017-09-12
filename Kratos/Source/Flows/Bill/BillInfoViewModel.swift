@@ -46,7 +46,8 @@ extension BillInfoViewModel: RxBinder {
             .subscribe(onNext: { [weak self] bill in
                 self?.tallies.value = bill.tallies ?? []
                 self?.committees.value = bill.committees ?? []
-                self?.summary.value = bill.summary ?? ""
+                let summary = bill.summary ?? bill.officialTitle
+                self?.summary.value = summary ?? ""
                 
                 var sponsors = [String: [Person]]()
                 if let leadSponsor = bill.sponsor {

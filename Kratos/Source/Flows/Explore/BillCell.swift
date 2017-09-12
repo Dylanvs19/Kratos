@@ -75,6 +75,7 @@ extension BillCell: ViewBuilder {
         accessoryType = .disclosureIndicator
         separatorInset = .zero
         selectionStyle = .none
+        
     }
 }
 

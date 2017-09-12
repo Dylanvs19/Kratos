@@ -70,7 +70,7 @@ class TrackButton: UIButton {  //CurtainPresenter {
     // MARK: - Customization -
     private func customization() {
         contentEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 10)
-        setTitle("L", for: .highlighted)
+        setTitle(" ", for: .highlighted)
     }
 }
 
