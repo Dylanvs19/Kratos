@@ -75,6 +75,7 @@ class BillInfoView: UIView {
     let managerView = UIView()
     let slideView = UIView()
     // Base
+    let scrollView = UIScrollView()
     let stackView = UIStackView()
     // Summary
     let summaryScrollView = UIScrollView()
@@ -118,12 +119,12 @@ class BillInfoView: UIView {
     
     // MARK: - Helpers -
     func build() {
-        styleViews()
         configureVotesTableView()
         configureSponsorsTableView()
         addSubviews()
         constrainViews()
-        
+        styleViews()
+
         layoutIfNeeded()
         summaryView.build()
         bind()
@@ -181,12 +182,10 @@ class BillInfoView: UIView {
     }
     
     func updateScrollView(with state: State) {
-        UIView.animate(withDuration: 0.4) {
-            self.stackView.snp.updateConstraints { make in
-                make.leading.equalToSuperview().offset(-state.scrollViewXPosition(in: self))
-            }
-            self.layoutIfNeeded()
-        }
+        self.scrollView.scrollRectToVisible(CGRect(x: state.scrollViewXPosition(in: self),
+                                                   y: 0,
+                                                   width: self.frame.width,
+                                                   height: 1), animated: true)
     }
 }
 
@@ -224,7 +223,9 @@ extension BillInfoView: ViewBuilder {
         buttons.forEach { managerView.addSubview($0) }
         managerView.addSubview(slideView)
         
-        addSubview(stackView)
+        addSubview(scrollView)
+        scrollView.addSubview(stackView)
+        
         stackView.addArrangedSubview(summaryScrollView)
         stackView.addArrangedSubview(votesTableView)
         stackView.addArrangedSubview(sponsorsTableView)
@@ -255,11 +256,16 @@ extension BillInfoView: ViewBuilder {
             make.height.equalTo(1)
             make.leading.equalToSuperview().offset(0)
         }
-        stackView.snp.remakeConstraints { make in
-            make.leading.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.top.equalTo(managerView.snp.bottom).offset(3)
+        scrollView.snp.remakeConstraints { make in
+            make.top.equalTo(self.managerView.snp.bottom).offset(5)
+            make.leading.trailing.bottom.equalToSuperview()
         }
+        scrollView.layoutIfNeeded()
+        stackView.snp.remakeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        stackView.layoutIfNeeded()
+
         summaryScrollView.snp.remakeConstraints { make in
             make.leading.top.bottom.equalToSuperview()
             make.width.equalTo(self.snp.width)
@@ -299,12 +305,13 @@ extension BillInfoView: ViewBuilder {
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
         
+        scrollView.isScrollEnabled = false
+        votesTableView.translatesAutoresizingMaskIntoConstraints = false 
         summaryScrollView.showsVerticalScrollIndicator = false
         detailsScrollView.showsVerticalScrollIndicator = false
         sponsorsTableView.showsVerticalScrollIndicator = false
         
         stackView.layoutIfNeeded()
-        clipsToBounds = true 
     }
 }
 
