@@ -26,11 +26,7 @@ class RepresentativeViewModel {
     let url = Variable<URL?>(nil)
     
     //Representative ContactView Variables
-    let contactMethods = Variable<[ContactMethod]>([])
-    let phonePressed = PublishSubject<String>()
-    let twitterPressed = PublishSubject<String>()
-    let websitePressed = PublishSubject<String>()
-    let officePressed = PublishSubject<String>()
+    let contactMethods = Variable<[RepContactView.ContactMethod]>([])
     
     //RepInfo Variables
     let contentOffset = Variable<CGFloat>(0)
@@ -55,44 +51,49 @@ extension RepresentativeViewModel: RxBinder {
         bindContactVariables()
         bindRepInfoView()
     }
-    
-    func bindRepInfoView() { }
-    
+
     func bindHeaderVariables() {
-        representative.asObservable()
+        representative
+            .asObservable()
             .filterNil()
             .map { $0.fullName }
             .bind(to: title)
             .disposed(by: disposeBag)
-        representative.asObservable()
+        representative
+            .asObservable()
             .filterNil()
             .map { "\($0.currentChamber.representativeType.short()). \($0.currentState.fullName)" }
             .bind(to: repTypeState)
             .disposed(by: disposeBag)
-        representative.asObservable()
+        representative
+            .asObservable()
             .filterNil()
             .map { $0.currentParty?.long }
             .filterNil()
             .bind(to: party)
             .disposed(by: disposeBag)
-        representative.asObservable()
+        representative
+            .asObservable()
             .filterNil()
             .map { $0.currentState }
             .bind(to: state)
             .disposed(by: disposeBag)
-        representative.asObservable()
+        representative
+            .asObservable()
             .filterNil()
             .map { $0.biography }
             .filterNil()
             .bind(to: bio)
             .disposed(by: disposeBag)
-        representative.asObservable()
+        representative
+            .asObservable()
             .filterNil()
             .map { $0.terms }
             .filterNil()
             .bind(to: terms)
             .disposed(by: disposeBag)
-        representative.asObservable()
+        representative
+            .asObservable()
             .filterNil()
             .map { $0.imageURL }
             .filterNil()
@@ -102,26 +103,22 @@ extension RepresentativeViewModel: RxBinder {
     }
     
     func bindContactVariables() {
-
-        representative.asObservable()
+        representative
+            .asObservable()
             .map {
-                var contactMethods = [ContactMethod]()
+                var contactMethods: [RepContactView.ContactMethod] = []
                 if let phone = $0?.terms?.first?.phone {
-                    contactMethods += [ContactMethod(contactType: .phone, associatedValue: phone, variable: self.phonePressed)]
+                    contactMethods.append(.phone(phone))
                 }
-                
                 if let url = $0?.terms?.first?.website {
-                    contactMethods += [ContactMethod(contactType: .website, associatedValue: url, variable: self.websitePressed)]
+                    contactMethods.append(.website(url))
                 }
-                
                 if let handle = $0?.twitter {
-                    contactMethods += [ContactMethod(contactType: .twitter, associatedValue: handle, variable: self.twitterPressed)]
+                    contactMethods.append(.twitter(handle))
                 }
-                
                 if let address = $0?.terms?.first?.officeAddress {
-                    contactMethods += [ContactMethod(contactType: .office, associatedValue: address, variable: self.officePressed)]
+                    contactMethods.append(.office(address))
                 }
-                
                 return contactMethods
             }
             .bind(to: contactMethods)

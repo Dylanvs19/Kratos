@@ -251,20 +251,14 @@ extension RepInfoView: ViewBuilder {
             make.leading.top.trailing.equalToSuperview()
             make.height.equalTo(45)
         }
+        managerView.layoutIfNeeded()
         buttons.forEach { button in
+            let count = CGFloat(State.allValues.count)
+            let width = managerView.frame.width/count
             button.snp.remakeConstraints { make in
-                if button.tag == 0 {
-                    make.leading.top.bottom.equalToSuperview()
-                    make.width.equalToSuperview().dividedBy(3)
-                }
-                if button.tag == 1 {
-                    make.centerX.top.bottom.equalToSuperview()
-                    make.width.equalToSuperview().dividedBy(3)
-                }
-                if button.tag == 2 {
-                    make.trailing.top.bottom.equalToSuperview()
-                    make.width.equalToSuperview().dividedBy(3)
-                }
+                make.leading.equalTo(width * CGFloat(button.tag))
+                make.top.bottom.equalToSuperview()
+                make.width.equalToSuperview().dividedBy(count)
             }
         }
         slideView.snp.remakeConstraints { make in
@@ -413,7 +407,8 @@ extension RepInfoView: RxBinder {
     
     func bindVotesView() {
         guard let viewModel = viewModel else { return }
-        viewModel.formattedTallies.asObservable()
+        viewModel.formattedTallies
+            .asObservable()
             .map { arrays in
                 return arrays.map { array in
                     return SectionModel(model: DateFormatter.presentation.string(from: (array.first?.first?.date ?? Date())),  items: array) }
@@ -421,7 +416,8 @@ extension RepInfoView: RxBinder {
             .bind(to: votesTableView.rx.items(dataSource: votesDataSource))
             .disposed(by: disposeBag)
         
-        votesTableView.rx.contentOffset.asObservable()
+        votesTableView.rx.contentOffset
+            .asObservable()
             .map { $0.y > (self.votesTableView.contentSize.height - self.billsTableView.frame.height - 100) }
             .distinctUntilChanged()
             .filter { $0 == true }

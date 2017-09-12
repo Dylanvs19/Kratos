@@ -12,17 +12,25 @@ import RxCocoa
 import RxGesture
 import SnapKit
 
-struct ContactMethod {
+func ==(lhs: RepContactView.ContactMethod, rhs: RepContactView.ContactMethod) -> Bool {
+    switch (lhs, rhs) {
+    case (.phone, .phone),
+         (.twitter, .twitter),
+         (.office, .office),
+         (.website, .website):
+        return true
+    default:
+        return false
+    }
+}
+
+class RepContactView: UIView {
     
-    var contactType: ContactType
-    var associatedValue: String
-    var variable: PublishSubject<String>
-    
-    enum ContactType {
-        case phone
-        case website
-        case twitter
-        case office
+    enum ContactMethod {
+        case phone(String)
+        case website(String)
+        case twitter(String)
+        case office(String)
         
         var image: UIImage {
             switch self {
@@ -44,30 +52,11 @@ struct ContactMethod {
             return button
         }
     }
-}
-
-func ==(lhs: ContactMethod, rhs: ContactMethod) -> Bool {
-    switch (lhs.contactType, rhs.contactType) {
-    case (.phone, .phone),
-         (.twitter, .twitter),
-         (.office, .office),
-         (.website, .website):
-        return true
-    default:
-        return false
-    }
-}
-
-class RepContactView: UIView {
 
     let stackView = UIStackView()
     let disposeBag = DisposeBag()
-
-    var contactMethods = [ContactMethod]() {
-        didSet {
-            fillStackView(with: contactMethods)
-        }
-    }
+    
+    let selectedMethod = PublishSubject<ContactMethod>()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -80,18 +69,15 @@ class RepContactView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func set(contactMethods: [ContactMethod]) {
-        self.contactMethods = contactMethods
-    }
-    
-    func fillStackView(with contactMethods: [ContactMethod]) {
+    func update(with contactMethods: [ContactMethod]) {
+        stackView.arrangedSubviews.forEach{ $0.removeFromSuperview() }
         contactMethods.forEach { method in
-            let button = method.contactType.button
-            stackView.addArrangedSubview(button)
-            button.rx.controlEvent([.touchUpInside]).asObservable()
-                .map { method.associatedValue }
-                .bind(to: method.variable)
+            method.button.rx.controlEvent([.touchUpInside])
+                .asObservable()
+                .map { _ in method }
+                .bind(to: selectedMethod)
                 .disposed(by: self.disposeBag)
+            stackView.addArrangedSubview(method.button)
         }
     }
 }
@@ -111,5 +97,13 @@ extension RepContactView: ViewBuilder {
         stackView.alignment = .fill
         stackView.axis = .horizontal
         stackView.distribution = .equalCentering
+    }
+}
+
+extension Reactive where Base: RepContactView {
+    var contactMethods: UIBindingObserver<Base, [RepContactView.ContactMethod]> {
+        return UIBindingObserver(UIElement: self.base, binding: {(view, contactMethods) in
+            view.update(with: contactMethods)
+        })
     }
 }

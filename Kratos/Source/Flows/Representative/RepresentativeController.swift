@@ -34,12 +34,8 @@ class RepresentativeController: UIViewController {
     
     // RepInfoView
     let repInfoView: RepInfoView
-    
-    // Constraint & Static Sizes
-    var topViewHeight: Constraint?
-    var contactViewHeight: Constraint?
-    var repInfoViewHeight: Constraint?
 
+    let topMargin: CGFloat = 64
     let repImageViewHeight: CGFloat = 60
     
     // MARK: - Initializer -
@@ -59,13 +55,13 @@ class RepresentativeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = [.top, .right, .left]
-        styleViews()
         addSubviews()
         constrainViews()
         bind()
         //RepInfoView needs to be laid out and constrained after view is larger than .zero
         view.layoutIfNeeded()
         repInfoView.buildViews()
+        styleViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -129,10 +125,10 @@ extension RepresentativeController: ViewBuilder {
     func constrainViews() {
         topView.snp.remakeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            topViewHeight = make.height.equalTo(135).constraint
+            make.height.equalTo(topMargin + repImageViewHeight + 20)
         }
         representativeImageView.snp.remakeConstraints { make in
-            make.top.equalToSuperview().offset(60)
+            make.top.equalToSuperview().offset(topMargin + 5)
             make.leading.bottom.equalToSuperview().inset(15)
             make.height.width.equalTo(repImageViewHeight)
         }
@@ -152,7 +148,7 @@ extension RepresentativeController: ViewBuilder {
         contactView.snp.makeConstraints { make in
             make.top.equalTo(topView.snp.bottom).offset(5)
             make.leading.trailing.equalToSuperview().inset(20)
-            contactViewHeight = make.height.equalTo(35).constraint
+            make.height.equalTo(35)
         }
         repInfoView.snp.makeConstraints { make in
             make.top.equalTo(contactView.snp.bottom).offset(5)
@@ -162,6 +158,8 @@ extension RepresentativeController: ViewBuilder {
     }
     
     func styleViews() {
+        automaticallyAdjustsScrollViewInsets = false 
+        view.clipsToBounds = false
         view.style(with: .backgroundColor(.slate))
         topView.style(with: .backgroundColor(.white))
         topView.addShadow()
@@ -169,8 +167,9 @@ extension RepresentativeController: ViewBuilder {
         stateImageView.alpha = 0.2
         stateImageView.contentMode = .scaleAspectFit
         
-        partyLabel.style(with: [.font(.subTitle)])
-        repTypeStateLabel.style(with: [.font(.subTitle), .titleColor(.lightGray)])
+        partyLabel.style(with: [.font(.tab)])
+        repTypeStateLabel.style(with: [.font(.cellTitle),
+                                       .titleColor(.lightGray)])
     }
 }
 
@@ -181,62 +180,57 @@ extension RepresentativeController: RxBinder {
         bindContactView()
         bindRepInfoView()
     }
-    
     func bindTopView() {
-        viewModel.title.asObservable()
+        viewModel.title
+            .asObservable()
             .bind(to: self.rx.title)
             .disposed(by: disposeBag)
-        viewModel.url.asObservable()
+        viewModel.url
+            .asObservable()
             .filterNil()
             .bind(to: self.representativeImageView.rx.setImage())
             .disposed(by: disposeBag)
-        viewModel.representative.asObservable()
+        viewModel.representative
+            .asObservable()
             .map { $0?.currentParty?.color }
             .filterNil()
             .subscribe(onNext: { [weak self] color in
                 self?.partyLabel.textColor = color.value
             })
             .disposed(by: disposeBag)
-        viewModel.repTypeState.asObservable()
+        viewModel.repTypeState
+            .asObservable()
             .bind(to: repTypeStateLabel.rx.text)
             .disposed(by: disposeBag)
-        viewModel.state.asObservable()
+        viewModel.state
+            .asObservable()
             .filterNil()
             .map { $0.grayImage }
             .bind(to: stateImageView.rx.image)
             .disposed(by: disposeBag)
-    
-        viewModel.party.asObservable()
+        viewModel.party
+            .asObservable()
             .bind(to: partyLabel.rx.text)
             .disposed(by: disposeBag)
     }
     
     func bindContactView() {
-        
-        viewModel.contactMethods.asObservable()
-            .subscribe(onNext: { [weak self] methods in
-                self?.contactView.set(contactMethods: methods)
-            })
+        viewModel.contactMethods
+            .asObservable()
+            .bind(to: contactView.rx.contactMethods)
             .disposed(by: disposeBag)
-        
-        viewModel.phonePressed.asObservable()
-            .subscribe(onNext: { [weak self] phoneNumber in
-                self?.presentPhonePrompt(with: phoneNumber)
-            })
-            .disposed(by: disposeBag)
-        viewModel.twitterPressed.asObservable()
-            .subscribe(onNext: { [weak self] handle in
-                self?.presentTwitter(with: handle)
-            })
-            .disposed(by: disposeBag)
-        viewModel.websitePressed.asObservable()
-            .subscribe(onNext: { [weak self] url in
-                self?.presentWebsite(with: url)
-            })
-            .disposed(by: disposeBag)
-        viewModel.officePressed.asObservable()
-            .subscribe(onNext: { [weak self] address in
-                self?.presentOffice(with: address)
+        contactView.selectedMethod
+            .subscribe(onNext: { [weak self] method in
+                switch method {
+                case .phone(let number):
+                    self?.presentPhonePrompt(with: number)
+                case .twitter(let handle):
+                    self?.presentTwitter(with: handle)
+                case .website(let url):
+                    self?.presentWebsite(with: url)
+                case .office(let address):
+                    self?.presentOffice(with: address)
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -255,13 +249,14 @@ extension RepresentativeController: RxBinder {
             .subscribe(onNext: { [weak self] in
                 guard let client = self?.client,
                     let navVC = self?.navigationController else { return }
-                let vc = BillController(client: client, lightTally: $0)
+                var vc = UIViewController()
+                if $0.billId != nil {
+                    vc = BillController(client: client, lightTally: $0)
+                } else {
+                    vc = TallyController(client: client, tally: $0)
+                }
                 navVC.pushViewController(vc, animated: true)
             })
-            .disposed(by: disposeBag)
-        
-        repInfoView.contentOffset.asObservable()
-            .bind(to: viewModel.contentOffset)
             .disposed(by: disposeBag)
     }
 }
