@@ -49,7 +49,6 @@ extension RepresentativeViewModel: RxBinder {
     func bind() {
         bindHeaderVariables()
         bindContactVariables()
-        bindRepInfoView()
     }
 
     func bindHeaderVariables() {
