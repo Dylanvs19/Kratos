@@ -23,6 +23,7 @@ class UserViewModel {
     let selectedSubjects = Variable<[Subject]>([])
     
     let trackedBillsSelected = Variable<Bool>(true)
+    let clearable = Variable<Bool>(true)
     
     let bills = Variable<[Bill]>([])
     let presentedBills = Variable<[Bill]>([])
@@ -70,17 +71,20 @@ class UserViewModel {
             })
             .disposed(by: disposeBag)
     }
+    func clearSelectedSubjects() {
+        selectedSubjects.value = []
+    }
     
     func resetBills() {
         billsDisposeBag = nil
         billsDisposeBag = DisposeBag()
         guard let billsDisposeBag = billsDisposeBag else { return }
         bills.asObservable()
-            .do(onNext: { bills in
-                for bill in bills {
-                    print(bill.topSubject?.name)
-                }
-            })
+//            .do(onNext: { bills in
+//                for bill in bills {
+//                    print(bill.topSubject?.name)
+//                }
+//            })
             .scan([]) { $0 + $1 }
             .bind(to: presentedBills)
             .disposed(by: billsDisposeBag)
@@ -95,7 +99,6 @@ extension UserViewModel: RxBinder {
             .map { $0.contains(where: { $0 == self.trackedBillsSubject }) }
             .bind(to: trackedBillsSelected)
             .disposed(by: disposeBag)
-        
         selectedSubjects
             .asObservable()
             .map { $0.filter { $0 != self.trackedBillsSubject } }
@@ -106,7 +109,11 @@ extension UserViewModel: RxBinder {
                 self?.fetchBills(for: subjects)
             })
             .disposed(by: disposeBag)
-        
+        selectedSubjects
+            .asObservable()
+            .map { $0.count != 0 }
+            .bind(to: clearable)
+            .disposed(by: disposeBag)
         fetchAction.asObservable()
             .withLatestFrom(selectedSubjects.asObservable())
             .map { $0.filter { $0 != self.trackedBillsSubject } }
@@ -115,6 +122,6 @@ extension UserViewModel: RxBinder {
             })
             .disposed(by: disposeBag)
         
-       resetBills()
+        resetBills()
     }
 }

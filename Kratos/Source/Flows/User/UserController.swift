@@ -23,14 +23,19 @@ class UserController: UIViewController {
     let interactor = Interactor()
     
     // UIElements
+    let header = UIView()
     let topView = UIView()
     let collectionView: UICollectionView
     let addMoreSubjectsButton = UIButton()
     let clearSelectedSubjectButton = UIButton()
     
+    let tableViewView = UIView()
     let tableView = UITableView()
     let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Bill>>()
 
+    let headerHeight: CGFloat = 64
+    let buttonWidth: CGFloat = 35
+    
     // MARK: - Initializers -
     init(client: Client) {
         self.client = client
@@ -53,18 +58,23 @@ class UserController: UIViewController {
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        edgesForExtendedLayout = []
+        edgesForExtendedLayout = [.top, .right, .left]
         configureCollectionView()
         configureTableView()
+        localizeStrings()
         addSubviews()
         constrainViews()
-        styleViews()
         bind()
+        styleViews()
+        view.layoutIfNeeded()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavVC()
+        header.addShadow()
+        topView.addShadow()
+        tableViewView.addShadow()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -102,45 +112,86 @@ class UserController: UIViewController {
         tableView.tableFooterView = UIView()
         tableView.showsVerticalScrollIndicator = false
     }
+    
+    func animateClearSubjectButton(for clearable: Bool) {
+        UIView.animate(withDuration: 0.2) {
+            let width: CGFloat = clearable ? 35 : 0
+            self.clearSelectedSubjectButton.snp.remakeConstraints { make in
+                make.top.bottom.leading.equalToSuperview()
+                make.width.equalTo(width)
+            }
+            self.view.layoutIfNeeded()
+        }
+    }
 }
 
 // MARK: - View Builder -
 extension UserController: ViewBuilder {
     func addSubviews() {
-        view.addSubview(tableView)
+        view.addSubview(header)
+        view.addSubview(tableViewView)
+        tableViewView.addSubview(tableView)
         view.addSubview(topView)
+        topView.addSubview(clearSelectedSubjectButton)
         topView.addSubview(addMoreSubjectsButton)
         topView.addSubview(collectionView)
     }
     
     func constrainViews() {
-        topView.snp.makeConstraints { make in
-//            make.top.equalTo(top.snp.bottom).offset(10)
-            make.top.leading.trailing.equalToSuperview().inset(10)
+        header.snp.remakeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(headerHeight)
+        }
+        topView.snp.remakeConstraints { make in
+            make.top.equalTo(header.snp.bottom).offset(10)
+            make.leading.trailing.equalToSuperview().inset(10)
             make.height.equalTo(35)
         }
-        addMoreSubjectsButton.snp.makeConstraints { make in
+        addMoreSubjectsButton.snp.remakeConstraints { make in
             make.top.bottom.trailing.equalToSuperview()
-            make.width.equalTo(35)
+            make.width.equalTo(buttonWidth)
         }
-        collectionView.snp.makeConstraints { make in
-            make.leading.top.bottom.equalToSuperview()
+        clearSelectedSubjectButton.snp.remakeConstraints { make in
+            make.top.bottom.leading.equalToSuperview()
+            make.width.equalTo(buttonWidth)
+        }
+        collectionView.snp.remakeConstraints { make in
+            make.top.bottom.equalToSuperview()
             make.trailing.equalTo(addMoreSubjectsButton.snp.leading)
+            make.leading.equalTo(clearSelectedSubjectButton.snp.trailing)
         }
-        tableView.snp.makeConstraints { make in
+        tableViewView.snp.remakeConstraints { make in
             make.top.equalTo(topView.snp.bottom).offset(10)
             make.trailing.leading.equalToSuperview().inset(10)
             make.bottom.equalToSuperview().offset(-5)
+        }
+        tableView.snp.remakeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
     func styleViews() {
         view.style(with: .backgroundColor(.slate))
-        let image = #imageLiteral(resourceName: "plusIcon").af_imageScaled(to: CGSize(width: 25, height: 25))
-        addMoreSubjectsButton.setImage(image, for: .normal)
-        addMoreSubjectsButton.backgroundColor = Color.white.value
+        tableView.style(with: .backgroundColor(.white))
+        header.style(with: .backgroundColor(.white))
+        addMoreSubjectsButton.style(with: [.titleColor(.kratosRed),
+                                           .font(.tab),
+                                           .backgroundColor(.white)])
+        clearSelectedSubjectButton.style(with: .backgroundColor(.white))
+        let image = #imageLiteral(resourceName: "clearIcon").af_imageScaled(to: CGSize(width: 25, height: 25))
+        clearSelectedSubjectButton.setImage(image, for: .normal)
+        addMoreSubjectsButton.addShadow(shadowColor: .black, shadowOffset: CGSize(width: 1, height: 0) , shadowOpacity: 0.2, shadowRadius: 1)
+        clearSelectedSubjectButton.addShadow(shadowColor: .black, shadowOffset: CGSize(width: 1, height: 0) , shadowOpacity: 0.2, shadowRadius: 1)
     }
 }
+
+// MARK: - Localizer -
+extension UserController: Localizer {
+    func localizeStrings() {
+        addMoreSubjectsButton.setTitle("ALL", for: .normal)
+    }
+}
+
 
 // MARK: - Interaction Responder -
 extension UserController: InteractionResponder {
@@ -163,7 +214,7 @@ extension UserController: UICollectionViewDelegateFlowLayout {
         return 4
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(5, 5, 0, 0)
+        return UIEdgeInsetsMake(2, 5, 2, 0)
     }
 }
 
@@ -197,6 +248,12 @@ extension UserController: RxBinder {
                 }
             })
             .disposed(by: disposeBag)
+        viewModel.clearable
+            .asObservable()
+            .subscribe(onNext: { [weak self] clearable in
+                self?.animateClearSubjectButton(for: clearable)
+            })
+            .disposed(by: disposeBag)
         
         collectionView.rx.itemSelected
             .map { _ in self.collectionView.indexPathsForSelectedItems ?? [] }
@@ -228,6 +285,17 @@ extension UserController: RxBinder {
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
                 let vc = SubjectSelectionController(client: self.client)
                 self.navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
+        clearSelectedSubjectButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let indexPaths = self?.collectionView.indexPathsForSelectedItems else { return }
+                indexPaths.forEach {
+                    self?.collectionView.deselectItem(at: $0, animated: true)
+                    self?.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: true)
+                    self?.viewModel.clearSelectedSubjects()
+                    self?.viewModel.resetBills()
+                }
             })
             .disposed(by: disposeBag)
     }

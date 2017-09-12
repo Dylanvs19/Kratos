@@ -60,6 +60,9 @@ class ExploreController: UIViewController {
     let viewModel: ExploreViewModel
     let disposeBag = DisposeBag()
     
+    // Header View
+    let header = UIView()
+    
     // TopView
     let managerView = UIView()
     let slideView = UIView()
@@ -69,6 +72,7 @@ class ExploreController: UIViewController {
     let recessView = UIView()
     let recessLabel = UILabel()
     
+    let scrollViewView = UIView()
     let scrollView = UIScrollView()
     
     // TableViews
@@ -76,13 +80,13 @@ class ExploreController: UIViewController {
     
     let senateTableView = UITableView()
     let executiveTableView = UITableView()
-    let senateDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Bill>>()
-    
     let houseTableView = UITableView()
-    let houseDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Bill>>()
 
-    let buttonWidth: CGFloat = 80
-    let buttonHeight: CGFloat = 25
+    let emptySenateDescriptionLabel = UILabel()
+    let emptyExecutiveDescriptionLabel = UILabel()
+    let emptyHouseDescriptionLabel = UILabel()
+    
+    let headerMargin: CGFloat = 64
     
     // MARK: - Initializers -
     init(client: Client) {
@@ -101,22 +105,28 @@ class ExploreController: UIViewController {
         //UIFont.familyNames.forEach{ UIFont.fontNames(forFamilyName: $0).forEach { print($0) } }
         
         super.viewDidLoad()
-        edgesForExtendedLayout = [.right, .left]
+        edgesForExtendedLayout = [.top, .right, .left]
         addSubviews()
         constrainViews()
-        styleViews()
         localizeStrings()
+        bind()
         configureHouseTableView()
         configureSenateTableView()
         configureExecutiveTableView()
         configureScrollView()
-        bind()
-        
+        styleViews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        setDefaultNavVC()
         configureNavVC()
+        //This must be called here because it must be rendered at runtime due to sizing issues.
+        scrollViewView.addShadow()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -161,7 +171,7 @@ class ExploreController: UIViewController {
     }
     
     func configureScrollView() {
-        scrollView.isScrollEnabled = false 
+//        scrollView.isScrollEnabled = false 
     }
     
     func configure(for inRecess: Bool) {
@@ -175,7 +185,8 @@ class ExploreController: UIViewController {
                         make.edges.equalToSuperview()
                     }
                 }
-                make.leading.trailing.top.equalToSuperview()
+                make.top.equalTo(self.header.snp.bottom)
+                make.leading.trailing.equalToSuperview()
                 if !inRecess {
                     make.height.equalTo(0)
                 }
@@ -193,7 +204,6 @@ class ExploreController: UIViewController {
     
     // MARK: - Animations -
     func update(with state: State) {
-        
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             self.slideView.snp.remakeConstraints { make in
                 make.bottom.equalToSuperview()
@@ -219,7 +229,7 @@ class ExploreController: UIViewController {
 // MARK: - ViewBuilder -
 extension ExploreController: ViewBuilder {
     func addSubviews() {
-        
+        view.addSubview(header)
         view.addSubview(managerView)
         managerView.addSubview(slideView)
         
@@ -228,17 +238,27 @@ extension ExploreController: ViewBuilder {
         view.addSubview(recessView)
         recessView.addSubview(recessLabel)
         
-        view.addSubview(scrollView)
+        view.addSubview(scrollViewView)
+        scrollViewView.addSubview(scrollView)
         
         scrollView.addSubview(tableViewView)
         tableViewView.addSubview(senateTableView)
         tableViewView.addSubview(houseTableView)
         tableViewView.addSubview(executiveTableView)
+        
+        tableViewView.addSubview(emptyHouseDescriptionLabel)
+        tableViewView.addSubview(emptyExecutiveDescriptionLabel)
+        tableViewView.addSubview(emptySenateDescriptionLabel)
     }
     
     func constrainViews() {
-        recessView.snp.remakeConstraints { make in
+        header.snp.remakeConstraints { make in
             make.leading.trailing.top.equalToSuperview()
+            make.height.equalTo(headerMargin)
+        }
+        recessView.snp.remakeConstraints { make in
+            make.top.equalTo(header.snp.bottom)
+            make.leading.trailing.equalToSuperview()
             make.height.equalTo(0)
         }
         recessLabel.snp.remakeConstraints { make in
@@ -251,19 +271,12 @@ extension ExploreController: ViewBuilder {
         }
         managerView.layoutIfNeeded()
         buttons.forEach { button in
+            let count = CGFloat(State.allValues.count)
+            let width = managerView.frame.width/count
             button.snp.remakeConstraints { make in
-                if button.tag == 0 {
-                    make.leading.top.bottom.equalToSuperview()
-                    make.width.equalToSuperview().dividedBy(3)
-                }
-                if button.tag == 1 {
-                    make.centerX.top.bottom.equalToSuperview()
-                    make.width.equalToSuperview().dividedBy(3)
-                }
-                if button.tag == 2 {
-                    make.trailing.top.bottom.equalToSuperview()
-                    make.width.equalToSuperview().dividedBy(3)
-                }
+                make.leading.equalTo(width * CGFloat(button.tag))
+                make.top.bottom.equalToSuperview()
+                make.width.equalToSuperview().dividedBy(count)
             }
         }
         slideView.snp.remakeConstraints { make in
@@ -271,10 +284,12 @@ extension ExploreController: ViewBuilder {
             make.width.equalToSuperview().dividedBy(3)
             make.height.equalTo(2)
         }
-        scrollView.snp.remakeConstraints { make in
+        scrollViewView.snp.remakeConstraints { make in
             make.top.equalTo(managerView.snp.bottom).offset(10)
-            make.trailing.leading.equalToSuperview().inset(10)
-            make.bottom.equalTo(bottomLayoutGuide.snp.top).offset(-10)
+            make.trailing.bottom.leading.equalToSuperview().inset(10)
+        }
+        scrollView.snp.remakeConstraints { make in
+            make.edges.equalToSuperview()
         }
         tableViewView.snp.remakeConstraints { make in
             make.width.equalTo(scrollView.snp.width).multipliedBy(3)
@@ -298,6 +313,9 @@ extension ExploreController: ViewBuilder {
     }
     
     func styleViews() {
+        header.style(with: .backgroundColor(.white))
+        header.addShadow()
+        
         view.style(with: .backgroundColor(.slate))
         managerView.style(with: .backgroundColor(.white))
         managerView.addShadow()
@@ -313,6 +331,7 @@ extension ExploreController: ViewBuilder {
                                  .textAlignment(.center)
                                 ])
         recessLabel.numberOfLines = 4
+        tableViewView.style(with: .backgroundColor(.white))
     }
 }
 
