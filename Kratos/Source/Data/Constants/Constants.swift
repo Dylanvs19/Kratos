@@ -56,9 +56,16 @@ enum Constant {
     case exploreHouseButtonTitle
     case exploreExecutiveButtonTitle
     case exploreRecessLabelTitle
+    case exploreSenateEmptyLabel
+    case exploreHouseEmptyLabel
+    case exploreExecutiveEmptyLabel
     
     //UserVC
     case userTitle
+    
+    //TallyVC
+    case tallyVotesTitle
+    case tallyDetailsTitle
     
     //SubjectSelectionVC
     case subjectSelectionTitle
@@ -128,14 +135,21 @@ enum Constant {
         case .confirmationExplainationText: return "We have just sent an email to your email address you provided to us with a magic link. Once you have activated the link you will be signed in. If you are not automatically signed in after activating the link in the email, press the button below."
             
         //ExploreVC
-        case .exploreTitle: return  "On The Floor"
+        case .exploreTitle: return "On The Floor"
         case .exploreSenateButtonTitle: return "SENATE"
         case .exploreHouseButtonTitle: return "HOUSE"
         case .exploreExecutiveButtonTitle: return "EXECUTIVE"
-        case .exploreRecessLabelTitle: return "Congress is currently in recess. Check out your representatives' websites for events."
+            case .exploreRecessLabelTitle: return "Congress is currently in recess. Check out your representatives' websites for events."
+        case .exploreSenateEmptyLabel: return  "The Senate currently has no bills to consider in the upcoming days."
+        case .exploreHouseEmptyLabel: return  "The House currently has no bills to consider in the upcoming days."
+        case .exploreExecutiveEmptyLabel: return  "There are no bills pending the presidents signature."
             
         //UserVC
         case .userTitle: return "My Bills"
+            
+        //TallyVC
+        case .tallyVotesTitle: return "VOTES"
+        case .tallyDetailsTitle: return "DETAILS"
         
         //SubjectSelectionVC
         case .subjectSelectionTitle: return "Select Subjects"
