@@ -90,7 +90,6 @@ class UserRepsViewController: UIViewController {
         tableView.rx
             .setDelegate(self)
             .disposed(by: disposeBag)
-        
     }
 }
 

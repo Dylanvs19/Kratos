@@ -18,8 +18,12 @@ class SubjectSelectionViewModel {
     let disposeBag = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
 
-    let subjects = Variable<[Subject]>([])
-    let selectedSubjects = Variable<[Subject]>([])
+    let subjects = Variable<[Subject]?>(nil)
+    let selectedSubjects = Variable<[Subject]?>(nil)
+    
+    let query = Variable<String>("")
+    let presentedSubjects = Variable<[Subject]>([])
+    let selectedIndexes = Variable<[Int]>([])
     
     // MARK: - Initializer -
     init(client: Client) {
@@ -59,6 +63,17 @@ class SubjectSelectionViewModel {
 
 extension SubjectSelectionViewModel: RxBinder {
     func bind() {
+        Observable.combineLatest(subjects.asObservable().filterNil(), selectedSubjects.asObservable().filterNil()) { subjects, selected in
+                return selected + subjects.filter { !selected.contains($0) }
+            }
+            .take(1)
+            .bind(to: presentedSubjects)
+            .disposed(by: disposeBag)
         
+        Observable.combineLatest(subjects.asObservable().filterNil(), query.asObservable()) { subjects, query in
+                return subjects.filter { $0.name.contains(query) }
+            }
+            .bind(to: presentedSubjects)
+            .disposed(by: disposeBag)
     }
 }

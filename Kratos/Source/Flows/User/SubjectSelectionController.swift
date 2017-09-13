@@ -19,9 +19,17 @@ class SubjectSelectionController: UIViewController {
     let client: Client
     let viewModel: SubjectSelectionViewModel
     let disposeBag = DisposeBag()
-
+    
+    let searchView = UIView()
+    let searchTextField = UITextField()
+    let searchImageView = UIImageView(image: #imageLiteral(resourceName: "searchIcon"))
+    let clearButton = UIButton()
+    let tableViewView = UIView()
     let tableView = UITableView()
     let headerView = UIView()
+    
+    let headerViewHeight: CGFloat = 64
+    let textfieldHeight: CGFloat = 45
     
     // MARK: - Initializers -\
     init(client: Client) {
@@ -37,7 +45,7 @@ class SubjectSelectionController: UIViewController {
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        edgesForExtendedLayout = [.top, .right, .left, .bottom]
+        edgesForExtendedLayout = [.top, .right, .left]
         configureTableView()
         addSubviews()
         constrainViews()
@@ -76,50 +84,71 @@ class SubjectSelectionController: UIViewController {
 
 extension SubjectSelectionController: ViewBuilder {
     func addSubviews() {
-        view.addSubview(tableView)
+        view.addSubview(tableViewView)
+        view.addSubview(searchView)
+        searchView.addSubview(searchTextField)
+        searchView.addSubview(searchImageView)
+        searchView.addSubview(clearButton)
+        tableViewView.addSubview(tableView)
         view.addSubview(headerView)
     }
     
     func constrainViews() {
-        headerView.snp.makeConstraints { make in
+        headerView.snp.remakeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(44)
+            make.height.equalTo(headerViewHeight)
+        }
+        searchView.snp.remakeConstraints { make in
+            make.top.equalTo(headerView.snp.bottom).offset(10)
+            make.leading.trailing.equalToSuperview().inset(10)
+            make.height.equalTo(45)
+        }
+        searchImageView.snp.remakeConstraints { make in
+            make.leading.top.bottom.equalToSuperview()
+            make.width.equalTo(searchImageView.snp.height)
+        }
+        clearButton.snp.remakeConstraints { make in
+            make.trailing.top.bottom.equalToSuperview()
+            make.width.equalTo(clearButton.snp.height)
+        }
+        searchTextField.snp.remakeConstraints { make in
+            make.leading.equalTo(searchImageView.snp.trailing)
+            make.top.bottom.equalToSuperview()
+            make.trailing.equalTo(clearButton.snp.leading)
+        }
+        tableViewView.snp.remakeConstraints { make in
+            make.top.equalTo(searchView.snp.bottom).offset(10)
+            make.bottom.trailing.leading.equalToSuperview().inset(10)
         }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(headerView.snp.bottom).offset(10)
-            make.trailing.leading.equalToSuperview().inset(10)
-            make.bottom.equalToSuperview().offset(-5)
+            make.edges.equalToSuperview()
         }
     }
     
     func styleViews() {
         view.style(with: .backgroundColor(.slate))
         headerView.style(with: .backgroundColor(.white))
+        clearButton.setImage(#imageLiteral(resourceName: "clearIcon"), for: .normal)
     }
 }
 
 // MARK: - Binds  -
 extension SubjectSelectionController: RxBinder {
     func bind() {
-        viewModel.subjects
+        viewModel.presentedSubjects
             .asObservable()
-            .bind(to: self.tableView.rx.items(cellIdentifier: "Cell")) {
-                row, model, cell in
-                    cell.textLabel?.style(with: [.font(.header),
-                                                 .titleColor(.gray),
-                                                 .numberOfLines(5)])
-                    cell.separatorInset = .zero
-                    cell.textLabel?.text = model.name
-                }
+            .bind(to: self.tableView.rx.items(cellIdentifier: SubjectSelectionCell.identifier, cellType: SubjectSelectionCell.self)) { row, model, cell in
+                cell.configure(with: model)
+            }
             .disposed(by: disposeBag)
         
-        viewModel.selectedSubjects
+        viewModel.selectedIndexes
             .asObservable()
+            .filter { !$0.isEmpty }
             .take(1)
-            .delay(0.2, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] subjects in
                 Array(0..<subjects.count).forEach { index in
-                    self?.tableView.selectRow(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .middle)
+                    self?.tableView.selectRow(at: IndexPath(item: index, section: 0), animated: false, scrollPosition: .middle)
                 }
             })
             .disposed(by: disposeBag)
