@@ -22,7 +22,7 @@ class ExploreViewModel {
     let state = Variable<ExploreController.State>(.senate)
     let houseBills = Variable<[Bill]>([])
     let senateBills = Variable<[Bill]>([])
-    let executiveBills = Variable<[Bill]>([])
+    let trendingBills = Variable<[Bill]>([])
     let inRecess = Variable<Bool>(false)
     
     // MARK: - Initializer -
@@ -64,6 +64,18 @@ class ExploreViewModel {
             .subscribe(onNext: { [weak self] bills in
                 self?.loadStatus.value = .none
                 self?.houseBills.value = bills
+                }, onError: { [weak self] error in
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func fetchTrendingBills() {
+        loadStatus.value = .loading
+        client.fetchTrending()
+            .subscribe(onNext: { [weak self] bills in
+                self?.loadStatus.value = .none
+                self?.trendingBills.value = bills
                 }, onError: { [weak self] error in
                     self?.loadStatus.value = .error(KratosError.cast(from: error))
             })

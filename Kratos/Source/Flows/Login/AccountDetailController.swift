@@ -15,29 +15,24 @@ class AccountDetailsController: UIViewController {
     
     // MARK: - Enums -
     enum State {
-        case createAccount
-        case editAccount
-        case viewAccount
+        case create
+        case edit
         
-        var saveEditRegisterButtonTitle: String {
+        var saveRegisterButtonTitle: String {
             switch self {
-            case .createAccount:
+            case .create:
                 return localize(.accountDetailsRegisterButtonTitle)
-            case .editAccount:
+            case .edit:
                 return localize(.accountDetailsSaveButtonTitle)
-            case .viewAccount:
-                return localize(.accountDetailsEditButtonTitle)
             }
         }
         
-        var cancelDoneButtonTitle: String {
+        var title: String {
             switch self {
-            case .createAccount:
-                return ""
-            case .editAccount:
-                return localize(.accountDetailsCancelButtonTitle)
-            case .viewAccount:
-                return localize(.accountDetailsDoneButtonTitle)
+            case .create:
+                return "Create Account"
+            case .edit:
+                return "Account Details"
             }
         }
     }
@@ -50,12 +45,12 @@ class AccountDetailsController: UIViewController {
     fileprivate let scrollView = UIScrollView()
     fileprivate let contentView = UIView()
     
-    fileprivate var kratosImageView = UIImageView(image: #imageLiteral(resourceName: "KratosLogo"))
-    fileprivate var saveEditRegisterButton = UIButton()
-    fileprivate var cancelDoneButton = UIButton()
+    fileprivate var saveRegisterButton = UIButton()
     
     fileprivate let datePicker = DatePickerView()
     fileprivate var datePickerTopConstraint: Constraint?
+    
+    fileprivate let buttonHeight: CGFloat = 50
     
     fileprivate let firstTextField = KratosTextField(type: .first)
     fileprivate let lastTextField = KratosTextField(type: .last)
@@ -82,6 +77,7 @@ class AccountDetailsController: UIViewController {
         self.client = client
         self.viewModel = AccountDetailsViewModel(with: client, state: state, credentials: credentials)
         super.init(nibName: nil, bundle: nil)
+        self.title = state.title
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -107,7 +103,7 @@ class AccountDetailsController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setDefaultLoginNavVC()
+        setDefaultNavVC()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -117,10 +113,8 @@ class AccountDetailsController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        setDefaultLoginNavVC()
+        setDefaultNavVC()
     }
-    
-
     
     // MARK - Configuration -
     func setInitialState() {
@@ -133,21 +127,27 @@ class AccountDetailsController: UIViewController {
     
     // MARK - Animations -
     fileprivate func beginningAnimations() {
-        UIView.animate(withDuration: 0.25, delay: 0.25, options: [], animations: {
+        UIView.animate(withDuration: 0.2, delay: 0.1, options: [], animations: {
             self.fieldData.forEach { (data) in
                 data.field.isHidden = false
-                data.field.animateIn()
             }
             self.animateIn()
             self.view.layoutIfNeeded()
-        }, completion: nil)
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.2, delay: 0, options: [], animations: {
+                self.fieldData.forEach { (data) in
+                    data.field.animateIn()
+                    self.view.layoutIfNeeded()
+                }
+            })
+        })
     }
     
     fileprivate func animateIn() {
         fieldData.forEach { (data) in
             data.field.snp.remakeConstraints({ make in
-                make.top.equalTo(kratosImageView.snp.bottom).offset(data.fieldType.offsetYPosition)
-                make.centerX.equalTo(view).multipliedBy(data.fieldType.centerXPosition)
+                make.top.equalTo(topLayoutGuide.snp.bottom).offset(data.fieldType.offsetYPosition)
+                make.centerX.equalToSuperview().multipliedBy(data.fieldType.centerXPosition)
                 make.width.equalTo(self.view.frame.width * data.fieldType.expandedWidthMultiplier)
                 make.height.equalTo(25)
             })
@@ -212,15 +212,15 @@ extension AccountDetailsController: DatePickerViewDelegate {
     
     func selectedDate(date: Date) {
         Observable.just(DateFormatter.presentation.string(from: date))
-            .do(onNext: { [weak self] (date) in
-                self?.hideDatePicker()
-            })
-            .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { [weak self] (date) in
-                if let field = self?.fieldData.filter({ $0.fieldType == .dob }).first {
-                    field.field.setText(date)
+            .subscribe(
+                onNext: { [weak self] date in
+                    self?.hideDatePicker()
+                    if let field = self?.fieldData.filter({ $0.fieldType == .dob }).first {
+                        field.field.setText(date)
+                        field.viewModelVariable.value = date
+                    }
                 }
-            })
+            )
             .disposed(by: disposeBag)
     }
 }
@@ -230,12 +230,10 @@ extension AccountDetailsController: ViewBuilder {
     func addSubviews() {
         self.view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        contentView.addSubview(kratosImageView)
         fieldData.forEach { (data) in
             contentView.addSubview(data.field)
         }
-        contentView.addSubview(cancelDoneButton)
-        contentView.addSubview(saveEditRegisterButton)
+        contentView.addSubview(saveRegisterButton)
         view.addSubview(datePicker)
     }
     
@@ -246,49 +244,31 @@ extension AccountDetailsController: ViewBuilder {
         contentView.snp.makeConstraints { (make) in
             make.edges.equalTo(view)
         }
-        kratosImageView.snp.makeConstraints { make in
-            make.height.equalTo(kratosImageView.snp.width)
-            make.height.equalTo(150)
-            make.centerX.equalTo(view)
-            make.centerY.equalTo(view).multipliedBy(0.3)
-        }
         fieldData.forEach { (data) in
             data.field.snp.makeConstraints({ make in
-                make.top.equalTo(kratosImageView.snp.bottom).offset(data.fieldType.offsetYPosition)
-                make.centerX.equalTo(view).multipliedBy(data.fieldType.centerXPosition)
+                make.top.equalTo(topLayoutGuide.snp.bottom).offset(data.fieldType.offsetYPosition)
+                make.centerX.equalToSuperview().multipliedBy(data.fieldType.centerXPosition)
                 make.width.equalTo(0)
                 make.height.equalTo(25)
             })
         }
-        cancelDoneButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(view).inset(15)
-            make.centerX.equalTo(view)
-        }
-        saveEditRegisterButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(cancelDoneButton.snp.top).inset(15)
-            make.centerX.equalTo(view)
+        saveRegisterButton.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(50)
         }
         datePicker.snp.makeConstraints { (make) in
             make.top.equalTo(view.snp.bottom)
             make.height.equalTo(250)
-            make.width.equalTo(view).inset(20)
-            make.centerX.equalTo(view)
+            make.width.centerX.equalToSuperview().inset(20)
         }
     }
     
     func styleViews() {
-        saveEditRegisterButton.style(with: [.font(.header),
-                                            .titleColor(.kratosRed),
-                                            .highlightedTitleColor(.red)
-                                            ])
-        
-        cancelDoneButton.style(with: [.font(.subheader),
-                                            .titleColor(.lightGray),
-                                            .highlightedTitleColor(.gray)
-                                     ])
-        
-        saveEditRegisterButton.isUserInteractionEnabled = true
-        cancelDoneButton.isUserInteractionEnabled = true
+        view.style(with: .backgroundColor(.white))
+        saveRegisterButton.style(with: [.font(.header),
+                                        .backgroundColor(.kratosRed),
+                                        .titleColor(.white),
+                                        .highlightedTitleColor(.red)])
     }
 }
 
@@ -352,58 +332,38 @@ extension AccountDetailsController: RxBinder {
     }
     
     func setupButtonBindings() {
-        viewModel.state.asObservable()
-            .map { $0.saveEditRegisterButtonTitle}
-            .bind(to: saveEditRegisterButton.rx.title(for: .normal))
+        viewModel.state
+            .asObservable()
+            .map { $0.saveRegisterButtonTitle}
+            .bind(to: saveRegisterButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
-        
-        viewModel.state.asObservable()
-            .map { $0.cancelDoneButtonTitle}
-            .bind(to: cancelDoneButton.rx.title(for: .normal))
-            .disposed(by: disposeBag)
-        
-        viewModel.user.asObservable()
+        viewModel.user
+            .asObservable()
             .filterNil()
             .subscribe(onNext: { [weak self] _ in
                 self?.setNewUserValues()
             })
             .disposed(by: disposeBag)
-        saveEditRegisterButton.rx.tap
+        saveRegisterButton.rx.tap
             .withLatestFrom(self.viewModel.state.asObservable())
             .subscribe(onNext: { [weak self] state in
                 switch state {
-                case .createAccount:
+                case .create:
                     self?.viewModel.register()
-                case .editAccount:
+                case .edit:
                     self?.viewModel.save()
-                case .viewAccount:
-                    self?.dismiss(animated: true, completion: nil)
                 }
             })
             .disposed(by: disposeBag)
-        
-        cancelDoneButton.rx.tap
-            .map { _ in self.viewModel.state.value }
-            .subscribe(onNext: { [weak self] state in
-                switch state {
-                case .createAccount:
-                    break
-                case .editAccount:
-                    self?.viewModel.cancel()
-                case .viewAccount:
-                    self?.dismiss(animated: true, completion: nil)
+        viewModel.formValid
+            .asObservable()
+            .do(
+                onNext: { [weak self] isEnabled in
+                    let color: Color = isEnabled ? .kratosRed : .lightGray
+                    self?.saveRegisterButton.style(with: .backgroundColor(color))
                 }
-            })
-            .disposed(by: disposeBag)
-        
-        Observable.combineLatest(
-            viewModel.formValid.asObservable(),
-            viewModel.state.asObservable(), resultSelector: { (valid, state) -> Bool in
-                return state == .createAccount && !valid
-            })
-            .subscribe(onNext: { [weak self] (valid) in
-                self?.saveEditRegisterButton.rx.base.isEnabled = !valid
-            })
+            )
+            .bind(to: self.saveRegisterButton.rx.isEnabled)
             .disposed(by: disposeBag)
     }
     

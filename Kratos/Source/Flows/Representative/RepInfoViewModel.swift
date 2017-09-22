@@ -9,6 +9,9 @@
 import Foundation
 import UIKit
 import RxSwift
+import RxCocoa
+import RxDataSources
+import SwiftDate
 
 class RepInfoViewModel {
     
@@ -88,7 +91,8 @@ class RepInfoViewModel {
 // MARK - Binds -
 extension RepInfoViewModel: RxBinder {
     func bind() {
-        fetchAction.asObservable()
+        fetchAction
+            .asObservable()
             .withLatestFrom(state.asObservable())
             .subscribe(onNext: { [weak self] state in
                 switch state {
@@ -99,16 +103,18 @@ extension RepInfoViewModel: RxBinder {
             })
             .disposed(by: disposeBag)
         
-        tallies.asObservable()
+        tallies
+            .asObservable()
             .scan([]) { $0 + $1 }
-            .map { tallies in
-                let arrays = tallies.groupBySection(groupBy: { $0.date.computedDayFromDate }, sortGroupsBy: {$0 > $1})
-                return arrays.map { $0.groupBySection(groupBy: { $0.billId ?? 0 }) }
+            .map { tallies  -> [[[LightTally]]] in
+                let arrays = tallies.grouped(groupBy: { $0.date.startOf(component: .day) }, sortGroupsBy: {$0.date.startOf(component: .day) > $1.date.startOf(component: .day)})
+                return arrays.map { $0.grouped(groupBy: { $0.billId ?? 0 }) }
             }
             .bind(to: formattedTallies)
             .disposed(by: disposeBag)
         
-        bills.asObservable()
+        bills
+            .asObservable()
             .scan([]) { $0 + $1 }
             .bind(to: formattedBills)
             .disposed(by: disposeBag)

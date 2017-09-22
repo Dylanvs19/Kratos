@@ -11,14 +11,14 @@ import Alamofire
 
 enum KratosTarget: Target {
     //Login
-    case register(user: User)
+    case register(user: User, fcmToken: String?)
     case login(email: String, password: String)
     case forgotPassword(email: String)
     case resendConfirmation(email: String)
     //User
     //Metadata
     case fetchUser
-    case update(user: User)
+    case update(user: User, fcmToken: String?)
     
     //BillTracking
     case fetchTrackedBills(pageNumber: Int)
@@ -59,6 +59,7 @@ enum KratosTarget: Target {
     
     //Bills on the floor
     case fetchOnFloor(chamber: Chamber)
+    case fetchTrendingBills
     
     //Subjects
     case fetchAllSubjects
@@ -79,9 +80,12 @@ enum KratosTarget: Target {
     
     var parameters: [String: Any]? {
         switch self {
-        //Login
-        case .register(let user):
-            return user.toJson()
+        case .register(let user, let token):
+            var userDict = user.toJson()
+            if let token = token {
+                userDict["push_token"] = token
+            }
+            return userDict
         case .login(let email, let password):
             return ["session" :[
                                 "email": email.lowercased(),
@@ -90,93 +94,33 @@ enum KratosTarget: Target {
                     ]
         case .forgotPassword(let email):
             return ["email": email.lowercased()]
-        case .resendConfirmation:
-            return nil
-        
-        //User
-        //Metadata
-        case .fetchUser:
-            return nil
-        case .update(let user):
-            return user.toJson()
-        
-        //BillTracking
-        case .fetchTrackedBillIds:
-            return nil
-        case .fetchTrackedBills:
-            return nil
+        case .update(let user, let token):
+            var userDict = user.toJson()
+            if let token = token {
+                userDict["push_token"] = token
+            }
+            return userDict
         case .trackBill(let billID):
             return ["track": ["bill_id": billID ] ]
-        case .viewTrackedBill:
-            return nil
-        case .untrackBill:
-            return nil
-        
-        //SubjectTracking
-        case .fetchTrackedSubjects:
-            return nil
         case .followSubject(let subjectID):
             return ["follow": ["subject_id": subjectID ] ]
-        case .unfollowSubject:
-            return nil
-            
-        //UserVotes
-        case .fetchUserVotingRecord:
-            return nil
         case .createUserVote(let voteValue, let tallyID):
             return ["vote": ["tally_id": tallyID,
                              "value": voteValue.rawValue
                             ]
                    ]
-        case .fetchUserVote:
-            return nil
         case .updateUserVote(let voteValue, let tallyID):
             return ["vote": [
                             "tally_id": tallyID,
                             "value": voteValue.rawValue
                             ]
                    ]
-        case .deleteUserVote:
-            return nil
-
-        //Congress
-        //Metadata
-        case .determineRecess:
-            return nil
-       
-        case
-        // Representatives
-            .fetchRepresentatives,
-            .fetchPerson,
-            .fetchTallies,
-            .fetchSponsoredBills,
-        //Vote
-            .fetchTally,
-        //Bills
-            .fetchBill,
-            .fetchBills,
-            .fetchAllBills,
-        //Bills on Floor
-            .fetchOnFloor,
-        //Subjects
-            .fetchAllSubjects,
-        //State
-            .getStateDistricts,
-            .getStateImage:
-            return nil
-        
-        //Feedback
-        case .fetchFeedback:
-            return nil
         case .postFeedback(let id, let questions):
             return ["user-id" : id,
                     "answers" : questions]
-        //Analytics
         case .postKratosAnalyticEvent(let analytics, let event):
             return analytics.toDict(with: event)
-        
-        //Image
-        case .url:
+        default:
             return nil
         }
     }
@@ -251,12 +195,14 @@ enum KratosTarget: Target {
             return "/bills/\(billID)"
         case .fetchBills(let subjects, let tracked, let pageNumber):
             if subjects.isEmpty {
-                return "/me/bills?page=\(pageNumber)&subjects5B%B5D=false&userbills=\(tracked)"
+                return "/me/bills?page=\(pageNumber)&subjects[]=false&userbills=\(tracked)"
             } else {
-                return subjects.reduce("/me/bills?page=\(pageNumber)&userbills=\(tracked)") { $0 + "&subjects%5B%5D=\($1.id)"}
+                return subjects.reduce("/me/bills?page=\(pageNumber)&userbills=\(tracked)") { $0 + "&subjects[]=\($1.id)"}
             }
         case .fetchOnFloor(let chamber):
             return "/congress/\(chamber.pathValue)/floor"
+        case .fetchTrendingBills:
+            return "/api/congress/trending"
         //Subjects
         case .fetchAllSubjects:
             return "/subjects"
@@ -287,81 +233,40 @@ enum KratosTarget: Target {
             
         case .login,
              .forgotPassword,
-             .resendConfirmation:
+             .resendConfirmation,
+             .update,
+             .trackBill,
+             .followSubject,
+             .createUserVote,
+             .postKratosAnalyticEvent,
+             .postFeedback:
             return .post
-            
-            //User
-        //Metadata
-        case .fetchUser:
-            return .get
-        case .update:
-            return .post
-            
-        //BillTracking
-        case .fetchTrackedBillIds,
-             .fetchTrackedBills,
-             .viewTrackedBill:
-            return .get
-        case .trackBill:
-            return .post
-        case .untrackBill:
-            return .delete
-            
-        //SubjectTracking
-        case .fetchTrackedSubjects:
-            return .get
-        case .followSubject:
-            return .post
-        case .unfollowSubject:
-            return .delete
-            
-        //UserVotes
-        case .fetchUserVotingRecord,
-             .fetchUserVote:
-            return .get
-        case .createUserVote:
-            return .post
-        case .deleteUserVote:
+        case .untrackBill,
+             .unfollowSubject,
+             .deleteUserVote:
             return .delete
         case .updateUserVote:
             return .put
-            
-            //Congress
-        //Metadata
-        case .determineRecess:
+        default:
             return .get
-            
-        // Representatives
-        case .fetchRepresentatives,
-             .fetchPerson,
-             .fetchTallies,
-             .fetchSponsoredBills,
-        //Vote
-             .fetchTally,
-        //Bill
-             .fetchAllBills,
-             .fetchBill,
-             .fetchBills,
-             .fetchOnFloor,
-        //Subjects
-             .fetchAllSubjects,
-        //State
-             .getStateDistricts,
-             .getStateImage:
-                return .get
-        
-        //Feedback
-        case .fetchFeedback:
-            return .get
-        case .postFeedback:
-            return .post
-        //Analytics
-        case .postKratosAnalyticEvent:
-            return .post
-        
-        //Image
-        case .url:
-            return .get
+        }
+    }
+    
+    var parameterEncoding: ParameterEncoding{
+        switch self {
+        case .register,
+             .login,
+             .forgotPassword,
+             .update,
+             .trackBill,
+             .followSubject,
+             .createUserVote,
+             .updateUserVote,
+             .postFeedback,
+             .postKratosAnalyticEvent:
+            return JSONEncoding.default
+        default:
+            return URLEncoding.default
         }
     }
 }

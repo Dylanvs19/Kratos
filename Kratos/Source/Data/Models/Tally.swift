@@ -175,7 +175,6 @@ enum TallyResult {
              .failed,
              .motionRejected,
              .amendmentRejected,
-             .motionToTableAgreedTo,
              .clotureMotionRejected:
             return UIColor.kratosRed
         default:

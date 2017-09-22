@@ -15,6 +15,7 @@ pod 'RxDataSources'
 pod 'RxGesture'
 pod 'Alamofire'
 pod 'AlamofireImage'
+pod 'SwiftDate'
 
 end
 

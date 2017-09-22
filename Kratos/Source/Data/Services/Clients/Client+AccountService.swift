@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import FirebaseMessaging
 
 enum AuthenticationError {
     case notLoggedIn
@@ -17,8 +18,8 @@ enum AuthenticationError {
 
 extension Client: AccountService {
     
-    func register(user: User) -> Observable<Bool> {
-        return request(.register(user: user), ignoreCache: true)
+    func register(user: User, fcmToken: String?) -> Observable<Bool> {
+        return request(.register(user: user, fcmToken: fcmToken), ignoreCache: true)
             .toJson()
             .map { _ in return true }
     }
@@ -63,13 +64,25 @@ extension Client: AccountService {
         return request(.fetchUser)
             .toJson()
             .mapObject()
+            .do(
+                onNext: { [weak self] user in
+                    guard let `self` = self else { return }
+                    self.user.value = user
+                }
+            )
     }
     
-    func updateUser(user: User) -> Observable<User> {
+    func updateUser(user: User, fcmToken: String?) -> Observable<User> {
         guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
         
-        return request(.update(user: user))
+        return request(.update(user: user, fcmToken: fcmToken))
             .toJson()
             .mapObject()
+            .do(
+                onNext: { [weak self] user in
+                    guard let `self` = self else { return }
+                    self.user.value = user
+                }
+            )
     }
 }

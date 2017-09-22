@@ -97,9 +97,11 @@ extension TallyCell: RxBinder {
         viewModel.pieChartData.asObservable()
             .filterNil()
             .filter { !$0.isEmpty }
-            .subscribe(onNext: { [weak self] data in
-                self?.pieChartView.configure(with: data)
-            })
+            .subscribe(
+                onNext: { [weak self] data in
+                    self?.pieChartView.configure(with: data)
+                }
+            )
             .disposed(by: disposeBag)
         viewModel.name.asObservable()
             .bind(to: titleLabel.rx.text)

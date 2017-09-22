@@ -416,6 +416,7 @@ func !=(lhs: BillInfoView.State, rhs: BillInfoView.State) -> Bool {
 extension Reactive where Base: BillInfoView {
     var bill: UIBindingObserver<Base, Bill> {
         return UIBindingObserver(UIElement: self.base, binding: { (view, bill) in
+            print("Co Sponsors \(bill.coSponsors)")
             view.update(with: bill)
         })
     }

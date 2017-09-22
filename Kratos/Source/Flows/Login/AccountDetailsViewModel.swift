@@ -9,6 +9,8 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import Firebase
+import FirebaseMessaging
 
 class AccountDetailsViewModel {
     
@@ -18,7 +20,7 @@ class AccountDetailsViewModel {
     let disposeBag = DisposeBag()
     
     let user = Variable<User?>(nil)
-    let state = Variable<AccountDetailsController.State>(.viewAccount)
+    let state = Variable<AccountDetailsController.State>(.edit)
     
     let email = Variable<String>("")
     let password = Variable<String>("")
@@ -67,7 +69,7 @@ class AccountDetailsViewModel {
     
     func register() {
         registerLoadStatus.value = .loading
-        client.register(user: buildRegistrationUser())
+        client.register(user: buildRegistrationUser(), fcmToken:  FIRInstanceID.instanceID().token())
             .subscribe(onNext: { [weak self] success in
                 self?.registerLoadStatus.value = .none
             }, onError: { [weak self] error in
@@ -76,13 +78,9 @@ class AccountDetailsViewModel {
             .disposed(by: disposeBag)
     }
     
-    func edit() {
-        state.value = .editAccount
-    }
-    
     func save() {
         loadStatus.value = .loading
-        client.updateUser(user: updateUser())
+        client.updateUser(user: updateUser(), fcmToken:  FIRInstanceID.instanceID().token())
             .subscribe(onNext: { [weak self] (user) in
                 self?.loadStatus.value = .none
                 self?.user.value = user
@@ -92,13 +90,7 @@ class AccountDetailsViewModel {
             .disposed(by: disposeBag)
     }
     
-    func cancel() {
-        state.value = .viewAccount
-    }
-    
-    
     func buildRegistrationUser() -> User {
-        
         return  User(id: 0,
                      email: email.value,
                      firstName: first.value,
@@ -116,6 +108,7 @@ class AccountDetailsViewModel {
     
     func updateUser() -> User {
         guard let user = user.value else { fatalError("No user value to update") }
+        print(dob.value.date)
         return user.update(email: email.value,
                     firstName: first.value,
                     lastName: last.value, 
@@ -140,7 +133,6 @@ extension AccountDetailsViewModel: RxBinder {
     
     func setupViewStateBindings() {
         state.asObservable()
-            .filter { $0 == .viewAccount }
             .subscribe(onNext: { [weak self] _ in
                 self?.fetchUser()
             })
@@ -148,36 +140,43 @@ extension AccountDetailsViewModel: RxBinder {
     }
     
     func setupValidationBindings() {
-        
-        first.asObservable()
+        first
+            .asObservable()
             .map { $0.isValid(for: .address) }
             .bind(to: firstValid)
             .disposed(by: disposeBag)
-        last.asObservable()
+        last
+            .asObservable()
             .map { $0.isValid(for: .address) }
             .bind(to: lastValid)
             .disposed(by: disposeBag)
-        party.asObservable()
+        party
+            .asObservable()
             .map { $0.isValid(for: .address) }
             .bind(to: partyValid)
             .disposed(by: disposeBag)
-        dob.asObservable()
+        dob
+            .asObservable()
             .map { $0.isValid(for: .address) }
             .bind(to: dobValid)
             .disposed(by: disposeBag)
-        street.asObservable()
+        street
+            .asObservable()
             .map { $0.isValid(for: .address) }
             .bind(to: streetValid)
             .disposed(by: disposeBag)
-        city.asObservable()
+        city
+            .asObservable()
             .map { $0.isValid(for: .city) }
             .bind(to: cityValid)
             .disposed(by: disposeBag)
-        userState.asObservable()
+        userState
+            .asObservable()
             .map { $0.isValid(for: .state) }
             .bind(to: stateValid)
             .disposed(by: disposeBag)
-        zip.asObservable()
+        zip
+            .asObservable()
             .map { $0.isValid(for: .zipcode) }
             .bind(to: zipValid)
             .disposed(by: disposeBag)

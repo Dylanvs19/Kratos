@@ -56,7 +56,6 @@ class UserRepsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setDefaultNavVC()
-        configureNavVC()
         topImage.addShadow()
     }
     
@@ -66,10 +65,6 @@ class UserRepsViewController: UIViewController {
     }
     
     // MARK: - Configuration -
-    func configureNavVC() {
-        navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "kratosSelectedIcon"))
-    }
-    
     func configureTableView() {
 
         tableView.backgroundColor = .clear
@@ -127,8 +122,7 @@ extension UserRepsViewController: ViewBuilder {
         }
         tableView.snp.makeConstraints { make in
             make.top.equalTo(stateImageView.snp.bottom).offset(5)
-            make.trailing.leading.equalToSuperview().inset(10)
-            make.bottom.equalToSuperview().inset(10)
+            make.bottom.trailing.leading.equalToSuperview().inset(10)
         }
     }
     

@@ -15,8 +15,8 @@ class UserViewModel {
     
     // MARK: - Variables -
     let client: Client
-    let disposeBag = DisposeBag()
-    var billsDisposeBag: DisposeBag? = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
+    fileprivate var billsDisposeBag: DisposeBag? = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
     
     let trackedSubjects = Variable<[Subject]>([])
@@ -25,12 +25,12 @@ class UserViewModel {
     let trackedBillsSelected = Variable<Bool>(true)
     let clearable = Variable<Bool>(true)
     
-    let bills = Variable<[Bill]>([])
+    fileprivate let bills = Variable<[Bill]>([])
     let presentedBills = Variable<[Bill]>([])
     
     let fetchAction = PublishSubject<Void>()
 
-    var pageNumber = 1
+    fileprivate var pageNumber = 1
     
     let trackedBillsSubject = Subject(name: "Tracked Bills", id: -1)
     
@@ -38,7 +38,6 @@ class UserViewModel {
     init(client: Client) {
         self.client = client
         bind()
-        fetchTrackedSubjects()
     }
     
     func fetchBills(for subjects: [Subject]) {
@@ -79,15 +78,18 @@ class UserViewModel {
         billsDisposeBag = nil
         billsDisposeBag = DisposeBag()
         guard let billsDisposeBag = billsDisposeBag else { return }
-        bills.asObservable()
-//            .do(onNext: { bills in
-//                for bill in bills {
-//                    print(bill.topSubject?.name)
-//                }
-//            })
+        presentedBills.value = []
+        bills.value = []
+        bills
+            .asObservable()
             .scan([]) { $0 + $1 }
             .bind(to: presentedBills)
-            .disposed(by: billsDisposeBag)
+            .addDisposableTo(billsDisposeBag)
+    }
+    
+    func reloadData() {
+        clearSelectedSubjects()
+        resetBills()
     }
 }
 
@@ -102,12 +104,27 @@ extension UserViewModel: RxBinder {
         selectedSubjects
             .asObservable()
             .map { $0.filter { $0 != self.trackedBillsSubject } }
-            .subscribe(onNext: { [weak self] subjects in
-                self?.pageNumber = 1
-                self?.resetBills()
-                self?.presentedBills.value = []
-                self?.fetchBills(for: subjects)
-            })
+            .subscribe(
+                onNext: { [weak self] subjects in
+                    self?.pageNumber = 1
+                    self?.resetBills()
+                    self?.fetchBills(for: subjects)
+                }
+            )
+            .disposed(by: disposeBag)
+        selectedSubjects
+            .asObservable()
+            .filter { $0.isEmpty }
+            .withLatestFrom(trackedSubjects.asObservable())
+            .map { $0.filter { $0 != self.trackedBillsSubject } }
+            .subscribe(
+                onNext: { [weak self] subjects in
+                    self?.trackedBillsSelected.value = true
+                    self?.pageNumber = 1
+                    self?.resetBills()
+                    self?.fetchBills(for: subjects)
+                }
+            )
             .disposed(by: disposeBag)
         selectedSubjects
             .asObservable()
@@ -117,11 +134,11 @@ extension UserViewModel: RxBinder {
         fetchAction.asObservable()
             .withLatestFrom(selectedSubjects.asObservable())
             .map { $0.filter { $0 != self.trackedBillsSubject } }
-            .subscribe(onNext: { [weak self] subjects in
-                self?.fetchBills(for: subjects)
-            })
+            .subscribe(
+                onNext: { [weak self] subjects in
+                    self?.fetchBills(for: subjects)
+                }
+            )
             .disposed(by: disposeBag)
-        
-        resetBills()
     }
 }

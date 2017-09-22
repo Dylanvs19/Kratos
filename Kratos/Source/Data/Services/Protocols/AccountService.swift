@@ -11,7 +11,7 @@ import RxSwift
 
 protocol AccountService {
     
-    func register(user: User) -> Observable<Bool>
+    func register(user: User, fcmToken: String?) -> Observable<Bool>
     
     func login(email: String, password: String) -> Observable<Void>
     
@@ -21,7 +21,7 @@ protocol AccountService {
     
     func fetchUser() -> Observable<User>
     
-    func updateUser(user: User) -> Observable<User> 
+    func updateUser(user: User, fcmToken: String?) -> Observable<User>
     
 }
 

@@ -104,6 +104,14 @@ extension Client: CongressService {
             .toJson()
             .mapArray(at: "data")
     }
+    
+    //Bills that are trending
+    func fetchTrending() -> Observable<[Bill]> {
+        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+        return request(.fetchTrendingBills)
+            .toJson()
+            .mapArray(at: "data")
+    }
 
     //Subjects
     func fetchAllSubjects() -> Observable<[Subject]> {

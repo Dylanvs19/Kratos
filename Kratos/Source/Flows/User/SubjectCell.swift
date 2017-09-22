@@ -67,7 +67,7 @@ extension SubjectCell: ViewBuilder {
     }
     
     func styleViews() {
-        label.style(with: [.font(.cellTitle),
+        label.style(with: [.font(.tab),
                            .titleColor(.kratosRed)])
         contentView.style(with: [.borderColor(.gray),
                                  .borderWidth(1),

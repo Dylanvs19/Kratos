@@ -18,7 +18,7 @@ class ConfirmationController: UIViewController {
     let disposeBag = DisposeBag()
     
     //UI Elements
-    let kratosImageView = UIImageView(image: #imageLiteral(resourceName: "Kratos"))
+    let kratosImageView = UIImageView(image: #imageLiteral(resourceName: "KratosLogo"))
     let titleLabel = UILabel()
     let textView = UITextView()
     let linkButton = UIButton()

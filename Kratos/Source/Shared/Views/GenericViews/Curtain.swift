@@ -12,19 +12,14 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-protocol Spinnable {
-    func startSpin()
-    func stopSpin()
-}
-
 extension UIView {
     func startSpin() {
         if let view = self as? UIImageView {
-        UIView.animate(withDuration: 0.7, delay: 0, options: [.autoreverse, .repeat], animations: {
-            view.alpha = 1
-            view.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0.0, 1.0, 0.0)
-            view.layoutIfNeeded()
-        })
+            UIView.animate(withDuration: 0.7, delay: 0, options: [.autoreverse, .repeat], animations: {
+                view.alpha = 1
+                view.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0.0, 1.0, 0.0)
+                view.layoutIfNeeded()
+            })
         } else if let view = self as? UIActivityIndicatorView {
             view.alpha = 1
             view.startAnimating()
@@ -69,27 +64,18 @@ extension CurtainPresenter where Self: UIViewController {
 
 class Curtain: UIVisualEffectView {
     
-    enum Style {
-        case kratos
-        case activityIndicator
-    }
-    
     // MARK: - Variables -
     let loadStatus = Variable<LoadStatus>(.none)
     let disposeBag = DisposeBag()
-    var curtainStyle: Style = .kratos
     
-    
-    var view: UIView {
-        return curtainStyle == .kratos ? UIImageView(image: #imageLiteral(resourceName: "Kratos")) : UIActivityIndicatorView(activityIndicatorStyle: .gray)
-    }
+    var view: UIImageView = UIImageView(image: #imageLiteral(resourceName: "KratosLogo"))
 
-    convenience init(with style: Style) {
+    convenience init() {
         self.init(effect: UIBlurEffect(style: .extraLight))
-        self.curtainStyle = style
-        self.addSubviews()
-        self.constrainViews()
-        self.styleViews()
+        addSubviews()
+        constrainViews()
+        styleViews()
+        bind()
     }
     
     override init(effect: UIVisualEffect?) {
@@ -119,19 +105,15 @@ class Curtain: UIVisualEffectView {
 
 extension Curtain: ViewBuilder {
     func addSubviews() {
-        addSubview(view)
+        contentView.addSubview(view)
     }
     func constrainViews() {
         view.snp.remakeConstraints { make in
             make.centerX.centerY.equalToSuperview()
-            if curtainStyle == .kratos {
-                make.height.width.equalTo(50)
-            }
+            make.height.width.equalTo(50)
         }
     }
-    func styleViews() {
-        
-    }
+    func styleViews() {}
 }
 
 extension Curtain: RxBinder {

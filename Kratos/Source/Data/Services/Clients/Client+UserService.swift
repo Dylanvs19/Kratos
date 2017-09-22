@@ -58,7 +58,7 @@ extension Client: UserService {
             .map { _ in return () }
     }
     
-    func fetchTrackedSubjects() -> Observable<[Subject]> {
+    func fetchTrackedSubjects(ignoreCache: Bool = false) -> Observable<[Subject]> {
         guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
         
         return request(.fetchTrackedSubjects)

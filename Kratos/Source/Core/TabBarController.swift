@@ -26,7 +26,7 @@ class TabBarController: UITabBarController {
             case .main:
                 return #imageLiteral(resourceName: "kratosDeselectedIcon").withRenderingMode(.alwaysOriginal)
             case .user:
-                return #imageLiteral(resourceName: "userTabIcon").withRenderingMode(.alwaysOriginal)
+                return #imageLiteral(resourceName: "scrollIcon").withRenderingMode(.alwaysOriginal)
             }
         }
         
@@ -37,7 +37,7 @@ class TabBarController: UITabBarController {
             case .main:
                 return #imageLiteral(resourceName: "kratosSelectedIcon").withRenderingMode(.alwaysOriginal)
             case .user:
-                return #imageLiteral(resourceName: "userSelectedTabIcon").withRenderingMode(.alwaysOriginal)
+                return #imageLiteral(resourceName: "scrollSelectedIcon").withRenderingMode(.alwaysOriginal)
             }
         }
         

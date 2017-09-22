@@ -19,6 +19,13 @@ enum InputValidation {
 
 extension String {
     
+    var firstLetter: String {
+        if let first = self.characters.first {
+            return String(first)
+        }
+        return ""
+    }
+    
     func removeWhiteSpace() -> String {
         return replacingOccurrences(of: " ", with: "")
     }

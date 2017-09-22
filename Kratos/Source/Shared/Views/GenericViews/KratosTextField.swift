@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import SnapKit
 
 class KratosTextField: UIView {
@@ -59,20 +60,16 @@ class KratosTextField: UIView {
         
         var expandedWidthMultiplier: CGFloat {
             switch self {
-            case .email, .password, .address: return 0.8
-            case .first, .last, .party, .dob: return 0.35
-            case .city, .zip: return 0.3
-            case .state: return 0.16
+            case .first, .last, .email, .password, .address, .city: return 0.8
+            case .party, .dob, .zip, .state: return 0.35
             }
         }
         
         var centerXPosition: CGFloat {
             switch self {
-            case .email, .password, .address, .state: return 1
-            case .first,.party: return 0.55
-            case .last,.dob: return 1.45
-            case .city: return 0.5
-            case .zip: return 1.5
+            case .first, .last, .email, .password, .address, .city: return 1
+            case .party, .state: return 0.55
+            case .dob, .zip: return 1.45
             }
         }
         
@@ -80,10 +77,12 @@ class KratosTextField: UIView {
             switch self {
             case .email: return 50
             case .password: return 100
-            case .first, .last: return 25
-            case .dob, .party: return 80
-            case .address: return 135
-            case .city, .state, .zip: return 190
+            case .first: return 25
+            case .last: return 80
+            case .dob, .party: return 135
+            case .address: return 190
+            case .city: return 245
+            case .state, .zip: return 300
             }
         }
     }
@@ -131,7 +130,7 @@ class KratosTextField: UIView {
     //MARK: Public Animations
     public func animateTextLabelPosition(shouldSink: Bool) {
         UIView.animate(withDuration: 0.2, animations: {
-            self.placeholderLabel.transform = !shouldSink ? CGAffineTransform.identity : CGAffineTransform(scaleX: 0.66, y: 0.66).translatedBy(x: 0, y: 30)
+            self.placeholderLabel.transform = !shouldSink ? CGAffineTransform.identity : CGAffineTransform(scaleX: 0.66, y: 0.66).translatedBy(x: 0, y: 35)
             self.layoutIfNeeded()
         })
     }
@@ -166,13 +165,8 @@ class KratosTextField: UIView {
     
     //MARK: Public Setter
     public func setText(_ text: String) {
-        self.textField.alpha = 0
         self.textField.text = text
         self.animateTextLabelPosition(shouldSink: text.characters.count > 0)
-        UIView.animate(withDuration: 0.25, animations: {
-            self.textField.alpha = 1
-            self.layoutIfNeeded()
-        })
     }
 }
 
@@ -191,7 +185,7 @@ extension KratosTextField: ViewBuilder {
         }
         underlineView.snp.makeConstraints { make in
             make.width.centerX.equalTo(self)
-            make.height.equalTo(1)
+            make.height.equalTo(2)
             make.top.equalTo(textField.snp.bottom).offset(2)
         }
         placeholderLabel.snp.makeConstraints { make in
@@ -206,7 +200,8 @@ extension KratosTextField: ViewBuilder {
         placeholderLabel.style(with: [.font(.cellTitle), .titleColor(.lightGray)])
         textField.style(with: [.font(.cellTitle), .titleColor(.black)])
         
-        underlineView.style(with: .backgroundColor(.kratosBlue))
+        underlineView.style(with: [.backgroundColor(.kratosBlue),
+                                   .cornerRadius(1)])
     }
 }
 
@@ -246,6 +241,16 @@ extension KratosTextField: UITextFieldDelegate {
             }
             return true
         }
+    }
+}
+
+//MARK: Reactive Extension
+extension Reactive where Base: KratosTextField {
+    var isEnabled: UIBindingObserver<Base, Bool> {
+        return UIBindingObserver<Base, Bool>(UIElement: base, binding: { (view, isEnabled) in
+                view.textField.isEnabled = isEnabled
+            }
+        )
     }
 }
 

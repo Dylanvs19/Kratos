@@ -13,18 +13,43 @@ import SnapKit
 
 class MenuController: UIViewController {
     
+    // MARK: - Enum -
+    enum Category {
+        case accountDetails
+        case notification
+        case feedback
+        case about
+        case logout
+        
+        static let allValues: [Category] = [.accountDetails, .notification, .feedback, .about, .logout]
+        
+        var title: String {
+            switch self {
+            case .accountDetails:
+                return localize(.menuAccountDetailsButtonTitle)
+            case .notification:
+                return "Preferences"
+            case .feedback:
+                return localize(.menuFeedbackButtonTitle)
+            case .about:
+                return "About"
+            case .logout:
+                return localize(.menuLogoutButtonTitle)
+            }
+        }
+    }
+    
     // MARK: - Variables -
     let client: Client
     let disposeBag = DisposeBag()
     
-    let kratosImageView = UIImageView(image: #imageLiteral(resourceName: "KratosLogo"))
-    let accountButton = UIButton()
-    let feedbackButton = UIButton()
-    let logoutButton = UIButton()
-    let closeButton = UIButton()
-    
-    var interactor:Interactor? = nil
-    
+    let header = UIView()
+    let label = UILabel()
+    let nameLabel = UILabel()
+    let locationLabel = UILabel()
+    let dividerView = UIView()
+    let tableView = UITableView()
+        
     // MARK: - Intialization -
     init(client: Client) {
         self.client = client
@@ -35,108 +60,139 @@ class MenuController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
+        edgesForExtendedLayout = [.top, .right, .left]
+        automaticallyAdjustsScrollViewInsets = false
         addSubviews()
         constrainViews()
+        configureTableView()
+        configureNavVC()
         styleViews()
+        bind()
         localizeStrings()
-        setupInteractions()
+        view.layoutIfNeeded()
     }
     
-    func handleGesture(sender: UIPanGestureRecognizer) {
-        let translation = sender.translation(in: view)
-        
-        let progress = MenuHelper.calculateProgress(translationInView: translation, viewBounds: view.bounds, direction: .Left)
-        
-        MenuHelper.mapGestureStateToInteractor(
-            gestureState: sender.state,
-            progress: progress,
-            interactor: interactor) {
-                self.dismiss(animated: true, completion: nil)
-        }
+    // MARK: - Configuration -
+    func configureNavVC() {
+        setDefaultNavVC()
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "clearIcon").withRenderingMode(.alwaysOriginal).af_imageAspectScaled(toFill: CGSize(width: 25, height: 25)), style: .plain, target: self, action: #selector(clearPressed))
+        self.view.layoutIfNeeded()
+    }
+    
+    func configureTableView() {
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: String(describing: UITableViewCell.self))
+        tableView.tableFooterView = UIView()
+    }
+    
+    func clearPressed() {
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
     // MARK: - ViewBuilder -
 extension MenuController: ViewBuilder {
-    
     func addSubviews() {
-        view.addSubview(kratosImageView)
-        view.addSubview(accountButton)
-        view.addSubview(feedbackButton)
-        view.addSubview(logoutButton)
-        view.addSubview(closeButton)
+        view.addSubview(tableView)
+        header.addSubview(label)
+        header.addSubview(nameLabel)
+        header.addSubview(dividerView)
+        header.addSubview(locationLabel)
+        tableView.tableHeaderView = header
     }
-    
     func constrainViews() {
-        kratosImageView.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().inset(15)
+        tableView.snp.remakeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        self.view.layoutIfNeeded()
+        header.snp.remakeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(200)
+        }
+        label.snp.remakeConstraints { make in
             make.height.width.equalTo(100)
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(25)
         }
-        feedbackButton.snp.makeConstraints { (make) in
-            make.centerY.trailing.equalToSuperview().inset(20)
+        nameLabel.snp.remakeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(label.snp.bottom).offset(6)
         }
-        accountButton.snp.makeConstraints { (make) in
-            make.trailing.equalToSuperview().inset(20)
-            make.bottom.equalTo(feedbackButton.snp.top).offset(-20)
+        locationLabel.snp.remakeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(nameLabel.snp.bottom).offset(2)
         }
-        logoutButton.snp.makeConstraints { (make) in
-            make.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(feedbackButton.snp.bottom).offset(20)
-        }
-        closeButton.snp.makeConstraints { (make) in
-            make.top.trailing.equalToSuperview().inset(15)
+        dividerView.snp.remakeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(1)
         }
     }
-    
     func styleViews() {
-        accountButton.style(with: [.titleColor(.gray), .font(.header)])
-        feedbackButton.style(with: [.titleColor(.gray), .font(.header)])
-        logoutButton.style(with: [.titleColor(.gray), .font(.header)])
-        closeButton.style(with: [.titleColor(.kratosRed), .font(.title)])
+        let color = client.user.value?.party?.color ?? .gray
+        label.style(with: [.backgroundColor(color),
+                           .font(.header),
+                           .titleColor(.white),
+                           .textAlignment(.center)])
+        nameLabel.style(with: [.font(.subheader),
+                               .titleColor(.gray)])
+        locationLabel.style(with: [.font(.subheader),
+                                   .titleColor(.gray)])
+        dividerView.style(with: .backgroundColor(.lightGray))
     }
 }
 
-// MARK: - Localize - 
+// MARK: - Localize -
 extension MenuController: Localizer {
     func localizeStrings() {
-        accountButton.setTitle(localize(.menuAccountDetailsButtonTitle), for: .normal)
-        feedbackButton.setTitle(localize(.menuFeedbackButtonTitle), for: .normal)
-        logoutButton.setTitle(localize(.menuLogoutButtonTitle), for: .normal)
-        closeButton.setTitle(localize(.menuCloseButtonTitle), for: .normal)
+        let first = client.user.value?.firstName ?? ""
+        let last = client.user.value?.lastName ?? ""
+        label.text = first.firstLetter + last.firstLetter
+        nameLabel.text = first + " " + last
+        
+        let city = client.user.value?.address.city ?? ""
+        let state = client.user.value?.address.state ?? ""
+        locationLabel.text = city + ", " + state
     }
 }
 
-// MARK - Interaction Responder -
-extension MenuController: InteractionResponder {
-    func setupInteractions() {
-        accountButton.addTarget(self, action: #selector(accountPressed), for: .touchUpInside)
-        feedbackButton.addTarget(self, action: #selector(feedbackPressed), for: .touchUpInside)
-        logoutButton.addTarget(self, action: #selector(logoutPressed), for: .touchUpInside)
-        closeButton.addTarget(self, action: #selector(closePressed), for: .touchUpInside)
-    }
-    
-    func accountPressed() {
-        let vc = AccountDetailsController(client: self.client, state: .viewAccount)
-        self.present(vc, animated: true)
-    }
-    
-    func feedbackPressed() {
-//        let vc: FeedbackViewController = FeedbackViewController.instantiate()
-//        self.present(vc, animated: true, completion: nil)
-    }
-    
-    func logoutPressed() {
-        self.dismiss(animated: false) { 
-            self.client.tearDown()
-        }
-    }
-    
-    func closePressed() {
-        dismiss(animated: true, completion: nil)
+// MARK: - Binds -
+extension MenuController: RxBinder {
+    func bind() {
+        Observable.just(Category.allValues)
+            .bind(to: tableView.rx.items(cellIdentifier: String(describing: UITableViewCell.self), cellType: UITableViewCell.self)) { row, model, cell in
+                cell.textLabel?.text = model.title
+                if model != .logout {
+                cell.textLabel?.style(with: [.titleColor(.gray),
+                                             .font(.header)])
+                } else  {
+                    cell.textLabel?.style(with: [.titleColor(.kratosRed),
+                                                 .font(.header)])
+                }
+                cell.selectionStyle = .none
+                cell.separatorInset = .zero
+            }
+            .disposed(by: disposeBag)
+        tableView.rx.modelSelected(Category.self)
+            .subscribe(
+                onNext: { [weak self] category in
+                    guard let `self` = self else { fatalError("self deallocated before it was accessed")}
+                    switch category {
+                    case .accountDetails:
+                        let vc = AccountDetailsController(client: self.client, state: .edit)
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    case .notification:
+                        break
+                    case .feedback:
+                        break
+                    case .about:
+                        break
+                    case .logout:
+                        self.client.tearDown()
+                    }
+                }
+            )
+            .disposed(by: disposeBag)
     }
 }

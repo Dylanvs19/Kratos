@@ -12,7 +12,7 @@ import RxSwift
 import RxDataSources
 import SnapKit
 
-class SubjectSelectionController: UIViewController {
+class SubjectSelectionController: UIViewController, CurtainPresenter {
     
     // MARK: - Variables -
     // Standard
@@ -20,18 +20,26 @@ class SubjectSelectionController: UIViewController {
     let viewModel: SubjectSelectionViewModel
     let disposeBag = DisposeBag()
     
+    let headerView = UIView()
+    
     let searchView = UIView()
     let searchTextField = UITextField()
     let searchImageView = UIImageView(image: #imageLiteral(resourceName: "searchIcon"))
-    let clearButton = UIButton()
+    let clearTextButton = UIButton()
+    
     let tableViewView = UIView()
+    let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Subject>>()
     let tableView = UITableView()
-    let headerView = UIView()
+    
+    let submitButton = UIButton()
+    let clearSelectionsButton = UIButton()
+    
+    var curtain: Curtain = Curtain()
     
     let headerViewHeight: CGFloat = 64
     let textfieldHeight: CGFloat = 45
     
-    // MARK: - Initializers -\
+    // MARK: - Initializers -
     init(client: Client) {
         self.client = client
         self.viewModel = SubjectSelectionViewModel(client: client)
@@ -47,10 +55,13 @@ class SubjectSelectionController: UIViewController {
         super.viewDidLoad()
         edgesForExtendedLayout = [.top, .right, .left]
         configureTableView()
+        configureTextField()
+        localizeStrings()
         addSubviews()
         constrainViews()
         styleViews()
         bind()
+        addCurtain()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,26 +82,100 @@ class SubjectSelectionController: UIViewController {
     func configureTableView() {
         self.automaticallyAdjustsScrollViewInsets = false
         tableView.contentInset = .zero
-        tableView.backgroundColor = .clear
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(SubjectSelectionCell.self, forCellReuseIdentifier: SubjectSelectionCell.identifier)
         tableView.estimatedRowHeight = 100
         tableView.tableHeaderView = nil
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.allowsSelection = true
+        tableView.allowsMultipleSelection = true
         tableView.tableFooterView = UIView()
         tableView.showsVerticalScrollIndicator = false
+        tableView.tintColor = Color.gray.value
+        tableView.sectionIndexBackgroundColor = Color.slate.value
+        
+        dataSource.configureCell = {(dataSource, tv, indexPath, element) in
+            guard let cell = tv.dequeueReusableCell(withIdentifier: SubjectSelectionCell.identifier, for: indexPath) as? SubjectSelectionCell else { return UITableViewCell() }
+            cell.configure(with: element)
+            return cell
+        }
+        
+        dataSource.titleForHeaderInSection = { ds, index in
+            return ds[index].model
+        }
+        
+        dataSource.sectionForSectionIndexTitle = { ds, title, index in
+            return index
+        }
+        
+        dataSource.sectionIndexTitles = { ds in
+            return ds.sectionModels.map { $0.model.firstLetter }
+        }
+        tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+    }
+    
+    func configureTextField() {
+        searchTextField.delegate = self
+    }
+    
+    func animateClearSubject(shouldShow: Bool) {
+        UIView.animate(withDuration: 0.2) {
+            let height: CGFloat = shouldShow ? 50 : 0
+            self.submitButton.snp.remakeConstraints { make in
+                make.bottom.leading.trailing.equalToSuperview()
+                make.height.equalTo(height)
+            }
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
+// MARK: - ViewBuilder -
+extension SubjectSelectionController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard dataSource.sectionModels.count > section else { return nil }
+
+        let view = UIView()
+        let label = UILabel()
+        let divider = UIView()
+        view.addSubview(label)
+        view.addSubview(divider)
+        label.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(10)
+            make.top.bottom.equalToSuperview().inset(10)
+            make.trailing.equalToSuperview()
+        }
+        divider.snp.makeConstraints { make in
+            make.height.equalTo(1)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+        label.text = dataSource.sectionModels[section].model
+        label.style(with: [.font(.title),
+                           .backgroundColor(.white)])
+        view.style(with: .backgroundColor(.white))
+        divider.style(with: .backgroundColor(.gray))
+        
+        return view
+    }
+}
+
+// MARK: - ViewBuilder -
 extension SubjectSelectionController: ViewBuilder {
     func addSubviews() {
-        view.addSubview(tableViewView)
+        view.addSubview(headerView)
         view.addSubview(searchView)
         searchView.addSubview(searchTextField)
         searchView.addSubview(searchImageView)
-        searchView.addSubview(clearButton)
+        searchView.addSubview(clearTextButton)
+        
+        view.addSubview(tableViewView)
         tableViewView.addSubview(tableView)
-        view.addSubview(headerView)
+        
+        view.addSubview(submitButton)
+        
     }
     
     func constrainViews() {
@@ -101,24 +186,30 @@ extension SubjectSelectionController: ViewBuilder {
         searchView.snp.remakeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(10)
-            make.height.equalTo(45)
+            make.height.equalTo(35)
         }
         searchImageView.snp.remakeConstraints { make in
-            make.leading.top.bottom.equalToSuperview()
+            make.top.bottom.leading.equalToSuperview().inset(5)
             make.width.equalTo(searchImageView.snp.height)
         }
-        clearButton.snp.remakeConstraints { make in
-            make.trailing.top.bottom.equalToSuperview()
-            make.width.equalTo(clearButton.snp.height)
+        clearTextButton.snp.remakeConstraints { make in
+            make.top.bottom.trailing.equalToSuperview().inset(5)
+            make.width.equalTo(clearTextButton.snp.height)
         }
         searchTextField.snp.remakeConstraints { make in
-            make.leading.equalTo(searchImageView.snp.trailing)
+            make.leading.equalTo(searchImageView.snp.trailing).offset(5)
             make.top.bottom.equalToSuperview()
-            make.trailing.equalTo(clearButton.snp.leading)
+            make.trailing.equalTo(clearTextButton.snp.leading)
+        }
+        submitButton.snp.remakeConstraints { make in
+            make.bottom.leading.trailing.equalToSuperview()
+            make.height.equalTo(0)
         }
         tableViewView.snp.remakeConstraints { make in
             make.top.equalTo(searchView.snp.bottom).offset(10)
-            make.bottom.trailing.leading.equalToSuperview().inset(10)
+            make.leading.equalToSuperview().inset(10)
+            make.bottom.equalTo(submitButton.snp.top).offset(-10)
+            make.trailing.equalToSuperview()
         }
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -128,7 +219,22 @@ extension SubjectSelectionController: ViewBuilder {
     func styleViews() {
         view.style(with: .backgroundColor(.slate))
         headerView.style(with: .backgroundColor(.white))
-        clearButton.setImage(#imageLiteral(resourceName: "clearIcon"), for: .normal)
+        searchView.style(with: .backgroundColor(.white))
+        tableView.style(with: .backgroundColor(.white))
+        clearTextButton.setImage(#imageLiteral(resourceName: "clearIcon").af_imageScaled(to: CGSize(width: 15, height: 15)), for: .normal)
+        submitButton.style(with: [.backgroundColor(.kratosRed),
+                                  .font(.title),
+                                  .highlightedTitleColor(.lightGray)])
+        submitButton.clipsToBounds = true
+        searchTextField.style(with: .font(.tab))
+    }
+}
+
+// MARK: - Binds  -
+extension SubjectSelectionController: Localizer {
+    func localizeStrings() {
+        searchTextField.placeholder = "Search for Subjects"
+        submitButton.setTitle("Update Subjects", for: .normal)
     }
 }
 
@@ -137,32 +243,122 @@ extension SubjectSelectionController: RxBinder {
     func bind() {
         viewModel.presentedSubjects
             .asObservable()
-            .bind(to: self.tableView.rx.items(cellIdentifier: SubjectSelectionCell.identifier, cellType: SubjectSelectionCell.self)) { row, model, cell in
-                cell.configure(with: model)
+            .map { subjectsArrays in
+                var models = [SectionModel<String, Subject>]()
+                for (i, subjects) in subjectsArrays.enumerated() {
+                    let title = i == 0 ? "☆" : (subjects.first?.name.firstLetter ?? "" )
+                     models.append(SectionModel<String, Subject>(model: title, items: subjects))
+                }
+                return models
+            }
+            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        viewModel.presentedSubjects
+            .asObservable()
+            .filter { $0.count > 0 }
+            .subscribe(
+                onNext: { [weak self] _ in
+                    guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                    Array(0..<self.dataSource.sectionModels[0].items.count).forEach {
+                        let indexPath = IndexPath(row: $0, section: 0)
+                        self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+                        self.tableView.cellForRow(at: indexPath)?.isSelected = true
+                    }
+                }
+            )
+            .disposed(by: disposeBag)
+        tableView.rx.itemSelected
+            .do(
+                onNext: { [weak self] indexPath in
+                    guard let `self` = self else { fatalError("self deallocated befor it was accessed") }
+                    guard let cell = self.tableView.cellForRow(at: indexPath) else { return }
+                    let selected = cell.isSelected
+                    cell.isSelected = selected
+                    self.searchTextField.resignFirstResponder()
+                }
+            )
+            .map { self.dataSource.sectionModels[$0.section].items[$0.row] }
+            .bind(to: viewModel.selectedSubject)
+            .disposed(by: disposeBag)
+        tableView.rx.itemDeselected
+            .do(
+                onNext: { [weak self] indexPath in
+                    guard let `self` = self else { fatalError("self deallocated befor it was accessed") }
+                    guard let cell = self.tableView.cellForRow(at: indexPath) else { return }
+                    let selected = cell.isSelected
+                    cell.isSelected = selected
+                    self.searchTextField.resignFirstResponder()
+                }
+            )
+            .map { self.dataSource.sectionModels[$0.section].items[$0.row] }
+            .bind(to: viewModel.selectedSubject)
+            .disposed(by: disposeBag)
+        searchTextField.rx.text
+            .filterNil()
+            .bind(to: viewModel.query)
+            .disposed(by: disposeBag)
+        clearTextButton.rx.tap
+            .map { _ in return "" }
+            .do(
+                onNext: { [weak self] empty in
+                    self?.searchTextField.text = empty
+                }
+            )
+            .bind(to: viewModel.query)
+            .disposed(by: disposeBag)
+        viewModel.enableUpdate
+            .asObservable()
+            .subscribe(
+                onNext: { [weak self] enableUpdate in
+                    self?.animateClearSubject(shouldShow: enableUpdate)
+                }
+            )
+            .disposed(by: disposeBag)
+        submitButton.rx.tap
+            .subscribe(
+                onNext: { [weak self] in
+                    self?.viewModel.updateSubjects()
+                }
+            )
+            .disposed(by: disposeBag)
+        //Load Status handling
+        viewModel.updateLoadStatus
+            .asObservable()
+            .onSuccess { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
             }
             .disposed(by: disposeBag)
-        
-        viewModel.selectedIndexes
+        viewModel.updateLoadStatus
             .asObservable()
-            .filter { !$0.isEmpty }
-            .take(1)
-            .subscribe(onNext: { [weak self] subjects in
-                Array(0..<subjects.count).forEach { index in
-                    self?.tableView.selectRow(at: IndexPath(item: index, section: 0), animated: false, scrollPosition: .middle)
+            .onError(
+                execute: { error in
+                    print(error)
                 }
-            })
+            )
             .disposed(by: disposeBag)
-        
-//        tableView.rx.itemSelected
-//            .map { _ in self.tableView.indexPathsForSelectedRows ?? [] }
-//            .map { $0.map { self.viewModel.selectedSubjects.value[$0.row] }}
-//            .bind(to: viewModel.selectedSubjects)
-//            .disposed(by: disposeBag)
-//        
-//        tableView.rx.itemDeselected
-//            .map { _ in self.tableView.indexPathsForSelectedRows ?? [] }
-//            .map { $0.map { self.viewModel.selectedSubjects.value[$0.row] }}
-//            .bind(to: viewModel.selectedSubjects)
-//            .disposed(by: disposeBag)
+        viewModel.loadStatus
+            .asObservable()
+            .onError(
+                execute: { error in
+                    print(error)
+                }
+            )
+            .disposed(by: disposeBag)
+        viewModel.loadStatus
+            .asObservable()
+            .bind(to: curtain.loadStatus)
+            .disposed(by: disposeBag)
+        viewModel.updateLoadStatus
+            .asObservable()
+            .bind(to: curtain.loadStatus)
+            .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - UITextFieldDelegate -
+extension SubjectSelectionController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

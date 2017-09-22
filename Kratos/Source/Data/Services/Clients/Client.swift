@@ -10,8 +10,11 @@ import Foundation
 import RxSwift
 import AwesomeCache
 import Alamofire
+import Firebase
+import FirebaseMessaging
+import UserNotifications
 
-class Client {
+class Client: NSObject {
     
     let reachabilityManager = NetworkReachabilityManager()
     
@@ -32,6 +35,8 @@ class Client {
     }()
     
     var isLoggedIn = Variable<Bool>(false)
+    
+    var user = Variable<User?>(nil)
     
     let microStore = MicroStore()
     
@@ -113,6 +118,50 @@ extension Client {
     func invalidateCache() {
         cache.removeAllObjects()
         Store.remove("token")
+    }
+}
+
+@available(iOS 10, *)
+extension Client : UNUserNotificationCenterDelegate {
+    
+    // Receive displayed notifications for iOS 10 devices.
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        // Print message ID.
+        print("Message ID: \(userInfo["gcm.message_id"]!)")
+        
+        // Print full message.
+        print("%@", userInfo)
+        
+    }
+}
+
+extension Client : FIRMessagingDelegate {
+    // Receive data message on iOS 10 devices.
+    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
+        print("%@", remoteMessage.appData)
+    }
+    
+    func tokenRefreshNotification(_ notification: Notification) {
+        if let refreshedToken = FIRInstanceID.instanceID().token(),
+           let user = user.value {
+            updateUser(user: user, fcmToken: refreshedToken)
+                .bind(to: self.user)
+                .disposed(by: disposeBag)
+        }
+        
+        // Connect to FCM since connection may have failed when attempted before having a token.
+        connectToFcm()
+    }
+    
+    func connectToFcm() {
+        FIRMessaging.messaging().connect { (error) in
+            if (error != nil) {
+                print("Unable to connect with FCM. \(String(describing: error))")
+            } else {
+                print("Connected to FCM.")
+            }
+        }
     }
 }
 

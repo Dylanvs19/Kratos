@@ -126,7 +126,8 @@ extension NotificationsRegistrationViewController: RxBinder {
             .disposed(by: disposeBag)
         
         confirmationButton.rx.controlEvent(.touchUpInside)
-            .subscribe(onNext: { _ in
+            .subscribe(onNext: { [weak self] _ in
+                guard let `self` = self else { return }
                 UIApplication.shared.registerForRemoteNotifications()
                 
                 if #available(iOS 10.0, *) {
@@ -136,7 +137,7 @@ extension NotificationsRegistrationViewController: RxBinder {
                         completionHandler: {_,_ in })
                 }
                 
-                NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.tokenRefreshNotification), name: NSNotification.Name.firInstanceIDTokenRefresh, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(self.client.tokenRefreshNotification), name: NSNotification.Name.firInstanceIDTokenRefresh, object: nil)
                 UIApplication.shared.registerForRemoteNotifications()
                 
                 let rootVC = UINavigationController(rootViewController: UserRepsViewController(client: self.client))

@@ -10,17 +10,7 @@ import SafariServices
 
 extension UIViewController {
     
-    func enableSwipeBack() {
-        let swipeGR = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeRight(_:)))
-        swipeGR.direction = .right
-        view.addGestureRecognizer(swipeGR)
-        view.removeBlurEffect()
-    }
-    
-    func handleSwipeRight(_ gestureRecognizer: UIGestureRecognizer) {
-        _ = navigationController?.popViewController(animated: true)
-    }
-    
+    // MARK: - RepContact Handling -
     func presentTwitter(with person: Person) {
         guard let handle = person.twitter, person.isCurrent == true else {
             let alertVC = UIAlertController(title: "Error", message: "Representative does not have a twitter account", preferredStyle: .alert)
@@ -39,6 +29,13 @@ extension UIViewController {
         }
     }
     
+    func presentSafariView(with url: String) {
+        if let url = URL(string:url) {
+            let vc = SFSafariViewController(url: url)
+            self.present(vc, animated: true, completion: nil)
+        }
+    }
+    
     func presentHomeAddress(with person: Person) {
         var address = "Could not find an office address for this representative"
         if let addy = person.terms?.first?.officeAddress, person.isCurrent == true {
@@ -49,6 +46,7 @@ extension UIViewController {
         present(alertVC, animated: true, completion: nil)
     }
     
+    // MARK: - Error Handling -
     func showError(_ error: KratosError, onClose: (() -> Void)? = nil) {
         var title = localize(.errorTitle)
         var message = ""
@@ -88,6 +86,7 @@ extension UIViewController {
         }
     }
     
+    // MARK: - NavVC Convenience -
     func embedInNavVC() -> UINavigationController {
         let navVC = UINavigationController()
         navVC.setViewControllers([self], animated: false)
@@ -105,25 +104,6 @@ extension UIViewController {
         navigationController?.navigationBar.backItem?.title = ""
         navigationController?.extendedLayoutIncludesOpaqueBars = true
         navigationController?.automaticallyAdjustsScrollViewInsets = false
-    }
-    
-    func setDefaultLoginNavVC() {
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationController?.navigationBar.tintColor = Color.lightGray.value
-        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: Font.subheader.value]
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.backItem?.title = ""
-        navigationController?.extendedLayoutIncludesOpaqueBars = true
-        navigationController?.automaticallyAdjustsScrollViewInsets = false
-    }
-    
-    func presentSafariView(with url: String) {
-        if let url = URL(string:url) {
-            let vc = SFSafariViewController(url: url)
-            self.present(vc, animated: true, completion: nil)
-        }
     }
 }
 

@@ -54,7 +54,7 @@ enum Constant {
     case exploreTitle
     case exploreSenateButtonTitle
     case exploreHouseButtonTitle
-    case exploreExecutiveButtonTitle
+    case exploreTrendingButtonTitle
     case exploreRecessLabelTitle
     case exploreSenateEmptyLabel
     case exploreHouseEmptyLabel
@@ -138,7 +138,7 @@ enum Constant {
         case .exploreTitle: return "On The Floor"
         case .exploreSenateButtonTitle: return "SENATE"
         case .exploreHouseButtonTitle: return "HOUSE"
-        case .exploreExecutiveButtonTitle: return "EXECUTIVE"
+        case .exploreTrendingButtonTitle: return "TRENDING"
             case .exploreRecessLabelTitle: return "Congress is currently in recess. Check out your representatives' websites for events."
         case .exploreSenateEmptyLabel: return  "The Senate currently has no bills to consider in the upcoming days."
         case .exploreHouseEmptyLabel: return  "The House currently has no bills to consider in the upcoming days."

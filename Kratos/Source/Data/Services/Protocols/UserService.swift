@@ -19,7 +19,7 @@ protocol UserService {
     func viewTrackedBill(billID: Int) -> Observable<Bill>
     func untrackBill(billID: Int) -> Observable<Void>
     
-    func fetchTrackedSubjects() -> Observable<[Subject]>
+    func fetchTrackedSubjects(ignoreCache: Bool) -> Observable<[Subject]>
     func followSubject(subjectID: Int) -> Observable<Void>
     func unfollowSubject(subjectID: Int) -> Observable<Void>
     

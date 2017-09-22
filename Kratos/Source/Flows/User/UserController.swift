@@ -12,15 +12,13 @@ import RxSwift
 import RxDataSources
 import SnapKit
 
-class UserController: UIViewController {
+class UserController: UIViewController, CurtainPresenter {
     
     // MARK: - Variables - 
     // Standard
     let client: Client
     let viewModel: UserViewModel
     let disposeBag = DisposeBag()
-    
-    let interactor = Interactor()
     
     // UIElements
     let header = UIView()
@@ -32,6 +30,8 @@ class UserController: UIViewController {
     let tableViewView = UIView()
     let tableView = UITableView()
     let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Bill>>()
+    
+    var curtain: Curtain = Curtain()
 
     let headerHeight: CGFloat = 64
     let buttonWidth: CGFloat = 35
@@ -39,13 +39,11 @@ class UserController: UIViewController {
     // MARK: - Initializers -
     init(client: Client) {
         self.client = client
-        let layout = UICollectionViewLayout()
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.estimatedItemSize = CGSize(width: 100, height: 30)
         flowLayout.minimumLineSpacing = 1000
         flowLayout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.collectionViewLayout = flowLayout
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         self.collectionView = collectionView
         self.viewModel = UserViewModel(client: client)
         super.init(nibName: nil, bundle: nil)
@@ -67,14 +65,17 @@ class UserController: UIViewController {
         bind()
         styleViews()
         view.layoutIfNeeded()
+        addCurtain()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavVC()
+        view.layoutIfNeeded()
         header.addShadow()
         topView.addShadow()
         tableViewView.addShadow()
+        viewModel.fetchTrackedSubjects()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -85,11 +86,25 @@ class UserController: UIViewController {
     // MARK: - Configuration -
     func configureNavVC() {
         self.navigationItem.title = localize(.userTitle)
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 27, height: 27))
-        button.setImage(#imageLiteral(resourceName: "gearIcon").withRenderingMode(.alwaysOriginal), for: .normal)
-        button.addTarget(self, action: #selector(gearIconSelected), for: .touchUpInside)
-        let barButton = UIBarButtonItem(customView: button)
-        navigationItem.rightBarButtonItem = barButton
+        var rightBarButtonItems: [UIBarButtonItem] = []
+        if let user = client.user.value {
+            let button = UIButton()
+            button.snp.remakeConstraints { make in
+                make.height.width.equalTo(30).priority(1000)
+            }
+            button.style(with: .font(.subheader))
+            button.setTitle(user.firstName.firstLetter, for: .normal)
+            button.backgroundColor = user.party?.color.value ?? .gray
+            button.layer.cornerRadius = CGFloat(30/2)
+            button.clipsToBounds = false
+            button.addTarget(self, action: #selector(presentMenu), for: .touchUpInside)
+            button.titleEdgeInsets = UIEdgeInsetsMake(-1, 0.5, 1, -0.5)
+            let item = UIBarButtonItem(customView: button)
+            rightBarButtonItems.append(item)
+        }
+        rightBarButtonItems.append(UIBarButtonItem(image: #imageLiteral(resourceName: "searchIcon").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(presentSearch)))
+        self.navigationItem.rightBarButtonItems = rightBarButtonItems
+        self.navigationController?.navigationBar.setNeedsLayout()
     }
     
     func configureCollectionView() {
@@ -123,6 +138,18 @@ class UserController: UIViewController {
             self.view.layoutIfNeeded()
         }
     }
+    
+    func presentSearch() {
+        let vc = SearchController(client: client)
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .overFullScreen
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    func presentMenu() {
+        let vc = MenuController(client: client).embedInNavVC()
+        self.present(vc, animated: true, completion: nil)
+    }
 }
 
 // MARK: - View Builder -
@@ -145,7 +172,7 @@ extension UserController: ViewBuilder {
         topView.snp.remakeConstraints { make in
             make.top.equalTo(header.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(10)
-            make.height.equalTo(35)
+            make.height.equalTo(40)
         }
         addMoreSubjectsButton.snp.remakeConstraints { make in
             make.top.bottom.trailing.equalToSuperview()
@@ -162,8 +189,7 @@ extension UserController: ViewBuilder {
         }
         tableViewView.snp.remakeConstraints { make in
             make.top.equalTo(topView.snp.bottom).offset(10)
-            make.trailing.leading.equalToSuperview().inset(10)
-            make.bottom.equalToSuperview().offset(-5)
+            make.trailing.bottom.leading.equalToSuperview().inset(10)
         }
         tableView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
@@ -196,13 +222,6 @@ extension UserController: Localizer {
 // MARK: - Interaction Responder -
 extension UserController: InteractionResponder {
     func setupInteractions() { }
-    
-    func gearIconSelected() {
-        let vc = MenuController(client: client)
-        vc.transitioningDelegate = self
-        vc.interactor = interactor
-        self.present(vc, animated: true, completion: nil)
-    }
 }
 
 extension UserController: UICollectionViewDelegateFlowLayout {
@@ -225,13 +244,14 @@ extension UserController: RxBinder {
             .asObservable()
             .bind(to: self.collectionView.rx.items(cellIdentifier: SubjectCell.identifier, cellType: SubjectCell.self)) { row, data, cell in
                 cell.configure(with: data)
+                cell.label.preferredMaxLayoutWidth = 100
             }
             .disposed(by: disposeBag)
         
         viewModel.presentedBills
             .asObservable()
             .do(onNext: { (bills) in
-                print(bills.count)
+                print("Presented Bills - \(bills.count)")
             })
             .bind(to: tableView.rx.items(cellIdentifier: BillCell.identifier, cellType: BillCell.self)) { row, data, cell in
                 cell.configure(with: data)
@@ -293,30 +313,13 @@ extension UserController: RxBinder {
                 indexPaths.forEach {
                     self?.collectionView.deselectItem(at: $0, animated: true)
                     self?.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: true)
-                    self?.viewModel.clearSelectedSubjects()
                     self?.viewModel.resetBills()
                 }
             })
             .disposed(by: disposeBag)
-    }
-}
-
-// MARK: - Transitions  -
-extension UserController: UIViewControllerTransitioningDelegate {
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return PresentMenuAnimator()
-    }
-    
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return DismissMenuAnimator()
-        
-    }
-    
-    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactor.hasStarted ? interactor : nil
-    }
-    
-    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactor.hasStarted ? interactor : nil
+        viewModel.loadStatus
+            .asObservable()
+            .bind(to: curtain.loadStatus)
+            .disposed(by: disposeBag)
     }
 }

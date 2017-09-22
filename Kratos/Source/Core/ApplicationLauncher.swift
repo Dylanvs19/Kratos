@@ -8,7 +8,9 @@
 
 import Foundation
 import UIKit
-
+import Firebase
+import FirebaseMessaging
+import UserNotifications
 
 struct ApplicationLauncher {
     
@@ -19,15 +21,33 @@ struct ApplicationLauncher {
             
             let token: String? = Store.fetch("token")
             
+            // Override point for customization after application launch.
+            FIRApp.configure()
+            
+            var vc: UIViewController
             if let token = token {
                 let kratosClient = KratosClient(token: token)
                 let client = Client(kratosClient: kratosClient)
                 updateStoredData(with: client)
-                rootTransition(to: TabBarController(with: client))
+                if #available(iOS 10.0, *) {
+                    // For iOS 10 display notification (sent via APNS)
+                    UNUserNotificationCenter.current().delegate = client
+                    // For iOS 10 data message (sent via FCM)
+                    FIRMessaging.messaging().remoteMessageDelegate = client
+                }
+                vc = TabBarController(with: client)
             } else {
+                let client = Client.default
+                if #available(iOS 10.0, *) {
+                    // For iOS 10 display notification (sent via APNS)
+                    UNUserNotificationCenter.current().delegate = client
+                    // For iOS 10 data message (sent via FCM)
+                    FIRMessaging.messaging().remoteMessageDelegate = client
+                }
                 let navVC = UINavigationController(rootViewController: LoginController(client: Client.default))
-                rootTransition(to: navVC)
+                vc = navVC
             }
+            rootTransition(to: vc)
         }
         
         appDelegate.window??.rootViewController = splash

@@ -12,22 +12,22 @@ import RxSwift
 import RxDataSources
 import SnapKit
 
-class ExploreController: UIViewController {
+class ExploreController: UIViewController, CurtainPresenter {
     
     // MARK: - Enums -
     enum State: Int {
-        case house = 0
-        case executive = 1
+        case trending = 0
+        case house = 1
         case senate = 2
         
-        static let allValues: [State] = [.house, .executive, .senate]
+        static let allValues: [State] = [.trending, .house, .senate]
         
         var title: String {
             switch self {
+            case .trending:
+                return localize(.exploreTrendingButtonTitle)
             case .house:
                 return localize(.exploreHouseButtonTitle)
-            case .executive:
-                return localize(.exploreExecutiveButtonTitle)
             case .senate:
                 return localize(.exploreSenateButtonTitle)
             }
@@ -59,6 +59,7 @@ class ExploreController: UIViewController {
     let client: Client
     let viewModel: ExploreViewModel
     let disposeBag = DisposeBag()
+    var curtain = Curtain()
     
     // Header View
     let header = UIView()
@@ -115,18 +116,20 @@ class ExploreController: UIViewController {
         configureExecutiveTableView()
         configureScrollView()
         styleViews()
+        addCurtain()
+        view.layoutIfNeeded()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        view.layoutIfNeeded()
+        scrollViewView.addShadow()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setDefaultNavVC()
         configureNavVC()
-        //This must be called here because it must be rendered at runtime due to sizing issues.
-        scrollViewView.addShadow()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -137,7 +140,25 @@ class ExploreController: UIViewController {
     // MARK: - Configuration -
     func configureNavVC() {
         self.navigationItem.title = localize(.exploreTitle)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "searchIcon").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(presentSearch))
+        var rightBarButtonItems: [UIBarButtonItem] = []
+        if let user = client.user.value {
+            let button = UIButton()
+            button.snp.remakeConstraints { make in
+                make.height.width.equalTo(30).priority(1000)
+            }
+            button.style(with: .font(.subheader))
+            button.setTitle(user.firstName.firstLetter, for: .normal)
+            button.backgroundColor = user.party?.color.value ?? .gray
+            button.layer.cornerRadius = CGFloat(30/2)
+            button.clipsToBounds = false
+            button.addTarget(self, action: #selector(presentMenu), for: .touchUpInside)
+            button.titleEdgeInsets = UIEdgeInsetsMake(-1, 0.5, 1, -0.5)
+            let item = UIBarButtonItem(customView: button)
+            rightBarButtonItems.append(item)
+        }
+        rightBarButtonItems.append(UIBarButtonItem(image: #imageLiteral(resourceName: "searchIcon").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(presentSearch)))
+        self.navigationItem.rightBarButtonItems = rightBarButtonItems
+        self.navigationController?.navigationBar.setNeedsLayout()
     }
     
     func configureSenateTableView() {
@@ -193,12 +214,19 @@ class ExploreController: UIViewController {
             }
             self.view.layoutIfNeeded()
         }
+        scrollViewView.addShadow()
+        view.layoutIfNeeded()
     }
     
     func presentSearch() {
         let vc = SearchController(client: client)
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .overFullScreen
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    func presentMenu() {
+        let vc = MenuController(client: client).embedInNavVC()
         self.present(vc, animated: true, completion: nil)
     }
     
@@ -310,6 +338,10 @@ extension ExploreController: ViewBuilder {
             make.top.bottom.trailing.equalToSuperview()
             make.width.equalTo(scrollView.snp.width)
         }
+        viewModel.loadStatus
+            .asObservable()
+            .bind(to: curtain.loadStatus)
+            .disposed(by: disposeBag)
     }
     
     func styleViews() {
@@ -378,7 +410,7 @@ extension ExploreController: RxBinder {
                 cell.configure(with: data)
             }
             .disposed(by: disposeBag)
-        viewModel.executiveBills
+        viewModel.trendingBills
             .asObservable()
             .bind(to: executiveTableView.rx.items(cellIdentifier: BillCell.identifier, cellType: BillCell.self)) { row, data, cell in
                 cell.configure(with: data)

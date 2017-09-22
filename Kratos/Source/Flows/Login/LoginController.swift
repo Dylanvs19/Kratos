@@ -248,7 +248,7 @@ extension LoginController: RxBinder {
                 case .createAccount:
                     guard let `self` = self else { fatalError("self deallocated before it was accessed") }
                     if let credentials = self.viewModel.credentials.value {
-                        let vc = AccountDetailsController(client: self.client, state: .createAccount, credentials: credentials)
+                        let vc = AccountDetailsController(client: self.client, state: .create, credentials: credentials)
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
                 }

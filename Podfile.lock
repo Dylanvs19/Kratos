@@ -38,6 +38,7 @@ PODS:
     - RxSwift (~> 3.4)
   - RxSwift (3.4.1)
   - SnapKit (3.2.0)
+  - SwiftDate (4.1.2)
 
 DEPENDENCIES:
   - Alamofire
@@ -50,6 +51,7 @@ DEPENDENCIES:
   - RxGesture
   - RxSwift
   - SnapKit
+  - SwiftDate
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
@@ -67,7 +69,8 @@ SPEC CHECKSUMS:
   RxGesture: 1f770b247c69e8133fb8f4ef263571efd0ae91a1
   RxSwift: 656f8fbeca5bc372121a72d9ebdd3cd3bc0ffade
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
+  SwiftDate: 2dfdebd4f67ae71c9c3e2413ee3c56947f302858
 
-PODFILE CHECKSUM: ff2993e794de1aebe8cb8daf032a5558d4dfb01a
+PODFILE CHECKSUM: 6e29eb25d018bc956765a6952d401dfa9f68c62b
 
 COCOAPODS: 1.1.1
