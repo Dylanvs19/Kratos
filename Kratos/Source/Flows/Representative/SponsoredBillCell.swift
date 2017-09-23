@@ -1,5 +1,5 @@
 //
-//  RepInfoBillSponsorTableViewCell.swift
+//  SponsoredBillCell.swift
 //  Kratos
 //
 //  Created by Dylan Straughan on 2/27/17.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class RepInfoBillSponsorTableViewCell: UITableViewCell {
+class SponsoredBillCell: UITableViewCell {
 
-    static let identifier = String(describing: RepInfoBillSponsorTableViewCell.self)
+    static let identifier = String(describing: SponsoredBillCell.self)
     
     var titleLabel = UILabel()
     var topTermLabel = UILabel()
@@ -30,11 +30,11 @@ class RepInfoBillSponsorTableViewCell: UITableViewCell {
         let title = bill.title != nil ? bill.title : bill.officialTitle
         titleLabel.text = title ?? ""
         topTermLabel.text = bill.topSubject?.name ?? ""
-        statusLabel.text = bill.status ?? ""
+        statusLabel.text = bill.status?.cleanStatus ?? ""
     }
 }
 
-extension RepInfoBillSponsorTableViewCell: ViewBuilder {
+extension SponsoredBillCell: ViewBuilder {
     func addSubviews() {
         addSubview(titleLabel)
         addSubview(statusLabel)
@@ -63,7 +63,10 @@ extension RepInfoBillSponsorTableViewCell: ViewBuilder {
     func styleViews() {
         selectionStyle = .none
         titleLabel.style(with: [.font(.cellTitle), .numberOfLines(3)])
-        statusLabel.style(with: .font(.body))
-        topTermLabel.style(with: [.font(.body), .numberOfLines(2)])
+        statusLabel.style(with: [.font(.body),
+                                 .titleColor(.gray)])
+        topTermLabel.style(with: [.font(.body),
+                                  .numberOfLines(2),
+                                  .titleColor(.gray)])
     }
 }

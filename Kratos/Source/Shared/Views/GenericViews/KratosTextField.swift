@@ -35,6 +35,7 @@ class KratosTextField: UIView {
                 return .default
             }
         }
+        
         var shouldPresentKeyboard: Bool {
             switch self {
             case .dob, .party:
@@ -43,6 +44,7 @@ class KratosTextField: UIView {
                 return true
             }
         }
+        
         var placeholderText: String {
             switch self {
             case .email: return localize(.textFieldEmailTitle)
@@ -57,7 +59,7 @@ class KratosTextField: UIView {
             case .zip: return localize(.textFieldZipcodeTitle)
             }
         }
-        
+    
         var expandedWidthMultiplier: CGFloat {
             switch self {
             case .first, .last, .email, .password, .address, .city: return 0.8

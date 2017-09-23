@@ -10,9 +10,8 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-
 class UserRepsViewModel {
-    
+    // MARK: - Properties -
     let client: Client
     let disposeBag = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
@@ -25,52 +24,56 @@ class UserRepsViewModel {
     
     let repSelected = PublishSubject<Person>()
     
+    // MARK: - Initialization -
     init(client: Client) {
         self.client = client
         bind()
+        fetchUser()
     }
     
-    func fetchUser() -> Observable<User> {
+    // MARK: - Client Requests -
+    func fetchUser() {
         loadStatus.value = .loading
-        return client.fetchUser()
-            .do(onNext: { [weak self] user in
-                self?.loadStatus.value = .none
-                }, onError: { [weak self] (error) in
+        client.fetchUser()
+            .subscribe(
+                onNext: { [weak self] user in
+                    self?.user.value = user
+                },
+                onError: { [weak self] (error) in
                     self?.loadStatus.value = .error(KratosError.cast(from: error))
-            })
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
-    func fetchRepresentatives(from state: String, district: Int) -> Observable<[Person]> {
-        loadStatus.value = .loading
-        return client.fetchRepresentatives(state: state, district: district)
-            .do(onNext: { [weak self] _ in
-                self?.loadStatus.value = .none
-                }, onError: { [weak self] (error) in
+    func fetchRepresentatives(from state: String, district: Int) {
+        client.fetchRepresentatives(state: state, district: district)
+            .subscribe(
+                onNext: { [weak self] reps in
+                        self?.loadStatus.value = .none
+                        self?.representatives.value = reps
+                },
+                onError: { [weak self] (error) in
                     self?.loadStatus.value = .error(KratosError.cast(from: error))
-            })
+                }
+            )
+            .disposed(by: disposeBag)
     }
 }
-
+// MARK: - RxBinder -
 extension UserRepsViewModel: RxBinder {
-    
     func bind() {
-        fetchUser().asObservable()
-            .bind(to: user)
-            .disposed(by: disposeBag)
-        
-        user.asObservable()
+        user
+            .asObservable()
             .filterNil()
-            .subscribe(onNext: { [weak self] (user) in
-                guard let s = self else { fatalError("`self` deallocated before it was accessed") }
-                
-                s.district.value = user.district
-                s.state.value = user.address.state
-
-                s.fetchRepresentatives(from: user.address.state, district: user.district)
-                    .bind(to: s.representatives)
-                    .disposed(by: s.disposeBag)
-            })
+            .subscribe(
+                onNext: { [weak self] user in
+                    guard let `self` = self else { fatalError("`self` deallocated before it was accessed") }
+                    self.district.value = user.district
+                    self.state.value = user.address.state
+                    self.fetchRepresentatives(from: user.address.state, district: user.district)
+                }
+            )
             .disposed(by: disposeBag)
-        
     }
 }

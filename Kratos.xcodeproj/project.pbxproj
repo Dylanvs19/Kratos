@@ -46,7 +46,7 @@
 		AF2C07321F48975600D7E348 /* TallyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C071D1F48975600D7E348 /* TallyCell.swift */; };
 		AF2C07331F48975600D7E348 /* TallyCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C071E1F48975600D7E348 /* TallyCellViewModel.swift */; };
 		AF2C073D1F48975E00D7E348 /* RepContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07351F48975E00D7E348 /* RepContactView.swift */; };
-		AF2C073E1F48975E00D7E348 /* RepInfoBillSponsorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07361F48975E00D7E348 /* RepInfoBillSponsorTableViewCell.swift */; };
+		AF2C073E1F48975E00D7E348 /* SponsoredBillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07361F48975E00D7E348 /* SponsoredBillCell.swift */; };
 		AF2C073F1F48975E00D7E348 /* RepInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07371F48975E00D7E348 /* RepInfoView.swift */; };
 		AF2C07401F48975E00D7E348 /* RepInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07381F48975E00D7E348 /* RepInfoViewModel.swift */; };
 		AF2C07411F48975E00D7E348 /* RepresentativeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07391F48975E00D7E348 /* RepresentativeController.swift */; };
@@ -236,7 +236,7 @@
 		AF2C071D1F48975600D7E348 /* TallyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TallyCell.swift; sourceTree = "<group>"; };
 		AF2C071E1F48975600D7E348 /* TallyCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TallyCellViewModel.swift; sourceTree = "<group>"; };
 		AF2C07351F48975E00D7E348 /* RepContactView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepContactView.swift; sourceTree = "<group>"; };
-		AF2C07361F48975E00D7E348 /* RepInfoBillSponsorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepInfoBillSponsorTableViewCell.swift; sourceTree = "<group>"; };
+		AF2C07361F48975E00D7E348 /* SponsoredBillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsoredBillCell.swift; sourceTree = "<group>"; };
 		AF2C07371F48975E00D7E348 /* RepInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepInfoView.swift; sourceTree = "<group>"; };
 		AF2C07381F48975E00D7E348 /* RepInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepInfoViewModel.swift; sourceTree = "<group>"; };
 		AF2C07391F48975E00D7E348 /* RepresentativeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeController.swift; sourceTree = "<group>"; };
@@ -503,7 +503,7 @@
 			isa = PBXGroup;
 			children = (
 				AF2C07351F48975E00D7E348 /* RepContactView.swift */,
-				AF2C07361F48975E00D7E348 /* RepInfoBillSponsorTableViewCell.swift */,
+				AF2C07361F48975E00D7E348 /* SponsoredBillCell.swift */,
 				AF2C07371F48975E00D7E348 /* RepInfoView.swift */,
 				AF2C07381F48975E00D7E348 /* RepInfoViewModel.swift */,
 				AF2C07391F48975E00D7E348 /* RepresentativeController.swift */,
@@ -1275,7 +1275,7 @@
 				AF3F5C761EBE72F700809AA3 /* KratosAnalytics.swift in Sources */,
 				AFD553061F53BA5800E07D9B /* NumberFormatter+Extensions.swift in Sources */,
 				AF3F5CEB1EBE72F700809AA3 /* UIView+Extension.swift in Sources */,
-				AF2C073E1F48975E00D7E348 /* RepInfoBillSponsorTableViewCell.swift in Sources */,
+				AF2C073E1F48975E00D7E348 /* SponsoredBillCell.swift in Sources */,
 				AF2C06FD1F4895F000D7E348 /* LoginViewModel.swift in Sources */,
 				AF3F5CB01EBE72F700809AA3 /* TrackButton.swift in Sources */,
 				AFFA94F61EBE789800144C3A /* Subject.swift in Sources */,

@@ -49,10 +49,28 @@ extension String {
         return self.characters.count == self.trimmingCharacters(in: set).characters.count ? false : true
     }
     
+    /// Reformats Statuses that come back from API.
+    /// - Note: Handles common cases and then defaults to removing characters and localizedCapitalization. 
+    var cleanStatus: String {
+        switch self {
+        case "PASS_OVER:HOUSE": return "Passed Over House"
+        case "PASS_OVER:SENATE": return "Passed Over Senate"
+        case "ENACTED:SIGNED": return "Signed into Law"
+        case "REPORTED": return "Reported"
+        case "REFFERED": return "Reffered"
+        case "PASSED:CONCURRENTRES": return "Passed Concurrent Resolution"
+        case "PASS_BACK:SENATE": return "Passed Back to Senate"
+        default:
+            let whiteSpaced = self.replacingOccurrences(of: ":", with: " ").replacingOccurrences(of: "_", with: " ")
+            return whiteSpaced.localizedCapitalized
+        }
+    }
+    
     /// Method that returns an optional date from a dateString. Through a series of if-lets it fallback on different date formats attempting to return a valid date from the dateString. If no date formats return back a valid string, the method will return back nil. Current date formats being tested are:
     /// - "YYYY-MM-dd"
     /// - "yyyy-MM-dd'T'HH:mm:ss"
     /// - "yyyy-MM-dd'T'HH:mm:ssZZZZ"
+    /// - "MMM d, yyyy"
     var date: Date? {
         if let holdDate = DateFormatter.bill.date(from: self) {
             return holdDate
@@ -61,6 +79,9 @@ extension String {
             return holdDate
         }
         if let holdDate = DateFormatter.utc.date(from: self) {
+            return holdDate
+        }
+        if let holdDate = DateFormatter.presentation.date(from: self) {
             return holdDate
         }
         return nil

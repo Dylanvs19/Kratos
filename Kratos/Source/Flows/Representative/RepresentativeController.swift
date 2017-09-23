@@ -146,12 +146,12 @@ extension RepresentativeController: ViewBuilder {
             make.centerX.equalToSuperview()
         }
         contactView.snp.makeConstraints { make in
-            make.top.equalTo(topView.snp.bottom).offset(5)
+            make.top.equalTo(topView.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(35)
         }
         repInfoView.snp.makeConstraints { make in
-            make.top.equalTo(contactView.snp.bottom).offset(5)
+            make.top.equalTo(contactView.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(10)
             make.bottom.equalTo(view.snp.bottom).offset(-10)
         }

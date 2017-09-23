@@ -99,7 +99,6 @@ class RepInfoView: UIView {
     
     // MARK: - Helpers -
     func buildViews() {
-        
         configureTermsTableView()
         configureBillsTableView()
         configureVotesTableView()
@@ -110,7 +109,6 @@ class RepInfoView: UIView {
         layoutIfNeeded()
         bioView.build()
         bind()
-        
     }
     
     // MARK: - Configuration -
@@ -142,7 +140,8 @@ class RepInfoView: UIView {
         votesTableView.tableFooterView = UIView()
         votesTableView.backgroundColor = .clear
         votesTableView.showsVerticalScrollIndicator = false
-        votesTableView.sectionHeaderHeight = 50
+        votesTableView.sectionHeaderHeight = 40
+        votesTableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0)
 
         votesDataSource.configureCell = { dataSource, tableView, indexPath, item in
             let basicCell = tableView.dequeueReusableCell(withIdentifier: RepVoteCell.identifier, for: indexPath)
@@ -157,17 +156,18 @@ class RepInfoView: UIView {
     }
     
     func configureBillsTableView() {
-        billsTableView.register(RepInfoBillSponsorTableViewCell.self, forCellReuseIdentifier: RepInfoBillSponsorTableViewCell.identifier)
+        billsTableView.register(SponsoredBillCell.self, forCellReuseIdentifier: SponsoredBillCell.identifier)
         billsTableView.estimatedRowHeight = 45
         billsTableView.rowHeight = UITableViewAutomaticDimension
         billsTableView.separatorInset = .zero
         billsTableView.tableFooterView = UIView()
         billsTableView.backgroundColor = .clear
         billsTableView.showsVerticalScrollIndicator = false
+        billsTableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0)
 
         billsDataSource.configureCell = { dataSource, tableView, indexPath, item in
-            let basicCell = tableView.dequeueReusableCell(withIdentifier: RepInfoBillSponsorTableViewCell.identifier, for: indexPath)
-            guard let cell = basicCell as? RepInfoBillSponsorTableViewCell else { fatalError() }
+            let basicCell = tableView.dequeueReusableCell(withIdentifier: SponsoredBillCell.identifier, for: indexPath)
+            guard let cell = basicCell as? SponsoredBillCell else { fatalError() }
             cell.configure(with: item)
             return cell
         }

@@ -58,10 +58,11 @@ enum Constant {
     case exploreRecessLabelTitle
     case exploreSenateEmptyLabel
     case exploreHouseEmptyLabel
-    case exploreExecutiveEmptyLabel
+    case exploreTrendingEmptyLabel
     
     //UserVC
     case userTitle
+    case userBillsSubjectEmptyState
     
     //TallyVC
     case tallyVotesTitle
@@ -142,10 +143,11 @@ enum Constant {
             case .exploreRecessLabelTitle: return "Congress is currently in recess. Check out your representatives' websites for events."
         case .exploreSenateEmptyLabel: return  "The Senate currently has no bills to consider in the upcoming days."
         case .exploreHouseEmptyLabel: return  "The House currently has no bills to consider in the upcoming days."
-        case .exploreExecutiveEmptyLabel: return  "There are no bills pending the presidents signature."
+        case .exploreTrendingEmptyLabel: return  "There are no bills trending in Congress."
             
         //UserVC
         case .userTitle: return "My Bills"
+        case .userBillsSubjectEmptyState: return "There are no bills whose top term is this subject."
             
         //TallyVC
         case .tallyVotesTitle: return "VOTES"

@@ -22,8 +22,8 @@ class BillCell: UITableViewCell {
     
     // UIElements
     let titleLabel = UILabel()
+    let lastAction = UILabel()
     let subjectLabel = UILabel()
-    let gpoLabel = UILabel()
     
     // MARK: - Initializer -
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -48,18 +48,18 @@ extension BillCell: ViewBuilder {
     func addSubviews() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(subjectLabel)
-        contentView.addSubview(gpoLabel)
+        contentView.addSubview(lastAction)
     }
     func constrainViews() {
         titleLabel.snp.makeConstraints { make in
             make.leading.top.trailing.equalToSuperview().offset(5)
         }
-        subjectLabel.snp.makeConstraints { make in
+        lastAction.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(2)
             make.leading.trailing.equalToSuperview().offset(5)
         }
-        gpoLabel.snp.makeConstraints { make in
-            make.top.equalTo(subjectLabel.snp.bottom).offset(2)
+        subjectLabel.snp.makeConstraints { make in
+            make.top.equalTo(lastAction.snp.bottom).offset(2)
             make.leading.bottom.equalToSuperview().inset(5)
         }
     }
@@ -68,27 +68,29 @@ extension BillCell: ViewBuilder {
         titleLabel.style(with: [.font(.cellTitle),
                                 .titleColor(.black),
                                 .numberOfLines(5)])
+        lastAction.style(with: [.font(.body),
+                                .titleColor(.gray)])
         subjectLabel.style(with: [.font(.body),
-                                 .titleColor(.gray)])
-        gpoLabel.style(with: [.font(.body),
-                              .titleColor(.gray)])
+                                  .titleColor(.gray)])
         accessoryType = .disclosureIndicator
         separatorInset = .zero
         selectionStyle = .none
-        
     }
 }
 
 extension BillCell: RxBinder {
     func bind() {
-        viewModel.title.asObservable()
+        viewModel.title
+            .asObservable()
             .bind(to: titleLabel.rx.text)
             .disposed(by: disposeBag)
-        viewModel.subject.asObservable()
+        viewModel.subject
+            .asObservable()
             .bind(to: subjectLabel.rx.text)
             .disposed(by: disposeBag)
-        viewModel.prettyGpo.asObservable()
-            .bind(to: gpoLabel.rx.text)
+        viewModel.lastAction
+            .asObservable()
+            .bind(to: lastAction.rx.text)
             .disposed(by: disposeBag)
     }
 }

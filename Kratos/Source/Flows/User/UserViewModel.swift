@@ -41,11 +41,16 @@ class UserViewModel {
     }
     
     func fetchBills(for subjects: [Subject]) {
-        loadStatus.value = .loading
+//        guard let disposeBag = disposeBag else { return }
+        if pageNumber == 1 {
+            loadStatus.value = .loading
+        }
         client.fetchBills(for: subjects, tracked: trackedBillsSelected.value, pageNumber: pageNumber)
             .subscribe(
                 onNext: { [weak self] bills in
-                    self?.loadStatus.value = .none
+                    if self?.pageNumber == 1 {
+                        self?.loadStatus.value = .none
+                    }
                     self?.bills.value = bills
                     self?.pageNumber += 1
                 },
@@ -56,14 +61,15 @@ class UserViewModel {
     }
     
     func fetchTrackedSubjects() {
+//        guard let disposeBag = disposeBag else { return }
+        trackedSubjects.value = []
         loadStatus.value = .loading
-        client.fetchTrackedSubjects()
+        client.fetchTrackedSubjects(ignoreCache: true)
             .subscribe(
                 onNext: { [weak self] subjects in
                     guard let `self` = self else { fatalError("self deallocated before it was accessed") }
-                    self.loadStatus.value = .none
+                    print(subjects)
                     self.trackedSubjects.value = [self.trackedBillsSubject] + subjects
-                    self.selectedSubjects.value = self.trackedSubjects.value
                 },
                 onError: { [weak self] (error) in
                     self?.loadStatus.value = .error(KratosError.cast(from: error))
@@ -87,6 +93,13 @@ class UserViewModel {
             .addDisposableTo(billsDisposeBag)
     }
     
+//    func totalReset() {
+//        resetBills()
+//        disposeBag = nil
+//        bind()
+//        fetchTrackedSubjects()
+//    }
+//
     func reloadData() {
         clearSelectedSubjects()
         resetBills()
@@ -96,6 +109,12 @@ class UserViewModel {
 extension UserViewModel: RxBinder {
     
     func bind() {
+//        self.disposeBag = DisposeBag()
+//        guard let disposeBag = disposeBag else { return }
+        trackedSubjects
+            .asObservable()
+            .bind(to: selectedSubjects)
+            .disposed(by: disposeBag)
         selectedSubjects
             .asObservable()
             .map { $0.contains(where: { $0 == self.trackedBillsSubject }) }

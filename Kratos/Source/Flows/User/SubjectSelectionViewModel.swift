@@ -89,10 +89,20 @@ class SubjectSelectionViewModel {
     
     fileprivate func add(subject: Subject) -> Observable<Void> {
         return client.followSubject(subjectID: subject.id)
+            .do(
+                onNext: { _ in
+                        print("added \(subject)")
+                    }
+                )
     }
     
     fileprivate func remove(subject: Subject) -> Observable<Void> {
         return client.unfollowSubject(subjectID: subject.id)
+            .do(
+                onNext: { _ in
+                    print("removed \(subject)")
+                }
+            )
     }
     
     fileprivate func follow(subjects: [Subject]) {

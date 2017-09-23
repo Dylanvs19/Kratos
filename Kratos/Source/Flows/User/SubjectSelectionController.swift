@@ -331,16 +331,16 @@ extension SubjectSelectionController: RxBinder {
         viewModel.updateLoadStatus
             .asObservable()
             .onError(
-                execute: { error in
-                    print(error)
+                execute: { [weak self] error in
+                    self?.showError(KratosError.cast(from: error))
                 }
             )
             .disposed(by: disposeBag)
         viewModel.loadStatus
             .asObservable()
             .onError(
-                execute: { error in
-                    print(error)
+                execute: { [weak self] error in
+                    self?.showError(KratosError.cast(from: error))
                 }
             )
             .disposed(by: disposeBag)

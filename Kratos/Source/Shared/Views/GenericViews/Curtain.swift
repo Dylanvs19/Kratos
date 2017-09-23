@@ -12,33 +12,6 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-extension UIView {
-    func startSpin() {
-        if let view = self as? UIImageView {
-            UIView.animate(withDuration: 0.7, delay: 0, options: [.autoreverse, .repeat], animations: {
-                view.alpha = 1
-                view.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0.0, 1.0, 0.0)
-                view.layoutIfNeeded()
-            })
-        } else if let view = self as? UIActivityIndicatorView {
-            view.alpha = 1
-            view.startAnimating()
-        }
-    }
-    
-    func stopSpin() {
-        if let view = self as? UIImageView {
-            view.alpha = 0
-            view.layer.removeAllAnimations()
-            view.layoutIfNeeded()
-        } else if let view = self as? UIActivityIndicatorView {
-            view.alpha = 0
-            view.stopAnimating()
-        }
-        
-    }
-}
-
 protocol CurtainPresenter {
     var curtain: Curtain { get set }
     func addCurtain()
@@ -89,7 +62,11 @@ class Curtain: UIVisualEffectView {
     func startAnimating() {
         UIView.animate(withDuration: 0.4) { 
             self.alpha = 1
-            self.view.startSpin()
+            UIView.animate(withDuration: 0.7, delay: 0, options: [.autoreverse, .repeat], animations: {
+                self.view.alpha = 1
+                self.view.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0.0, 1.0, 0.0)
+                self.view.layoutIfNeeded()
+            })
             self.layoutIfNeeded()
         }
     }
@@ -97,7 +74,7 @@ class Curtain: UIVisualEffectView {
     func stopAnimating() {
         UIView.animate(withDuration: 0.4) {
             self.alpha = 0
-            self.view.stopSpin()
+            self.view.layer.removeAllAnimations()
             self.layoutIfNeeded()
         }
     }
@@ -110,7 +87,7 @@ extension Curtain: ViewBuilder {
     func constrainViews() {
         view.snp.remakeConstraints { make in
             make.centerX.centerY.equalToSuperview()
-            make.height.width.equalTo(50)
+            make.height.width.equalTo(70)
         }
     }
     func styleViews() {}
@@ -118,7 +95,8 @@ extension Curtain: ViewBuilder {
 
 extension Curtain: RxBinder {
     func bind() {
-        loadStatus.asObservable()
+        loadStatus
+            .asObservable()
             .subscribe(onNext: { [weak self] loadStatus in
                 switch loadStatus {
                 case .loading:

@@ -13,13 +13,15 @@ import RxCocoa
 import RxDataSources
 
 
-class UserRepsViewController: UIViewController {
+class UserRepsViewController: UIViewController, CurtainPresenter {
     
     // MARK: - Variables -
     let client: Client
     let viewModel: UserRepsViewModel
     let disposeBag = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
+    
+    var curtain: Curtain = Curtain()
     
     //TopImage
     let topImage = UIImageView()
@@ -51,6 +53,8 @@ class UserRepsViewController: UIViewController {
         bind()
         configureTableView()
         styleViews()
+        addCurtain()
+        view.layoutIfNeeded()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -145,14 +149,11 @@ extension UserRepsViewController: ViewBuilder {
 // MARK: - Binds -
 extension UserRepsViewController: RxBinder {
     func bind() {
-        
-        //Assumption of having 3 representatives.
         viewModel.representatives
             .asObservable()
             .map { $0.map {SectionModel(model: "", items: [$0]) } }
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
-        
         tableView.rx.itemSelected
             .map { self.dataSource[$0] }
             .subscribe(onNext: { [weak self] model in
@@ -160,26 +161,25 @@ extension UserRepsViewController: RxBinder {
                 self?.navigationController?.pushViewController(RepresentativeController(client: client, representative: model), animated: true)
             })
             .disposed(by: disposeBag)
-        
         viewModel.stateImage
             .asObservable()
             .bind(to: stateImageView.rx.image)
             .disposed(by: disposeBag)
-        
         viewModel.state
             .asObservable()
             .map { State(rawValue: $0)?.fullName }
             .filterNil()
             .bind(to: stateLabel.rx.text)
             .disposed(by: disposeBag)
-        
         viewModel.district
             .asObservable()
             .filterNil()
             .map { $0 != 0 ? $0.ordinal + " District" : "At Large" }
             .bind(to: districtLabel.rx.text)
             .disposed(by: disposeBag)
-        
-        //Bind loadStatus to loadStatus
+        viewModel.loadStatus
+            .asObservable()
+            .bind(to: curtain.loadStatus)
+            .disposed(by: disposeBag)
     }
 }

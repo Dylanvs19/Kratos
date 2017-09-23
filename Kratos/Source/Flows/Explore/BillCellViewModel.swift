@@ -17,7 +17,7 @@ class BillCellViewModel {
     
     let title = Variable<String>("")
     let subject = Variable<String>("")
-    let prettyGpo = Variable<String>("")
+    let lastAction = Variable<String>("")
     
     init() {
         bind()
@@ -39,7 +39,20 @@ extension BillCellViewModel: RxBinder {
                 } else {
                     self?.title.value = bill.officialTitle ?? ""
                 }
-                self?.prettyGpo.value = bill.prettyGpoID ?? ""
+                var status = ""
+                self?.lastAction.value = status
+                if let billStatus = bill.status {
+                    status += billStatus.cleanStatus
+                }
+                if let billStatusDate = bill.statusDate {
+                    let date = DateFormatter.presentation.string(from: billStatusDate)
+                    if status.isEmpty {
+                        status += date
+                    } else {
+                        status += " - \(date)"
+                    }
+                }
+                self?.lastAction.value = status
                 self?.subject.value = bill.topSubject?.name ?? ""
             })
             .disposed(by: disposeBag)

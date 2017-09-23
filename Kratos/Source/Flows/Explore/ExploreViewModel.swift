@@ -10,7 +10,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-
 class ExploreViewModel {
     // MARK: - Variables -
     // Standard
@@ -19,7 +18,7 @@ class ExploreViewModel {
     let loadStatus = Variable<LoadStatus>(.none)
     
     // Data
-    let state = Variable<ExploreController.State>(.senate)
+    let state = Variable<ExploreController.State>(.trending)
     let houseBills = Variable<[Bill]>([])
     let senateBills = Variable<[Bill]>([])
     let trendingBills = Variable<[Bill]>([])
@@ -28,57 +27,79 @@ class ExploreViewModel {
     // MARK: - Initializer -
     init(client: Client) {
         self.client = client
+        loadStatus.value = .loading
         fetchSenateBills()
         fetchHouseBills()
+        fetchTrendingBills()
         fetchDetermineRecess()
+        bind()
     }
     
     // MARK: - Client Requests -
     func fetchDetermineRecess() {
-        loadStatus.value = .loading
         client.determineRecess()
-            .subscribe(onNext: { [weak self] inRecess in
-                self?.loadStatus.value = .none
-                self?.inRecess.value = inRecess
-            }, onError: { [weak self] error in
-                self?.loadStatus.value = .error(KratosError.cast(from: error))
-            })
+            .subscribe(
+                onNext: { [weak self] inRecess in
+                    self?.inRecess.value = inRecess
+                },
+                onError: { [weak self] error in
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
+                }
+            )
             .disposed(by: disposeBag)
     }
     
     func fetchSenateBills() {
-        loadStatus.value = .loading
+        
         client.fetchOnFloor(with: .senate)
-            .subscribe(onNext: { [weak self] bills in
-                self?.loadStatus.value = .none
-                self?.senateBills.value = bills
-            }, onError: { [weak self] error in
-                self?.loadStatus.value = .error(KratosError.cast(from: error))
-            })
+            .subscribe(
+                onNext: { [weak self] bills in
+                    self?.senateBills.value = bills
+               },
+               onError: { [weak self] error in
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
+                }
+            )
             .disposed(by: disposeBag)
         
     }
     func fetchHouseBills() {
-        loadStatus.value = .loading
         client.fetchOnFloor(with: .house)
-            .subscribe(onNext: { [weak self] bills in
-                self?.loadStatus.value = .none
-                self?.houseBills.value = bills
-                }, onError: { [weak self] error in
-                    self?.loadStatus.value = .error(KratosError.cast(from: error))
-            })
+            .subscribe(
+                onNext: { [weak self] bills in
+                    self?.houseBills.value = bills
+                },
+                   onError: { [weak self] error in
+                        self?.loadStatus.value = .error(KratosError.cast(from: error))
+                }
+            )
             .disposed(by: disposeBag)
     }
     
     func fetchTrendingBills() {
-        loadStatus.value = .loading
         client.fetchTrending()
-            .subscribe(onNext: { [weak self] bills in
-                self?.loadStatus.value = .none
-                self?.trendingBills.value = bills
-                }, onError: { [weak self] error in
+            .subscribe(
+                onNext: { [weak self] bills in
+                    self?.trendingBills.value = bills
+                },
+                onError: { [weak self] error in
                     self?.loadStatus.value = .error(KratosError.cast(from: error))
-            })
+                }
+            )
             .disposed(by: disposeBag)
     }
 }
+
+extension ExploreViewModel: RxBinder {
+    func bind() {
+        Observable.combineLatest(houseBills.asObservable().skip(1), senateBills.asObservable().skip(1), trendingBills.asObservable().skip(1))
+            .subscribe(
+                onNext: { [weak self] _ in
+                    self?.loadStatus.value = .none
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+}
+
+

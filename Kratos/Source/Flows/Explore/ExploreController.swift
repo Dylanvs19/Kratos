@@ -79,12 +79,12 @@ class ExploreController: UIViewController, CurtainPresenter {
     // TableViews
     let tableViewView = UIView()
     
+    let trendingTableView = UITableView()
     let senateTableView = UITableView()
-    let executiveTableView = UITableView()
     let houseTableView = UITableView()
 
+    let emptyTrendingDescriptionLabel = UILabel()
     let emptySenateDescriptionLabel = UILabel()
-    let emptyExecutiveDescriptionLabel = UILabel()
     let emptyHouseDescriptionLabel = UILabel()
     
     let headerMargin: CGFloat = 64
@@ -113,7 +113,7 @@ class ExploreController: UIViewController, CurtainPresenter {
         bind()
         configureHouseTableView()
         configureSenateTableView()
-        configureExecutiveTableView()
+        configureTrendingTableView()
         configureScrollView()
         styleViews()
         addCurtain()
@@ -181,14 +181,14 @@ class ExploreController: UIViewController, CurtainPresenter {
         houseTableView.showsVerticalScrollIndicator = false
     }
     
-    func configureExecutiveTableView() {
-        executiveTableView.backgroundColor = .clear
-        executiveTableView.register(BillCell.self, forCellReuseIdentifier: BillCell.identifier)
-        executiveTableView.estimatedRowHeight = 200
-        executiveTableView.rowHeight = UITableViewAutomaticDimension
-        executiveTableView.allowsSelection = true
-        executiveTableView.tableFooterView = UIView()
-        executiveTableView.showsVerticalScrollIndicator = false
+    func configureTrendingTableView() {
+        trendingTableView.backgroundColor = .clear
+        trendingTableView.register(BillCell.self, forCellReuseIdentifier: BillCell.identifier)
+        trendingTableView.estimatedRowHeight = 200
+        trendingTableView.rowHeight = UITableViewAutomaticDimension
+        trendingTableView.allowsSelection = true
+        trendingTableView.tableFooterView = UIView()
+        trendingTableView.showsVerticalScrollIndicator = false
     }
     
     func configureScrollView() {
@@ -272,10 +272,10 @@ extension ExploreController: ViewBuilder {
         scrollView.addSubview(tableViewView)
         tableViewView.addSubview(senateTableView)
         tableViewView.addSubview(houseTableView)
-        tableViewView.addSubview(executiveTableView)
+        tableViewView.addSubview(trendingTableView)
         
         tableViewView.addSubview(emptyHouseDescriptionLabel)
-        tableViewView.addSubview(emptyExecutiveDescriptionLabel)
+        tableViewView.addSubview(emptyTrendingDescriptionLabel)
         tableViewView.addSubview(emptySenateDescriptionLabel)
     }
     
@@ -324,19 +324,32 @@ extension ExploreController: ViewBuilder {
             make.height.equalTo(scrollView.snp.height)
             make.edges.equalToSuperview()
         }
-        houseTableView.snp.remakeConstraints { make in
+        trendingTableView.snp.remakeConstraints { make in
             make.top.bottom.leading.equalToSuperview()
             make.width.equalTo(scrollView.snp.width)
         }
-        executiveTableView.snp.remakeConstraints { make in
-            make.leading.equalTo(houseTableView.snp.trailing)
+        houseTableView.snp.remakeConstraints { make in
+            make.leading.equalTo(trendingTableView.snp.trailing)
             make.top.bottom.equalToSuperview()
             make.width.equalTo(scrollView.snp.width)
         }
         senateTableView.snp.remakeConstraints { make in
-            make.leading.equalTo(executiveTableView.snp.trailing)
+            make.leading.equalTo(houseTableView.snp.trailing)
             make.top.bottom.trailing.equalToSuperview()
             make.width.equalTo(scrollView.snp.width)
+        }
+        view.layoutIfNeeded()
+        emptyTrendingDescriptionLabel.snp.remakeConstraints { make in
+            make.centerX.centerY.equalTo(trendingTableView)
+            make.width.equalTo(scrollView.snp.width).offset(-40)
+        }
+        emptyHouseDescriptionLabel.snp.remakeConstraints { make in
+            make.centerX.centerY.equalTo(houseTableView)
+            make.width.equalTo(scrollView.snp.width).offset(-40)
+        }
+        emptySenateDescriptionLabel.snp.remakeConstraints { make in
+            make.centerX.centerY.equalTo(senateTableView)
+            make.width.equalTo(scrollView.snp.width).offset(-40)
         }
         viewModel.loadStatus
             .asObservable()
@@ -364,13 +377,26 @@ extension ExploreController: ViewBuilder {
                                 ])
         recessLabel.numberOfLines = 4
         tableViewView.style(with: .backgroundColor(.white))
+        emptyHouseDescriptionLabel.style(with: [.font(.subheader),
+                                                .numberOfLines(4),
+                                                .textAlignment(.center)])
+        emptySenateDescriptionLabel.style(with: [.font(.subheader),
+                                                 .numberOfLines(4),
+                                                 .textAlignment(.center)])
+        emptyTrendingDescriptionLabel.style(with: [.font(.subheader),
+                                                   .numberOfLines(4),
+                                                   .textAlignment(.center)])
     }
+    
 }
 
 // MARK: - Localizer -
 extension ExploreController: Localizer {
     func localizeStrings() {
         recessLabel.text = localize(.exploreRecessLabelTitle)
+        emptyHouseDescriptionLabel.text = localize(.exploreHouseEmptyLabel)
+        emptySenateDescriptionLabel.text = localize(.exploreSenateEmptyLabel)
+        emptyTrendingDescriptionLabel.text = localize(.exploreTrendingEmptyLabel)
     }
 }
 
@@ -412,9 +438,24 @@ extension ExploreController: RxBinder {
             .disposed(by: disposeBag)
         viewModel.trendingBills
             .asObservable()
-            .bind(to: executiveTableView.rx.items(cellIdentifier: BillCell.identifier, cellType: BillCell.self)) { row, data, cell in
+            .bind(to: trendingTableView.rx.items(cellIdentifier: BillCell.identifier, cellType: BillCell.self)) { row, data, cell in
                 cell.configure(with: data)
             }
+            .disposed(by: disposeBag)
+        viewModel.senateBills
+            .asObservable()
+            .map { !$0.isEmpty }
+            .bind(to: emptySenateDescriptionLabel.rx.isHidden)
+            .disposed(by: disposeBag)
+        viewModel.houseBills
+            .asObservable()
+            .map { !$0.isEmpty }
+            .bind(to: emptyHouseDescriptionLabel.rx.isHidden)
+            .disposed(by: disposeBag)
+        viewModel.trendingBills
+            .asObservable()
+            .map { !$0.isEmpty }
+            .bind(to: emptyTrendingDescriptionLabel.rx.isHidden)
             .disposed(by: disposeBag)
         houseTableView.rx.modelSelected(Bill.self)
             .asObservable()
@@ -424,7 +465,7 @@ extension ExploreController: RxBinder {
                 self.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
-        executiveTableView.rx.modelSelected(Bill.self)
+        trendingTableView.rx.modelSelected(Bill.self)
             .asObservable()
             .subscribe(onNext: { [weak self] bill in
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
@@ -440,5 +481,6 @@ extension ExploreController: RxBinder {
                 self.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
+        
     }
 }

@@ -247,7 +247,6 @@ extension UserController: RxBinder {
                 cell.label.preferredMaxLayoutWidth = 100
             }
             .disposed(by: disposeBag)
-        
         viewModel.presentedBills
             .asObservable()
             .do(onNext: { (bills) in
@@ -257,14 +256,14 @@ extension UserController: RxBinder {
                 cell.configure(with: data)
             }
             .disposed(by: disposeBag)
-        
-        viewModel.selectedSubjects
+        viewModel.trackedSubjects
             .asObservable()
-            .take(1)
+            .skip(1)
             .delay(0.2, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] subjects in
-                Array(0..<subjects.count).forEach { index in
-                    self?.collectionView.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .centeredHorizontally)
+                
+                Array(0..<subjects.count).reversed().forEach { index in
+                    self?.collectionView.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .left)
                 }
             })
             .disposed(by: disposeBag)
@@ -274,13 +273,11 @@ extension UserController: RxBinder {
                 self?.animateClearSubjectButton(for: clearable)
             })
             .disposed(by: disposeBag)
-        
         collectionView.rx.itemSelected
             .map { _ in self.collectionView.indexPathsForSelectedItems ?? [] }
             .map { $0.map { self.viewModel.trackedSubjects.value[$0.row] }}
             .bind(to: viewModel.selectedSubjects)
             .disposed(by: disposeBag)
-        
         collectionView.rx.itemDeselected
             .map { _ in self.collectionView.indexPathsForSelectedItems ?? [] }
             .map { $0.map { self.viewModel.trackedSubjects.value[$0.row] }}

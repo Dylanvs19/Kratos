@@ -88,15 +88,11 @@ class AccountDetailsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = false
-
         datePicker.configureDatePicker()
-        datePicker.delegate = self
-        
         styleViews()
         addSubviews()
         constrainViews()
         bind()
-        
         setupGestureRecognizer()
         setInitialState()
     }
@@ -208,23 +204,6 @@ class AccountDetailsController: UIViewController {
     }
 }
 
-extension AccountDetailsController: DatePickerViewDelegate {
-    
-    func selectedDate(date: Date) {
-        Observable.just(DateFormatter.presentation.string(from: date))
-            .subscribe(
-                onNext: { [weak self] date in
-                    self?.hideDatePicker()
-                    if let field = self?.fieldData.filter({ $0.fieldType == .dob }).first {
-                        field.field.setText(date)
-                        field.viewModelVariable.value = date
-                    }
-                }
-            )
-            .disposed(by: disposeBag)
-    }
-}
-
 extension AccountDetailsController: ViewBuilder {
     
     func addSubviews() {
@@ -305,7 +284,8 @@ extension AccountDetailsController: RxBinder {
     func bindTextfieldsForAnimations() {
         
         fieldData.forEach { (data) in
-            data.validation.asObservable()
+            data.validation
+                .asObservable()
                 .subscribe(onNext: { (valid) in
                     data.field.changeColor(for: valid)
                 })
@@ -317,6 +297,7 @@ extension AccountDetailsController: RxBinder {
         if let data = fieldData.filter({ $0.fieldType == .party }).first {
             data.field.textField.rx.controlEvent([.editingDidBegin])
                 .subscribe { [weak self] (event) in
+                    data.field.endEditing(true)
                     self?.presentPartySelectionActionSheet()
                 }
                 .disposed(by: disposeBag)
@@ -325,8 +306,17 @@ extension AccountDetailsController: RxBinder {
         if let data = fieldData.filter({ $0.fieldType == .dob }).first {
             data.field.textField.rx.controlEvent([.editingDidBegin])
                 .subscribe { [weak self] (event) in
+                    data.field.endEditing(true)
                     self?.showDatePicker()
                 }
+                .disposed(by: disposeBag)
+            data.viewModelVariable
+                .asObservable()
+                .subscribe(
+                    onNext: { text in
+                        data.field.textField.text = text
+                    }
+                )
                 .disposed(by: disposeBag)
         }
     }
@@ -364,6 +354,16 @@ extension AccountDetailsController: RxBinder {
                 }
             )
             .bind(to: self.saveRegisterButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        datePicker.selectedDate
+            .asObservable()
+            .do(
+                onNext: { [weak self] _ in
+                    self?.hideDatePicker()
+                }
+            )
+            .map { DateFormatter.presentation.string(from: $0) }
+            .bind(to: viewModel.dob)
             .disposed(by: disposeBag)
     }
     

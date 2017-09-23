@@ -11,16 +11,11 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-protocol DatePickerViewDelegate: class {
-    func selectedDate(date: Date)
-}
-
 class DatePickerView: UIView {
-    
-    let datePicker = UIDatePicker()
-    let doneButton = UIButton()
-    
-    weak var delegate: DatePickerViewDelegate?
+    let selectedDate = Variable<Date>(Date(timeIntervalSince1970: 0))
+    fileprivate let disposeBag = DisposeBag()
+    fileprivate let datePicker = UIDatePicker()
+    fileprivate let doneButton = UIButton()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,7 +30,7 @@ class DatePickerView: UIView {
         addSubviews()
         constrainViews()
         styleViews()
-        doneButton.addTarget(self, action: #selector(doneButtonPressed(_:)), for: .touchUpInside)
+        bind()
     }
     
     func setupPickerView() {
@@ -44,11 +39,7 @@ class DatePickerView: UIView {
         backgroundColor = UIColor.white
         datePicker.datePickerMode = .date
         datePicker.maximumDate = Date()
-        datePicker.setDate(Date().addingTimeInterval(-60 * 60 * 24 * 365 * 30) , animated: false)
-    }
-    
-    func doneButtonPressed(_ sender: Any) {
-        delegate?.selectedDate(date: datePicker.date)
+        datePicker.setDate(Date(timeIntervalSince1970: 0), animated: false)
     }
 }
 
@@ -75,3 +66,13 @@ extension DatePickerView: ViewBuilder {
         doneButton.setTitle("D O N E", for: .normal)
     }
 }
+
+extension DatePickerView: RxBinder {
+    func bind() {
+        doneButton.rx.tap
+            .map { _ in return self.datePicker.date }
+            .bind(to: selectedDate)
+            .disposed(by: disposeBag)
+    }
+}
+

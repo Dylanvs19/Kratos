@@ -202,7 +202,7 @@ enum KratosTarget: Target {
         case .fetchOnFloor(let chamber):
             return "/congress/\(chamber.pathValue)/floor"
         case .fetchTrendingBills:
-            return "/api/congress/trending"
+            return "/congress/trending"
         //Subjects
         case .fetchAllSubjects:
             return "/subjects"

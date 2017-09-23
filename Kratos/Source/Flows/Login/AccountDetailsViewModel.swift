@@ -108,7 +108,6 @@ class AccountDetailsViewModel {
     
     func updateUser() -> User {
         guard let user = user.value else { fatalError("No user value to update") }
-        print(dob.value.date)
         return user.update(email: email.value,
                     firstName: first.value,
                     lastName: last.value, 
