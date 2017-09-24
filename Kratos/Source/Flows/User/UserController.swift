@@ -42,8 +42,10 @@ class UserController: UIViewController, CurtainPresenter {
         self.client = client
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.estimatedItemSize = CGSize(width: 100, height: 40)
-        flowLayout.minimumLineSpacing = 1000
         flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumLineSpacing = 4
+        flowLayout.minimumInteritemSpacing = 4
+        flowLayout.sectionInset = UIEdgeInsetsMake(2, 5, 2, 0)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         self.collectionView = collectionView
         self.viewModel = UserViewModel(client: client)
@@ -108,7 +110,6 @@ class UserController: UIViewController, CurtainPresenter {
     func configureCollectionView() {
         collectionView.allowsMultipleSelection = true
         collectionView.register(SubjectCell.self, forCellWithReuseIdentifier: SubjectCell.identifier)
-        collectionView.rx.setDelegate(self).addDisposableTo(disposeBag)
         collectionView.backgroundColor = Color.white.value
         collectionView.showsHorizontalScrollIndicator = false
     }
@@ -125,7 +126,7 @@ class UserController: UIViewController, CurtainPresenter {
         tableView.tableFooterView = UIView()
         tableView.showsVerticalScrollIndicator = false
     }
-    
+    // MARK - Animations -
     func animateClearSubjectButton(for clearable: Bool) {
         UIView.animate(withDuration: 0.2) {
             let width: CGFloat = clearable ? 35 : 0
@@ -137,6 +138,7 @@ class UserController: UIViewController, CurtainPresenter {
         }
     }
     
+    // MARK - Navigation -
     func presentSearch() {
         let vc = SearchController(client: client)
         vc.modalTransitionStyle = .crossDissolve
@@ -223,19 +225,6 @@ extension UserController: ViewBuilder {
 // MARK: - Interaction Responder -
 extension UserController: InteractionResponder {
     func setupInteractions() { }
-}
-
-extension UserController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 4
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 4
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(2, 5, 2, 0)
-    }
 }
 
 // MARK: - Binds  -
