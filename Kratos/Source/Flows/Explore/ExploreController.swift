@@ -103,7 +103,7 @@ class ExploreController: UIViewController, CurtainPresenter {
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         // TODO: Delete this code when fonts have been set
-        //UIFont.familyNames.forEach{ UIFont.fontNames(forFamilyName: $0).forEach { print($0) } }
+        UIFont.familyNames.forEach{ UIFont.fontNames(forFamilyName: $0).forEach { print($0) } }
         
         super.viewDidLoad()
         edgesForExtendedLayout = [.top, .right, .left]
@@ -146,17 +146,15 @@ class ExploreController: UIViewController, CurtainPresenter {
             button.snp.remakeConstraints { make in
                 make.height.width.equalTo(30).priority(1000)
             }
-            button.style(with: .font(.subheader))
+            button.style(with: .font(.monospaced))
             button.setTitle(user.firstName.firstLetter, for: .normal)
             button.backgroundColor = user.party?.color.value ?? .gray
             button.layer.cornerRadius = CGFloat(30/2)
             button.clipsToBounds = false
             button.addTarget(self, action: #selector(presentMenu), for: .touchUpInside)
-            button.titleEdgeInsets = UIEdgeInsetsMake(-1, 0.5, 1, -0.5)
             let item = UIBarButtonItem(customView: button)
             rightBarButtonItems.append(item)
         }
-        rightBarButtonItems.append(UIBarButtonItem(image: #imageLiteral(resourceName: "searchIcon").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(presentSearch)))
         self.navigationItem.rightBarButtonItems = rightBarButtonItems
         self.navigationController?.navigationBar.setNeedsLayout()
     }
@@ -192,7 +190,7 @@ class ExploreController: UIViewController, CurtainPresenter {
     }
     
     func configureScrollView() {
-//        scrollView.isScrollEnabled = false 
+        scrollView.isScrollEnabled = false
     }
     
     func configure(for inRecess: Bool) {
@@ -314,7 +312,8 @@ extension ExploreController: ViewBuilder {
         }
         scrollViewView.snp.remakeConstraints { make in
             make.top.equalTo(managerView.snp.bottom).offset(10)
-            make.trailing.bottom.leading.equalToSuperview().inset(10)
+            make.trailing.leading.equalToSuperview().inset(10)
+            make.bottom.equalToSuperview()
         }
         scrollView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
@@ -377,17 +376,19 @@ extension ExploreController: ViewBuilder {
                                 ])
         recessLabel.numberOfLines = 4
         tableViewView.style(with: .backgroundColor(.white))
-        emptyHouseDescriptionLabel.style(with: [.font(.subheader),
+        emptyHouseDescriptionLabel.style(with: [.font(.subHeader),
+                                                .titleColor(.gray),
                                                 .numberOfLines(4),
                                                 .textAlignment(.center)])
-        emptySenateDescriptionLabel.style(with: [.font(.subheader),
+        emptySenateDescriptionLabel.style(with: [.font(.subHeader),
+                                                 .titleColor(.gray),
                                                  .numberOfLines(4),
                                                  .textAlignment(.center)])
-        emptyTrendingDescriptionLabel.style(with: [.font(.subheader),
+        emptyTrendingDescriptionLabel.style(with: [.font(.subHeader),
+                                                   .titleColor(.gray),
                                                    .numberOfLines(4),
                                                    .textAlignment(.center)])
     }
-    
 }
 
 // MARK: - Localizer -

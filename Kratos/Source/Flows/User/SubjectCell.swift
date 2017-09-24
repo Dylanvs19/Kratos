@@ -39,7 +39,7 @@ class SubjectCell: UICollectionViewCell {
     
     // MARK: - Configuration - 
     func configure(with subject: Subject) {
-        label.text = subject.name
+        label.text = subject.name.uppercased()
     }
     
     // MARK: - Animations -
@@ -62,15 +62,13 @@ extension SubjectCell: ViewBuilder {
     func constrainViews() {
         label.snp.remakeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(10)
-            make.top.bottom.equalToSuperview().inset(3)
+            make.top.bottom.equalToSuperview().inset(5)
         }
     }
     
     func styleViews() {
         label.style(with: [.font(.tab),
                            .titleColor(.kratosRed)])
-        contentView.style(with: [.borderColor(.gray),
-                                 .borderWidth(1),
-                                 .cornerRadius(14)])
+        contentView.style(with: .cornerRadius(15))
     }
 }

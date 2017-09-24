@@ -62,7 +62,7 @@ enum KratosTarget: Target {
     case fetchTrendingBills
     
     //Subjects
-    case fetchAllSubjects
+    case fetchAllSubjects(onlyActive: Bool)
     
     //State
     case getStateDistricts(state: String)
@@ -204,8 +204,8 @@ enum KratosTarget: Target {
         case .fetchTrendingBills:
             return "/congress/trending"
         //Subjects
-        case .fetchAllSubjects:
-            return "/subjects"
+        case .fetchAllSubjects(let onlyActive):
+            return "/subjects?active=\(onlyActive)"
         //State
         case .getStateDistricts(let state):
             return "/states/\(state)"

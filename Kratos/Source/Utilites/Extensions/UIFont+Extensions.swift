@@ -38,4 +38,7 @@ extension UIFont {
     static var textFont: UIFont {
         return UIFont(name: "AvenirNext-Medium", size: 13) ?? .systemFont(ofSize: 13)
     }
+    static var monospaced: UIFont {
+        return UIFont(name: "ArialMT", size: 20) ?? .systemFont(ofSize: 20)
+    }
 }

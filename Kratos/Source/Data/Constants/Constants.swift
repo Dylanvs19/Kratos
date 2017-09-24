@@ -62,7 +62,9 @@ enum Constant {
     
     //UserVC
     case userTitle
-    case userBillsSubjectEmptyState
+    case userBillsSubjectEmptyStateMessage
+    case userBillsNoSubjectSelectedEmptyStateMessage
+    case userBillsNoTrackedSubjectsOrBillsEmptyStateMessage
     
     //TallyVC
     case tallyVotesTitle
@@ -147,7 +149,9 @@ enum Constant {
             
         //UserVC
         case .userTitle: return "My Bills"
-        case .userBillsSubjectEmptyState: return "There are no bills whose top term is this subject."
+        case .userBillsSubjectEmptyStateMessage: return "There are no bills whose top term is this subject."
+        case .userBillsNoSubjectSelectedEmptyStateMessage: return "Select a subject."
+        case .userBillsNoTrackedSubjectsOrBillsEmptyStateMessage: return "You have no tracked bills or tracked subjects."
             
         //TallyVC
         case .tallyVotesTitle: return "VOTES"

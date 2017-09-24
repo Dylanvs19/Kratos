@@ -97,7 +97,7 @@ extension UIViewController {
     func setDefaultNavVC() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = Color.lightGray.value
-        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: Font.subheader.value]
+        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: Font.subHeader.value]
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true

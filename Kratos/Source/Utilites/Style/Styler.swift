@@ -29,7 +29,7 @@ enum Trait {
 
 enum Font {
     case header
-    case subheader
+    case subHeader
     case title
     case subTitle
     case cellTitle
@@ -37,12 +37,13 @@ enum Font {
     case cellSubtitle
     case body
     case text
+    case monospaced
     
     var value: UIFont {
         switch self {
         case .header:
             return .headerFont
-        case .subheader:
+        case .subHeader:
             return .subHeaderFont
         case .title:
             return .titleFont
@@ -58,6 +59,8 @@ enum Font {
             return .bodyFont
         case .text:
             return .textFont
+        case .monospaced:
+            return .monospaced
         }
     }
 }

@@ -30,6 +30,7 @@ class UserController: UIViewController, CurtainPresenter {
     let tableViewView = UIView()
     let tableView = UITableView()
     let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Bill>>()
+    let emptyStateLabel = UILabel()
     
     var curtain: Curtain = Curtain()
 
@@ -40,7 +41,7 @@ class UserController: UIViewController, CurtainPresenter {
     init(client: Client) {
         self.client = client
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.estimatedItemSize = CGSize(width: 100, height: 30)
+        flowLayout.estimatedItemSize = CGSize(width: 100, height: 40)
         flowLayout.minimumLineSpacing = 1000
         flowLayout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
@@ -59,7 +60,6 @@ class UserController: UIViewController, CurtainPresenter {
         edgesForExtendedLayout = [.top, .right, .left]
         configureCollectionView()
         configureTableView()
-        localizeStrings()
         addSubviews()
         constrainViews()
         bind()
@@ -92,17 +92,15 @@ class UserController: UIViewController, CurtainPresenter {
             button.snp.remakeConstraints { make in
                 make.height.width.equalTo(30).priority(1000)
             }
-            button.style(with: .font(.subheader))
+            button.style(with: .font(.monospaced))
             button.setTitle(user.firstName.firstLetter, for: .normal)
             button.backgroundColor = user.party?.color.value ?? .gray
             button.layer.cornerRadius = CGFloat(30/2)
             button.clipsToBounds = false
             button.addTarget(self, action: #selector(presentMenu), for: .touchUpInside)
-            button.titleEdgeInsets = UIEdgeInsetsMake(-1, 0.5, 1, -0.5)
             let item = UIBarButtonItem(customView: button)
             rightBarButtonItems.append(item)
         }
-        rightBarButtonItems.append(UIBarButtonItem(image: #imageLiteral(resourceName: "searchIcon").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(presentSearch)))
         self.navigationItem.rightBarButtonItems = rightBarButtonItems
         self.navigationController?.navigationBar.setNeedsLayout()
     }
@@ -158,6 +156,7 @@ extension UserController: ViewBuilder {
         view.addSubview(header)
         view.addSubview(tableViewView)
         tableViewView.addSubview(tableView)
+        tableViewView.addSubview(emptyStateLabel)
         view.addSubview(topView)
         topView.addSubview(clearSelectedSubjectButton)
         topView.addSubview(addMoreSubjectsButton)
@@ -172,7 +171,7 @@ extension UserController: ViewBuilder {
         topView.snp.remakeConstraints { make in
             make.top.equalTo(header.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(10)
-            make.height.equalTo(40)
+            make.height.equalTo(44)
         }
         addMoreSubjectsButton.snp.remakeConstraints { make in
             make.top.bottom.trailing.equalToSuperview()
@@ -189,7 +188,12 @@ extension UserController: ViewBuilder {
         }
         tableViewView.snp.remakeConstraints { make in
             make.top.equalTo(topView.snp.bottom).offset(10)
-            make.trailing.bottom.leading.equalToSuperview().inset(10)
+            make.trailing.leading.equalToSuperview().inset(10)
+            make.bottom.equalToSuperview()
+        }
+        emptyStateLabel.snp.remakeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+            make.width.equalToSuperview().offset(-40)
         }
         tableView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
@@ -204,20 +208,17 @@ extension UserController: ViewBuilder {
                                            .font(.tab),
                                            .backgroundColor(.white)])
         clearSelectedSubjectButton.style(with: .backgroundColor(.white))
-        let image = #imageLiteral(resourceName: "clearIcon").af_imageScaled(to: CGSize(width: 25, height: 25))
+        let image = #imageLiteral(resourceName: "clearIcon").af_imageScaled(to: CGSize(width: 15, height: 15))
         clearSelectedSubjectButton.setImage(image, for: .normal)
+        addMoreSubjectsButton.setImage(#imageLiteral(resourceName: "chevronRedRightIcon"), for: .normal)
         addMoreSubjectsButton.addShadow(shadowColor: .black, shadowOffset: CGSize(width: 1, height: 0) , shadowOpacity: 0.2, shadowRadius: 1)
         clearSelectedSubjectButton.addShadow(shadowColor: .black, shadowOffset: CGSize(width: 1, height: 0) , shadowOpacity: 0.2, shadowRadius: 1)
+        emptyStateLabel.style(with: [.font(.subHeader),
+                                     .titleColor(.gray),
+                                     .numberOfLines(4),
+                                     .textAlignment(.center)])
     }
 }
-
-// MARK: - Localizer -
-extension UserController: Localizer {
-    func localizeStrings() {
-        addMoreSubjectsButton.setTitle("ALL", for: .normal)
-    }
-}
-
 
 // MARK: - Interaction Responder -
 extension UserController: InteractionResponder {
@@ -311,8 +312,14 @@ extension UserController: RxBinder {
                     self?.collectionView.deselectItem(at: $0, animated: true)
                     self?.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: true)
                     self?.viewModel.resetBills()
+                    self?.viewModel.clearSelectedSubjects()
                 }
             })
+            .disposed(by: disposeBag)
+        viewModel.emptyState
+            .asObservable()
+            .map { $0.title }
+            .bind(to: emptyStateLabel.rx.text)
             .disposed(by: disposeBag)
         viewModel.loadStatus
             .asObservable()

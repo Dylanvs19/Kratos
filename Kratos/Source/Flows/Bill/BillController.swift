@@ -15,7 +15,6 @@ import RxDataSources
 class BillController: UIViewController {
     
     // MARK: - Properties - 
-    
     // Standard
     let client: Client
     let viewModel: BillViewModel
@@ -34,13 +33,6 @@ class BillController: UIViewController {
     let billInfoView = BillInfoView()
     
     // MARK: - Initialization -
-    init(client: Client, billId: Int) {
-        self.client = client
-        self.viewModel = BillViewModel(with: client, billId: billId)
-        self.trackButton = TrackButton(with: client, billId: billId)
-        super.init(nibName: nil, bundle: nil)
-    }
-    
     init(client: Client, lightTally: LightTally) {
         self.client = client
         self.viewModel = BillViewModel(with: client, lightTally: lightTally)
@@ -132,7 +124,7 @@ extension BillController: ViewBuilder {
         billHeader.style(with: [.backgroundColor(.white)])
         divider.style(with: [.backgroundColor(.kratosRed)])
         titleLabel.style(with: [.numberOfLines(8),
-                                .font(.subheader),
+                                .font(.subHeader),
                                 .textAlignment(.center)
                                 ])
         

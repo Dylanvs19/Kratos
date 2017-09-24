@@ -159,12 +159,12 @@ class AccountDetailsController: UIViewController {
         }))
         alertVC.addAction(UIAlertAction(title: localize(.accountDetailsRepublicanButtonTitle), style: .destructive, handler: { (action) in
             if let field = self.fieldData.filter({ $0.fieldType == .party }).first {
-                field.field.setText(localize(.accountDetailsDemocratText))
+                field.field.setText(localize(.accountDetailsRepublicanText))
             }
         }))
         alertVC.addAction(UIAlertAction(title: localize(.accountDetailsIndependentButtonTitle), style: .destructive, handler: { (action) in
             if let field = self.fieldData.filter({ $0.fieldType == .party }).first {
-                field.field.setText(localize(.accountDetailsDemocratText))
+                field.field.setText(localize(.accountDetailsIndependentText))
             }
         }))
         present(alertVC, animated: true, completion: nil)

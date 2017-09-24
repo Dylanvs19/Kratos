@@ -10,14 +10,30 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-
 class UserViewModel {
+    
+    enum EmptyState {
+        case noTrackedSubjectsOrBills
+        case noSelectedSubjects
+        case noBilsForSubject
+        case notEmpty
+        
+        var title: String {
+            switch self {
+            case .noTrackedSubjectsOrBills: return localize(.userBillsNoTrackedSubjectsOrBillsEmptyStateMessage)
+            case .noSelectedSubjects: return localize(.userBillsNoSubjectSelectedEmptyStateMessage)
+            case .noBilsForSubject: return localize(.userBillsSubjectEmptyStateMessage)
+            case .notEmpty: return ""
+            }
+        }
+    }
     
     // MARK: - Variables -
     let client: Client
     fileprivate let disposeBag = DisposeBag()
     fileprivate var billsDisposeBag: DisposeBag? = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
+    let emptyState = Variable<EmptyState>(.notEmpty)
     
     let trackedSubjects = Variable<[Subject]>([])
     let selectedSubjects = Variable<[Subject]>([])
@@ -41,7 +57,6 @@ class UserViewModel {
     }
     
     func fetchBills(for subjects: [Subject]) {
-//        guard let disposeBag = disposeBag else { return }
         if pageNumber == 1 {
             loadStatus.value = .loading
         }
@@ -61,14 +76,12 @@ class UserViewModel {
     }
     
     func fetchTrackedSubjects() {
-//        guard let disposeBag = disposeBag else { return }
         trackedSubjects.value = []
         loadStatus.value = .loading
         client.fetchTrackedSubjects(ignoreCache: true)
             .subscribe(
                 onNext: { [weak self] subjects in
                     guard let `self` = self else { fatalError("self deallocated before it was accessed") }
-                    print(subjects)
                     self.trackedSubjects.value = [self.trackedBillsSubject] + subjects
                 },
                 onError: { [weak self] (error) in
@@ -93,13 +106,6 @@ class UserViewModel {
             .addDisposableTo(billsDisposeBag)
     }
     
-//    func totalReset() {
-//        resetBills()
-//        disposeBag = nil
-//        bind()
-//        fetchTrackedSubjects()
-//    }
-//
     func reloadData() {
         clearSelectedSubjects()
         resetBills()
@@ -109,8 +115,6 @@ class UserViewModel {
 extension UserViewModel: RxBinder {
     
     func bind() {
-//        self.disposeBag = DisposeBag()
-//        guard let disposeBag = disposeBag else { return }
         trackedSubjects
             .asObservable()
             .bind(to: selectedSubjects)
@@ -122,26 +126,14 @@ extension UserViewModel: RxBinder {
             .disposed(by: disposeBag)
         selectedSubjects
             .asObservable()
-            .map { $0.filter { $0 != self.trackedBillsSubject } }
             .subscribe(
                 onNext: { [weak self] subjects in
-                    self?.pageNumber = 1
-                    self?.resetBills()
-                    self?.fetchBills(for: subjects)
-                }
-            )
-            .disposed(by: disposeBag)
-        selectedSubjects
-            .asObservable()
-            .filter { $0.isEmpty }
-            .withLatestFrom(trackedSubjects.asObservable())
-            .map { $0.filter { $0 != self.trackedBillsSubject } }
-            .subscribe(
-                onNext: { [weak self] subjects in
-                    self?.trackedBillsSelected.value = true
-                    self?.pageNumber = 1
-                    self?.resetBills()
-                    self?.fetchBills(for: subjects)
+                    guard let `self` = self else { fatalError("self deallocated before it was accessed")}
+                    self.pageNumber = 1
+                    self.trackedBillsSelected.value = subjects.contains(self.trackedBillsSubject)
+                    let filtered = subjects.filter { $0 != self.trackedBillsSubject }
+                    self.resetBills()
+                    self.fetchBills(for: filtered)
                 }
             )
             .disposed(by: disposeBag)
@@ -158,6 +150,14 @@ extension UserViewModel: RxBinder {
                     self?.fetchBills(for: subjects)
                 }
             )
+            .disposed(by: disposeBag)
+        Observable.combineLatest(selectedSubjects.asObservable(), trackedSubjects.asObservable(), presentedBills.asObservable()) { (selected, tracked, presented) -> EmptyState in
+            guard presented.isEmpty else { return .notEmpty }
+            guard tracked.count > 1 else { return .noTrackedSubjectsOrBills }
+            guard selected.count > 0 else { return .noSelectedSubjects }
+            return .noBilsForSubject
+            }
+            .bind(to: emptyState)
             .disposed(by: disposeBag)
     }
 }

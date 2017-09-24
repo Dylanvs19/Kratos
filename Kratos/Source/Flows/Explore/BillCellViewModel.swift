@@ -31,7 +31,8 @@ class BillCellViewModel {
 // MARK: - Binds -
 extension BillCellViewModel: RxBinder {
     func bind() {
-        bill.asObservable()
+        bill
+            .asObservable()
             .filterNil()
             .subscribe(onNext: { [weak self] bill in
                 if let title = bill.title {

@@ -22,8 +22,8 @@ class BillCell: UITableViewCell {
     
     // UIElements
     let titleLabel = UILabel()
-    let lastAction = UILabel()
     let subjectLabel = UILabel()
+    let lastAction = UILabel()
     
     // MARK: - Initializer -
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {

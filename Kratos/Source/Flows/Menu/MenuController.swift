@@ -63,7 +63,6 @@ class MenuController: UIViewController {
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        edgesForExtendedLayout = [.top, .right, .left]
         automaticallyAdjustsScrollViewInsets = false
         addSubviews()
         constrainViews()
@@ -135,9 +134,9 @@ extension MenuController: ViewBuilder {
                            .font(.header),
                            .titleColor(.white),
                            .textAlignment(.center)])
-        nameLabel.style(with: [.font(.subheader),
+        nameLabel.style(with: [.font(.subHeader),
                                .titleColor(.gray)])
-        locationLabel.style(with: [.font(.subheader),
+        locationLabel.style(with: [.font(.subHeader),
                                    .titleColor(.gray)])
         dividerView.style(with: .backgroundColor(.lightGray))
     }

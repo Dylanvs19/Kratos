@@ -56,10 +56,9 @@ class SubjectSelectionViewModel {
             )
             .disposed(by: disposeBag)
     }
-    
     fileprivate func fetchSubjects() {
         loadStatus.value = .loading
-        client.fetchAllSubjects()
+        client.fetchAllSubjects(onlyActive: true)
             .subscribe(
                 onNext: { [weak self] subjects in
                     self?.loadStatus.value = .none
@@ -89,20 +88,10 @@ class SubjectSelectionViewModel {
     
     fileprivate func add(subject: Subject) -> Observable<Void> {
         return client.followSubject(subjectID: subject.id)
-            .do(
-                onNext: { _ in
-                        print("added \(subject)")
-                    }
-                )
     }
     
     fileprivate func remove(subject: Subject) -> Observable<Void> {
         return client.unfollowSubject(subjectID: subject.id)
-            .do(
-                onNext: { _ in
-                    print("removed \(subject)")
-                }
-            )
     }
     
     fileprivate func follow(subjects: [Subject]) {
@@ -134,6 +123,7 @@ class SubjectSelectionViewModel {
     }
 }
 
+// MARK: - RxBinder -
 extension SubjectSelectionViewModel: RxBinder {
     func bind() {
         let initialData = Observable.combineLatest(subjects.asObservable().filterNil(), currentSelectedSubjects.asObservable().filter { !$0.isEmpty } )
@@ -186,8 +176,6 @@ extension SubjectSelectionViewModel: RxBinder {
         currentSelectedSubjects
             .asObservable()
             .withLatestFrom(initialSelectedSubjects.asObservable()) { (current, initial) -> [Subject] in
-                //TODO: Delete
-//                print(initial.filter { !current.contains($0) })
                 return initial.filter { !current.contains($0) }
             }
             .bind(to: removedSubjects)
@@ -195,8 +183,6 @@ extension SubjectSelectionViewModel: RxBinder {
         currentSelectedSubjects
             .asObservable()
             .withLatestFrom(initialSelectedSubjects.asObservable()) { (current, initial) -> [Subject] in
-                  //TODO: Delete
-//                print(current.filter { !initial.contains($0) })
                 return current.filter { !initial.contains($0) }
             }
             .bind(to: addedSubjects)

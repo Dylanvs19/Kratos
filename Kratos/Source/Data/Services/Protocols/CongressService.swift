@@ -32,6 +32,6 @@ protocol CongressService {
     func fetchTrending() -> Observable<[Bill]> 
     
     //Subjects
-    func fetchAllSubjects() -> Observable<[Subject]>
+    func fetchAllSubjects(onlyActive: Bool) -> Observable<[Subject]>
     
 }

@@ -24,7 +24,7 @@ class SubjectSelectionController: UIViewController, CurtainPresenter {
     
     let searchView = UIView()
     let searchTextField = UITextField()
-    let searchImageView = UIImageView(image: #imageLiteral(resourceName: "searchIcon"))
+    let searchImageView = UIImageView(image: #imageLiteral(resourceName: "searchIcon").af_imageScaled(to: CGSize(width: 15, height: 15)))
     let clearTextButton = UIButton()
     
     let tableViewView = UIView()
@@ -67,6 +67,9 @@ class SubjectSelectionController: UIViewController, CurtainPresenter {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavVC()
+        view.layoutIfNeeded()
+        tableViewView.addShadow()
+        searchView.addShadow()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -90,7 +93,7 @@ class SubjectSelectionController: UIViewController, CurtainPresenter {
         tableView.tableFooterView = UIView()
         tableView.showsVerticalScrollIndicator = false
         tableView.tintColor = Color.gray.value
-        tableView.sectionIndexBackgroundColor = Color.slate.value
+        tableView.sectionIndexBackgroundColor = Color.white.value
         
         dataSource.configureCell = {(dataSource, tv, indexPath, element) in
             guard let cell = tv.dequeueReusableCell(withIdentifier: SubjectSelectionCell.identifier, for: indexPath) as? SubjectSelectionCell else { return UITableViewCell() }
@@ -173,7 +176,6 @@ extension SubjectSelectionController: ViewBuilder {
         
         view.addSubview(tableViewView)
         tableViewView.addSubview(tableView)
-        
         view.addSubview(submitButton)
         
     }
@@ -208,10 +210,10 @@ extension SubjectSelectionController: ViewBuilder {
         tableViewView.snp.remakeConstraints { make in
             make.top.equalTo(searchView.snp.bottom).offset(10)
             make.leading.equalToSuperview().inset(10)
-            make.bottom.equalTo(submitButton.snp.top).offset(-10)
-            make.trailing.equalToSuperview()
+            make.bottom.equalTo(submitButton.snp.top)
+            make.trailing.equalToSuperview().inset(10)
         }
-        tableView.snp.makeConstraints { make in
+        tableView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
