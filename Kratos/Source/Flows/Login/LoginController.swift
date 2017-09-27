@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class LoginController: UIViewController {
+class LoginController: UIViewController, CurtainPresenter {
     
     // MARK: - Enums -
     enum State {
@@ -33,7 +33,7 @@ class LoginController: UIViewController {
         var signInSignUpButtonTitle: String {
             switch self {
             case .login:
-                return localize(.loginSignInButtonTitle)
+                return localize(.loginSignUpButtonTitle)
             case .createAccount:
                 return localize(.loginSignInButtonTitle)
             case .forgotPassword:
@@ -69,6 +69,8 @@ class LoginController: UIViewController {
     var imageViewHeightConstraint: Constraint?
     var imageViewYConstraint: Constraint?
     
+    var curtain: Curtain = Curtain()
+    
     // MARK: - Initialization -
     init(client: Client) {
         self.client = client
@@ -87,9 +89,10 @@ class LoginController: UIViewController {
         constrainViews()
         styleViews()
         bind()
-        
+        setupGestureRecognizer()
         navigationController?.isNavigationBarHidden = true
         setInitialState()
+        addCurtain()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -126,6 +129,16 @@ class LoginController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Gesture Recognizer -
+    func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
+    
+    fileprivate func setupGestureRecognizer() {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapOutside(_:)))
+        view.addGestureRecognizer(tapRecognizer)
+    }
 }
 
 // MARK: - ViewBuilder -
@@ -152,7 +165,7 @@ extension LoginController: ViewBuilder {
         }
         kratosImageView.snp.makeConstraints { make in
             make.height.equalTo(kratosImageView.snp.width)
-            make.height.equalTo(150)
+            make.height.equalTo(90)
             make.centerX.equalTo(view)
             make.centerY.equalTo(view).multipliedBy(0.3)
         }
@@ -194,42 +207,52 @@ extension LoginController: RxBinder {
         setupButtonBindings()
         setupTextFieldBindings()
         navigationBindings()
+        curtainBindings()
     }
     
     func setupButtonBindings() {
-        
         viewModel.state.asObservable()
             .map { $0 == .forgotPassword }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] (isForgotPassword) in
-                UIView.animate(withDuration: 0.2, animations: { 
-                    isForgotPassword ? self?.passwordTextField.animateOut() : self?.passwordTextField.animateIn()
-                    self?.view.layoutIfNeeded()
-                })
-            })
+            .subscribe(
+                onNext: { [weak self] (isForgotPassword) in
+                    UIView.animate(withDuration: 0.2, animations: {
+                        isForgotPassword ? self?.passwordTextField.animateOut() : self?.passwordTextField.animateIn()
+                        self?.view.layoutIfNeeded()
+                    })
+                }
+            )
             .disposed(by: disposeBag)
         
-        viewModel.state.asObservable()
+        viewModel.state
+            .asObservable()
             .map { $0.signInSignUpButtonTitle }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] (title) in
-                self?.signUpRegisterButton.animateTitleChange(to: title)
-            })
+            .subscribe(
+                onNext: { [weak self] (title) in
+                    self?.signUpRegisterButton.animateTitleChange(to: title)
+                }
+            )
             .disposed(by: disposeBag)
         
-        viewModel.state.asObservable()
+        viewModel.state
+            .asObservable()
             .map { $0.loginButtonTitle }
-            .subscribe(onNext: { [weak self] (title) in
-                self?.loginContinueButton.animateTitleChange(to: title)
-            })
+            .subscribe(
+                onNext: { [weak self] (title) in
+                    self?.loginContinueButton.animateTitleChange(to: title)
+                }
+            )
             .disposed(by: disposeBag)
         
-        viewModel.state.asObservable()
+        viewModel.state
+            .asObservable()
             .map { $0.forgotPasswordTitle }
             .bind(to: forgotPasswordButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
         
-        viewModel.formValid.asObservable()
+        viewModel.formValid
+            .asObservable()
             .bind(to: loginContinueButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
@@ -239,20 +262,22 @@ extension LoginController: RxBinder {
         
         loginContinueButton.rx.tap
             .map { _ in self.viewModel.state.value }
-            .subscribe(onNext: { [weak self] state in
-                switch state {
-                case .login:
-                    self?.viewModel.login()
-                case .forgotPassword:
-                    self?.viewModel.postForgotPassword()
-                case .createAccount:
-                    guard let `self` = self else { fatalError("self deallocated before it was accessed") }
-                    if let credentials = self.viewModel.credentials.value {
-                        let vc = AccountDetailsController(client: self.client, state: .create, credentials: credentials)
-                        self.navigationController?.pushViewController(vc, animated: true)
+            .subscribe(
+                onNext: { [weak self] state in
+                    switch state {
+                    case .login:
+                        self?.viewModel.login()
+                    case .forgotPassword:
+                        self?.viewModel.postForgotPassword()
+                    case .createAccount:
+                        guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                        if let credentials = self.viewModel.credentials.value {
+                            let vc = AccountDetailsController(client: self.client, state: .create, credentials: credentials)
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }
                     }
                 }
-            })
+            )
             .disposed(by: disposeBag)
         
         forgotPasswordButton.rx.tap
@@ -267,17 +292,17 @@ extension LoginController: RxBinder {
             }
             .disposed(by: disposeBag)
         viewModel.loginLoadStatus.asObservable()
-            .onError(execute: { error in
-                guard let error = error as? KratosError else { return }
-                self.showError(error)
-            })
+            .onError(execute: { [weak self] error in
+                self?.showError(KratosError.cast(from: error))
+                }
+            )
             .disposed(by: disposeBag)
-        viewModel.forgotPasswordLoadStatus.asObservable()
+        viewModel.forgotPasswordLoadStatus
+            .asObservable()
             .onSuccess {
                 // Show alert here
             }
             .disposed(by: disposeBag)
-        
     }
     
     func setupTextFieldBindings() {
@@ -299,7 +324,8 @@ extension LoginController: RxBinder {
     }
     
     func navigationBindings() {
-        viewModel.loginLoadStatus.asObservable()
+        viewModel.loginLoadStatus
+            .asObservable()
             .onSuccess { [weak self] in
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
                 let vc = TabBarController(with: self.client)
@@ -307,11 +333,38 @@ extension LoginController: RxBinder {
         }
         .disposed(by: disposeBag)
         
-        viewModel.loginLoadStatus.asObservable()
-            .onError(execute: { error in
-                // deal w error
-            })
+        viewModel.loginLoadStatus
+            .asObservable()
+            .onError(
+                execute: { [weak self] error in
+                    guard let `self` = self else { return }
+                    let kratosError = KratosError.cast(from: error)
+                    switch kratosError {
+                    case .requestError(let title, _, _):
+                        // Scan for Confirmation error - if one occurs, push to Confirmation VC with relevant information.
+                        // Otherwise, present error.
+                        if title == "unconfirmed" {
+                            let vc = ConfirmationController(client: self.client, email: self.viewModel.email.value, password: self.viewModel.password.value)
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        } else {
+                            self.showError(kratosError)
+                        }
+                    default:
+                        self.showError(kratosError)
+                    }
+                }
+            )
             .disposed(by: disposeBag)
-        
+    }
+    
+    func curtainBindings() {
+        viewModel.loginLoadStatus
+            .asObservable()
+            .bind(to: curtain.loadStatus)
+            .disposed(by: disposeBag)
+        viewModel.forgotPasswordLoadStatus
+            .asObservable()
+            .bind(to: curtain.loadStatus)
+            .disposed(by: disposeBag)
     }
 }

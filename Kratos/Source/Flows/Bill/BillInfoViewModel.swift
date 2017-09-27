@@ -16,7 +16,7 @@ class BillInfoViewModel {
     // MARK: - Variables -
     // Standard
     let disposeBag = DisposeBag()
-    
+    let loadStatus = Variable<LoadStatus>(.loading)
     // Data
     let state = Variable<BillInfoView.State>(.summary)
     let bill = Variable<Bill?>(nil)
@@ -35,6 +35,7 @@ class BillInfoViewModel {
     // MARK: - Update -
     func update(with bill: Bill) {
         self.bill.value = bill
+        self.loadStatus.value = .none
     }
 }
 
@@ -44,7 +45,9 @@ extension BillInfoViewModel: RxBinder {
         bill.asObservable()
             .filterNil()
             .subscribe(onNext: { [weak self] bill in
-                self?.tallies.value = bill.tallies ?? []
+                if let tallies = bill.tallies {
+                    self?.tallies.value = tallies.sorted(by: { ($0.date ?? Date()) > ($1.date ?? Date()) } )
+                }
                 self?.committees.value = bill.committees ?? []
                 let summary = bill.summary ?? bill.officialTitle
                 self?.summary.value = summary ?? ""

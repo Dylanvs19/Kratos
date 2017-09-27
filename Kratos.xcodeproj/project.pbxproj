@@ -31,7 +31,6 @@
 		AF2C06FC1F4895F000D7E348 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DD1F4895F000D7E348 /* LoginController.swift */; };
 		AF2C06FD1F4895F000D7E348 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DE1F4895F000D7E348 /* LoginViewModel.swift */; };
 		AF2C06FE1F4895F000D7E348 /* NotificationsRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DF1F4895F000D7E348 /* NotificationsRegistrationViewController.swift */; };
-		AF2C06FF1F4895F000D7E348 /* NotificationsRegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E01F4895F000D7E348 /* NotificationsRegistrationViewModel.swift */; };
 		AF2C07001F4895F000D7E348 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E11F4895F000D7E348 /* SplashViewController.swift */; };
 		AF2C07011F4895F000D7E348 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E31F4895F000D7E348 /* MenuController.swift */; };
 		AF2C07051F4895F000D7E348 /* UserRepsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06E91F4895F000D7E348 /* UserRepsViewController.swift */; };
@@ -73,7 +72,6 @@
 		AF3F5CA51EBE72F700809AA3 /* KratosTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C111EBE72F700809AA3 /* KratosTextField.swift */; };
 		AF3F5CA71EBE72F700809AA3 /* LoadMoreSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C131EBE72F700809AA3 /* LoadMoreSpinnerView.swift */; };
 		AF3F5CA91EBE72F700809AA3 /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C151EBE72F700809AA3 /* PieChartView.swift */; };
-		AF3F5CB01EBE72F700809AA3 /* TrackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C1C1EBE72F700809AA3 /* TrackButton.swift */; };
 		AF3F5CD61EBE72F700809AA3 /* DismissMenuAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C471EBE72F700809AA3 /* DismissMenuAnimator.swift */; };
 		AF3F5CD71EBE72F700809AA3 /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C481EBE72F700809AA3 /* Interactor.swift */; };
 		AF3F5CD81EBE72F700809AA3 /* MenuHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C491EBE72F700809AA3 /* MenuHelper.swift */; };
@@ -124,7 +122,6 @@
 		AF57F4C31F2B6E220080978F /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4C01F2B6E220080978F /* Configuration.swift */; };
 		AF57F4C41F2B6E220080978F /* KratosEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4C21F2B6E220080978F /* KratosEnvironment.swift */; };
 		AF57F4C91F2B6EBB0080978F /* UIImageView+RxUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4C81F2B6EBB0080978F /* UIImageView+RxUrl.swift */; };
-		AF57F4CB1F2E27030080978F /* TrackButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4CA1F2E27030080978F /* TrackButtonViewModel.swift */; };
 		AF57F4D31F318EC90080978F /* Curtain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4D21F318EC90080978F /* Curtain.swift */; };
 		AF5B9E5D1EFEF13A000BF83A /* ExpandableTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B9E5C1EFEF13A000BF83A /* ExpandableTextFieldView.swift */; };
 		AF5B9E5F1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B9E5E1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift */; };
@@ -221,7 +218,6 @@
 		AF2C06DD1F4895F000D7E348 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		AF2C06DE1F4895F000D7E348 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		AF2C06DF1F4895F000D7E348 /* NotificationsRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationViewController.swift; sourceTree = "<group>"; };
-		AF2C06E01F4895F000D7E348 /* NotificationsRegistrationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationViewModel.swift; sourceTree = "<group>"; };
 		AF2C06E11F4895F000D7E348 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		AF2C06E31F4895F000D7E348 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		AF2C06E91F4895F000D7E348 /* UserRepsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepsViewController.swift; sourceTree = "<group>"; };
@@ -263,7 +259,6 @@
 		AF3F5C111EBE72F700809AA3 /* KratosTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosTextField.swift; sourceTree = "<group>"; };
 		AF3F5C131EBE72F700809AA3 /* LoadMoreSpinnerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadMoreSpinnerView.swift; sourceTree = "<group>"; };
 		AF3F5C151EBE72F700809AA3 /* PieChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
-		AF3F5C1C1EBE72F700809AA3 /* TrackButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackButton.swift; sourceTree = "<group>"; };
 		AF3F5C471EBE72F700809AA3 /* DismissMenuAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissMenuAnimator.swift; sourceTree = "<group>"; };
 		AF3F5C481EBE72F700809AA3 /* Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
 		AF3F5C491EBE72F700809AA3 /* MenuHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuHelper.swift; sourceTree = "<group>"; };
@@ -314,7 +309,6 @@
 		AF57F4C01F2B6E220080978F /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		AF57F4C21F2B6E220080978F /* KratosEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosEnvironment.swift; sourceTree = "<group>"; };
 		AF57F4C81F2B6EBB0080978F /* UIImageView+RxUrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+RxUrl.swift"; sourceTree = "<group>"; };
-		AF57F4CA1F2E27030080978F /* TrackButtonViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackButtonViewModel.swift; sourceTree = "<group>"; };
 		AF57F4D21F318EC90080978F /* Curtain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Curtain.swift; sourceTree = "<group>"; };
 		AF5B9E5C1EFEF13A000BF83A /* ExpandableTextFieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableTextFieldView.swift; sourceTree = "<group>"; };
 		AF5B9E5E1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableTextFieldViewModel.swift; sourceTree = "<group>"; };
@@ -458,7 +452,6 @@
 				AF2C06DD1F4895F000D7E348 /* LoginController.swift */,
 				AF2C06DE1F4895F000D7E348 /* LoginViewModel.swift */,
 				AF2C06DF1F4895F000D7E348 /* NotificationsRegistrationViewController.swift */,
-				AF2C06E01F4895F000D7E348 /* NotificationsRegistrationViewModel.swift */,
 				AF2C06E11F4895F000D7E348 /* SplashViewController.swift */,
 			);
 			path = Login;
@@ -668,8 +661,6 @@
 		AF3F5C0B1EBE72F700809AA3 /* GenericViews */ = {
 			isa = PBXGroup;
 			children = (
-				AF3F5C1C1EBE72F700809AA3 /* TrackButton.swift */,
-				AF57F4CA1F2E27030080978F /* TrackButtonViewModel.swift */,
 				AF43D5321EE634BE00F1DA75 /* RepImageView.swift */,
 				AF3F5C111EBE72F700809AA3 /* KratosTextField.swift */,
 				AF3F5C0E1EBE72F700809AA3 /* DatePickerView.swift */,
@@ -1277,7 +1268,6 @@
 				AF3F5CEB1EBE72F700809AA3 /* UIView+Extension.swift in Sources */,
 				AF2C073E1F48975E00D7E348 /* SponsoredBillCell.swift in Sources */,
 				AF2C06FD1F4895F000D7E348 /* LoginViewModel.swift in Sources */,
-				AF3F5CB01EBE72F700809AA3 /* TrackButton.swift in Sources */,
 				AFFA94F61EBE789800144C3A /* Subject.swift in Sources */,
 				AFE9A3431F5ECF6D00CBAD0D /* TallyController.swift in Sources */,
 				AF57F4C31F2B6E220080978F /* Configuration.swift in Sources */,
@@ -1317,7 +1307,6 @@
 				AF2C06F21F4895F000D7E348 /* SearchViewModel.swift in Sources */,
 				AF3F5CE61EBE72F700809AA3 /* UIImage+Extension.swift in Sources */,
 				AFE9A3491F601F1300CBAD0D /* SubjectSelectionViewModel.swift in Sources */,
-				AF57F4CB1F2E27030080978F /* TrackButtonViewModel.swift in Sources */,
 				AF3F5CDB1EBE72F700809AA3 /* TransitionManager.swift in Sources */,
 				AF3F5C751EBE72F700809AA3 /* FirebaseAnalytics.swift in Sources */,
 				AF9D0E501F681A470049D8D8 /* SubjectSelectionCell.swift in Sources */,
@@ -1341,7 +1330,6 @@
 				AF2C06F71F4895F000D7E348 /* FeedbackViewController.swift in Sources */,
 				AF2C06ED1F4895F000D7E348 /* BillCell.swift in Sources */,
 				AF57F4D31F318EC90080978F /* Curtain.swift in Sources */,
-				AF2C06FF1F4895F000D7E348 /* NotificationsRegistrationViewModel.swift in Sources */,
 				AF3F5CE41EBE72F700809AA3 /* String+Extensions.swift in Sources */,
 				AF2C07311F48975600D7E348 /* RepresentativeCellViewModel.swift in Sources */,
 				AF3F5CEA1EBE72F700809AA3 /* UITableView+Extensions.swift in Sources */,

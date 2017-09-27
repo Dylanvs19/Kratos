@@ -12,6 +12,7 @@ import Alamofire
 enum KratosTarget: Target {
     //Login
     case register(user: User, fcmToken: String?)
+    case confirmation(pin: String)
     case login(email: String, password: String)
     case forgotPassword(email: String)
     case resendConfirmation(email: String)
@@ -82,10 +83,17 @@ enum KratosTarget: Target {
         switch self {
         case .register(let user, let token):
             var userDict = user.toJson()
-            if let token = token {
-                userDict["push_token"] = token
-            }
+//            if let token = token,
+//               let user = userDict["user"] as? [String: Any] {
+//                var cpy = user
+//                cpy["push_token"] = token
+//                userDict["user"] = cpy
+//            }
             return userDict
+        case .confirmation(let pin):
+            return ["pin": pin]
+        case .resendConfirmation(let email):
+            return ["email": email]
         case .login(let email, let password):
             return ["session" :[
                                 "email": email.lowercased(),
@@ -96,8 +104,11 @@ enum KratosTarget: Target {
             return ["email": email.lowercased()]
         case .update(let user, let token):
             var userDict = user.toJson()
-            if let token = token {
-                userDict["push_token"] = token
+            if let token = token,
+                let user = userDict["user"] as? [String: Any] {
+                var cpy = user
+                cpy["push_token"] = token
+                userDict["user"] = cpy
             }
             return userDict
         case .trackBill(let billID):
@@ -130,6 +141,8 @@ enum KratosTarget: Target {
         //Login
         case .register:
             return "/registrations"
+        case .confirmation:
+            return "/confirmation"
         case .login:
             return "/login"
         case .forgotPassword:
@@ -227,11 +240,10 @@ enum KratosTarget: Target {
     
     var method: Alamofire.HTTPMethod {
         switch self {
-        //Login
-        case .register:
-            return .post
-            
-        case .login,
+        case .register,
+             .confirmation,
+             .resendConfirmation,
+             .login,
              .forgotPassword,
              .resendConfirmation,
              .update,
@@ -255,6 +267,8 @@ enum KratosTarget: Target {
     var parameterEncoding: ParameterEncoding{
         switch self {
         case .register,
+             .confirmation,
+             .resendConfirmation,
              .login,
              .forgotPassword,
              .update,
@@ -276,6 +290,7 @@ extension KratosTarget: Equatable {
     static func ==(lhs: KratosTarget, rhs: KratosTarget) -> Bool {
         switch (lhs, rhs) {
         case (.register, .register),
+             (.confirmation, .confirmation),
              (.login, .login),
              (.forgotPassword, .forgotPassword),
              (.resendConfirmation, .resendConfirmation),

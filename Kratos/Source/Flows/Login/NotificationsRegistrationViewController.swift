@@ -15,10 +15,9 @@ import RxSwift
 class NotificationsRegistrationViewController: UIViewController {
 
     let client: Client
-    let viewModel: NotificationsRegistrationViewModel
     let disposeBag = DisposeBag()
     
-    let kratosImageView = UIImageView(image: #imageLiteral(resourceName: "Kratos"))
+    let kratosImageView = UIImageView(image: #imageLiteral(resourceName: "KratosLogo"))
     let titleLabel = UILabel()
     let textView = UITextView()
     let confirmationButton = UIButton()
@@ -26,7 +25,6 @@ class NotificationsRegistrationViewController: UIViewController {
     
     init(client: Client) {
         self.client = client
-        self.viewModel = NotificationsRegistrationViewModel(client: client)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -36,6 +34,7 @@ class NotificationsRegistrationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        localizeStrings()
         addSubviews()
         constrainViews()
         styleViews()
@@ -63,7 +62,7 @@ extension NotificationsRegistrationViewController: ViewBuilder {
     func constrainViews() {
         kratosImageView.snp.makeConstraints { make in
             make.height.equalTo(kratosImageView.snp.width)
-            make.height.equalTo(150)
+            make.height.equalTo(90)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.3)
         }
@@ -102,29 +101,22 @@ extension NotificationsRegistrationViewController: ViewBuilder {
                                         .titleColor(.gray),
                                         .highlightedTitleColor(.slate)
             ])
+        textView.isScrollEnabled = false
 
     }
 }
 
+extension NotificationsRegistrationViewController: Localizer {
+    func localizeStrings() {
+        skipButton.setTitle(localize(.notificationSkipButtonTitle), for: .normal)
+        confirmationButton.setTitle(localize(.notificationRegisterButtonTitle), for: .normal)
+        textView.text = localize(.notificationExplanationText)
+        titleLabel.text = localize(.notificationTitle)
+    }
+}
+
 extension NotificationsRegistrationViewController: RxBinder {
-    
     func bind() {
-        viewModel.confirmationButtonTitle.asObservable()
-            .bind(to: confirmationButton.rx.title(for: .normal))
-            .disposed(by: disposeBag)
-        
-        viewModel.skipButtonTitle.asObservable()
-            .bind(to: skipButton.rx.title(for: .normal))
-            .disposed(by: disposeBag)
-        
-        viewModel.title.asObservable()
-            .bind(to: titleLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        viewModel.text.asObservable()
-            .bind(to: textView.rx.text)
-            .disposed(by: disposeBag)
-        
         confirmationButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] _ in
                 guard let `self` = self else { return }

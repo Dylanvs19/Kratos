@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class AccountDetailsController: UIViewController {
+class AccountDetailsController: UIViewController, CurtainPresenter {
     
     // MARK: - Enums -
     enum State {
@@ -48,6 +48,7 @@ class AccountDetailsController: UIViewController {
     fileprivate var saveRegisterButton = UIButton()
     
     fileprivate let datePicker = DatePickerView()
+    fileprivate let shade = UIView()
     fileprivate var datePickerTopConstraint: Constraint?
     
     fileprivate let buttonHeight: CGFloat = 50
@@ -72,6 +73,8 @@ class AccountDetailsController: UIViewController {
                 FieldData(field: self.zipTextField, fieldType: .zip, viewModelVariable: self.viewModel.zip, validation: self.viewModel.zipValid)]
     }()
     
+    var curtain: Curtain = Curtain()
+    
     // MARK: - Initialization -
     init(client: Client, state: State, credentials: (email: String, password: String) = (email: "", password: "")) {
         self.client = client
@@ -87,7 +90,6 @@ class AccountDetailsController: UIViewController {
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = false
         datePicker.configureDatePicker()
         styleViews()
         addSubviews()
@@ -95,6 +97,7 @@ class AccountDetailsController: UIViewController {
         bind()
         setupGestureRecognizer()
         setInitialState()
+        addCurtain()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -153,18 +156,21 @@ class AccountDetailsController: UIViewController {
     func presentPartySelectionActionSheet() {
         let alertVC = UIAlertController.init(title: localize(.accountDetailsPartyActionSheetTitle), message: localize(.accountDetailsPartyActionSheetDescription), preferredStyle: .actionSheet)
         alertVC.addAction(UIAlertAction(title: localize(.accountDetailsDemocratButtonTitle), style: .destructive, handler: { (action) in
-            if let field = self.fieldData.filter({ $0.fieldType == .party }).first {
-                field.field.setText(localize(.accountDetailsDemocratText))
+            if let data = self.fieldData.filter({ $0.fieldType == .party }).first {
+                data.field.setText(localize(.accountDetailsDemocratText))
+                data.viewModelVariable.value = localize(.accountDetailsDemocratText)
             }
         }))
         alertVC.addAction(UIAlertAction(title: localize(.accountDetailsRepublicanButtonTitle), style: .destructive, handler: { (action) in
-            if let field = self.fieldData.filter({ $0.fieldType == .party }).first {
-                field.field.setText(localize(.accountDetailsRepublicanText))
+            if let data = self.fieldData.filter({ $0.fieldType == .party }).first {
+                data.field.setText(localize(.accountDetailsRepublicanText))
+                data.viewModelVariable.value = localize(.accountDetailsRepublicanText)
             }
         }))
         alertVC.addAction(UIAlertAction(title: localize(.accountDetailsIndependentButtonTitle), style: .destructive, handler: { (action) in
-            if let field = self.fieldData.filter({ $0.fieldType == .party }).first {
-                field.field.setText(localize(.accountDetailsIndependentText))
+            if let data = self.fieldData.filter({ $0.fieldType == .party }).first {
+                data.field.setText(localize(.accountDetailsIndependentText))
+                data.viewModelVariable.value = localize(.accountDetailsIndependentText)
             }
         }))
         present(alertVC, animated: true, completion: nil)
@@ -178,6 +184,7 @@ class AccountDetailsController: UIViewController {
                 make.width.equalTo(self.view).inset(20)
                 make.centerX.equalTo(self.view)
             }
+            self.shade.alpha = 0.3
             self.view.layoutIfNeeded()
         }
     }
@@ -190,6 +197,7 @@ class AccountDetailsController: UIViewController {
                 make.width.equalTo(self.view).inset(20)
                 make.centerX.equalTo(self.view)
             }
+            self.shade.alpha = 0
             self.view.layoutIfNeeded()
         }
     }
@@ -204,6 +212,7 @@ class AccountDetailsController: UIViewController {
     }
 }
 
+// MARK: - ViewBuilder -
 extension AccountDetailsController: ViewBuilder {
     
     func addSubviews() {
@@ -213,29 +222,33 @@ extension AccountDetailsController: ViewBuilder {
             contentView.addSubview(data.field)
         }
         contentView.addSubview(saveRegisterButton)
+        view.addSubview(shade)
         view.addSubview(datePicker)
     }
     
     func constrainViews() {
-        scrollView.snp.makeConstraints { (make) in
+        scrollView.snp.remakeConstraints { (make) in
             make.edges.equalTo(view)
         }
-        contentView.snp.makeConstraints { (make) in
+        contentView.snp.remakeConstraints { (make) in
             make.edges.equalTo(view)
         }
         fieldData.forEach { (data) in
-            data.field.snp.makeConstraints({ make in
+            data.field.snp.remakeConstraints({ make in
                 make.top.equalTo(topLayoutGuide.snp.bottom).offset(data.fieldType.offsetYPosition)
                 make.centerX.equalToSuperview().multipliedBy(data.fieldType.centerXPosition)
                 make.width.equalTo(0)
                 make.height.equalTo(25)
             })
         }
-        saveRegisterButton.snp.makeConstraints { make in
+        saveRegisterButton.snp.remakeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
             make.height.equalTo(50)
         }
-        datePicker.snp.makeConstraints { (make) in
+        shade.snp.remakeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        datePicker.snp.remakeConstraints { (make) in
             make.top.equalTo(view.snp.bottom)
             make.height.equalTo(250)
             make.width.centerX.equalToSuperview().inset(20)
@@ -248,15 +261,19 @@ extension AccountDetailsController: ViewBuilder {
                                         .backgroundColor(.kratosRed),
                                         .titleColor(.white),
                                         .highlightedTitleColor(.red)])
+        shade.style(with: .backgroundColor(.black))
+        shade.alpha = 0
     }
 }
 
+// MARK: - RxBinder -
 extension AccountDetailsController: RxBinder {
     
     func bind() {
         setupButtonBindings()
         setupTextfieldBindings()
         setupNavigationBindings()
+        setupLoadStatusBindings()
     }
     
     func setupTextfieldBindings() {
@@ -282,7 +299,6 @@ extension AccountDetailsController: RxBinder {
     }
     
     func bindTextfieldsForAnimations() {
-        
         fieldData.forEach { (data) in
             data.validation
                 .asObservable()
@@ -295,28 +311,19 @@ extension AccountDetailsController: RxBinder {
     
     func bindCustomTextfieldInteractions() {
         if let data = fieldData.filter({ $0.fieldType == .party }).first {
-            data.field.textField.rx.controlEvent([.editingDidBegin])
+            data.field.tap
                 .subscribe { [weak self] (event) in
-                    data.field.endEditing(true)
                     self?.presentPartySelectionActionSheet()
                 }
                 .disposed(by: disposeBag)
         }
         
         if let data = fieldData.filter({ $0.fieldType == .dob }).first {
-            data.field.textField.rx.controlEvent([.editingDidBegin])
+            data.field.tap
                 .subscribe { [weak self] (event) in
-                    data.field.endEditing(true)
+                    self?.view.endEditing(true)
                     self?.showDatePicker()
                 }
-                .disposed(by: disposeBag)
-            data.viewModelVariable
-                .asObservable()
-                .subscribe(
-                    onNext: { text in
-                        data.field.textField.text = text
-                    }
-                )
                 .disposed(by: disposeBag)
         }
     }
@@ -357,24 +364,54 @@ extension AccountDetailsController: RxBinder {
             .disposed(by: disposeBag)
         datePicker.selectedDate
             .asObservable()
+            .map { DateFormatter.presentation.string(from: $0) }
             .do(
-                onNext: { [weak self] _ in
+                onNext: { [weak self] date in
                     self?.hideDatePicker()
+                    if let data = self?.fieldData.filter({ $0.fieldType == .dob }).first {
+                        data.field.setText(date)
+                    }
                 }
             )
-            .map { DateFormatter.presentation.string(from: $0) }
             .bind(to: viewModel.dob)
             .disposed(by: disposeBag)
     }
     
     func setupNavigationBindings() {
-        viewModel.registerLoadStatus.asObservable()
+        viewModel.registerLoadStatus
+            .asObservable()
             .onSuccess { [weak self] in 
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
-                let vc = ConfirmationController(client: self.client)
-                vc.setInfoFromRegistration(email: self.viewModel.email.value, password: self.viewModel.password.value)
+                let vc = ConfirmationController(client: self.client, email: self.viewModel.email.value, password: self.viewModel.password.value)
                 self.navigationController?.pushViewController(vc, animated: true)
         }
         .disposed(by: disposeBag)
+    }
+    
+    func setupLoadStatusBindings() {
+        viewModel.registerLoadStatus
+            .asObservable()
+            .bind(to: curtain.loadStatus)
+            .disposed(by: disposeBag)
+        viewModel.loadStatus
+            .asObservable()
+            .bind(to: curtain.loadStatus)
+            .disposed(by: disposeBag)
+        viewModel.loadStatus
+            .asObservable()
+            .onError(
+                execute: { [weak self] error in
+                    self?.showError(KratosError.cast(from: error))
+                }
+            )
+            .disposed(by: disposeBag)
+        viewModel.registerLoadStatus
+            .asObservable()
+            .onError(
+                execute: { [weak self] error in
+                    self?.showError(KratosError.cast(from: error))
+                }
+            )
+            .disposed(by: disposeBag)
     }
 }

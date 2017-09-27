@@ -24,10 +24,11 @@ class KratosTextField: UIView {
         case password
         case dob
         case party
+        case confirmation
         
         var keyboardType: UIKeyboardType {
             switch self {
-            case .zip:
+            case .zip, .confirmation:
                 return .numberPad
             case .email:
                 return .emailAddress
@@ -36,12 +37,15 @@ class KratosTextField: UIView {
             }
         }
         
-        var shouldPresentKeyboard: Bool {
+        var capitalization: UITextAutocapitalizationType {
             switch self {
-            case .dob, .party:
-                return false
+            case .first,
+                 .last,
+                 .address,
+                 .city:
+                return .words
             default:
-                return true
+                return .none
             }
         }
         
@@ -57,19 +61,20 @@ class KratosTextField: UIView {
             case .city: return localize(.textFieldCityTitle)
             case .state: return localize(.textFieldStateTitle)
             case .zip: return localize(.textFieldZipcodeTitle)
+            case .confirmation: return localize(.textFieldConfirmationTitle)
             }
         }
     
         var expandedWidthMultiplier: CGFloat {
             switch self {
-            case .first, .last, .email, .password, .address, .city: return 0.8
+            case .first, .last, .email, .password, .address, .city, .confirmation: return 0.8
             case .party, .dob, .zip, .state: return 0.35
             }
         }
         
         var centerXPosition: CGFloat {
             switch self {
-            case .first, .last, .email, .password, .address, .city: return 1
+            case .first, .last, .email, .password, .address, .city, .confirmation: return 1
             case .party, .state: return 0.55
             case .dob, .zip: return 1.45
             }
@@ -85,6 +90,8 @@ class KratosTextField: UIView {
             case .address: return 190
             case .city: return 245
             case .state, .zip: return 300
+            default:
+                return 0
             }
         }
     }
@@ -92,6 +99,7 @@ class KratosTextField: UIView {
     //MARK: Public UI Elements
     public var textField = UITextField()
     public var placeholderLabel = UILabel()
+    public let tap = PublishSubject<Void>()
     
     //MARK: Private UI Elements
     fileprivate var underlineView = UIView()
@@ -100,7 +108,6 @@ class KratosTextField: UIView {
     public var textFieldType: TextFieldType = .address
     
     //MARK: Private Variables
-    fileprivate var shouldPresentKeyboard = true
     fileprivate var text: String? {
         return textField.text
     }
@@ -112,6 +119,7 @@ class KratosTextField: UIView {
         self.textField.keyboardType = textFieldType.keyboardType
         self.textField.isSecureTextEntry = textFieldType == .password
         self.placeholderLabel.text = textFieldType.placeholderText
+        self.textField.autocapitalizationType = textFieldType.capitalization
         self.textField.textAlignment = .center
         textField.delegate = self
         textField.addTarget(self, action: #selector(editingBegan), for: .editingDidBegin)
@@ -175,6 +183,7 @@ class KratosTextField: UIView {
 //MARK: ViewBuilder
 extension KratosTextField: ViewBuilder {
     func addSubviews() {
+        translatesAutoresizingMaskIntoConstraints = false 
         addSubview(textField)
         addSubview(underlineView)
         addSubview(placeholderLabel)
@@ -182,26 +191,33 @@ extension KratosTextField: ViewBuilder {
     
     func constrainViews() {
         textField.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(self)
-            make.bottom.equalTo(self).inset(4)
+            make.top.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().inset(4)
         }
         underlineView.snp.makeConstraints { make in
-            make.width.centerX.equalTo(self)
+            make.width.centerX.equalToSuperview()
             make.height.equalTo(2)
             make.top.equalTo(textField.snp.bottom).offset(2)
         }
         placeholderLabel.snp.makeConstraints { make in
             make.bottom.equalTo(underlineView.snp.top).offset(0)
-            make.centerX.equalTo(self)
+            make.centerX.equalToSuperview()
         }
     }
     
     func styleViews() {
         sendSubview(toBack: placeholderLabel)
-        
-        placeholderLabel.style(with: [.font(.cellTitle), .titleColor(.lightGray)])
-        textField.style(with: [.font(.cellTitle), .titleColor(.black)])
-        
+        if textFieldType == .confirmation {
+            placeholderLabel.style(with: [.font(.cellTitle),
+                                          .titleColor(.lightGray)])
+            textField.style(with: [.font(.header),
+                                   .titleColor(.black)])
+        } else {
+            placeholderLabel.style(with: [.font(.cellTitle),
+                                          .titleColor(.lightGray)])
+            textField.style(with: [.font(.cellTitle),
+                                   .titleColor(.black)])
+        }
         underlineView.style(with: [.backgroundColor(.kratosBlue),
                                    .cornerRadius(1)])
     }
@@ -234,13 +250,27 @@ extension KratosTextField: UITextFieldDelegate {
                 return false
             }
             return true
-        case .email, .password:
-            return true 
-        default:
-            if textField.text?.characters.count == 0 {
-                textField.text = (textField.text ?? "") + string.uppercased()
+        case .confirmation:
+            if string.containsCharacters(in: CharacterSet.decimalDigits.inverted) {
+                return false
+            } else {
+                guard newString.characters.count < 12 else { return false }
+                guard string != "" else { return true }
+                textField.text = newString + " "
                 return false
             }
+        default:
+            return true
+        }
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        switch textFieldType {
+        case .dob,
+             .party:
+            tap.onNext(())
+            return false 
+        default:
             return true
         }
     }
@@ -267,7 +297,8 @@ func == (lhs: KratosTextField.TextFieldType, rhs: KratosTextField.TextFieldType)
          (.address, .address),
          (.city, .city),
          (.state, .state),
-         (.zip, .zip):
+         (.zip, .zip),
+         (.confirmation, .confirmation):
         return true
     default:
         return false

@@ -131,7 +131,9 @@ extension AccountDetailsViewModel: RxBinder {
     }
     
     func setupViewStateBindings() {
-        state.asObservable()
+        state
+            .asObservable()
+            .filter { $0 == .edit }
             .subscribe(onNext: { [weak self] _ in
                 self?.fetchUser()
             })

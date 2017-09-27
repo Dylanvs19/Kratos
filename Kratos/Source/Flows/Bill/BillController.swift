@@ -28,22 +28,22 @@ class BillController: UIViewController {
     let divider = UIView()
     let statusLabel = UILabel()
     let statusDateLabel = UILabel()
-    let trackButton: TrackButton
+    let trackButton = UIButton()
     //BillInfo
     let billInfoView = BillInfoView()
+    //Constants
+    let voteViewExpandedSize: CGFloat = 40
     
     // MARK: - Initialization -
     init(client: Client, lightTally: LightTally) {
         self.client = client
         self.viewModel = BillViewModel(with: client, lightTally: lightTally)
-        self.trackButton = TrackButton(with: client, billId: lightTally.billId ?? -1)
         super.init(nibName: nil, bundle: nil)
     }
     
     init(client: Client, bill: Bill) {
         self.client = client
         self.viewModel = BillViewModel(with: client, bill: bill)
-        self.trackButton = TrackButton(with: client, billId: bill.id)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -56,10 +56,10 @@ class BillController: UIViewController {
         super.viewDidLoad()
         addSubviews()
         constrainViews()
+        view.layoutIfNeeded()
         styleViews()
         bind()
         //RepInfoView needs to be laid out and constrained after view is larger than .zero
-        view.layoutIfNeeded()
         billInfoView.build()
     }
     
@@ -67,10 +67,31 @@ class BillController: UIViewController {
         super.viewDidAppear(animated)
         setDefaultNavVC()
         self.title = ""
+        trackButton.addShadow()
+        billHeader.addShadow()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    }
+    
+    // MARK: - Animations -
+    func updateTrackButton(for isTracking: Bool, animate: Bool) {
+        let title = isTracking ? localize(.billTrackButtonTrackedTitle) : localize(.billTrackButtonUntrackedTitle)
+        let color = isTracking ? Color.kratosBlue.value : Color.kratosGreen.value
+        if animate {
+        UIView.animate(withDuration: 0.3) {
+            self.trackButton.setTitle(title, for: .normal)
+            self.trackButton.backgroundColor = color
+            self.trackButton.layoutIfNeeded()
+            self.view.layoutIfNeeded()
+        }
+        } else {
+            self.trackButton.setTitle(title, for: .normal)
+            self.trackButton.backgroundColor = color
+            self.trackButton.layoutIfNeeded()
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
@@ -87,11 +108,10 @@ extension BillController: ViewBuilder {
     }
     func constrainViews() {
         billHeader.snp.remakeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalToSuperview()
+            make.top.leading.trailing.equalToSuperview()
         }
         titleLabel.snp.remakeConstraints { make in
-            make.top.equalToSuperview().inset(20)
+            make.top.equalToSuperview().inset(25)
             make.leading.trailing.equalToSuperview().inset(40)
         }
         divider.snp.remakeConstraints { make in
@@ -137,7 +157,9 @@ extension BillController: ViewBuilder {
         statusDateLabel.style(with: [.font(.body),
                                  .titleColor(.lightGray)
                                 ])
-        trackButton.addShadow()
+        trackButton.contentEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5)
+        trackButton.style(with: [.font(.tab),
+                                 .cornerRadius(4)])
     }
 }
 
@@ -161,6 +183,29 @@ extension BillController: RxBinder {
             .filterNil()
             .bind(to: billInfoView.rx.bill)
             .disposed(by: disposeBag)
+        viewModel.isTracking
+            .asObservable()
+            .take(1)
+            .subscribe(
+                onNext: { [weak self] isTracking in
+                    self?.updateTrackButton(for: isTracking, animate: false)
+                }
+            )
+            .disposed(by: disposeBag)
+        viewModel.isTracking
+            .asObservable()
+            .skip(1)
+            .subscribe(
+                onNext: { [weak self] isTracking in
+                    self?.updateTrackButton(for: isTracking, animate: true)
+                }
+            )
+            .disposed(by: disposeBag)
+        viewModel.trackButtonLoadStatus
+            .asObservable()
+            .map { $0 != .loading }
+            .bind(to: trackButton.rx.isEnabled)
+            .disposed(by: disposeBag)
         billInfoView.selectedPerson
             .subscribe(onNext: { [weak self] person in
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
@@ -169,10 +214,19 @@ extension BillController: RxBinder {
             })
             .disposed(by: disposeBag)
         billInfoView.selectedTally
-            .subscribe(onNext: { [weak self] Tally in
+            .subscribe(onNext: { [weak self] tally in
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
-                // push to Tally VC
+                let vc = TallyController(client: self.client, tally: tally)
+                self.navigationController?.pushViewController(vc, animated: true)
             })
+            .disposed(by: disposeBag)
+        trackButton.rx.tap
+            .withLatestFrom(viewModel.isTracking.asObservable())
+            .subscribe(
+                onNext: { [weak self] isTracking in
+                    isTracking ? self?.viewModel.untrack() : self?.viewModel.track()
+                }
+            )
             .disposed(by: disposeBag)
     }
 }

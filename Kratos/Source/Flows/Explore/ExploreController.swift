@@ -103,7 +103,7 @@ class ExploreController: UIViewController, CurtainPresenter {
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         // TODO: Delete this code when fonts have been set
-        UIFont.familyNames.forEach{ UIFont.fontNames(forFamilyName: $0).forEach { print($0) } }
+//        UIFont.familyNames.forEach{ UIFont.fontNames(forFamilyName: $0).forEach { print($0) } }
         
         super.viewDidLoad()
         edgesForExtendedLayout = [.top, .right, .left]

@@ -188,7 +188,10 @@ extension MenuController: RxBinder {
                     case .about:
                         break
                     case .logout:
-                        self.client.tearDown()
+                        self.dismiss(animated: false, completion: {
+                            self.client.tearDown()
+                        })
+                        
                     }
                 }
             )

@@ -127,11 +127,11 @@ extension PieChartView: ViewBuilder {
         }
         forLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(againstLabel.snp.top).offset(-5)
+            make.bottom.equalTo(againstLabel.snp.top).offset(-2)
         }
         abstainLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(againstLabel.snp.bottom).offset(5)
+            make.top.equalTo(againstLabel.snp.bottom).offset(2)
         }
     }
     func styleViews() {

@@ -12,7 +12,7 @@ import RxCocoa
 import SnapKit
 
 class DatePickerView: UIView {
-    let selectedDate = Variable<Date>(Date(timeIntervalSince1970: 0))
+    let selectedDate = PublishSubject<Date>()
     fileprivate let disposeBag = DisposeBag()
     fileprivate let datePicker = UIDatePicker()
     fileprivate let doneButton = UIButton()

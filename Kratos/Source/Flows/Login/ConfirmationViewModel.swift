@@ -10,46 +10,73 @@ import Foundation
 import RxSwift
 
 class ConfirmationViewModel {
-    
+    // MARK: - Properties -
     let client: Client
     let disposeBag = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
-    
-    //UI Element Variables
-    let title = Variable<String>("Confirmation")
-    let buttonTitle = Variable<String>("Link Pressed")
-    let text = Variable<String>("We have just sent an email to your email address you provided to us with a magic link. Once you have activated the link you will be signed in. If you are not automatically signed in after activating the link in the email, press the button below.")
+    let resendEmailLoadStatus = Variable<LoadStatus>(.none)
     
     let email = Variable<String>("")
     let password = Variable<String>("")
+    let confirmation = Variable<String>("")
+    let isValid = Variable<Bool>(false)
     
-    let confirmationPressed = PublishSubject<Void>()
-    let push = PublishSubject<Void>()
-    
-    init(client: Client) {
+    // MARK: - Initializers -
+    init(client: Client, email: String, password: String) {
         self.client = client
+        self.email.value = email
+        self.password.value = password
         bind()
     }
     
-    fileprivate func login() {
+    // MARK: - Client Requests -
+    func confirmAccount() {
+        let pin = confirmation.value.replacingOccurrences(of: " ", with: "")
         loadStatus.value = .loading
-        return client.login(email: email.value, password: password.value)
-            .subscribe(onNext: { [weak self] token in
-                self?.loadStatus.value = .none
-                self?.push.onNext(())
-            }, onError: { [weak self] error in
-                self?.loadStatus.value = .error(KratosError.cast(from: error))
-            })
+        client.confirm(pin: pin)
+            .subscribe(
+                onNext: { [weak self] token in
+                    self?.login()
+                }, onError: { [weak self] error in
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    fileprivate func login() {
+        client.login(email: email.value, password: password.value)
+            .subscribe(
+                onNext: { [weak self] token in
+                    self?.loadStatus.value = .none
+                }, onError: { [weak self] error in
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    func resendCode() {
+        resendEmailLoadStatus.value = .loading
+        client.resentConfirmation(email: email.value)
+            .subscribe(
+                onNext: { [weak self] token in
+                    self?.resendEmailLoadStatus.value = .none
+                }, onError: { [weak self] error in
+                    self?.resendEmailLoadStatus.value = .error(KratosError.cast(from: error))
+                }
+            )
             .disposed(by: disposeBag)
     }
 }
 
+// MARK: - Binds -
 extension ConfirmationViewModel: RxBinder {
     func bind() {
-        confirmationPressed.asObservable()
-            .subscribe(onNext: { [weak self] in
-                self?.login()
-            })
-        .disposed(by: disposeBag)
+        confirmation
+            .asObservable()
+            .map { $0.replacingOccurrences(of: " ", with: "").characters.count == 6 }
+            .bind(to: isValid)
+            .disposed(by: disposeBag)
     }
 }

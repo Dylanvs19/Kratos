@@ -10,10 +10,10 @@ import Foundation
 import UIKit
 import RxSwift
 import RxCocoa
+import RxDataSources
 import SnapKit
 
 class TallyController: UIViewController {
-    
     
     // MARK: - Enums -
     enum State: Int {
@@ -72,11 +72,11 @@ class TallyController: UIViewController {
     let buttons: [UIButton] = State.allValues.map { $0.button }
     
     // Base
+    let infoViewView = UIView()
     let scrollView = UIScrollView()
-    let stackView = UIStackView()
+    let scrollViewView = UIView()
     
-    let sponsorsTableView = UITableView()
-    
+    let votesTableView = UITableView()
     let detailsScrollView = UIScrollView()
     let detailsContentView = UIView()
     
@@ -101,11 +101,45 @@ class TallyController: UIViewController {
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        edgesForExtendedLayout = [.top, .right, .left, .bottom]
+        edgesForExtendedLayout = [.top, .right, .left]
+        configureVotesTableView()
         addSubviews()
         constrainViews()
         styleViews()
         bind()
+    }
+    
+    // MARK: - Configuration -
+    fileprivate func configureVotesTableView() {
+        votesTableView.register(RepresentativeCell.self, forCellReuseIdentifier: RepresentativeCell.identifier)
+        votesTableView.estimatedRowHeight = 100
+        votesTableView.rowHeight = UITableViewAutomaticDimension
+        votesTableView.separatorInset = .zero
+        votesTableView.tableFooterView = UIView()
+        votesTableView.backgroundColor = .clear
+    }
+    
+    // MARK: - Animations -
+    func update(with state: State) {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            self.slideView.snp.remakeConstraints { make in
+                make.bottom.equalToSuperview()
+                make.width.equalTo(self.managerView.frame.width / CGFloat(State.allValues.count))
+                make.height.equalTo(2)
+                make.leading.equalToSuperview().offset(state.indicatorXPosition(in: self.managerView))
+            }
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+        updateScrollView(with: state)
+    }
+    
+    // MARK: - Helpers -
+    func updateScrollView(with state: State) {
+        let width = scrollView.frame.width
+        self.scrollView.scrollRectToVisible(CGRect(x: state.scrollViewXPosition(in: scrollView),
+                                                   y: 0,
+                                                   width: width,
+                                                   height: 1), animated: true)
     }
 }
 
@@ -113,25 +147,39 @@ class TallyController: UIViewController {
 extension TallyController: ViewBuilder {
     func addSubviews() {
         view.addSubview(topView)
+        topView.addSubview(titleLabel)
+        topView.addSubview(statusLabel)
+        topView.addSubview(statusDateLabel)
+        topView.addSubview(pieChartView)
         
         view.addSubview(managerView)
         buttons.forEach { managerView.addSubview($0) }
         managerView.addSubview(slideView)
         
         view.addSubview(scrollView)
-        scrollView.addSubview(stackView)
+        scrollView.addSubview(scrollViewView)
         
-        stackView.addArrangedSubview(sponsorsTableView)
-        stackView.addArrangedSubview(detailsScrollView)
-
+        scrollViewView.addSubview(votesTableView)
+        scrollViewView.addSubview(detailsScrollView)
+        
         detailsScrollView.addSubview(detailsContentView)
     }
     
     func constrainViews() {
         topView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(135)
         }
+        titleLabel.snp.remakeConstraints { make in
+            make.top.equalToSuperview().inset(25)
+            make.leading.trailing.equalToSuperview().inset(40)
+        }
+        pieChartView.snp.remakeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+            make.height.width.equalTo(100)
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(5)
+        }
+        
         managerView.snp.remakeConstraints { make in
             make.top.equalTo(topView.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(10)
@@ -157,12 +205,30 @@ extension TallyController: ViewBuilder {
             make.trailing.leading.equalToSuperview().inset(10)
             make.bottom.equalTo(bottomLayoutGuide.snp.top).offset(-10)
         }
+        scrollViewView.snp.remakeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(scrollView.snp.width).multipliedBy(2)
+            make.height.equalTo(scrollView.snp.height)
+        }
+        votesTableView.snp.remakeConstraints { make in
+            make.leading.top.bottom.equalToSuperview()
+            make.width.equalTo(scrollView.snp.width)
+        }
+        detailsScrollView.snp.remakeConstraints { make in
+            make.leading.equalTo(votesTableView.snp.trailing)
+            make.trailing.top.bottom.equalToSuperview()
+            make.width.equalTo(scrollView.snp.width)
+        }
     }
     
     func styleViews() {
         view.style(with: .backgroundColor(.slate))
+        topView.style(with: .backgroundColor(.white))
+        managerView.style(with: .backgroundColor(.white))
+        slideView.style(with: .backgroundColor(.kratosRed))
         titleLabel.style(with: [.font(.cellTitle),
-                                .numberOfLines(5)])
+                                .numberOfLines(5),
+                                .textAlignment(.center)])
         statusLabel.style(with: [.font(.body),
                                  .titleColor(.gray)])
         statusDateLabel.style(with: [.font(.body),
@@ -173,13 +239,34 @@ extension TallyController: ViewBuilder {
 // MARK: - Binds  -
 extension TallyController: RxBinder {
     func bind() {
+        buttons.forEach { button in
+            button.rx.tap
+                .map { _ in State(rawValue: button.tag) }
+                .filterNil()
+                .bind(to: viewModel.state)
+                .disposed(by: disposeBag)
+        }
+        viewModel.state
+            .asObservable()
+            .subscribe(
+                onNext: { [weak self] state in
+                    self?.update(with: state)
+                }
+            )
+            .disposed(by: disposeBag)
+        viewModel.votes
+            .asObservable()
+            .bind(to: votesTableView.rx.items(cellIdentifier: RepresentativeCell.identifier, cellType: RepresentativeCell.self)) { row, data, cell in
+                cell.configure(with: data)
+            }
+            .disposed(by: disposeBag)
         viewModel.pieChartData
             .asObservable()
             .filterNil()
             .filter { !$0.isEmpty }
             .bind(to: pieChartView.rx.data)
             .disposed(by: disposeBag)
-        viewModel.name
+        viewModel.title
             .asObservable()
             .bind(to: titleLabel.rx.text)
             .disposed(by: disposeBag)

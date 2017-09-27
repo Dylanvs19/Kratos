@@ -11,10 +11,10 @@ import RxSwift
 
 extension Client: UserService {
     
-    func fetchTrackedBills(for pageNumer: Int) -> Observable<[Bill]> {
+    func fetchTrackedBills(for pageNumer: Int, ignoreCache: Bool = false) -> Observable<[Bill]> {
         guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
         
-        return request(.fetchTrackedBills(pageNumber: pageNumer))
+        return request(.fetchTrackedBills(pageNumber: pageNumer), ignoreCache: ignoreCache)
             .toJson()
             .mapArray(at: "data")
     }
@@ -34,7 +34,7 @@ extension Client: UserService {
     func trackBill(billID: Int) -> Observable<[Int]> {
         guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
         
-        return request(.trackBill(billID: billID))
+        return request(.trackBill(billID: billID), ignoreCache: true)
             .toJson()
             .map {
                 guard let json = $0 as? [String: Any],
@@ -54,7 +54,7 @@ extension Client: UserService {
     func untrackBill(billID: Int) -> Observable<Void> {
         guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
         
-        return request(.untrackBill(billID: billID))
+        return request(.untrackBill(billID: billID), ignoreCache: true)
             .map { _ in return () }
     }
     
@@ -69,14 +69,14 @@ extension Client: UserService {
     func followSubject(subjectID: Int) -> Observable<Void> {
         guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
         
-        return request(.followSubject(subjectID: subjectID))
+        return request(.followSubject(subjectID: subjectID), ignoreCache: true)
             .map { _ in return () }
     }
 
     func unfollowSubject(subjectID: Int) -> Observable<Void> {
         guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
         
-        return request(.unfollowSubject(subjectID: subjectID))
+        return request(.unfollowSubject(subjectID: subjectID), ignoreCache: true)
             .map { _ in return () }
     }
     
@@ -108,7 +108,7 @@ extension Client: UserService {
     func updateUserVote(voteValue: VoteValue, tallyID: Int) -> Observable<LightTally> {
         guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
         
-        return request(.updateUserVote(voteValue: voteValue, tallyID: tallyID))
+        return request(.updateUserVote(voteValue: voteValue, tallyID: tallyID), ignoreCache: true)
             .toJson()
             .mapObject()
     }
@@ -116,7 +116,7 @@ extension Client: UserService {
     func deleteUserVote(tallyID: Int) -> Observable<Void> {
         guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
         
-        return request(.deleteUserVote(tallyID: tallyID))
+        return request(.deleteUserVote(tallyID: tallyID), ignoreCache: true)
             .map { _ in return () }
     }
 }

@@ -59,8 +59,8 @@ extension UIViewController {
         case .authError(_):
             break
         case .requestError(let errorTitle, let errorMessage, _):
-                title = errorTitle
-                message = errorMessage
+                title = errorTitle.localizedCapitalized
+                message = errorMessage.localizedCapitalized
         }
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
@@ -96,12 +96,12 @@ extension UIViewController {
     
     func setDefaultNavVC() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationController?.navigationBar.backItem?.title = ""
         navigationController?.navigationBar.tintColor = Color.lightGray.value
         navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: Font.subHeader.value]
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.backItem?.title = ""
         navigationController?.extendedLayoutIncludesOpaqueBars = true
         navigationController?.automaticallyAdjustsScrollViewInsets = false
     }

@@ -14,11 +14,11 @@ import RxCocoa
 class BillViewModel {
     
     // MARK: - Properties -
-    
     // Standard
     let client: Client
     let disposeBag = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
+    let trackingStatus = Variable<LoadStatus>(.none)
     
     // Main
     let id = Variable<Int?>(nil)
@@ -75,9 +75,56 @@ class BillViewModel {
             .subscribe(onNext: { [weak self] bill in
                 self?.loadStatus.value = .none
                 self?.bill.value = bill
-            }, onError: { [weak self] (error) in
+            }, onError: { [weak self] error in
                     self?.loadStatus.value = .error(KratosError.cast(from: error))
-            })
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    func determineTrackedStatus(for id: Int) {
+        return client.fetchTrackedBillIds()
+            .subscribe(
+                onNext: { [weak self] ids in
+                    self?.trackingStatus.value = .none
+                    self?.isTracking.value = ids.contains(id)
+                },
+                onError: { [weak self] error in
+                    self?.trackingStatus.value = .error(KratosError.cast(from: error))
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    func track() {
+        guard let billId = id.value else { return }
+        trackingStatus.value = .loading
+        return client.trackBill(billID: billId)
+            .subscribe(
+                onNext: { [weak self] _ in
+                    self?.trackingStatus.value = .none
+                    self?.isTracking.value = true
+                },
+                onError: { [weak self] error in
+                    self?.trackingStatus.value = .error(KratosError.cast(from: error))
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    func untrack() {
+        guard let billId = id.value else { return }
+        trackingStatus.value = .loading
+        return client.untrackBill(billID: billId)
+            .subscribe(
+                onNext: { [weak self] _ in
+                    self?.trackingStatus.value = .none
+                    self?.isTracking.value = false
+                },
+                onError: { [weak self] error in
+                    self?.trackingStatus.value = .error(KratosError.cast(from: error))
+                }
+            )
             .disposed(by: disposeBag)
     }
 }
@@ -95,7 +142,7 @@ extension BillViewModel: RxBinder {
         
         bill.asObservable()
             .filterNil()
-            .map { $0.status }
+            .map { $0.status?.cleanStatus }
             .filterNil()
             .bind(to: status)
             .disposed(by: disposeBag)
@@ -106,6 +153,15 @@ extension BillViewModel: RxBinder {
             .filterNil()
             .map { DateFormatter.presentation.string(from: $0) }
             .bind(to: statusDate)
+            .disposed(by: disposeBag)
+        id
+            .asObservable()
+            .filterNil()
+            .subscribe(
+                onNext: { [weak self] id in
+                    self?.determineTrackedStatus(for: id)
+                }
+            )
             .disposed(by: disposeBag)
     }
 }

@@ -23,7 +23,7 @@ enum TallyType {
     case procedural
     case other(name: String?)
     
-    var string: String {
+    var title: String {
         switch self {
         case .amendment: return "Amendment"
         case .conviction: return "Conviction"
@@ -61,7 +61,7 @@ enum TallyType {
 }
 
 func ==(lhs:TallyType, rhs:TallyType) -> Bool {
-    return (lhs.string == rhs.string)
+    return (lhs.title == rhs.title)
 }
 
 enum TallyResult {
@@ -400,7 +400,9 @@ struct LightTally: Hashable, Decodable {
         self.nominationID = tally["nomination_id"] as? Int
         
         self.question = tally["question"] as? String
+        print(self.question)
         if let category = tally["category"] as? String {
+            print(category)
             self.category = TallyType.type(for: category)
         }
         if let holdChamber = tally["chamber"] as? String {

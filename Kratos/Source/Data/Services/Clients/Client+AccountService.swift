@@ -24,6 +24,12 @@ extension Client: AccountService {
             .map { _ in return true }
     }
     
+    func confirm(pin: String) -> Observable<Bool> {
+        return request(.confirmation(pin: pin), ignoreCache: true)
+            .toJson()
+            .map { _ in return true }
+    }
+    
     func login(email: String, password: String) -> Observable<Void> {
         return request(.login(email: email, password: password), ignoreCache: true)
             .toJson()

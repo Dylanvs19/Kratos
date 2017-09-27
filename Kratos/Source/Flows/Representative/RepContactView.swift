@@ -72,9 +72,10 @@ class RepContactView: UIView {
     func update(with contactMethods: [ContactMethod]) {
         stackView.arrangedSubviews.forEach{ $0.removeFromSuperview() }
         contactMethods.forEach { method in
-            method.button.rx.controlEvent([.touchUpInside])
+            method.button.rx.tap
                 .asObservable()
-                .map { _ in method }
+                .map { _ in return method }
+                .debug()
                 .bind(to: selectedMethod)
                 .disposed(by: self.disposeBag)
             stackView.addArrangedSubview(method.button)

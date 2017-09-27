@@ -55,7 +55,7 @@ extension String {
         switch self {
         case "PASS_OVER:HOUSE": return "Passed Over House"
         case "PASS_OVER:SENATE": return "Passed Over Senate"
-        case "ENACTED:SIGNED": return "Signed into Law"
+        case "ENACTED:SIGNED": return "Signed"
         case "REPORTED": return "Reported"
         case "REFFERED": return "Reffered"
         case "PASSED:CONCURRENTRES": return "Passed Concurrent Resolution"

@@ -28,7 +28,7 @@ class TallyCell: UITableViewCell {
     let statusLabel = UILabel()
     let statusDateLabel = UILabel()
     
-    let pieChartHeight: CGFloat = 80
+    let pieChartHeight: CGFloat = 75
     
     // MARK: - Initializer -
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -46,6 +46,7 @@ class TallyCell: UITableViewCell {
     //MARK: - Configuration - 
     func configure(with tally: Tally) {
         viewModel.update(with: tally)
+        layoutIfNeeded()
     }
 }
 
@@ -60,24 +61,24 @@ extension TallyCell: ViewBuilder {
     func constrainViews() {
         pieChartView.snp.remakeConstraints { make in
             make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(5).priority(999)
-            make.top.bottom.greaterThanOrEqualToSuperview().inset(5)
-            make.height.width.equalTo(pieChartHeight).priority(999)
+            make.trailing.equalToSuperview().inset(5)
+            make.height.width.equalTo(pieChartHeight)
         }
         titleLabel.snp.remakeConstraints { make in
-            make.leading.top.equalToSuperview().offset(5)
-            make.trailing.equalTo(pieChartView.snp.leading).offset(-2)
+            make.top.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().inset(5)
+            make.trailing.equalToSuperview().inset(pieChartHeight + 2).priority(999)
         }
         statusLabel.snp.remakeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(2)
+            make.top.greaterThanOrEqualTo(titleLabel.snp.bottom).offset(2)
             make.leading.equalToSuperview().inset(5)
-            make.trailing.equalTo(pieChartView.snp.leading).offset(-2)
+            make.trailing.equalToSuperview().inset(pieChartHeight + 2).priority(999)
         }
         statusDateLabel.snp.remakeConstraints { make in
             make.top.equalTo(statusLabel.snp.bottom).offset(2)
             make.leading.equalToSuperview().inset(5)
-            make.bottom.equalToSuperview().inset(2)
-            make.trailing.equalTo(pieChartView.snp.leading).offset(-2)
+            make.bottom.equalToSuperview().inset(5)
+            make.trailing.equalToSuperview().inset(pieChartHeight + 2).priority(999)
         }
     }
     

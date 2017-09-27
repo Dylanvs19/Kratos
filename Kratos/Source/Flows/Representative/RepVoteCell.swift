@@ -54,35 +54,34 @@ extension RepVoteCell: ViewBuilder {
     func constrainViews() {
         billTitleLabel.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().offset(5)
-            make.trailing.equalToSuperview().offset(-40)
+            make.trailing.equalToSuperview().inset(statusImageViewSize + 2)
         }
         billSubjectLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(5)
             make.top.equalTo(billTitleLabel.snp.bottom).offset(5)
+            make.trailing.equalToSuperview().inset(statusImageViewSize + 2)
         }
         billStatus.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(5)
             make.top.equalTo(billSubjectLabel.snp.bottom).offset(5)
-            make.bottom.equalToSuperview().offset(-5)
+            make.leading.bottom.equalToSuperview().inset(5)
+            make.trailing.equalToSuperview().inset(statusImageViewSize + 2)
         }
         statusImageView.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-5)
             make.centerY.equalToSuperview()
-            make.height.width.equalTo(self.statusImageViewSize)
+            make.height.width.equalTo(statusImageViewSize)
         }
     }
     
     func styleViews() {
         selectionStyle = .none
-        billTitleLabel.style(with: [.numberOfLines(3),
-                                    .font(.cellTitle)
-                                    ])
+        billTitleLabel.style(with: [.numberOfLines(4),
+                                    .font(.cellTitle)])
         billTitleLabel.style(with: .font(.cellTitle))
         billStatus.style(with: [.font(.cellSubtitle),
-                                .titleColor(.gray)
-                                ])
+                                .titleColor(.gray)])
         billSubjectLabel.style(with: [.font(.cellSubtitle),
-                                      .titleColor(.gray)
-                                      ])
+                                      .titleColor(.gray),
+                                      .numberOfLines(3)])
     }
 }

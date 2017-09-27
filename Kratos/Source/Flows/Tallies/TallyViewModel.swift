@@ -10,7 +10,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-
 class TallyViewModel {
     
     // MARK: - Variables -
@@ -18,20 +17,22 @@ class TallyViewModel {
     let disposeBag = DisposeBag()
     var billsDisposeBag: DisposeBag? = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
+    let state = Variable<TallyController.State>(.votes)
     
     let lightTally = Variable<LightTally?>(nil)
     let tally = Variable<Tally?>(nil)
     
     let pieChartData = Variable<[PieChartData]?>([])
-    let name = Variable<String>("")
+    let title = Variable<String>("")
     let status = Variable<String>("")
     let statusDate = Variable<String>("")
-    
+    let votes = Variable<[Vote]>([])
     
     init(client: Client, lightTally: LightTally) {
         self.client = client
         self.lightTally.value = lightTally
         bind()
+        
     }
     
     init(client: Client, tally: Tally) {
@@ -61,6 +62,23 @@ extension TallyViewModel: RxBinder {
             .subscribe(onNext: { [weak self] lightTallyId in
                 self?.fetchTally(with: lightTallyId)
             })
+            .disposed(by: disposeBag)
+        tally
+            .asObservable()
+            .filterNil()
+            .subscribe(
+                onNext: { [weak self] tally in
+                    self?.title.value = tally.question ?? tally.subject ?? ""
+                    self?.pieChartData.value = [PieChartData(with: tally.yea ?? 0, type: .yea),
+                                                PieChartData(with: tally.nay ?? 0, type: .nay),
+                                                PieChartData(with: tally.abstain ?? 0, type: .abstain)]
+                    self?.status.value = tally.resultText ?? ""
+                    if let date = tally.date {
+                        self?.statusDate.value = DateFormatter.presentation.string(from: date)
+                    }
+                    self?.votes.value = tally.votes ?? []
+                }
+            )
             .disposed(by: disposeBag)
     }
 }

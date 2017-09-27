@@ -44,11 +44,19 @@ enum Constant {
     case textFieldCityTitle
     case textFieldStateTitle
     case textFieldZipcodeTitle
+    case textFieldConfirmationTitle
     
     //ConfirmationVC
     case confirmationTitle
-    case confirmationButtonTitle
+    case confirmationResendConfirmationButtonTitle
     case confirmationExplainationText
+    case confirmationSubmitButtonTitle
+    
+    // NotificatinVC
+    case notificationTitle
+    case notificationSkipButtonTitle
+    case notificationExplanationText
+    case notificationRegisterButtonTitle
     
     // ExploreVC
     case exploreTitle
@@ -65,6 +73,10 @@ enum Constant {
     case userBillsSubjectEmptyStateMessage
     case userBillsNoSubjectSelectedEmptyStateMessage
     case userBillsNoTrackedSubjectsOrBillsEmptyStateMessage
+    
+    //BillVC
+    case billTrackButtonTrackedTitle
+    case billTrackButtonUntrackedTitle
     
     //TallyVC
     case tallyVotesTitle
@@ -84,6 +96,7 @@ enum Constant {
     case billInfoViewVotesTitle
     case billInfoViewSponsorsTitle
     case billInfoViewDetailsTitle
+    case billInfoViewVotesEmptyTitle
 
     // MenuVC
     case menuAccountDetailsButtonTitle
@@ -131,11 +144,19 @@ enum Constant {
         case .textFieldCityTitle: return "C I T Y"
         case .textFieldStateTitle: return "S T A T E"
         case .textFieldZipcodeTitle: return "Z I P C O D E"
+        case .textFieldConfirmationTitle: return "C O N F I R M A T I O N"
             
         //ConfirmationVC
         case .confirmationTitle: return "Confirmation"
-        case .confirmationButtonTitle: return "Link Pressed"
-        case .confirmationExplainationText: return "We have just sent an email to your email address you provided to us with a magic link. Once you have activated the link you will be signed in. If you are not automatically signed in after activating the link in the email, press the button below."
+        case .confirmationResendConfirmationButtonTitle: return "RESEND CONFIRMATION"
+        case .confirmationExplainationText: return "A confirmation code has just been sent to your email address. Enter it here:"
+        case .confirmationSubmitButtonTitle: return "S U B M I T"
+            
+        // NotificationVC
+        case .notificationTitle: return "Notifications"
+        case .notificationSkipButtonTitle: return "Skip"
+        case .notificationExplanationText: return "We use notifications to inform you when your representatives are voting on things that you care about. We do not spam you with news about every breath they take, we focus on the important stuff."
+        case .notificationRegisterButtonTitle: return " Register for Notifications"
             
         //ExploreVC
         case .exploreTitle: return "On The Floor"
@@ -152,6 +173,10 @@ enum Constant {
         case .userBillsSubjectEmptyStateMessage: return "There are no bills whose top term is this subject."
         case .userBillsNoSubjectSelectedEmptyStateMessage: return "Select a subject."
         case .userBillsNoTrackedSubjectsOrBillsEmptyStateMessage: return "You have no tracked bills or tracked subjects."
+            
+        //BillVC
+        case .billTrackButtonTrackedTitle: return "TRACKING"
+        case .billTrackButtonUntrackedTitle: return "TRACK"
             
         //TallyVC
         case .tallyVotesTitle: return "VOTES"
@@ -171,6 +196,7 @@ enum Constant {
         case .billInfoViewVotesTitle: return "VOTES"
         case .billInfoViewSponsorsTitle: return "SPONSORS"
         case .billInfoViewDetailsTitle: return "DETAILS"
+        case .billInfoViewVotesEmptyTitle: return "There have been no votes for this bill."
             
         // MenuVC
         case .menuAccountDetailsButtonTitle: return "Account Details"
