@@ -12,26 +12,28 @@ import RxCocoa
 import SnapKit
 
 class RepresentativeCell: UITableViewCell {
-    
     // MARK: - Variables -
-    
     // Identifier
     static let identifier = String(describing: RepresentativeCell.self)
-    
     // Standard
     let disposeBag = DisposeBag()
     let viewModel = RepresentativeCellViewModel()
-    
     // UIElements
     let repImageView = RepImageView()
     let voteImageView = UIImageView()
     let nameLabel = UILabel()
     let stateChamberLabel = UILabel()
     let partyLabel = UILabel()
-    
     // Constants
     let imageViewHeight: CGFloat = 50
-    let voteViewHeight: CGFloat = 40
+    let voteViewHeight: CGFloat = 30
+    
+    // MARK: - Lifecycle -
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        repImageView.image = nil
+        voteImageView.image = nil
+    }
     
     // MARK: - Initialization -
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -103,23 +105,38 @@ extension RepresentativeCell: ViewBuilder {
 
 extension RepresentativeCell: RxBinder {
     func bind() {
-        viewModel.imageURL.asObservable()
+        viewModel.imageURL
+            .asObservable()
             .filterNil()
             .bind(to: repImageView.rx.setImage())
             .disposed(by: disposeBag)
-        viewModel.voteValue.asObservable()
+        viewModel.voteValue
+            .asObservable()
             .filterNil()
             .map { $0.image }
             .bind(to: voteImageView.rx.image)
             .disposed(by: disposeBag)
-        viewModel.name.asObservable()
+        viewModel.name
+            .asObservable()
             .bind(to: nameLabel.rx.text)
             .disposed(by: disposeBag)
-        viewModel.stateChamber.asObservable()
+        viewModel.stateChamber
+            .asObservable()
             .bind(to: stateChamberLabel.rx.text)
             .disposed(by: disposeBag)
-        viewModel.party.asObservable()
+        viewModel.party
+            .asObservable()
+            .map { $0.short.firstLetter }
             .bind(to: partyLabel.rx.text)
+            .disposed(by: disposeBag)
+        viewModel.party
+            .asObservable()
+            .map { $0.color }
+            .subscribe(
+                onNext: { [weak self] color in
+                    self?.partyLabel.style(with: .titleColor(color))
+                }
+            )
             .disposed(by: disposeBag)
     }
 }

@@ -73,6 +73,7 @@ class BillController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        setDefaultNavVC()
     }
     
     // MARK: - Animations -
@@ -136,7 +137,7 @@ extension BillController: ViewBuilder {
         billInfoView.snp.makeConstraints { make in
             make.top.equalTo(billHeader.snp.bottom).offset(5)
             make.leading.trailing.equalToSuperview().inset(10)
-            make.bottom.equalTo(bottomLayoutGuide.snp.top).offset(-10)
+            make.bottom.equalTo(bottomLayoutGuide.snp.top)
         }
     }
     func styleViews() {

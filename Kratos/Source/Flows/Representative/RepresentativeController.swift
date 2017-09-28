@@ -13,7 +13,6 @@ import RxCocoa
 import SnapKit
 import SafariServices
 
-
 class RepresentativeController: UIViewController {
     
     // MARK: - Variables -
@@ -42,7 +41,14 @@ class RepresentativeController: UIViewController {
     init(client: Client, representative: Person) {
         self.client = client
         self.viewModel = RepresentativeViewModel(client: client, representative: representative)
-        self.repInfoView = RepInfoView(with: client, representative: representative)
+        self.repInfoView = RepInfoView(with: client)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(client: Client, representative: LightPerson) {
+        self.client = client
+        self.viewModel = RepresentativeViewModel(client: client, representative: representative)
+        self.repInfoView = RepInfoView(with: client)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -67,10 +73,12 @@ class RepresentativeController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setDefaultNavVC()
+        localizeStrings()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        setDefaultNavVC()
     }
 }
 
@@ -173,6 +181,16 @@ extension RepresentativeController: ViewBuilder {
     }
 }
 
+
+// MARK: - Binds -
+extension RepresentativeController: Localizer {
+    func localizeStrings() {
+        if let repName = viewModel.representative.value?.fullName {
+            self.title = repName
+        }
+    }
+}
+
 // MARK: - Binds -
 extension RepresentativeController: RxBinder {
     func bind() {
@@ -181,9 +199,14 @@ extension RepresentativeController: RxBinder {
         bindRepInfoView()
     }
     func bindTopView() {
-        viewModel.title
+        viewModel.representative
             .asObservable()
-            .bind(to: self.rx.title)
+            .filterNil()
+            .subscribe(
+                onNext: { [weak self] rep in
+                    self?.repInfoView.update(with: rep)
+                }
+            )
             .disposed(by: disposeBag)
         viewModel.url
             .asObservable()
@@ -217,19 +240,19 @@ extension RepresentativeController: RxBinder {
     func bindContactView() {
         viewModel.contactMethods
             .asObservable()
-            .bind(to: contactView.rx.contactMethods)
+            .bind(to: contactView.contactMethods)
             .disposed(by: disposeBag)
         contactView.selectedMethod
             .subscribe(onNext: { [weak self] method in
-                switch method {
-                case .phone(let number):
-                    self?.presentPhonePrompt(with: number)
-                case .twitter(let handle):
-                    self?.presentTwitter(with: handle)
-                case .website(let url):
-                    self?.presentWebsite(with: url)
-                case .office(let address):
-                    self?.presentOffice(with: address)
+                switch method.method {
+                case .phone:
+                    self?.presentPhonePrompt(with: method.value)
+                case .twitter:
+                    self?.presentTwitter(with: method.value)
+                case .website:
+                    self?.presentWebsite(with: method.value)
+                case .office:
+                    self?.presentOffice(with: method.value)
                 }
             })
             .disposed(by: disposeBag)

@@ -54,6 +54,7 @@
 		AF2C07441F48975E00D7E348 /* TermCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C073C1F48975E00D7E348 /* TermCell.swift */; };
 		AF2C07491F48976800D7E348 /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07461F48976800D7E348 /* UserController.swift */; };
 		AF2C074A1F48976800D7E348 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C07471F48976800D7E348 /* UserViewModel.swift */; };
+		AF39E4271F7C877D00CDDA4C /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF39E4261F7C877D00CDDA4C /* DetailCell.swift */; };
 		AF3B2C0B1EDE531300509B01 /* Observable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */; };
 		AF3F5C681EBE72F700809AA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */; };
 		AF3F5C6B1EBE72F700809AA3 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BC11EBE72F700809AA3 /* TabBarController.swift */; };
@@ -241,6 +242,7 @@
 		AF2C073C1F48975E00D7E348 /* TermCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermCell.swift; sourceTree = "<group>"; };
 		AF2C07461F48976800D7E348 /* UserController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
 		AF2C07471F48976800D7E348 /* UserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		AF39E4261F7C877D00CDDA4C /* DetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
 		AF3B2C0A1EDE531300509B01 /* Observable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Extensions.swift"; sourceTree = "<group>"; };
 		AF3F5BBE1EBE72F700809AA3 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF3F5BC11EBE72F700809AA3 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -891,6 +893,7 @@
 			children = (
 				AFE9A3421F5ECF6D00CBAD0D /* TallyController.swift */,
 				AFE9A3441F5ECF7600CBAD0D /* TallyViewModel.swift */,
+				AF39E4261F7C877D00CDDA4C /* DetailCell.swift */,
 			);
 			path = Tallies;
 			sourceTree = "<group>";
@@ -1266,6 +1269,7 @@
 				AF3F5C761EBE72F700809AA3 /* KratosAnalytics.swift in Sources */,
 				AFD553061F53BA5800E07D9B /* NumberFormatter+Extensions.swift in Sources */,
 				AF3F5CEB1EBE72F700809AA3 /* UIView+Extension.swift in Sources */,
+				AF39E4271F7C877D00CDDA4C /* DetailCell.swift in Sources */,
 				AF2C073E1F48975E00D7E348 /* SponsoredBillCell.swift in Sources */,
 				AF2C06FD1F4895F000D7E348 /* LoginViewModel.swift in Sources */,
 				AFFA94F61EBE789800144C3A /* Subject.swift in Sources */,

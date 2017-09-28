@@ -19,7 +19,7 @@ class RepresentativeCellViewModel {
     
     let name = Variable<String>("")
     let stateChamber = Variable<String>("")
-    let party = Variable<String>("")
+    let party = PublishSubject<Party>()
     let imageURL = Variable<URL?>(nil)
     let voteValue = Variable<VoteValue?>(nil)
     
@@ -58,7 +58,7 @@ extension RepresentativeCellViewModel: RxBinder {
                 stateChamber += " "
                 stateChamber += person.representativeType?.rawValue ?? ""
                 self?.stateChamber.value = stateChamber
-                self?.party.value = person.party?.capitalLetter ?? ""
+                self?.party.onNext(person.party ?? .independent)
                 if let string = person.imageURL,
                    let url = URL(string: string) {
                     self?.imageURL.value = url

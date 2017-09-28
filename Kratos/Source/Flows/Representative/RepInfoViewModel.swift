@@ -44,12 +44,15 @@ class RepInfoViewModel {
     let contentOffset = Variable<CGFloat>(0)
     
     // MARK - Initialization -
-    init(with client: Client, representative: Person) {
+    init(with client: Client) {
         self.client = client
+        bind()
+    }
+    
+    func update(with representative: Person) {
         bio.value = representative.biography ?? ""
         terms.value = representative.terms ?? []
         self.representative.value = representative
-        bind()
         fetchTallies()
         fetchBills()
     }

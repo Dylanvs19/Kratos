@@ -134,16 +134,11 @@ struct LightPerson: Hashable {
         self.state = state
         self.imageURL = json["image_url"] as? String
         self.isCurrent = json["is_current"] as? Bool
+        self.district = json["current_district"] as? Int
         if let party = json["current_party"] as? String {
             self.party = Party.value(for: party)
         }
-        if stateString.characters.count > 2 {
-            self.representativeType = .representative
-            let district = stateString.trimmingCharacters(in: CharacterSet.decimalDigits.inverted)
-            self.district = Int(district)
-        } else {
-            self.representativeType = .senator
-        }
+        self.representativeType = self.district != nil ? .representative : .senator
     }
     
     init(with id: Int, first: String, last: String, state: State) {

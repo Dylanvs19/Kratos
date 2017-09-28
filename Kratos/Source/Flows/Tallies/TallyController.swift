@@ -72,13 +72,12 @@ class TallyController: UIViewController {
     let buttons: [UIButton] = State.allValues.map { $0.button }
     
     // Base
-    let infoViewView = UIView()
+    let infoView = UIView()
     let scrollView = UIScrollView()
     let scrollViewView = UIView()
     
     let votesTableView = UITableView()
-    let detailsScrollView = UIScrollView()
-    let detailsContentView = UIView()
+    let detailsTableView = UITableView()
     
     // MARK: - Initializers -
     init(client: Client, tally: LightTally) {
@@ -91,7 +90,6 @@ class TallyController: UIViewController {
         self.client = client
         self.viewModel = TallyViewModel(client: client, tally: tally)
         super.init(nibName: nil, bundle: nil)
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -103,10 +101,26 @@ class TallyController: UIViewController {
         super.viewDidLoad()
         edgesForExtendedLayout = [.top, .right, .left]
         configureVotesTableView()
+        configureDetailsTableView()
         addSubviews()
         constrainViews()
         styleViews()
         bind()
+        view.layoutIfNeeded()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setDefaultNavVC()
+        self.title = ""
+        topView.addShadow()
+        managerView.addShadow()
+        infoView.addShadow()
+        view.layoutIfNeeded()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     // MARK: - Configuration -
@@ -119,8 +133,18 @@ class TallyController: UIViewController {
         votesTableView.backgroundColor = .clear
     }
     
+    fileprivate func configureDetailsTableView() {
+        detailsTableView.register(DetailCell.self, forCellReuseIdentifier: DetailCell.identifier)
+        detailsTableView.estimatedRowHeight = 100
+        detailsTableView.rowHeight = UITableViewAutomaticDimension
+        detailsTableView.separatorInset = .zero
+        detailsTableView.tableFooterView = UIView()
+        detailsTableView.backgroundColor = .clear
+    }
+    
     // MARK: - Animations -
-    func update(with state: State) {
+    fileprivate func update(with state: State, animate: Bool = true) {
+        if animate {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             self.slideView.snp.remakeConstraints { make in
                 make.bottom.equalToSuperview()
@@ -130,11 +154,20 @@ class TallyController: UIViewController {
             }
             self.view.layoutIfNeeded()
         }, completion: nil)
+        } else {
+            self.slideView.snp.remakeConstraints { make in
+                make.bottom.equalToSuperview()
+                make.width.equalTo(self.managerView.frame.width / CGFloat(State.allValues.count))
+                make.height.equalTo(2)
+                make.leading.equalToSuperview().offset(state.indicatorXPosition(in: self.managerView))
+            }
+            self.view.layoutIfNeeded()
+        }
         updateScrollView(with: state)
     }
     
     // MARK: - Helpers -
-    func updateScrollView(with state: State) {
+    fileprivate func updateScrollView(with state: State) {
         let width = scrollView.frame.width
         self.scrollView.scrollRectToVisible(CGRect(x: state.scrollViewXPosition(in: scrollView),
                                                    y: 0,
@@ -156,13 +189,12 @@ extension TallyController: ViewBuilder {
         buttons.forEach { managerView.addSubview($0) }
         managerView.addSubview(slideView)
         
-        view.addSubview(scrollView)
+        view.addSubview(infoView)
+        infoView.addSubview(scrollView)
         scrollView.addSubview(scrollViewView)
         
         scrollViewView.addSubview(votesTableView)
-        scrollViewView.addSubview(detailsScrollView)
-        
-        detailsScrollView.addSubview(detailsContentView)
+        scrollViewView.addSubview(detailsTableView)
     }
     
     func constrainViews() {
@@ -200,10 +232,13 @@ extension TallyController: ViewBuilder {
             make.width.equalToSuperview().dividedBy(3)
             make.height.equalTo(2)
         }
-        scrollView.snp.remakeConstraints { make in
+        infoView.snp.remakeConstraints { make in
             make.top.equalTo(managerView.snp.bottom).offset(10)
             make.trailing.leading.equalToSuperview().inset(10)
-            make.bottom.equalTo(bottomLayoutGuide.snp.top).offset(-10)
+            make.bottom.equalTo(bottomLayoutGuide.snp.top)
+        }
+        scrollView.snp.remakeConstraints { make in
+            make.edges.equalToSuperview()
         }
         scrollViewView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
@@ -214,7 +249,7 @@ extension TallyController: ViewBuilder {
             make.leading.top.bottom.equalToSuperview()
             make.width.equalTo(scrollView.snp.width)
         }
-        detailsScrollView.snp.remakeConstraints { make in
+        detailsTableView.snp.remakeConstraints { make in
             make.leading.equalTo(votesTableView.snp.trailing)
             make.trailing.top.bottom.equalToSuperview()
             make.width.equalTo(scrollView.snp.width)
@@ -223,6 +258,7 @@ extension TallyController: ViewBuilder {
     
     func styleViews() {
         view.style(with: .backgroundColor(.slate))
+        infoView.style(with: .backgroundColor(.white))
         topView.style(with: .backgroundColor(.white))
         managerView.style(with: .backgroundColor(.white))
         slideView.style(with: .backgroundColor(.kratosRed))
@@ -248,6 +284,16 @@ extension TallyController: RxBinder {
         }
         viewModel.state
             .asObservable()
+            .take(1)
+            .subscribe(
+                onNext: { [weak self] state in
+                    self?.update(with: state, animate: false)
+                }
+            )
+            .disposed(by: disposeBag)
+        viewModel.state
+            .asObservable()
+            .skip(1)
             .subscribe(
                 onNext: { [weak self] state in
                     self?.update(with: state)
@@ -257,8 +303,24 @@ extension TallyController: RxBinder {
         viewModel.votes
             .asObservable()
             .bind(to: votesTableView.rx.items(cellIdentifier: RepresentativeCell.identifier, cellType: RepresentativeCell.self)) { row, data, cell in
+                cell.update(with: data)
+            }
+            .disposed(by: disposeBag)
+        viewModel.details
+            .asObservable()
+            .bind(to: detailsTableView.rx.items(cellIdentifier: DetailCell.identifier, cellType: DetailCell.self)) { row, data, cell in
                 cell.configure(with: data)
             }
+            .disposed(by: disposeBag)
+        votesTableView.rx.modelSelected(Vote.self)
+            .asObservable()
+            .map { $0.person }
+            .filterNil()
+            .subscribe(onNext: { [weak self] rep in
+                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                let vc = RepresentativeController(client: self.client, representative: rep)
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
             .disposed(by: disposeBag)
         viewModel.pieChartData
             .asObservable()

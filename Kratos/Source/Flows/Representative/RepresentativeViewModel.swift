@@ -17,6 +17,7 @@ class RepresentativeViewModel {
     let disposeBag = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
     
+    let lightRep = Variable<LightPerson?>(nil)
     let representative = Variable<Person?>(nil)
     
     let title = Variable<String>("")
@@ -26,7 +27,7 @@ class RepresentativeViewModel {
     let url = Variable<URL?>(nil)
     
     //Representative ContactView Variables
-    let contactMethods = Variable<[RepContactView.ContactMethod]>([])
+    let contactMethods = Variable<[RepContactView.Contact]>([])
     
     //RepInfo Variables
     let contentOffset = Variable<CGFloat>(0)
@@ -38,6 +39,27 @@ class RepresentativeViewModel {
         self.client = client
         self.representative.value = representative
         bind()
+    }
+    
+    init(client: Client, representative: LightPerson) {
+        self.client = client
+        self.lightRep.value = representative
+        loadStatus.value = .loading
+        bind()
+    }
+    
+    func fetchRepresentative() {
+        guard let lightRep = lightRep.value else { return }
+        client.fetchPerson(personID: lightRep.id)
+            .subscribe(
+                onNext: { [weak self] person in
+                    self?.loadStatus.value = .none
+                    self?.representative.value = person
+                }, onError: { [weak self] error in
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
     func reloadTitle() {
@@ -52,6 +74,15 @@ extension RepresentativeViewModel: RxBinder {
     }
 
     func bindHeaderVariables() {
+        lightRep
+            .asObservable()
+            .filterNil()
+            .subscribe(
+                onNext: { [weak self] _ in
+                    self?.fetchRepresentative()
+                }
+            )
+            .disposed(by: disposeBag)
         representative
             .asObservable()
             .filterNil()
@@ -105,18 +136,18 @@ extension RepresentativeViewModel: RxBinder {
         representative
             .asObservable()
             .map {
-                var contactMethods: [RepContactView.ContactMethod] = []
+                var contactMethods: [RepContactView.Contact] = []
                 if let phone = $0?.terms?.first?.phone {
-                    contactMethods.append(.phone(phone))
+                    contactMethods.append(RepContactView.Contact(method: .phone, value: phone))
                 }
                 if let url = $0?.terms?.first?.website {
-                    contactMethods.append(.website(url))
+                    contactMethods.append(RepContactView.Contact(method: .website, value: url))
                 }
                 if let handle = $0?.twitter {
-                    contactMethods.append(.twitter(handle))
+                    contactMethods.append(RepContactView.Contact(method: .twitter, value: handle))
                 }
                 if let address = $0?.terms?.first?.officeAddress {
-                    contactMethods.append(.office(address))
+                    contactMethods.append(RepContactView.Contact(method: .office, value: address))
                 }
                 return contactMethods
             }

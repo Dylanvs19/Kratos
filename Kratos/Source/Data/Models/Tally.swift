@@ -400,9 +400,7 @@ struct LightTally: Hashable, Decodable {
         self.nominationID = tally["nomination_id"] as? Int
         
         self.question = tally["question"] as? String
-        print(self.question)
         if let category = tally["category"] as? String {
-            print(category)
             self.category = TallyType.type(for: category)
         }
         if let holdChamber = tally["chamber"] as? String {

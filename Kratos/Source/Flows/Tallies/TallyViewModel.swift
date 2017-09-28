@@ -27,6 +27,7 @@ class TallyViewModel {
     let status = Variable<String>("")
     let statusDate = Variable<String>("")
     let votes = Variable<[Vote]>([])
+    let details = Variable<[(String, String)]>([])
     
     init(client: Client, lightTally: LightTally) {
         self.client = client
@@ -77,6 +78,24 @@ extension TallyViewModel: RxBinder {
                         self?.statusDate.value = DateFormatter.presentation.string(from: date)
                     }
                     self?.votes.value = tally.votes ?? []
+                    
+                    var details: [(String, String)] = []
+                    if let detail = tally.date {
+                        details.append(("Date:", DateFormatter.presentation.string(from: detail)))
+                    }
+                    if let detail = tally.question {
+                        details.append(("Question:", detail))
+                    }
+                    if let detail = tally.result {
+                        details.append(("Result:", detail.presentable))
+                    }
+                    if let detail = tally.chamber {
+                        details.append(("Chamber:", detail.rawValue))
+                    }
+                    if let detail = tally.requires {
+                        details.append(("Question:", detail))
+                    }
+                    self?.details.value = details
                 }
             )
             .disposed(by: disposeBag)

@@ -84,9 +84,9 @@ class RepInfoView: UIView {
     var selectedBill = PublishSubject<Bill>()
     
     // MARK: - Initializers -
-    convenience init(with client: Client, representative: Person) {
+    convenience init(with client: Client) {
         self.init(frame: .zero)
-        self.viewModel = RepInfoViewModel(with: client, representative: representative)
+        self.viewModel = RepInfoViewModel(with: client)
     }
     
     override init(frame: CGRect) {
@@ -95,6 +95,10 @@ class RepInfoView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func update(with rep: Person) {
+        self.viewModel?.update(with: rep)
     }
     
     // MARK: - Helpers -
