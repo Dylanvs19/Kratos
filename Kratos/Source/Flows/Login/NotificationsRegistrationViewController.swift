@@ -40,14 +40,6 @@ class NotificationsRegistrationViewController: UIViewController {
         styleViews()
         bind()
     }
-    
-    @IBAction func registerForNotificationsButtonPressed(_ sender: Any) {
-       
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
-    }
-    @IBAction func skipButtonPressed(_ sender: Any) {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "toMainVC"), object: nil)
-    }
 }
 
 extension NotificationsRegistrationViewController: ViewBuilder {
@@ -73,34 +65,32 @@ extension NotificationsRegistrationViewController: ViewBuilder {
         textView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(15)
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview().inset(-20)
+            make.width.equalToSuperview().inset(40)
         }
         confirmationButton.snp.makeConstraints { make in
             make.top.equalTo(textView.snp.bottom).offset(40)
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview().inset(-20)
+            make.leading.trailing.equalToSuperview()
         }
         skipButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview().inset(-20)
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
     func styleViews() {
-        titleLabel.style(with: [.font(.title), .titleColor(.gray)])
-        textView.style(with: .font(.cellTitle))
+        view.style(with: .backgroundColor(.white))
+        titleLabel.style(with: [.font(.title),
+                                .titleColor(.gray)])
+        textView.style(with: [.font(.body),
+                              .textAlignment(.center)])
         
         confirmationButton.style(with: [.backgroundColor(.slate),
-                                        .font(.header),
+                                        .font(.subTitle),
                                         .titleColor(.kratosRed),
-                                        .highlightedTitleColor(.red)
-                                        ])
+                                        .highlightedTitleColor(.red)])
         skipButton.style(with: [.backgroundColor(.slate),
-                                        .font(.header),
+                                        .font(.subTitle),
                                         .titleColor(.gray),
-                                        .highlightedTitleColor(.slate)
-            ])
+                                        .highlightedTitleColor(.slate)])
         textView.isScrollEnabled = false
 
     }
@@ -129,10 +119,9 @@ extension NotificationsRegistrationViewController: RxBinder {
                         completionHandler: {_,_ in })
                 }
                 
-                NotificationCenter.default.addObserver(self, selector: #selector(self.client.tokenRefreshNotification), name: NSNotification.Name.firInstanceIDTokenRefresh, object: nil)
                 UIApplication.shared.registerForRemoteNotifications()
                 
-                let rootVC = UINavigationController(rootViewController: UserRepsViewController(client: self.client))
+                let rootVC = TabBarController(with: self.client)
                 ApplicationLauncher.rootTransition(to: rootVC)
             })
             .disposed(by: disposeBag)

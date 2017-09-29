@@ -18,7 +18,7 @@ struct ApplicationLauncher {
         
         let splash = SplashViewController()
         splash.onAnimationCompletion = {
-            
+            let hasInstalled: String? = Store.fetch("has_installed")
             let token: String? = Store.fetch("token")
             
             // Override point for customization after application launch.
@@ -44,8 +44,15 @@ struct ApplicationLauncher {
                     // For iOS 10 data message (sent via FCM)
                     FIRMessaging.messaging().remoteMessageDelegate = client
                 }
-                let navVC = UINavigationController(rootViewController: LoginController(client: Client.default))
-                vc = navVC
+                if hasInstalled != nil {
+                    let navVC = UINavigationController(rootViewController: LoginController(client: Client.default))
+                    vc = navVC
+                } else {
+                    Store.shelve("true", key: "has_installed")
+                    let navVC = UINavigationController(rootViewController: LoginController(client: Client.default, state: .createAccount))
+                    vc = navVC
+                }
+                
             }
             rootTransition(to: vc)
         }

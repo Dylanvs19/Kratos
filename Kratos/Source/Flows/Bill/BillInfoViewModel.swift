@@ -26,6 +26,7 @@ class BillInfoViewModel {
     let tallies = Variable<[Tally]>([])
     let committees = Variable<[Committee]>([])
     let summary = Variable<String>("")
+    let details = Variable<[(String, String)]>([])
     
     // MARK: - Initialization -
     init() {
@@ -61,6 +62,23 @@ extension BillInfoViewModel: RxBinder {
                     sponsors["CoSponsors"] = coSponsors
                 }
                 self?.sponsors.value = sponsors
+                var details: [(String, String)] = []
+                if let detail = bill.officialTitle {
+                    details.append(("Official Title:", detail))
+                }
+                if let detail = bill.introductionDate {
+                    details.append(("Introduction:", DateFormatter.presentation.string(from: detail)))
+                }
+                if let detail = bill.committees {
+                    details.append(("Committes:", detail.reduce("", { $0 + ($1.name != nil ? ", \($1.name!)" : "")})))
+                }
+                if let detail = bill.active {
+                    details.append(("Active:", "\(detail)"))
+                }
+                if let detail = bill.summaryDate {
+                    details.append(("Summary Date:", DateFormatter.presentation.string(from: detail)))
+                }
+                self?.details.value = details
             })
             .disposed(by: disposeBag)
     }

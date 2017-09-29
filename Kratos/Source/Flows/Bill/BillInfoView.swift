@@ -84,11 +84,13 @@ class BillInfoView: UIView, CurtainPresenter {
     fileprivate let committeeStackView = UIStackView()
     // Votes
     fileprivate let votesTableView = UITableView()
+    fileprivate let votesEmptyLabel = UILabel()
     // Sponsors
     fileprivate let sponsorsTableView = UITableView()
     // Details
-    fileprivate let detailsScrollView = UIScrollView()
-    fileprivate let detailsContentView = UIView()
+    fileprivate let detailsTableView = UITableView()
+//    fileprivate let detailsScrollView = UIScrollView()
+//    fileprivate let detailsContentView = UIView()
     fileprivate let committeesStackView = UIStackView()
     fileprivate let actionsTableView = UITableView()
     
@@ -124,6 +126,8 @@ class BillInfoView: UIView, CurtainPresenter {
     func build() {
         configureVotesTableView()
         configureSponsorsTableView()
+        configureDetailsTableView()
+        localizeStrings()
         addSubviews()
         constrainViews()
         styleViews()
@@ -171,6 +175,15 @@ class BillInfoView: UIView, CurtainPresenter {
             cell.update(with: item)
             return cell
         }
+    }
+    
+    fileprivate func configureDetailsTableView() {
+        detailsTableView.register(DetailCell.self, forCellReuseIdentifier: DetailCell.identifier)
+        detailsTableView.estimatedRowHeight = 100
+        detailsTableView.rowHeight = UITableViewAutomaticDimension
+        detailsTableView.separatorInset = .zero
+        detailsTableView.tableFooterView = UIView()
+        detailsTableView.backgroundColor = .clear
     }
     
     // MARK - Animations -
@@ -233,11 +246,12 @@ extension BillInfoView: ViewBuilder {
         
         scrollViewView.addSubview(summaryScrollView)
         scrollViewView.addSubview(votesTableView)
+        scrollViewView.addSubview(votesEmptyLabel)
         scrollViewView.addSubview(sponsorsTableView)
-        scrollViewView.addSubview(detailsScrollView)
+        scrollViewView.addSubview(detailsTableView)
         
         summaryScrollView.addSubview(summaryView)
-        detailsScrollView.addSubview(detailsContentView)
+//        detailsScrollView.addSubview(detailsContentView)
     }
     
     func constrainViews() {
@@ -280,12 +294,16 @@ extension BillInfoView: ViewBuilder {
             make.leading.equalTo(summaryScrollView.snp.trailing)
             make.width.equalTo(self.snp.width)
         }
+        votesEmptyLabel.snp.remakeConstraints { make in
+            make.centerX.centerY.equalTo(votesTableView)
+            make.width.equalTo(votesTableView.snp.width).offset(-40)
+        }
         sponsorsTableView.snp.remakeConstraints { make in
             make.top.bottom.equalToSuperview()
             make.leading.equalTo(votesTableView.snp.trailing)
             make.width.equalTo(self.snp.width)
         }
-        detailsScrollView.snp.remakeConstraints { make in
+        detailsTableView.snp.remakeConstraints { make in
             make.top.bottom.trailing.equalToSuperview()
             make.leading.equalTo(sponsorsTableView.snp.trailing)
             make.width.equalTo(self.snp.width)
@@ -294,9 +312,9 @@ extension BillInfoView: ViewBuilder {
             make.width.equalTo(self.snp.width)
             make.edges.equalToSuperview()
         }
-        detailsContentView.snp.remakeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+//        detailsContentView.snp.remakeConstraints { make in
+//            make.edges.equalToSuperview()
+//        }
         summaryView.layoutIfNeeded()
         summaryScrollView.layoutIfNeeded()
         layoutIfNeeded()
@@ -307,15 +325,27 @@ extension BillInfoView: ViewBuilder {
         managerView.addShadow()
         slideView.style(with: .backgroundColor(.kratosRed))
         managerView.bringSubview(toFront: slideView)
+        votesEmptyLabel.style(with: [.font(.subHeader),
+                                     .titleColor(.red),
+                                     .numberOfLines(3),
+                                     .textAlignment(.center)])
         
         scrollView.isScrollEnabled = false
         votesTableView.translatesAutoresizingMaskIntoConstraints = false 
         summaryScrollView.showsVerticalScrollIndicator = false
-        detailsScrollView.showsVerticalScrollIndicator = false
+        detailsTableView.showsVerticalScrollIndicator = false
         sponsorsTableView.showsVerticalScrollIndicator = false
     }
 }
 
+
+// MARK: - Localize -
+extension BillInfoView: Localizer {
+    func localizeStrings() {
+        votesEmptyLabel.text = localize(.billInfoViewVotesEmptyTitle)
+    }
+}
+// MARK: - Bind -
 extension BillInfoView: RxBinder {
     func bind() {
         bindManagerView()
@@ -375,11 +405,15 @@ extension BillInfoView: RxBinder {
     
     func bindVotesView() {
         guard let viewModel = viewModel else { return }
-        
         viewModel.tallies
             .asObservable()
             .map { [SectionModel(model: "", items: $0)] }
             .bind(to: votesTableView.rx.items(dataSource: votesDatasource))
+            .disposed(by: disposeBag)
+        viewModel.tallies
+            .asObservable()
+            .map { !$0.isEmpty }
+            .bind(to: votesEmptyLabel.rx.isHidden)
             .disposed(by: disposeBag)
         votesTableView.rx.modelSelected(Tally.self).asObservable()
             .bind(to: selectedTally)
@@ -400,8 +434,13 @@ extension BillInfoView: RxBinder {
     }
     
     func bindDetailsView() {
-//        guard let viewModel = viewModel else { return }
-        
+        guard let viewModel = viewModel else { return }
+        viewModel.details
+            .asObservable()
+            .bind(to: detailsTableView.rx.items(cellIdentifier: DetailCell.identifier, cellType: DetailCell.self)) { row, data, cell in
+                cell.configure(with: data)
+            }
+            .disposed(by: disposeBag)
     }
 }
 

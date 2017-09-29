@@ -36,8 +36,9 @@ class LoginViewModel {
     let user = Variable<User?>(nil)
     
     // MARK: - Initialization -
-    init(client: Client) {
+    init(client: Client, state: LoginController.State) {
         self.client = client
+        self.state.value = state
         binds()
     }
     

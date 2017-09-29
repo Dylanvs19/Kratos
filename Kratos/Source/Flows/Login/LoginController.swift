@@ -72,9 +72,9 @@ class LoginController: UIViewController, CurtainPresenter {
     var curtain: Curtain = Curtain()
     
     // MARK: - Initialization -
-    init(client: Client) {
+    init(client: Client, state: State = .login) {
         self.client = client
-        self.viewModel = LoginViewModel(client: client)
+        self.viewModel = LoginViewModel(client: client, state: state)
         super.init(nibName: nil, bundle: nil)
     }
     

@@ -97,6 +97,7 @@ enum Constant {
     case billInfoViewSponsorsTitle
     case billInfoViewDetailsTitle
     case billInfoViewVotesEmptyTitle
+    case billInfoViewEmptyVotes
 
     // MenuVC
     case menuAccountDetailsButtonTitle
@@ -112,7 +113,7 @@ enum Constant {
         switch self {
         //LoginVC
         case .loginLoginButtonTitle: return "L O G I N"
-        case .loginContinueButtonTitle: return "C O N T I N U E"
+        case .loginContinueButtonTitle: return "C R E A T E"
         case .loginSendButtonTitle: return "S E N D"
         case .loginSignUpButtonTitle: return "S I G N  U P"
         case .loginSignInButtonTitle: return "S I G N  I N"
@@ -154,9 +155,9 @@ enum Constant {
             
         // NotificationVC
         case .notificationTitle: return "Notifications"
-        case .notificationSkipButtonTitle: return "Skip"
+        case .notificationSkipButtonTitle: return "S K I P"
         case .notificationExplanationText: return "We use notifications to inform you when your representatives are voting on things that you care about. We do not spam you with news about every breath they take, we focus on the important stuff."
-        case .notificationRegisterButtonTitle: return " Register for Notifications"
+        case .notificationRegisterButtonTitle: return "R E G I S T E R"
             
         //ExploreVC
         case .exploreTitle: return "On The Floor"
@@ -197,6 +198,7 @@ enum Constant {
         case .billInfoViewSponsorsTitle: return "SPONSORS"
         case .billInfoViewDetailsTitle: return "DETAILS"
         case .billInfoViewVotesEmptyTitle: return "There have been no votes for this bill."
+        case .billInfoViewEmptyVotes: return "There have been no votes on this bill."
             
         // MenuVC
         case .menuAccountDetailsButtonTitle: return "Account Details"

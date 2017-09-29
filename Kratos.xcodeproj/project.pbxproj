@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		71FC9AF49B0EB5820A301DE4 /* Pods_KratosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE4ABF9591E077E906036EA /* Pods_KratosTests.framework */; };
 		A0DD548B75376A90182B6EFF /* Pods_Kratos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EC5E845D25026904F837F7 /* Pods_Kratos.framework */; };
-		AF05A5551F73E6EE00B4B439 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05A5541F73E6EE00B4B439 /* NotificationController.swift */; };
 		AF09B3031F4F8E24003CB455 /* InteractionResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF09B3021F4F8E24003CB455 /* InteractionResponder.swift */; };
 		AF2C06C31F3D4C9100D7E348 /* Localizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C21F3D4C9100D7E348 /* Localizer.swift */; };
 		AF2C06C91F45C74B00D7E348 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C81F45C74B00D7E348 /* State.swift */; };
@@ -192,7 +191,6 @@
 		76680437267A207995EC63FD /* Pods-KratosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KratosUITests/Pods-KratosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		86EC5E845D25026904F837F7 /* Pods_Kratos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kratos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E2C0D1F0BFAA77B0FD2EA1F /* Pods-Kratos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.debug.xcconfig"; sourceTree = "<group>"; };
-		AF05A5541F73E6EE00B4B439 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		AF09B3021F4F8E24003CB455 /* InteractionResponder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionResponder.swift; sourceTree = "<group>"; };
 		AF1AC54E1DF5A6A100DCBA13 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		AF1AC5501DF5A6A100DCBA13 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
@@ -463,7 +461,6 @@
 			isa = PBXGroup;
 			children = (
 				AF2C06E31F4895F000D7E348 /* MenuController.swift */,
-				AF05A5541F73E6EE00B4B439 /* NotificationController.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -1229,7 +1226,6 @@
 				AFE9A3451F5ECF7600CBAD0D /* TallyViewModel.swift in Sources */,
 				AFFA95261EC1F56F00144C3A /* Observable+Decode.swift in Sources */,
 				AF2C06F81F4895F000D7E348 /* AccountDetailsViewModel.swift in Sources */,
-				AF05A5551F73E6EE00B4B439 /* NotificationController.swift in Sources */,
 				AF5B9E5D1EFEF13A000BF83A /* ExpandableTextFieldView.swift in Sources */,
 				AF3F5CDD1EBE72F700809AA3 /* Array+Extensions.swift in Sources */,
 				AF3F5CD81EBE72F700809AA3 /* MenuHelper.swift in Sources */,
@@ -1417,7 +1413,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_VERSION = 1.0.1;
+				BUNDLE_VERSION = 2.0.0;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1443,7 +1439,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1475,7 +1471,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_VERSION = 1.0.1;
+				BUNDLE_VERSION = 2.0.0;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1501,7 +1497,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;

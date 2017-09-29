@@ -47,10 +47,11 @@ extension DetailCell: ViewBuilder {
         titleLabel.snp.remakeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().inset(5)
-            make.width.equalTo(80)
+            make.top.bottom.greaterThanOrEqualToSuperview().inset(5)
+            make.width.equalTo(100)
         }
         detailLabel.snp.remakeConstraints { make in
-            make.top.bottom.trailing.equalToSuperview().inset(5)
+            make.top.bottom.trailing.equalToSuperview().inset(5).priority(999)
             make.leading.equalTo(titleLabel.snp.trailing).offset(10)
         }
     }
