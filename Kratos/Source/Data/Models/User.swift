@@ -122,10 +122,10 @@ struct User: Decodable {
 
 struct Address {
     
-    var street: String
-    var city: String
-    var state: String
-    var zipCode: Int
+    let street: String
+    let city: String
+    let state: String
+    let zipCode: Int
     
     var dictionaryFormat: [String: String] {
         let returnDictionary: [String: String]

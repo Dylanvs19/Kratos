@@ -96,7 +96,7 @@ class AccountDetailsViewModel {
                      firstName: first.value,
                      lastName: last.value,
                      district: 0,
-                     address: Address(street: userState.value,
+                     address: Address(street: street.value,
                                       city: city.value,
                                       state: userState.value,
                                       zipCode: Int(zip.value) ?? 0),
