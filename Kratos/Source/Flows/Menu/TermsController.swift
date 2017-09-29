@@ -9,8 +9,9 @@
 import Foundation
 import WebKit
 
-class TermsController: UIViewController , WKNavigationDelegate {
+class TermsController: UIViewController , WKNavigationDelegate, CurtainPresenter {
     var webView = WKWebView()
+    var curtain: Curtain = Curtain()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,7 @@ class TermsController: UIViewController , WKNavigationDelegate {
         webView.load(request)
         self.view.addSubview(webView)
         self.view.sendSubview(toBack: webView)
+        self.addCurtain()
     }
     
     //MARK:- WKNavigationDelegate
@@ -30,9 +32,9 @@ class TermsController: UIViewController , WKNavigationDelegate {
         print(error.localizedDescription)
     }
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        print("Strat to load")
+        self.curtain.loadStatus.value = .loading
     }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        print("finish to load")
+        self.curtain.loadStatus.value = .none
     }
 }
