@@ -32,19 +32,31 @@ enum Constant {
     case accountDetailsRepublicanText
     case accountDetailsIndependentButtonTitle
     case accountDetailsIndependentText
+    case accountDetailsAddressExplanationText
     
     //KratosTextFields
     case textFieldEmailTitle
+    case textFieldEmailTitleInvalid
     case textFieldPasswordTitle
+    case textFieldPasswordTitleInvalid
     case textFieldFirstTitle
+    case textFieldFirstTitleInvalid
     case textFieldLastTitle
+    case textFieldLastTitleInvalid
     case textFieldBirthdayTitle
+    case textFieldBirthdayTitleInvalid
     case textFieldPartyTitle
+    case textFieldPartyTitleInvalid
     case textFieldAddressTitle
+    case textFieldAddressTitleInvalid
     case textFieldCityTitle
+    case textFieldCityTitleInvalid
     case textFieldStateTitle
+    case textFieldStateTitleInvalid
     case textFieldZipcodeTitle
+    case textFieldZipcodeTitleInvalid
     case textFieldConfirmationTitle
+    case textFieldConfirmationTitleInvalid
     
     //ConfirmationVC
     case confirmationTitle
@@ -133,19 +145,31 @@ enum Constant {
         case .accountDetailsRepublicanText: return "Republican"
         case .accountDetailsIndependentButtonTitle: return "I N D E P E N D E N T"
         case .accountDetailsIndependentText: return "Independent"
-        
+        case .accountDetailsAddressExplanationText: return "Your address is used to locate your congressional district."
+            
         //KratosTextFields
         case .textFieldEmailTitle: return "E M A I L"
+        case .textFieldEmailTitleInvalid: return "Please enter a valid email address."
         case .textFieldPasswordTitle: return "P A S S W O R D"
+        case .textFieldPasswordTitleInvalid: return "Your password must be longer than 6 characters."
         case .textFieldFirstTitle: return "F I R S T"
+        case .textFieldFirstTitleInvalid: return "Your first name must be longer than 3 characters."
         case .textFieldLastTitle: return "L A S T"
+        case .textFieldLastTitleInvalid: return"Your last name must be longer than 3 characters."
         case .textFieldBirthdayTitle: return "B I R T H D A T E"
+        case .textFieldBirthdayTitleInvalid: return "B I R T H D A T E"
         case .textFieldPartyTitle: return "P A R T Y"
+        case .textFieldPartyTitleInvalid: return "P A R T Y"
         case .textFieldAddressTitle: return "A D D R E S S"
+        case .textFieldAddressTitleInvalid: return "Please enter a valid street address."
         case .textFieldCityTitle: return "C I T Y"
+        case .textFieldCityTitleInvalid: return "Please enter a valid city name."
         case .textFieldStateTitle: return "S T A T E"
+        case .textFieldStateTitleInvalid: return "Please enter a valid state."
         case .textFieldZipcodeTitle: return "Z I P C O D E"
+        case .textFieldZipcodeTitleInvalid: return "Please enter a valid zip code"
         case .textFieldConfirmationTitle: return "C O N F I R M A T I O N"
+        case .textFieldConfirmationTitleInvalid: return "Please enter a valid confirmation number."
             
         //ConfirmationVC
         case .confirmationTitle: return "Confirmation"
@@ -164,7 +188,7 @@ enum Constant {
         case .exploreSenateButtonTitle: return "SENATE"
         case .exploreHouseButtonTitle: return "HOUSE"
         case .exploreTrendingButtonTitle: return "TRENDING"
-            case .exploreRecessLabelTitle: return "Congress is currently in recess. Check out your representatives' websites for events."
+        case .exploreRecessLabelTitle: return "Congress is currently in recess. Check out your representatives' websites for events."
         case .exploreSenateEmptyLabel: return  "The Senate currently has no bills to consider in the upcoming days."
         case .exploreHouseEmptyLabel: return  "The House currently has no bills to consider in the upcoming days."
         case .exploreTrendingEmptyLabel: return  "There are no bills trending in Congress."
@@ -182,7 +206,7 @@ enum Constant {
         //TallyVC
         case .tallyVotesTitle: return "VOTES"
         case .tallyDetailsTitle: return "DETAILS"
-        
+            
         //SubjectSelectionVC
         case .subjectSelectionTitle: return "Select Subjects"
             

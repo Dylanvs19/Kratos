@@ -326,7 +326,7 @@ extension BillInfoView: ViewBuilder {
         slideView.style(with: .backgroundColor(.kratosRed))
         managerView.bringSubview(toFront: slideView)
         votesEmptyLabel.style(with: [.font(.subHeader),
-                                     .titleColor(.red),
+                                     .titleColor(.kratosRed),
                                      .numberOfLines(3),
                                      .textAlignment(.center)])
         

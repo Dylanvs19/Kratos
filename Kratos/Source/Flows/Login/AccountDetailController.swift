@@ -61,6 +61,7 @@ class AccountDetailsController: UIViewController, CurtainPresenter {
     fileprivate let cityTextField = KratosTextField(type: .city)
     fileprivate let stateTextField = KratosTextField(type: .state)
     fileprivate let zipTextField = KratosTextField(type: .zip)
+    fileprivate let addressExplainationLabel = UILabel()
     
     lazy fileprivate var fieldData: [FieldData] = {
         return [FieldData(field: self.firstTextField, fieldType: .first, viewModelVariable: self.viewModel.first, validation: self.viewModel.firstValid),
@@ -94,6 +95,7 @@ class AccountDetailsController: UIViewController, CurtainPresenter {
         styleViews()
         addSubviews()
         constrainViews()
+        localizeStrings()
         bind()
         setupGestureRecognizer()
         setInitialState()
@@ -212,6 +214,12 @@ class AccountDetailsController: UIViewController, CurtainPresenter {
     }
 }
 
+// MARK: - Localizer -
+extension AccountDetailsController: Localizer {
+    func localizeStrings() {
+        addressExplainationLabel.text = localize(.accountDetailsAddressExplanationText)
+    }
+}
 // MARK: - ViewBuilder -
 extension AccountDetailsController: ViewBuilder {
     
@@ -224,6 +232,7 @@ extension AccountDetailsController: ViewBuilder {
         contentView.addSubview(saveRegisterButton)
         view.addSubview(shade)
         view.addSubview(datePicker)
+        view.addSubview(addressExplainationLabel)
     }
     
     func constrainViews() {
@@ -245,6 +254,10 @@ extension AccountDetailsController: ViewBuilder {
             make.leading.trailing.bottom.equalToSuperview()
             make.height.equalTo(50)
         }
+        addressExplainationLabel.snp.remakeConstraints { (make) in
+            make.bottom.equalTo(saveRegisterButton.snp.top).offset(-10)
+            make.leading.trailing.equalToSuperview().inset(40)
+        }
         shade.snp.remakeConstraints { (make) in
             make.edges.equalToSuperview()
         }
@@ -261,6 +274,10 @@ extension AccountDetailsController: ViewBuilder {
                                         .backgroundColor(.kratosRed),
                                         .titleColor(.white),
                                         .highlightedTitleColor(.red)])
+        addressExplainationLabel.style(with: [.font(.body),
+                                              .titleColor(.gray),
+                                              .numberOfLines(4),
+                                              .textAlignment(.center)])
         shade.style(with: .backgroundColor(.black))
         shade.alpha = 0
     }

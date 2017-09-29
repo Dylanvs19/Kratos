@@ -90,8 +90,8 @@ class LoginController: UIViewController, CurtainPresenter {
         styleViews()
         bind()
         setupGestureRecognizer()
-        navigationController?.isNavigationBarHidden = true
         setInitialState()
+        setDefaultNavVC()
         addCurtain()
     }
     

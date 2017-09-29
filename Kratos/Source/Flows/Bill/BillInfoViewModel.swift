@@ -70,10 +70,10 @@ extension BillInfoViewModel: RxBinder {
                     details.append(("Introduction:", DateFormatter.presentation.string(from: detail)))
                 }
                 if let detail = bill.committees {
-                    details.append(("Committes:", detail.reduce("", { $0 + ($1.name != nil ? ", \($1.name!)" : "")})))
+                    details.append(("Committes:", String(detail.reduce("", { $0 + ($1.name != nil ? "\($1.name!), " : "")}).dropLast(2))))
                 }
                 if let detail = bill.active {
-                    details.append(("Active:", "\(detail)"))
+                    details.append(("Active:", ("\(detail)").localizedCapitalized))
                 }
                 if let detail = bill.summaryDate {
                     details.append(("Summary Date:", DateFormatter.presentation.string(from: detail)))
