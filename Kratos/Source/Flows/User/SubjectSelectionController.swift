@@ -245,22 +245,23 @@ extension SubjectSelectionController: RxBinder {
     func bind() {
         viewModel.presentedSubjects
             .asObservable()
-            .map { subjectsArrays in
-                var models = [SectionModel<String, Subject>]()
-                for (i, subjects) in subjectsArrays.enumerated() {
-                    let title = i == 0 ? "☆" : (subjects.first?.name.firstLetter ?? "" )
-                     models.append(SectionModel<String, Subject>(model: title, items: subjects))
-                }
-                return models
-            }
+//            .map { subjectsArrays in
+//                var models = [SectionModel<String, Subject>]()
+//                for (i, subjects) in subjectsArrays.enumerated() {
+//                    let title = i == 0 ? "☆" : (subjects.first?.name.firstLetter ?? "" )
+//                     models.append(SectionModel<String, Subject>(model: title, items: subjects))
+//                }
+//                return models
+//            }
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         viewModel.presentedSubjects
             .asObservable()
             .filter { $0.count > 0 }
             .subscribe(
-                onNext: { [weak self] _ in
+                onNext: { [weak self] subjectModel in
                     guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                    guard subjectModel.first?.model == "☆" else { return }
                     Array(0..<self.dataSource.sectionModels[0].items.count).forEach {
                         let indexPath = IndexPath(row: $0, section: 0)
                         self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)

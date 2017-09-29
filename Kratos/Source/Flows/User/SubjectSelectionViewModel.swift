@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
-
+import RxDataSources
 
 class SubjectSelectionViewModel {
     
@@ -21,7 +21,7 @@ class SubjectSelectionViewModel {
     let query = Variable<String>("")
 
     fileprivate let subjects = Variable<[Subject]?>(nil)
-    let presentedSubjects = Variable<[[Subject]]>([])
+    let presentedSubjects = Variable<[SectionModel<String, Subject>]>([])
     
     fileprivate let initialSelectedSubjects = Variable<[Subject]>([])
     fileprivate let currentSelectedSubjects = Variable<[Subject]>([])
@@ -135,8 +135,11 @@ extension SubjectSelectionViewModel: RxBinder {
                 let filteredAllData = subjects.filter { !current.contains($0) }
                 var allData = filteredAllData.grouped(groupBy: { $0.name.firstLetter }, sortGroupsBy: { $0.name.firstLetter < $1.name.firstLetter })
                 let sortedCurrent = current.sorted { $0.0.name < $0.1.name }
-                allData.insert(sortedCurrent, at: 0)
-                return allData
+                var retVal = allData.map { SectionModel<String, Subject>(model: ($0.first?.name.firstLetter ?? "" ), items: $0)}
+                if !sortedCurrent.isEmpty {
+                    retVal.insert(SectionModel<String, Subject>(model: "☆", items: sortedCurrent), at: 0)
+                }
+                return retVal
             }
             .bind(to: presentedSubjects)
             .disposed(by: disposeBag)
@@ -149,14 +152,20 @@ extension SubjectSelectionViewModel: RxBinder {
                     let filteredAllData = subjects.filter { !current.contains($0) }
                     var allData = filteredAllData.grouped(groupBy: { $0.name.firstLetter }, sortGroupsBy: { $0.name.firstLetter < $1.name.firstLetter })
                     let sortedCurrent = current.sorted { $0.0.name < $0.1.name }
-                    allData.insert(sortedCurrent, at: 0)
-                    return allData
+                    var retVal = allData.map { SectionModel<String, Subject>(model: ($0.first?.name.firstLetter ?? "" ), items: $0)}
+                    if !sortedCurrent.isEmpty {
+                        retVal.insert(SectionModel<String, Subject>(model: "☆", items: sortedCurrent), at: 0)
+                    }
+                    return retVal
                 }
                 let filteredCurrent = self.currentSelectedSubjects.value.filter { $0.name.contains(query) }.sorted { $0.0.name < $0.1.name }
                 let filteredSubjects = subjects.filter { $0.name.contains(query) }.filter { !filteredCurrent.contains($0) }
                 var returnData = filteredSubjects.grouped(groupBy: { $0.name.firstLetter }, sortGroupsBy: { $0.name.firstLetter < $1.name.firstLetter })
-                returnData.insert(filteredCurrent, at: 0)
-                return returnData
+                var retVal = returnData.map { SectionModel<String, Subject>(model: ($0.first?.name.firstLetter ?? "" ), items: $0)}
+                if !filteredCurrent.isEmpty {
+                    retVal.insert(SectionModel<String, Subject>(model: "☆", items: filteredSubjects), at: 0)
+                }
+                return retVal
             }
             .bind(to: presentedSubjects)
             .disposed(by: disposeBag)
