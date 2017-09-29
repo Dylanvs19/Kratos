@@ -245,14 +245,6 @@ extension SubjectSelectionController: RxBinder {
     func bind() {
         viewModel.presentedSubjects
             .asObservable()
-//            .map { subjectsArrays in
-//                var models = [SectionModel<String, Subject>]()
-//                for (i, subjects) in subjectsArrays.enumerated() {
-//                    let title = i == 0 ? "☆" : (subjects.first?.name.firstLetter ?? "" )
-//                     models.append(SectionModel<String, Subject>(model: title, items: subjects))
-//                }
-//                return models
-//            }
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         viewModel.presentedSubjects
