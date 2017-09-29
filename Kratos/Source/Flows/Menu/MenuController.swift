@@ -16,23 +16,23 @@ class MenuController: UIViewController {
     // MARK: - Enum -
     enum Category {
         case accountDetails
-        case notification
-        case feedback
+//        case notification
+//        case feedback
         case about
         case logout
         
-        static let allValues: [Category] = [.accountDetails, .notification, .feedback, .about, .logout]
+        static let allValues: [Category] = [.accountDetails, .about, .logout]
         
         var title: String {
             switch self {
             case .accountDetails:
                 return localize(.menuAccountDetailsButtonTitle)
-            case .notification:
-                return "Preferences"
-            case .feedback:
-                return localize(.menuFeedbackButtonTitle)
+//            case .notification:
+//                return "Preferences"
+//            case .feedback:
+//                return localize(.menuFeedbackButtonTitle)
             case .about:
-                return "About"
+                return "Privacy Policy"
             case .logout:
                 return localize(.menuLogoutButtonTitle)
             }
@@ -181,12 +181,12 @@ extension MenuController: RxBinder {
                     case .accountDetails:
                         let vc = AccountDetailsController(client: self.client, state: .edit)
                         self.navigationController?.pushViewController(vc, animated: true)
-                    case .notification:
-                        break
-                    case .feedback:
-                        break
+//                    case .notification:
+//                        break
+//                    case .feedback:
+//                        break
                     case .about:
-                        break
+                        self.navigationController?.pushViewController(TermsController(), animated: true)
                     case .logout:
                         self.dismiss(animated: false, completion: {
                             self.client.tearDown()
