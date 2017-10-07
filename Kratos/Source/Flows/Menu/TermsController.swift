@@ -9,7 +9,7 @@
 import Foundation
 import WebKit
 
-class TermsController: UIViewController , WKNavigationDelegate, CurtainPresenter {
+class TermsController: UIViewController , WKNavigationDelegate, CurtainPresenter, AnalyticsEnabled {
     var webView = WKWebView()
     var curtain: Curtain = Curtain()
     
@@ -24,6 +24,11 @@ class TermsController: UIViewController , WKNavigationDelegate, CurtainPresenter
         self.view.addSubview(webView)
         self.view.sendSubview(toBack: webView)
         self.addCurtain()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        log(event: .privacyPolicy)
     }
     
     //MARK:- WKNavigationDelegate

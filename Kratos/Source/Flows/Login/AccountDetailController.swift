@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class AccountDetailsController: UIViewController, CurtainPresenter {
+class AccountDetailsController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     
     // MARK: - Enums -
     enum State {
@@ -38,7 +38,7 @@ class AccountDetailsController: UIViewController, CurtainPresenter {
     }
     
     // MARK: - Variables -
-    fileprivate let client: Client
+    var client: Client
     fileprivate let viewModel: AccountDetailsViewModel
     fileprivate let disposeBag = DisposeBag()
     
@@ -105,6 +105,7 @@ class AccountDetailsController: UIViewController, CurtainPresenter {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setDefaultNavVC()
+        log(event: .accountDetailsController)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -231,8 +232,8 @@ extension AccountDetailsController: ViewBuilder {
         }
         contentView.addSubview(saveRegisterButton)
         view.addSubview(shade)
-        view.addSubview(datePicker)
         view.addSubview(addressExplainationLabel)
+        view.addSubview(datePicker)
     }
     
     func constrainViews() {
@@ -363,8 +364,10 @@ extension AccountDetailsController: RxBinder {
             .subscribe(onNext: { [weak self] state in
                 switch state {
                 case .create:
+                    self?.log(event: .accountDetails(.register))
                     self?.viewModel.register()
                 case .edit:
+                    self?.log(event: .accountDetails(.edit))
                     self?.viewModel.save()
                 }
             })
@@ -397,7 +400,7 @@ extension AccountDetailsController: RxBinder {
     func setupNavigationBindings() {
         viewModel.registerLoadStatus
             .asObservable()
-            .onSuccess { [weak self] in 
+            .onSuccess { [weak self] in
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
                 let vc = ConfirmationController(client: self.client, email: self.viewModel.email.value, password: self.viewModel.password.value)
                 self.navigationController?.pushViewController(vc, animated: true)
@@ -418,6 +421,7 @@ extension AccountDetailsController: RxBinder {
             .asObservable()
             .onError(
                 execute: { [weak self] error in
+                    self?.log(event: .error(KratosError.cast(from: error)))
                     self?.showError(KratosError.cast(from: error))
                 }
             )
@@ -426,6 +430,7 @@ extension AccountDetailsController: RxBinder {
             .asObservable()
             .onError(
                 execute: { [weak self] error in
+                    self?.log(event: .error(KratosError.cast(from: error)))
                     self?.showError(KratosError.cast(from: error))
                 }
             )

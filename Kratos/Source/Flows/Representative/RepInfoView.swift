@@ -56,32 +56,33 @@ class RepInfoView: UIView {
     }
     
     // MARK: - Properties -
-    var viewModel: RepInfoViewModel?
-    let disposeBag = DisposeBag()
-    
-    let managerView = UIView()
-    let slideView = UIView()
-    
-    let scrollView = UIScrollView()
-    let stackView = UIStackView()
-    
-    let bioViewView = UIView()
-    let bioScrollView = UIScrollView()
-    let bioView = ExpandableTextFieldView(forceCollapseToggleButton: false)
-    let termsTableView = UITableView()
-    
-    let termsDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Term>>()
-    let votesDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, [LightTally]>>()
-    let billsDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Bill>>()
-    
-    let votesTableView = UITableView(frame: .zero, style: .grouped)
-    let billsTableView = UITableView(frame: .zero, style: .grouped)
-    
-    let buttons = State.allValues.map{ $0.button }
-    
     var contentOffset = PublishSubject<CGFloat>()
     var selectedLightTally = PublishSubject<LightTally>()
     var selectedBill = PublishSubject<Bill>()
+    var selectedState = PublishSubject<State>()
+    
+    fileprivate var viewModel: RepInfoViewModel?
+    fileprivate let disposeBag = DisposeBag()
+    
+    fileprivate let managerView = UIView()
+    fileprivate let slideView = UIView()
+    
+    fileprivate let scrollView = UIScrollView()
+    fileprivate let stackView = UIStackView()
+    
+    fileprivate let bioViewView = UIView()
+    fileprivate let bioScrollView = UIScrollView()
+    fileprivate let bioView = ExpandableTextFieldView(forceCollapseToggleButton: false)
+    fileprivate let termsTableView = UITableView()
+    
+    fileprivate let termsDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Term>>()
+    fileprivate let votesDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, [LightTally]>>()
+    fileprivate let billsDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Bill>>()
+    
+    fileprivate let votesTableView = UITableView(frame: .zero, style: .grouped)
+    fileprivate let billsTableView = UITableView(frame: .zero, style: .grouped)
+    
+    fileprivate let buttons = State.allValues.map{ $0.button }
     
     // MARK: - Initializers -
     convenience init(with client: Client) {
@@ -349,6 +350,10 @@ extension RepInfoView: RxBinder {
             .subscribe(onNext: { [weak self] state in
                 self?.updateIndicatorView(with: state)
             })
+            .disposed(by: disposeBag)
+        viewModel.state
+            .asObservable()
+            .bind(to: selectedState)
             .disposed(by: disposeBag)
     }
     

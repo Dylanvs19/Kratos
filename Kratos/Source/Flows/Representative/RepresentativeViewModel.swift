@@ -65,6 +65,10 @@ class RepresentativeViewModel {
     func reloadTitle() {
         title.value = title.value
     }
+    
+    func logContactEvent(contact: RepContactView.Contact, personId: Int) {
+        client.logContact(contact: contact, personId: personId)
+    }
 }
 
 extension RepresentativeViewModel: RxBinder {
@@ -130,6 +134,16 @@ extension RepresentativeViewModel: RxBinder {
             .map { URL(string: $0) }
             .bind(to: url)
             .disposed(by: disposeBag)
+        representative
+            .asObservable()
+            .filterNil()
+            .subscribe(
+                onNext: { [weak self] rep in
+                    self?.client.logView(type: .repViewed(id: rep.id))
+                }
+            )
+            .disposed(by: disposeBag)
+        
     }
     
     func bindContactVariables() {

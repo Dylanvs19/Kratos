@@ -99,5 +99,14 @@ extension TallyViewModel: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
+        tally
+            .asObservable()
+            .filterNil()
+            .subscribe(
+                onNext: { [weak self] tally in
+                   self?.client.logView(type: .tallyViewed(id: tally.id))
+                }
+            )
+            .disposed(by: disposeBag)
     }
 }

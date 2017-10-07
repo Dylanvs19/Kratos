@@ -13,7 +13,7 @@ import RxCocoa
 import RxDataSources
 import SnapKit
 
-class TallyController: UIViewController {
+class TallyController: UIViewController, AnalyticsEnabled {
     
     // MARK: - Enums -
     enum State: Int {
@@ -54,8 +54,8 @@ class TallyController: UIViewController {
     }
     
     // MARK: - Variables -
-    // Standard
-    let client: Client
+    //Standard
+    var client: Client
     let viewModel: TallyViewModel
     let disposeBag = DisposeBag()
 
@@ -107,6 +107,7 @@ class TallyController: UIViewController {
         styleViews()
         bind()
         view.layoutIfNeeded()
+        log(event: .tallyController)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -316,11 +317,14 @@ extension TallyController: RxBinder {
             .asObservable()
             .map { $0.person }
             .filterNil()
-            .subscribe(onNext: { [weak self] rep in
-                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
-                let vc = RepresentativeController(client: self.client, representative: rep)
-                self.navigationController?.pushViewController(vc, animated: true)
-            })
+            .subscribe(
+                onNext: { [weak self] rep in
+                    guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                    self.log(event: .tally(.repSelected(id: rep.id)))
+                    let vc = RepresentativeController(client: self.client, representative: rep)
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            )
             .disposed(by: disposeBag)
         viewModel.pieChartData
             .asObservable()
@@ -339,6 +343,14 @@ extension TallyController: RxBinder {
         viewModel.statusDate
             .asObservable()
             .bind(to: statusDateLabel.rx.text)
+            .disposed(by: disposeBag)
+        viewModel.state
+            .asObservable()
+            .subscribe(
+                onNext: { [weak self] state in
+                    self?.log(event: .tally(.tabSelected(state)))
+                }
+            )
             .disposed(by: disposeBag)
     }
 }

@@ -65,8 +65,7 @@
 		AF3F5C721EBE72F700809AA3 /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BCB1EBE72F700809AA3 /* Term.swift */; };
 		AF3F5C731EBE72F700809AA3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BCC1EBE72F700809AA3 /* User.swift */; };
 		AF3F5C741EBE72F700809AA3 /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BCD1EBE72F700809AA3 /* Vote.swift */; };
-		AF3F5C751EBE72F700809AA3 /* FirebaseAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BD01EBE72F700809AA3 /* FirebaseAnalytics.swift */; };
-		AF3F5C761EBE72F700809AA3 /* KratosAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BD11EBE72F700809AA3 /* KratosAnalytics.swift */; };
+		AF3F5C751EBE72F700809AA3 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BD01EBE72F700809AA3 /* Analytics.swift */; };
 		AF3F5C7B1EBE72F700809AA3 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5BDC1EBE72F700809AA3 /* Toast.swift */; };
 		AF3F5CA21EBE72F700809AA3 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C0E1EBE72F700809AA3 /* DatePickerView.swift */; };
 		AF3F5CA51EBE72F700809AA3 /* KratosTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C111EBE72F700809AA3 /* KratosTextField.swift */; };
@@ -256,8 +255,7 @@
 		AF3F5BCB1EBE72F700809AA3 /* Term.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Term.swift; sourceTree = "<group>"; };
 		AF3F5BCC1EBE72F700809AA3 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AF3F5BCD1EBE72F700809AA3 /* Vote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
-		AF3F5BD01EBE72F700809AA3 /* FirebaseAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAnalytics.swift; sourceTree = "<group>"; };
-		AF3F5BD11EBE72F700809AA3 /* KratosAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosAnalytics.swift; sourceTree = "<group>"; };
+		AF3F5BD01EBE72F700809AA3 /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		AF3F5BDC1EBE72F700809AA3 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		AF3F5C0E1EBE72F700809AA3 /* DatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		AF3F5C111EBE72F700809AA3 /* KratosTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosTextField.swift; sourceTree = "<group>"; };
@@ -608,8 +606,7 @@
 		AF3F5BCF1EBE72F700809AA3 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
-				AF3F5BD01EBE72F700809AA3 /* FirebaseAnalytics.swift */,
-				AF3F5BD11EBE72F700809AA3 /* KratosAnalytics.swift */,
+				AF3F5BD01EBE72F700809AA3 /* Analytics.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -1276,7 +1273,6 @@
 				AF3F5C741EBE72F700809AA3 /* Vote.swift in Sources */,
 				AF2C07051F4895F000D7E348 /* UserRepsViewController.swift in Sources */,
 				AF2C06F01F4895F000D7E348 /* ExploreViewModel.swift in Sources */,
-				AF3F5C761EBE72F700809AA3 /* KratosAnalytics.swift in Sources */,
 				AFD553061F53BA5800E07D9B /* NumberFormatter+Extensions.swift in Sources */,
 				AF3F5CEB1EBE72F700809AA3 /* UIView+Extension.swift in Sources */,
 				AF39E4271F7C877D00CDDA4C /* DetailCell.swift in Sources */,
@@ -1323,7 +1319,7 @@
 				AF3F5CE61EBE72F700809AA3 /* UIImage+Extension.swift in Sources */,
 				AFE9A3491F601F1300CBAD0D /* SubjectSelectionViewModel.swift in Sources */,
 				AF3F5CDB1EBE72F700809AA3 /* TransitionManager.swift in Sources */,
-				AF3F5C751EBE72F700809AA3 /* FirebaseAnalytics.swift in Sources */,
+				AF3F5C751EBE72F700809AA3 /* Analytics.swift in Sources */,
 				AF9D0E501F681A470049D8D8 /* SubjectSelectionCell.swift in Sources */,
 				AF2C06F51F4895F000D7E348 /* FeedbackQuestionView.swift in Sources */,
 				AF3F5C6E1EBE72F700809AA3 /* Definition.swift in Sources */,
@@ -1455,7 +1451,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1513,7 +1509,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;

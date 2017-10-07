@@ -12,7 +12,7 @@ import RxSwift
 import RxDataSources
 import SnapKit
 
-class SubjectSelectionController: UIViewController, CurtainPresenter {
+class SubjectSelectionController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     
     // MARK: - Variables -
     // Standard
@@ -70,6 +70,7 @@ class SubjectSelectionController: UIViewController, CurtainPresenter {
         view.layoutIfNeeded()
         tableViewView.addShadow()
         searchView.addShadow()
+        log(event: .subjectSelection)
     }
     
     override func viewDidDisappear(_ animated: Bool) {

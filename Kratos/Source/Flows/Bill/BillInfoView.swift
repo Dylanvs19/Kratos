@@ -69,6 +69,7 @@ class BillInfoView: UIView, CurtainPresenter {
     let contentOffset = PublishSubject<CGFloat>()
     let selectedPerson = PublishSubject<Person>()
     let selectedTally = PublishSubject<Tally>()
+    let selectedState = PublishSubject<State>()
     
     // UIElements
     // Manager
@@ -370,9 +371,11 @@ extension BillInfoView: RxBinder {
         viewModel.state
             .asObservable()
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] state in
-                self?.updateIndicatorView(with: state)
-            })
+            .subscribe(
+                onNext: { [weak self] state in
+                    self?.updateIndicatorView(with: state)
+                }
+            )
             .disposed(by: disposeBag)
     }
     
@@ -382,9 +385,11 @@ extension BillInfoView: RxBinder {
         viewModel.state
             .asObservable()
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] state in
-                self?.updateScrollView(with: state)
-            })
+            .subscribe(
+                onNext: { [weak self] state in
+                    self?.updateScrollView(with: state)
+                }
+            )
             .disposed(by: disposeBag)
         viewModel.loadStatus
             .asObservable()
@@ -397,9 +402,11 @@ extension BillInfoView: RxBinder {
         
         viewModel.summary
             .asObservable()
-            .subscribe(onNext: { [weak self] summary in
-                self?.summaryView.update(with: summary)
-            })
+            .subscribe(
+                onNext: { [weak self] summary in
+                    self?.summaryView.update(with: summary)
+                }
+            )
             .disposed(by: disposeBag)
     }
     

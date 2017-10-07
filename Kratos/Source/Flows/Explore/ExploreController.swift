@@ -12,7 +12,7 @@ import RxSwift
 import RxDataSources
 import SnapKit
 
-class ExploreController: UIViewController, CurtainPresenter {
+class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     
     // MARK: - Enums -
     enum State: Int {
@@ -56,7 +56,7 @@ class ExploreController: UIViewController, CurtainPresenter {
     }
     
     // MARK: - Variables -
-    let client: Client
+    var client: Client
     let viewModel: ExploreViewModel
     let disposeBag = DisposeBag()
     var curtain = Curtain()
@@ -124,6 +124,7 @@ class ExploreController: UIViewController, CurtainPresenter {
         super.viewWillAppear(animated)
         view.layoutIfNeeded()
         scrollViewView.addShadow()
+        log(event: .exploreController)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -230,6 +231,7 @@ class ExploreController: UIViewController, CurtainPresenter {
     
     // MARK: - Animations -
     func update(with state: State) {
+        log(event: .explore(.exploreTabSelected(state)))
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             self.slideView.snp.remakeConstraints { make in
                 make.bottom.equalToSuperview()
@@ -462,6 +464,7 @@ extension ExploreController: RxBinder {
             .asObservable()
             .subscribe(onNext: { [weak self] bill in
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                self.log(event: .explore(.billSelected(id: bill.id)))
                 let vc = BillController(client: self.client, bill: bill)
                 self.navigationController?.pushViewController(vc, animated: true)
             })
@@ -470,6 +473,7 @@ extension ExploreController: RxBinder {
             .asObservable()
             .subscribe(onNext: { [weak self] bill in
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                self.log(event: .explore(.billSelected(id: bill.id)))
                 let vc = BillController(client: self.client, bill: bill)
                 self.navigationController?.pushViewController(vc, animated: true)
             })
@@ -478,6 +482,7 @@ extension ExploreController: RxBinder {
             .asObservable()
             .subscribe(onNext: { [weak self] bill in
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                self.log(event: .explore(.billSelected(id: bill.id)))
                 let vc = BillController(client: self.client, bill: bill)
                 self.navigationController?.pushViewController(vc, animated: true)
             })

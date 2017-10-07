@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-class SubjectSelectionViewModel {
+class SubjectSelectionViewModel: AnalyticsEnabled {
     
     // MARK: - Variables -
     let client: Client
@@ -201,6 +201,14 @@ extension SubjectSelectionViewModel: RxBinder {
                 return !added.isEmpty || !removed.isEmpty
             }
             .bind(to: enableUpdate)
+            .disposed(by: disposeBag)
+        query
+            .asObservable()
+            .debounce(3, scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] query in
+                    self?.log(event: .subjectQuery(query: query))
+                }
+            )
             .disposed(by: disposeBag)
     }
 }

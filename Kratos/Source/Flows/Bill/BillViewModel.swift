@@ -133,26 +133,37 @@ class BillViewModel {
 extension BillViewModel: RxBinder {
     
     func bind() {
-        bill.asObservable()
+        bill
+            .asObservable()
             .filterNil()
             .map { $0.title ?? $0.officialTitle }
             .filterNil()
             .bind(to: title)
             .disposed(by: disposeBag)
         
-        bill.asObservable()
+        bill
+            .asObservable()
             .filterNil()
             .map { $0.status?.cleanStatus }
             .filterNil()
             .bind(to: status)
             .disposed(by: disposeBag)
         
-        bill.asObservable()
+        bill
+            .asObservable()
             .filterNil()
             .map { $0.statusDate }
             .filterNil()
             .map { DateFormatter.presentation.string(from: $0) }
             .bind(to: statusDate)
+            .disposed(by: disposeBag)
+        bill
+            .asObservable()
+            .filterNil()
+            .subscribe(onNext: { [weak self] bill in
+                 self?.client.logView(type: .billViewed(id: bill.id))
+                }
+            )
             .disposed(by: disposeBag)
         id
             .asObservable()

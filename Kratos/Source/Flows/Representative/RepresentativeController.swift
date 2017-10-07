@@ -13,7 +13,7 @@ import RxCocoa
 import SnapKit
 import SafariServices
 
-class RepresentativeController: UIViewController {
+class RepresentativeController: UIViewController, AnalyticsEnabled {
     
     // MARK: - Variables -
     // Standard
@@ -74,6 +74,7 @@ class RepresentativeController: UIViewController {
         super.viewDidAppear(animated)
         setDefaultNavVC()
         localizeStrings()
+        log(event: .representativeController)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -87,14 +88,14 @@ extension RepresentativeController {
     func presentWebsite(with websiteAddress: String) {
         guard let url = URL(string: websiteAddress) else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        KratosAnalytics.ContactAnalyticType.website.fireEvent()
+        
     }
     
     func presentPhonePrompt(with phone: String) {
         let filteredPhone = phone.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "")
         guard let url = URL(string: "telprompt://\(filteredPhone)") else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        KratosAnalytics.ContactAnalyticType.phone.fireEvent()
+        
     }
     
     func presentTwitter(with handle: String) {
@@ -108,14 +109,14 @@ extension RepresentativeController {
                 present(vc, animated: true, completion: nil)
             }
         }
-        KratosAnalytics.ContactAnalyticType.twitter.fireEvent()
+        
     }
     
     func presentOffice(with address: String) {
         let alertVC = UIAlertController(title: "A D D R E S S", message: address, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "O K ", style: .destructive, handler: nil))
         present(alertVC, animated: true, completion: nil)
-        KratosAnalytics.ContactAnalyticType.officeAddress.fireEvent()
+       
     }
 }
 
@@ -244,15 +245,18 @@ extension RepresentativeController: RxBinder {
             .disposed(by: disposeBag)
         contactView.selectedMethod
             .subscribe(onNext: { [weak self] method in
+                guard let `self` = self,
+                      let rep = self.viewModel.representative.value else { return}
+                self.viewModel.logContactEvent(contact: method, personId: rep.id)
                 switch method.method {
                 case .phone:
-                    self?.presentPhonePrompt(with: method.value)
+                    self.presentPhonePrompt(with: method.value)
                 case .twitter:
-                    self?.presentTwitter(with: method.value)
+                    self.presentTwitter(with: method.value)
                 case .website:
-                    self?.presentWebsite(with: method.value)
+                    self.presentWebsite(with: method.value)
                 case .office:
-                    self?.presentOffice(with: method.value)
+                    self.presentOffice(with: method.value)
                 }
             })
             .disposed(by: disposeBag)
@@ -260,26 +264,38 @@ extension RepresentativeController: RxBinder {
     
     func bindRepInfoView() {
         repInfoView.selectedBill
-            .subscribe(onNext: { [weak self] in
-                guard let client = self?.client,
-                    let navVC = self?.navigationController else { return }
-                let vc = BillController(client: client, bill: $0)
-                navVC.pushViewController(vc, animated: true)
-            })
+            .subscribe(
+                onNext: { [weak self] in
+                    guard let `self` = self else { return }
+                    self.log(event: .representative(.billSelected(id: $0.id)))
+                    let vc = BillController(client: self.client, bill: $0)
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            )
             .disposed(by: disposeBag)
         
         repInfoView.selectedLightTally
-            .subscribe(onNext: { [weak self] in
-                guard let client = self?.client,
-                    let navVC = self?.navigationController else { return }
-                var vc = UIViewController()
-                if $0.billId != nil {
-                    vc = BillController(client: client, lightTally: $0)
-                } else {
-                    vc = TallyController(client: client, tally: $0)
+            .subscribe(
+                onNext: { [weak self] in
+                    guard let `self` = self else { return }
+                    var vc = UIViewController()
+                    if let id = $0.billId {
+                        self.log(event: .representative(.billSelected(id: id)))
+                        vc = BillController(client: self.client, lightTally: $0)
+                    } else {
+                        self.log(event: .representative(.tallySelected(id: $0.id)))
+                        vc = TallyController(client: self.client, tally: $0)
+                    }
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
-                navVC.pushViewController(vc, animated: true)
-            })
+            )
+            .disposed(by: disposeBag)
+        repInfoView.selectedState
+            .subscribe(
+                onNext: { [weak self] state in
+                    self?.log(event: .representative(.tabSelected(state)))
+                }
+            )
             .disposed(by: disposeBag)
     }
 }

@@ -74,7 +74,8 @@ enum KratosTarget: Target {
     case postFeedback(userID: Int, questions: [String: String])
     
     //Analytics
-    case postKratosAnalyticEvent(analytics: KratosAnalytics, event: KratosAnalytics.ContactAnalyticType)
+    case logContact(type: RepContactView.Contact, personId: Int)
+    case logView(type: KratosAnalytics)
     
     //Image 
     case url(url: String)
@@ -83,12 +84,12 @@ enum KratosTarget: Target {
         switch self {
         case .register(let user, let token):
             var userDict = user.toJson()
-//            if let token = token,
-//               let user = userDict["user"] as? [String: Any] {
-//                var cpy = user
-//                cpy["push_token"] = token
-//                userDict["user"] = cpy
-//            }
+            if let token = token,
+               let user = userDict["user"] as? [String: Any] {
+                var cpy = user
+                cpy["push_token"] = token
+                userDict["user"] = cpy
+            }
             return userDict
         case .confirmation(let pin):
             return ["pin": pin]
@@ -129,8 +130,9 @@ enum KratosTarget: Target {
         case .postFeedback(let id, let questions):
             return ["user-id" : id,
                     "answers" : questions]
-        case .postKratosAnalyticEvent(let analytics, let event):
-            return analytics.toDict(with: event)
+        case .logContact(let type, let personId):
+            return ["user_action": ["action" : type.value,
+                                    "person_id" : personId]]
         default:
             return nil
         }
@@ -229,9 +231,17 @@ enum KratosTarget: Target {
              .postFeedback:
             return "/feedback"
         //Analytics
-        case .postKratosAnalyticEvent:
-            return "/me/actions"
-            
+        case .logContact:
+            return "/analytics/track/actions/"
+        case .logView(let type):
+            switch type {
+            case .repViewed(let id):
+                return "/analytics/track/person/\(id)/"
+            case .tallyViewed(let id):
+                return "/analytics/track/tally/\(id)/"
+            case .billViewed(let id):
+                return "/analytics/track/bill/\(id)/"
+            }
         //Image
         case .url(let url):
             return url
@@ -250,7 +260,8 @@ enum KratosTarget: Target {
              .trackBill,
              .followSubject,
              .createUserVote,
-             .postKratosAnalyticEvent,
+             .logContact,
+             .logView,
              .postFeedback:
             return .post
         case .untrackBill,
@@ -277,7 +288,7 @@ enum KratosTarget: Target {
              .createUserVote,
              .updateUserVote,
              .postFeedback,
-             .postKratosAnalyticEvent:
+             .logContact:
             return JSONEncoding.default
         default:
             return URLEncoding.default
@@ -323,7 +334,8 @@ extension KratosTarget: Equatable {
              (.getStateImage, .getStateImage),
              (.fetchFeedback, .fetchFeedback),
              (.postFeedback, .postFeedback),
-             (.postKratosAnalyticEvent, .postKratosAnalyticEvent):
+             (.logView, .logView),
+             (.logContact, .logContact):
             return true
         default:
             return false

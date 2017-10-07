@@ -12,6 +12,7 @@ import AwesomeCache
 import Alamofire
 import Firebase
 import FirebaseMessaging
+import FirebaseAnalytics
 import UserNotifications
 
 class Client: NSObject {
@@ -44,7 +45,7 @@ class Client: NSObject {
     
     fileprivate(set) var kratosClient: KratosClient
     
-    fileprivate let disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
     
     init(kratosClient: KratosClient) {
         self.kratosClient = kratosClient
@@ -59,6 +60,8 @@ class Client: NSObject {
     func tearDown() {
         invalidateCache()
         kratosClient = KratosClient(token: nil)
+        FIRAnalytics.setUserPropertyString("--", forName: "State")
+        FIRAnalytics.setUserPropertyString("--", forName: "District")
         self.isLoggedIn.value = false
     }
 }

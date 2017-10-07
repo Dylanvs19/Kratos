@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class MenuController: UIViewController {
+class MenuController: UIViewController, AnalyticsEnabled {
     
     // MARK: - Enum -
     enum Category {
@@ -40,7 +40,7 @@ class MenuController: UIViewController {
     }
     
     // MARK: - Variables -
-    let client: Client
+    var client: Client
     let disposeBag = DisposeBag()
     
     let header = UIView()
@@ -72,6 +72,11 @@ class MenuController: UIViewController {
         bind()
         localizeStrings()
         view.layoutIfNeeded()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        log(event: .mainController)
     }
     
     // MARK: - Configuration -
@@ -179,6 +184,7 @@ extension MenuController: RxBinder {
                     guard let `self` = self else { fatalError("self deallocated before it was accessed")}
                     switch category {
                     case .accountDetails:
+                        self.log(event: .menu(.accountDetails))
                         let vc = AccountDetailsController(client: self.client, state: .edit)
                         self.navigationController?.pushViewController(vc, animated: true)
 //                    case .notification:
@@ -186,8 +192,10 @@ extension MenuController: RxBinder {
 //                    case .feedback:
 //                        break
                     case .about:
+                        self.log(event: .menu(.privacyPolicy))
                         self.navigationController?.pushViewController(TermsController(), animated: true)
                     case .logout:
+                        self.log(event: .menu(.logout))
                         self.dismiss(animated: false, completion: {
                             self.client.tearDown()
                         })

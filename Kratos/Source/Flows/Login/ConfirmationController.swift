@@ -11,10 +11,10 @@ import SnapKit
 import RxCocoa
 import RxSwift
 
-class ConfirmationController: UIViewController, CurtainPresenter {
+class ConfirmationController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     
     // MARK: - Properties -
-    let client: Client
+    var client: Client
     let viewModel: ConfirmationViewModel
     let disposeBag = DisposeBag()
     
@@ -59,6 +59,7 @@ class ConfirmationController: UIViewController, CurtainPresenter {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setDefaultNavVC()
+        log(event: .confirmationController)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -196,6 +197,7 @@ extension ConfirmationController: RxBinder {
         submitButton.rx.tap
             .subscribe(
                 onNext: { [weak self] in
+                    self?.log(event: .confirmed)
                     self?.viewModel.confirmAccount()
                 }
             )
@@ -208,6 +210,7 @@ extension ConfirmationController: RxBinder {
             .asObservable()
             .onError(
                 execute: { [weak self] error in
+                    self?.log(event: .error(KratosError.cast(from: error)))
                     self?.showError(KratosError.cast(from: error))
                 }
             )

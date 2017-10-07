@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-class BillController: UIViewController {
+class BillController: UIViewController, AnalyticsEnabled {
     
     // MARK: - Properties - 
     // Standard
@@ -69,6 +69,8 @@ class BillController: UIViewController {
         self.title = ""
         trackButton.addShadow()
         billHeader.addShadow()
+        log(event: .billController)
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -210,21 +212,34 @@ extension BillController: RxBinder {
         billInfoView.selectedPerson
             .subscribe(onNext: { [weak self] person in
                 guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                self.log(event: .bill(.repSelected(id: person.id)))
                 let vc = RepresentativeController(client: self.client, representative: person)
                 self.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
         billInfoView.selectedTally
-            .subscribe(onNext: { [weak self] tally in
-                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
-                let vc = TallyController(client: self.client, tally: tally)
-                self.navigationController?.pushViewController(vc, animated: true)
-            })
+            .subscribe(
+                onNext: { [weak self] tally in
+                    guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                    self.log(event: .bill(.tallySelected(id: tally.id)))
+                    let vc = TallyController(client: self.client, tally: tally)
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            )
+            .disposed(by: disposeBag)
+        billInfoView.selectedState
+            .subscribe(
+                onNext: { [weak self] state in
+                    self?.log(event: .bill(.tabSelected(state)))
+                }
+            )
             .disposed(by: disposeBag)
         trackButton.rx.tap
             .withLatestFrom(viewModel.isTracking.asObservable())
             .subscribe(
                 onNext: { [weak self] isTracking in
+                    guard let id = self?.viewModel.bill.value?.id else { return }
+                    isTracking ? self?.log(event: .bill(.untrack(id: id))) : self?.log(event: .bill(.track(id: id)))
                     isTracking ? self?.viewModel.untrack() : self?.viewModel.track()
                 }
             )

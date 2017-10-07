@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import FirebaseMessaging
+import FirebaseAnalytics
 
 enum AuthenticationError {
     case notLoggedIn
@@ -73,6 +74,8 @@ extension Client: AccountService {
             .do(
                 onNext: { [weak self] user in
                     guard let `self` = self else { return }
+                    FIRAnalytics.setUserPropertyString("\(user.address.state)", forName: "State")
+                    FIRAnalytics.setUserPropertyString("\(user.district)", forName: "District")
                     self.user.value = user
                 }
             )
@@ -87,8 +90,28 @@ extension Client: AccountService {
             .do(
                 onNext: { [weak self] user in
                     guard let `self` = self else { return }
+                    FIRAnalytics.setUserPropertyString("\(user.address.state)", forName: "State")
+                    FIRAnalytics.setUserPropertyString("\(user.district)", forName: "District")
                     self.user.value = user
                 }
             )
+    }
+    
+    func logContact(contact: RepContactView.Contact, personId: Int) {
+        request(.logContact(type: contact, personId: personId))
+            .subscribe(onNext: { _ in
+                //print("contact event success")
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    func logView(type: KratosAnalytics){
+        request(.logView(type: type))
+            .subscribe(onNext: { _ in
+                //print("contact event success")
+                }
+            )
+            .disposed(by: disposeBag)
     }
 }

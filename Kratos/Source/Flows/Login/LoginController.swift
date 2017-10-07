@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class LoginController: UIViewController, CurtainPresenter {
+class LoginController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     
     // MARK: - Enums -
     enum State {
@@ -46,7 +46,7 @@ class LoginController: UIViewController, CurtainPresenter {
     }
     
     // MARK: - Variables -
-    fileprivate let client: Client
+    var client: Client
     fileprivate let viewModel: LoginViewModel
     fileprivate let disposeBag = DisposeBag()
     
@@ -98,6 +98,7 @@ class LoginController: UIViewController, CurtainPresenter {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         beginningAnimations()
+        log(event: .loginController)
     }
     
     //MARK: - Animation -
@@ -293,14 +294,16 @@ extension LoginController: RxBinder {
             .disposed(by: disposeBag)
         viewModel.loginLoadStatus.asObservable()
             .onError(execute: { [weak self] error in
+                self?.log(event: .error(KratosError.cast(from: error)))
                 self?.showError(KratosError.cast(from: error))
                 }
             )
             .disposed(by: disposeBag)
         viewModel.forgotPasswordLoadStatus
             .asObservable()
-            .onSuccess {
-                // Show alert here
+            .onSuccess { [weak self] in
+                self?.log(event: .login(.forgotPassword))
+                self?.presentMessageAlert(title: "Email Sent!", message: "An email with instructions for resetting your password has been sent.", buttonOneTitle: "OK")
             }
             .disposed(by: disposeBag)
     }

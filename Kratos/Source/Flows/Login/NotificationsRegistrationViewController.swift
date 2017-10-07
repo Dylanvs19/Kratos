@@ -12,9 +12,9 @@ import UserNotifications
 import RxCocoa
 import RxSwift
 
-class NotificationsRegistrationViewController: UIViewController {
+class NotificationsRegistrationViewController: UIViewController, AnalyticsEnabled {
 
-    let client: Client
+    var client: Client
     let disposeBag = DisposeBag()
     
     let kratosImageView = UIImageView(image: #imageLiteral(resourceName: "KratosLogo"))
@@ -39,6 +39,11 @@ class NotificationsRegistrationViewController: UIViewController {
         constrainViews()
         styleViews()
         bind()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        log(event: .notificationController)
     }
 }
 
@@ -108,29 +113,36 @@ extension NotificationsRegistrationViewController: Localizer {
 extension NotificationsRegistrationViewController: RxBinder {
     func bind() {
         confirmationButton.rx.controlEvent(.touchUpInside)
-            .subscribe(onNext: { [weak self] _ in
-                guard let `self` = self else { return }
-                UIApplication.shared.registerForRemoteNotifications()
-                
-                if #available(iOS 10.0, *) {
-                    let authOptions : UNAuthorizationOptions = [.alert, .badge, .sound]
-                    UNUserNotificationCenter.current().requestAuthorization(
-                        options: authOptions,
-                        completionHandler: {_,_ in })
+            .subscribe(
+                onNext: { [weak self] _ in
+                    guard let `self` = self else { return }
+                    self.log(event: .notification(.register))
+                    UIApplication.shared.registerForRemoteNotifications()
+                    
+                    if #available(iOS 10.0, *) {
+                        let authOptions : UNAuthorizationOptions = [.alert, .badge, .sound]
+                        UNUserNotificationCenter.current().requestAuthorization(
+                            options: authOptions,
+                            completionHandler: {_,_ in })
+                    }
+                    
+                    UIApplication.shared.registerForRemoteNotifications()
+                    
+                    let rootVC = TabBarController(with: self.client)
+                    ApplicationLauncher.rootTransition(to: rootVC)
                 }
-                
-                UIApplication.shared.registerForRemoteNotifications()
-                
-                let rootVC = TabBarController(with: self.client)
-                ApplicationLauncher.rootTransition(to: rootVC)
-            })
+            )
             .disposed(by: disposeBag)
         
         skipButton.rx.controlEvent(.touchUpInside)
-            .subscribe(onNext: { _ in
-                let rootVC = TabBarController(with: self.client)
-                ApplicationLauncher.rootTransition(to: rootVC)
-            })
+            .subscribe(
+                onNext: { [weak self] in
+                    guard let `self` = self else { return }
+                    self.log(event: .notification(.skip))
+                    let rootVC = TabBarController(with: self.client)
+                    ApplicationLauncher.rootTransition(to: rootVC)
+                }
+            )
             .disposed(by: disposeBag)
     }
 }
