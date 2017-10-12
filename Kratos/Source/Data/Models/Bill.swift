@@ -84,7 +84,7 @@ struct Bill: Hashable, Decodable {
             })
         }
         if let committeeHistoryArray = json["committee_history"] as? [[String: AnyObject]] {
-            self.committees = self.committees?.map{
+            self.committees = self.committees?.map {
                 var returnCommittee = $0
                 committeeHistoryArray.forEach({ (committeeHistory) in
                     if let activity = committeeHistory["activity"] as? [String],
@@ -101,11 +101,7 @@ struct Bill: Hashable, Decodable {
         if let coSponsorsArray = json["cosponsors"] as? [[String: AnyObject]] {
              self.coSponsors = coSponsorsArray.flatMap { Person(json: $0) }
         }
-        
-        self.status = json["status"] as? String
-        if let statusString = json["status_at"] as? String {
-            self.statusDate = statusString.date
-        }
+
         if let introduction = json["introduced_at"] as? String {
             self.introductionDate = introduction.date
         }
@@ -114,6 +110,13 @@ struct Bill: Hashable, Decodable {
         }
         if let actions = json["actions"] as? [[String: AnyObject]] {
             self.actions = actions.flatMap { return BillAction(json: $0) }
+        }
+        
+        if let action = actions?.first,
+           let status = action.status,
+           let date = action.date {
+                self.status = status
+                self.statusDate = date
         }
         
         self.active = json["active"] as? Bool

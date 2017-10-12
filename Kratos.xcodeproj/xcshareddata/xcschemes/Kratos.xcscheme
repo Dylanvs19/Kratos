@@ -86,11 +86,11 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-noFIRAnalyticsDebugEnabled"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-FIRAnalyticsDebugEnabled"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>

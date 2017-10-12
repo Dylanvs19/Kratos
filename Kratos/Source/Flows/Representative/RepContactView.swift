@@ -46,6 +46,15 @@ class RepContactView: UIView {
             }
         }
         
+        var title: String {
+            switch self {
+            case .phone: return "phone"
+            case .website: return "website"
+            case .twitter: return "twitter"
+            case .office: return "office"
+            }
+        }
+        
         var button: UIButton {
             let button = UIButton()
             button.setImage(image, for: .normal)

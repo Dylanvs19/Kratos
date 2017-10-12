@@ -131,7 +131,7 @@ enum KratosTarget: Target {
             return ["user-id" : id,
                     "answers" : questions]
         case .logContact(let type, let personId):
-            return ["user_action": ["action" : type.value,
+            return ["user_action": ["action" : type.method.title,
                                     "person_id" : personId]]
         default:
             return nil

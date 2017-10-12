@@ -55,6 +55,9 @@ class BillInfoView: UIView, CurtainPresenter {
                                 .titleColor(.kratosRed),
                                 .highlightedTitleColor(.red)
                 ])
+            
+            button.titleLabel?.adjustsFontSizeToFitWidth = true
+            button.titleLabel?.minimumScaleFactor = 0.5
             button.tag = self.rawValue
             return button
         }
@@ -236,8 +239,6 @@ extension BillInfoView: UITableViewDelegate {
 
 extension BillInfoView: ViewBuilder {
     func addSubviews() {
-//        translatesAutoresizingMaskIntoConstraints = false
-
         addSubview(managerView)
         buttons.forEach { managerView.addSubview($0) }
         managerView.addSubview(slideView)
