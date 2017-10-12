@@ -12,7 +12,7 @@ import RxSwift
 import RxDataSources
 import SnapKit
 
-class RepInfoView: UIView {
+class RepInfoView: UIView, CurtainPresenter {
     
     // MARK: - Enums -
     enum State: Int, Equatable {
@@ -63,6 +63,7 @@ class RepInfoView: UIView {
     
     fileprivate var viewModel: RepInfoViewModel?
     fileprivate let disposeBag = DisposeBag()
+    var curtain: Curtain = Curtain()
     
     fileprivate let managerView = UIView()
     fileprivate let slideView = UIView()
@@ -103,15 +104,16 @@ class RepInfoView: UIView {
     }
     
     // MARK: - Helpers -
-    func buildViews() {
+    func build() {
         configureTermsTableView()
         configureBillsTableView()
         configureVotesTableView()
         addSubviews()
         constrainViews()
         styleViews()
-        
         layoutIfNeeded()
+        addCurtain()
+        curtain.layoutIfNeeded()
         bioView.build()
         bind()
     }
@@ -347,9 +349,11 @@ extension RepInfoView: RxBinder {
         viewModel.state
             .asObservable()
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] state in
-                self?.updateIndicatorView(with: state)
-            })
+            .subscribe(
+                onNext: { [weak self] state in
+                    self?.updateIndicatorView(with: state)
+                }
+            )
             .disposed(by: disposeBag)
         viewModel.state
             .asObservable()
@@ -363,9 +367,15 @@ extension RepInfoView: RxBinder {
         viewModel.state
             .asObservable()
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] state in
-                self?.updateScrollView(with: state)
-            })
+            .subscribe(
+                onNext: { [weak self] state in
+                    self?.updateScrollView(with: state)
+                }
+            )
+            .disposed(by: disposeBag)
+        viewModel.loadStatus
+            .asObservable()
+            .bind(to: curtain.loadStatus)
             .disposed(by: disposeBag)
     }
     
@@ -374,9 +384,11 @@ extension RepInfoView: RxBinder {
         
         viewModel.bio
             .asObservable()
-            .subscribe(onNext: { [weak self] bio in
-                self?.bioView.update(with: bio)
-            })
+            .subscribe(
+                onNext: { [weak self] bio in
+                    self?.bioView.update(with: bio)
+                }
+            )
             .disposed(by: disposeBag)
         
         viewModel.terms
@@ -387,9 +399,11 @@ extension RepInfoView: RxBinder {
         viewModel.terms
             .asObservable()
             .delay(0.01, scheduler: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] _ in
-                self?.constrainViews()
-            })
+            .subscribe(
+                onNext: { [weak self] _ in
+                    self?.constrainViews()
+                }
+            )
             .disposed(by: disposeBag)
     }
     

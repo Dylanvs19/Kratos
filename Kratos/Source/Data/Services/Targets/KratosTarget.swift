@@ -255,7 +255,6 @@ enum KratosTarget: Target {
              .resendConfirmation,
              .login,
              .forgotPassword,
-             .resendConfirmation,
              .update,
              .trackBill,
              .followSubject,

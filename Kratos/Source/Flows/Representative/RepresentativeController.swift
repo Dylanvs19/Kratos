@@ -66,7 +66,7 @@ class RepresentativeController: UIViewController, AnalyticsEnabled {
         bind()
         //RepInfoView needs to be laid out and constrained after view is larger than .zero
         view.layoutIfNeeded()
-        repInfoView.buildViews()
+        repInfoView.build()
         styleViews()
     }
     

@@ -17,7 +17,7 @@ class RepInfoViewModel {
     
     // MARK - Variables -
     let client: Client
-    let loadStatus = Variable<LoadStatus>(.none)
+    let loadStatus = Variable<LoadStatus>(.loading)
     let disposeBag = DisposeBag()
 
     //State
@@ -50,8 +50,9 @@ class RepInfoViewModel {
     }
     
     func update(with representative: Person) {
-        bio.value = representative.biography ?? ""
-        terms.value = representative.terms ?? []
+        self.bio.value = representative.biography ?? ""
+        self.terms.value = representative.terms ?? []
+        self.loadStatus.value = .none
         self.representative.value = representative
         fetchTallies()
         fetchBills()
