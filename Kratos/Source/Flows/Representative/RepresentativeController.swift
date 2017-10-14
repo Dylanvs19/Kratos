@@ -188,6 +188,8 @@ extension RepresentativeController: Localizer {
     func localizeStrings() {
         if let repName = viewModel.representative.value?.fullName {
             self.title = repName
+        } else if let repName = viewModel.lightRep.value?.fullName {
+            self.title = repName
         }
     }
 }

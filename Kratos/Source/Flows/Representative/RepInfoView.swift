@@ -103,6 +103,11 @@ class RepInfoView: UIView, CurtainPresenter {
         self.viewModel?.update(with: rep)
     }
     
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        addCurtain()
+    }
+    
     // MARK: - Helpers -
     func build() {
         configureTermsTableView()
@@ -111,9 +116,6 @@ class RepInfoView: UIView, CurtainPresenter {
         addSubviews()
         constrainViews()
         styleViews()
-        layoutIfNeeded()
-        addCurtain()
-        curtain.layoutIfNeeded()
         bioView.build()
         bind()
     }

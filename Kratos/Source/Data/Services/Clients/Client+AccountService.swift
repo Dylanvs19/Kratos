@@ -11,7 +11,7 @@ import RxSwift
 import FirebaseMessaging
 import FirebaseAnalytics
 
-enum AuthenticationError {
+enum AuthenticationError: Error {
     case notLoggedIn
     case invalidToken
 }

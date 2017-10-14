@@ -7,3 +7,23 @@
 //
 
 import Foundation
+import RxSwift
+
+extension Client: FeedbackService {
+    
+    func fetchFeedback() -> Observable<[String]> {
+        return request(.fetchFeedback)
+            .toJson()
+            .map {
+                guard let json = $0 as? JSONObject,
+                    let questions = json["questions"] as? [String] else { throw MappingError.unexpectedValue }
+                return questions
+            }
+    }
+    
+    func postFeedback(questions: [String : String]) -> Observable<Void> {
+        guard let id = user.value?.id else { return Observable.error(AuthenticationError.notLoggedIn) }
+        return request(.postFeedback(userID: id, questions: questions))
+            .map { _ in return () }
+    }
+}

@@ -10,6 +10,6 @@ import Foundation
 import RxSwift
 
 protocol FeedbackService {
-    func fetchFeedback() -> Observable<Bool>
-    func postFeedback(userID: Int, questions: [String: String]) -> Observable<Bool>
+    func fetchFeedback() -> Observable<[String]>
+    func postFeedback(questions: [String: String]) -> Observable<Void>
 }

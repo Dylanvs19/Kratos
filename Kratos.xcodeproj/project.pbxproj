@@ -18,11 +18,6 @@
 		AF2C06F01F4895F000D7E348 /* ExploreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06CF1F4895F000D7E348 /* ExploreViewModel.swift */; };
 		AF2C06F11F4895F000D7E348 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D01F4895F000D7E348 /* SearchController.swift */; };
 		AF2C06F21F4895F000D7E348 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D11F4895F000D7E348 /* SearchViewModel.swift */; };
-		AF2C06F31F4895F000D7E348 /* FeedbackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D31F4895F000D7E348 /* FeedbackHeaderView.swift */; };
-		AF2C06F41F4895F000D7E348 /* FeedbackHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2C06D41F4895F000D7E348 /* FeedbackHeaderView.xib */; };
-		AF2C06F51F4895F000D7E348 /* FeedbackQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D51F4895F000D7E348 /* FeedbackQuestionView.swift */; };
-		AF2C06F61F4895F000D7E348 /* FeedbackQuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2C06D61F4895F000D7E348 /* FeedbackQuestionView.xib */; };
-		AF2C06F71F4895F000D7E348 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D71F4895F000D7E348 /* FeedbackViewController.swift */; };
 		AF2C06F81F4895F000D7E348 /* AccountDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06D91F4895F000D7E348 /* AccountDetailsViewModel.swift */; };
 		AF2C06F91F4895F000D7E348 /* AccountDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DA1F4895F000D7E348 /* AccountDetailController.swift */; };
 		AF2C06FA1F4895F000D7E348 /* ConfirmationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06DB1F4895F000D7E348 /* ConfirmationController.swift */; };
@@ -125,6 +120,7 @@
 		AF5B9E5D1EFEF13A000BF83A /* ExpandableTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B9E5C1EFEF13A000BF83A /* ExpandableTextFieldView.swift */; };
 		AF5B9E5F1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B9E5E1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift */; };
 		AF6271B51ED3DF8400BDE8DB /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */; };
+		AF88381A1F91989B0029F5C8 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8838191F91989B0029F5C8 /* FeedbackViewModel.swift */; };
 		AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF8974651D4D80E500C19020 /* Assets.xcassets */; };
 		AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8974671D4D80E500C19020 /* LaunchScreen.storyboard */; };
 		AF89747F1D4D80E500C19020 /* KratosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89747E1D4D80E500C19020 /* KratosUITests.swift */; };
@@ -208,11 +204,6 @@
 		AF2C06CF1F4895F000D7E348 /* ExploreViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreViewModel.swift; sourceTree = "<group>"; };
 		AF2C06D01F4895F000D7E348 /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		AF2C06D11F4895F000D7E348 /* SearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
-		AF2C06D31F4895F000D7E348 /* FeedbackHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackHeaderView.swift; sourceTree = "<group>"; };
-		AF2C06D41F4895F000D7E348 /* FeedbackHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackHeaderView.xib; sourceTree = "<group>"; };
-		AF2C06D51F4895F000D7E348 /* FeedbackQuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackQuestionView.swift; sourceTree = "<group>"; };
-		AF2C06D61F4895F000D7E348 /* FeedbackQuestionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackQuestionView.xib; sourceTree = "<group>"; };
-		AF2C06D71F4895F000D7E348 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		AF2C06D91F4895F000D7E348 /* AccountDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailsViewModel.swift; sourceTree = "<group>"; };
 		AF2C06DA1F4895F000D7E348 /* AccountDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailController.swift; sourceTree = "<group>"; };
 		AF2C06DB1F4895F000D7E348 /* ConfirmationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationController.swift; sourceTree = "<group>"; };
@@ -315,6 +306,7 @@
 		AF5B9E5C1EFEF13A000BF83A /* ExpandableTextFieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableTextFieldView.swift; sourceTree = "<group>"; };
 		AF5B9E5E1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableTextFieldViewModel.swift; sourceTree = "<group>"; };
 		AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
+		AF8838191F91989B0029F5C8 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
 		AF89745B1D4D80E500C19020 /* Kratos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kratos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF8974651D4D80E500C19020 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AF8974681D4D80E500C19020 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -439,11 +431,6 @@
 		AF2C06D21F4895F000D7E348 /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
-				AF2C06D31F4895F000D7E348 /* FeedbackHeaderView.swift */,
-				AF2C06D41F4895F000D7E348 /* FeedbackHeaderView.xib */,
-				AF2C06D51F4895F000D7E348 /* FeedbackQuestionView.swift */,
-				AF2C06D61F4895F000D7E348 /* FeedbackQuestionView.xib */,
-				AF2C06D71F4895F000D7E348 /* FeedbackViewController.swift */,
 			);
 			path = Feedback;
 			sourceTree = "<group>";
@@ -470,6 +457,7 @@
 				AF9EDECC1F7DFB070031A108 /* AboutController.swift */,
 				AF9EDECE1F7DFB6F0031A108 /* TermsController.swift */,
 				AF9EDED01F7DFB750031A108 /* FeedbackController.swift */,
+				AF8838191F91989B0029F5C8 /* FeedbackViewModel.swift */,
 				AF9EDED21F7DFB870031A108 /* SettingsConfroller.swift */,
 			);
 			path = Menu;
@@ -1065,8 +1053,6 @@
 				AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */,
 				AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */,
 				AFA9D1601E30269B00CD6BF9 /* GoogleService-Info.plist in Resources */,
-				AF2C06F41F4895F000D7E348 /* FeedbackHeaderView.xib in Resources */,
-				AF2C06F61F4895F000D7E348 /* FeedbackQuestionView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1242,9 +1228,9 @@
 				AFFA95641EC79C4100144C3A /* ApplicationLauncher.swift in Sources */,
 				AFA6F45E1F36818100686697 /* UITextView+Extensions.swift in Sources */,
 				AF2C06EE1F4895F000D7E348 /* BillCellViewModel.swift in Sources */,
-				AF2C06F31F4895F000D7E348 /* FeedbackHeaderView.swift in Sources */,
 				AF41C4071EF173C200DDBD5F /* RepresentativeAnimator.swift in Sources */,
 				AF2C06FB1F4895F000D7E348 /* ConfirmationViewModel.swift in Sources */,
+				AF88381A1F91989B0029F5C8 /* FeedbackViewModel.swift in Sources */,
 				AF6271B51ED3DF8400BDE8DB /* UIButton+Extensions.swift in Sources */,
 				AF2C073F1F48975E00D7E348 /* RepInfoView.swift in Sources */,
 				AF416A4F1F28C206006380DA /* Target.swift in Sources */,
@@ -1321,7 +1307,6 @@
 				AF3F5CDB1EBE72F700809AA3 /* TransitionManager.swift in Sources */,
 				AF3F5C751EBE72F700809AA3 /* Analytics.swift in Sources */,
 				AF9D0E501F681A470049D8D8 /* SubjectSelectionCell.swift in Sources */,
-				AF2C06F51F4895F000D7E348 /* FeedbackQuestionView.swift in Sources */,
 				AF3F5C6E1EBE72F700809AA3 /* Definition.swift in Sources */,
 				AF416A5A1F28D0F1006380DA /* Encodable.swift in Sources */,
 				AF416A4A1F28C1F3006380DA /* Client.swift in Sources */,
@@ -1339,7 +1324,6 @@
 				AF3F5CDA1EBE72F700809AA3 /* ScrollTabBarControllerDelegate.swift in Sources */,
 				AF3F5CE21EBE72F700809AA3 /* NSData+Extensions.swift in Sources */,
 				AF2C07421F48975E00D7E348 /* RepresentativeViewModel.swift in Sources */,
-				AF2C06F71F4895F000D7E348 /* FeedbackViewController.swift in Sources */,
 				AF2C06ED1F4895F000D7E348 /* BillCell.swift in Sources */,
 				AF57F4D31F318EC90080978F /* Curtain.swift in Sources */,
 				AF3F5CE41EBE72F700809AA3 /* String+Extensions.swift in Sources */,
