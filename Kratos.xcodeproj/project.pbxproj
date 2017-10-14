@@ -121,6 +121,7 @@
 		AF5B9E5F1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B9E5E1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift */; };
 		AF6271B51ED3DF8400BDE8DB /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */; };
 		AF88381A1F91989B0029F5C8 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8838191F91989B0029F5C8 /* FeedbackViewModel.swift */; };
+		AF88381C1F9260970029F5C8 /* SettingsConfroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF88381B1F9260970029F5C8 /* SettingsConfroller.swift */; };
 		AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF8974651D4D80E500C19020 /* Assets.xcassets */; };
 		AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8974671D4D80E500C19020 /* LaunchScreen.storyboard */; };
 		AF89747F1D4D80E500C19020 /* KratosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89747E1D4D80E500C19020 /* KratosUITests.swift */; };
@@ -129,7 +130,6 @@
 		AF9EDECD1F7DFB070031A108 /* AboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9EDECC1F7DFB070031A108 /* AboutController.swift */; };
 		AF9EDECF1F7DFB6F0031A108 /* TermsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9EDECE1F7DFB6F0031A108 /* TermsController.swift */; };
 		AF9EDED11F7DFB750031A108 /* FeedbackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9EDED01F7DFB750031A108 /* FeedbackController.swift */; };
-		AF9EDED31F7DFB870031A108 /* SettingsConfroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9EDED21F7DFB870031A108 /* SettingsConfroller.swift */; };
 		AFA6F45E1F36818100686697 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA6F45D1F36818100686697 /* UITextView+Extensions.swift */; };
 		AFA9D1601E30269B00CD6BF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */; };
 		AFD553061F53BA5800E07D9B /* NumberFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD553051F53BA5800E07D9B /* NumberFormatter+Extensions.swift */; };
@@ -307,6 +307,7 @@
 		AF5B9E5E1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableTextFieldViewModel.swift; sourceTree = "<group>"; };
 		AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		AF8838191F91989B0029F5C8 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
+		AF88381B1F9260970029F5C8 /* SettingsConfroller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsConfroller.swift; sourceTree = "<group>"; };
 		AF89745B1D4D80E500C19020 /* Kratos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kratos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF8974651D4D80E500C19020 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AF8974681D4D80E500C19020 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -322,7 +323,6 @@
 		AF9EDECC1F7DFB070031A108 /* AboutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutController.swift; sourceTree = "<group>"; };
 		AF9EDECE1F7DFB6F0031A108 /* TermsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsController.swift; sourceTree = "<group>"; };
 		AF9EDED01F7DFB750031A108 /* FeedbackController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackController.swift; sourceTree = "<group>"; };
-		AF9EDED21F7DFB870031A108 /* SettingsConfroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsConfroller.swift; path = Kratos/Source/Flows/SettingsConfroller.swift; sourceTree = SOURCE_ROOT; };
 		AFA6F45D1F36818100686697 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
 		AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AFD553051F53BA5800E07D9B /* NumberFormatter+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Extensions.swift"; sourceTree = "<group>"; };
@@ -407,7 +407,6 @@
 				AF2C07341F48975E00D7E348 /* Representative */,
 				AF2C07091F48975600D7E348 /* Bill */,
 				AF2C06CB1F4895F000D7E348 /* Explore */,
-				AF2C06D21F4895F000D7E348 /* Feedback */,
 				AF2C06D81F4895F000D7E348 /* Login */,
 				AF2C06E21F4895F000D7E348 /* Menu */,
 				AF2C06E81F4895F000D7E348 /* UserReps */,
@@ -428,13 +427,6 @@
 			path = Explore;
 			sourceTree = "<group>";
 		};
-		AF2C06D21F4895F000D7E348 /* Feedback */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Feedback;
-			sourceTree = "<group>";
-		};
 		AF2C06D81F4895F000D7E348 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -453,12 +445,12 @@
 		AF2C06E21F4895F000D7E348 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				AF88381B1F9260970029F5C8 /* SettingsConfroller.swift */,
 				AF2C06E31F4895F000D7E348 /* MenuController.swift */,
 				AF9EDECC1F7DFB070031A108 /* AboutController.swift */,
 				AF9EDECE1F7DFB6F0031A108 /* TermsController.swift */,
 				AF9EDED01F7DFB750031A108 /* FeedbackController.swift */,
 				AF8838191F91989B0029F5C8 /* FeedbackViewModel.swift */,
-				AF9EDED21F7DFB870031A108 /* SettingsConfroller.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -1281,6 +1273,7 @@
 				AF3F5CE01EBE72F700809AA3 /* DateFormatter+Extensions.swift in Sources */,
 				AF2C07081F4895F000D7E348 /* UserRepTableViewCellModel.swift in Sources */,
 				AF3F5CFB1EBE754800809AA3 /* CongressService.swift in Sources */,
+				AF88381C1F9260970029F5C8 /* SettingsConfroller.swift in Sources */,
 				AF3F5CFF1EBE756800809AA3 /* AnalyticsService.swift in Sources */,
 				AF3F5C681EBE72F700809AA3 /* AppDelegate.swift in Sources */,
 				AF3F5C721EBE72F700809AA3 /* Term.swift in Sources */,
@@ -1313,7 +1306,6 @@
 				AF3F5CD91EBE72F700809AA3 /* PresentMenuAnimator.swift in Sources */,
 				AF2C06F91F4895F000D7E348 /* AccountDetailController.swift in Sources */,
 				AF416A481F28C1F3006380DA /* Client+StateService.swift in Sources */,
-				AF9EDED31F7DFB870031A108 /* SettingsConfroller.swift in Sources */,
 				AF2C074A1F48976800D7E348 /* UserViewModel.swift in Sources */,
 				AF416A4D1F28C1FC006380DA /* AppClient.swift in Sources */,
 				AF416A451F28C1F3006380DA /* Client+CongressService.swift in Sources */,
