@@ -3,7 +3,7 @@
 //  Kratos
 //
 //  Created by Dylan Straughan on 3/30/17.
-//  Copyright © 2017 Dylan Straughan. All rights reserved.
+//  Copyright © 2017 Kratos, Inc. All rights reserved.
 //
 
 import Foundation
@@ -54,6 +54,25 @@ class UserRepTableViewCell: UITableViewCell {
         self.viewModel = UserRepTableViewCellModel(client: client, person: person)
         self.client = client
         selectionStyle = .none
+    }
+    
+    func configureForSingleRep() {
+        representativeImageView.snp.remakeConstraints { make in
+            make.width.equalToSuperview().offset(-100)
+            make.height.equalTo(representativeImageView.snp.width)
+            make.top.equalToSuperview().inset(10)
+            make.centerX.equalToSuperview()
+        }
+        nameLabel.snp.remakeConstraints { make in
+            make.top.equalTo(representativeImageView.snp.bottom).offset(10)
+            make.centerX.equalTo(representativeImageView)
+        }
+        representativeLabel.snp.remakeConstraints { make in
+            make.top.equalTo(nameLabel.snp.bottom).offset(10)
+            make.centerX.equalTo(representativeImageView)
+            make.bottom.equalToSuperview().inset(10)
+        }
+        layoutIfNeeded()
     }
 }
 

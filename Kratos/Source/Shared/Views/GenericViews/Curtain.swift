@@ -3,7 +3,7 @@
 //  Kratos
 //
 //  Created by Dylan Straughan on 8/2/17.
-//  Copyright © 2017 Dylan Straughan. All rights reserved.
+//  Copyright © 2017 Kratos, Inc. All rights reserved.
 //
 
 import Foundation
@@ -90,7 +90,9 @@ extension Curtain: ViewBuilder {
             make.height.width.equalTo(70)
         }
     }
-    func styleViews() {}
+    func styleViews() {
+        isUserInteractionEnabled = false 
+    }
 }
 
 extension Curtain: RxBinder {

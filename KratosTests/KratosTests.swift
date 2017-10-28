@@ -3,7 +3,7 @@
 //  KratosTests
 //
 //  Created by Dylan Straughan on 7/30/16.
-//  Copyright © 2016 Dylan Straughan. All rights reserved.
+//  Copyright © 2017 Kratos, Inc. All rights reserved.
 //
 
 import XCTest

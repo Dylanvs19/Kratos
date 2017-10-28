@@ -3,7 +3,7 @@
 //  Kratos
 //
 //  Created by Dylan Straughan on 3/22/17.
-//  Copyright © 2017 Dylan Straughan. All rights reserved.
+//  Copyright © 2017 Kratos, Inc. All rights reserved.
 //
 
 import UIKit
@@ -17,11 +17,11 @@ class MenuController: UIViewController, AnalyticsEnabled {
     enum Category {
         case accountDetails
 //        case notification
-//        case feedback
+        case feedback
         case about
         case logout
         
-        static let allValues: [Category] = [.accountDetails, .about, .logout]
+        static let allValues: [Category] = [.accountDetails, .about, .feedback, .logout]
         
         var title: String {
             switch self {
@@ -29,8 +29,8 @@ class MenuController: UIViewController, AnalyticsEnabled {
                 return localize(.menuAccountDetailsButtonTitle)
 //            case .notification:
 //                return "Preferences"
-//            case .feedback:
-//                return localize(.menuFeedbackButtonTitle)
+            case .feedback:
+                return localize(.menuFeedbackButtonTitle)
             case .about:
                 return "Privacy Policy"
             case .logout:
@@ -189,8 +189,9 @@ extension MenuController: RxBinder {
                         self.navigationController?.pushViewController(vc, animated: true)
 //                    case .notification:
 //                        break
-//                    case .feedback:
-//                        break
+                    case .feedback:
+                        let vc = FeedbackController(client: self.client)
+                        self.navigationController?.pushViewController(vc, animated: true)
                     case .about:
                         self.log(event: .menu(.privacyPolicy))
                         self.navigationController?.pushViewController(TermsController(), animated: true)

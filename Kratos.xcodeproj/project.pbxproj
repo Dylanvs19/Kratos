@@ -122,6 +122,8 @@
 		AF6271B51ED3DF8400BDE8DB /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */; };
 		AF88381A1F91989B0029F5C8 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8838191F91989B0029F5C8 /* FeedbackViewModel.swift */; };
 		AF88381C1F9260970029F5C8 /* SettingsConfroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF88381B1F9260970029F5C8 /* SettingsConfroller.swift */; };
+		AF88381E1F9261010029F5C8 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF88381D1F9261010029F5C8 /* FeedbackView.swift */; };
+		AF8838201F92A5450029F5C8 /* StateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF88381F1F92A5450029F5C8 /* StateCell.swift */; };
 		AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF8974651D4D80E500C19020 /* Assets.xcassets */; };
 		AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8974671D4D80E500C19020 /* LaunchScreen.storyboard */; };
 		AF89747F1D4D80E500C19020 /* KratosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF89747E1D4D80E500C19020 /* KratosUITests.swift */; };
@@ -308,6 +310,8 @@
 		AF6271B41ED3DF8400BDE8DB /* UIButton+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		AF8838191F91989B0029F5C8 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
 		AF88381B1F9260970029F5C8 /* SettingsConfroller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsConfroller.swift; sourceTree = "<group>"; };
+		AF88381D1F9261010029F5C8 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
+		AF88381F1F92A5450029F5C8 /* StateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateCell.swift; sourceTree = "<group>"; };
 		AF89745B1D4D80E500C19020 /* Kratos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kratos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF8974651D4D80E500C19020 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AF8974681D4D80E500C19020 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -451,6 +455,7 @@
 				AF9EDECE1F7DFB6F0031A108 /* TermsController.swift */,
 				AF9EDED01F7DFB750031A108 /* FeedbackController.swift */,
 				AF8838191F91989B0029F5C8 /* FeedbackViewModel.swift */,
+				AF88381D1F9261010029F5C8 /* FeedbackView.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -462,6 +467,7 @@
 				AF2C06EA1F4895F000D7E348 /* UserRepsViewModel.swift */,
 				AF2C06EB1F4895F000D7E348 /* UserRepTableViewCell.swift */,
 				AF2C06EC1F4895F000D7E348 /* UserRepTableViewCellModel.swift */,
+				AF88381F1F92A5450029F5C8 /* StateCell.swift */,
 			);
 			path = UserReps;
 			sourceTree = "<group>";
@@ -1250,6 +1256,7 @@
 				AF2C073D1F48975E00D7E348 /* RepContactView.swift in Sources */,
 				AF3F5C741EBE72F700809AA3 /* Vote.swift in Sources */,
 				AF2C07051F4895F000D7E348 /* UserRepsViewController.swift in Sources */,
+				AF8838201F92A5450029F5C8 /* StateCell.swift in Sources */,
 				AF2C06F01F4895F000D7E348 /* ExploreViewModel.swift in Sources */,
 				AFD553061F53BA5800E07D9B /* NumberFormatter+Extensions.swift in Sources */,
 				AF3F5CEB1EBE72F700809AA3 /* UIView+Extension.swift in Sources */,
@@ -1291,6 +1298,7 @@
 				AF57F4BB1F2B6E110080978F /* ViewBuilder.swift in Sources */,
 				AF57F4C91F2B6EBB0080978F /* UIImageView+RxUrl.swift in Sources */,
 				AF3F5CE81EBE72F700809AA3 /* UILabel+Extensions.swift in Sources */,
+				AF88381E1F9261010029F5C8 /* FeedbackView.swift in Sources */,
 				AF2C07441F48975E00D7E348 /* TermCell.swift in Sources */,
 				AF2C07061F4895F000D7E348 /* UserRepsViewModel.swift in Sources */,
 				AF2C06EF1F4895F000D7E348 /* ExploreController.swift in Sources */,

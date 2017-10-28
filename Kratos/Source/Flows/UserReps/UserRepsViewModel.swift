@@ -3,12 +3,17 @@
 //  Kratos
 //
 //  Created by Dylan Straughan on 5/31/17.
-//  Copyright © 2017 Dylan Straughan. All rights reserved.
+//  Copyright © 2017 Kratos, Inc. All rights reserved.
 //
 
 import Foundation
 import RxSwift
 import RxCocoa
+
+struct StateDistrictModel {
+    let state: State
+    let districts: [Int]
+}
 
 class UserRepsViewModel {
     // MARK: - Properties -
@@ -19,8 +24,10 @@ class UserRepsViewModel {
     let user = Variable<User?>(nil)
     let district = Variable<Int?>(nil)
     let state = Variable<String>("")
-    let stateImage = Variable<UIImage>(#imageLiteral(resourceName: "Image_WashingtonDC"))
     let representatives = Variable<[Person]>([])
+    let stateDistrictModels = Variable<[StateDistrictModel]>([])
+    let selectedStateDistrict = Variable<StateDistrictModel?>(nil)
+    let url = Variable<String?>(nil)
     
     let repSelected = PublishSubject<Person>()
     
@@ -59,6 +66,33 @@ class UserRepsViewModel {
             )
             .disposed(by: disposeBag)
     }
+    
+    func fetchStatesAndDistricts() {
+        client.fetchStatesAndDistricts()
+            .subscribe(
+                onNext: { [weak self] stateDistrictModels in
+                    self?.loadStatus.value = .none
+                    self?.stateDistrictModels.value = stateDistrictModels
+                },
+                onError: { [weak self] (error) in
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    func fetchStateImage(state: State) {
+        client.fetchStateImage(state: state)
+            .subscribe(
+                onNext: { [weak self] url in
+                    self?.loadStatus.value = .none
+                    self?.url.value = url
+                },
+                onError: { [weak self] (error) in
+                    self?.loadStatus.value = .error(KratosError.cast(from: error))
+                }
+            )
+            .disposed(by: disposeBag)
+    }
 }
 // MARK: - RxBinder -
 extension UserRepsViewModel: RxBinder {
@@ -72,6 +106,16 @@ extension UserRepsViewModel: RxBinder {
                     self.district.value = user.district
                     self.state.value = user.address.state
                     self.fetchRepresentatives(from: user.address.state, district: user.district)
+                }
+            )
+            .disposed(by: disposeBag)
+        state
+            .asObservable()
+            .map { State(rawValue: $0) }
+            .filterNil()
+            .subscribe(
+                onNext: { [weak self] state in
+                    self?.fetchStateImage(state: state)
                 }
             )
             .disposed(by: disposeBag)

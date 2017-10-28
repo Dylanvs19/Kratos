@@ -3,13 +3,13 @@
 //  Kratos
 //
 //  Created by Dylan Straughan on 8/17/17.
-//  Copyright © 2017 Dylan Straughan. All rights reserved.
+//  Copyright © 2017 Kratos, Inc. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-enum State: String, RawRepresentable {
+enum State: String {
     case alabama = "AL"
     case alaska = "AK"
     case arizona = "AZ"
@@ -261,7 +261,7 @@ enum State: String, RawRepresentable {
         case .southDakota:
             return #imageLiteral(resourceName: "southDakotaWhite")
         case .tennessee:
-            return #imageLiteral(resourceName: "tennesseeWhite")
+            return #imageLiteral(resourceName: "arkansasGray")
         case .texas:
             return #imageLiteral(resourceName: "texasWhite")
         case .utah:

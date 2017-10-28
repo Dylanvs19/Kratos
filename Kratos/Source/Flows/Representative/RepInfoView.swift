@@ -3,7 +3,7 @@
 //  Kratos
 //
 //  Created by Dylan Straughan on 1/13/17.
-//  Copyright © 2017 Dylan Straughan. All rights reserved.
+//  Copyright © 2017 Kratos, Inc. All rights reserved.
 //
 
 import UIKit
@@ -161,7 +161,6 @@ class RepInfoView: UIView, CurtainPresenter {
         
         votesTableView.rx.setDelegate(self)
             .addDisposableTo(disposeBag)
-        
     }
     
     func configureBillsTableView() {

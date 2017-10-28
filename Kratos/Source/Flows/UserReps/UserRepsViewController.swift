@@ -3,7 +3,7 @@
 //  Kratos
 //
 //  Created by Dylan Straughan on 5/31/17.
-//  Copyright © 2017 Dylan Straughan. All rights reserved.
+//  Copyright © 2017 Kratos, Inc. All rights reserved.
 //
 
 import Foundation
@@ -11,7 +11,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxDataSources
-
 
 class UserRepsViewController: UIViewController, CurtainPresenter {
     
@@ -24,11 +23,18 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
     var curtain: Curtain = Curtain()
     
     //TopImage
-    let topImage = UIImageView()
+    let stateImageView = UIImageView(image: #imageLiteral(resourceName: "Image_WashingtonDC"))
     let topShadeView = UIView()
-    let stateImageView = UIImageView()
-    let stateLabel = UILabel()
     let districtLabel = UILabel()
+    
+    let popView = UIView()
+    let shade = UIView()
+    let stateButton = UIButton()
+    let testButton = UIButton()
+    let statesTableView = UITableView()
+    let statesTitle = UILabel()
+    let statesResetButton = UIButton()
+    let statesSubmitButton = UIButton()
     
     let tableView = UITableView()
     let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Person>>()
@@ -50,9 +56,9 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
         edgesForExtendedLayout = [.top, .right, .left]
         addSubviews()
         constrainViews()
+        styleViews()
         bind()
         configureTableView()
-        styleViews()
         addCurtain()
         view.layoutIfNeeded()
     }
@@ -60,7 +66,7 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setDefaultNavVC()
-        topImage.addShadow()
+        stateImageView.addShadow()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -86,9 +92,52 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
             return cell
         }
         
-        tableView.rx
-            .setDelegate(self)
+        tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
+    }
+    
+    func configureStatesTableView() {
+        statesTableView.backgroundColor = .clear
+        statesTableView.tableFooterView = UIView()
+        statesTableView.register(StateCell.self, forCellReuseIdentifier: StateCell.identifier)
+        statesTableView.estimatedRowHeight = 500
+        statesTableView.rowHeight = UITableViewAutomaticDimension
+        statesTableView.allowsSelection = true
+        statesTableView.allowsMultipleSelection = false
+        
+        statesTableView.rx.setDelegate(self)
+            .addDisposableTo(disposeBag)
+    }
+    
+    func configureForOneRep() {
+        tableView.rowHeight = self.tableView.frame.height - 20
+        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? UserRepTableViewCell else { return }
+        cell.configureForSingleRep()
+        tableView.layoutIfNeeded()
+    }
+    
+    func animateInPopView() {
+        UIView.animate(withDuration: 0.3) {
+            self.popView.snp.updateConstraints { make in
+                make.trailing.equalToSuperview().offset(0)
+            }
+            self.shade.alpha = 1
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func dismissPopView() {
+        UIView.animate(withDuration: 0.3) {
+            self.popView.snp.updateConstraints { make in
+                make.trailing.equalToSuperview().offset(100)
+            }
+            self.shade.alpha = 0
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func configureGestureRecogniers() {
+        shade.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissPopView)))
     }
 }
 
@@ -104,9 +153,15 @@ extension UserRepsViewController: ViewBuilder {
     func addSubviews() {        
         view.addSubview(stateImageView)
         stateImageView.addSubview(topShadeView)
-        topShadeView.addSubview(stateLabel)
         topShadeView.addSubview(districtLabel)
+        view.addSubview(stateButton)
         view.addSubview(tableView)
+        view.addSubview(shade)
+        view.addSubview(popView)
+        popView.addSubview(statesTitle)
+        popView.addSubview(statesResetButton)
+        popView.addSubview(statesTableView)
+        popView.addSubview(statesSubmitButton)
     }
     
     func constrainViews() {
@@ -118,8 +173,9 @@ extension UserRepsViewController: ViewBuilder {
         topShadeView.snp.makeConstraints { make in
             make.leading.bottom.trailing.equalToSuperview()
         }
-        stateLabel.snp.makeConstraints { make in
-            make.top.bottom.trailing.equalToSuperview().inset(10)
+        stateButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(10)
+            make.centerY.equalTo(topShadeView)
         }
         districtLabel.snp.makeConstraints { make in
             make.top.bottom.leading.equalToSuperview().inset(10)
@@ -127,6 +183,30 @@ extension UserRepsViewController: ViewBuilder {
         tableView.snp.makeConstraints { make in
             make.top.equalTo(stateImageView.snp.bottom).offset(5)
             make.bottom.trailing.leading.equalToSuperview().inset(10)
+        }
+        shade.snp.remakeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        popView.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(100)
+            make.top.bottom.equalToSuperview()
+            make.width.equalTo(100)
+        }
+        statesTitle.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+        }
+        statesResetButton.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(statesTitle.snp.bottom)
+        }
+        statesSubmitButton.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(50)
+        }
+        statesTableView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(statesResetButton.snp.bottom)
+            make.bottom.equalTo(statesSubmitButton.snp.top)
         }
     }
     
@@ -137,39 +217,44 @@ extension UserRepsViewController: ViewBuilder {
         topShadeView.alpha = 0.8
         
         view.style(with: .backgroundColor(.slate))
-        stateLabel.style(with: [.font(.subTitle),
-                                .titleColor(.white)])
         districtLabel.style(with: [.font(.subTitle),
                                    .titleColor(.white)])
+        stateButton.contentEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5)
+        stateButton.style(with: [.font(.tab),
+                                 .cornerRadius(4),
+                                 .backgroundColor(.kratosGreen)])
         tableView.clipsToBounds = false
-        topImage.addShadow()
+        stateImageView.addShadow()
+        shade.alpha = 0
+        shade.style(with: .backgroundColor(.black))
     }
 }
 
 // MARK: - Binds -
 extension UserRepsViewController: RxBinder {
     func bind() {
-        viewModel.representatives
+        bindLoadStatus()
+        bindTopView()
+        bindRepsTableView()
+    }
+    func bindLoadStatus() {
+        viewModel.loadStatus
             .asObservable()
-            .map { $0.map {SectionModel(model: "", items: [$0]) } }
-            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .bind(to: curtain.loadStatus)
             .disposed(by: disposeBag)
-        tableView.rx.itemSelected
-            .map { self.dataSource[$0] }
-            .subscribe(onNext: { [weak self] model in
-                guard let client = self?.client else { return }
-                self?.navigationController?.pushViewController(RepresentativeController(client: client, representative: model), animated: true)
-            })
-            .disposed(by: disposeBag)
-        viewModel.stateImage
+    }
+    func bindTopView() {
+        viewModel.url
             .asObservable()
-            .bind(to: stateImageView.rx.image)
+            .filterNil()
+            .map { URL(string: $0) }
+            .bind(to: stateImageView.rx.setImage(with: #imageLiteral(resourceName: "Image_WashingtonDC")))
             .disposed(by: disposeBag)
         viewModel.state
             .asObservable()
             .map { State(rawValue: $0)?.fullName }
             .filterNil()
-            .bind(to: stateLabel.rx.text)
+            .bind(to: stateButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
         viewModel.district
             .asObservable()
@@ -177,9 +262,49 @@ extension UserRepsViewController: RxBinder {
             .map { $0 != 0 ? $0.ordinal + " District" : "At Large" }
             .bind(to: districtLabel.rx.text)
             .disposed(by: disposeBag)
-        viewModel.loadStatus
-            .asObservable()
-            .bind(to: curtain.loadStatus)
+        stateButton.rx.controlEvent([.touchUpInside])
+            .debug("Statebutton Tap", trimOutput: false)
+            .subscribe(
+                onNext: { [weak self] in
+                    guard let `self` = self else { return }
+                    self.animateInPopView()
+                }
+            )
             .disposed(by: disposeBag)
     }
+    func bindRepsTableView() {
+        viewModel.representatives
+            .asObservable()
+            .map { $0.map {SectionModel(model: "", items: [$0]) } }
+            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        viewModel.representatives
+            .asObservable()
+            .filter { $0.count == 1 }
+            .subscribe(
+                onNext: { [weak self] _ in
+                    self?.configureForOneRep()
+                }
+            )
+            .disposed(by: disposeBag)
+        tableView.rx.itemSelected
+            .map { self.dataSource[$0] }
+            .subscribe(
+                onNext: { [weak self] model in
+                    guard let client = self?.client else { return }
+                    self?.navigationController?.pushViewController(RepresentativeController(client: client, representative: model), animated: true)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    func bindStatesTableView() {
+        viewModel.stateDistrictModels
+            .asObservable()
+            .bind(to: statesTableView.rx.items(cellIdentifier: StateCell.identifier, cellType: StateCell.self)) { tv, model, cell in
+                
+            }
+            .disposed(by: disposeBag)
+        
+    }
 }
+

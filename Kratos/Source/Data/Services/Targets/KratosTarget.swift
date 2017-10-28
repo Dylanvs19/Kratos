@@ -3,7 +3,7 @@
 //  Kratos
 //
 //  Created by Dylan Straughan on 5/3/17.
-//  Copyright © 2017 Dylan Straughan. All rights reserved.
+//  Copyright © 2017 Kratos, Inc. All rights reserved.
 //
 
 import Foundation
@@ -66,7 +66,7 @@ enum KratosTarget: Target {
     case fetchAllSubjects(onlyActive: Bool)
     
     //State
-    case getStateDistricts(state: String)
+    case fetchStatesAndDistricts
     case getStateImage(state: String)
 
     //Feedback
@@ -222,10 +222,10 @@ enum KratosTarget: Target {
         case .fetchAllSubjects(let onlyActive):
             return "/subjects?active=\(onlyActive)"
         //State
-        case .getStateDistricts(let state):
-            return "/states/\(state)"
+        case .fetchStatesAndDistricts:
+            return "/states"
         case .getStateImage(let state):
-            return "/states/\(state)/image"
+            return "/states/\(state.lowercased())/image"
         //Feedback
         case .fetchFeedback,
              .postFeedback:
@@ -329,7 +329,7 @@ extension KratosTarget: Equatable {
              (.fetchBill, .fetchBill),
              (.fetchBills, .fetchBills),
              (.fetchAllSubjects, .fetchAllSubjects),
-             (.getStateDistricts, .getStateDistricts),
+             (.fetchStatesAndDistricts, .fetchStatesAndDistricts),
              (.getStateImage, .getStateImage),
              (.fetchFeedback, .fetchFeedback),
              (.postFeedback, .postFeedback),

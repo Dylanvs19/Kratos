@@ -3,7 +3,7 @@
 //  Kratos
 //
 //  Created by Dylan Straughan on 7/31/16.
-//  Copyright © 2016 Dylan Straughan. All rights reserved.
+//  Copyright © 2017 Kratos, Inc. All rights reserved.
 //
 
 import Foundation
@@ -32,6 +32,11 @@ extension String {
     
     func trimWhiteSpaces() -> String {
         return trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+    }
+    
+    var digits: String {
+        return components(separatedBy: CharacterSet.decimalDigits.inverted)
+            .joined()
     }
     
     func characterCountIs(_ count:Int) -> Bool {

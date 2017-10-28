@@ -3,7 +3,7 @@
 //  Kratos
 //
 //  Created by Dylan Straughan on 12/1/16.
-//  Copyright © 2016 Dylan Straughan. All rights reserved.
+//  Copyright © 2017 Kratos, Inc. All rights reserved.
 //
 
 import UIKit
@@ -276,7 +276,7 @@ extension KratosTextField: UITextFieldDelegate {
     }
 }
 
-//MARK: Reactive Extension
+//MARK: - Reactive Extension -
 extension Reactive where Base: KratosTextField {
     var isEnabled: UIBindingObserver<Base, Bool> {
         return UIBindingObserver<Base, Bool>(UIElement: base, binding: { (view, isEnabled) in

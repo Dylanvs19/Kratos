@@ -3,7 +3,7 @@
 //  Kratos
 //
 //  Created by Dylan Straughan on 4/18/17.
-//  Copyright © 2017 Dylan Straughan. All rights reserved.
+//  Copyright © 2017 Kratos, Inc. All rights reserved.
 //
 
 import UIKit
