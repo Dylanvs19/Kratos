@@ -15,6 +15,7 @@ struct User: Decodable {
     var firstName: String
     var lastName: String
     var address: Address
+    var visitingAddress: Address?
     var district: Int
     var dob: Date
     var party: Party?
