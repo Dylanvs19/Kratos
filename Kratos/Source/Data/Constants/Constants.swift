@@ -57,6 +57,7 @@ enum Constant {
     case textFieldZipcodeTitleInvalid
     case textFieldConfirmationTitle
     case textFieldConfirmationTitleInvalid
+    case textFieldSearchTitle
     
     //ConfirmationVC
     case confirmationTitle
@@ -170,6 +171,7 @@ enum Constant {
         case .textFieldZipcodeTitleInvalid: return "Please enter a valid zip code"
         case .textFieldConfirmationTitle: return "C O N F I R M A T I O N"
         case .textFieldConfirmationTitleInvalid: return "Please enter a valid confirmation number."
+        case .textFieldSearchTitle: return "S E A R C H"
             
         //ConfirmationVC
         case .confirmationTitle: return "Confirmation"

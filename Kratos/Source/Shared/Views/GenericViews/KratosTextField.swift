@@ -25,6 +25,7 @@ class KratosTextField: UIView {
         case dob
         case party
         case confirmation
+        case search
         
         var keyboardType: UIKeyboardType {
             switch self {
@@ -62,19 +63,20 @@ class KratosTextField: UIView {
             case .state: return localize(.textFieldStateTitle)
             case .zip: return localize(.textFieldZipcodeTitle)
             case .confirmation: return localize(.textFieldConfirmationTitle)
+            case .search: return "Search"
             }
         }
     
         var expandedWidthMultiplier: CGFloat {
             switch self {
-            case .first, .last, .email, .password, .address, .city, .confirmation: return 0.8
+            case .first, .last, .email, .password, .address, .city, .confirmation, .search: return 0.8
             case .party, .dob, .zip, .state: return 0.35
             }
         }
         
         var centerXPosition: CGFloat {
             switch self {
-            case .first, .last, .email, .password, .address, .city, .confirmation: return 1
+            case .first, .last, .email, .password, .address, .city, .confirmation, .search: return 1
             case .party, .state: return 0.55
             case .dob, .zip: return 1.45
             }
