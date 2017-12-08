@@ -8,15 +8,15 @@
 
 import UIKit
 
-struct User: Decodable {
+struct User: JSONDecodable {
     
     var id: Int
     var email: String
     var firstName: String
     var lastName: String
     var address: Address
-    var visitingAddress: Address?
-    var district: Int
+    var district: District
+    var visitingDistrict: District?
     var dob: Date
     var party: Party?
     var password: String?
@@ -27,7 +27,7 @@ struct User: Decodable {
          email: String,
          firstName: String, 
          lastName: String,
-         district: Int,
+         district: District,
          address: Address,
          dob: Date,
          party: Party?,
@@ -52,23 +52,24 @@ struct User: Decodable {
               let firstName = json["first_name"] as? String,
               let lastName = json["last_name"] as? String,
               let city = json["city"] as? String,
-              let state = json["state"] as? String,
-              let district = json["district"] as? Int,
+              let stateString = json["state"] as? String,
+              let districtInt = json["district"] as? Int,
               let id = json["id"] as? Int,
               let zip = json["zip"] as? Int,
-              let dob = json["birthday"] as? String else { return nil }
+              let dob = json["birthday"] as? String,
+              let state = State(rawValue: stateString) else { return nil }
         
         self.id = id
         self.email = email
         self.firstName = firstName
         self.lastName = lastName
-        self.district = district
+        self.district = District(state: state, district: districtInt)
         self.party = Party.value(for: (json["party"] as? String))
         self.dob = DateFormatter.bill.date(from: dob) ?? Date()
         self.apnToken = json["apn_token"] as? String
         self.address = Address(street: street,
                                city: city,
-                               state: state.uppercased(),
+                               state: stateString.uppercased(),
                                zipCode: zip)
     }
     
@@ -101,7 +102,7 @@ struct User: Decodable {
     func update(email: String?,
          firstName: String?,
          lastName: String?,
-         district: Int?,
+         district: District?,
          address: Address?,
          dob: Date?,
          party: Party?,

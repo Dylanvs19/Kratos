@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Person: Hashable, Decodable {
+struct Person: Hashable, JSONDecodable {
     var hashValue: Int {
         return id
     }
@@ -26,7 +26,7 @@ struct Person: Hashable, Decodable {
     var terms: [Term]?
     var biography: String?
     
-    var currentDistrict: Int?
+    var currentDistrict: District?
     var officialFullName: String?
     var isCurrent: Bool?
     var currentChamber: Chamber
@@ -55,32 +55,40 @@ struct Person: Hashable, Decodable {
         if let dob = json["birthday"] as? String {
             self.dob = dob.date
         }
-        self.currentDistrict = json["current_district"] as? Int
+        if let district = json["current_district"] as? Int {
+            self.currentDistrict = District(state: state, district: district)
+        }
         self.officialFullName = json["official_full_name"] as? String
         self.biography = json["bio"] as? String
         self.religion = json["religion"] as? String
         self.isCurrent = json["is_current"] as? Bool
         self.currentChamber = chamber
         if let termArray = json["terms"] as? [[String: AnyObject]] {
-            self.terms = termArray.map({ (dictionary) -> Term? in
+            self.terms = termArray.map { (dictionary) -> Term? in
                 let term = Term(json: dictionary)
                 if (term?.isCurrent ?? false) {
-                    if self.currentParty == nil {
-                        self.currentParty = term?.party
+                        if self.currentParty == nil {
+                            self.currentParty = term?.party
+                        }
+                        if let district = term?.district,
+                            self.currentDistrict == nil {
+                            self.currentDistrict = District(state: state, district: district)
+                        }
                     }
-                    if self.currentDistrict == nil {
-                        self.currentDistrict = term?.district
-                    }
+                    return term
                 }
-                return term
-            }).flatMap({$0}).sorted(by: {$0.startDate ?? Date() > $1.startDate ?? Date()})
+                .flatMap({$0})
+                .sorted(by: {$0.startDate ?? Date() > $1.startDate ?? Date()})
         }
         if !(isCurrent == true) {
             if self.currentParty == nil {
                 self.currentParty = terms?.first?.party
             }
             if self.currentDistrict == nil {
-                self.currentDistrict = terms?.first?.district
+                if let district = terms?.first?.district,
+                    self.currentDistrict == nil {
+                    self.currentDistrict = District(state: state, district: district)
+                }
             }
         }
     }
@@ -118,7 +126,7 @@ struct LightPerson: Hashable {
     var state: State
     var party: Party?
     var representativeType: RepresentativeType?
-    var district: Int?
+    var district: District?
     var isCurrent: Bool?
     
     init?(from json: [String: AnyObject]) {
@@ -132,9 +140,12 @@ struct LightPerson: Hashable {
         self.firstName = first
         self.lastName = last
         self.state = state
+        
+        if let district = json["current_district"] as? Int {
+            self.district = District(state: state, district: district)
+        }
         self.imageURL = json["image_url"] as? String
         self.isCurrent = json["is_current"] as? Bool
-        self.district = json["current_district"] as? Int
         if let party = json["current_party"] as? String {
             self.party = Party.value(for: party)
         }

@@ -178,7 +178,7 @@ class KratosTextField: UIView {
     //MARK: Public Setter
     public func setText(_ text: String) {
         self.textField.text = text
-        self.animateTextLabelPosition(shouldSink: text.characters.count > 0)
+        self.animateTextLabelPosition(shouldSink: text.count > 0)
     }
 }
 
@@ -240,15 +240,15 @@ extension KratosTextField: UITextFieldDelegate {
             if string.containsCharacters(in: CharacterSet.decimalDigits.inverted) {
                 return false
             } else {
-                return newString.characters.count <= 5
+                return newString.count <= 5
             }
         case .state:
             if string.containsCharacters(in: CharacterSet.englishLetters.inverted) {
                 return false
-            } else if newString.characters.count <= 2 && !string.isEmpty {
+            } else if newString.count <= 2 && !string.isEmpty {
                 textField.text = (textField.text ?? "") + string.uppercased()
                 return false
-            } else if newString.characters.count > 2 {
+            } else if newString.count > 2 {
                 return false
             }
             return true
@@ -256,7 +256,7 @@ extension KratosTextField: UITextFieldDelegate {
             if string.containsCharacters(in: CharacterSet.decimalDigits.inverted) {
                 return false
             } else {
-                guard newString.characters.count < 12 else { return false }
+                guard newString.count < 12 else { return false }
                 guard string != "" else { return true }
                 textField.text = newString + " "
                 return false

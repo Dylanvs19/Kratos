@@ -20,7 +20,7 @@ enum InputValidation {
 extension String {
     
     var firstLetter: String {
-        if let first = self.characters.first {
+        if let first = self.first {
             return String(first)
         }
         return ""
@@ -40,7 +40,7 @@ extension String {
     }
     
     func characterCountIs(_ count:Int) -> Bool {
-        return count == characters.count
+        return count == self.count
     }
     
     func containsOnlyCharacters(in set: CharacterSet) -> Bool {
@@ -51,7 +51,7 @@ extension String {
     }
     
     func containsCharacters(in set: CharacterSet) -> Bool {
-        return self.characters.count == self.trimmingCharacters(in: set).characters.count ? false : true
+        return self.count == self.trimmingCharacters(in: set).count ? false : true
     }
     
     /// Reformats Statuses that come back from API.
@@ -108,13 +108,13 @@ extension String {
             return self.containsOnlyCharacters(in: .letterPunctuationSet) && self != "" ? true : false
         case .state:
             let sanitizedState = self.removeWhiteSpace()
-            return State(rawValue: sanitizedState) != nil && sanitizedState.characters.count == 2
+            return State(rawValue: sanitizedState) != nil && sanitizedState.count == 2
         case .zipcode:
             let sanitizedzipcode = self.removeWhiteSpace()
             return sanitizedzipcode.containsOnlyCharacters(in: CharacterSet.decimalDigits)
                 && sanitizedzipcode.characterCountIs(5) ? true : false
         case .password:
-            return self.characters.count > 7
+            return self.count > 7
         }
     }
 }

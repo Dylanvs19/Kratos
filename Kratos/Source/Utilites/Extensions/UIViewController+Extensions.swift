@@ -6,6 +6,8 @@
 //  Copyright © 2017 Kratos, Inc. All rights reserved.
 //
 import UIKit
+import RxSwift
+import RxCocoa
 import SafariServices
 
 extension UIViewController {
@@ -104,6 +106,22 @@ extension UIViewController {
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.extendedLayoutIncludesOpaqueBars = true
         navigationController?.automaticallyAdjustsScrollViewInsets = false
+    }
+    
+    
+    /// A sequence of CGFloat values for the endHeight of a UIKeyboard's height. 
+    var keyboardHeight: ControlEvent<CGFloat> {
+        let frameheight = NotificationCenter.default.rx
+                            .notification(NSNotification.Name.UIKeyboardWillChangeFrame)
+                            .map { notification -> CGFloat? in
+                                guard let frame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else { return nil }
+                                return frame.cgRectValue.height
+                            }
+                            .filterNil()
+        let hideHeight = NotificationCenter.default.rx
+                            .notification(NSNotification.Name.UIKeyboardWillHide)
+                            .map { _ in CGFloat(0) }
+        return ControlEvent(events: Observable.of(frameheight, hideHeight).merge())
     }
 }
 

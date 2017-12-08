@@ -49,7 +49,7 @@ enum JSONDecoder {
     /// - Parameter json: The JSON to convert into a type.
     /// - Returns: The decoded object if the decoding occurred without error.
     /// - Throws: `MappingError.mappingFailed` if the conversion failed.
-    static func decode<T: Decodable>(json: JSONObject) throws -> T {
+    static func decode<T: JSONDecodable>(json: JSONObject) throws -> T {
         if let object = T(json: json) {
             return object
         }
@@ -64,7 +64,7 @@ enum JSONDecoder {
     /// - Parameter json: The JSON to convert into a type.
     /// - Returns: The decoded object if the decoding occurred without error.
     /// - Throws: `MappingError.mappingFailed` if the conversion failed.
-    static func decode<T: Decodable>(jsonString: String) throws -> T {
+    static func decode<T: JSONDecodable>(jsonString: String) throws -> T {
         
         if let data = jsonString.data(using: .utf8) {
             let jsonObj = try JSONSerialization.jsonObject(with: data, options: .allowFragments )
@@ -77,7 +77,7 @@ enum JSONDecoder {
         throw MappingError.failure
     }
     
-    static func decode<T: Decodable>(jsonString: String) throws -> [T] {
+    static func decode<T: JSONDecodable>(jsonString: String) throws -> [T] {
         
         if let data = jsonString.data(using: .utf8) {
             let jsonObj = try JSONSerialization.jsonObject(with: data, options: .allowFragments )

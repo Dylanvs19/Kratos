@@ -27,14 +27,9 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
     let topShadeView = UIView()
     let districtLabel = UILabel()
     
-    let popView = UIView()
+    let statesChangeView: StateChangeView
     let shade = UIView()
     let stateButton = UIButton()
-    let testButton = UIButton()
-    let statesTableView = UITableView()
-    let statesTitle = UILabel()
-    let statesResetButton = UIButton()
-    let statesSubmitButton = UIButton()
     
     let tableView = UITableView()
     let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Person>>()
@@ -43,6 +38,7 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
     init(client: Client) {
         self.client = client
         self.viewModel = UserRepsViewModel(client: client)
+        self.statesChangeView = StateChangeView(user: client.user)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -54,13 +50,14 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
     override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = [.top, .right, .left]
+        view.layoutIfNeeded()
         addSubviews()
         constrainViews()
         styleViews()
         bind()
         configureTableView()
         addCurtain()
-        view.layoutIfNeeded()
+        configureGestureRecogniers()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -96,19 +93,6 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
             .disposed(by: disposeBag)
     }
     
-    func configureStatesTableView() {
-        statesTableView.backgroundColor = .clear
-        statesTableView.tableFooterView = UIView()
-        statesTableView.register(StateCell.self, forCellReuseIdentifier: StateCell.identifier)
-        statesTableView.estimatedRowHeight = 500
-        statesTableView.rowHeight = UITableViewAutomaticDimension
-        statesTableView.allowsSelection = true
-        statesTableView.allowsMultipleSelection = false
-        
-        statesTableView.rx.setDelegate(self)
-            .addDisposableTo(disposeBag)
-    }
-    
     func configureForOneRep() {
         tableView.rowHeight = self.tableView.frame.height - 20
         guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? UserRepTableViewCell else { return }
@@ -116,20 +100,21 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
         tableView.layoutIfNeeded()
     }
     
-    func animateInPopView() {
+    func animateInStateChangeView() {
         UIView.animate(withDuration: 0.3) {
-            self.popView.snp.updateConstraints { make in
+            self.statesChangeView.snp.updateConstraints { make in
                 make.trailing.equalToSuperview().offset(0)
             }
-            self.shade.alpha = 1
+            self.shade.alpha = 0.3
             self.view.layoutIfNeeded()
         }
     }
     
-    func dismissPopView() {
+    func dismissStateChangeView() {
         UIView.animate(withDuration: 0.3) {
-            self.popView.snp.updateConstraints { make in
-                make.trailing.equalToSuperview().offset(100)
+            let twoThirdsWidth = self.view.frame.width * 2/3
+            self.statesChangeView.snp.updateConstraints { make in
+                make.trailing.equalToSuperview().offset(twoThirdsWidth)
             }
             self.shade.alpha = 0
             self.view.layoutIfNeeded()
@@ -137,7 +122,7 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
     }
     
     func configureGestureRecogniers() {
-        shade.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissPopView)))
+        shade.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissStateChangeView)))
     }
 }
 
@@ -157,11 +142,7 @@ extension UserRepsViewController: ViewBuilder {
         view.addSubview(stateButton)
         view.addSubview(tableView)
         view.addSubview(shade)
-        view.addSubview(popView)
-        popView.addSubview(statesTitle)
-        popView.addSubview(statesResetButton)
-        popView.addSubview(statesTableView)
-        popView.addSubview(statesSubmitButton)
+        view.addSubview(statesChangeView)
     }
     
     func constrainViews() {
@@ -187,26 +168,11 @@ extension UserRepsViewController: ViewBuilder {
         shade.snp.remakeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-        popView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(100)
+        statesChangeView.snp.makeConstraints { make in
+            let twoThirdsWidth = view.frame.width * 2/3
+            make.trailing.equalToSuperview().offset(twoThirdsWidth)
             make.top.bottom.equalToSuperview()
-            make.width.equalTo(100)
-        }
-        statesTitle.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-        }
-        statesResetButton.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(statesTitle.snp.bottom)
-        }
-        statesSubmitButton.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(50)
-        }
-        statesTableView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(statesResetButton.snp.bottom)
-            make.bottom.equalTo(statesSubmitButton.snp.top)
+            make.width.equalTo(twoThirdsWidth)
         }
     }
     
@@ -259,15 +225,14 @@ extension UserRepsViewController: RxBinder {
         viewModel.district
             .asObservable()
             .filterNil()
-            .map { $0 != 0 ? $0.ordinal + " District" : "At Large" }
+            .map { $0.district != 0 ? $0.district.ordinal + " District" : "At Large" }
             .bind(to: districtLabel.rx.text)
             .disposed(by: disposeBag)
-        stateButton.rx.controlEvent([.touchUpInside])
-            .debug("Statebutton Tap", trimOutput: false)
+        stateButton.rx.tap
             .subscribe(
                 onNext: { [weak self] in
                     guard let `self` = self else { return }
-                    self.animateInPopView()
+                    self.animateInStateChangeView()
                 }
             )
             .disposed(by: disposeBag)
@@ -296,15 +261,6 @@ extension UserRepsViewController: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
-    }
-    func bindStatesTableView() {
-        viewModel.stateDistrictModels
-            .asObservable()
-            .bind(to: statesTableView.rx.items(cellIdentifier: StateCell.identifier, cellType: StateCell.self)) { tv, model, cell in
-                
-            }
-            .disposed(by: disposeBag)
-        
     }
 }
 

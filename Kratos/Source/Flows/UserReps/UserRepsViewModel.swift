@@ -10,11 +10,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-struct StateDistrictModel {
-    let state: State
-    let districts: [Int]
-}
-
 class UserRepsViewModel {
     // MARK: - Properties -
     let client: Client
@@ -22,11 +17,12 @@ class UserRepsViewModel {
     let loadStatus = Variable<LoadStatus>(.none)
     
     let user = Variable<User?>(nil)
-    let district = Variable<Int?>(nil)
+    let district = Variable<District?>(nil)
     let state = Variable<String>("")
     let representatives = Variable<[Person]>([])
-    let stateDistrictModels = Variable<[StateDistrictModel]>([])
-    let selectedStateDistrict = Variable<StateDistrictModel?>(nil)
+    let districtModels = Variable<[[District]]>([])
+    let selectedDistrict = Variable<District?>(nil)
+    let query = Variable<String>("")
     let url = Variable<String?>(nil)
     
     let repSelected = PublishSubject<Person>()
@@ -67,12 +63,13 @@ class UserRepsViewModel {
             .disposed(by: disposeBag)
     }
     
-    func fetchStatesAndDistricts() {
-        client.fetchStatesAndDistricts()
+    func fetchDistricts(from query: String) {
+        client.fetchDistricts(from: query)
+            .map {$0.grouped(groupBy: { district -> String in district.state.rawValue })}
             .subscribe(
-                onNext: { [weak self] stateDistrictModels in
+                onNext: { [weak self] districtsArray in
                     self?.loadStatus.value = .none
-                    self?.stateDistrictModels.value = stateDistrictModels
+                    self?.districtModels.value = districtsArray
                 },
                 onError: { [weak self] (error) in
                     self?.loadStatus.value = .error(KratosError.cast(from: error))
@@ -105,7 +102,7 @@ extension UserRepsViewModel: RxBinder {
                     guard let `self` = self else { fatalError("`self` deallocated before it was accessed") }
                     self.district.value = user.district
                     self.state.value = user.address.state
-                    self.fetchRepresentatives(from: user.address.state, district: user.district)
+                    self.fetchRepresentatives(from: user.address.state, district: user.district.district)
                 }
             )
             .disposed(by: disposeBag)
@@ -116,6 +113,16 @@ extension UserRepsViewModel: RxBinder {
             .subscribe(
                 onNext: { [weak self] state in
                     self?.fetchStateImage(state: state)
+                }
+            )
+            .disposed(by: disposeBag)
+        query
+            .asObservable()
+            .debounce(2, scheduler: MainScheduler.instance)
+            .subscribe(
+                onNext: { [weak self] query in
+                    guard let `self` = self else { return }
+                    self.fetchDistricts(from: query)
                 }
             )
             .disposed(by: disposeBag)

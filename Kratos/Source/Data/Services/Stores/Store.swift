@@ -24,7 +24,7 @@ class Store {
         }
     }()
     
-    static func fetch<T: Decodable>(_ cacheKey: String) -> T? {
+    static func fetch<T: JSONDecodable>(_ cacheKey: String) -> T? {
         
         if  let jsonStr = cache.object(forKey: cacheKey),
             let model: T = try? JSONDecoder.decode(jsonString: jsonStr as String) {
@@ -33,7 +33,7 @@ class Store {
         return nil
     }
     
-    static func fetch<T: Decodable>(_ cacheKey: String) -> [T]? {
+    static func fetch<T: JSONDecodable>(_ cacheKey: String) -> [T]? {
         
         if  let jsonStr = cache.object(forKey: cacheKey),
             let model: [T] = try? JSONDecoder.decode(jsonString: jsonStr as String) {
@@ -42,7 +42,7 @@ class Store {
         return nil
     }
     
-    static func shelve<T: Encodable>(_ object: T, key: String) {
+    static func shelve<T: JSONEncodable>(_ object: T, key: String) {
         let dict = object.toJson()
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
@@ -54,7 +54,7 @@ class Store {
         }
     }
     
-    static func shelve<T: Encodable>(_ objects: [T], key: String) {
+    static func shelve<T: JSONEncodable>(_ objects: [T], key: String) {
         let array = objects.map { object in
             return object.toJson()
         }
@@ -73,7 +73,7 @@ class Store {
     }
 }
 
-extension Bool: Encodable, Decodable {
+extension Bool:JSONEncodable, JSONDecodable {
     init?(json: JSONObject) {
         self.init( json["value"] as? String == "true")
     }
@@ -83,7 +83,7 @@ extension Bool: Encodable, Decodable {
     }
 }
 
-extension Int: Encodable, Decodable {
+extension Int: JSONEncodable, JSONDecodable {
     init?(json: JSONObject) {
         if let jvalue = json["value"] as? Int {
             self.init(jvalue)
@@ -97,7 +97,7 @@ extension Int: Encodable, Decodable {
     }
 }
 
-extension String: Encodable, Decodable {
+extension String: JSONEncodable, JSONDecodable {
     init?(json: JSONObject) {
         if let jvalue = json["value"] as? String {
             self.init(jvalue)
@@ -111,7 +111,7 @@ extension String: Encodable, Decodable {
     }
 }
 
-extension Date: Encodable, Decodable {
+extension Date: JSONEncodable, JSONDecodable {
     init?(json: JSONObject) {
         if let jvalue = json["value"] as? Double {
             self.init(timeIntervalSince1970: jvalue )

@@ -50,7 +50,7 @@ enum VoteValue: String {
     }
 }
 
-struct Vote: Decodable {
+struct Vote: JSONDecodable {
     
     var id: Int?
     var voteValue: VoteValue?

@@ -28,7 +28,7 @@ struct ApplicationLauncher {
             if let token = token {
                 let kratosClient = KratosClient(token: token)
                 let client = Client(kratosClient: kratosClient)
-                updateStoredData(with: client)
+//                updateStoredData(with: client)
                 if #available(iOS 10.0, *) {
                     // For iOS 10 display notification (sent via APNS)
                     UNUserNotificationCenter.current().delegate = client
@@ -61,13 +61,13 @@ struct ApplicationLauncher {
         appDelegate.window??.makeKeyAndVisible()
     }
     
-    static func updateStoredData(with client: Client) {
-        client.fetchAllSubjects()
-            .subscribe(onNext: { subjects in
-                Store.shelve(subjects, key: Subject.identifier)
-            })
-            .dispose()
-    }
+//    static func updateStoredData(with client: Client) {
+//        client.fetchAllSubjects()
+//            .subscribe(onNext: { subjects in
+//                Store.shelve(subjects, key: Subject.identifier)
+//            })
+//            .dispose()
+//    }
     
     static func rootTransition(to viewController: UIViewController,
                                duration: TimeInterval = 1.0,

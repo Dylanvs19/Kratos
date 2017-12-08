@@ -66,6 +66,7 @@ enum KratosTarget: Target {
     case fetchAllSubjects(onlyActive: Bool)
     
     //State
+    case fetchDistricts(query: String)
     case fetchStatesAndDistricts
     case getStateImage(state: String)
 
@@ -133,6 +134,8 @@ enum KratosTarget: Target {
         case .logContact(let type, let personId):
             return ["user_action": ["action" : type.method.title,
                                     "person_id" : personId]]
+        case .fetchDistricts(let query):
+            return ["query": query]
         default:
             return nil
         }
@@ -245,6 +248,8 @@ enum KratosTarget: Target {
         //Image
         case .url(let url):
             return url
+        case .fetchDistricts:
+            return "/districts"
         }
     }
     
@@ -287,7 +292,8 @@ enum KratosTarget: Target {
              .createUserVote,
              .updateUserVote,
              .postFeedback,
-             .logContact:
+             .logContact,
+             .fetchDistricts:
             return JSONEncoding.default
         default:
             return URLEncoding.default

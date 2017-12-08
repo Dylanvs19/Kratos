@@ -75,7 +75,7 @@ extension ConfirmationViewModel: RxBinder {
     func bind() {
         confirmation
             .asObservable()
-            .map { $0.replacingOccurrences(of: " ", with: "").characters.count == 6 }
+            .map { $0.replacingOccurrences(of: " ", with: "").count == 6 }
             .bind(to: isValid)
             .disposed(by: disposeBag)
     }

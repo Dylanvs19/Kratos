@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct Bill: Hashable, Decodable {
+struct Bill: Hashable, JSONDecodable {
     //Id
     var hashValue: Int {
         return id
@@ -230,7 +230,7 @@ enum Chamber: String, RawRepresentable {
     }
 }
 
-struct BillAction: Decodable {
+struct BillAction: JSONDecodable {
     var type: String?
     var text: String?
     var references: [Reference]?
@@ -323,7 +323,7 @@ struct Committee {
     }
 }
 
-struct RelatedBill: Decodable {
+struct RelatedBill: JSONDecodable {
     var relatedBillID: Int?
     var reason: String?
     

@@ -10,6 +10,6 @@ import Foundation
 import RxSwift
 
 protocol StateService {
-    func fetchStatesAndDistricts() -> Observable<[StateDistrictModel]>
     func fetchStateImage(state: State) -> Observable<String>
+    func fetchDistricts(from query: String) -> Observable<[District]>
 }

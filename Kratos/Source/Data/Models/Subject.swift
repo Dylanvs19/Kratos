@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Subject: Decodable, Encodable, Equatable {
+struct Subject: JSONDecodable, Equatable {
     
     static let identifier = "kratos_subjects"
     
@@ -25,11 +25,6 @@ struct Subject: Decodable, Encodable, Equatable {
               let id = json["id"] as? Int else { return nil }
         self.name = name
         self.id = id
-    }
-    
-    func toJson() -> JSONObject {
-        return ["name": self.name,
-                "id": self.id]
     }
 }
 

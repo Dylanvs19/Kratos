@@ -10,7 +10,7 @@ import Foundation
 
 typealias JSONObject = [String: Any]
 
-protocol Decodable {
+protocol JSONDecodable {
     // initializes with Json
     init?(json: JSONObject)
 }

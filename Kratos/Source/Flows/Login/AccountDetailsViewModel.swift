@@ -95,7 +95,7 @@ class AccountDetailsViewModel {
                      email: email.value,
                      firstName: first.value,
                      lastName: last.value,
-                     district: 0,
+                     district: District(state: .puertoRico, district: 0),
                      address: Address(street: street.value,
                                       city: city.value,
                                       state: userState.value,

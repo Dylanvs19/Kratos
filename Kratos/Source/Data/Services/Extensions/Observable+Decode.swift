@@ -17,7 +17,7 @@ extension ObservableType where E == Any {
     /// - Parameter keyPath: keypath for navigation to start the decoding process.
     /// - Returns: Observable<T> sequence.
     /// - Throws: Mapping Error is thrown if it cannot cast `Any` to `JSONObject`, or if a specific T object is not decoded correctly.
-    func mapObject<T: Decodable>(at keyPath: String? = nil) -> Observable<T> {
+    func mapObject<T: JSONDecodable>(at keyPath: String? = nil) -> Observable<T> {
         return observeOn(SerialDispatchQueueScheduler(qos: .background))
             .flatMap { response -> Observable<T> in
                 let jsonObject: JSONObject = try self.json(from: response, at: keyPath)
@@ -34,7 +34,7 @@ extension ObservableType where E == Any {
     /// - Parameter keyPath: keypath for navigation to start the decoding process.
     /// - Returns: Observable<[T]> sequence.
     /// - Throws: Mapping Error is thrown if it cannot cast `Any` to `[JSONObject]`, or if a specific T object is not decoded correctly.
-    func mapArray<T: Decodable>(at keyPath: String? = nil ) -> Observable<[T]> {
+    func mapArray<T: JSONDecodable>(at keyPath: String? = nil ) -> Observable<[T]> {
         return observeOn(SerialDispatchQueueScheduler(qos: .background))
             .flatMap { response -> Observable<[T]> in
                 let jsonArray: [JSONObject] = try self.json(from: response, at: keyPath)
@@ -53,7 +53,7 @@ extension ObservableType where E == Any {
     ///
     /// - Parameter keyPath: keypath for navigation to start the decoding process.
     /// - Returns: Observable<[T]> sequence, with any decoding failures ommitted.
-    func softMapArray<T: Decodable>(at keyPath: String? = nil) -> Observable<[T]> {
+    func softMapArray<T: JSONDecodable>(at keyPath: String? = nil) -> Observable<[T]> {
         return observeOn(SerialDispatchQueueScheduler(qos: .background))
             .flatMap { response -> Observable<[T]> in
                 let jsonArray: [JSONObject] = try self.json(from: response, at: keyPath)
@@ -88,7 +88,7 @@ extension ObservableType where E == Any {
         throw KratosError.mappingError(type: .unexpectedValue)
     }
     
-    func decode<T: Decodable>(json: JSONObject) throws -> T {
+    func decode<T: JSONDecodable>(json: JSONObject) throws -> T {
         if let object = T(json: json) {
             return object
         }

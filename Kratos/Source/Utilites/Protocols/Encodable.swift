@@ -8,6 +8,7 @@
 
 import Foundation
 
-protocol Encodable {
+protocol JSONEncodable {
     func toJson() -> JSONObject
 }
+

@@ -10,20 +10,6 @@ import Foundation
 import RxSwift
 
 extension Client: StateService {
-    func fetchStatesAndDistricts() -> Observable<[StateDistrictModel]> {
-        return request(.fetchStatesAndDistricts)
-            .toJson()
-            .map {
-                guard let dict = $0 as? [String: [Int]] else { throw MappingError.unexpectedValue }
-                var models = [StateDistrictModel]()
-                for (key, value) in dict {
-                    if let state = State(rawValue: key) {
-                        models.append(StateDistrictModel(state: state, districts: value))
-                    }
-                }
-                return models
-            }
-    }
     func fetchStateImage(state: State) -> Observable<String> {
       return request(.getStateImage(state: state.rawValue.lowercased()))
         .toJson()
@@ -32,5 +18,10 @@ extension Client: StateService {
                   let url = dict["url"] else { throw MappingError.unexpectedValue }
             return url
         }
+    }
+    func fetchDistricts(from query: String) -> Observable<[District]> {
+        return request(.fetchDistricts(query: query))
+            .toJson()
+            .mapArray()
     }
 }

@@ -184,7 +184,7 @@ enum TallyResult {
     
 }
 
-struct Tally: Hashable, Decodable {
+struct Tally: Hashable, JSONDecodable {
     var hashValue: Int {
         return id
     }
@@ -319,7 +319,7 @@ func ==(lhs: Tally, rhs: Tally) -> Bool {
     return lhs.id == rhs.id
 }
 
-struct LightTally: Hashable, Decodable {
+struct LightTally: Hashable, JSONDecodable {
     var hashValue: Int {
         return id
     }

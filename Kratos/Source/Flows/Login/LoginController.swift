@@ -319,9 +319,11 @@ extension LoginController: RxBinder {
         //Animations
         fieldData.forEach { (data) in
             data.validation.asObservable()
-                .subscribe(onNext: { (valid) in
+                .subscribe(
+                    onNext: { (valid) in
                     data.field.changeColor(for: valid)
-                })
+                    }
+                )
                 .disposed(by: disposeBag)
         }
     }
