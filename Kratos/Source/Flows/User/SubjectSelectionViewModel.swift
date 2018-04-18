@@ -137,7 +137,7 @@ extension SubjectSelectionViewModel: RxBinder {
                     // group subjects accorging to first letter
                     let sortedAllData = filteredAllData.grouped(groupBy: { $0.name.firstLetter }, sortGroupsBy: { $0.name.firstLetter < $1.name.firstLetter })
                     // sort current subjects by first letter
-                    let sortedCurrent = current.sorted { $0.0.name < $0.1.name }
+                    let sortedCurrent = current.sorted { $0.name < $1.name }
                     // convert sortedAllData into sectionModels
                     var retVal = sortedAllData.map { SectionModel<String, Subject>(model: ($0.first?.name.firstLetter ?? "" ), items: $0)}
                     // if no current subjects, don't include in return value
@@ -150,7 +150,7 @@ extension SubjectSelectionViewModel: RxBinder {
                     // filter out current subject that don't contain query, then sort by name.
                     let filteredCurrent = self.currentSelectedSubjects.value
                                                .filter { $0.name.contains(query) }
-                                               .sorted { $0.0.name < $0.1.name }
+                                               .sorted { $0.name < $1.name }
                     // filter out all current subjects and subjects that don't contain query
                     let filteredSubjects = subjects
                                             .filter { $0.name.contains(query) }

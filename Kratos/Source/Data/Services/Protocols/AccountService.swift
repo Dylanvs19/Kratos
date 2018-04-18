@@ -19,9 +19,9 @@ protocol AccountService {
     
     func resentConfirmation(email: String) -> Observable<Void>
     
-    func fetchUser() -> Observable<User>
+    func fetchUser()
     
-    func updateUser(user: User, fcmToken: String?) -> Observable<User>
+    func updateUser(user: User, fcmToken: String?)
     
 }
 

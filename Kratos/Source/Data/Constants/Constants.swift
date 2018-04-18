@@ -87,6 +87,12 @@ enum Constant {
     case userBillsNoSubjectSelectedEmptyStateMessage
     case userBillsNoTrackedSubjectsOrBillsEmptyStateMessage
     
+    // User Rep VC
+    case districtSelectionSubmitButtonTitle
+    case districtSelectionReturnHomeButtonTitle
+    case districtSelectionSearchInfoLabel
+    case districtSelectionTitle
+    
     //BillVC
     case billTrackButtonTrackedTitle
     case billTrackButtonUntrackedTitle
@@ -201,6 +207,12 @@ enum Constant {
         case .userBillsNoSubjectSelectedEmptyStateMessage: return "Select a subject."
         case .userBillsNoTrackedSubjectsOrBillsEmptyStateMessage: return "You have no tracked bills or tracked subjects."
             
+        // User Rep VC
+        case .districtSelectionSubmitButtonTitle: return "S U B M I T"
+        case .districtSelectionReturnHomeButtonTitle: return "Return Home"
+        case .districtSelectionSearchInfoLabel: return "Enter an address and sumbit to see another congressional district."
+        case .districtSelectionTitle: return "District Selection"
+        
         //BillVC
         case .billTrackButtonTrackedTitle: return "TRACKING"
         case .billTrackButtonUntrackedTitle: return "TRACK"

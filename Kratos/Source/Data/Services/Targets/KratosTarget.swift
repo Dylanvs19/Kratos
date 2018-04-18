@@ -266,7 +266,8 @@ enum KratosTarget: Target {
              .createUserVote,
              .logContact,
              .logView,
-             .postFeedback:
+             .postFeedback,
+             .fetchDistricts:
             return .post
         case .untrackBill,
              .unfollowSubject,

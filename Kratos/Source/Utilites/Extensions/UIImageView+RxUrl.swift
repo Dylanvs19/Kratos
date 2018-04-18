@@ -13,8 +13,8 @@ import RxCocoa
 import AlamofireImage
 
 extension Reactive where Base: UIImageView {
-    func setImage(with placeholder: UIImage? = nil) -> UIBindingObserver<Base, URL?> {
-        return UIBindingObserver(UIElement: self.base) { imageView, url in
+    func setImage(with placeholder: UIImage? = nil) -> Binder<URL?> {
+        return Binder(self.base) { imageView, url in
             if let placeholder = placeholder {
                 imageView.image = placeholder
             }

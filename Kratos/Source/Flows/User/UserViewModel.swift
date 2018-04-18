@@ -103,7 +103,7 @@ class UserViewModel {
             .asObservable()
             .scan([]) { $0 + $1 }
             .bind(to: presentedBills)
-            .addDisposableTo(billsDisposeBag)
+            .disposed(by: billsDisposeBag)
     }
     
     func reloadData() {

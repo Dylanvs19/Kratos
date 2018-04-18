@@ -205,49 +205,49 @@ enum FirebaseAnalytics {
     func fire() {
         switch self {
         // TabBarController
-        case .appTabSelected(let tab): FIRAnalytics.logEvent(withName: "tabSelected_\(tab.rawValue)", parameters: nil)
+        case .appTabSelected(let tab): Analytics.logEvent("tabSelected_\(tab.rawValue)", parameters: nil)
         // Login
-        case .loginController: FIRAnalytics.logEvent(withName: "loginVC", parameters: nil)
-        case .login(let action): FIRAnalytics.logEvent(withName: action.event, parameters: nil)
+        case .loginController: Analytics.logEvent("loginVC", parameters: nil)
+        case .login(let action): Analytics.logEvent(action.event, parameters: nil)
         // AccountDetails
-        case .accountDetailsController: FIRAnalytics.logEvent(withName: "accountDetailsVC", parameters: nil)
-        case .accountDetails(let action): FIRAnalytics.logEvent(withName: action.event, parameters: nil)
+        case .accountDetailsController: Analytics.logEvent("accountDetailsVC", parameters: nil)
+        case .accountDetails(let action): Analytics.logEvent(action.event, parameters: nil)
         // Notifications
-        case .notificationController: FIRAnalytics.logEvent(withName: "notificationVC", parameters: nil)
-        case .notification(let action): FIRAnalytics.logEvent(withName: action.event, parameters: nil)
+        case .notificationController: Analytics.logEvent("notificationVC", parameters: nil)
+        case .notification(let action): Analytics.logEvent(action.event, parameters: nil)
         // Confirmation
-        case .confirmationController: FIRAnalytics.logEvent(withName: "confirmationVC", parameters: nil)
-        case .confirmed: FIRAnalytics.logEvent(withName: "confirmation_confirmed", parameters: nil)
+        case .confirmationController: Analytics.logEvent("confirmationVC", parameters: nil)
+        case .confirmed: Analytics.logEvent("confirmation_confirmed", parameters: nil)
         // Menu
         case .menuController:
-            FIRAnalytics.logEvent(withName: "menuVC", parameters: nil)
+            Analytics.logEvent("menuVC", parameters: nil)
         case .menu(let action):
-             FIRAnalytics.logEvent(withName: action.event, parameters: nil)
+             Analytics.logEvent(action.event, parameters: nil)
         // MainController
-        case .mainController: FIRAnalytics.logEvent(withName: "mainVC", parameters: nil)
-        case .repSelected(let id): FIRAnalytics.logEvent(withName: "mainVC_repSelected_\(id)", parameters: nil)
+        case .mainController: Analytics.logEvent("mainVC", parameters: nil)
+        case .repSelected(let id): Analytics.logEvent("mainVC_repSelected_\(id)", parameters: nil)
         // ExploreController
-        case .exploreController: FIRAnalytics.logEvent(withName: "exploreVC", parameters: nil)
-        case .explore(let action): FIRAnalytics.logEvent(withName: action.event, parameters: nil)
+        case .exploreController: Analytics.logEvent("exploreVC", parameters: nil)
+        case .explore(let action): Analytics.logEvent(action.event, parameters: nil)
         // UserController
-        case .userController: FIRAnalytics.logEvent(withName: "userVC", parameters: nil)
-        case .user(let action): FIRAnalytics.logEvent(withName: action.event, parameters: nil)
+        case .userController: Analytics.logEvent("userVC", parameters: nil)
+        case .user(let action): Analytics.logEvent(action.event, parameters: nil)
         // Subject Selection
-        case .subjectSelection: FIRAnalytics.logEvent(withName: "subjectSelectionVC", parameters: nil)
-        case .subjectQuery(let query): FIRAnalytics.logEvent(withName: "subjectQuery", parameters: ["query": query])
+        case .subjectSelection: Analytics.logEvent("subjectSelectionVC", parameters: nil)
+        case .subjectQuery(let query): Analytics.logEvent("subjectQuery", parameters: ["query": query])
         // RepController
-        case .representativeController: FIRAnalytics.logEvent(withName: "repVC", parameters: nil)
-        case .representative(let action): FIRAnalytics.logEvent(withName: action.event, parameters: nil)
+        case .representativeController: Analytics.logEvent("repVC", parameters: nil)
+        case .representative(let action): Analytics.logEvent(action.event, parameters: nil)
         // BillController
-        case .billController: FIRAnalytics.logEvent(withName: "billVC", parameters: nil)
-        case .bill(let action): FIRAnalytics.logEvent(withName: action.event, parameters: nil)
+        case .billController: Analytics.logEvent("billVC", parameters: nil)
+        case .bill(let action): Analytics.logEvent(action.event, parameters: nil)
         // TallyController
-        case .tallyController: FIRAnalytics.logEvent(withName: "tallyVC", parameters: nil)
-        case .tally(let action): FIRAnalytics.logEvent(withName: action.event, parameters: nil)
-        case .privacyPolicy: FIRAnalytics.logEvent(withName: "privacyPolicyVC", parameters: nil)
+        case .tallyController: Analytics.logEvent("tallyVC", parameters: nil)
+        case .tally(let action): Analytics.logEvent(action.event, parameters: nil)
+        case .privacyPolicy: Analytics.logEvent("privacyPolicyVC", parameters: nil)
             
         // Error
-        case .error(let error): FIRAnalytics.logEvent(withName: error.localizedDescription, parameters: nil)
+        case .error(let error): Analytics.logEvent(error.localizedDescription, parameters: nil)
         }
     }
 }

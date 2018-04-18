@@ -77,7 +77,7 @@ struct Person: Hashable, JSONDecodable {
                     }
                     return term
                 }
-                .flatMap({$0})
+                .compactMap {$0}
                 .sorted(by: {$0.startDate ?? Date() > $1.startDate ?? Date()})
         }
         if !(isCurrent == true) {

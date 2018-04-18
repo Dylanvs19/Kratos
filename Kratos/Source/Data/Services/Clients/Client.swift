@@ -37,6 +37,7 @@ class Client: NSObject {
     
     var isLoggedIn = Variable<Bool>(false)
     
+    var userLoadStatus = Variable<LoadStatus>(.none)
     var user = Variable<User?>(nil)
     
     let microStore = MicroStore()
@@ -60,8 +61,8 @@ class Client: NSObject {
     func tearDown() {
         invalidateCache()
         kratosClient = KratosClient(token: nil)
-        FIRAnalytics.setUserPropertyString("--", forName: "State")
-        FIRAnalytics.setUserPropertyString("--", forName: "District")
+        Analytics.setUserProperty("--", forName: "State")
+        Analytics.setUserProperty("--", forName: "District")
         self.isLoggedIn.value = false
     }
 }
@@ -106,7 +107,7 @@ extension Client {
             self.ongoingRequests[key] = nil
         })
         .observeOn(MainScheduler.instance)
-        .shareReplay(1)
+        .share(replay: 1)
         
         ongoingRequests[key] = request
         return request
@@ -139,18 +140,16 @@ extension Client : UNUserNotificationCenterDelegate {
     }
 }
 
-extension Client : FIRMessagingDelegate {
+extension Client : MessagingDelegate {
     // Receive data message on iOS 10 devices.
-    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
+    func application(received remoteMessage: MessagingRemoteMessage) {
         print("%@", remoteMessage.appData)
     }
     
     func tokenRefreshNotification(_ notification: Notification) {
-        if let refreshedToken = FIRInstanceID.instanceID().token(),
+        if let refreshedToken = InstanceID.instanceID().token(),
            let user = user.value {
             updateUser(user: user, fcmToken: refreshedToken)
-                .bind(to: self.user)
-                .disposed(by: disposeBag)
         }
         
         // Connect to FCM since connection may have failed when attempted before having a token.
@@ -158,7 +157,7 @@ extension Client : FIRMessagingDelegate {
     }
     
     func connectToFcm() {
-        FIRMessaging.messaging().connect { (error) in
+        Messaging.messaging().connect { (error) in
             if (error != nil) {
                 print("Unable to connect with FCM. \(String(describing: error))")
             } else {
@@ -167,5 +166,3 @@ extension Client : FIRMessagingDelegate {
         }
     }
 }
-
-//extension Client: AppClient {}

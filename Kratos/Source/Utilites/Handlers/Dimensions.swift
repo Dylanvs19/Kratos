@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 struct Dimension {
+    static let navBarInset: CGFloat = 64
     static let defaultMargin: CGFloat = 10
     static let mediumMargin: CGFloat = 15
     static let largeButtonHeight: CGFloat = 45

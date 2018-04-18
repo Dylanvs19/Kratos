@@ -22,18 +22,17 @@ struct ApplicationLauncher {
             let token: String? = Store.fetch("token")
             
             // Override point for customization after application launch.
-            FIRApp.configure()
+            FirebaseApp.configure()
             
             var vc: UIViewController
             if let token = token {
                 let kratosClient = KratosClient(token: token)
                 let client = Client(kratosClient: kratosClient)
-//                updateStoredData(with: client)
                 if #available(iOS 10.0, *) {
                     // For iOS 10 display notification (sent via APNS)
                     UNUserNotificationCenter.current().delegate = client
                     // For iOS 10 data message (sent via FCM)
-                    FIRMessaging.messaging().remoteMessageDelegate = client
+                    Messaging.messaging().delegate = client
                 }
                 vc = TabBarController(with: client)
             } else {
@@ -42,7 +41,7 @@ struct ApplicationLauncher {
                     // For iOS 10 display notification (sent via APNS)
                     UNUserNotificationCenter.current().delegate = client
                     // For iOS 10 data message (sent via FCM)
-                    FIRMessaging.messaging().remoteMessageDelegate = client
+                    Messaging.messaging().delegate = client
                 }
                 if hasInstalled != nil {
                     let navVC = UINavigationController(rootViewController: LoginController(client: Client.default))
@@ -60,14 +59,6 @@ struct ApplicationLauncher {
         appDelegate.window??.rootViewController = splash
         appDelegate.window??.makeKeyAndVisible()
     }
-    
-//    static func updateStoredData(with client: Client) {
-//        client.fetchAllSubjects()
-//            .subscribe(onNext: { subjects in
-//                Store.shelve(subjects, key: Subject.identifier)
-//            })
-//            .dispose()
-//    }
     
     static func rootTransition(to viewController: UIViewController,
                                duration: TimeInterval = 1.0,

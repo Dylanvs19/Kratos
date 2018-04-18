@@ -93,12 +93,12 @@ class ConfirmationController: UIViewController, CurtainPresenter, AnalyticsEnabl
         confirmationTextField.snp.remakeConstraints { (make) in
             make.top.equalTo(textView.snp.bottom).offset(15)
             make.centerX.equalTo(view)
-            make.width.equalTo(self.view.frame.width * confirmationTextField.textFieldType.expandedWidthMultiplier)
+            make.width.equalTo(self.view.frame.width * 0.8)
         }
     }
     
     // MARK: - Gesture Recognizer -
-    func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
+    @objc func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
         view.endEditing(true)
     }
     
@@ -183,7 +183,7 @@ extension ConfirmationController: Localizer {
 extension ConfirmationController: RxBinder {
     
     func bind() {
-        confirmationTextField.textField.rx.text
+        confirmationTextField.rx.text
             .filterNil()
             .bind(to: viewModel.confirmation)
             .disposed(by: disposeBag)

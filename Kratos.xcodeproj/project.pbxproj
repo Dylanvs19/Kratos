@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		71FC9AF49B0EB5820A301DE4 /* Pods_KratosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE4ABF9591E077E906036EA /* Pods_KratosTests.framework */; };
 		A0DD548B75376A90182B6EFF /* Pods_Kratos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EC5E845D25026904F837F7 /* Pods_Kratos.framework */; };
+		AF076D222086C5250031FC59 /* RxTableViewSectionedDataSource+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF076D212086C5250031FC59 /* RxTableViewSectionedDataSource+Extensions.swift */; };
+		AF076D242086C9140031FC59 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AF076D232086C9140031FC59 /* GoogleService-Info.plist */; };
 		AF09B3031F4F8E24003CB455 /* InteractionResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF09B3021F4F8E24003CB455 /* InteractionResponder.swift */; };
 		AF2C06C31F3D4C9100D7E348 /* Localizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C21F3D4C9100D7E348 /* Localizer.swift */; };
 		AF2C06C91F45C74B00D7E348 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2C06C81F45C74B00D7E348 /* State.swift */; };
@@ -78,7 +80,6 @@
 		AF3F5CE01EBE72F700809AA3 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C521EBE72F700809AA3 /* DateFormatter+Extensions.swift */; };
 		AF3F5CE11EBE72F700809AA3 /* NSCharacterSet+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C531EBE72F700809AA3 /* NSCharacterSet+Extensions.swift */; };
 		AF3F5CE21EBE72F700809AA3 /* NSData+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C541EBE72F700809AA3 /* NSData+Extensions.swift */; };
-		AF3F5CE31EBE72F700809AA3 /* NSLayoutAnchor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C551EBE72F700809AA3 /* NSLayoutAnchor+Extensions.swift */; };
 		AF3F5CE41EBE72F700809AA3 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C561EBE72F700809AA3 /* String+Extensions.swift */; };
 		AF3F5CE51EBE72F700809AA3 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C571EBE72F700809AA3 /* UIColor+Extension.swift */; };
 		AF3F5CE61EBE72F700809AA3 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5C581EBE72F700809AA3 /* UIImage+Extension.swift */; };
@@ -110,6 +111,7 @@
 		AF416A5C1F28D147006380DA /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF416A5B1F28D147006380DA /* JSONDecoder.swift */; };
 		AF41C4071EF173C200DDBD5F /* RepresentativeAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF41C4061EF173C200DDBD5F /* RepresentativeAnimator.swift */; };
 		AF43D5331EE634BE00F1DA75 /* RepImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43D5321EE634BE00F1DA75 /* RepImageView.swift */; };
+		AF508B462003ADB4001DDD71 /* DistrictChangeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF508B452003ADB4001DDD71 /* DistrictChangeViewModel.swift */; };
 		AF57F4B91F2B6D0C0080978F /* KratosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4B81F2B6D0C0080978F /* KratosError.swift */; };
 		AF57F4BB1F2B6E110080978F /* ViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4BA1F2B6E110080978F /* ViewBuilder.swift */; };
 		AF57F4BE1F2B6E190080978F /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF57F4BD1F2B6E190080978F /* Styler.swift */; };
@@ -136,14 +138,14 @@
 		AF9EDECF1F7DFB6F0031A108 /* TermsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9EDECE1F7DFB6F0031A108 /* TermsController.swift */; };
 		AF9EDED11F7DFB750031A108 /* FeedbackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9EDED01F7DFB750031A108 /* FeedbackController.swift */; };
 		AFA6F45E1F36818100686697 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA6F45D1F36818100686697 /* UITextView+Extensions.swift */; };
-		AFA9D1601E30269B00CD6BF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */; };
-		AFB4E6CE1FB779E900F7C3E2 /* StateChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB4E6CD1FB779E900F7C3E2 /* StateChangeView.swift */; };
+		AFB4E6CE1FB779E900F7C3E2 /* DistrictChangeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB4E6CD1FB779E900F7C3E2 /* DistrictChangeController.swift */; };
 		AFD553061F53BA5800E07D9B /* NumberFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD553051F53BA5800E07D9B /* NumberFormatter+Extensions.swift */; };
 		AFD553081F53BB2100E07D9B /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD553071F53BB2100E07D9B /* Int+Extension.swift */; };
 		AFD5530A1F56346F00E07D9B /* SubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD553091F56346F00E07D9B /* SubjectCell.swift */; };
 		AFD5AA971D9C3D0C00A5714C /* KratosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8974731D4D80E500C19020 /* KratosTests.swift */; };
 		AFE19E181F52648F0054EB98 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE19E171F52648F0054EB98 /* Store.swift */; };
 		AFE19E1A1F52649B0054EB98 /* MicroStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE19E191F52649B0054EB98 /* MicroStore.swift */; };
+		AFE1B74D1FE5965E00B5DBEA /* UIControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE1B74C1FE5965E00B5DBEA /* UIControl+Extensions.swift */; };
 		AFE9A3431F5ECF6D00CBAD0D /* TallyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE9A3421F5ECF6D00CBAD0D /* TallyController.swift */; };
 		AFE9A3451F5ECF7600CBAD0D /* TallyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE9A3441F5ECF7600CBAD0D /* TallyViewModel.swift */; };
 		AFE9A3471F601ED400CBAD0D /* SubjectSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE9A3461F601ED400CBAD0D /* SubjectSelectionController.swift */; };
@@ -196,6 +198,8 @@
 		76680437267A207995EC63FD /* Pods-KratosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KratosUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KratosUITests/Pods-KratosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		86EC5E845D25026904F837F7 /* Pods_Kratos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kratos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E2C0D1F0BFAA77B0FD2EA1F /* Pods-Kratos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kratos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kratos/Pods-Kratos.debug.xcconfig"; sourceTree = "<group>"; };
+		AF076D212086C5250031FC59 /* RxTableViewSectionedDataSource+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxTableViewSectionedDataSource+Extensions.swift"; sourceTree = "<group>"; };
+		AF076D232086C9140031FC59 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AF09B3021F4F8E24003CB455 /* InteractionResponder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionResponder.swift; sourceTree = "<group>"; };
 		AF1AC54E1DF5A6A100DCBA13 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		AF1AC5501DF5A6A100DCBA13 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
@@ -270,7 +274,6 @@
 		AF3F5C521EBE72F700809AA3 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AF3F5C531EBE72F700809AA3 /* NSCharacterSet+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSCharacterSet+Extensions.swift"; sourceTree = "<group>"; };
 		AF3F5C541EBE72F700809AA3 /* NSData+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+Extensions.swift"; sourceTree = "<group>"; };
-		AF3F5C551EBE72F700809AA3 /* NSLayoutAnchor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSLayoutAnchor+Extensions.swift"; sourceTree = "<group>"; };
 		AF3F5C561EBE72F700809AA3 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "String+Extensions.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AF3F5C571EBE72F700809AA3 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		AF3F5C581EBE72F700809AA3 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
@@ -302,6 +305,7 @@
 		AF416A5B1F28D147006380DA /* JSONDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
 		AF41C4061EF173C200DDBD5F /* RepresentativeAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepresentativeAnimator.swift; sourceTree = "<group>"; };
 		AF43D5321EE634BE00F1DA75 /* RepImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepImageView.swift; sourceTree = "<group>"; };
+		AF508B452003ADB4001DDD71 /* DistrictChangeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictChangeViewModel.swift; sourceTree = "<group>"; };
 		AF57F4B81F2B6D0C0080978F /* KratosError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KratosError.swift; sourceTree = "<group>"; };
 		AF57F4BA1F2B6E110080978F /* ViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBuilder.swift; sourceTree = "<group>"; };
 		AF57F4BD1F2B6E190080978F /* Styler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
@@ -335,14 +339,14 @@
 		AF9EDECE1F7DFB6F0031A108 /* TermsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsController.swift; sourceTree = "<group>"; };
 		AF9EDED01F7DFB750031A108 /* FeedbackController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackController.swift; sourceTree = "<group>"; };
 		AFA6F45D1F36818100686697 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
-		AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		AFB4E6CD1FB779E900F7C3E2 /* StateChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateChangeView.swift; sourceTree = "<group>"; };
+		AFB4E6CD1FB779E900F7C3E2 /* DistrictChangeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictChangeController.swift; sourceTree = "<group>"; };
 		AFD553051F53BA5800E07D9B /* NumberFormatter+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		AFD553071F53BB2100E07D9B /* Int+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		AFD553091F56346F00E07D9B /* SubjectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectCell.swift; sourceTree = "<group>"; };
 		AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kratos.entitlements; sourceTree = "<group>"; };
 		AFE19E171F52648F0054EB98 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		AFE19E191F52649B0054EB98 /* MicroStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MicroStore.swift; sourceTree = "<group>"; };
+		AFE1B74C1FE5965E00B5DBEA /* UIControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Extensions.swift"; sourceTree = "<group>"; };
 		AFE9A3421F5ECF6D00CBAD0D /* TallyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TallyController.swift; sourceTree = "<group>"; };
 		AFE9A3441F5ECF7600CBAD0D /* TallyViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TallyViewModel.swift; sourceTree = "<group>"; };
 		AFE9A3461F601ED400CBAD0D /* SubjectSelectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectSelectionController.swift; sourceTree = "<group>"; };
@@ -472,10 +476,11 @@
 			isa = PBXGroup;
 			children = (
 				AF2C06E91F4895F000D7E348 /* UserRepsViewController.swift */,
+				AF2C06EA1F4895F000D7E348 /* UserRepsViewModel.swift */,
 				AF2C06EB1F4895F000D7E348 /* UserRepTableViewCell.swift */,
 				AF2C06EC1F4895F000D7E348 /* UserRepTableViewCellModel.swift */,
-				AF2C06EA1F4895F000D7E348 /* UserRepsViewModel.swift */,
-				AFB4E6CD1FB779E900F7C3E2 /* StateChangeView.swift */,
+				AFB4E6CD1FB779E900F7C3E2 /* DistrictChangeController.swift */,
+				AF508B452003ADB4001DDD71 /* DistrictChangeViewModel.swift */,
 				AF88381F1F92A5450029F5C8 /* StateCell.swift */,
 				AF72ECB91FD10289001C4973 /* StateHeaderView.swift */,
 			);
@@ -713,7 +718,6 @@
 				AF3F5C521EBE72F700809AA3 /* DateFormatter+Extensions.swift */,
 				AF3F5C531EBE72F700809AA3 /* NSCharacterSet+Extensions.swift */,
 				AF3F5C541EBE72F700809AA3 /* NSData+Extensions.swift */,
-				AF3F5C551EBE72F700809AA3 /* NSLayoutAnchor+Extensions.swift */,
 				AF3F5C561EBE72F700809AA3 /* String+Extensions.swift */,
 				AF3F5C571EBE72F700809AA3 /* UIColor+Extension.swift */,
 				AF3F5C581EBE72F700809AA3 /* UIImage+Extension.swift */,
@@ -730,6 +734,8 @@
 				AFA6F45D1F36818100686697 /* UITextView+Extensions.swift */,
 				AFD553051F53BA5800E07D9B /* NumberFormatter+Extensions.swift */,
 				AFD553071F53BB2100E07D9B /* Int+Extension.swift */,
+				AFE1B74C1FE5965E00B5DBEA /* UIControl+Extensions.swift */,
+				AF076D212086C5250031FC59 /* RxTableViewSectionedDataSource+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -839,11 +845,11 @@
 		AF89745D1D4D80E500C19020 /* Kratos */ = {
 			isa = PBXGroup;
 			children = (
+				AF076D232086C9140031FC59 /* GoogleService-Info.plist */,
 				AF3F5BBC1EBE72F700809AA3 /* Source */,
 				AF8974651D4D80E500C19020 /* Assets.xcassets */,
 				AF8974671D4D80E500C19020 /* LaunchScreen.storyboard */,
 				AF89746A1D4D80E500C19020 /* Info.plist */,
-				AFA9D15F1E30269B00CD6BF9 /* GoogleService-Info.plist */,
 				AFD5AA9F1DAFC2DB00A5714C /* Kratos.entitlements */,
 			);
 			path = Kratos;
@@ -987,7 +993,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Dylan Straughan";
 				TargetAttributes = {
 					AF89745A1D4D80E500C19020 = {
@@ -1046,7 +1052,7 @@
 			files = (
 				AF8974691D4D80E500C19020 /* LaunchScreen.storyboard in Resources */,
 				AF8974661D4D80E500C19020 /* Assets.xcassets in Resources */,
-				AFA9D1601E30269B00CD6BF9 /* GoogleService-Info.plist in Resources */,
+				AF076D242086C9140031FC59 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1220,6 +1226,7 @@
 				AF3F5CD81EBE72F700809AA3 /* MenuHelper.swift in Sources */,
 				AF2C07431F48975E00D7E348 /* RepVoteCell.swift in Sources */,
 				AFFA95641EC79C4100144C3A /* ApplicationLauncher.swift in Sources */,
+				AF076D222086C5250031FC59 /* RxTableViewSectionedDataSource+Extensions.swift in Sources */,
 				AFA6F45E1F36818100686697 /* UITextView+Extensions.swift in Sources */,
 				AF2C06EE1F4895F000D7E348 /* BillCellViewModel.swift in Sources */,
 				AF41C4071EF173C200DDBD5F /* RepresentativeAnimator.swift in Sources */,
@@ -1241,6 +1248,7 @@
 				AF3F5CF71EBE74F900809AA3 /* AccountService.swift in Sources */,
 				AFFA95241EC1F2C500144C3A /* Observable+JSON.swift in Sources */,
 				AF5B9E5F1EFEFB2D000BF83A /* ExpandableTextFieldViewModel.swift in Sources */,
+				AF508B462003ADB4001DDD71 /* DistrictChangeViewModel.swift in Sources */,
 				AF3F5C6C1EBE72F700809AA3 /* Constants.swift in Sources */,
 				AFFA95081EBF4F9C00144C3A /* LoadStatus.swift in Sources */,
 				AF57F4B91F2B6D0C0080978F /* KratosError.swift in Sources */,
@@ -1322,7 +1330,7 @@
 				AF3F5CF31EBE72F700809AA3 /* JSONDecodable.swift in Sources */,
 				AF3F5CDA1EBE72F700809AA3 /* ScrollTabBarControllerDelegate.swift in Sources */,
 				AF3F5CE21EBE72F700809AA3 /* NSData+Extensions.swift in Sources */,
-				AFB4E6CE1FB779E900F7C3E2 /* StateChangeView.swift in Sources */,
+				AFB4E6CE1FB779E900F7C3E2 /* DistrictChangeController.swift in Sources */,
 				AF2C07421F48975E00D7E348 /* RepresentativeViewModel.swift in Sources */,
 				AF2C06ED1F4895F000D7E348 /* BillCell.swift in Sources */,
 				AF57F4D31F318EC90080978F /* Curtain.swift in Sources */,
@@ -1348,9 +1356,9 @@
 				AF2C07411F48975E00D7E348 /* RepresentativeController.swift in Sources */,
 				AF3F5CDF1EBE72F700809AA3 /* Date+Extensions.swift in Sources */,
 				AF3F5C711EBE72F700809AA3 /* Tally.swift in Sources */,
+				AFE1B74D1FE5965E00B5DBEA /* UIControl+Extensions.swift in Sources */,
 				AF2C07291F48975600D7E348 /* BillViewModel.swift in Sources */,
 				AF2C06FC1F4895F000D7E348 /* LoginController.swift in Sources */,
-				AF3F5CE31EBE72F700809AA3 /* NSLayoutAnchor+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1532,9 +1540,9 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tekratos.kratos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "de3d0162-0075-4f23-9a35-b110bf786e5a";
-				PROVISIONING_PROFILE_SPECIFIER = KratosDevProvisioningProfile;
-				SWIFT_VERSION = 3.0;
+				PROVISIONING_PROFILE = "616a16a5-d165-4f04-8dfc-64202364dc13";
+				PROVISIONING_PROFILE_SPECIFIER = KratosDevelopment;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1546,7 +1554,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_VERSION = "$(BUNDLE_VERSION)";
 				CODE_SIGN_ENTITLEMENTS = Kratos/Kratos.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
 				DEVELOPMENT_TEAM = R2XL2EPM9B;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
@@ -1556,9 +1564,9 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tekratos.kratos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c692e893-d970-4939-b7cf-5942d028be14";
-				PROVISIONING_PROFILE_SPECIFIER = KratosDistributionProvisioningProfile;
-				SWIFT_VERSION = 3.0;
+				PROVISIONING_PROFILE = "0d63a325-49c1-4495-aee2-8994d3ee71a5";
+				PROVISIONING_PROFILE_SPECIFIER = KratosDevelopment;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

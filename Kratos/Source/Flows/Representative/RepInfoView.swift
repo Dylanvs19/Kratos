@@ -138,7 +138,7 @@ class RepInfoView: UIView, CurtainPresenter {
         }
         
         termsTableView.rx.setDelegate(self)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     }
     
     func configureVotesTableView() {
@@ -160,7 +160,7 @@ class RepInfoView: UIView, CurtainPresenter {
         }
         
         votesTableView.rx.setDelegate(self)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     }
     
     func configureBillsTableView() {

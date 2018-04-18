@@ -11,9 +11,9 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class KratosTextField: UIView {
+class KratosTextField: UITextField {
     
-    enum TextFieldType {
+    enum TextfieldType {
         case zip
         case state
         case address
@@ -63,43 +63,12 @@ class KratosTextField: UIView {
             case .state: return localize(.textFieldStateTitle)
             case .zip: return localize(.textFieldZipcodeTitle)
             case .confirmation: return localize(.textFieldConfirmationTitle)
-            case .search: return "Search"
-            }
-        }
-    
-        var expandedWidthMultiplier: CGFloat {
-            switch self {
-            case .first, .last, .email, .password, .address, .city, .confirmation, .search: return 0.8
-            case .party, .dob, .zip, .state: return 0.35
-            }
-        }
-        
-        var centerXPosition: CGFloat {
-            switch self {
-            case .first, .last, .email, .password, .address, .city, .confirmation, .search: return 1
-            case .party, .state: return 0.55
-            case .dob, .zip: return 1.45
-            }
-        }
-        
-        var offsetYPosition: CGFloat {
-            switch self {
-            case .email: return 50
-            case .password: return 100
-            case .first: return 25
-            case .last: return 80
-            case .dob, .party: return 135
-            case .address: return 190
-            case .city: return 245
-            case .state, .zip: return 300
-            default:
-                return 0
+            case .search: return localize(.textFieldSearchTitle)
             }
         }
     }
     
     //MARK: Public UI Elements
-    public var textField = UITextField()
     public var placeholderLabel = UILabel()
     public let tap = PublishSubject<Void>()
     
@@ -107,30 +76,32 @@ class KratosTextField: UIView {
     fileprivate var underlineView = UIView()
     
     //MARK: Public Variables
-    public var textFieldType: TextFieldType = .address
+    public var textFieldType: TextfieldType = .address
     
-    //MARK: Private Variables
-    fileprivate var text: String? {
-        return textField.text
+    override var text: String? {
+        didSet {
+            self.animateTextLabelPosition(shouldSink: (text ?? "").count > 0)
+        }
     }
     
     //MARK: Initializers
-    convenience init(type: TextFieldType) {
+    convenience init(type: TextfieldType) {
         self.init(frame: .zero)
         self.textFieldType = type
-        self.textField.keyboardType = textFieldType.keyboardType
-        self.textField.isSecureTextEntry = textFieldType == .password
+        self.keyboardType = textFieldType.keyboardType
+        self.isSecureTextEntry = textFieldType == .password
         self.placeholderLabel.text = textFieldType.placeholderText
-        self.textField.autocapitalizationType = textFieldType.capitalization
-        self.textField.textAlignment = .center
-        textField.delegate = self
-        textField.addTarget(self, action: #selector(editingBegan), for: .editingDidBegin)
-        textField.addTarget(self, action: #selector(editingEnded), for: .editingDidEnd)
+        self.autocapitalizationType = textFieldType.capitalization
+        self.textAlignment = .center
+        delegate = self
+        addTarget(self, action: #selector(editingBegan), for: .editingDidBegin)
+        addTarget(self, action: #selector(editingEnded), for: .editingDidEnd)
         addSubviews()
         constrainViews()
         styleViews()
     }
     
+    // MARK: - Initialization -
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -149,12 +120,12 @@ class KratosTextField: UIView {
     
     public func animateIn() {
         placeholderLabel.alpha = 1
-        textField.alpha = 1
+        alpha = 1
     }
     
     public func animateOut() {
         placeholderLabel.alpha = 0
-        textField.alpha = 0
+        alpha = 0
     }
     
     public func changeColor(for isValid: Bool) {
@@ -176,30 +147,22 @@ class KratosTextField: UIView {
     }
     
     //MARK: Public Setter
-    public func setText(_ text: String) {
-        self.textField.text = text
-        self.animateTextLabelPosition(shouldSink: text.count > 0)
+    public func textFieldText(_ text: String) {
     }
 }
 
 //MARK: ViewBuilder
 extension KratosTextField: ViewBuilder {
     func addSubviews() {
-        translatesAutoresizingMaskIntoConstraints = false 
-        addSubview(textField)
         addSubview(underlineView)
         addSubview(placeholderLabel)
     }
     
     func constrainViews() {
-        textField.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().inset(4)
-        }
         underlineView.snp.makeConstraints { make in
             make.width.centerX.equalToSuperview()
             make.height.equalTo(2)
-            make.top.equalTo(textField.snp.bottom).offset(2)
+            make.bottom.equalToSuperview().offset(2)
         }
         placeholderLabel.snp.makeConstraints { make in
             make.bottom.equalTo(underlineView.snp.top).offset(0)
@@ -212,12 +175,12 @@ extension KratosTextField: ViewBuilder {
         if textFieldType == .confirmation {
             placeholderLabel.style(with: [.font(.cellTitle),
                                           .titleColor(.lightGray)])
-            textField.style(with: [.font(.header),
-                                   .titleColor(.black)])
+            self.style(with: [.font(.header),
+                              .titleColor(.black)])
         } else {
             placeholderLabel.style(with: [.font(.cellTitle),
                                           .titleColor(.lightGray)])
-            textField.style(with: [.font(.cellTitle),
+            self.style(with: [.font(.cellTitle),
                                    .titleColor(.black)])
         }
         underlineView.style(with: [.backgroundColor(.kratosBlue),
@@ -278,17 +241,7 @@ extension KratosTextField: UITextFieldDelegate {
     }
 }
 
-//MARK: - Reactive Extension -
-extension Reactive where Base: KratosTextField {
-    var isEnabled: UIBindingObserver<Base, Bool> {
-        return UIBindingObserver<Base, Bool>(UIElement: base, binding: { (view, isEnabled) in
-                view.textField.isEnabled = isEnabled
-            }
-        )
-    }
-}
-
-func == (lhs: KratosTextField.TextFieldType, rhs: KratosTextField.TextFieldType) -> Bool {
+func == (lhs: KratosTextField.TextfieldType, rhs: KratosTextField.TextfieldType) -> Bool {
     switch (lhs, rhs) {
     case (.email, .email),
          (.password, .password),
@@ -300,20 +253,21 @@ func == (lhs: KratosTextField.TextFieldType, rhs: KratosTextField.TextFieldType)
          (.city, .city),
          (.state, .state),
          (.zip, .zip),
-         (.confirmation, .confirmation):
+         (.confirmation, .confirmation),
+         (.search, .search):
         return true
     default:
         return false
     }
 }
 
-func != (lhs: KratosTextField.TextFieldType, rhs: KratosTextField.TextFieldType) -> Bool {
+func != (lhs: KratosTextField.TextfieldType, rhs: KratosTextField.TextfieldType) -> Bool {
     return !(lhs == rhs)
 }
 
 struct FieldData {
     let field: KratosTextField
-    let fieldType: KratosTextField.TextFieldType
+    let fieldType: KratosTextField.TextfieldType
     let viewModelVariable: Variable<String>
     let validation: Variable<Bool>
 }

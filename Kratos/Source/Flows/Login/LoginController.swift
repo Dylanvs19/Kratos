@@ -12,6 +12,38 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
+fileprivate extension KratosTextField.TextfieldType {
+    var expandedWidthMultiplier: CGFloat {
+        switch self {
+        case .first, .last, .email, .password, .address, .city, .confirmation, .search: return 0.8
+        case .party, .dob, .zip, .state: return 0.35
+        }
+    }
+    
+    var centerXPosition: CGFloat {
+        switch self {
+        case .first, .last, .email, .password, .address, .city, .confirmation, .search: return 1
+        case .party, .state: return 0.55
+        case .dob, .zip: return 1.45
+        }
+    }
+    
+    var offsetYPosition: CGFloat {
+        switch self {
+        case .email: return 50
+        case .password: return 100
+        case .first: return 25
+        case .last: return 80
+        case .dob, .party: return 135
+        case .address: return 190
+        case .city: return 245
+        case .state, .zip: return 300
+        default:
+            return 0
+        }
+    }
+}
+
 class LoginController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     
     // MARK: - Enums -
@@ -132,7 +164,7 @@ class LoginController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     }
     
     // MARK: - Gesture Recognizer -
-    func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
+    @objc func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
         view.endEditing(true)
     }
     
@@ -310,7 +342,7 @@ extension LoginController: RxBinder {
     
     func setupTextFieldBindings() {
         fieldData.forEach { (data) in
-            data.field.textField.rx.text
+            data.field.rx.text
                 .map { $0 ?? "" }
                 .bind(to: data.viewModelVariable)
                 .disposed(by: disposeBag)

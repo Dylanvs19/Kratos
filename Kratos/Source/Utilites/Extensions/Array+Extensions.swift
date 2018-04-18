@@ -50,6 +50,6 @@ extension Array {
             }
         }
     
-        return mappedItems.keys.sorted().flatMap { mappedItems[$0] }
+        return mappedItems.keys.sorted().compactMap { mappedItems[$0] }
     }
 }

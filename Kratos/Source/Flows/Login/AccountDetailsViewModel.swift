@@ -57,19 +57,11 @@ class AccountDetailsViewModel {
     
     func fetchUser() {
         loadStatus.value = .loading
-        client.fetchUser()
-            .subscribe(onNext: { [weak self] user in
-                self?.loadStatus.value = .none
-                self?.user.value = user
-            }, onError: { [weak self] error in
-                self?.loadStatus.value = .error(KratosError.cast(from: error))
-            })
-            .disposed(by: disposeBag)
     }
     
     func register() {
         registerLoadStatus.value = .loading
-        client.register(user: buildRegistrationUser(), fcmToken:  FIRInstanceID.instanceID().token())
+        client.register(user: buildRegistrationUser(), fcmToken: InstanceID.instanceID().token())
             .subscribe(onNext: { [weak self] success in
                 self?.registerLoadStatus.value = .none
             }, onError: { [weak self] error in
@@ -79,15 +71,7 @@ class AccountDetailsViewModel {
     }
     
     func save() {
-        loadStatus.value = .loading
-        client.updateUser(user: updateUser(), fcmToken:  FIRInstanceID.instanceID().token())
-            .subscribe(onNext: { [weak self] (user) in
-                self?.loadStatus.value = .none
-                self?.user.value = user
-            }, onError: { [weak self] error in
-                self?.loadStatus.value = .error(KratosError.cast(from: error))
-            })
-            .disposed(by: disposeBag)
+        client.updateUser(user: updateUser(), fcmToken: InstanceID.instanceID().token())
     }
     
     func buildRegistrationUser() -> User {
@@ -196,6 +180,11 @@ extension AccountDetailsViewModel: RxBinder {
     }
     
     func setupUserBindings() {
+        client.user
+            .asObservable()
+            .bind(to: user)
+            .disposed(by: disposeBag)
+        
         let nonNilUser = user.asObservable().filterNil()
         
         nonNilUser

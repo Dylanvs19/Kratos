@@ -88,7 +88,7 @@ class RepContactView: UIView {
         contactMethods.forEach { stackView.addArrangedSubview($0.method.button) }
     }
     
-    func handleButtonPress(button: UIButton) {
+    @objc func handleButtonPress(button: UIButton) {
         if let method = ContactMethod(rawValue: button.tag),
            let selectedMethod = contactMethods.value.filter({ $0.method == method }).first {
                 self.selectedMethod.onNext(selectedMethod)

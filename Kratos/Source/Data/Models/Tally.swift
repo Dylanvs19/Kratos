@@ -275,7 +275,7 @@ struct Tally: Hashable, JSONDecodable {
         }
         if let voteArray = json["votes"] as? [[String: AnyObject]] {
             votes = voteArray.map { Vote(json: $0) }
-                             .flatMap { $0 }
+                             .compactMap { $0 }
                              .sorted(by: { $0 .person?.state.rawValue ?? "z" < $1.person?.state.rawValue ?? "z" })
         }
     }

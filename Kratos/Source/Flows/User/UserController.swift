@@ -146,7 +146,7 @@ class UserController: UIViewController, CurtainPresenter {
         self.present(vc, animated: true, completion: nil)
     }
     
-    func presentMenu() {
+    @objc func presentMenu() {
         let vc = MenuController(client: client).embedInNavVC()
         self.present(vc, animated: true, completion: nil)
     }

@@ -99,17 +99,17 @@ struct Bill: Hashable, JSONDecodable {
             self.sponsor = Person(json: sponsor)
         }
         if let coSponsorsArray = json["cosponsors"] as? [[String: AnyObject]] {
-             self.coSponsors = coSponsorsArray.flatMap { Person(json: $0) }
+            self.coSponsors = coSponsorsArray.compactMap { Person(json: $0) }
         }
 
         if let introduction = json["introduced_at"] as? String {
             self.introductionDate = introduction.date
         }
         if let relatedBills = json["related_bills"] as? [[String: AnyObject]] {
-            self.relatedBills = relatedBills.flatMap { return RelatedBill(json: $0) }
+            self.relatedBills = relatedBills.compactMap { return RelatedBill(json: $0) }
         }
         if let actions = json["actions"] as? [[String: AnyObject]] {
-            self.actions = actions.flatMap { return BillAction(json: $0) }
+            self.actions = actions.compactMap { return BillAction(json: $0) }
         }
         
         if let action = actions?.first,
@@ -129,7 +129,7 @@ struct Bill: Hashable, JSONDecodable {
             self.topSubject = Subject(json: subject)
         }
         if let subjects = json["subjects"] as? [[String: Any]] {
-            self.subjects = subjects.flatMap { Subject(json: $0) }
+            self.subjects = subjects.compactMap { Subject(json: $0) }
         }
         self.billTextURL = json["full_text_url"] as? String
         
@@ -145,7 +145,7 @@ struct Bill: Hashable, JSONDecodable {
         }
         
         if let tallyArray = json["tallies"] as? [[String: AnyObject]] {
-            self.tallies = tallyArray.flatMap { Tally(json: $0) }
+            self.tallies = tallyArray.compactMap { Tally(json: $0) }
         }
     }
     

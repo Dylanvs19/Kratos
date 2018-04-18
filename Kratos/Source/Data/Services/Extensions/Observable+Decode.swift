@@ -27,6 +27,16 @@ extension ObservableType where E == Any {
             .observeOn(MainScheduler.instance)
     }
     
+    func mapObject<T: JSONDecodable>(type: T.Type, at keyPath: String? = nil) -> Observable<T> {
+        return observeOn(SerialDispatchQueueScheduler(qos: .background))
+            .flatMap { response -> Observable<T> in
+                let jsonObject: JSONObject = try self.json(from: response, at: keyPath)
+                let object: T = try self.decode(json: jsonObject)
+                return Observable.just(object)
+            }
+            .observeOn(MainScheduler.instance)
+    }
+    
     /// Decodes an expeceted array of JSONObjects to an array of [T], which is returned in an observable sequence.
     /// - Important: Will throw mapping error if a specific T object is not decoded correctly. Should be used if objects are necessary to proceed.
     /// - Note: Will throw
@@ -57,7 +67,7 @@ extension ObservableType where E == Any {
         return observeOn(SerialDispatchQueueScheduler(qos: .background))
             .flatMap { response -> Observable<[T]> in
                 let jsonArray: [JSONObject] = try self.json(from: response, at: keyPath)
-                let objects = jsonArray.flatMap { T(json:$0) }
+                let objects = jsonArray.compactMap { T(json:$0) }
                 return Observable.just(objects)
             }
             .observeOn(MainScheduler.instance)

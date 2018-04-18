@@ -145,8 +145,8 @@ extension PieChartView: ViewBuilder {
 }
 
 extension Reactive where Base: PieChartView {
-    var data: UIBindingObserver<Base, [PieChartData]> {
-        return UIBindingObserver(UIElement: self.base, binding: { (pieChartView, data) in
+    var data: Binder<[PieChartData]> {
+        return Binder(base, binding: { (pieChartView, data) in
             pieChartView.configure(with: data)
         })
     }

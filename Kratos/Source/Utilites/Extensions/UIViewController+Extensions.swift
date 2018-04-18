@@ -100,12 +100,21 @@ extension UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.backItem?.title = ""
         navigationController?.navigationBar.tintColor = Color.lightGray.value
-        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: Font.subHeader.value]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: Font.subHeader.value]
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.extendedLayoutIncludesOpaqueBars = true
         navigationController?.automaticallyAdjustsScrollViewInsets = false
+    }
+    
+    func setDefaultClearButton() {
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "clearIcon").withRenderingMode(.alwaysOriginal).af_imageAspectScaled(toFill: CGSize(width: 25, height: 25)), style: .plain, target: self, action: #selector(clearPressed))
+        self.view.layoutIfNeeded()
+    }
+    
+    @objc private func clearPressed() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     
@@ -124,5 +133,3 @@ extension UIViewController {
         return ControlEvent(events: Observable.of(frameheight, hideHeight).merge())
     }
 }
-
-

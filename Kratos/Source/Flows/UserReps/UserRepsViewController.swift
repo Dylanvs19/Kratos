@@ -26,20 +26,23 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
     let stateImageView = UIImageView(image: #imageLiteral(resourceName: "Image_WashingtonDC"))
     let topShadeView = UIView()
     let districtLabel = UILabel()
-    
-    let statesChangeView: StateChangeView
-    let shade = UIView()
     let stateButton = UIButton()
     
     let tableView = UITableView()
-    let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Person>>()
+    let dataSource: RxTableViewSectionedReloadDataSource<SectionModel<String, Person>>
     
     // MARK: - Initialization -
     init(client: Client) {
         self.client = client
         self.viewModel = UserRepsViewModel(client: client)
-        self.statesChangeView = StateChangeView(user: client.user)
+        self.dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Person>>(configureCell: { dataSource, tableView, indexPath, item in
+            let basicCell = tableView.dequeueReusableCell(withIdentifier: UserRepTableViewCell.identifier, for: indexPath)
+            guard let cell = basicCell as? UserRepTableViewCell else { fatalError() }
+            cell.configure(with: client, person: item)
+            return cell
+        })
         super.init(nibName: nil, bundle: nil)
+        client.fetchUser()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -57,7 +60,6 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
         bind()
         configureTableView()
         addCurtain()
-        configureGestureRecogniers()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -82,13 +84,6 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
         tableView.sectionHeaderHeight = 5
         tableView.allowsSelection = true
         
-        dataSource.configureCell = { dataSource, tableView, indexPath, item in
-            let basicCell = tableView.dequeueReusableCell(withIdentifier: UserRepTableViewCell.identifier, for: indexPath)
-            guard let cell = basicCell as? UserRepTableViewCell else { fatalError() }
-            cell.configure(with: self.client, person: item)
-            return cell
-        }
-        
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
     }
@@ -98,31 +93,6 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
         guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? UserRepTableViewCell else { return }
         cell.configureForSingleRep()
         tableView.layoutIfNeeded()
-    }
-    
-    func animateInStateChangeView() {
-        UIView.animate(withDuration: 0.3) {
-            self.statesChangeView.snp.updateConstraints { make in
-                make.trailing.equalToSuperview().offset(0)
-            }
-            self.shade.alpha = 0.3
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    func dismissStateChangeView() {
-        UIView.animate(withDuration: 0.3) {
-            let twoThirdsWidth = self.view.frame.width * 2/3
-            self.statesChangeView.snp.updateConstraints { make in
-                make.trailing.equalToSuperview().offset(twoThirdsWidth)
-            }
-            self.shade.alpha = 0
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    func configureGestureRecogniers() {
-        shade.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissStateChangeView)))
     }
 }
 
@@ -141,8 +111,6 @@ extension UserRepsViewController: ViewBuilder {
         topShadeView.addSubview(districtLabel)
         view.addSubview(stateButton)
         view.addSubview(tableView)
-        view.addSubview(shade)
-        view.addSubview(statesChangeView)
     }
     
     func constrainViews() {
@@ -165,15 +133,6 @@ extension UserRepsViewController: ViewBuilder {
             make.top.equalTo(stateImageView.snp.bottom).offset(5)
             make.bottom.trailing.leading.equalToSuperview().inset(10)
         }
-        shade.snp.remakeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
-        statesChangeView.snp.makeConstraints { make in
-            let twoThirdsWidth = view.frame.width * 2/3
-            make.trailing.equalToSuperview().offset(twoThirdsWidth)
-            make.top.bottom.equalToSuperview()
-            make.width.equalTo(twoThirdsWidth)
-        }
     }
     
     func styleViews() {
@@ -191,8 +150,6 @@ extension UserRepsViewController: ViewBuilder {
                                  .backgroundColor(.kratosGreen)])
         tableView.clipsToBounds = false
         stateImageView.addShadow()
-        shade.alpha = 0
-        shade.style(with: .backgroundColor(.black))
     }
 }
 
@@ -232,7 +189,9 @@ extension UserRepsViewController: RxBinder {
             .subscribe(
                 onNext: { [weak self] in
                     guard let `self` = self else { return }
-                    self.animateInStateChangeView()
+                    let vc = DistrictChangeController(client: self.client)
+                    let navVC = UINavigationController(rootViewController: vc)
+                    self.present(navVC, animated: true, completion: nil)
                 }
             )
             .disposed(by: disposeBag)

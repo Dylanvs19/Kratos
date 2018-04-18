@@ -65,35 +65,51 @@ extension Client: AccountService {
             .map { _ in return () }
     }
     
-    func fetchUser() -> Observable<User> {
-        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+    func fetchUser() {
+        guard kratosClient.token != nil else {
+            userLoadStatus.value = .error(KratosError.authError(error: .notLoggedIn))
+            return
+        }
         
-        return request(.fetchUser)
+        request(.fetchUser)
             .toJson()
-            .mapObject()
-            .do(
+            .mapObject(type: User.self)
+            .subscribe(
                 onNext: { [weak self] user in
                     guard let `self` = self else { return }
-                    FIRAnalytics.setUserPropertyString("\(user.address.state)", forName: "State")
-                    FIRAnalytics.setUserPropertyString("\(user.district)", forName: "District")
+                    Analytics.setUserProperty("\(user.address.state)", forName: "State")
+                    Analytics.setUserProperty("\(user.district)", forName: "District")
                     self.user.value = user
+                },
+                onError: { [weak self] error in
+                    guard let `self` = self else { return }
+                    self.userLoadStatus.value = .error(error)
                 }
             )
+            .disposed(by: disposeBag)
     }
     
-    func updateUser(user: User, fcmToken: String?) -> Observable<User> {
-        guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }
+    func updateUser(user: User, fcmToken: String?) {
+        guard kratosClient.token != nil else {
+            userLoadStatus.value = .error(KratosError.authError(error: .notLoggedIn))
+            return
+        }
         
-        return request(.update(user: user, fcmToken: fcmToken))
+        request(.update(user: user, fcmToken: fcmToken))
             .toJson()
-            .mapObject()
-            .do(
+            .mapObject(type: User.self)
+            .subscribe(
                 onNext: { [weak self] user in
                     guard let `self` = self else { return }
-                    FIRAnalytics.setUserPropertyString("\(user.address.state)", forName: "State")
-                    FIRAnalytics.setUserPropertyString("\(user.district)", forName: "District")
+                    Analytics.setUserProperty("\(user.address.state)", forName: "State")
+                    Analytics.setUserProperty("\(user.district)", forName: "District")
                     self.user.value = user
+                },
+                onError: { [weak self] error in
+                    guard let `self` = self else { return }
+                    self.userLoadStatus.value = .error(error)
                 }
             )
+            .disposed(by: disposeBag)
     }
 }

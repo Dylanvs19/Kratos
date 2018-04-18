@@ -38,14 +38,18 @@ extension StateHeaderView: ViewBuilder {
         contentView.addSubview(imageView)
     }
     func constrainViews() {
+        
+        snp.makeConstraints { make in
+            make.height.equalTo(30)
+        }
         title.snp.makeConstraints { make in
-            make.top.trailing.leading.equalToSuperview()
+            make.top.bottom.leading.equalToSuperview()
         }
         imageView.snp.makeConstraints { make in
-            make.top.trailing.leading.equalToSuperview()
+            make.top.trailing.bottom.equalToSuperview()
         }
     }
     func styleViews() {
-        
+        imageView.contentMode = .scaleAspectFit
     }
 }

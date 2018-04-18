@@ -82,17 +82,12 @@ class MenuController: UIViewController, AnalyticsEnabled {
     // MARK: - Configuration -
     func configureNavVC() {
         setDefaultNavVC()
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "clearIcon").withRenderingMode(.alwaysOriginal).af_imageAspectScaled(toFill: CGSize(width: 25, height: 25)), style: .plain, target: self, action: #selector(clearPressed))
-        self.view.layoutIfNeeded()
+        setDefaultClearButton()
     }
     
     func configureTableView() {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: String(describing: UITableViewCell.self))
         tableView.tableFooterView = UIView()
-    }
-    
-    func clearPressed() {
-        self.dismiss(animated: true, completion: nil)
     }
 }
 

@@ -31,45 +31,15 @@ class UserRepsViewModel {
     init(client: Client) {
         self.client = client
         bind()
-        fetchUser()
     }
     
     // MARK: - Client Requests -
-    func fetchUser() {
-        loadStatus.value = .loading
-        client.fetchUser()
-            .subscribe(
-                onNext: { [weak self] user in
-                    self?.user.value = user
-                },
-                onError: { [weak self] (error) in
-                    self?.loadStatus.value = .error(KratosError.cast(from: error))
-                }
-            )
-            .disposed(by: disposeBag)
-    }
-    
     func fetchRepresentatives(from state: String, district: Int) {
         client.fetchRepresentatives(state: state, district: district)
             .subscribe(
                 onNext: { [weak self] reps in
                         self?.loadStatus.value = .none
                         self?.representatives.value = reps
-                },
-                onError: { [weak self] (error) in
-                    self?.loadStatus.value = .error(KratosError.cast(from: error))
-                }
-            )
-            .disposed(by: disposeBag)
-    }
-    
-    func fetchDistricts(from query: String) {
-        client.fetchDistricts(from: query)
-            .map {$0.grouped(groupBy: { district -> String in district.state.rawValue })}
-            .subscribe(
-                onNext: { [weak self] districtsArray in
-                    self?.loadStatus.value = .none
-                    self?.districtModels.value = districtsArray
                 },
                 onError: { [weak self] (error) in
                     self?.loadStatus.value = .error(KratosError.cast(from: error))
@@ -94,6 +64,11 @@ class UserRepsViewModel {
 // MARK: - RxBinder -
 extension UserRepsViewModel: RxBinder {
     func bind() {
+        client.user
+            .asObservable()
+            .debug()
+            .bind(to: user)
+            .disposed(by: disposeBag)
         user
             .asObservable()
             .filterNil()
@@ -113,16 +88,6 @@ extension UserRepsViewModel: RxBinder {
             .subscribe(
                 onNext: { [weak self] state in
                     self?.fetchStateImage(state: state)
-                }
-            )
-            .disposed(by: disposeBag)
-        query
-            .asObservable()
-            .debounce(2, scheduler: MainScheduler.instance)
-            .subscribe(
-                onNext: { [weak self] query in
-                    guard let `self` = self else { return }
-                    self.fetchDistricts(from: query)
                 }
             )
             .disposed(by: disposeBag)
