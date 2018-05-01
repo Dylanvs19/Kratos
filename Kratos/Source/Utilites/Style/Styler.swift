@@ -77,6 +77,7 @@ enum Color {
     case darkBlue
     case kratosGreen
     case clear
+    case clearWhite
     
     var value: UIColor {
         switch self {
@@ -102,6 +103,8 @@ enum Color {
             return .kratosGreen
         case .clear:
             return .clear
+        case .clearWhite:
+            return UIColor.white.withAlphaComponent(0.01)
         }
     }
 }

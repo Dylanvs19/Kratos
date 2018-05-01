@@ -35,16 +35,16 @@ class AccountDetailsViewModel {
     let oldPassword = Variable<String>("")
     let newPassword = Variable<String>("")
     
-    let firstValid = Variable<Bool>(false)
-    let lastValid = Variable<Bool>(false)
-    let partyValid = Variable<Bool>(false)
-    let dobValid = Variable<Bool>(false)
-    let streetValid = Variable<Bool>(false)
-    let cityValid = Variable<Bool>(false)
-    let stateValid = Variable<Bool>(false)
-    let zipValid = Variable<Bool>(false)
+    let firstValid = BehaviorSubject<Bool>(value: false)
+    let lastValid = BehaviorSubject<Bool>(value: false)
+    let partyValid = BehaviorSubject<Bool>(value: false)
+    let dobValid = BehaviorSubject<Bool>(value: false)
+    let streetValid = BehaviorSubject<Bool>(value: false)
+    let cityValid = BehaviorSubject<Bool>(value: false)
+    let stateValid = BehaviorSubject<Bool>(value: false)
+    let zipValid = BehaviorSubject<Bool>(value: false)
     
-    var formValid = Variable<Bool>(false)
+    var formValid = BehaviorSubject<Bool>(value: false)
     
     //MARK: Methods
     init(with client: Client, state: AccountDetailsController.State, credentials: (email: String, password: String)) {
@@ -125,46 +125,6 @@ extension AccountDetailsViewModel: RxBinder {
     }
     
     func setupValidationBindings() {
-        first
-            .asObservable()
-            .map { $0.isValid(for: .address) }
-            .bind(to: firstValid)
-            .disposed(by: disposeBag)
-        last
-            .asObservable()
-            .map { $0.isValid(for: .address) }
-            .bind(to: lastValid)
-            .disposed(by: disposeBag)
-        party
-            .asObservable()
-            .map { $0.isValid(for: .address) }
-            .bind(to: partyValid)
-            .disposed(by: disposeBag)
-        dob
-            .asObservable()
-            .map { $0.isValid(for: .address) }
-            .bind(to: dobValid)
-            .disposed(by: disposeBag)
-        street
-            .asObservable()
-            .map { $0.isValid(for: .address) }
-            .bind(to: streetValid)
-            .disposed(by: disposeBag)
-        city
-            .asObservable()
-            .map { $0.isValid(for: .city) }
-            .bind(to: cityValid)
-            .disposed(by: disposeBag)
-        userState
-            .asObservable()
-            .map { $0.isValid(for: .state) }
-            .bind(to: stateValid)
-            .disposed(by: disposeBag)
-        zip
-            .asObservable()
-            .map { $0.isValid(for: .zipcode) }
-            .bind(to: zipValid)
-            .disposed(by: disposeBag)
         Observable.combineLatest(firstValid.asObservable(),
                                  lastValid.asObservable(),
                                  partyValid.asObservable(),

@@ -139,13 +139,6 @@ class UserController: UIViewController, CurtainPresenter {
     }
     
     // MARK - Navigation -
-    func presentSearch() {
-        let vc = SearchController(client: client)
-        vc.modalTransitionStyle = .crossDissolve
-        vc.modalPresentationStyle = .overFullScreen
-        self.present(vc, animated: true, completion: nil)
-    }
-    
     @objc func presentMenu() {
         let vc = MenuController(client: client).embedInNavVC()
         self.present(vc, animated: true, completion: nil)

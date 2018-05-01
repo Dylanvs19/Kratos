@@ -22,7 +22,9 @@ class ConfirmationController: UIViewController, CurtainPresenter, AnalyticsEnabl
     let kratosImageView = UIImageView(image: #imageLiteral(resourceName: "KratosLogo"))
     let titleLabel = UILabel()
     let textView = UITextView()
-    let confirmationTextField = KratosTextField(type: .confirmation)
+    let textField = TextField(style: .confirmation,
+                                          type: .confirmation,
+                                          placeholder: localize(.textFieldConfirmationTitle))
     let resendConfirmationButton = UIButton()
     let submitButton = UIButton()
     
@@ -45,15 +47,14 @@ class ConfirmationController: UIViewController, CurtainPresenter, AnalyticsEnabl
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        localizeStrings()
         styleViews()
         addSubviews()
+        
         constrainViews()
         bind()
-        setupGestureRecognizer()
-        setInitialState()
+        localizeStrings()
+        dismissKeyboardOnTap()
         addCurtain()
-        view.layoutIfNeeded()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,49 +63,9 @@ class ConfirmationController: UIViewController, CurtainPresenter, AnalyticsEnabl
         log(event: .confirmationController)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        beginningAnimations()
-    }
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         setDefaultNavVC()
-    }
-    
-    // MARK - Configuration -
-    func setInitialState() {
-        confirmationTextField.isHidden = true
-        confirmationTextField.animateOut()
-        self.view.layoutIfNeeded()
-    }
-    
-    // MARK: - Animation -
-    fileprivate func beginningAnimations() {
-        UIView.animate(withDuration: 0.25, delay: 0.5, options: [], animations: {
-            self.confirmationTextField.isHidden = false
-            self.confirmationTextField.animateIn()
-            self.animateIn()
-            self.view.layoutIfNeeded()
-        }, completion: nil)
-    }
-    
-    fileprivate func animateIn() {
-        confirmationTextField.snp.remakeConstraints { (make) in
-            make.top.equalTo(textView.snp.bottom).offset(15)
-            make.centerX.equalTo(view)
-            make.width.equalTo(self.view.frame.width * 0.8)
-        }
-    }
-    
-    // MARK: - Gesture Recognizer -
-    @objc func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
-        view.endEditing(true)
-    }
-    
-    fileprivate func setupGestureRecognizer() {
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapOutside(_:)))
-        view.addGestureRecognizer(tapRecognizer)
     }
 }
 
@@ -114,7 +75,7 @@ extension ConfirmationController: ViewBuilder {
         view.addSubview(kratosImageView)
         view.addSubview(titleLabel)
         view.addSubview(textView)
-        view.addSubview(confirmationTextField)
+        view.addSubview(textField)
         view.addSubview(resendConfirmationButton)
         view.addSubview(submitButton)
     }
@@ -136,7 +97,7 @@ extension ConfirmationController: ViewBuilder {
             make.leading.trailing.equalToSuperview().inset(20)
         }
         self.view.layoutIfNeeded()
-        confirmationTextField.snp.remakeConstraints { (make) in
+        textField.snp.remakeConstraints { (make) in
             make.top.equalTo(textView.snp.bottom).offset(15)
             make.centerX.equalTo(view)
             make.width.equalTo(0)
@@ -174,7 +135,7 @@ extension ConfirmationController: Localizer {
     func localizeStrings() {
         titleLabel.text = localize(.confirmationTitle)
         resendConfirmationButton.setTitle(localize(.confirmationResendConfirmationButtonTitle), for: .normal)
-        submitButton.setTitle(localize(.confirmationSubmitButtonTitle), for: .normal)
+        submitButton.setTitle(localize(.submit), for: .normal)
         textView.text = localize(.confirmationExplainationText)
     }
 }
@@ -183,7 +144,7 @@ extension ConfirmationController: Localizer {
 extension ConfirmationController: RxBinder {
     
     func bind() {
-        confirmationTextField.rx.text
+        textField.text
             .filterNil()
             .bind(to: viewModel.confirmation)
             .disposed(by: disposeBag)
@@ -196,9 +157,9 @@ extension ConfirmationController: RxBinder {
             .disposed(by: disposeBag)
         submitButton.rx.tap
             .subscribe(
-                onNext: { [weak self] in
-                    self?.log(event: .confirmed)
-                    self?.viewModel.confirmAccount()
+                onNext: { [unowned self] in
+                    self.log(event: .confirmed)
+                    self.viewModel.confirmAccount()
                 }
             )
             .disposed(by: disposeBag)
@@ -209,16 +170,15 @@ extension ConfirmationController: RxBinder {
         viewModel.loadStatus
             .asObservable()
             .onError(
-                execute: { [weak self] error in
-                    self?.log(event: .error(KratosError.cast(from: error)))
-                    self?.showError(KratosError.cast(from: error))
+                execute: { [unowned self] error in
+                    self.log(event: .error(KratosError.cast(from: error)))
+                    self.showError(KratosError.cast(from: error))
                 }
             )
             .disposed(by: disposeBag)
         viewModel.loadStatus
             .asObservable()
-            .onSuccess { [weak self] in
-                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+            .onSuccess { [unowned self] in
                 let vc = NotificationsRegistrationViewController(client: self.client)
                 self.navigationController?.pushViewController(vc, animated: true)
             }

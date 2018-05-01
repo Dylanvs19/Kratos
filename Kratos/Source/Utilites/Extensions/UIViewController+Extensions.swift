@@ -132,4 +132,13 @@ extension UIViewController {
                             .map { _ in CGFloat(0) }
         return ControlEvent(events: Observable.of(frameheight, hideHeight).merge())
     }
+    
+    func dismissKeyboardOnTap() {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapOutside(_:)))
+        view.addGestureRecognizer(tapRecognizer)
+    }
+    
+    @objc func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
 }

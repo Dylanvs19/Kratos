@@ -104,7 +104,7 @@ extension NotificationsRegistrationViewController: ViewBuilder {
 extension NotificationsRegistrationViewController: Localizer {
     func localizeStrings() {
         skipButton.setTitle(localize(.notificationSkipButtonTitle), for: .normal)
-        confirmationButton.setTitle(localize(.notificationRegisterButtonTitle), for: .normal)
+        confirmationButton.setTitle(localize(.register), for: .normal)
         textView.text = localize(.notificationExplanationText)
         titleLabel.text = localize(.notificationTitle)
     }

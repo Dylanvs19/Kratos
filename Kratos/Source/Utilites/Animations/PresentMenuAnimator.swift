@@ -22,7 +22,7 @@ class PresentMenuAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         containerView.insertSubview(toVC.view, belowSubview: fromVC.view)
         
         // replace main view with snapshot
-        let snapshot = fromVC.view.snapshot()
+        let snapshot = UIImageView(image: fromVC.view.snapshot())
         snapshot.tag = 1
         snapshot.isUserInteractionEnabled = false
         snapshot.layer.shadowOpacity = 0.7
@@ -53,7 +53,7 @@ class PresentTallyViewAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         containerView.insertSubview(toVC.view, belowSubview: fromVC.view)
         
         // replace main view with snapshot
-        let snapshot = fromVC.view.snapshot()
+        let snapshot = UIImageView(image: fromVC.view.snapshot())
         snapshot.tag = 2
         snapshot.isUserInteractionEnabled = false
         snapshot.layer.shadowOpacity = 0.7

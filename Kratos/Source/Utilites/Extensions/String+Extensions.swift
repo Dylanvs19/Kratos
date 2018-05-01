@@ -92,29 +92,24 @@ extension String {
         return nil
     }
     
+    var isValidZipcode: Bool {
+        let sanitizedzipcode = self.removeWhiteSpace()
+        return sanitizedzipcode.containsOnlyCharacters(in: CharacterSet.decimalDigits)
+            && sanitizedzipcode.characterCountIs(5)
+    }
     
-    /// Validates string based on inputValidation type passed as parameter
-    ///
-    /// - Parameter inputValidation: inputValidation type
-    /// - Returns: bool indicating whether string is valid based on inputValidation type
-    func isValid(for inputValidation: InputValidation) -> Bool {
-        switch inputValidation {
-        case .email:
-            let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
-            let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-            return emailTest.evaluate(with: self)
-        case .address,
-             .city:
-            return self.containsOnlyCharacters(in: .letterPunctuationSet) && self != "" ? true : false
-        case .state:
-            let sanitizedState = self.removeWhiteSpace()
-            return State(rawValue: sanitizedState) != nil && sanitizedState.count == 2
-        case .zipcode:
-            let sanitizedzipcode = self.removeWhiteSpace()
-            return sanitizedzipcode.containsOnlyCharacters(in: CharacterSet.decimalDigits)
-                && sanitizedzipcode.characterCountIs(5) ? true : false
-        case .password:
-            return self.count > 7
-        }
+    var isValidEmail: Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: self)
+    }
+    
+    var isValidState: Bool {
+        let sanitizedState = self.removeWhiteSpace()
+        return State(rawValue: sanitizedState) != nil && sanitizedState.count == 2
+    }
+    
+    var isValidPassword: Bool {
+        return self.count > 7
     }
 }

@@ -25,9 +25,9 @@ class TallyController: UIViewController, AnalyticsEnabled {
         var title: String {
             switch self {
             case .votes:
-                return localize(.tallyVotesTitle)
+                return localize(.monospaceVotes)
             case .details:
-                return localize(.tallyDetailsTitle)
+                return localize(.monospaceDetails)
             }
         }
         

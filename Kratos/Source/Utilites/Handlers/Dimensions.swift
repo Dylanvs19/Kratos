@@ -10,9 +10,24 @@ import Foundation
 import UIKit
 
 struct Dimension {
+    /// 64pt
     static let navBarInset: CGFloat = 64
-    static let defaultMargin: CGFloat = 10
-    static let mediumMargin: CGFloat = 15
-    static let largeButtonHeight: CGFloat = 45
-    static let kratosTextfieldHeight: CGFloat = 40
+    /// 16pt
+    static let defaultMargin: CGFloat = 16
+    /// if iphonex 0px, else 24px
+    static var iPhoneXMargin: CGFloat {
+        return UIScreen.isIPhoneX ? 0 : mediumMargin
+    }
+    /// 24pt
+    static let mediumMargin: CGFloat = 24
+    /// 32pt
+    static let largeMargin: CGFloat = 32
+    /// 55pt
+    static let largeButtonHeight: CGFloat = 50
+    /// 45pt
+    static let textfieldHeight: CGFloat = 40
+    /// 90px
+    static let smallImageViewHeight: CGFloat = 90
+    /// 200px
+    static let largeImageViewHeight: CGFloat = 200
 }

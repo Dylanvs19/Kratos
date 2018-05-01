@@ -31,7 +31,7 @@ class DistrictChangeController: UIViewController {
     let districtTitle = UILabel()
     let returnToHomeButton = UIButton()
     let descriptionLabel = UILabel()
-    let searchField = KratosTextField(type: .search)
+    let searchField = TextField(style: .standard, type: .text, placeholder: localize(.textFieldSearchTitle))
     let submitButton = UIButton()
     let tableView = UITableView()
     
@@ -48,12 +48,12 @@ class DistrictChangeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        styleViews()
         addSubviews()
         constrainViews()
-        styleViews()
+        
         bind()
         localizeStrings()
-        configureTextField()
         configureTableView()
         configureNavigationBar()
     }
@@ -61,12 +61,6 @@ class DistrictChangeController: UIViewController {
     func configureNavigationBar() {
         setDefaultNavVC()
         setDefaultClearButton()
-    }
-    
-    func configureTextField() {
-        searchField.isHidden = false
-        searchField.animateIn()
-        self.view.layoutIfNeeded()
     }
     
     // MARK: - Configuration -
@@ -89,7 +83,7 @@ class DistrictChangeController: UIViewController {
 // MARK: - Localizer -
 extension DistrictChangeController: Localizer {
     func localizeStrings() {
-        submitButton.setTitle(localize(.districtSelectionSubmitButtonTitle), for: .normal)
+        submitButton.setTitle(localize(.submit), for: .normal)
         returnToHomeButton.setTitle(localize(.districtSelectionReturnHomeButtonTitle), for: .normal)
         descriptionLabel.text = localize(.districtSelectionSearchInfoLabel)
         title = localize(.districtSelectionTitle)
@@ -189,7 +183,7 @@ extension DistrictChangeController: RxBinder {
         bindCurrentlySelectedDistrict()
         adjustForKeyboard()
         
-        searchField.rx.text
+        searchField.text
             .map { $0 ?? "" }
             .bind(to: viewModel.query)
             .disposed(by: disposeBag)

@@ -30,11 +30,11 @@ class BillInfoView: UIView, CurtainPresenter {
             case .summary:
                 return localize(.billInfoViewSummaryTitle)
             case .votes:
-                return localize(.billInfoViewVotesTitle)
+                return localize(.monospaceVotes)
             case .sponsors:
                 return localize(.billInfoViewSponsorsTitle)
             case .details:
-                return localize(.billInfoViewDetailsTitle)
+                return localize(.monospaceDetails)
             }
         }
         

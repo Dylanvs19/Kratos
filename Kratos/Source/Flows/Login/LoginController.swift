@@ -12,97 +12,43 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-fileprivate extension KratosTextField.TextfieldType {
-    var expandedWidthMultiplier: CGFloat {
-        switch self {
-        case .first, .last, .email, .password, .address, .city, .confirmation, .search: return 0.8
-        case .party, .dob, .zip, .state: return 0.35
-        }
-    }
-    
-    var centerXPosition: CGFloat {
-        switch self {
-        case .first, .last, .email, .password, .address, .city, .confirmation, .search: return 1
-        case .party, .state: return 0.55
-        case .dob, .zip: return 1.45
-        }
-    }
-    
-    var offsetYPosition: CGFloat {
-        switch self {
-        case .email: return 50
-        case .password: return 100
-        case .first: return 25
-        case .last: return 80
-        case .dob, .party: return 135
-        case .address: return 190
-        case .city: return 245
-        case .state, .zip: return 300
-        default:
-            return 0
-        }
-    }
-}
-
-class LoginController: UIViewController, CurtainPresenter, AnalyticsEnabled {
+class LoginController: UIViewController, AnalyticsEnabled {
     
     // MARK: - Enums -
     enum State {
         case login
-        case createAccount
-        case forgotPassword
+        case create
         
         var loginButtonTitle: String {
             switch self {
-            case .login:
-                return localize(.loginLoginButtonTitle)
-            case .createAccount:
-                return localize(.loginContinueButtonTitle)
-            case .forgotPassword:
-                return localize(.loginSendButtonTitle)
+            case .login: return localize(.login)
+            case .create: return localize(.loginContinueButtonTitle)
             }
-        }
-        var signInSignUpButtonTitle: String {
-            switch self {
-            case .login:
-                return localize(.loginSignUpButtonTitle)
-            case .createAccount:
-                return localize(.loginSignInButtonTitle)
-            case .forgotPassword:
-                return localize(.loginSignUpButtonTitle)
-            }
-        }
-        var forgotPasswordTitle: String {
-            return localize(.loginForgotPasswordButtonTitle)
         }
     }
     
     // MARK: - Variables -
     var client: Client
-    fileprivate let viewModel: LoginViewModel
-    fileprivate let disposeBag = DisposeBag()
+     private let viewModel: LoginViewModel
+     private let disposeBag = DisposeBag()
     
-    fileprivate let scrollView = UIScrollView()
-    fileprivate let contentView = UIView()
+     private let scrollView = UIScrollView()
+     private let contentView = UIView()
     
-    fileprivate var kratosImageView = UIImageView(image: #imageLiteral(resourceName: "KratosLogo"))
-    fileprivate var loginContinueButton = UIButton()
-    fileprivate var signUpRegisterButton = UIButton()
-    fileprivate var forgotPasswordButton = UIButton()
+     private var kratosImageView = UIImageView(image: #imageLiteral(resourceName: "KratosLogo"))
     
-    fileprivate let emailTextField = KratosTextField(type: .email)
-    fileprivate let passwordTextField = KratosTextField(type: .password)
-    
-    lazy fileprivate var fieldData: [FieldData] = {
-        return [FieldData(field: self.emailTextField, fieldType: .email, viewModelVariable: self.viewModel.email, validation: self.viewModel.emailValid),
-                FieldData(field: self.passwordTextField, fieldType: .password, viewModelVariable: self.viewModel.password, validation: self.viewModel.passwordValid)]
-    }()
+     private let emailTextField = TextField(style: .standard,
+                                            type: .email,
+                                            placeholder: localize(.textFieldEmailTitle))
+     private let passwordTextField = TextField(style: .standard,
+                                               type: .password,
+                                               placeholder: localize(.textFieldPasswordTitle))
+     private var forgotPasswordButton = Button(style: .b1)
+     private var ctaButton = ActivityButton(style: .cta)
     
     var imageViewHeightConstraint: Constraint?
     var imageViewYConstraint: Constraint?
-    
-    var curtain: Curtain = Curtain()
-    
+        
     // MARK: - Initialization -
     init(client: Client, state: State = .login) {
         self.client = client
@@ -117,120 +63,112 @@ class LoginController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     // MARK: - LifeCycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubviews()
-        constrainViews()
         styleViews()
+        addSubviews()
+        
         bind()
-        setupGestureRecognizer()
-        setInitialState()
+        localizeStrings()
+        dismissKeyboardOnTap()
         setDefaultNavVC()
-        addCurtain()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        beginningAnimations()
         log(event: .loginController)
     }
-    
-    //MARK: - Animation -
-    func setInitialState() {
-        emailTextField.isHidden = true
-        passwordTextField.isHidden = true
-        emailTextField.animateOut()
-        passwordTextField.animateOut()
-        self.view.layoutIfNeeded()
-    }
-    
-    fileprivate func beginningAnimations() {
-        UIView.animate(withDuration: 0.25, delay: 0.5, options: [], animations: {
-            self.emailTextField.isHidden = false
-            self.passwordTextField.isHidden = false
-            self.emailTextField.animateIn()
-            self.passwordTextField.animateIn()
-            self.animateIn()
-            self.view.layoutIfNeeded()
-        }, completion: nil)
-    }
-    
-    fileprivate func animateIn() {
-        fieldData.forEach { (data) in
-            data.field.snp.remakeConstraints { (make) in
-                make.top.equalTo(kratosImageView.snp.bottom).offset(data.fieldType.offsetYPosition)
-                make.centerX.equalTo(view)
-                make.width.equalTo(self.view.frame.width * data.fieldType.expandedWidthMultiplier)
-            }
-        }
-    }
-    
-    // MARK: - Gesture Recognizer -
-    @objc func handleTapOutside(_ recognizer: UITapGestureRecognizer) {
-        view.endEditing(true)
-    }
-    
-    fileprivate func setupGestureRecognizer() {
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapOutside(_:)))
-        view.addGestureRecognizer(tapRecognizer)
+}
+
+// MARK: - Binds -
+extension LoginController: Localizer {
+    func localizeStrings() {
+        forgotPasswordButton.setTitle(localize(.loginForgotPasswordButtonTitle), for: .normal)
+        ctaButton.setTitle(viewModel.state.loginButtonTitle, for: .normal)
     }
 }
 
 // MARK: - ViewBuilder -
 extension LoginController: ViewBuilder {
+    func styleViews() {
+        view.backgroundColor = Color.white.value
+        edgesForExtendedLayout = .all
+        automaticallyAdjustsScrollViewInsets = false
+    }
     
     func addSubviews() {
-        self.view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        contentView.addSubview(kratosImageView)
-        fieldData.forEach { (data) in
-            contentView.addSubview(data.field)
-        }
-        contentView.addSubview(loginContinueButton)
-        contentView.addSubview(signUpRegisterButton)
-        contentView.addSubview(forgotPasswordButton)
+        addScrollView()
+        addContentView()
+        addImageView()
+        addEmailField()
+        addPasswordField()
+        addForgotPasswordButton()
+        addCTAButton()
     }
     
-    func constrainViews() {
-        scrollView.snp.makeConstraints { (make) in
-            make.edges.equalTo(view)
-        }
-        contentView.snp.makeConstraints { (make) in
-            make.edges.equalTo(view)
-        }
-        kratosImageView.snp.makeConstraints { make in
-            make.height.equalTo(kratosImageView.snp.width)
-            make.height.equalTo(90)
-            make.centerX.equalTo(view)
-            make.centerY.equalTo(view).multipliedBy(0.3)
-        }
-        fieldData.forEach { (data) in
-            data.field.snp.makeConstraints { (make) in
-                make.top.equalTo(kratosImageView.snp.bottom).offset(data.fieldType.offsetYPosition)
-                make.centerX.equalTo(view)
-                make.width.equalTo(0)
-            }
-        }
-        loginContinueButton.snp.makeConstraints { (make) in
-            make.top.equalTo(kratosImageView.snp.bottom).offset(150)
-            make.centerX.equalTo(view)
-        }
-        signUpRegisterButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(view).inset(15)
-            make.trailing.equalTo(view).inset(15)
-        }
-        forgotPasswordButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(view).inset(15)
-            make.leading.equalTo(view).inset(15)
-        }
-    }
-    
-    func styleViews() {
-        loginContinueButton.style(with: [.titleColor(.kratosRed), .highlightedTitleColor(.red), .font(.header), .disabledTitleColor(.lightGray)])
-        signUpRegisterButton.style(with: [.titleColor(.kratosRed), .font(.body)])
-        forgotPasswordButton.style(with: [.titleColor(.kratosRed), .font(.body)])
+    private func addScrollView() {
+        view.addSubview(scrollView)
         
-        signUpRegisterButton.isUserInteractionEnabled = true
-        forgotPasswordButton.isUserInteractionEnabled = true
-        loginContinueButton.isUserInteractionEnabled = true
+        scrollView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    private func addContentView() {
+        scrollView.addSubview(contentView)
+        contentView.isUserInteractionEnabled = true 
+        
+        contentView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+            make.width.equalTo(view.snp.width)
+            make.height.greaterThanOrEqualTo(view.snp.height)
+        }
+    }
+    
+    private func addImageView() {
+        contentView.addSubview(kratosImageView)
+        
+        kratosImageView.snp.makeConstraints { make in
+            make.height.width.equalTo(Dimension.smallImageViewHeight)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().multipliedBy(0.3)
+        }
+    }
+    
+    private func addEmailField() {
+        contentView.addSubview(emailTextField)
+        
+        emailTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(kratosImageView.snp.bottom).offset(Dimension.largeMargin)
+            make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
+        }
+    }
+    
+    private func addPasswordField() {
+        contentView.addSubview(passwordTextField)
+        
+        passwordTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(emailTextField.snp.bottom).offset(Dimension.defaultMargin)
+            make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
+        }
+    }
+    
+    private func addForgotPasswordButton() {
+        contentView.addSubview(forgotPasswordButton)
+        forgotPasswordButton.alpha = viewModel.state == .create ? 0 : 1
+        
+        forgotPasswordButton.snp.makeConstraints { (make) in
+            make.top.greaterThanOrEqualTo(passwordTextField.snp.bottom).offset(Dimension.defaultMargin)
+            make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
+            make.bottom.lessThanOrEqualToSuperview().inset(Dimension.largeButtonHeight)
+        }
+    }
+    
+    private func addCTAButton() {
+        view.addSubview(ctaButton)
+        
+        ctaButton.snp.makeConstraints { (make) in            make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
+            make.top.equalTo(forgotPasswordButton.snp.bottom).offset(Dimension.defaultMargin)
+            make.bottom.equalTo(view.snp.bottomMargin).offset(-Dimension.iPhoneXMargin)
+        }
     }
 }
 
@@ -240,70 +178,21 @@ extension LoginController: RxBinder {
         setupButtonBindings()
         setupTextFieldBindings()
         navigationBindings()
-        curtainBindings()
     }
     
     func setupButtonBindings() {
-        viewModel.state.asObservable()
-            .map { $0 == .forgotPassword }
-            .distinctUntilChanged()
-            .subscribe(
-                onNext: { [weak self] (isForgotPassword) in
-                    UIView.animate(withDuration: 0.2, animations: {
-                        isForgotPassword ? self?.passwordTextField.animateOut() : self?.passwordTextField.animateIn()
-                        self?.view.layoutIfNeeded()
-                    })
-                }
-            )
-            .disposed(by: disposeBag)
-        
-        viewModel.state
-            .asObservable()
-            .map { $0.signInSignUpButtonTitle }
-            .distinctUntilChanged()
-            .subscribe(
-                onNext: { [weak self] (title) in
-                    self?.signUpRegisterButton.animateTitleChange(to: title)
-                }
-            )
-            .disposed(by: disposeBag)
-        
-        viewModel.state
-            .asObservable()
-            .map { $0.loginButtonTitle }
-            .subscribe(
-                onNext: { [weak self] (title) in
-                    self?.loginContinueButton.animateTitleChange(to: title)
-                }
-            )
-            .disposed(by: disposeBag)
-        
-        viewModel.state
-            .asObservable()
-            .map { $0.forgotPasswordTitle }
-            .bind(to: forgotPasswordButton.rx.title(for: .normal))
-            .disposed(by: disposeBag)
-        
         viewModel.formValid
-            .asObservable()
-            .bind(to: loginContinueButton.rx.isEnabled)
+            .bind(to: ctaButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
-        signUpRegisterButton.rx.tap
-            .bind(to: viewModel.signInSignUpButtonTap)
-            .disposed(by: disposeBag)
-        
-        loginContinueButton.rx.tap
-            .map { _ in self.viewModel.state.value }
+        ctaButton.rx.tap
+            .map { _ in self.viewModel.state }
             .subscribe(
-                onNext: { [weak self] state in
+                onNext: { [unowned self] state in
                     switch state {
                     case .login:
-                        self?.viewModel.login()
-                    case .forgotPassword:
-                        self?.viewModel.postForgotPassword()
-                    case .createAccount:
-                        guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                        self.viewModel.login()
+                    case .create:
                         if let credentials = self.viewModel.credentials.value {
                             let vc = AccountDetailsController(client: self.client, state: .create, credentials: credentials)
                             self.navigationController?.pushViewController(vc, animated: true)
@@ -314,67 +203,75 @@ extension LoginController: RxBinder {
             .disposed(by: disposeBag)
         
         forgotPasswordButton.rx.tap
-            .bind(to: viewModel.forgotPasswordButtonTap)
+            .subscribe(onNext: { [unowned self] in self.viewModel.postForgotPassword()})
             .disposed(by: disposeBag)
         
-        viewModel.loginLoadStatus.asObservable()
-            .onSuccess { [weak self] in
-                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+        viewModel.loginLoadStatus
+            .onSuccess { [unowned self] in
                 let vc = TabBarController(with: self.client)
                 ApplicationLauncher.rootTransition(to: vc)
             }
             .disposed(by: disposeBag)
-        viewModel.loginLoadStatus.asObservable()
-            .onError(execute: { [weak self] error in
-                self?.log(event: .error(KratosError.cast(from: error)))
-                self?.showError(KratosError.cast(from: error))
+        
+        viewModel.loginLoadStatus
+            .onError(
+                execute: { [unowned self] error in
+                    self.log(event: .error(KratosError.cast(from: error)))
+                    self.showError(KratosError.cast(from: error))
                 }
             )
             .disposed(by: disposeBag)
+        
         viewModel.forgotPasswordLoadStatus
-            .asObservable()
-            .onSuccess { [weak self] in
-                self?.log(event: .login(.forgotPassword))
-                self?.presentMessageAlert(title: "Email Sent!", message: "An email with instructions for resetting your password has been sent.", buttonOneTitle: "OK")
+            .onSuccess { [unowned self] in
+                self.log(event: .login(.forgotPassword))
+                self.presentMessageAlert(title: localize(.loginForgotPasswordAlertTitle),
+                                         message: localize(.loginForgotPasswordAlertText),
+                                         buttonOneTitle: localize(.ok))
             }
+            .disposed(by: disposeBag)
+        
+        viewModel.active
+            .bind(to: ctaButton.active)
+            .disposed(by: disposeBag)
+        
+        viewModel.emailValid
+            .bind(to: forgotPasswordButton.rx.isEnabled)
             .disposed(by: disposeBag)
     }
     
     func setupTextFieldBindings() {
-        fieldData.forEach { (data) in
-            data.field.rx.text
-                .map { $0 ?? "" }
-                .bind(to: data.viewModelVariable)
-                .disposed(by: disposeBag)
-        }
+        emailTextField.isValid
+            .bind(to: viewModel.emailValid)
+            .disposed(by: disposeBag)
         
-        //Animations
-        fieldData.forEach { (data) in
-            data.validation.asObservable()
-                .subscribe(
-                    onNext: { (valid) in
-                    data.field.changeColor(for: valid)
-                    }
-                )
-                .disposed(by: disposeBag)
-        }
+        emailTextField.text
+            .filterNil()
+            .bind(to: viewModel.email)
+            .disposed(by: disposeBag)
+        
+        passwordTextField.isValid
+            .bind(to: viewModel.passwordValid)
+            .disposed(by: disposeBag)
+        
+        passwordTextField.text
+            .filterNil()
+            .bind(to: viewModel.password)
+            .disposed(by: disposeBag)
+        
     }
     
     func navigationBindings() {
         viewModel.loginLoadStatus
-            .asObservable()
-            .onSuccess { [weak self] in
-                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+            .onSuccess { [unowned self] in
                 let vc = TabBarController(with: self.client)
                 ApplicationLauncher.rootTransition(to: vc)
-        }
-        .disposed(by: disposeBag)
+            }
+            .disposed(by: disposeBag)
         
         viewModel.loginLoadStatus
-            .asObservable()
             .onError(
-                execute: { [weak self] error in
-                    guard let `self` = self else { return }
+                execute: { [unowned self] error in
                     let kratosError = KratosError.cast(from: error)
                     switch kratosError {
                     case .requestError(let title, _, _):
@@ -391,17 +288,6 @@ extension LoginController: RxBinder {
                     }
                 }
             )
-            .disposed(by: disposeBag)
-    }
-    
-    func curtainBindings() {
-        viewModel.loginLoadStatus
-            .asObservable()
-            .bind(to: curtain.loadStatus)
-            .disposed(by: disposeBag)
-        viewModel.forgotPasswordLoadStatus
-            .asObservable()
-            .bind(to: curtain.loadStatus)
             .disposed(by: disposeBag)
     }
 }

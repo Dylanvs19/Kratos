@@ -27,7 +27,7 @@ class RepInfoView: UIView, CurtainPresenter {
             case .bio:
                 return localize(.repInfoViewBioTitle)
             case .votes:
-                return localize(.repInfoViewVotesTitle)
+                return localize(.monospaceVotes)
             case .bills:
                 return localize(.repInfoViewBillsTitle)
             }

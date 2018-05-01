@@ -82,12 +82,25 @@ extension UIView {
         }
     }
     
-    func snapshot() -> UIImageView {
-        UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.main.scale)
-        guard let context = UIGraphicsGetCurrentContext() else { return UIImageView() }
+    func snapshot() -> UIImage {
+        defer { UIGraphicsEndImageContext() }
+        
+        UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, 0.0)
+        guard let context = UIGraphicsGetCurrentContext() else { return UIImage() }
         self.layer.render(in: context)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return UIImageView(image: image)
+        guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return UIImage() }
+        return image
+    }
+    
+    func addVerticalGradient(from topColor: Color,
+                             bottomColor: Color,
+                             startPoint: CGPoint = CGPoint(x: 0.5, y: 0),
+                             endPoint: CGPoint = CGPoint(x: 0.5, y: 1)) {
+        let gradient = CAGradientLayer()
+        gradient.frame = bounds
+        gradient.colors = [topColor.value.cgColor, bottomColor.value.cgColor]
+        gradient.startPoint = startPoint
+        gradient.endPoint = endPoint
+        layer.insertSublayer(gradient, at: 0)
     }
 }

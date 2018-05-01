@@ -43,14 +43,14 @@ struct ApplicationLauncher {
                     // For iOS 10 data message (sent via FCM)
                     Messaging.messaging().delegate = client
                 }
-                if hasInstalled != nil {
-                    let navVC = UINavigationController(rootViewController: LoginController(client: Client.default))
-                    vc = navVC
-                } else {
+//                if hasInstalled != nil {
+//                    vc = UINavigationController(rootViewController: LoginController(client: Client.default))
+//                } else {
                     Store.shelve("true", key: "has_installed")
-                    let navVC = UINavigationController(rootViewController: LoginController(client: Client.default, state: .createAccount))
-                    vc = navVC
-                }
+                    let viewController = WelcomeController(with: Client.default)
+                    viewController.setDefaultNavVC()
+                    vc = UINavigationController(rootViewController: viewController)
+//                }
                 
             }
             rootTransition(to: vc)
