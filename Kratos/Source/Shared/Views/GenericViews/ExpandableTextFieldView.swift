@@ -168,17 +168,17 @@ extension ExpandableTextFieldView: ViewBuilder {
     }
     func constrainViews() {
         titleLabel.snp.remakeConstraints { make in
-            make.top.equalToSuperview().offset(5)
-            make.leading.trailing.equalToSuperview().inset(10)
+            make.top.equalToSuperview().offset(Dimension.smallMargin)
+            make.leading.trailing.equalToSuperview().inset(Dimension.smallMargin)
         }
         toggleButton.snp.remakeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(10)
-            make.bottom.equalToSuperview().offset(-5)
+            make.leading.trailing.equalToSuperview().inset(Dimension.smallMargin)
+            make.bottom.equalToSuperview().offset(-Dimension.smallMargin)
             make.height.equalTo(expandedButtonHeight)
         }
         textView.snp.remakeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(10)
-            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+            make.leading.trailing.equalToSuperview().inset(Dimension.smallMargin)
+            make.top.equalTo(titleLabel.snp.bottom).offset(Dimension.smallMargin)
             make.bottom.equalTo(toggleButton.snp.top)
             make.height.equalTo(self.contractedHeight)
         }

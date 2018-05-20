@@ -171,7 +171,6 @@ extension AccountDetailsViewModel: RxBinder {
         
         user
             .map { $0.dob }
-            .debug()
             .map { DateFormatter.presentation.string(from: $0) }
             .bind(to: dob)
             .disposed(by: disposeBag)
