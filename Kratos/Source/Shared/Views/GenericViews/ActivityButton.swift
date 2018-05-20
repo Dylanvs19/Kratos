@@ -39,9 +39,15 @@ class ActivityButton: UIButton {
     
     // MARK: - internal -
     private func animate(for isActive: Bool) {
-        UIView.animate(withDuration: 0.1) {
+        if isActive { spinner.startAnimating() }
+        
+        UIView.animate(withDuration: 0.1, animations: {
             self.spinner.alpha = isActive ? 1 : 0
             self.titleLabel?.alpha = isActive ? 0 : 1
+        }) { [unowned self] _ in
+            if !isActive {
+                self.spinner.stopAnimating()
+            }
         }
     }
     
@@ -98,6 +104,7 @@ extension ActivityButton: RxBinder {
             .disposed(by: disposeBag)
         
         active
+            .debug()
             .map { !$0 }
             .bind(to: rx.isEnabled)
             .disposed(by: disposeBag)

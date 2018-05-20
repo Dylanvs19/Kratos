@@ -17,8 +17,8 @@ class LoginViewModel {
     
     let state: LoginController.State
     
-    let loginLoadStatus = ReplaySubject<LoadStatus>.create(bufferSize: 1)
-    let forgotPasswordLoadStatus = ReplaySubject<LoadStatus>.create(bufferSize: 1)
+    let loginLoadStatus = BehaviorSubject<LoadStatus>(value: .none)
+    let forgotPasswordLoadStatus = BehaviorSubject<LoadStatus>(value: .none)
     
     let active = BehaviorSubject<Bool>(value: false)
     
@@ -46,8 +46,8 @@ class LoginViewModel {
             .subscribe(
                 onNext: { [unowned self] (bool) in
                     self.forgotPasswordLoadStatus.onNext(.none)
-                }, onError: { [weak self] error in
-                    self?.forgotPasswordLoadStatus.onNext(.error(KratosError.cast(from: error)))
+                }, onError: { [unowned self] error in
+                    self.forgotPasswordLoadStatus.onNext(.error(KratosError.cast(from: error)))
                 }
             )
             .disposed(by: disposeBag)
