@@ -144,6 +144,11 @@ extension FeedbackController: RxBinder {
             }
             .disposed(by: disposeBag)
         
+        viewModel.postLoadStatus
+            .map { $0 == .loading }
+            .bind(to: submitButton.active)
+            .disposed(by: disposeBag)
+        
         submitButton.rx.tap
             .map { [unowned self] in self.feedbackArray.map { $0.isAnswered ? $0.answer : nil }.compactMap { $0 }}
             .map {
