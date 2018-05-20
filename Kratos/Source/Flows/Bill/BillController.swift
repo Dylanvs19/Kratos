@@ -24,7 +24,7 @@ class BillController: UIViewController, AnalyticsEnabled {
     // UIElements
     //Header
     let billHeader = UIView()
-    let titleLabel = UILabel()
+    let titleLabel = UILabel(style: .h3)
     let divider = UIView()
     let statusLabel = UILabel()
     let statusDateLabel = UILabel()
@@ -54,12 +54,12 @@ class BillController: UIViewController, AnalyticsEnabled {
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubviews()
-        constrainViews()
-        view.layoutIfNeeded()
         styleViews()
+        addSubviews()
+        //BillInfoView needs to be laid out and constrained after view is larger than .zero
+        view.layoutIfNeeded()
+        
         bind()
-        //RepInfoView needs to be laid out and constrained after view is larger than .zero
         billInfoView.build()
     }
     
@@ -67,10 +67,7 @@ class BillController: UIViewController, AnalyticsEnabled {
         super.viewDidAppear(animated)
         setDefaultNavVC()
         self.title = ""
-        trackButton.addShadow()
-        billHeader.addShadow()
         log(event: .billController)
-        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -98,71 +95,110 @@ class BillController: UIViewController, AnalyticsEnabled {
     }
 }
 
+extension Dimension {
+    static var titleToTop: CGFloat {
+        return UIScreen.isIPhoneX ? 50.0 : 30.0
+    }
+}
+
 // MARK: - View Builder -
 extension BillController: ViewBuilder {
-    func addSubviews() {
-        view.addSubview(billHeader)
-        billHeader.addSubview(titleLabel)
-        billHeader.addSubview(divider)
-        billHeader.addSubview(statusLabel)
-        billHeader.addSubview(statusDateLabel)
-        billHeader.addSubview(trackButton)
-        view.addSubview(billInfoView)
-    }
-    func constrainViews() {
-        billHeader.snp.remakeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-        }
-        titleLabel.snp.remakeConstraints { make in
-            make.top.equalToSuperview().inset(25)
-            make.leading.trailing.equalToSuperview().inset(40)
-        }
-        divider.snp.remakeConstraints { make in
-            make.trailing.leading.equalToSuperview().inset(20)
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(5)
-            make.height.equalTo(1)
-        }
-        trackButton.snp.remakeConstraints { make in
-            make.top.equalTo(divider.snp.bottom).offset(10)
-            make.trailing.bottom.equalToSuperview().inset(10)
-        }
-        statusLabel.snp.remakeConstraints { make in
-            make.leading.equalTo(self.divider)
-            make.top.equalTo(self.divider.snp.bottom).offset(2)
-            make.trailing.lessThanOrEqualTo(self.trackButton.snp.leading)
-        }
-        statusDateLabel.snp.remakeConstraints { make in
-            make.leading.equalTo(self.divider)
-            make.top.equalTo(self.statusLabel.snp.bottom).offset(2)
-            make.trailing.lessThanOrEqualTo(self.trackButton.snp.leading)
-        }
-        billInfoView.snp.makeConstraints { make in
-            make.top.equalTo(billHeader.snp.bottom).offset(5)
-            make.leading.trailing.equalToSuperview().inset(10)
-            make.bottom.equalTo(bottomLayoutGuide.snp.top)
-        }
-    }
+    
     func styleViews() {
         view.style(with: .backgroundColor(.slate))
         billHeader.style(with: [.backgroundColor(.white)])
         divider.style(with: [.backgroundColor(.kratosRed)])
-        titleLabel.style(with: [.numberOfLines(8),
-                                .font(.subHeader),
-                                .textAlignment(.center)
-                                ])
         
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.minimumScaleFactor = 2.0
         
         statusLabel.style(with: [.font(.body),
                                  .titleColor(.lightGray)
-                                ])
+            ])
         statusDateLabel.style(with: [.font(.body),
-                                 .titleColor(.lightGray)
-                                ])
+                                     .titleColor(.lightGray)
+            ])
         trackButton.contentEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5)
         trackButton.style(with: [.font(.tab),
                                  .cornerRadius(4)])
+    }
+    
+    func addSubviews() {
+        addBillHeader()
+        addTitleLabel()
+        addDivider()
+        addTrackButton()
+        addStatusLabel()
+        addStatusDateLabel()
+        addBillInfoView()
+    }
+    
+    private func addBillHeader() {
+        view.addSubview(billHeader)
+
+        billHeader.snp.remakeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+        }
+    }
+    
+    private func addTitleLabel() {
+        billHeader.addSubview(titleLabel)
+        titleLabel.textAlignment = .center
+        titleLabel.numberOfLines = 6
+
+        titleLabel.snp.remakeConstraints { make in
+            make.top.equalToSuperview().inset(Dimension.titleToTop)
+            make.leading.trailing.equalToSuperview().inset(40)
+        }
+    }
+    
+    private func addDivider() {
+        billHeader.addSubview(divider)
+
+        divider.snp.remakeConstraints { make in
+            make.trailing.leading.equalToSuperview().inset(40)
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(5)
+            make.height.equalTo(1)
+        }
+    }
+    
+    private func addStatusLabel() {
+        billHeader.addSubview(statusLabel)
+
+        statusLabel.snp.remakeConstraints { make in
+            make.leading.equalTo(self.divider)
+            make.top.equalTo(self.divider.snp.bottom).offset(2)
+            make.trailing.lessThanOrEqualTo(self.trackButton.snp.leading)
+        }
+    }
+    
+    private func addStatusDateLabel() {
+        billHeader.addSubview(statusDateLabel)
+
+        statusDateLabel.snp.remakeConstraints { make in
+            make.leading.equalTo(self.divider)
+            make.top.equalTo(self.statusLabel.snp.bottom).offset(2)
+            make.trailing.lessThanOrEqualTo(self.trackButton.snp.leading)
+        }
+    }
+    
+    private func addTrackButton() {
+        billHeader.addSubview(trackButton)
+
+        trackButton.snp.remakeConstraints { make in
+            make.top.equalTo(divider.snp.bottom).offset(10)
+            make.trailing.bottom.equalToSuperview().inset(10)
+        }
+    }
+    
+    private func addBillInfoView() {
+        view.addSubview(billInfoView)
+
+        billInfoView.snp.makeConstraints { make in
+            make.top.equalTo(billHeader.snp.bottom).offset(5)
+            make.leading.trailing.equalToSuperview().inset(10)
+            make.bottom.equalTo(bottomLayoutGuide.snp.top).offset(-10)
+        }
     }
 }
 
@@ -173,19 +209,23 @@ extension BillController: RxBinder {
             .asObservable()
             .bind(to: titleLabel.rx.text)
             .disposed(by: disposeBag)
+        
         viewModel.status
             .asObservable()
             .bind(to: statusLabel.rx.text)
             .disposed(by: disposeBag)
+        
         viewModel.statusDate
             .asObservable()
             .bind(to: statusDateLabel.rx.text)
             .disposed(by: disposeBag)
+        
         viewModel.bill
             .asObservable()
             .filterNil()
             .bind(to: billInfoView.rx.bill)
             .disposed(by: disposeBag)
+        
         viewModel.isTracking
             .asObservable()
             .take(1)
@@ -195,6 +235,7 @@ extension BillController: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
+        
         viewModel.isTracking
             .asObservable()
             .skip(1)
@@ -204,19 +245,24 @@ extension BillController: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
+        
         viewModel.trackButtonLoadStatus
             .asObservable()
             .map { $0 != .loading }
             .bind(to: trackButton.rx.isEnabled)
             .disposed(by: disposeBag)
+        
         billInfoView.selectedPerson
-            .subscribe(onNext: { [weak self] person in
-                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
-                self.log(event: .bill(.repSelected(id: person.id)))
-                let vc = RepresentativeController(client: self.client, representative: person)
-                self.navigationController?.pushViewController(vc, animated: true)
-            })
+            .subscribe(
+                onNext: { [weak self] person in
+                    guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                    self.log(event: .bill(.repSelected(id: person.id)))
+                    let vc = RepresentativeController(client: self.client, representative: person)
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            )
             .disposed(by: disposeBag)
+        
         billInfoView.selectedTally
             .subscribe(
                 onNext: { [weak self] tally in
@@ -227,6 +273,7 @@ extension BillController: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
+        
         billInfoView.selectedState
             .subscribe(
                 onNext: { [weak self] state in
@@ -234,6 +281,7 @@ extension BillController: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
+        
         trackButton.rx.tap
             .withLatestFrom(viewModel.isTracking.asObservable())
             .subscribe(

@@ -19,7 +19,7 @@ class SubjectSelectionCell: UITableViewCell {
     // MARK: - Variables -
     let disposeBag = DisposeBag()
     let label = UILabel()
-    let clearImage = UIImageView(image: #imageLiteral(resourceName: "clearIcon").af_imageScaled(to: CGSize(width: 15, height: 15)))
+    let clearImage = UIImageView(image: #imageLiteral(resourceName: "redClearIcon").af_imageScaled(to: CGSize(width: 15, height: 15)))
     
     override var isSelected: Bool {
         didSet {
@@ -82,7 +82,7 @@ extension SubjectSelectionCell: ViewBuilder {
     }
     
     func styleViews() {
-        label.style(with: [.font(.cellTitle),
+        label.style(with: [.font(.h5),
                                 .numberOfLines(5)])
         clearImage.isUserInteractionEnabled = false
         label.numberOfLines = 5

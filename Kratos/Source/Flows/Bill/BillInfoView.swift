@@ -232,7 +232,7 @@ extension BillInfoView: UITableViewDelegate {
         }
         label.text = labelText
         view.style(with: .backgroundColor(.slate))
-        label.style(with: [.font(.subTitle)])
+        label.style(with: [.font(.h4)])
         return view
     }
 }
@@ -314,9 +314,6 @@ extension BillInfoView: ViewBuilder {
             make.width.equalTo(self.snp.width)
             make.edges.equalToSuperview()
         }
-//        detailsContentView.snp.remakeConstraints { make in
-//            make.edges.equalToSuperview()
-//        }
         summaryView.layoutIfNeeded()
         summaryScrollView.layoutIfNeeded()
         layoutIfNeeded()
@@ -324,10 +321,9 @@ extension BillInfoView: ViewBuilder {
     
     func styleViews() {
         managerView.style(with: .backgroundColor(.white))
-        managerView.addShadow()
         slideView.style(with: .backgroundColor(.kratosRed))
         managerView.bringSubview(toFront: slideView)
-        votesEmptyLabel.style(with: [.font(.subHeader),
+        votesEmptyLabel.style(with: [.font(.h3),
                                      .titleColor(.kratosRed),
                                      .numberOfLines(3),
                                      .textAlignment(.center)])

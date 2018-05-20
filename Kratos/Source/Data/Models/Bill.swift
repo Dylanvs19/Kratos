@@ -108,8 +108,7 @@ struct Bill: Hashable, JSONDecodable {
         if let relatedBills = json["related_bills"] as? [[String: AnyObject]] {
             self.relatedBills = relatedBills.compactMap { return RelatedBill(json: $0) }
         }
-        if let actions = json["actions"] as? [[String: AnyObject]] {
-            self.actions = actions.compactMap { return BillAction(json: $0) }
+        if let actions = json["actions"] as? [[String: AnyObject]] {            self.actions = actions.compactMap { return BillAction(json: $0) }
         }
         
         if let action = actions?.first,

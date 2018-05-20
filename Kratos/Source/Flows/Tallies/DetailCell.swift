@@ -57,7 +57,7 @@ extension DetailCell: ViewBuilder {
     }
     
     func styleViews() {
-        titleLabel.style(with: [.font(.cellTitle),
+        titleLabel.style(with: [.font(.h5),
                                 .numberOfLines(2),
                                 .textAlignment(.left)])
         detailLabel.style(with: [.font(.tab),

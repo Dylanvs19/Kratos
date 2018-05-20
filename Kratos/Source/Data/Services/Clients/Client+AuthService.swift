@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 import FirebaseMessaging
 import FirebaseAnalytics
 
@@ -16,8 +17,12 @@ enum AuthenticationError: Error {
     case invalidToken
 }
 
-
-extension Client: AccountService {
+extension Client: AuthService {
+    var isLoggedIn: ControlEvent<Bool> {
+        get {
+            return ControlEvent(events: _isLoggedIn.asObservable())
+        }
+    }
     
     func register(user: User, fcmToken: String?) -> Observable<Bool> {
         return request(.register(user: user, fcmToken: fcmToken), ignoreCache: true)
@@ -41,8 +46,8 @@ extension Client: AccountService {
                 }
                 return token
             }
-            .do(onNext: { [weak self] token in
-                self?.update(token: token)
+            .do(onNext: { [unowned self] token in
+                self.update(token: token)
                 Store.shelve(token, key: "token")
             })
             .map { _ in return () }
@@ -79,7 +84,7 @@ extension Client: AccountService {
                     guard let `self` = self else { return }
                     Analytics.setUserProperty("\(user.address.state)", forName: "State")
                     Analytics.setUserProperty("\(user.district)", forName: "District")
-                    self.user.value = user
+                    self._user.value = user
                 },
                 onError: { [weak self] error in
                     guard let `self` = self else { return }
@@ -103,7 +108,7 @@ extension Client: AccountService {
                     guard let `self` = self else { return }
                     Analytics.setUserProperty("\(user.address.state)", forName: "State")
                     Analytics.setUserProperty("\(user.district)", forName: "District")
-                    self.user.value = user
+                    self._user.value = user
                 },
                 onError: { [weak self] error in
                     guard let `self` = self else { return }
@@ -111,5 +116,9 @@ extension Client: AccountService {
                 }
             )
             .disposed(by: disposeBag)
+    }
+    
+    func logOut() {
+        tearDown()
     }
 }

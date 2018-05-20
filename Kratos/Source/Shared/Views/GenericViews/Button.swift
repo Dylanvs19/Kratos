@@ -41,6 +41,8 @@ class Button: UIButton {
 
 // MARK: - ViewBuilder -
 extension Button: ViewBuilder {
+    func addSubviews() {}
+    
     func styleViews() {
         backgroundColor = .clear
         if let highlighted = style.highlightedBackgroundColor?.value {
@@ -59,11 +61,5 @@ extension Button: ViewBuilder {
             layer.cornerRadius = radius
         }
         clipsToBounds = true 
-    }
-    
-    func addSubviews() {
-        snp.makeConstraints { make in
-            make.height.equalTo(style.height)
-        }
     }
 }

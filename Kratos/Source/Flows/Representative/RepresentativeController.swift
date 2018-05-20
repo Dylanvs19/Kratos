@@ -25,17 +25,14 @@ class RepresentativeController: UIViewController, AnalyticsEnabled {
     let topView = UIView()
     let representativeImageView = RepImageView()
     let stateImageView = UIImageView()
-    let repTypeStateLabel = UILabel()
-    let partyLabel = UILabel()
+    let repTypeStateLabel = UILabel(style: .h5lightGrey)
+    let partyLabel = UILabel(style: .tab)
     
     // RepContactView
     let contactView = RepContactView()
     
     // RepInfoView
     let repInfoView: RepInfoView
-
-    let topMargin: CGFloat = 64
-    let repImageViewHeight: CGFloat = 60
     
     // MARK: - Initializer -
     init(client: Client, representative: Person) {
@@ -60,14 +57,12 @@ class RepresentativeController: UIViewController, AnalyticsEnabled {
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        edgesForExtendedLayout = [.top, .right, .left]
+        styleViews()
         addSubviews()
-        constrainViews()
         bind()
         //RepInfoView needs to be laid out and constrained after view is larger than .zero
         view.layoutIfNeeded()
         repInfoView.build()
-        styleViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -120,65 +115,100 @@ extension RepresentativeController {
     }
 }
 
+fileprivate extension Dimension {
+    /// 60px
+    static let repImageViewHeight: CGFloat = 60
+}
+
 // MARK: - View Builder -
 extension RepresentativeController: ViewBuilder {
-    func addSubviews() {
-        view.addSubview(topView)
-        topView.addSubview(representativeImageView)
-        topView.addSubview(stateImageView)
-        topView.addSubview(partyLabel)
-        topView.addSubview(repTypeStateLabel)
-        view.addSubview(contactView)
-        view.addSubview(repInfoView)
+    func styleViews() {
+        edgesForExtendedLayout = [.top, .right, .left]
+        automaticallyAdjustsScrollViewInsets = false
+        view.clipsToBounds = false
+        view.backgroundColor = Color.slate.value
+        
+        stateImageView.alpha = 0.2
+        stateImageView.contentMode = .scaleAspectFit
     }
-    func constrainViews() {
+    
+    func addSubviews() {
+        addTopView()
+        addRepImageView()
+        addStateImageView()
+        addPartyLabel()
+        addRepStateLabel()
+        addContactView()
+        addRepInfoView()
+    }
+    
+    private func addTopView() {
+        view.addSubview(topView)
+        topView.backgroundColor = Color.white.value
+        
         topView.snp.remakeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(topMargin + repImageViewHeight + 20)
+            make.height.equalTo(Dimension.topMargin + Dimension.repImageViewHeight + 20)
         }
+    }
+    
+    private func addRepImageView() {
+        topView.addSubview(representativeImageView)
+
         representativeImageView.snp.remakeConstraints { make in
-            make.top.equalToSuperview().offset(topMargin + 5)
+            make.top.equalToSuperview().offset(Dimension.topMargin + 5)
             make.leading.bottom.equalToSuperview().inset(15)
-            make.height.width.equalTo(repImageViewHeight)
+            make.height.width.equalTo(Dimension.repImageViewHeight)
         }
+    }
+    
+    private func addStateImageView() {
+        topView.addSubview(stateImageView)
+        
         stateImageView.snp.remakeConstraints { make in
             make.top.equalTo(representativeImageView.snp.top)
             make.trailing.bottom.equalToSuperview().inset(15)
-            make.height.width.equalTo(repImageViewHeight)
+            make.height.width.equalTo(Dimension.repImageViewHeight)
         }
+    }
+    
+    private func addPartyLabel() {
+        topView.addSubview(partyLabel)
+
         partyLabel.snp.makeConstraints { make in
             make.top.equalTo(representativeImageView.snp.top).offset(5)
             make.centerX.equalToSuperview()
+            make.height.equalTo(Dimension.tabButtonHeight)
         }
+    }
+    
+    private func addRepStateLabel() {
+        topView.addSubview(repTypeStateLabel)
+
         repTypeStateLabel.snp.makeConstraints { make in
             make.top.equalTo(partyLabel.snp.bottom).offset(5)
             make.centerX.equalToSuperview()
         }
+    }
+    
+    private func addContactView() {
+        view.addSubview(contactView)
+
         contactView.snp.makeConstraints { make in
             make.top.equalTo(topView.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(35)
         }
+    }
+    
+    private func addRepInfoView() {
+        view.addSubview(repInfoView)
+
         repInfoView.snp.makeConstraints { make in
             make.top.equalTo(contactView.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(10)
-            make.bottom.equalTo(view.snp.bottom)
+            make.bottom.equalTo(view.snp.bottom).offset(-10)
         }
-    }
-    
-    func styleViews() {
-        automaticallyAdjustsScrollViewInsets = false 
-        view.clipsToBounds = false
-        view.style(with: .backgroundColor(.slate))
-        topView.style(with: .backgroundColor(.white))
-        topView.addShadow()
-        
-        stateImageView.alpha = 0.2
-        stateImageView.contentMode = .scaleAspectFit
-        
-        partyLabel.style(with: [.font(.tab)])
-        repTypeStateLabel.style(with: [.font(.cellTitle),
-                                       .titleColor(.lightGray)])
     }
 }
 
@@ -213,7 +243,6 @@ extension RepresentativeController: RxBinder {
             .disposed(by: disposeBag)
         viewModel.url
             .asObservable()
-            .filterNil()
             .bind(to: self.representativeImageView.rx.setImage())
             .disposed(by: disposeBag)
         viewModel.representative

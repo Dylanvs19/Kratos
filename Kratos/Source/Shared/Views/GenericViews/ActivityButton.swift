@@ -76,10 +76,6 @@ extension ActivityButton: ViewBuilder {
     }
     
     func addSubviews() {
-        snp.makeConstraints { make in
-          make.height.equalTo(style.height)
-        }
-        
         addSpinner()
     }
     

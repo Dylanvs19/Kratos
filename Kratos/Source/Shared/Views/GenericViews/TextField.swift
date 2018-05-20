@@ -44,9 +44,9 @@ struct TextFieldStyle {
         }
     }
     
-    static let standard = TextFieldStyle(height: Dimension.textfieldHeight, font: .cellTitle)
+    static let standard = TextFieldStyle(height: Dimension.textfieldHeight, font: .h5)
     
-    static let confirmation = TextFieldStyle(height: Dimension.textfieldHeight, font: .header)
+    static let confirmation = TextFieldStyle(height: Dimension.textfieldHeight, font: .h1)
 }
 
 struct TextFieldStateStyle {
@@ -292,7 +292,7 @@ extension TextField: RxBinder {
             .disposed(by: disposeBag)
         
         Observable.combineLatest(isValid,
-                                 textField.rx.isEditing,
+                                 textField.rx.isEditing.startWith(false),
                                  isEnabled) { (isValid, isEditing, isEnabled) -> State in
                                     guard isEnabled else { return .disabled }
                                     guard !isEditing else {
@@ -331,6 +331,9 @@ extension TextField: UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         tap.onNext(())
+        if type.customInteraction {
+            resignFirstResponder()
+        }
         return !type.customInteraction
     }
 }

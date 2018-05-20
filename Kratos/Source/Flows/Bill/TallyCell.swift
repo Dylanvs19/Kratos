@@ -83,7 +83,7 @@ extension TallyCell: ViewBuilder {
     }
     
     func styleViews() {
-        titleLabel.style(with: [.font(.cellTitle),
+        titleLabel.style(with: [.font(.h5),
                                 .numberOfLines(5)])
         statusLabel.style(with: [.font(.body),
                                  .titleColor(.gray)])

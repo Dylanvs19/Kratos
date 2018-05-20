@@ -14,13 +14,13 @@ class RepresentativeCellViewModel {
     // Standard
     let disposeBag = DisposeBag()
     // Data
-    let vote = Variable<Vote?>(nil)
-    let rep = Variable<LightPerson?>(nil)
+    let vote = ReplaySubject<Vote>.create(bufferSize: 1)
+    let rep = ReplaySubject<LightPerson>.create(bufferSize: 1)
     
     let name = Variable<String>("")
     let stateChamber = Variable<String>("")
     let party = PublishSubject<Party>()
-    let imageURL = Variable<URL?>(nil)
+    let imageURL = Variable<String?>(nil)
     let voteValue = Variable<VoteValue?>(nil)
     
     // MARK: - Initialization -
@@ -29,42 +29,46 @@ class RepresentativeCellViewModel {
     }
     // MARK: - Configuration -
     func update(with vote: Vote) {
-        self.vote.value = vote
+        self.vote.onNext(vote)
     }
     
     func update(with representative: Person) {
-        self.rep.value = representative.lightPerson
+        self.rep.onNext(representative.lightPerson)
     }
 }
 
 // MARK: - Binds -
 extension RepresentativeCellViewModel: RxBinder {
     func bind() {
-        vote.asObservable()
-            .map { $0?.person }
+        vote
+            .map { $0.person }
+            .filterNil()
             .bind(to: rep)
             .disposed(by: disposeBag)
         
-        vote.asObservable()
-            .map { $0?.voteValue }
+        vote
+            .map { $0.voteValue }
             .bind(to: voteValue)
             .disposed(by: disposeBag)
         
-        rep.asObservable()
-            .filterNil()
-            .subscribe(onNext: { [weak self] person in
-                var stateChamber = ""
-                stateChamber += person.state.rawValue
-                stateChamber += " "
-                stateChamber += person.representativeType?.rawValue ?? ""
-                self?.stateChamber.value = stateChamber
-                self?.party.onNext(person.party ?? .independent)
-                if let string = person.imageURL,
-                   let url = URL(string: string) {
-                    self?.imageURL.value = url
-                }
-                self?.name.value = person.fullName
-            })
+        rep
+            .map { "\($0.state.rawValue) \($0.representativeType?.rawValue ?? "")"}
+            .bind(to: stateChamber)
+            .disposed(by: disposeBag)
+        
+        rep
+            .map { $0.party ?? .independent }
+            .bind(to: party)
+            .disposed(by: disposeBag)
+        
+        rep
+            .map { $0.imageURL }
+            .bind(to: imageURL)
+            .disposed(by: disposeBag)
+        
+        rep
+            .map { $0.fullName }
+            .bind(to: name)
             .disposed(by: disposeBag)
     }
 }

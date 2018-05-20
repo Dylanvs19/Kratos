@@ -83,17 +83,17 @@ extension NotificationsRegistrationViewController: ViewBuilder {
     
     func styleViews() {
         view.style(with: .backgroundColor(.white))
-        titleLabel.style(with: [.font(.title),
+        titleLabel.style(with: [.font(.h2),
                                 .titleColor(.gray)])
         textView.style(with: [.font(.body),
                               .textAlignment(.center)])
         
         confirmationButton.style(with: [.backgroundColor(.slate),
-                                        .font(.subTitle),
+                                        .font(.h4),
                                         .titleColor(.kratosRed),
                                         .highlightedTitleColor(.red)])
         skipButton.style(with: [.backgroundColor(.slate),
-                                        .font(.subTitle),
+                                        .font(.h4),
                                         .titleColor(.gray),
                                         .highlightedTitleColor(.slate)])
         textView.isScrollEnabled = false

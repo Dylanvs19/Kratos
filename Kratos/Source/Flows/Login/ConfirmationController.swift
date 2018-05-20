@@ -115,15 +115,15 @@ extension ConfirmationController: ViewBuilder {
     
     func styleViews() {
         view.style(with: .backgroundColor(.white))
-        titleLabel.style(with: [.font(.title),
+        titleLabel.style(with: [.font(.h2),
                                 .titleColor(.gray),
                                 .textAlignment(.center)])
-        textView.style(with: [.font(.cellSubtitle),
+        textView.style(with: [.font(.body),
                               .textAlignment(.center)])
         resendConfirmationButton.style(with: [.font(.body),
                                 .titleColor(.gray)])
         submitButton.style(with: [.backgroundColor(.gray),
-                                .font(.header),
+                                .font(.h1),
                                 .titleColor(.white),
                                 .highlightedTitleColor(.red)])
         textView.isScrollEnabled = false

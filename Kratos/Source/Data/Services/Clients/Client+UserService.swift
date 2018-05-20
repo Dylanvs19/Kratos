@@ -8,8 +8,29 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 extension Client: UserService {
+
+    var user: ControlEvent<User?> {
+        get {
+            return ControlEvent(events: _user.asObservable())
+        }
+    }
+    
+    func update(visitingDistrict: District) {
+        guard let user = _user.value else { return }
+        var cpy = user
+        cpy.visitingDistrict = visitingDistrict
+        _user.value = cpy
+    }
+    
+    func clearVisitingDistrict() {
+        guard let user = _user.value else { return }
+        var cpy = user
+        cpy.visitingDistrict = nil
+        _user.value = cpy
+    }
     
     func fetchTrackedBills(for pageNumer: Int, ignoreCache: Bool = false) -> Observable<[Bill]> {
         guard kratosClient.token != nil else { return Observable.error(KratosError.authError(error: .notLoggedIn)) }

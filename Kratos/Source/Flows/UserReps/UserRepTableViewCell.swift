@@ -21,17 +21,8 @@ class UserRepTableViewCell: UITableViewCell {
     
     var disposeBag = DisposeBag()
     
-    var viewModel: UserRepTableViewCellModel?
-    var client: Client? {
-        didSet {
-            if oldValue == nil {
-                addSubviews()
-                constrainViews()
-                styleViews()
-                bind()
-            }
-        }
-    }
+    var viewModel = UserRepTableViewCellModel()
+    
     let partyIndicatorView = UIView()
     let representativeImageView = RepImageView()
     let nameLabel = UILabel()
@@ -44,16 +35,20 @@ class UserRepTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        addSubviews()
+        constrainViews()
+        
+        styleViews()
+        bind()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
         
-    func configure(with client: Client, person: Person) {
-        self.viewModel = UserRepTableViewCellModel(client: client, person: person)
-        self.client = client
-        selectionStyle = .none
+    func update(with person: Person) {
+        self.viewModel.update(with: person)
     }
     
     func configureForSingleRep() {
@@ -105,36 +100,31 @@ extension UserRepTableViewCell: ViewBuilder {
     }
     
     func styleViews() {
-        nameLabel.style(with: .font(.title))
-        representativeLabel.style(with: .font(.subTitle))
-        self.addShadow()
+        selectionStyle = .none
+        nameLabel.style(with: .font(.h2))
+        representativeLabel.style(with: .font(.h4))
     }
 }
 
 extension UserRepTableViewCell: RxBinder {
     func bind() {
-        guard let viewModel = viewModel else { return }
-        viewModel.name.asObservable()
-            .asDriver(onErrorJustReturn: "")
-            .drive(nameLabel.rx.text)
+        viewModel.name
+            .bind(to:nameLabel.rx.text)
             .disposed(by: disposeBag)
         
-        viewModel.chamber.asObservable()
+        viewModel.chamber
             .map { $0.representativeType.rawValue }
-            .asDriver(onErrorJustReturn: "")
-            .drive(representativeLabel.rx.text)
+            .bind(to:representativeLabel.rx.text)
             .disposed(by: disposeBag)
         
-        viewModel.partyColor.asObservable()
-            .asDriver(onErrorJustReturn: UIColor.slate)
+        viewModel.party
+            .map { $0.color }
             .distinctUntilChanged()
-            .drive(onNext: { [weak self] color in
-                self?.partyIndicatorView.backgroundColor = color
-            })
+            .subscribe(onNext: { [unowned self] in self.partyIndicatorView.backgroundColor = $0.value })
             .disposed(by: disposeBag)
         
-        viewModel.url.asObservable()
-            .filterNil()
+        viewModel.url
+            .asObservable()
             .bind(to: self.representativeImageView.rx.setImage())
             .disposed(by: disposeBag)
     }

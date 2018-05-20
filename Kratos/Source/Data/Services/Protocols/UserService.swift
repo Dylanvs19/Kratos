@@ -8,8 +8,10 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
-protocol UserService {
+protocol UserService: Provider  {
+    var user: ControlEvent<User?> { get }
     
     func determineRecess() -> Observable<Bool>
     
@@ -29,4 +31,7 @@ protocol UserService {
     func fetchUserVote(tallyID: Int) -> Observable<LightTally>
     func updateUserVote(voteValue: VoteValue, tallyID: Int) -> Observable<LightTally>
     func deleteUserVote(tallyID: Int) -> Observable<Void>
+
+    func update(visitingDistrict: District)
+    func clearVisitingDistrict()
 }

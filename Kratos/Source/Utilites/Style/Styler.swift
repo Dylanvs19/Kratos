@@ -28,55 +28,70 @@ enum Trait {
 }
 
 enum Font {
-    case header
-    case subHeader
-    case title
-    case subTitle
-    case cellTitle
-    case tab
-    case cellSubtitle
-    case body
-    case text
+    /// Futura 28px
+    case h1
+    /// Futura 24px
+    case h2
+    /// Futura 20px
+    case h3
+    /// AvenirNext-Medium 20px
+    case h4
+    /// ArialMT 20px
     case monospaced
+    /// Futura 17px
+    case h5
+    /// AvenirNext-Medium 15px
+    case tab
+    /// AvenirNext-Regular 14px
+    case body
+    
     
     var value: UIFont {
         switch self {
-        case .header:
-            return .headerFont
-        case .subHeader:
-            return .subHeaderFont
-        case .title:
-            return .titleFont
-        case .subTitle:
-            return .subTitleFont
-        case .cellTitle:
-            return .cellTitleFont
-        case .tab:
-            return .tabFont
-        case .cellSubtitle:
-            return .cellSubtitleFont
-        case .body:
-            return .bodyFont
-        case .text:
-            return .textFont
+        case .h1:
+            return .h1
+        case .h2:
+            return .h2
+        case .h3:
+            return .h3
+        case .h4:
+            return .h4
+        case .h5:
+            return .h5
         case .monospaced:
             return .monospaced
+        case .tab:
+            return .tabFont
+        case .body:
+            return .bodyFont
         }
     }
 }
 
 enum Color {
+    /// r: 0, g: 0, b: 0 a: 1
     case black
+    /// r: 255, g: 255, b: 255 a: 1
     case white
+    /// r: 243, g: 243, b: 243 a: 1
     case slate
+    /// 0.5 white
     case gray
+    /// r: 255, g: 0, b: 0 a: 1
     case red
+    /// 0.667 white
     case lightGray
+    /// r: 207, g: 0, b: 0 a: 1
     case kratosRed
+    /// r: 0, g: 0, b: 100 a: 1
     case kratosBlue
+    /// r: 25, g: 25, b: 112 a: 1
     case darkBlue
+    /// r: 126, g: 211, b: 33 a: 1
     case kratosGreen
+    /// a: 0
     case clear
+    /// r: 255, g: 255, b: 255 a: 0.01
     case clearWhite
     
     var value: UIColor {

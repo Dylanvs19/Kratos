@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 
 struct Dimension {
-    /// 64pt
-    static let navBarInset: CGFloat = 64
+    /// 8pt
+    static let smallMargin: CGFloat = 8
     /// 16pt
     static let defaultMargin: CGFloat = 16
     /// if iphonex 0px, else 24px
@@ -25,9 +25,18 @@ struct Dimension {
     /// 55pt
     static let largeButtonHeight: CGFloat = 50
     /// 45pt
+    static let tabButtonHeight: CGFloat = 45
+    /// 40pt
     static let textfieldHeight: CGFloat = 40
     /// 90px
     static let smallImageViewHeight: CGFloat = 90
     /// 200px
     static let largeImageViewHeight: CGFloat = 200
+    /// 64px, 84 if iPhoneX
+    static var topMargin: CGFloat {
+        return UIScreen.isIPhoneX ? 84 : 64
+    }
+    static var topTitlePosition: CGFloat {
+        return UIScreen.isIPhoneX ? 54 : 34
+    }
 }

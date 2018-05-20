@@ -192,9 +192,9 @@ extension ExpandableTextFieldView: ViewBuilder {
     func styleViews() {
         backgroundColor = .white
         textView.isEditable = false
-        titleLabel.style(with: [.font(.subTitle), .titleColor(.lightGray)])
+        titleLabel.style(with: [.font(.h4), .titleColor(.lightGray)])
         textView.style(with: .font(.body))
-        toggleButton.style(with: [.font(.cellTitle), .titleColor(.kratosRed)])
+        toggleButton.style(with: [.font(.h5), .titleColor(.kratosRed)])
     }
 }
 

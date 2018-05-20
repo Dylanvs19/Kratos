@@ -22,7 +22,7 @@ extension Client: FeedbackService {
     }
     
     func postFeedback(questions: [String : String]) -> Observable<Void> {
-        guard let id = user.value?.id else { return Observable.error(AuthenticationError.notLoggedIn) }
+        guard let id = _user.value?.id else { return Observable.error(AuthenticationError.notLoggedIn) }
         return request(.postFeedback(userID: id, questions: questions))
             .map { _ in return () }
     }

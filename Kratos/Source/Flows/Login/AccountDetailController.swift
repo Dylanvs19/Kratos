@@ -27,7 +27,6 @@ class AccountDetailsController: UIViewController, AnalyticsEnabled {
     }
     
     // MARK: - Variables -
-    var client: Client
     private let viewModel: AccountDetailsViewModel
     private let disposeBag = DisposeBag()
     
@@ -66,8 +65,9 @@ class AccountDetailsController: UIViewController, AnalyticsEnabled {
     private var ctaButton = ActivityButton(style: .cta)
     
     // MARK: - Initialization -
-    init(client: Client, state: State, credentials: (email: String, password: String) = (email: "", password: "")) {
-        self.client = client
+    init(client: UserService & AuthService,
+         state: State,
+         credentials: (email: String, password: String) = (email: "", password: "")) {
         self.viewModel = AccountDetailsViewModel(with: client, state: state, credentials: credentials)
         super.init(nibName: nil, bundle: nil)
     }
@@ -85,12 +85,7 @@ class AccountDetailsController: UIViewController, AnalyticsEnabled {
         bind()
         datePicker.configureDatePicker()
         dismissKeyboardOnTap()
-        gradientView.layoutIfNeeded()
-
-        gradientView.addVerticalGradient(from: .clearWhite,
-                                         bottomColor: .white,
-                                         startPoint: CGPoint(x: 0.5, y: 0),
-                                         endPoint: CGPoint(x: 0.5, y: 0.3))
+        configureGradientView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -146,6 +141,13 @@ class AccountDetailsController: UIViewController, AnalyticsEnabled {
             }
             self.view.layoutIfNeeded()
         }
+    }
+    
+    private func configureGradientView() {
+        gradientView.addVerticalGradient(from: .clearWhite,
+                                         bottomColor: .white,
+                                         startPoint: CGPoint(x: 0.5, y: 0),
+                                         endPoint: CGPoint(x: 0.5, y: 0.3))
     }
 }
 
@@ -207,7 +209,7 @@ extension AccountDetailsController: ViewBuilder {
         contentView.addSubview(firstTextField)
         
         firstTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(kratosImageView.snp.bottom).offset(Dimension.largeMargin)
+            make.top.equalTo(kratosImageView.snp.bottom).offset(Dimension.mediumMargin)
             make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
         }
     }
@@ -216,7 +218,7 @@ extension AccountDetailsController: ViewBuilder {
         contentView.addSubview(lastTextField)
         
         lastTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(firstTextField.snp.bottom).offset(Dimension.largeMargin)
+            make.top.equalTo(firstTextField.snp.bottom).offset(Dimension.mediumMargin)
             make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
         }
     }
@@ -225,7 +227,7 @@ extension AccountDetailsController: ViewBuilder {
         contentView.addSubview(partyTextField)
         
         partyTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(lastTextField.snp.bottom).offset(Dimension.largeMargin)
+            make.top.equalTo(lastTextField.snp.bottom).offset(Dimension.mediumMargin)
             make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
         }
     }
@@ -234,7 +236,7 @@ extension AccountDetailsController: ViewBuilder {
         contentView.addSubview(dobTextField)
         
         dobTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(partyTextField.snp.bottom).offset(Dimension.largeMargin)
+            make.top.equalTo(partyTextField.snp.bottom).offset(Dimension.mediumMargin)
             make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
         }
     }
@@ -243,7 +245,7 @@ extension AccountDetailsController: ViewBuilder {
         contentView.addSubview(streetTextField)
         
         streetTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(dobTextField.snp.bottom).offset(Dimension.largeMargin)
+            make.top.equalTo(dobTextField.snp.bottom).offset(Dimension.mediumMargin)
             make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
         }
     }
@@ -252,7 +254,7 @@ extension AccountDetailsController: ViewBuilder {
         contentView.addSubview(cityTextField)
         
         cityTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(streetTextField.snp.bottom).offset(Dimension.largeMargin)
+            make.top.equalTo(streetTextField.snp.bottom).offset(Dimension.mediumMargin)
             make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
         }
     }
@@ -261,7 +263,7 @@ extension AccountDetailsController: ViewBuilder {
         contentView.addSubview(stateTextField)
         
         stateTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(cityTextField.snp.bottom).offset(Dimension.largeMargin)
+            make.top.equalTo(cityTextField.snp.bottom).offset(Dimension.mediumMargin)
             make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
         }
     }
@@ -270,7 +272,7 @@ extension AccountDetailsController: ViewBuilder {
         contentView.addSubview(zipTextField)
         
         zipTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(stateTextField.snp.bottom).offset(Dimension.largeMargin)
+            make.top.equalTo(stateTextField.snp.bottom).offset(Dimension.mediumMargin)
             make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
             make.bottom.lessThanOrEqualToSuperview().inset(Dimension.largeButtonHeight)
         }
@@ -292,6 +294,7 @@ extension AccountDetailsController: ViewBuilder {
             make.bottom.equalTo(view.snp.bottomMargin).offset(-Dimension.iPhoneXMargin)
             make.top.equalTo(scrollView.snp.bottom).offset(-Dimension.mediumMargin)
             make.top.equalTo(gradientView.snp.top).offset(Dimension.textfieldHeight)
+            make.height.equalTo(Dimension.largeButtonHeight)
         }
     }
     
@@ -319,12 +322,12 @@ extension AccountDetailsController: ViewBuilder {
 
 // MARK: - RxBinder -
 extension AccountDetailsController: RxBinder {
-    
     func bind() {
         setupButtonBindings()
         setupTextfieldBindings()
         setupNavigationBindings()
         setupLoadStatusBindings()
+        adjustForKeyboard()
     }
     
     func setupTextfieldBindings() {
@@ -333,12 +336,88 @@ extension AccountDetailsController: RxBinder {
     }
     
     func bindTextfieldsToUserObject() {
-        //Build from User object
+        firstTextField.text
+            .map { $0 ?? "" }
+            .bind(to: viewModel.first)
+            .disposed(by: disposeBag)
         
+        lastTextField.text
+            .map { $0 ?? "" }
+            .bind(to: viewModel.last)
+            .disposed(by: disposeBag)
+        
+        partyTextField.text
+            .map { $0 ?? "" }
+            .bind(to: viewModel.party)
+            .disposed(by: disposeBag)
+        
+        dobTextField.text
+            .map { $0 ?? "" }
+            .bind(to: viewModel.dob)
+            .disposed(by: disposeBag)
+        
+        streetTextField.text
+            .map { $0 ?? "" }
+            .bind(to: viewModel.street)
+            .disposed(by: disposeBag)
+        
+        cityTextField.text
+            .map { $0 ?? "" }
+            .bind(to: viewModel.city)
+            .disposed(by: disposeBag)
+        
+        stateTextField.text
+            .map { $0 ?? "" }
+            .bind(to: viewModel.first)
+            .disposed(by: disposeBag)
+        
+        zipTextField.text
+            .map { $0 ?? "" }
+            .bind(to: viewModel.zip)
+            .disposed(by: disposeBag)
+        
+        firstTextField.isValid
+            .bind(to: viewModel.firstValid)
+            .disposed(by: disposeBag)
+        
+        lastTextField.isValid
+            .bind(to: viewModel.lastValid)
+            .disposed(by: disposeBag)
+        
+        partyTextField.isValid
+            .bind(to: viewModel.partyValid)
+            .disposed(by: disposeBag)
+        
+        dobTextField.isValid
+            .bind(to: viewModel.dobValid)
+            .disposed(by: disposeBag)
+        
+        streetTextField.isValid
+            .bind(to: viewModel.streetValid)
+            .disposed(by: disposeBag)
+        
+        cityTextField.isValid
+            .bind(to: viewModel.cityValid)
+            .disposed(by: disposeBag)
+        
+        stateTextField.isValid
+            .bind(to: viewModel.stateValid)
+            .disposed(by: disposeBag)
+        
+        zipTextField.isValid
+            .bind(to: viewModel.zipValid)
+            .disposed(by: disposeBag)
     }
     
     func setNewUserValues() {
-        
+        firstTextField.set(text: viewModel.first.value)
+        lastTextField.set(text: viewModel.last.value)
+        partyTextField.set(text: viewModel.party.value)
+        dobTextField.set(text: viewModel.dob.value)
+        streetTextField.set(text: viewModel.street.value)
+        cityTextField.set(text: viewModel.city.value)
+        stateTextField.set(text: viewModel.userState.value)
+        zipTextField.set(text: viewModel.zip.value)
     }
     
     func bindCustomTextfieldInteractions() {
@@ -358,8 +437,6 @@ extension AccountDetailsController: RxBinder {
             .disposed(by: disposeBag)
         
         viewModel.user
-            .asObservable()
-            .filterNil()
             .subscribe(onNext: { [unowned self] _ in self.setNewUserValues() })
             .disposed(by: disposeBag)
         
@@ -399,7 +476,7 @@ extension AccountDetailsController: RxBinder {
         viewModel.registerLoadStatus
             .asObservable()
             .onSuccess { [unowned self] in
-                let vc = ConfirmationController(client: self.client, email: self.viewModel.email.value, password: self.viewModel.password.value)
+                let vc = ConfirmationController(client: Client.provider(), email: self.viewModel.email.value, password: self.viewModel.password.value)
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             .disposed(by: disposeBag)
@@ -422,6 +499,22 @@ extension AccountDetailsController: RxBinder {
                 execute: { [weak self] error in
                     self?.log(event: .error(KratosError.cast(from: error)))
                     self?.showError(KratosError.cast(from: error))
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    private func adjustForKeyboard() {
+        keyboardHeight
+            .subscribe(
+                onNext: { [weak self] height in
+                    guard let `self` = self else { return }
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.ctaButton.snp.updateConstraints{ make in
+                            make.bottom.equalTo(self.view.snp.bottomMargin).offset(-Dimension.iPhoneXMargin - height)
+                        }
+                        self.view.layoutIfNeeded()
+                    })
                 }
             )
             .disposed(by: disposeBag)

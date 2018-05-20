@@ -93,10 +93,10 @@ extension RepresentativeCell: ViewBuilder {
     }
     
     func styleViews() {
-        nameLabel.style(with: .font(.cellTitle))
-        stateChamberLabel.style(with: [.font(.cellSubtitle),
+        nameLabel.style(with: .font(.h5))
+        stateChamberLabel.style(with: [.font(.body),
                                        .titleColor(.gray)])
-        partyLabel.style(with: [.font(.cellSubtitle),
+        partyLabel.style(with: [.font(.body),
                                 .textAlignment(.right),
                                 .titleColor(.gray)])
         selectionStyle = .none
@@ -107,7 +107,6 @@ extension RepresentativeCell: RxBinder {
     func bind() {
         viewModel.imageURL
             .asObservable()
-            .filterNil()
             .bind(to: repImageView.rx.setImage())
             .disposed(by: disposeBag)
         viewModel.voteValue

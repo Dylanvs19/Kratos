@@ -8,8 +8,9 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
-protocol AccountService {
+protocol AuthService: Provider {
     
     func register(user: User, fcmToken: String?) -> Observable<Bool>
     
@@ -23,5 +24,8 @@ protocol AccountService {
     
     func updateUser(user: User, fcmToken: String?)
     
+    var isLoggedIn: ControlEvent<Bool> { get }
+    
+    func logOut() 
 }
 

@@ -24,7 +24,7 @@ class RepresentativeViewModel {
     let repTypeState = Variable<String>("")
     let state = Variable<State?>(nil)
     let party = Variable<String>("")
-    let url = Variable<URL?>(nil)
+    let url = Variable<String?>(nil)
     
     //Representative ContactView Variables
     let contactMethods = Variable<[RepContactView.Contact]>([])
@@ -128,10 +128,7 @@ extension RepresentativeViewModel: RxBinder {
             .disposed(by: disposeBag)
         representative
             .asObservable()
-            .filterNil()
-            .map { $0.imageURL }
-            .filterNil()
-            .map { URL(string: $0) }
+            .map { $0?.imageURL }
             .bind(to: url)
             .disposed(by: disposeBag)
         representative

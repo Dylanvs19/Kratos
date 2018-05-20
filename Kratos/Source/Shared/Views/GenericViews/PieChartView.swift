@@ -135,11 +135,11 @@ extension PieChartView: ViewBuilder {
         }
     }
     func styleViews() {
-        forLabel.style(with: [.font(.text),
+        forLabel.style(with: [.font(.body),
                               .titleColor(.kratosGreen)])
-        againstLabel.style(with: [.font(.text),
+        againstLabel.style(with: [.font(.body),
                               .titleColor(.kratosRed)])
-        abstainLabel.style(with: [.font(.text),
+        abstainLabel.style(with: [.font(.body),
                               .titleColor(.lightGray)])
     }
 }

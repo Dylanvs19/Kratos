@@ -35,6 +35,7 @@ class UserViewModel {
     let loadStatus = Variable<LoadStatus>(.none)
     let emptyState = Variable<EmptyState>(.notEmpty)
     
+    let user = ReplaySubject<User>.create(bufferSize: 1)
     let trackedSubjects = Variable<[Subject]>([])
     let selectedSubjects = Variable<[Subject]>([])
     
@@ -115,15 +116,22 @@ class UserViewModel {
 extension UserViewModel: RxBinder {
     
     func bind() {
+        client.user
+            .filterNil()
+            .bind(to: user)
+            .disposed(by: disposeBag)
+        
         trackedSubjects
             .asObservable()
             .bind(to: selectedSubjects)
             .disposed(by: disposeBag)
+        
         selectedSubjects
             .asObservable()
             .map { $0.contains(where: { $0 == self.trackedBillsSubject }) }
             .bind(to: trackedBillsSelected)
             .disposed(by: disposeBag)
+        
         selectedSubjects
             .asObservable()
             .subscribe(
@@ -137,11 +145,13 @@ extension UserViewModel: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
+        
         selectedSubjects
             .asObservable()
             .map { $0.count != 0 }
             .bind(to: clearable)
             .disposed(by: disposeBag)
+        
         fetchAction.asObservable()
             .withLatestFrom(selectedSubjects.asObservable())
             .map { $0.filter { $0 != self.trackedBillsSubject } }
@@ -151,6 +161,7 @@ extension UserViewModel: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
+        
         Observable.combineLatest(selectedSubjects.asObservable(), trackedSubjects.asObservable(), presentedBills.asObservable()) { (selected, tracked, presented) -> EmptyState in
             guard presented.isEmpty else { return .notEmpty }
             guard tracked.count > 1 else { return .noTrackedSubjectsOrBills }

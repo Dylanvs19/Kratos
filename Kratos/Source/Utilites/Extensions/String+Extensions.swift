@@ -44,10 +44,7 @@ extension String {
     }
     
     func containsOnlyCharacters(in set: CharacterSet) -> Bool {
-        if self.trimmingCharacters(in: set) == "" {
-            return true
-        }
-        return false
+        return self.trimmingCharacters(in: set) == ""
     }
     
     func containsCharacters(in set: CharacterSet) -> Bool {

@@ -19,6 +19,7 @@ enum Constant: String {
     case register = "R E G I S T E R"
     case submit = "S U B M I T"
     case ok = "OK"
+    case feedback = "Feedback"
     
     case welcomeCreateButtonTitle = "Create Account"
     
@@ -27,7 +28,8 @@ enum Constant: String {
     case loginSendButtonTitle = "S E N D"
     case loginSignUpButtonTitle = "S I G N U P"
     case loginSignInButtonTitle = "S I G N I N"
-    case loginForgotPasswordButtonTitle = "Forgot Password"
+    case loginForgotPasswordButtonTitle = "Forgot Password?"
+    case loginInvalidEmailAlertText = "Enter your email address to send password reset instructions."
     case loginForgotPasswordAlertTitle = "Email Sent!"
     case loginForgotPasswordAlertText = "An email with instructions for resetting your password has been sent."
     
@@ -117,9 +119,14 @@ enum Constant: String {
     
     // MenuVC
     case menuAccountDetailsButtonTitle = "Account Details"
-    case menuFeedbackButtonTitle = "Feedback"
     case menuLogoutButtonTitle = "Logout"
     case menuCloseButtonTitle = "Close"
+    case menuPrivacyPolicyButtonTitle = "Privacy Policy"
+    
+    //FeedbackController
+    case feedbackSubmittedAlertTitle = "Thank you!"
+    case feedbackSubmittedAlertText = "Thanks for your feedback!"
+    case feedbackSubmitFeedbackButtonTitle = "Submit Feedback"
     
     //Error
     case errorTitle = "Error"

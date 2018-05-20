@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-protocol StateService {
+protocol StateService: Provider  {
     func fetchStateImage(state: State) -> Observable<String>
     func fetchDistricts(from query: String) -> Observable<[District]>
 }

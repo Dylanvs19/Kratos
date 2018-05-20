@@ -15,7 +15,6 @@ import RxDataSources
 class UserRepsViewController: UIViewController, CurtainPresenter {
     
     // MARK: - Variables -
-    let client: Client
     let viewModel: UserRepsViewModel
     let disposeBag = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
@@ -29,18 +28,11 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
     let stateButton = UIButton()
     
     let tableView = UITableView()
-    let dataSource: RxTableViewSectionedReloadDataSource<SectionModel<String, Person>>
+    let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Person>>()
     
     // MARK: - Initialization -
     init(client: Client) {
-        self.client = client
         self.viewModel = UserRepsViewModel(client: client)
-        self.dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Person>>(configureCell: { dataSource, tableView, indexPath, item in
-            let basicCell = tableView.dequeueReusableCell(withIdentifier: UserRepTableViewCell.identifier, for: indexPath)
-            guard let cell = basicCell as? UserRepTableViewCell else { fatalError() }
-            cell.configure(with: client, person: item)
-            return cell
-        })
         super.init(nibName: nil, bundle: nil)
         client.fetchUser()
     }
@@ -52,11 +44,11 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        edgesForExtendedLayout = [.top, .right, .left]
-        view.layoutIfNeeded()
-        addSubviews()
-        constrainViews()
+        edgesForExtendedLayout = [.top]
+        
         styleViews()
+        addSubviews()
+
         bind()
         configureTableView()
         addCurtain()
@@ -65,7 +57,7 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setDefaultNavVC()
-        stateImageView.addShadow()
+        tableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -75,17 +67,25 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
     
     // MARK: - Configuration -
     func configureTableView() {
-
+        let rowHeightOffset: CGFloat = UIScreen.isIPhoneX ? 30 : 20
+        view.backgroundColor = Color.slate.value
         tableView.backgroundColor = .clear
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 5))
         tableView.register(UserRepTableViewCell.self, forCellReuseIdentifier: UserRepTableViewCell.identifier)
         tableView.isScrollEnabled = false
-        tableView.rowHeight = (self.tableView.frame.height/CGFloat(3)) - 20
+        tableView.rowHeight = (self.tableView.frame.height/CGFloat(3)) - rowHeightOffset
         tableView.sectionHeaderHeight = 5
         tableView.allowsSelection = true
         
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
+        
+        dataSource.configureCell = { dataSource, tableView, indexPath, person in
+            let basicCell = tableView.dequeueReusableCell(withIdentifier: UserRepTableViewCell.identifier, for: indexPath)
+            guard let cell = basicCell as? UserRepTableViewCell else { fatalError() }
+            cell.update(with: person)
+            return cell
+        }
     }
     
     func configureForOneRep() {
@@ -103,53 +103,79 @@ extension UserRepsViewController: UITableViewDelegate {
     }
 }
 
+fileprivate extension Dimension {
+    /// 190px
+    static let stateImageViewHeight: CGFloat = 190
+}
+
 // MARK: - ViewBuilder -
 extension UserRepsViewController: ViewBuilder {
-    func addSubviews() {        
-        view.addSubview(stateImageView)
-        stateImageView.addSubview(topShadeView)
-        topShadeView.addSubview(districtLabel)
-        view.addSubview(stateButton)
-        view.addSubview(tableView)
-    }
-    
-    func constrainViews() {
-        stateImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(190)
-        }
-        topShadeView.snp.makeConstraints { make in
-            make.leading.bottom.trailing.equalToSuperview()
-        }
-        stateButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(10)
-            make.centerY.equalTo(topShadeView)
-        }
-        districtLabel.snp.makeConstraints { make in
-            make.top.bottom.leading.equalToSuperview().inset(10)
-        }
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(stateImageView.snp.bottom).offset(5)
-            make.bottom.trailing.leading.equalToSuperview().inset(10)
-        }
-    }
     
     func styleViews() {
         view.clipsToBounds = false
+    }
+    
+    func addSubviews() {        
+        addStateImageView()
+        addTopShadeView()
+        addDistrictLabel()
+        addStateButton()
+        addTableview()
+    }
+    
+    private func addStateImageView() {
+        view.addSubview(stateImageView)
         stateImageView.contentMode = .scaleToFill
-        topShadeView.style(with: .backgroundColor(.black))
-        topShadeView.alpha = 0.8
         
-        view.style(with: .backgroundColor(.slate))
-        districtLabel.style(with: [.font(.subTitle),
+        stateImageView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(Dimension.stateImageViewHeight)
+        }
+    }
+    
+    private func addTopShadeView() {
+        stateImageView.addSubview(topShadeView)
+        topShadeView.alpha = 0.3
+        topShadeView.backgroundColor = Color.black.value
+        
+        topShadeView.snp.makeConstraints { make in
+            make.bottom.leading.trailing.equalToSuperview()
+            make.height.equalTo(Dimension.largeButtonHeight)
+        }
+    }
+    
+    private func addDistrictLabel() {
+        stateImageView.addSubview(districtLabel)
+        districtLabel.style(with: [.font(.h4),
                                    .titleColor(.white)])
+
+        districtLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(Dimension.defaultMargin)
+            make.centerY.equalTo(topShadeView)
+        }
+    }
+    
+    private func addStateButton() {
+        view.addSubview(stateButton)
         stateButton.contentEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5)
         stateButton.style(with: [.font(.tab),
                                  .cornerRadius(4),
                                  .backgroundColor(.kratosGreen)])
-        tableView.clipsToBounds = false
-        stateImageView.addShadow()
+
+        stateButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(Dimension.defaultMargin)
+            make.centerY.equalTo(topShadeView)
+        }
+    }
+    
+    private func addTableview() {
+        view.addSubview(tableView)
+
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(stateImageView.snp.bottom).offset(5)
+            make.trailing.leading.equalToSuperview().inset(10)
+            make.bottom.equalTo(view.snp.bottomMargin).offset(-10)
+        }
     }
 }
 
@@ -169,27 +195,24 @@ extension UserRepsViewController: RxBinder {
     func bindTopView() {
         viewModel.url
             .asObservable()
-            .filterNil()
-            .map { URL(string: $0) }
-            .bind(to: stateImageView.rx.setImage(with: #imageLiteral(resourceName: "Image_WashingtonDC")))
+            .bind(to: self.stateImageView.rx.setImage(placeholder: #imageLiteral(resourceName: "Image_WashingtonDC")))
             .disposed(by: disposeBag)
+        
         viewModel.state
-            .asObservable()
-            .map { State(rawValue: $0)?.fullName }
-            .filterNil()
+            .map { $0.fullName }
             .bind(to: stateButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
+        
         viewModel.district
-            .asObservable()
-            .filterNil()
             .map { $0.district != 0 ? $0.district.ordinal + " District" : "At Large" }
             .bind(to: districtLabel.rx.text)
             .disposed(by: disposeBag)
+        
         stateButton.rx.tap
             .subscribe(
                 onNext: { [weak self] in
                     guard let `self` = self else { return }
-                    let vc = DistrictChangeController(client: self.client)
+                    let vc = DistrictChangeController(client: Client.provider())
                     let navVC = UINavigationController(rootViewController: vc)
                     self.present(navVC, animated: true, completion: nil)
                 }
@@ -198,25 +221,21 @@ extension UserRepsViewController: RxBinder {
     }
     func bindRepsTableView() {
         viewModel.representatives
-            .asObservable()
             .map { $0.map {SectionModel(model: "", items: [$0]) } }
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
         viewModel.representatives
-            .asObservable()
             .filter { $0.count == 1 }
-            .subscribe(
-                onNext: { [weak self] _ in
-                    self?.configureForOneRep()
-                }
-            )
+            .subscribe(onNext: { [unowned self] _ in self.configureForOneRep() })
             .disposed(by: disposeBag)
+        
         tableView.rx.itemSelected
             .map { self.dataSource[$0] }
             .subscribe(
-                onNext: { [weak self] model in
-                    guard let client = self?.client else { return }
-                    self?.navigationController?.pushViewController(RepresentativeController(client: client, representative: model), animated: true)
+                onNext: { [unowned self] model in
+                    let vc = RepresentativeController(client: Client.provider(), representative: model)
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
             )
             .disposed(by: disposeBag)

@@ -12,11 +12,11 @@ import RxCocoa
 
 class DistrictChangeViewModel {
     // MARK: - Properties -
-    let client: Client
+    let client: UserService & StateService
     let disposeBag = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
     
-    let user = Variable<User?>(nil)
+    let user = ReplaySubject<User>.create(bufferSize: 1)
     let districtModels = Variable<[[District]]>([])
     let presentedDistrict = Variable<District?>(nil)
     let selectedDistrict = Variable<District?>(nil)
@@ -46,24 +46,25 @@ class DistrictChangeViewModel {
             )
             .disposed(by: disposeBag)
     }
+    
     func updateDistrict() {
-        guard let user = client.user.value,
-              let district = presentedDistrict.value else { return }
-        var cpy = user
-        cpy.visitingDistrict = district
-        client.user.value = cpy
+        guard let district = selectedDistrict.value else { return }
+        client.update(visitingDistrict: district)
+    }
+    
+    func clearVisitingDistrict() {
+        client.clearVisitingDistrict()
     }
 }
 // MARK: - RxBinder -
 extension DistrictChangeViewModel: RxBinder {
     func bind() {
         client.user
-            .asObservable()
+            .filterNil()
             .bind(to: user)
             .disposed(by: disposeBag)
+        
         user
-            .asObservable()
-            .filterNil()
             .subscribe(
                 onNext: { [weak self] user in
                     guard let `self` = self else { return }
@@ -71,22 +72,20 @@ extension DistrictChangeViewModel: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
+        
         user
-            .asObservable()
-            .filterNil()
             .map { $0.visitingDistrict ?? $0.district }
             .bind(to: presentedDistrict)
             .disposed(by: disposeBag)
+        
         user
-            .asObservable()
-            .filterNil()
             .map { $0.visitingDistrict != nil }
             .bind(to: showReturnHomeButton)
             .disposed(by: disposeBag)
+        
         query
             .asObservable()
-            .debounce(2, scheduler: MainScheduler.instance)
-            .debug()
+            .debounce(0.25, scheduler: MainScheduler.instance)
             .subscribe(
                 onNext: { [weak self] query in
                     guard let `self` = self else { return }
@@ -94,6 +93,5 @@ extension DistrictChangeViewModel: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
-       
     }
 }

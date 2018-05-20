@@ -47,21 +47,21 @@ class TabBarController: UITabBarController {
             return item
         }
         
-        func viewController(with client: Client) -> UIViewController {
+        var viewController: UIViewController {
             switch self {
             case .explore:
-                let vc = ExploreController(client: client)
+                let vc = ExploreController(client: Client.provider())
                 vc.title = localize(.exploreTitle)
                 vc.tabBarItem = tabBarItem
                 vc.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
                 return vc
             case .main:
-                let vc = UserRepsViewController(client: client)
+                let vc = UserRepsViewController(client: Client.provider())
                 vc.tabBarItem = tabBarItem
                 vc.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
                 return vc
             case .user:
-                let vc = UserController(client: client)
+                let vc = UserController(client: Client.provider())
                 vc.title = localize(.userTitle)
                 vc.tabBarItem = tabBarItem
                 vc.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
@@ -70,14 +70,14 @@ class TabBarController: UITabBarController {
         }
     }
     
-    let client: Client
+    let client: AuthService
     let disposeBag = DisposeBag()
     let scrollDelegate = ScrollingTabBarControllerDelegate()
     
-    init(with client: Client) {
+    init(with client: AuthService) {
         self.client = client
         super.init(nibName: nil, bundle: nil)
-        configure(with: client)
+        configureTabs()
         bind()
     }
     
@@ -88,6 +88,7 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = scrollDelegate
+        styleViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -95,8 +96,8 @@ class TabBarController: UITabBarController {
         self.selectedIndex = 1
     }
     
-    func configure(with client: Client) {
-        let vcArray = Tab.allValues.map { $0.viewController(with: client).embedInNavVC() }
+    func configureTabs() {
+        let vcArray = Tab.allValues.map { $0.viewController.embedInNavVC() }
         setViewControllers(vcArray, animated: true)
     }
     
@@ -130,12 +131,22 @@ class TabBarController: UITabBarController {
     }
 }
 
+extension TabBarController: ViewBuilder {
+    func styleViews() {
+        UITabBar.appearance().shadowImage = UIImage()
+        UITabBar.appearance().backgroundImage = UIImage.from(color: .white)
+    }
+    
+    func addSubviews() {}
+}
+
 extension TabBarController: RxBinder {
     func bind() {
-        client.isLoggedIn.asObservable()
+        client.isLoggedIn
+            .asObservable()
             .filter { $0 == false }
             .subscribe(onNext: { next in
-                let navVC = UINavigationController(rootViewController: LoginController(client: Client.default))
+                let navVC = UINavigationController(rootViewController: LoginController(client: Client.provider()))
                 ApplicationLauncher.rootTransition(to: navVC)
             })
             .disposed(by: disposeBag)

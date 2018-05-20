@@ -15,12 +15,11 @@ import SnapKit
 class StateCell: UITableViewCell {
     // MARK: - Variables -
     static let identifier = String(describing: StateCell.self)
-    fileprivate let disposeBag = DisposeBag()
-    
     
     // MARK: - Initializer -
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        styleViews() 
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,6 +27,14 @@ class StateCell: UITableViewCell {
     }
     
     func update(with district: District) {
-        self.textLabel?.text = "District \(district.district)"
+        self.textLabel?.text = "District \(district.district), \(district.state.fullName)"
     }
+}
+
+extension StateCell: ViewBuilder {
+    func styleViews() {
+        textLabel?.font = Font.h4.value
+    }
+    
+    func addSubviews() {}
 }

@@ -28,7 +28,6 @@ class LoginController: UIViewController, AnalyticsEnabled {
     }
     
     // MARK: - Variables -
-    var client: Client
      private let viewModel: LoginViewModel
      private let disposeBag = DisposeBag()
     
@@ -43,7 +42,7 @@ class LoginController: UIViewController, AnalyticsEnabled {
      private let passwordTextField = TextField(style: .standard,
                                                type: .password,
                                                placeholder: localize(.textFieldPasswordTitle))
-     private var forgotPasswordButton = Button(style: .b1)
+     private var forgotPasswordButton = Button(style: .b2)
      private var ctaButton = ActivityButton(style: .cta)
     
     var imageViewHeightConstraint: Constraint?
@@ -51,7 +50,6 @@ class LoginController: UIViewController, AnalyticsEnabled {
         
     // MARK: - Initialization -
     init(client: Client, state: State = .login) {
-        self.client = client
         self.viewModel = LoginViewModel(client: client, state: state)
         super.init(nibName: nil, bundle: nil)
     }
@@ -75,6 +73,10 @@ class LoginController: UIViewController, AnalyticsEnabled {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         log(event: .loginController)
+    }
+    
+    private func showForgotPasswordEmailAlert() {
+        self.presentMessageAlert(title: "", message: localize(.loginInvalidEmailAlertText), buttonOneTitle: localize(.ok))
     }
 }
 
@@ -156,8 +158,8 @@ extension LoginController: ViewBuilder {
         forgotPasswordButton.alpha = viewModel.state == .create ? 0 : 1
         
         forgotPasswordButton.snp.makeConstraints { (make) in
-            make.top.greaterThanOrEqualTo(passwordTextField.snp.bottom).offset(Dimension.defaultMargin)
-            make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(Dimension.mediumMargin)
+            make.trailing.equalTo(passwordTextField.snp.trailing).offset(-Dimension.defaultMargin)
             make.bottom.lessThanOrEqualToSuperview().inset(Dimension.largeButtonHeight)
         }
     }
@@ -165,9 +167,11 @@ extension LoginController: ViewBuilder {
     private func addCTAButton() {
         view.addSubview(ctaButton)
         
-        ctaButton.snp.makeConstraints { (make) in            make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
-            make.top.equalTo(forgotPasswordButton.snp.bottom).offset(Dimension.defaultMargin)
+        ctaButton.snp.makeConstraints { (make) in
+            make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
+            make.top.greaterThanOrEqualTo(forgotPasswordButton.snp.bottom).offset(Dimension.defaultMargin)
             make.bottom.equalTo(view.snp.bottomMargin).offset(-Dimension.iPhoneXMargin)
+            make.height.equalTo(Dimension.largeButtonHeight)
         }
     }
 }
@@ -178,6 +182,7 @@ extension LoginController: RxBinder {
         setupButtonBindings()
         setupTextFieldBindings()
         navigationBindings()
+        adjustForKeyboard()
     }
     
     func setupButtonBindings() {
@@ -194,7 +199,7 @@ extension LoginController: RxBinder {
                         self.viewModel.login()
                     case .create:
                         if let credentials = self.viewModel.credentials.value {
-                            let vc = AccountDetailsController(client: self.client, state: .create, credentials: credentials)
+                            let vc = AccountDetailsController(client: Client.provider(), state: .create, credentials: credentials)
                             self.navigationController?.pushViewController(vc, animated: true)
                         }
                     }
@@ -203,12 +208,13 @@ extension LoginController: RxBinder {
             .disposed(by: disposeBag)
         
         forgotPasswordButton.rx.tap
-            .subscribe(onNext: { [unowned self] in self.viewModel.postForgotPassword()})
+            .withLatestFrom(viewModel.emailValid)
+            .subscribe(onNext: { [unowned self] in $0 ? self.viewModel.postForgotPassword() : self.showForgotPasswordEmailAlert() })
             .disposed(by: disposeBag)
         
         viewModel.loginLoadStatus
-            .onSuccess { [unowned self] in
-                let vc = TabBarController(with: self.client)
+            .onSuccess {
+                let vc = TabBarController(with: Client.provider())
                 ApplicationLauncher.rootTransition(to: vc)
             }
             .disposed(by: disposeBag)
@@ -234,10 +240,6 @@ extension LoginController: RxBinder {
         viewModel.active
             .bind(to: ctaButton.active)
             .disposed(by: disposeBag)
-        
-        viewModel.emailValid
-            .bind(to: forgotPasswordButton.rx.isEnabled)
-            .disposed(by: disposeBag)
     }
     
     func setupTextFieldBindings() {
@@ -258,13 +260,12 @@ extension LoginController: RxBinder {
             .filterNil()
             .bind(to: viewModel.password)
             .disposed(by: disposeBag)
-        
     }
     
     func navigationBindings() {
         viewModel.loginLoadStatus
-            .onSuccess { [unowned self] in
-                let vc = TabBarController(with: self.client)
+            .onSuccess {
+                let vc = TabBarController(with: Client.provider())
                 ApplicationLauncher.rootTransition(to: vc)
             }
             .disposed(by: disposeBag)
@@ -278,7 +279,7 @@ extension LoginController: RxBinder {
                         // Scan for Confirmation error - if one occurs, push to Confirmation VC with relevant information.
                         // Otherwise, present error.
                         if title == "unconfirmed" {
-                            let vc = ConfirmationController(client: self.client, email: self.viewModel.email.value, password: self.viewModel.password.value)
+                            let vc = ConfirmationController(client: Client.provider(), email: self.viewModel.email.value, password: self.viewModel.password.value)
                             self.navigationController?.pushViewController(vc, animated: true)
                         } else {
                             self.showError(kratosError)
@@ -286,6 +287,22 @@ extension LoginController: RxBinder {
                     default:
                         self.showError(kratosError)
                     }
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    private func adjustForKeyboard() {
+        keyboardHeight
+            .subscribe(
+                onNext: { [weak self] height in
+                    guard let `self` = self else { return }
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.ctaButton.snp.updateConstraints{ make in
+                            make.bottom.equalTo(self.view.snp.bottomMargin).offset(-Dimension.iPhoneXMargin - height)
+                        }
+                        self.view.layoutIfNeeded()
+                    })
                 }
             )
             .disposed(by: disposeBag)

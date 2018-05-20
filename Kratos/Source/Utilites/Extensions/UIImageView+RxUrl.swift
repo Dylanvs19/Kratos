@@ -13,21 +13,22 @@ import RxCocoa
 import AlamofireImage
 
 extension Reactive where Base: UIImageView {
-    func setImage(with placeholder: UIImage? = nil) -> Binder<URL?> {
-        return Binder(self.base) { imageView, url in
-            if let placeholder = placeholder {
-                imageView.image = placeholder
+    func setImage(placeholder: UIImage? = nil) -> Binder<String?> {
+        return Binder(self.base) { (imageView, string) in
+            guard let string = string,
+                let url = URL(string: string) else {
+                    imageView.image = placeholder
+                    return
             }
-            if let url = url {
-                imageView.af_setImage(withURL: url,
-                                      placeholderImage: placeholder,
-                                      filter: nil,
-                                      progress: nil,
-                                      progressQueue: DispatchQueue.main,
-                                      imageTransition: .crossDissolve(0.3),
-                                      runImageTransitionIfCached: true,
-                                      completion: nil)
-            }
+            
+            imageView.af_setImage(withURL: url,
+                             placeholderImage: placeholder,
+                             filter: nil,
+                             progress: nil,
+                             progressQueue: DispatchQueue.main,
+                             imageTransition: .crossDissolve(0.3),
+                             runImageTransitionIfCached: true,
+                             completion: nil)
         }
     }
 }

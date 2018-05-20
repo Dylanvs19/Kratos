@@ -14,7 +14,7 @@ final class TextFieldViewModel {
     // MARK: - properties -
     let disposeBag = DisposeBag()
     let input = Variable<String>("")
-    let isValid = PublishSubject<Bool>()
+    let isValid = ReplaySubject<Bool>.create(bufferSize: 1)
     
     let type: TextFieldType
     

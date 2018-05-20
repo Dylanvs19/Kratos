@@ -62,9 +62,7 @@ class TallyController: UIViewController, AnalyticsEnabled {
     let topView = UIView()
     
     let pieChartView = PieChartView()
-    let titleLabel = UILabel()
-    let statusLabel = UILabel()
-    let statusDateLabel = UILabel()
+    let titleLabel = UILabel(style: .h3)
     
     // TopView
     let managerView = UIView()
@@ -99,12 +97,11 @@ class TallyController: UIViewController, AnalyticsEnabled {
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        edgesForExtendedLayout = [.top, .right, .left]
+        styleViews()
+
         configureVotesTableView()
         configureDetailsTableView()
         addSubviews()
-        constrainViews()
-        styleViews()
         bind()
         view.layoutIfNeeded()
         log(event: .tallyController)
@@ -114,10 +111,6 @@ class TallyController: UIViewController, AnalyticsEnabled {
         super.viewDidAppear(animated)
         setDefaultNavVC()
         self.title = ""
-        topView.addShadow()
-        managerView.addShadow()
-        infoView.addShadow()
-        view.layoutIfNeeded()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -146,20 +139,14 @@ class TallyController: UIViewController, AnalyticsEnabled {
     // MARK: - Animations -
     fileprivate func update(with state: State, animate: Bool = true) {
         if animate {
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-            self.slideView.snp.remakeConstraints { make in
-                make.bottom.equalToSuperview()
-                make.width.equalTo(self.managerView.frame.width / CGFloat(State.allValues.count))
-                make.height.equalTo(2)
-                make.leading.equalToSuperview().offset(state.indicatorXPosition(in: self.managerView))
-            }
-            self.view.layoutIfNeeded()
-        }, completion: nil)
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                self.slideView.snp.updateConstraints { make in
+                    make.leading.equalToSuperview().offset(state.indicatorXPosition(in: self.managerView))
+                }
+                self.view.layoutIfNeeded()
+            }, completion: nil)
         } else {
-            self.slideView.snp.remakeConstraints { make in
-                make.bottom.equalToSuperview()
-                make.width.equalTo(self.managerView.frame.width / CGFloat(State.allValues.count))
-                make.height.equalTo(2)
+            self.slideView.snp.updateConstraints { make in
                 make.leading.equalToSuperview().offset(state.indicatorXPosition(in: self.managerView))
             }
             self.view.layoutIfNeeded()
@@ -179,97 +166,141 @@ class TallyController: UIViewController, AnalyticsEnabled {
 
 // MARK: - View Builder -
 extension TallyController: ViewBuilder {
-    func addSubviews() {
-        view.addSubview(topView)
-        topView.addSubview(titleLabel)
-        topView.addSubview(statusLabel)
-        topView.addSubview(statusDateLabel)
-        topView.addSubview(pieChartView)
-        
-        view.addSubview(managerView)
-        buttons.forEach { managerView.addSubview($0) }
-        managerView.addSubview(slideView)
-        
-        view.addSubview(infoView)
-        infoView.addSubview(scrollView)
-        scrollView.addSubview(scrollViewView)
-        
-        scrollViewView.addSubview(votesTableView)
-        scrollViewView.addSubview(detailsTableView)
-    }
-    
-    func constrainViews() {
-        topView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-        }
-        titleLabel.snp.remakeConstraints { make in
-            make.top.equalToSuperview().inset(25)
-            make.leading.trailing.equalToSuperview().inset(40)
-        }
-        pieChartView.snp.remakeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(5)
-            make.height.width.equalTo(100)
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(5)
-        }
-        
-        managerView.snp.remakeConstraints { make in
-            make.top.equalTo(topView.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(10)
-            make.height.equalTo(45)
-        }
-        managerView.layoutIfNeeded()
-        buttons.forEach { button in
-            let count = CGFloat(State.allValues.count)
-            let width = managerView.frame.width/count
-            button.snp.remakeConstraints { make in
-                make.leading.equalTo(width * CGFloat(button.tag))
-                make.top.bottom.equalToSuperview()
-                make.width.equalToSuperview().dividedBy(count)
-            }
-        }
-        slideView.snp.remakeConstraints { make in
-            make.leading.bottom.equalToSuperview()
-            make.width.equalToSuperview().dividedBy(3)
-            make.height.equalTo(2)
-        }
-        infoView.snp.remakeConstraints { make in
-            make.top.equalTo(managerView.snp.bottom).offset(10)
-            make.trailing.leading.equalToSuperview().inset(10)
-            make.bottom.equalTo(bottomLayoutGuide.snp.top)
-        }
-        scrollView.snp.remakeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        scrollViewView.snp.remakeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalTo(scrollView.snp.width).multipliedBy(2)
-            make.height.equalTo(scrollView.snp.height)
-        }
-        votesTableView.snp.remakeConstraints { make in
-            make.leading.top.bottom.equalToSuperview()
-            make.width.equalTo(scrollView.snp.width)
-        }
-        detailsTableView.snp.remakeConstraints { make in
-            make.leading.equalTo(votesTableView.snp.trailing)
-            make.trailing.top.bottom.equalToSuperview()
-            make.width.equalTo(scrollView.snp.width)
-        }
-    }
-    
     func styleViews() {
+        edgesForExtendedLayout = [.top, .right, .left]
         view.style(with: .backgroundColor(.slate))
         infoView.style(with: .backgroundColor(.white))
         topView.style(with: .backgroundColor(.white))
         managerView.style(with: .backgroundColor(.white))
         slideView.style(with: .backgroundColor(.kratosRed))
-        titleLabel.style(with: [.font(.cellTitle),
+        titleLabel.style(with: [.font(.h5),
                                 .numberOfLines(5),
                                 .textAlignment(.center)])
-        statusLabel.style(with: [.font(.body),
-                                 .titleColor(.gray)])
-        statusDateLabel.style(with: [.font(.body),
-                                     .titleColor(.gray)])
+    }
+    
+    func addSubviews() {
+        addTopView()
+        addTitleLabel()
+        addPieChartView()
+        addManagerView()
+        addManagerViewButtons()
+        addManagerViewSlideView()
+        addInfoView()
+        addInfoScrollView()
+        addInfoScrollViewView()
+        addVotesTableView()
+        addDetailsTableView()
+    }
+    
+    private func addTopView() {
+        view.addSubview(topView)
+        
+        topView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+        }
+    }
+    
+    private func addTitleLabel() {
+        topView.addSubview(titleLabel)
+
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(Dimension.topTitlePosition)
+            make.leading.trailing.equalToSuperview().inset(40)
+        }
+    }
+    
+    private func addPieChartView() {
+        topView.addSubview(pieChartView)
+
+        pieChartView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+            make.height.width.equalTo(100)
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(5)
+        }
+    }
+    
+    private func addManagerView() {
+        view.addSubview(managerView)
+
+        managerView.snp.makeConstraints { make in
+            make.top.equalTo(topView.snp.bottom).offset(10)
+            make.leading.trailing.equalToSuperview().inset(10)
+            make.height.equalTo(45)
+        }
+        managerView.layoutIfNeeded()
+    }
+    
+    private func addManagerViewButtons() {
+        buttons.forEach { managerView.addSubview($0) }
+
+        buttons.forEach { button in
+            let count = CGFloat(State.allValues.count)
+            let width = managerView.frame.width/count
+            button.snp.makeConstraints { make in
+                make.leading.equalTo(width * CGFloat(button.tag))
+                make.top.bottom.equalToSuperview()
+                make.width.equalToSuperview().dividedBy(count)
+            }
+        }
+    }
+    
+    private func addManagerViewSlideView() {
+        managerView.addSubview(slideView)
+
+        slideView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.width.equalToSuperview().dividedBy(3)
+            make.height.equalTo(2)
+        }
+    }
+    
+    private func addInfoView() {
+        view.addSubview(infoView)
+
+        infoView.snp.makeConstraints { make in
+            make.top.equalTo(managerView.snp.bottom).offset(10)
+            make.trailing.leading.equalToSuperview().inset(10)
+            make.bottom.equalTo(bottomLayoutGuide.snp.top).offset(-10)
+        }
+    }
+    
+    private func addInfoScrollView() {
+        infoView.addSubview(scrollView)
+
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    private func addInfoScrollViewView() {
+        scrollView.addSubview(scrollViewView)
+
+        scrollViewView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(scrollView.snp.width).multipliedBy(2)
+            make.height.equalTo(scrollView.snp.height)
+        }
+    }
+    
+    private func addVotesTableView() {
+        scrollViewView.addSubview(votesTableView)
+
+        votesTableView.snp.makeConstraints { make in
+            make.leading.top.bottom.equalToSuperview()
+            make.width.equalTo(scrollView.snp.width)
+        }
+    }
+    
+    private func addDetailsTableView() {
+        scrollViewView.addSubview(detailsTableView)
+
+        detailsTableView.snp.makeConstraints { make in
+            make.leading.equalTo(votesTableView.snp.trailing)
+            make.trailing.top.bottom.equalToSuperview()
+            make.width.equalTo(scrollView.snp.width)
+        }
     }
 }
 
@@ -314,12 +345,10 @@ extension TallyController: RxBinder {
             }
             .disposed(by: disposeBag)
         votesTableView.rx.modelSelected(Vote.self)
-            .asObservable()
             .map { $0.person }
             .filterNil()
             .subscribe(
-                onNext: { [weak self] rep in
-                    guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+                onNext: { [unowned self] rep in
                     self.log(event: .tally(.repSelected(id: rep.id)))
                     let vc = RepresentativeController(client: self.client, representative: rep)
                     self.navigationController?.pushViewController(vc, animated: true)
@@ -335,14 +364,6 @@ extension TallyController: RxBinder {
         viewModel.title
             .asObservable()
             .bind(to: titleLabel.rx.text)
-            .disposed(by: disposeBag)
-        viewModel.status
-            .asObservable()
-            .bind(to: statusLabel.rx.text)
-            .disposed(by: disposeBag)
-        viewModel.statusDate
-            .asObservable()
-            .bind(to: statusDateLabel.rx.text)
             .disposed(by: disposeBag)
         viewModel.state
             .asObservable()

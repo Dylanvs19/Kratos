@@ -65,7 +65,7 @@ extension BillCell: ViewBuilder {
     }
     
     func styleViews() {
-        titleLabel.style(with: [.font(.cellTitle),
+        titleLabel.style(with: [.font(.h5),
                                 .titleColor(.black),
                                 .numberOfLines(5)])
         lastAction.style(with: [.font(.body),

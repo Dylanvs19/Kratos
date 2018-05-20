@@ -76,11 +76,11 @@ extension RepVoteCell: ViewBuilder {
     func styleViews() {
         selectionStyle = .none
         billTitleLabel.style(with: [.numberOfLines(4),
-                                    .font(.cellTitle)])
-        billTitleLabel.style(with: .font(.cellTitle))
-        billStatus.style(with: [.font(.cellSubtitle),
+                                    .font(.h5)])
+        billTitleLabel.style(with: .font(.h5))
+        billStatus.style(with: [.font(.body),
                                 .titleColor(.gray)])
-        billSubjectLabel.style(with: [.font(.cellSubtitle),
+        billSubjectLabel.style(with: [.font(.body),
                                       .titleColor(.gray),
                                       .numberOfLines(3)])
     }

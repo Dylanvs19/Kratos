@@ -13,11 +13,12 @@ import RxCocoa
 class ExploreViewModel {
     // MARK: - Variables -
     // Standard
-    let client: Client
+    let client: CongressService & AuthService & UserService
     let disposeBag = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
     
     // Data
+    let user = ReplaySubject<User>.create(bufferSize: 1)
     let state = Variable<ExploreController.State>(.trending)
     let houseBills = Variable<[Bill]>([])
     let senateBills = Variable<[Bill]>([])
@@ -25,7 +26,7 @@ class ExploreViewModel {
     let inRecess = Variable<Bool>(false)
     
     // MARK: - Initializer -
-    init(client: Client) {
+    init(client: CongressService & AuthService & UserService) {
         self.client = client
         loadStatus.value = .loading
         fetchSenateBills()
@@ -98,6 +99,11 @@ extension ExploreViewModel: RxBinder {
                     self?.loadStatus.value = .none
                 }
             )
+            .disposed(by: disposeBag)
+        
+        client.user
+            .filterNil()
+            .bind(to: user)
             .disposed(by: disposeBag)
     }
 }

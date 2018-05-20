@@ -11,56 +11,54 @@ import RxSwift
 
 class FeedbackViewModel {
     // MARK: - Variables -
-    let client: Client
+    let client: FeedbackService
     let disposeBag = DisposeBag()
-    let loadStatus = Variable<LoadStatus>(.none)
+    let fetchLoadStatus = Variable<LoadStatus>(.none)
+    let postLoadStatus = Variable<LoadStatus>(.none)
     
     let questions = Variable<[String]>([])
-    let answers = Variable<[String: String]>([String:String]())
+    let answers = ReplaySubject<[String: String]>.create(bufferSize: 1)
     
     // MARK: - Initializer -
-    init(client: Client) {
+    init(client: FeedbackService) {
         self.client = client
         bind()
     }
     
     // MARK: - Client Requests -
     func fetchFeedback() {
-        loadStatus.value = .loading
+        fetchLoadStatus.value = .loading
         client.fetchFeedback()
             .subscribe(
                 onNext: { [weak self] questions in
-                    self?.loadStatus.value = .none
+                    self?.fetchLoadStatus.value = .none
                     self?.questions.value = questions
                 }, onError: { [weak self] error in
-                    self?.loadStatus.value = .error(KratosError.cast(from: error))
+                    self?.fetchLoadStatus.value = .error(KratosError.cast(from: error))
                 }
             )
             .disposed(by: disposeBag)
     }
     
-    func postFeedBack() {
-        guard !answers.value.isEmpty else { return }
-        loadStatus.value = .loading
-        client.postFeedback(questions: answers.value)
+    func postFeedBack(for answers: [String: String]) {
+        postLoadStatus.value = .loading
+        client.postFeedback(questions: answers)
             .subscribe(
                 onNext: { [weak self] questions in
-                    self?.loadStatus.value = .none
+                    self?.postLoadStatus.value = .none
                 }, onError: { [weak self] error in
-                    self?.loadStatus.value = .error(KratosError.cast(from: error))
+                    self?.postLoadStatus.value = .error(KratosError.cast(from: error))
                 }
             )
             .disposed(by: disposeBag)
-    }
-    
-    func extract(answers: [String: String]) {
-        self.answers.value = answers
     }
 }
 
 // MARK: - Binds -
 extension FeedbackViewModel {
     func bind() {
-        
+        answers
+            .subscribe(onNext: { [unowned self] in  self.postFeedBack(for: $0)})
+            .disposed(by: disposeBag)
     }
 }

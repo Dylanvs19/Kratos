@@ -14,14 +14,15 @@ import FirebaseMessaging
 
 class AccountDetailsViewModel {
     
-    let client: Client
+    let client: UserService & AuthService
     let loadStatus = Variable<LoadStatus>(.none)
     let registerLoadStatus = Variable<LoadStatus>(.none)
     let disposeBag = DisposeBag()
     
-    let user = Variable<User?>(nil)
+    let user = ReplaySubject<User>.create(bufferSize: 1)
     let state = Variable<AccountDetailsController.State>(.edit)
     
+    let id = Variable<Int?>(nil)
     let email = Variable<String>("")
     let password = Variable<String>("")
     let first = Variable<String>("")
@@ -47,7 +48,7 @@ class AccountDetailsViewModel {
     var formValid = BehaviorSubject<Bool>(value: false)
     
     //MARK: Methods
-    init(with client: Client, state: AccountDetailsController.State, credentials: (email: String, password: String)) {
+    init(with client: UserService & AuthService, state: AccountDetailsController.State, credentials: (email: String, password: String)) {
         self.client = client
         self.state.value = state
         self.email.value = credentials.email
@@ -71,7 +72,8 @@ class AccountDetailsViewModel {
     }
     
     func save() {
-        client.updateUser(user: updateUser(), fcmToken: InstanceID.instanceID().token())
+        guard let user = updateUser() else { return }
+        client.updateUser(user: user, fcmToken: InstanceID.instanceID().token())
     }
     
     func buildRegistrationUser() -> User {
@@ -90,12 +92,13 @@ class AccountDetailsViewModel {
         
     }
     
-    func updateUser() -> User {
-        guard let user = user.value else { fatalError("No user value to update") }
-        return user.update(email: email.value,
+    func updateUser() -> User? {
+        guard let id = id.value else { return nil }
+        return User(id: id,
+                    email: email.value,
                     firstName: first.value,
-                    lastName: last.value, 
-                    district: nil,
+                    lastName: last.value,
+                    district: District(state: .puertoRico, district: 0),
                     address: Address(street: street.value,
                                      city: city.value,
                                      state: userState.value,
@@ -141,50 +144,54 @@ extension AccountDetailsViewModel: RxBinder {
     
     func setupUserBindings() {
         client.user
-            .asObservable()
+            .filterNil()
             .bind(to: user)
             .disposed(by: disposeBag)
         
-        let nonNilUser = user.asObservable().filterNil()
+        user
+            .map { $0.id }
+            .bind(to: id)
+            .disposed(by: disposeBag)
         
-        nonNilUser
+        user
             .map { $0.firstName }
             .bind(to: first)
             .disposed(by: disposeBag)
         
-        nonNilUser
+        user
             .map { $0.lastName }
             .bind(to: last)
             .disposed(by: disposeBag)
         
-        nonNilUser
+        user
             .map { $0.party?.long }
             .filterNil()
             .bind(to: party)
             .disposed(by: disposeBag)
         
-        nonNilUser
+        user
             .map { $0.dob }
+            .debug()
             .map { DateFormatter.presentation.string(from: $0) }
             .bind(to: dob)
             .disposed(by: disposeBag)
         
-        nonNilUser
+        user
             .map { $0.address.street }
             .bind(to: street)
             .disposed(by: disposeBag)
         
-        nonNilUser
+        user
             .map { $0.address.city }
             .bind(to: city)
             .disposed(by: disposeBag)
         
-        nonNilUser
+        user
             .map { $0.address.state }
             .bind(to: userState)
             .disposed(by: disposeBag)
         
-        nonNilUser
+        user
             .map { $0.address.zipCode }
             .map { String($0) }
             .bind(to: zip)

@@ -12,7 +12,7 @@ import RxSwift
 class LoginViewModel {
     
     // MARK: - Variables -
-    private var client: Client
+    private var client: AuthService
     private let disposeBag = DisposeBag()
     
     let state: LoginController.State

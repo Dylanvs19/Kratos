@@ -30,12 +30,9 @@ class UserController: UIViewController, CurtainPresenter {
     let tableViewView = UIView()
     let tableView = UITableView()
     let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Bill>>()
-    let emptyStateLabel = UILabel()
+    let emptyStateLabel = UILabel(style: .h3gray)
     
     var curtain: Curtain = Curtain()
-
-    let headerHeight: CGFloat = 64
-    let buttonWidth: CGFloat = 35
     
     // MARK: - Initializers -
     init(client: Client) {
@@ -59,24 +56,20 @@ class UserController: UIViewController, CurtainPresenter {
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        edgesForExtendedLayout = [.top, .right, .left]
+        styleViews()
+        addSubviews()
+        
+        bind()
         configureCollectionView()
         configureTableView()
-        addSubviews()
-        constrainViews()
-        bind()
-        styleViews()
         view.layoutIfNeeded()
         addCurtain()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureNavVC()
         view.layoutIfNeeded()
-        header.addShadow()
-        topView.addShadow()
-        tableViewView.addShadow()
+
         viewModel.fetchTrackedSubjects()
     }
     
@@ -86,23 +79,22 @@ class UserController: UIViewController, CurtainPresenter {
     }
     
     // MARK: - Configuration -
-    func configureNavVC() {
+    func configureRightBarButton(with user: User) {
         self.navigationItem.title = localize(.userTitle)
         var rightBarButtonItems: [UIBarButtonItem] = []
-        if let user = client.user.value {
-            let button = UIButton()
-            button.snp.remakeConstraints { make in
-                make.height.width.equalTo(30).priority(1000)
-            }
-            button.style(with: .font(.monospaced))
-            button.setTitle(user.firstName.firstLetter, for: .normal)
-            button.backgroundColor = user.party?.color.value ?? .gray
-            button.layer.cornerRadius = CGFloat(30/2)
-            button.clipsToBounds = false
-            button.addTarget(self, action: #selector(presentMenu), for: .touchUpInside)
-            let item = UIBarButtonItem(customView: button)
-            rightBarButtonItems.append(item)
+        
+        let button = UIButton()
+        button.snp.remakeConstraints { make in
+            make.height.width.equalTo(30).priority(1000)
         }
+        button.style(with: .font(.monospaced))
+        button.setTitle(user.firstName.firstLetter, for: .normal)
+        button.backgroundColor = user.party?.color.value ?? .gray
+        button.layer.cornerRadius = CGFloat(30/2)
+        button.clipsToBounds = false
+        button.addTarget(self, action: #selector(presentMenu), for: .touchUpInside)
+        let item = UIBarButtonItem(customView: button)
+        rightBarButtonItems.append(item)
         self.navigationItem.rightBarButtonItems = rightBarButtonItems
         self.navigationController?.navigationBar.setNeedsLayout()
     }
@@ -126,6 +118,7 @@ class UserController: UIViewController, CurtainPresenter {
         tableView.tableFooterView = UIView()
         tableView.showsVerticalScrollIndicator = false
     }
+    
     // MARK - Animations -
     func animateClearSubjectButton(for clearable: Bool) {
         UIView.animate(withDuration: 0.2) {
@@ -145,81 +138,116 @@ class UserController: UIViewController, CurtainPresenter {
     }
 }
 
+fileprivate extension Dimension {
+    /// 60px
+    static let buttonWidth: CGFloat = 35
+}
+
 // MARK: - View Builder -
 extension UserController: ViewBuilder {
-    func addSubviews() {
-        view.addSubview(header)
-        view.addSubview(tableViewView)
-        tableViewView.addSubview(tableView)
-        tableViewView.addSubview(emptyStateLabel)
-        view.addSubview(topView)
-        topView.addSubview(clearSelectedSubjectButton)
-        topView.addSubview(addMoreSubjectsButton)
-        topView.addSubview(collectionView)
+    func styleViews() {
+        edgesForExtendedLayout = [.top, .right, .left]
+        view.backgroundColor = Color.slate.value
+        
+        tableView.style(with: .backgroundColor(.white))
+        header.style(with: .backgroundColor(.white))
+        clearSelectedSubjectButton.style(with: .backgroundColor(.white))
+        
+        emptyStateLabel.style(with: [.font(.h3),
+                                     .titleColor(.gray),
+                                     .numberOfLines(4),
+                                     .textAlignment(.center)])
     }
     
-    func constrainViews() {
+    func addSubviews() {
+        addHeader()
+        addTopView()
+        addClearButton()
+        addAddButton()
+        addCollectionView()
+        addTableViewView()
+        addTableView()
+        addEmptyStateLabel()
+    }
+    
+    private func addHeader() {
+        view.addSubview(header)
+
         header.snp.remakeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(headerHeight)
+            make.height.equalTo(Dimension.topMargin)
         }
+    }
+    
+    private func addTopView() {
+        view.addSubview(topView)
+        
         topView.snp.remakeConstraints { make in
             make.top.equalTo(header.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(10)
             make.height.equalTo(44)
         }
-        addMoreSubjectsButton.snp.remakeConstraints { make in
-            make.top.bottom.trailing.equalToSuperview()
-            make.width.equalTo(buttonWidth)
-        }
+    }
+    
+    private func addClearButton() {
+        topView.addSubview(clearSelectedSubjectButton)
+        let image = #imageLiteral(resourceName: "redClearIcon").af_imageScaled(to: CGSize(width: 15, height: 15))
+        clearSelectedSubjectButton.setImage(image, for: .normal)
+        
         clearSelectedSubjectButton.snp.remakeConstraints { make in
             make.top.bottom.leading.equalToSuperview()
-            make.width.equalTo(buttonWidth)
+            make.width.equalTo(Dimension.buttonWidth)
         }
+    }
+    
+    private func addAddButton() {
+        topView.addSubview(addMoreSubjectsButton)
+        addMoreSubjectsButton.setImage(#imageLiteral(resourceName: "chevronRedRightIcon"), for: .normal)
+        addMoreSubjectsButton.backgroundColor = Color.white.value
+        
+        addMoreSubjectsButton.snp.remakeConstraints { make in
+            make.top.bottom.trailing.equalToSuperview()
+            make.width.equalTo(Dimension.buttonWidth)
+        }
+    }
+    
+    private func addCollectionView() {
+        topView.addSubview(collectionView)
+     
         collectionView.snp.remakeConstraints { make in
             make.top.bottom.equalToSuperview()
             make.trailing.equalTo(addMoreSubjectsButton.snp.leading)
             make.leading.equalTo(clearSelectedSubjectButton.snp.trailing)
         }
+    }
+    
+    private func addTableViewView() {
+        view.addSubview(tableViewView)
+
         tableViewView.snp.remakeConstraints { make in
             make.top.equalTo(topView.snp.bottom).offset(10)
             make.trailing.leading.equalToSuperview().inset(10)
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(view.snp.bottomMargin).offset(-10)
         }
-        emptyStateLabel.snp.remakeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-            make.width.equalToSuperview().offset(-40)
-        }
+    }
+    
+    private func addTableView() {
+        tableViewView.addSubview(tableView)
+
         tableView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
     
-    func styleViews() {
-        view.style(with: .backgroundColor(.slate))
-        tableView.style(with: .backgroundColor(.white))
-        header.style(with: .backgroundColor(.white))
-        addMoreSubjectsButton.style(with: [.titleColor(.kratosRed),
-                                           .font(.tab),
-                                           .backgroundColor(.white)])
-        clearSelectedSubjectButton.style(with: .backgroundColor(.white))
-        let image = #imageLiteral(resourceName: "clearIcon").af_imageScaled(to: CGSize(width: 15, height: 15))
-        clearSelectedSubjectButton.setImage(image, for: .normal)
-        addMoreSubjectsButton.setImage(#imageLiteral(resourceName: "chevronRedRightIcon"), for: .normal)
-        addMoreSubjectsButton.addShadow(shadowColor: .black, shadowOffset: CGSize(width: 1, height: 0) , shadowOpacity: 0.2, shadowRadius: 1)
-        clearSelectedSubjectButton.addShadow(shadowColor: .black, shadowOffset: CGSize(width: 1, height: 0) , shadowOpacity: 0.2, shadowRadius: 1)
-        emptyStateLabel.style(with: [.font(.subHeader),
-                                     .titleColor(.gray),
-                                     .numberOfLines(4),
-                                     .textAlignment(.center)])
+    private func addEmptyStateLabel() {
+        tableViewView.addSubview(emptyStateLabel)
+
+        emptyStateLabel.snp.remakeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+            make.width.equalToSuperview().offset(-40)
+        }
     }
 }
-
-// MARK: - Interaction Responder -
-extension UserController: InteractionResponder {
-    func setupInteractions() { }
-}
-
 // MARK: - Binds  -
 extension UserController: RxBinder {
     func bind() {
@@ -232,9 +260,9 @@ extension UserController: RxBinder {
             .disposed(by: disposeBag)
         viewModel.presentedBills
             .asObservable()
-            .do(onNext: { (bills) in
-                print("Presented Bills - \(bills.count)")
-            })
+//            .do(onNext: { (bills) in
+//                print("Presented Bills - \(bills.count)")
+//            })
             .bind(to: tableView.rx.items(cellIdentifier: BillCell.identifier, cellType: BillCell.self)) { row, data, cell in
                 cell.configure(with: data)
             }
@@ -303,9 +331,14 @@ extension UserController: RxBinder {
             .map { $0.title }
             .bind(to: emptyStateLabel.rx.text)
             .disposed(by: disposeBag)
+        
         viewModel.loadStatus
             .asObservable()
             .bind(to: curtain.loadStatus)
+            .disposed(by: disposeBag)
+        
+        viewModel.user
+            .subscribe(onNext: { [unowned self] user in self.configureRightBarButton(with: user) })
             .disposed(by: disposeBag)
     }
 }

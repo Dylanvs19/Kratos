@@ -27,12 +27,12 @@ class DistrictChangeController: UIViewController {
     
     // Internal
     let topView = UIView()
-    let stateTitle = UILabel()
-    let districtTitle = UILabel()
+    let stateTitle = UILabel(style: .h3white)
+    let districtTitle = UILabel(style: .h3white)
     let returnToHomeButton = UIButton()
-    let descriptionLabel = UILabel()
+    let descriptionLabel = UILabel(style: .bodyGray)
     let searchField = TextField(style: .standard, type: .text, placeholder: localize(.textFieldSearchTitle))
-    let submitButton = UIButton()
+    let submitButton = ActivityButton(style: .cta)
     let tableView = UITableView()
     
     // MARK: - Initializer -
@@ -50,7 +50,6 @@ class DistrictChangeController: UIViewController {
         super.viewDidLoad()
         styleViews()
         addSubviews()
-        constrainViews()
         
         bind()
         localizeStrings()
@@ -60,7 +59,7 @@ class DistrictChangeController: UIViewController {
     
     func configureNavigationBar() {
         setDefaultNavVC()
-        setDefaultClearButton()
+        setClearButton(isRed: false)
     }
     
     // MARK: - Configuration -
@@ -69,6 +68,8 @@ class DistrictChangeController: UIViewController {
         tableView.register(StateHeaderView.self, forHeaderFooterViewReuseIdentifier: StateHeaderView.identifier)
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
+        tableView.separatorInset = .zero
+        tableView.separatorColor = Color.lightGray.value
         tableView.tableFooterView = UIView()
     }
     
@@ -93,8 +94,9 @@ extension DistrictChangeController: Localizer {
 // MARK: - UITableViewDelegate -
 extension DistrictChangeController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
+        return 45
     }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let state = dataSource[section].model
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: StateHeaderView.identifier) as? StateHeaderView else { fatalError() }
@@ -105,74 +107,114 @@ extension DistrictChangeController: UITableViewDelegate {
 
 // MARK: - ViewBuilder-
 extension DistrictChangeController: ViewBuilder {
-    func addSubviews() {
-        view.addSubview(topView)
-        topView.addSubview(stateTitle)
-        topView.addSubview(districtTitle)
-        view.addSubview(returnToHomeButton)
-        view.addSubview(descriptionLabel)
-        view.addSubview(searchField)
-        view.addSubview(tableView)
-        view.addSubview(submitButton)
-    }
-    func constrainViews() {
-        topView.snp.makeConstraints { make in
-            make.top.trailing.leading.equalToSuperview()
-        }
-        stateTitle.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(Dimension.navBarInset)
-            make.leading.trailing.equalToSuperview().inset(Dimension.defaultMargin)
-        }
-        districtTitle.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(Dimension.navBarInset)
-            make.leading.trailing.bottom.equalToSuperview().inset(Dimension.defaultMargin)
-        }
-        returnToHomeButton.snp.makeConstraints { make in
-            make.top.equalTo(topView.snp.bottom)
-            make.leading.trailing.equalToSuperview().inset(-1)
-            make.height.equalTo(Dimension.largeButtonHeight)
-        }
-        descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(returnToHomeButton.snp.bottom).offset(Dimension.defaultMargin)
-            make.leading.trailing.equalToSuperview().inset(Dimension.defaultMargin)
-        }
-        searchField.snp.makeConstraints { make in
-            make.top.equalTo(descriptionLabel.snp.bottom).offset(Dimension.defaultMargin)
-            make.leading.trailing.equalToSuperview().inset(Dimension.defaultMargin)
-            make.height.equalTo(25)
-        }
-        submitButton.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(40)
-        }
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(searchField.snp.bottom).offset(Dimension.defaultMargin * 2)
-            make.leading.trailing.equalToSuperview().inset(Dimension.defaultMargin)
-            make.bottom.equalTo(submitButton.snp.top).offset(-Dimension.defaultMargin)
-        }
-    }
     func styleViews() {
         view.style(with: .backgroundColor(.white))
-        submitButton.style(with: [.backgroundColor(.kratosRed),
-                                  .titleColor(.white),
-                                  .font(.subHeader)])
-        stateTitle.style(with: [.font(.subHeader),
+        stateTitle.style(with: [.font(.h3),
                                 .textAlignment(.left),
                                 .titleColor(.white)])
-        districtTitle.style(with: [.font(.subHeader),
-                                .textAlignment(.right),
-                                .titleColor(.white)])
+        
+        districtTitle.style(with: [.font(.h3),
+                                   .textAlignment(.right),
+                                   .titleColor(.white)])
+        
         returnToHomeButton.style(with: [.borderWidth(1),
                                         .borderColor(.gray),
                                         .titleColor(.kratosRed),
-                                        .font(.cellTitle)])
+                                        .font(.h5)])
+        
         topView.style(with: .backgroundColor(.kratosRed))
+        
         descriptionLabel.style(with: [.font(.body),
                                       .titleColor(.gray),
                                       .numberOfLines(4),
                                       .textAlignment(.center)])
         searchField.clipsToBounds = false
         returnToHomeButton.clipsToBounds = true
+    }
+    
+    func addSubviews() {
+        addTopView()
+        addStateTitle()
+        addDistrictTitle()
+        addReturnHomeButton()
+        addDescriptionLabel()
+        addSearchField()
+        addTableView()
+        addSubmitButton()
+    }
+    
+    private func addTopView() {
+        view.addSubview(topView)
+
+        topView.snp.makeConstraints { make in
+            make.top.trailing.leading.equalToSuperview()
+        }
+    }
+    
+    private func addStateTitle() {
+        topView.addSubview(stateTitle)
+
+        stateTitle.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(Dimension.topMargin + 5)
+            make.leading.trailing.equalToSuperview().inset(Dimension.defaultMargin)
+            make.bottom.equalToSuperview().inset(5)
+        }
+    }
+    
+    private func addDistrictTitle() {
+        topView.addSubview(districtTitle)
+
+        districtTitle.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(Dimension.topMargin + 5)
+            make.leading.trailing.equalToSuperview().inset(Dimension.defaultMargin)
+        }
+    }
+    
+    private func addReturnHomeButton() {
+        view.addSubview(returnToHomeButton)
+
+        returnToHomeButton.snp.makeConstraints { make in
+            make.top.equalTo(topView.snp.bottom)
+            make.leading.trailing.equalToSuperview().inset(-1)
+            make.height.equalTo(Dimension.largeButtonHeight)
+        }
+    }
+    
+    private func addDescriptionLabel() {
+        view.addSubview(descriptionLabel)
+
+        descriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(returnToHomeButton.snp.bottom).offset(Dimension.defaultMargin)
+            make.leading.trailing.equalToSuperview().inset(Dimension.defaultMargin)
+        }
+    }
+    
+    private func addSearchField() {
+        view.addSubview(searchField)
+
+        searchField.snp.makeConstraints { make in
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(Dimension.defaultMargin)
+            make.leading.trailing.equalToSuperview().inset(Dimension.defaultMargin)
+        }
+    }
+    
+    private func addTableView() {
+        view.addSubview(tableView)
+
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(searchField.snp.bottom).offset(Dimension.defaultMargin * 2)
+            make.leading.trailing.equalToSuperview().inset(Dimension.defaultMargin)
+        }
+    }
+    
+    private func addSubmitButton() {
+        view.addSubview(submitButton)
+
+        submitButton.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
+            make.bottom.equalTo(view.snp.bottomMargin).offset(-Dimension.iPhoneXMargin)
+            make.top.equalTo(tableView.snp.bottom).offset(Dimension.defaultMargin)
+        }
     }
 }
 
@@ -189,19 +231,18 @@ extension DistrictChangeController: RxBinder {
             .disposed(by: disposeBag)
         submitButton.rx.tap
             .subscribe(
-                onNext: { [weak self] in
-                    self?.viewModel.updateDistrict()
+                onNext: { [unowned self] in
+                    self.searchField.endEditing(true)
+                    self.viewModel.updateDistrict()
                 }
             )
             .disposed(by: disposeBag)
+        returnToHomeButton.rx.tap
+            .subscribe(onNext: { [unowned self] in self.viewModel.clearVisitingDistrict() })
+            .disposed(by: disposeBag)
         viewModel.showReturnHomeButton
             .asObservable()
-            .subscribe(
-            onNext: { [weak self] shouldShow in
-                guard let `self` = self else { return }
-                    self.updateReturnHomeButton(with: shouldShow)
-                }
-            )
+            .subscribe(onNext: { [unowned self] in self.updateReturnHomeButton(with: $0) })
             .disposed(by: disposeBag)
     }
     
@@ -238,7 +279,7 @@ extension DistrictChangeController: RxBinder {
                     guard let `self` = self else { return }
                     UIView.animate(withDuration: 0.2, animations: {
                         self.submitButton.snp.updateConstraints{ make in
-                            make.bottom.equalToSuperview().inset(height)
+                            make.bottom.equalTo(self.view.snp.bottomMargin).offset(-Dimension.iPhoneXMargin - height)
                         }
                         self.view.layoutIfNeeded()
                     })

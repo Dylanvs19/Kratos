@@ -100,7 +100,7 @@ extension UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.backItem?.title = ""
         navigationController?.navigationBar.tintColor = Color.lightGray.value
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: Font.subHeader.value]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: Font.h3.value]
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
@@ -108,8 +108,9 @@ extension UIViewController {
         navigationController?.automaticallyAdjustsScrollViewInsets = false
     }
     
-    func setDefaultClearButton() {
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "clearIcon").withRenderingMode(.alwaysOriginal).af_imageAspectScaled(toFill: CGSize(width: 25, height: 25)), style: .plain, target: self, action: #selector(clearPressed))
+    func setClearButton(isRed: Bool) {
+        let image = isRed ? #imageLiteral(resourceName: "redClearIcon") : #imageLiteral(resourceName: "greyClearIcon")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: image.withRenderingMode(.alwaysOriginal).af_imageAspectScaled(toFill: CGSize(width: 25, height: 25)), style: .plain, target: self, action: #selector(clearPressed))
         self.view.layoutIfNeeded()
     }
     
@@ -118,7 +119,7 @@ extension UIViewController {
     }
     
     
-    /// A sequence of CGFloat values for the endHeight of a UIKeyboard's height. 
+    /// A sequence of CGFloat values for the endHeight of a UIKeyboard's height.
     var keyboardHeight: ControlEvent<CGFloat> {
         let frameheight = NotificationCenter.default.rx
                             .notification(NSNotification.Name.UIKeyboardWillChangeFrame)

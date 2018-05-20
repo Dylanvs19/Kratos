@@ -16,7 +16,6 @@ class MenuController: UIViewController, AnalyticsEnabled {
     // MARK: - Enum -
     enum Category {
         case accountDetails
-//        case notification
         case feedback
         case about
         case logout
@@ -27,12 +26,10 @@ class MenuController: UIViewController, AnalyticsEnabled {
             switch self {
             case .accountDetails:
                 return localize(.menuAccountDetailsButtonTitle)
-//            case .notification:
-//                return "Preferences"
             case .feedback:
-                return localize(.menuFeedbackButtonTitle)
+                return localize(.feedback)
             case .about:
-                return "Privacy Policy"
+                return localize(.menuPrivacyPolicyButtonTitle)
             case .logout:
                 return localize(.menuLogoutButtonTitle)
             }
@@ -40,19 +37,19 @@ class MenuController: UIViewController, AnalyticsEnabled {
     }
     
     // MARK: - Variables -
-    var client: Client
+    let viewModel: MenuViewModel
     let disposeBag = DisposeBag()
     
     let header = UIView()
     let label = UILabel()
-    let nameLabel = UILabel()
-    let locationLabel = UILabel()
+    let nameLabel = UILabel(style: .h3gray)
+    let locationLabel = UILabel(style: .h3gray)
     let dividerView = UIView()
     let tableView = UITableView()
         
     // MARK: - Intialization -
-    init(client: Client) {
-        self.client = client
+    init(client: UserService & AuthService) {
+        viewModel = MenuViewModel(client: client)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -63,15 +60,12 @@ class MenuController: UIViewController, AnalyticsEnabled {
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        automaticallyAdjustsScrollViewInsets = false
+        styleViews()
         addSubviews()
-        constrainViews()
+        
+        bind()
         configureTableView()
         configureNavVC()
-        styleViews()
-        bind()
-        localizeStrings()
-        view.layoutIfNeeded()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -82,110 +76,124 @@ class MenuController: UIViewController, AnalyticsEnabled {
     // MARK: - Configuration -
     func configureNavVC() {
         setDefaultNavVC()
-        setDefaultClearButton()
+        setClearButton(isRed: true)
     }
     
     func configureTableView() {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: String(describing: UITableViewCell.self))
         tableView.tableFooterView = UIView()
+        tableView.separatorInset = .zero
     }
 }
 
     // MARK: - ViewBuilder -
 extension MenuController: ViewBuilder {
-    func addSubviews() {
-        view.addSubview(tableView)
-        header.addSubview(label)
-        header.addSubview(nameLabel)
-        header.addSubview(dividerView)
-        header.addSubview(locationLabel)
-        tableView.tableHeaderView = header
+    func styleViews() {
+        automaticallyAdjustsScrollViewInsets = false
+        label.style(with: [.font(.h1),
+                           .titleColor(.white),
+                           .textAlignment(.center)])
     }
-    func constrainViews() {
-        tableView.snp.remakeConstraints { make in
+    
+    func addSubviews() {
+        addTableView()
+        addHeader()
+        addLabel()
+        addNameLabel()
+        addDividerView()
+        addLocationLabel()
+    }
+    
+    private func addTableView() {
+        view.addSubview(tableView)
+
+        tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         self.view.layoutIfNeeded()
-        header.snp.remakeConstraints { make in
+    }
+    
+    private func addHeader() {
+        tableView.tableHeaderView = header
+        
+        header.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.height.equalTo(200)
         }
-        label.snp.remakeConstraints { make in
+    }
+    
+    private func addLabel() {
+        header.addSubview(label)
+        
+        label.snp.makeConstraints { make in
             make.height.width.equalTo(100)
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(25)
         }
-        nameLabel.snp.remakeConstraints { make in
+    }
+    
+    private func addNameLabel() {
+        header.addSubview(nameLabel)
+
+        nameLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(label.snp.bottom).offset(6)
         }
-        locationLabel.snp.remakeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(nameLabel.snp.bottom).offset(2)
-        }
-        dividerView.snp.remakeConstraints { make in
+    }
+    
+    private func addDividerView() {
+        header.addSubview(dividerView)
+        dividerView.backgroundColor = Color.lightGray.value
+        
+        dividerView.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
             make.height.equalTo(1)
         }
     }
-    func styleViews() {
-        let color = client.user.value?.party?.color ?? .gray
-        label.style(with: [.backgroundColor(color),
-                           .font(.header),
-                           .titleColor(.white),
-                           .textAlignment(.center)])
-        nameLabel.style(with: [.font(.subHeader),
-                               .titleColor(.gray)])
-        locationLabel.style(with: [.font(.subHeader),
-                                   .titleColor(.gray)])
-        dividerView.style(with: .backgroundColor(.lightGray))
-    }
-}
+    
+    private func addLocationLabel() {
+        header.addSubview(locationLabel)
 
-// MARK: - Localize -
-extension MenuController: Localizer {
-    func localizeStrings() {
-        let first = client.user.value?.firstName ?? ""
-        let last = client.user.value?.lastName ?? ""
-        label.text = first.firstLetter + last.firstLetter
-        nameLabel.text = first + " " + last
-        
-        let city = client.user.value?.address.city ?? ""
-        let state = client.user.value?.address.state ?? ""
-        locationLabel.text = city + ", " + state
+        locationLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(nameLabel.snp.bottom).offset(2)
+        }
     }
 }
 
 // MARK: - Binds -
 extension MenuController: RxBinder {
     func bind() {
+        bindTableView()
+        bindLabels()
+    }
+    
+    func bindTableView() {
         Observable.just(Category.allValues)
-            .bind(to: tableView.rx.items(cellIdentifier: String(describing: UITableViewCell.self), cellType: UITableViewCell.self)) { row, model, cell in
+            .bind(to: tableView.rx.items(cellIdentifier: String(describing: UITableViewCell.self),
+                                         cellType: UITableViewCell.self)) { row, model, cell in
                 cell.textLabel?.text = model.title
                 if model != .logout {
-                cell.textLabel?.style(with: [.titleColor(.gray),
-                                             .font(.header)])
+                    cell.textLabel?.style(with: [.titleColor(.gray),
+                                                 .font(.h1)])
                 } else  {
                     cell.textLabel?.style(with: [.titleColor(.kratosRed),
-                                                 .font(.header)])
+                                                 .font(.h1)])
                 }
                 cell.selectionStyle = .none
-                cell.separatorInset = .zero
             }
             .disposed(by: disposeBag)
+        
         tableView.rx.modelSelected(Category.self)
             .subscribe(
-                onNext: { [weak self] category in
-                    guard let `self` = self else { fatalError("self deallocated before it was accessed")}
+                onNext: { [unowned self] category in
                     switch category {
                     case .accountDetails:
                         self.log(event: .menu(.accountDetails))
-                        let vc = AccountDetailsController(client: self.client, state: .edit)
+                        let vc = AccountDetailsController(client: Client.provider(), state: .edit)
                         self.navigationController?.pushViewController(vc, animated: true)
-//                    case .notification:
-//                        break
                     case .feedback:
-                        let vc = FeedbackController(client: self.client)
+                        let vc = FeedbackController(client:  Client.provider())
                         self.navigationController?.pushViewController(vc, animated: true)
                     case .about:
                         self.log(event: .menu(.privacyPolicy))
@@ -193,12 +201,33 @@ extension MenuController: RxBinder {
                     case .logout:
                         self.log(event: .menu(.logout))
                         self.dismiss(animated: false, completion: {
-                            self.client.tearDown()
+                            self.viewModel.logOut()
                         })
-                        
                     }
                 }
             )
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindLabels() {
+        viewModel.user
+            .map { $0.firstName + " " + $0.lastName }
+            .bind(to: nameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.user
+            .map { $0.firstName.firstLetter + $0.lastName.firstLetter }
+            .bind(to: label.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.user
+            .map { $0.address.city + ", " + $0.address.state }
+            .bind(to: locationLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.user
+            .map { $0.party?.color ?? Color.gray }
+            .subscribe(onNext: { [unowned self] color in self.label.backgroundColor = color.value })
             .disposed(by: disposeBag)
     }
 }

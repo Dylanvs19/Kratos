@@ -56,7 +56,6 @@ class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     }
     
     // MARK: - Variables -
-    var client: Client
     let viewModel: ExploreViewModel
     let disposeBag = DisposeBag()
     var curtain = Curtain()
@@ -71,7 +70,7 @@ class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     
     // RecessView
     let recessView = UIView()
-    let recessLabel = UILabel()
+    let recessLabel = UILabel(style: .h5white)
     
     let scrollViewView = UIView()
     let scrollView = UIScrollView()
@@ -83,15 +82,12 @@ class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     let senateTableView = UITableView()
     let houseTableView = UITableView()
 
-    let emptyTrendingDescriptionLabel = UILabel()
-    let emptySenateDescriptionLabel = UILabel()
-    let emptyHouseDescriptionLabel = UILabel()
-    
-    let headerMargin: CGFloat = 64
-    
+    let emptyTrendingDescriptionLabel = UILabel(style: .h3gray)
+    let emptySenateDescriptionLabel = UILabel(style: .h3gray)
+    let emptyHouseDescriptionLabel = UILabel(style: .h3gray)
+        
     // MARK: - Initializers -
-    init(client: Client) {
-        self.client = client
+    init(client: CongressService & AuthService & UserService) {
         self.viewModel = ExploreViewModel(client: client)
         super.init(nibName: nil, bundle: nil)
     }
@@ -102,20 +98,16 @@ class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     
     // MARK: - Lifecycle -
     override func viewDidLoad() {
-        // TODO: Delete this code when fonts have been set
-//        UIFont.familyNames.forEach{ UIFont.fontNames(forFamilyName: $0).forEach { print($0) } }
-        
         super.viewDidLoad()
-        edgesForExtendedLayout = [.top, .right, .left]
+        styleViews()
         addSubviews()
-        constrainViews()
-        localizeStrings()
+        
         bind()
+        localizeStrings()
         configureHouseTableView()
         configureSenateTableView()
         configureTrendingTableView()
         configureScrollView()
-        styleViews()
         addCurtain()
         view.layoutIfNeeded()
     }
@@ -123,14 +115,12 @@ class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.layoutIfNeeded()
-        scrollViewView.addShadow()
         log(event: .exploreController)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setDefaultNavVC()
-        configureNavVC()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -139,23 +129,22 @@ class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     }
     
     // MARK: - Configuration -
-    func configureNavVC() {
-        self.navigationItem.title = localize(.exploreTitle)
+    func configureRightBarButton(with user: User) {
+        self.navigationItem.title = localize(.userTitle)
         var rightBarButtonItems: [UIBarButtonItem] = []
-        if let user = client.user.value {
-            let button = UIButton()
-            button.snp.remakeConstraints { make in
-                make.height.width.equalTo(30).priority(1000)
-            }
-            button.style(with: .font(.monospaced))
-            button.setTitle(user.firstName.firstLetter, for: .normal)
-            button.backgroundColor = user.party?.color.value ?? .gray
-            button.layer.cornerRadius = CGFloat(30/2)
-            button.clipsToBounds = false
-            button.addTarget(self, action: #selector(presentMenu), for: .touchUpInside)
-            let item = UIBarButtonItem(customView: button)
-            rightBarButtonItems.append(item)
+        
+        let button = UIButton()
+        button.snp.makeConstraints { make in
+            make.height.width.equalTo(30).priority(1000)
         }
+        button.style(with: .font(.monospaced))
+        button.setTitle(user.firstName.firstLetter, for: .normal)
+        button.backgroundColor = user.party?.color.value ?? .gray
+        button.layer.cornerRadius = CGFloat(30/2)
+        button.clipsToBounds = false
+        button.addTarget(self, action: #selector(presentMenu), for: .touchUpInside)
+        let item = UIBarButtonItem(customView: button)
+        rightBarButtonItems.append(item)
         self.navigationItem.rightBarButtonItems = rightBarButtonItems
         self.navigationController?.navigationBar.setNeedsLayout()
     }
@@ -192,13 +181,16 @@ class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     
     func configureScrollView() {
         scrollView.isScrollEnabled = false
+        scrollView.isPagingEnabled = true
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.isDirectionalLockEnabled = true
     }
     
     func configure(for inRecess: Bool) {
         UIView.animate(withDuration: 0.4) {
             self.recessLabel.isHidden = inRecess ? false : true
-            self.recessView.snp.remakeConstraints { make in
-                self.recessLabel.snp.remakeConstraints { make in
+            self.recessView.snp.makeConstraints { make in
+                self.recessLabel.snp.makeConstraints { make in
                     if inRecess {
                         make.edges.equalToSuperview().inset(10)
                     } else {
@@ -213,12 +205,11 @@ class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
             }
             self.view.layoutIfNeeded()
         }
-        scrollViewView.addShadow()
         view.layoutIfNeeded()
     }
     
     @objc func presentMenu() {
-        let vc = MenuController(client: client).embedInNavVC()
+        let vc = MenuController(client: Client.provider()).embedInNavVC()
         self.present(vc, animated: true, completion: nil)
     }
     
@@ -226,11 +217,8 @@ class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     func update(with state: State) {
         log(event: .explore(.exploreTabSelected(state)))
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-            self.slideView.snp.remakeConstraints { make in
-                make.bottom.equalToSuperview()
-                make.width.equalTo(self.managerView.frame.width / CGFloat(State.allValues.count))
-                make.height.equalTo(2)
-                make.leading.equalToSuperview().offset(state.indicatorXPosition(in: self.managerView))
+            self.slideView.snp.updateConstraints { make in
+                 make.leading.equalToSuperview().offset(state.indicatorXPosition(in: self.managerView))
             }
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -249,140 +237,188 @@ class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
 
 // MARK: - ViewBuilder -
 extension ExploreController: ViewBuilder {
-    func addSubviews() {
-        view.addSubview(header)
-        view.addSubview(managerView)
-        managerView.addSubview(slideView)
-        
-        buttons.forEach { managerView.addSubview($0) }
-        
-        view.addSubview(recessView)
-        recessView.addSubview(recessLabel)
-        
-        view.addSubview(scrollViewView)
-        scrollViewView.addSubview(scrollView)
-        
-        scrollView.addSubview(tableViewView)
-        tableViewView.addSubview(senateTableView)
-        tableViewView.addSubview(houseTableView)
-        tableViewView.addSubview(trendingTableView)
-        
-        tableViewView.addSubview(emptyHouseDescriptionLabel)
-        tableViewView.addSubview(emptyTrendingDescriptionLabel)
-        tableViewView.addSubview(emptySenateDescriptionLabel)
+    func styleViews() {
+        edgesForExtendedLayout = [.top, .right, .left]
+        view.backgroundColor = Color.slate.value
     }
     
-    func constrainViews() {
-        header.snp.remakeConstraints { make in
+    func addSubviews() {
+        addHeader()
+        addRecessView()
+        addRecessLabel()
+        addManager()
+        addManagerButtons()
+        addSlideView()
+        addScrollViewView()
+        addScrollView()
+        addTableViewView()
+        addTrendingTableView()
+        addHouseTableView()
+        addSenateTableView()
+        addEmptyTrendingLabel()
+        addEmptyHouseLabel()
+        addEmptySenateLabel()
+    }
+    
+    private func addHeader() {
+        view.addSubview(header)
+        header.backgroundColor = Color.white.value
+
+        header.snp.makeConstraints { make in
             make.leading.trailing.top.equalToSuperview()
-            make.height.equalTo(headerMargin)
+            make.height.equalTo(Dimension.topMargin)
         }
-        recessView.snp.remakeConstraints { make in
+    }
+    
+    private func addRecessView() {
+        view.addSubview(recessView)
+        recessView.backgroundColor = Color.kratosRed.value
+        
+        recessView.snp.makeConstraints { make in
             make.top.equalTo(header.snp.bottom)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(0)
         }
-        recessLabel.snp.remakeConstraints { make in
+    }
+    
+    private func addRecessLabel() {
+        recessView.addSubview(recessLabel)
+        recessLabel.numberOfLines = 4
+        recessLabel.textAlignment = .center
+
+        recessLabel.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        managerView.snp.remakeConstraints { make in
+    }
+    
+    private func addManager() {
+        view.addSubview(managerView)
+        managerView.backgroundColor = Color.white.value
+
+        managerView.snp.makeConstraints { make in
             make.top.equalTo(recessView.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(10)
             make.height.equalTo(45)
         }
         managerView.layoutIfNeeded()
+    }
+    
+    private func addSlideView() {
+        managerView.addSubview(slideView)
+        slideView.backgroundColor = Color.kratosRed.value
+
+        slideView.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.width.equalToSuperview().dividedBy(3)
+            make.height.equalTo(2)
+        }
+    }
+    
+    private func addManagerButtons() {
+        buttons.forEach { managerView.addSubview($0) }
+
         buttons.forEach { button in
             let count = CGFloat(State.allValues.count)
             let width = managerView.frame.width/count
-            button.snp.remakeConstraints { make in
+            button.snp.makeConstraints { make in
                 make.leading.equalTo(width * CGFloat(button.tag))
                 make.top.bottom.equalToSuperview()
                 make.width.equalToSuperview().dividedBy(count)
             }
         }
-        slideView.snp.remakeConstraints { make in
-            make.leading.bottom.equalToSuperview()
-            make.width.equalToSuperview().dividedBy(3)
-            make.height.equalTo(2)
-        }
-        scrollViewView.snp.remakeConstraints { make in
+    }
+    
+    private func addScrollViewView() {
+        view.addSubview(scrollViewView)
+
+        scrollViewView.snp.makeConstraints { make in
             make.top.equalTo(managerView.snp.bottom).offset(10)
             make.trailing.leading.equalToSuperview().inset(10)
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(view.snp.bottomMargin).offset(-10)
         }
-        scrollView.snp.remakeConstraints { make in
+    }
+    
+    private func addScrollView() {
+        scrollViewView.addSubview(scrollView)
+        
+        scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        tableViewView.snp.remakeConstraints { make in
+    }
+    
+    private func addTableViewView() {
+        scrollView.addSubview(tableViewView)
+        tableViewView.backgroundColor = Color.white.value
+
+        tableViewView.snp.makeConstraints { make in
             make.width.equalTo(scrollView.snp.width).multipliedBy(3)
             make.height.equalTo(scrollView.snp.height)
             make.edges.equalToSuperview()
         }
-        trendingTableView.snp.remakeConstraints { make in
+    }
+    
+    private func addTrendingTableView() {
+        tableViewView.addSubview(trendingTableView)
+        
+        trendingTableView.snp.makeConstraints { make in
             make.top.bottom.leading.equalToSuperview()
             make.width.equalTo(scrollView.snp.width)
         }
-        houseTableView.snp.remakeConstraints { make in
+    }
+    
+    private func addHouseTableView() {
+        tableViewView.addSubview(houseTableView)
+        
+        houseTableView.snp.makeConstraints { make in
             make.leading.equalTo(trendingTableView.snp.trailing)
             make.top.bottom.equalToSuperview()
             make.width.equalTo(scrollView.snp.width)
         }
-        senateTableView.snp.remakeConstraints { make in
+    }
+    
+    private func addSenateTableView() {
+        tableViewView.addSubview(senateTableView)
+
+        senateTableView.snp.makeConstraints { make in
             make.leading.equalTo(houseTableView.snp.trailing)
             make.top.bottom.trailing.equalToSuperview()
             make.width.equalTo(scrollView.snp.width)
         }
         view.layoutIfNeeded()
-        emptyTrendingDescriptionLabel.snp.remakeConstraints { make in
-            make.centerX.centerY.equalTo(trendingTableView)
-            make.width.equalTo(scrollView.snp.width).offset(-40)
-        }
-        emptyHouseDescriptionLabel.snp.remakeConstraints { make in
-            make.centerX.centerY.equalTo(houseTableView)
-            make.width.equalTo(scrollView.snp.width).offset(-40)
-        }
-        emptySenateDescriptionLabel.snp.remakeConstraints { make in
-            make.centerX.centerY.equalTo(senateTableView)
-            make.width.equalTo(scrollView.snp.width).offset(-40)
-        }
-        viewModel.loadStatus
-            .asObservable()
-            .bind(to: curtain.loadStatus)
-            .disposed(by: disposeBag)
     }
     
-    func styleViews() {
-        header.style(with: .backgroundColor(.white))
-        header.addShadow()
+    private func addEmptyTrendingLabel() {
+        tableViewView.addSubview(emptyTrendingDescriptionLabel)
+        emptyTrendingDescriptionLabel.numberOfLines = 4
+        emptyTrendingDescriptionLabel.textAlignment = .center
         
-        view.style(with: .backgroundColor(.slate))
-        managerView.style(with: .backgroundColor(.white))
-        managerView.addShadow()
+        emptyTrendingDescriptionLabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalTo(trendingTableView)
+            make.width.equalTo(scrollViewView.snp.width).offset(-40)
+        }
+    }
+    
+    private func addEmptyHouseLabel() {
+        tableViewView.addSubview(emptyHouseDescriptionLabel)
+        emptyHouseDescriptionLabel.numberOfLines = 4
+        emptyHouseDescriptionLabel.textAlignment = .center
         
-        scrollView.isPagingEnabled = true
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.isDirectionalLockEnabled = true
+        emptyHouseDescriptionLabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalTo(houseTableView)
+            make.width.equalTo(scrollViewView.snp.width).offset(-40)
+        }
+    }
+    
+    private func addEmptySenateLabel() {
+        tableViewView.addSubview(emptySenateDescriptionLabel)
+        emptySenateDescriptionLabel.numberOfLines = 4
+        emptySenateDescriptionLabel.textAlignment = .center
         
-        slideView.style(with: [.backgroundColor(.kratosRed)])
-        recessView.style(with: .backgroundColor(.kratosRed))
-        recessLabel.style(with: [.font(.cellTitle),
-                                 .titleColor(.white),
-                                 .textAlignment(.center)
-                                ])
-        recessLabel.numberOfLines = 4
-        tableViewView.style(with: .backgroundColor(.white))
-        emptyHouseDescriptionLabel.style(with: [.font(.subHeader),
-                                                .titleColor(.gray),
-                                                .numberOfLines(4),
-                                                .textAlignment(.center)])
-        emptySenateDescriptionLabel.style(with: [.font(.subHeader),
-                                                 .titleColor(.gray),
-                                                 .numberOfLines(4),
-                                                 .textAlignment(.center)])
-        emptyTrendingDescriptionLabel.style(with: [.font(.subHeader),
-                                                   .titleColor(.gray),
-                                                   .numberOfLines(4),
-                                                   .textAlignment(.center)])
+        emptySenateDescriptionLabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalTo(senateTableView)
+            make.width.equalTo(scrollViewView.snp.width).offset(-40)
+        }
     }
 }
 
@@ -401,16 +437,13 @@ extension ExploreController: RxBinder {
     func bind() {
         viewModel.state
             .asObservable()
-            .subscribe(onNext: { [weak self] state in
-                self?.update(with: state)
-            })
+            .subscribe(onNext: { [unowned self] in self.update(with: $0) })
             .disposed(by: disposeBag)
+        
         viewModel.inRecess
             .asObservable()
             .delay(2, scheduler: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] inRecess in
-                self?.configure(for: inRecess)
-            })
+            .subscribe(onNext: { [unowned self] in self.configure(for: $0) })
             .disposed(by: disposeBag)
         
         buttons.forEach { button in
@@ -420,66 +453,80 @@ extension ExploreController: RxBinder {
                 .bind(to: viewModel.state)
                 .disposed(by: disposeBag)
         }
+        
         viewModel.senateBills
             .asObservable()
             .bind(to: senateTableView.rx.items(cellIdentifier: BillCell.identifier, cellType: BillCell.self)) { row, data, cell in
                 cell.configure(with: data)
             }
             .disposed(by: disposeBag)
+        
         viewModel.houseBills
             .asObservable()
             .bind(to: houseTableView.rx.items(cellIdentifier: BillCell.identifier, cellType: BillCell.self)) { row, data, cell in
                 cell.configure(with: data)
             }
             .disposed(by: disposeBag)
+        
         viewModel.trendingBills
             .asObservable()
             .bind(to: trendingTableView.rx.items(cellIdentifier: BillCell.identifier, cellType: BillCell.self)) { row, data, cell in
                 cell.configure(with: data)
             }
             .disposed(by: disposeBag)
+        
         viewModel.senateBills
             .asObservable()
             .map { !$0.isEmpty }
             .bind(to: emptySenateDescriptionLabel.rx.isHidden)
             .disposed(by: disposeBag)
+        
         viewModel.houseBills
             .asObservable()
             .map { !$0.isEmpty }
             .bind(to: emptyHouseDescriptionLabel.rx.isHidden)
             .disposed(by: disposeBag)
+        
         viewModel.trendingBills
             .asObservable()
             .map { !$0.isEmpty }
             .bind(to: emptyTrendingDescriptionLabel.rx.isHidden)
             .disposed(by: disposeBag)
+        
         houseTableView.rx.modelSelected(Bill.self)
             .asObservable()
-            .subscribe(onNext: { [weak self] bill in
-                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
+            .subscribe(onNext: { [unowned self] bill in
                 self.log(event: .explore(.billSelected(id: bill.id)))
-                let vc = BillController(client: self.client, bill: bill)
-                self.navigationController?.pushViewController(vc, animated: true)
-            })
-            .disposed(by: disposeBag)
-        trendingTableView.rx.modelSelected(Bill.self)
-            .asObservable()
-            .subscribe(onNext: { [weak self] bill in
-                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
-                self.log(event: .explore(.billSelected(id: bill.id)))
-                let vc = BillController(client: self.client, bill: bill)
-                self.navigationController?.pushViewController(vc, animated: true)
-            })
-            .disposed(by: disposeBag)
-        senateTableView.rx.modelSelected(Bill.self)
-            .asObservable()
-            .subscribe(onNext: { [weak self] bill in
-                guard let `self` = self else { fatalError("self deallocated before it was accessed") }
-                self.log(event: .explore(.billSelected(id: bill.id)))
-                let vc = BillController(client: self.client, bill: bill)
+                let vc = BillController(client: Client.provider(), bill: bill)
                 self.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
         
+        trendingTableView.rx.modelSelected(Bill.self)
+            .asObservable()
+            .subscribe(onNext: { [unowned self] bill in
+                self.log(event: .explore(.billSelected(id: bill.id)))
+                let vc = BillController(client: Client.provider(), bill: bill)
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        senateTableView.rx.modelSelected(Bill.self)
+            .asObservable()
+            .subscribe(onNext: { [unowned self] bill in
+                self.log(event: .explore(.billSelected(id: bill.id)))
+                let vc = BillController(client: Client.provider(), bill: bill)
+                self.navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.user
+            .subscribe(onNext: { [unowned self] user in self.configureRightBarButton(with: user) })
+            .disposed(by: disposeBag)
+        
+        viewModel.loadStatus
+            .asObservable()
+            .bind(to: curtain.loadStatus)
+            .disposed(by: disposeBag)
     }
 }

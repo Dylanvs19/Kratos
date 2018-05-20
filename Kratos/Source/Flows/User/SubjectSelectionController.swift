@@ -36,9 +36,6 @@ class SubjectSelectionController: UIViewController, CurtainPresenter, AnalyticsE
     
     var curtain: Curtain = Curtain()
     
-    let headerViewHeight: CGFloat = 64
-    let textfieldHeight: CGFloat = 45
-    
     // MARK: - Initializers -
     init(client: Client) {
         self.client = client
@@ -68,8 +65,6 @@ class SubjectSelectionController: UIViewController, CurtainPresenter, AnalyticsE
         super.viewWillAppear(animated)
         configureNavVC()
         view.layoutIfNeeded()
-        tableViewView.addShadow()
-        searchView.addShadow()
         log(event: .subjectSelection)
     }
     
@@ -157,7 +152,7 @@ extension SubjectSelectionController: UITableViewDelegate {
             make.leading.trailing.bottom.equalToSuperview()
         }
         label.text = dataSource.sectionModels[section].model
-        label.style(with: [.font(.title),
+        label.style(with: [.font(.h2),
                            .backgroundColor(.white)])
         view.style(with: .backgroundColor(.white))
         divider.style(with: .backgroundColor(.gray))
@@ -184,7 +179,7 @@ extension SubjectSelectionController: ViewBuilder {
     func constrainViews() {
         headerView.snp.remakeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(headerViewHeight)
+            make.height.equalTo(Dimension.topMargin)
         }
         searchView.snp.remakeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(10)
@@ -224,9 +219,9 @@ extension SubjectSelectionController: ViewBuilder {
         headerView.style(with: .backgroundColor(.white))
         searchView.style(with: .backgroundColor(.white))
         tableView.style(with: .backgroundColor(.white))
-        clearTextButton.setImage(#imageLiteral(resourceName: "clearIcon").af_imageScaled(to: CGSize(width: 15, height: 15)), for: .normal)
+        clearTextButton.setImage(#imageLiteral(resourceName: "redClearIcon").af_imageScaled(to: CGSize(width: 15, height: 15)), for: .normal)
         submitButton.style(with: [.backgroundColor(.kratosRed),
-                                  .font(.title),
+                                  .font(.h2),
                                   .highlightedTitleColor(.lightGray)])
         submitButton.clipsToBounds = true
         searchTextField.style(with: .font(.tab))

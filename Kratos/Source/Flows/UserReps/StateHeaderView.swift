@@ -12,14 +12,13 @@ import UIKit
 class StateHeaderView: UITableViewHeaderFooterView {
     // MARK: - Properties -
     static let identifier = String(describing: StateHeaderView.self)
-    let title = UILabel()
+    let title = UILabel(style: .h3gray)
     let imageView = UIImageView()
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        addSubviews()
-        constrainViews()
         styleViews()
+        addSubviews()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -33,23 +32,30 @@ class StateHeaderView: UITableViewHeaderFooterView {
 }
 
 extension StateHeaderView: ViewBuilder {
-    func addSubviews() {
-        contentView.addSubview(title)
-        contentView.addSubview(imageView)
+    func styleViews() {
+        imageView.contentMode = .scaleAspectFit
+        contentView.backgroundColor = Color.white.value
     }
-    func constrainViews() {
-        
-        snp.makeConstraints { make in
-            make.height.equalTo(30)
-        }
+    
+    func addSubviews() {
+        addTitle()
+        addImageView()
+    }
+    
+    private func addTitle() {
+        contentView.addSubview(title)
+
         title.snp.makeConstraints { make in
             make.top.bottom.leading.equalToSuperview()
         }
-        imageView.snp.makeConstraints { make in
-            make.top.trailing.bottom.equalToSuperview()
-        }
     }
-    func styleViews() {
-        imageView.contentMode = .scaleAspectFit
+    
+    private func addImageView() {
+        contentView.addSubview(imageView)
+
+        imageView.snp.makeConstraints { make in
+            make.top.trailing.bottom.equalToSuperview().inset(5)
+            make.height.equalTo(35)
+        }
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-protocol AnalyticsService {
+protocol AnalyticsService: Provider  {
     func logContact(contact: RepContactView.Contact, personId: Int)
     func logView(type: KratosAnalytics)
 }

@@ -27,30 +27,24 @@ struct ApplicationLauncher {
             var vc: UIViewController
             if let token = token {
                 let kratosClient = KratosClient(token: token)
-                let client = Client(kratosClient: kratosClient)
+                Client.launch(with: kratosClient)
                 if #available(iOS 10.0, *) {
-                    // For iOS 10 display notification (sent via APNS)
-                    UNUserNotificationCenter.current().delegate = client
-                    // For iOS 10 data message (sent via FCM)
-                    Messaging.messaging().delegate = client
+                    Client.setupMessaging()
                 }
-                vc = TabBarController(with: client)
+                vc = TabBarController(with: Client.provider())
             } else {
-                let client = Client.default
+                Client.launch(with: KratosClient(token: nil))
                 if #available(iOS 10.0, *) {
-                    // For iOS 10 display notification (sent via APNS)
-                    UNUserNotificationCenter.current().delegate = client
-                    // For iOS 10 data message (sent via FCM)
-                    Messaging.messaging().delegate = client
+                    Client.setupMessaging()
                 }
-//                if hasInstalled != nil {
-//                    vc = UINavigationController(rootViewController: LoginController(client: Client.default))
-//                } else {
+                if hasInstalled != nil {
+                    vc = UINavigationController(rootViewController: LoginController(client: Client.provider()))
+                } else {
                     Store.shelve("true", key: "has_installed")
-                    let viewController = WelcomeController(with: Client.default)
+                    let viewController = WelcomeController()
                     viewController.setDefaultNavVC()
                     vc = UINavigationController(rootViewController: viewController)
-//                }
+                }
                 
             }
             rootTransition(to: vc)

@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-protocol CongressService {
+protocol CongressService: Provider  {
     
     func determineRecess() -> Observable<Bool>
     

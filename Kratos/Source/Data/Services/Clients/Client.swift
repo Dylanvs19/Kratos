@@ -17,11 +17,9 @@ import UserNotifications
 
 class Client: NSObject {
     
-    let reachabilityManager = NetworkReachabilityManager()
+    private static var shared: Client?
     
-    static var `default`: Client {
-        return Client(kratosClient: KratosClient(token: nil))
-    }
+    let reachabilityManager = NetworkReachabilityManager()
     
     fileprivate static let cacheExpiration: TimeInterval = {
         return Configuration.cacheExpiration
@@ -35,10 +33,10 @@ class Client: NSObject {
         }
     }()
     
-    var isLoggedIn = Variable<Bool>(false)
-    
     var userLoadStatus = Variable<LoadStatus>(.none)
-    var user = Variable<User?>(nil)
+    var _user = Variable<User?>(nil)
+    
+    var _isLoggedIn = Variable<Bool>(false)
     
     let microStore = MicroStore()
     
@@ -48,14 +46,18 @@ class Client: NSObject {
     
     let disposeBag = DisposeBag()
     
-    init(kratosClient: KratosClient) {
+    static func launch(with kratosClient: KratosClient) {
+        shared = Client(kratosClient: kratosClient)
+    }
+    
+    private init(kratosClient: KratosClient) {
         self.kratosClient = kratosClient
-        self.isLoggedIn.value = kratosClient.token != nil
+        _isLoggedIn.value = kratosClient.token != nil
     }
     
     func update(token: String) {
-        self.kratosClient = KratosClient(token: token)
-        self.isLoggedIn.value = kratosClient.token != nil
+        kratosClient = KratosClient(token: token)
+        _isLoggedIn.value = true
     }
     
     func tearDown() {
@@ -63,7 +65,7 @@ class Client: NSObject {
         kratosClient = KratosClient(token: nil)
         Analytics.setUserProperty("--", forName: "State")
         Analytics.setUserProperty("--", forName: "District")
-        self.isLoggedIn.value = false
+        _isLoggedIn.value = false
     }
 }
 
@@ -74,15 +76,15 @@ extension Client {
         return request(target,
                        microClient: kratosClient,
                        ignoreCache: ignoreCache)
-               .handleAuthError(from: self)
+            .handleAuthError(from: self)
     }
     
     func request<M: MicroClient>(_ target: M.T,
-                 microClient: M,
-                 ignoreCache: Bool = false) -> Observable<Data> {
+                                 microClient: M,
+                                 ignoreCache: Bool = false) -> Observable<Data> {
         return request(key: "\(target)",
-                       observable: microClient.buildRequest(target),
-                       ignoreCache: ignoreCache)
+            observable: microClient.buildRequest(target),
+            ignoreCache: ignoreCache)
     }
     
     func request(key: String,
@@ -92,25 +94,35 @@ extension Client {
             let cached = cache.object(forKey: key, returnExpiredObjectIfPresent: !(reachabilityManager?.isReachable ?? true)) {
             //Cache if available and not ignored. Return cached response
             return Observable.just(cached as Data)
-            .observeOn(MainScheduler.instance)
+                .observeOn(MainScheduler.instance)
         } else if let request = ongoingRequests[key] {
             // Request is ongoing. return associated observable.
             return request
         }
         
         //Generate request and mark it as ongoing
-        let request = observable.do(onNext: { [unowned self] in
-            self.cache.setObject($0 as NSData, forKey: key, expires: .seconds(Client.cacheExpiration))
-        }, onError: { [unowned self] _ in
-            self.ongoingRequests[key] = nil
-        }, onCompleted: { [unowned self] in
-            self.ongoingRequests[key] = nil
-        })
-        .observeOn(MainScheduler.instance)
-        .share(replay: 1)
+        let request = observable.do(
+                onNext: { [unowned self] in
+                    self.cache.setObject($0 as NSData, forKey: key, expires: .seconds(Client.cacheExpiration))
+                },
+                onError: { [unowned self] _ in
+                    self.ongoingRequests[key] = nil
+                },
+                onCompleted: { [unowned self] in
+                    self.ongoingRequests[key] = nil
+                }
+            )
+            .observeOn(MainScheduler.instance)
+            .share(replay: 1)
         
         ongoingRequests[key] = request
         return request
+    }
+}
+
+extension Client {
+    static func provider<T>() -> T {
+        return shared as! T
     }
 }
 
@@ -122,6 +134,13 @@ extension Client {
     func invalidateCache() {
         cache.removeAllObjects()
         Store.remove("token")
+    }
+}
+
+extension Client {
+    static func setupMessaging() {
+        UNUserNotificationCenter.current().delegate = shared
+        Messaging.messaging().delegate = shared
     }
 }
 
@@ -148,7 +167,7 @@ extension Client : MessagingDelegate {
     
     func tokenRefreshNotification(_ notification: Notification) {
         if let refreshedToken = InstanceID.instanceID().token(),
-           let user = user.value {
+           let user = _user.value {
             updateUser(user: user, fcmToken: refreshedToken)
         }
         
@@ -157,12 +176,6 @@ extension Client : MessagingDelegate {
     }
     
     func connectToFcm() {
-        Messaging.messaging().connect { (error) in
-            if (error != nil) {
-                print("Unable to connect with FCM. \(String(describing: error))")
-            } else {
-                print("Connected to FCM.")
-            }
-        }
+        Messaging.messaging().shouldEstablishDirectChannel = true
     }
 }

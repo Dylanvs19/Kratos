@@ -22,6 +22,9 @@ struct User: JSONDecodable {
     var password: String?
     var apnToken: String?
     
+    var presentingDistrict: District {
+        return visitingDistrict ?? district
+    }
     
     init(id: Int,
          email: String,

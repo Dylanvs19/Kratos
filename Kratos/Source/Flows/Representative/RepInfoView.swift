@@ -44,12 +44,8 @@ class RepInfoView: UIView, CurtainPresenter {
         }
         
         var button: UIButton {
-            let button = UIButton()
+            let button = Button(style: .tab)
             button.setTitle(title, for: .normal)
-            button.style(with: [.font(.tab),
-                                .titleColor(.kratosRed),
-                                .highlightedTitleColor(.red)
-                                ])
             button.tag = self.rawValue
             return button
         }
@@ -110,14 +106,16 @@ class RepInfoView: UIView, CurtainPresenter {
     
     // MARK: - Helpers -
     func build() {
+        styleViews()
+        addSubviews()
+        constrainViews()
+        
+        bioView.build()
+        bind()
+        
         configureTermsTableView()
         configureBillsTableView()
         configureVotesTableView()
-        addSubviews()
-        constrainViews()
-        styleViews()
-        bioView.build()
-        bind()
     }
     
     // MARK: - Configuration -
@@ -223,7 +221,7 @@ extension RepInfoView: UITableViewDelegate {
         case termsTableView:
             guard termsDataSource.sectionModels.count > section else { return nil }
             label.text = termsDataSource.sectionModels[section].model
-            label.style(with: [.font(.title)])
+            label.style(with: [.font(.h2)])
         default:
             return nil
         }
@@ -263,43 +261,44 @@ extension RepInfoView: ViewBuilder {
         buttons.forEach { button in
             let count = CGFloat(State.allValues.count)
             let width = managerView.frame.width/count
-            button.snp.remakeConstraints { make in
+            button.snp.makeConstraints { make in
                 make.leading.equalTo(width * CGFloat(button.tag))
                 make.top.bottom.equalToSuperview()
                 make.width.equalToSuperview().dividedBy(count)
+                make.height.equalTo(Dimension.tabButtonHeight)
             }
         }
-        slideView.snp.remakeConstraints { make in
+        slideView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.width.equalToSuperview().dividedBy(CGFloat(State.allValues.count))
             make.height.equalTo(2)
             make.leading.equalToSuperview().offset(0)
         }
         
-        scrollView.snp.remakeConstraints { make in
+        scrollView.snp.makeConstraints { make in
             make.top.equalTo(self.managerView.snp.bottom).offset(5)
             make.leading.trailing.bottom.equalToSuperview()
         }
         scrollView.layoutIfNeeded()
 
-        stackView.snp.remakeConstraints { make in
+        stackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         stackView.layoutIfNeeded()
 
-        bioScrollView.snp.remakeConstraints { make in
+        bioScrollView.snp.makeConstraints { make in
             make.width.height.equalTo(self.scrollView)
         }
         bioScrollView.layoutIfNeeded()
         
-        bioViewView.snp.remakeConstraints { make in
+        bioViewView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        bioView.snp.remakeConstraints { make in
+        bioView.snp.makeConstraints { make in
             make.width.equalTo(self.frame.width)
             make.top.leading.trailing.equalToSuperview()
         }
-        termsTableView.snp.remakeConstraints { make in
+        termsTableView.snp.makeConstraints { make in
             make.width.equalTo(self.frame.width)
             make.top.equalTo(bioView.snp.bottom).offset(10)
             make.leading.trailing.bottom.equalToSuperview()
@@ -312,7 +311,6 @@ extension RepInfoView: ViewBuilder {
 
     func styleViews() {
         managerView.style(with: .backgroundColor(.white))
-        managerView.addShadow()
         slideView.style(with: .backgroundColor(.kratosRed))
         managerView.bringSubview(toFront: slideView)
 

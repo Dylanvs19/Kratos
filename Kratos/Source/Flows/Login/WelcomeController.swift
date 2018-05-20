@@ -13,26 +13,13 @@ import SnapKit
 
 class WelcomeController: UIViewController {
     // MARK: - `properties` -
-    let client: Client
     let disposeBag = DisposeBag()
-    let viewModel: WelcomeViewModel
     
     let imageView = UIImageView(image: #imageLiteral(resourceName: "KratosLogo"))
     let titleLabel = UILabel(style: .h1)
     let createAccountButton = Button(style: .b1)
     let signInButton = Button(style: .cta)
-    
-    // MARK: - `initializers` -
-    init(with client: Client) {
-        self.client = client
-        self.viewModel = WelcomeViewModel(with: client)
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     // MARK: - `lifecycle` -
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,10 +30,6 @@ class WelcomeController: UIViewController {
         bind()
         localizeStrings()
     }
-}
-
-fileprivate extension Dimension {
-    static let topMargin: CGFloat = 100
 }
 
 // MARK: - `localizer` -
@@ -102,6 +85,7 @@ extension WelcomeController: ViewBuilder {
             make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
             make.top.equalTo(createAccountButton.snp.bottom).offset(Dimension.defaultMargin)
             make.bottom.equalTo(view.snp.bottomMargin).offset(-Dimension.iPhoneXMargin)
+            make.height.equalTo(Dimension.largeButtonHeight)
         }
     }
 }
@@ -112,7 +96,7 @@ extension WelcomeController: RxBinder {
         createAccountButton.rx.tap
             .subscribe(
                 onNext: { [unowned self] in
-                    let vc = LoginController(client: self.client, state: .create)
+                    let vc = LoginController(client: Client.provider(), state: .create)
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             )
@@ -120,7 +104,7 @@ extension WelcomeController: RxBinder {
         signInButton.rx.tap
             .subscribe(
                 onNext: { [unowned self] in
-                    let vc = LoginController(client: self.client, state: .login)
+                    let vc = LoginController(client: Client.provider(), state: .login)
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             )
