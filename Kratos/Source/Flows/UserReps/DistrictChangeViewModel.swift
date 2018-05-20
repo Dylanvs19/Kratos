@@ -24,6 +24,8 @@ class DistrictChangeViewModel {
     let url = Variable<String?>(nil)
     
     let showReturnHomeButton = Variable<Bool>(false)
+    
+    let shouldReturn = PublishSubject<Void>()
 
     // MARK: - Initialization -
     init(client: Client) {
@@ -47,8 +49,7 @@ class DistrictChangeViewModel {
             .disposed(by: disposeBag)
     }
     
-    func updateDistrict() {
-        guard let district = selectedDistrict.value else { return }
+    func update(for district: District) {
         client.update(visitingDistrict: district)
     }
     
@@ -92,6 +93,12 @@ extension DistrictChangeViewModel: RxBinder {
                     self.fetchDistricts(from: query)
                 }
             )
+            .disposed(by: disposeBag)
+        
+        selectedDistrict
+            .asObservable()
+            .filterNil()
+            .subscribe(onNext: { [unowned self] in self.update(for: $0) })
             .disposed(by: disposeBag)
     }
 }

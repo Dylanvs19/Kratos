@@ -32,7 +32,6 @@ class DistrictChangeController: UIViewController {
     let returnToHomeButton = UIButton()
     let descriptionLabel = UILabel(style: .bodyGray)
     let searchField = TextField(style: .standard, type: .text, placeholder: localize(.textFieldSearchTitle))
-    let submitButton = ActivityButton(style: .cta)
     let tableView = UITableView()
     
     // MARK: - Initializer -
@@ -75,8 +74,11 @@ class DistrictChangeController: UIViewController {
     
     func updateReturnHomeButton(with shouldShow: Bool) {
         let height = shouldShow ? Dimension.largeButtonHeight : 0
-        returnToHomeButton.snp.updateConstraints { make in
-            make.height.equalTo(height)
+        UIView.animate(withDuration: 0.3) {
+            self.returnToHomeButton.snp.updateConstraints { make in
+                make.height.equalTo(height)
+            }
+            self.view.layoutIfNeeded()
         }
     }
 }
@@ -84,7 +86,6 @@ class DistrictChangeController: UIViewController {
 // MARK: - Localizer -
 extension DistrictChangeController: Localizer {
     func localizeStrings() {
-        submitButton.setTitle(localize(.submit), for: .normal)
         returnToHomeButton.setTitle(localize(.districtSelectionReturnHomeButtonTitle), for: .normal)
         descriptionLabel.text = localize(.districtSelectionSearchInfoLabel)
         title = localize(.districtSelectionTitle)
@@ -140,7 +141,6 @@ extension DistrictChangeController: ViewBuilder {
         addDescriptionLabel()
         addSearchField()
         addTableView()
-        addSubmitButton()
     }
     
     private func addTopView() {
@@ -203,17 +203,8 @@ extension DistrictChangeController: ViewBuilder {
 
         tableView.snp.makeConstraints { make in
             make.top.equalTo(searchField.snp.bottom).offset(Dimension.defaultMargin * 2)
-            make.leading.trailing.equalToSuperview().inset(Dimension.defaultMargin)
-        }
-    }
-    
-    private func addSubmitButton() {
-        view.addSubview(submitButton)
-
-        submitButton.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
-            make.bottom.equalTo(view.snp.bottomMargin).offset(-Dimension.iPhoneXMargin)
-            make.top.equalTo(tableView.snp.bottom).offset(Dimension.defaultMargin)
+            make.leading.trailing.bottom.equalToSuperview().inset(Dimension.defaultMargin)
+            make.bottom.equalTo(self.view.snp.bottomMargin).offset(-Dimension.iPhoneXMargin)
         }
     }
 }
@@ -228,14 +219,6 @@ extension DistrictChangeController: RxBinder {
         searchField.text
             .map { $0 ?? "" }
             .bind(to: viewModel.query)
-            .disposed(by: disposeBag)
-        submitButton.rx.tap
-            .subscribe(
-                onNext: { [unowned self] in
-                    self.searchField.endEditing(true)
-                    self.viewModel.updateDistrict()
-                }
-            )
             .disposed(by: disposeBag)
         returnToHomeButton.rx.tap
             .subscribe(onNext: { [unowned self] in self.viewModel.clearVisitingDistrict() })
@@ -253,6 +236,10 @@ extension DistrictChangeController: RxBinder {
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         tableView.rx.modelSelected(District.self)
+            .do(onNext: { [unowned self] _ in
+                    self.searchField.endEditing(true)
+                }
+            )
             .bind(to: viewModel.selectedDistrict)
             .disposed(by: disposeBag)
     }
@@ -278,7 +265,7 @@ extension DistrictChangeController: RxBinder {
                 onNext: { [weak self] height in
                     guard let `self` = self else { return }
                     UIView.animate(withDuration: 0.2, animations: {
-                        self.submitButton.snp.updateConstraints{ make in
+                        self.tableView.snp.updateConstraints{ make in
                             make.bottom.equalTo(self.view.snp.bottomMargin).offset(-Dimension.iPhoneXMargin - height)
                         }
                         self.view.layoutIfNeeded()
