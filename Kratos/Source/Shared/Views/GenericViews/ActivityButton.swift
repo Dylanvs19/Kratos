@@ -104,7 +104,6 @@ extension ActivityButton: RxBinder {
             .disposed(by: disposeBag)
         
         active
-            .debug()
             .map { !$0 }
             .bind(to: rx.isEnabled)
             .disposed(by: disposeBag)
