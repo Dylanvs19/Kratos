@@ -80,7 +80,7 @@ class UserController: UIViewController, CurtainPresenter {
     
     // MARK: - Configuration -
     func configureRightBarButton(with user: User) {
-        self.navigationItem.title = localize(.userTitle)
+//        self.navigationItem.title = localize(.userTitle)
         var rightBarButtonItems: [UIBarButtonItem] = []
         
         let button = UIButton()
@@ -141,6 +141,13 @@ class UserController: UIViewController, CurtainPresenter {
 fileprivate extension Dimension {
     /// 60px
     static let buttonWidth: CGFloat = 35
+}
+
+// MARK: - View Builder -
+extension UserController: Localizer {
+    func localizeStrings() {
+        self.title = localize(.userTitle)
+    }
 }
 
 // MARK: - View Builder -

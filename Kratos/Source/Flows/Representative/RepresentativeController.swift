@@ -17,7 +17,6 @@ class RepresentativeController: UIViewController, AnalyticsEnabled {
     
     // MARK: - Variables -
     // Standard
-    let client: Client
     let viewModel: RepresentativeViewModel
     let disposeBag = DisposeBag()
     
@@ -35,20 +34,17 @@ class RepresentativeController: UIViewController, AnalyticsEnabled {
     let repInfoView: RepInfoView
     
     // MARK: - Initializer -
-    init(client: Client, representative: Person) {
-        self.client = client
-        self.viewModel = RepresentativeViewModel(client: client, representative: representative)
-        self.repInfoView = RepInfoView(with: client)
+    init(client: CongressService, representative: Person) {
+        self.viewModel = RepresentativeViewModel(client: Client.provider(), representative: representative)
+        self.repInfoView = RepInfoView(client: Client.provider())
         super.init(nibName: nil, bundle: nil)
     }
     
-    init(client: Client, representative: LightPerson) {
-        self.client = client
-        self.viewModel = RepresentativeViewModel(client: client, representative: representative)
-        self.repInfoView = RepInfoView(with: client)
+    init(client: CongressService, representative: LightPerson) {
+        self.viewModel = RepresentativeViewModel(client: Client.provider(), representative: representative)
+        self.repInfoView = RepInfoView(client: Client.provider())
         super.init(nibName: nil, bundle: nil)
     }
-    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -59,6 +55,7 @@ class RepresentativeController: UIViewController, AnalyticsEnabled {
         super.viewDidLoad()
         styleViews()
         addSubviews()
+        
         bind()
         //RepInfoView needs to be laid out and constrained after view is larger than .zero
         view.layoutIfNeeded()
@@ -139,6 +136,7 @@ extension RepresentativeController: ViewBuilder {
         addPartyLabel()
         addRepStateLabel()
         addContactView()
+        view.layoutIfNeeded()
         addRepInfoView()
     }
     
@@ -146,18 +144,17 @@ extension RepresentativeController: ViewBuilder {
         view.addSubview(topView)
         topView.backgroundColor = Color.white.value
         
-        topView.snp.remakeConstraints { make in
+        topView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(Dimension.topMargin + Dimension.repImageViewHeight + 20)
         }
     }
     
     private func addRepImageView() {
         topView.addSubview(representativeImageView)
 
-        representativeImageView.snp.remakeConstraints { make in
-            make.top.equalToSuperview().offset(Dimension.topMargin + 5)
-            make.leading.bottom.equalToSuperview().inset(15)
+        representativeImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(Dimension.topMargin + Dimension.smallMargin)
+            make.leading.equalToSuperview().inset(Dimension.defaultMargin)
             make.height.width.equalTo(Dimension.repImageViewHeight)
         }
     }
@@ -165,9 +162,9 @@ extension RepresentativeController: ViewBuilder {
     private func addStateImageView() {
         topView.addSubview(stateImageView)
         
-        stateImageView.snp.remakeConstraints { make in
+        stateImageView.snp.makeConstraints { make in
             make.top.equalTo(representativeImageView.snp.top)
-            make.trailing.bottom.equalToSuperview().inset(15)
+            make.trailing.equalToSuperview().inset(Dimension.defaultMargin)
             make.height.width.equalTo(Dimension.repImageViewHeight)
         }
     }
@@ -176,7 +173,7 @@ extension RepresentativeController: ViewBuilder {
         topView.addSubview(partyLabel)
 
         partyLabel.snp.makeConstraints { make in
-            make.top.equalTo(representativeImageView.snp.top).offset(5)
+            make.top.equalTo(representativeImageView.snp.top).offset(Dimension.smallMargin)
             make.centerX.equalToSuperview()
             make.height.equalTo(Dimension.tabButtonHeight)
         }
@@ -184,10 +181,12 @@ extension RepresentativeController: ViewBuilder {
     
     private func addRepStateLabel() {
         topView.addSubview(repTypeStateLabel)
+        repTypeStateLabel.setContentCompressionResistancePriority(.required, for: .vertical)
 
         repTypeStateLabel.snp.makeConstraints { make in
-            make.top.equalTo(partyLabel.snp.bottom).offset(5)
+            make.top.equalTo(representativeImageView.snp.bottom)
             make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(Dimension.smallMargin)
         }
     }
     
@@ -195,9 +194,9 @@ extension RepresentativeController: ViewBuilder {
         view.addSubview(contactView)
 
         contactView.snp.makeConstraints { make in
-            make.top.equalTo(topView.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(35)
+            make.top.equalTo(topView.snp.bottom).offset(Dimension.smallMargin)
+            make.leading.trailing.equalToSuperview().inset(Dimension.defaultMargin)
+            make.height.equalTo(Dimension.largeMargin)
         }
     }
     
@@ -205,9 +204,9 @@ extension RepresentativeController: ViewBuilder {
         view.addSubview(repInfoView)
 
         repInfoView.snp.makeConstraints { make in
-            make.top.equalTo(contactView.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(10)
-            make.bottom.equalTo(view.snp.bottom).offset(-10)
+            make.top.equalTo(contactView.snp.bottom).offset(Dimension.smallMargin)
+            make.leading.trailing.equalToSuperview().inset(Dimension.smallMargin)
+            make.bottom.equalTo(view.snp.bottom).offset(-Dimension.smallMargin)
         }
     }
 }
@@ -299,7 +298,7 @@ extension RepresentativeController: RxBinder {
                 onNext: { [weak self] in
                     guard let `self` = self else { return }
                     self.log(event: .representative(.billSelected(id: $0.id)))
-                    let vc = BillController(client: self.client, bill: $0)
+                    let vc = BillController(client: Client.provider(), bill: $0)
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             )
@@ -312,10 +311,10 @@ extension RepresentativeController: RxBinder {
                     var vc = UIViewController()
                     if let id = $0.billId {
                         self.log(event: .representative(.billSelected(id: id)))
-                        vc = BillController(client: self.client, lightTally: $0)
+                        vc = BillController(client: Client.provider(), lightTally: $0)
                     } else {
                         self.log(event: .representative(.tallySelected(id: $0.id)))
-                        vc = TallyController(client: self.client, tally: $0)
+                        vc = TallyController(client: Client.provider(), tally: $0)
                     }
                     self.navigationController?.pushViewController(vc, animated: true)
                 }

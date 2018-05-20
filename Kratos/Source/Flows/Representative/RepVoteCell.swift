@@ -53,21 +53,21 @@ extension RepVoteCell: ViewBuilder {
     }
     func constrainViews() {
         billTitleLabel.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().offset(5)
-            make.trailing.equalToSuperview().inset(statusImageViewSize + 2)
+            make.top.leading.equalToSuperview().offset(Dimension.smallMargin)
+            make.trailing.equalToSuperview().inset(statusImageViewSize + Dimension.smallMargin)
         }
         billSubjectLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(5)
-            make.top.equalTo(billTitleLabel.snp.bottom).offset(5)
-            make.trailing.equalToSuperview().inset(statusImageViewSize + 2)
+            make.leading.equalToSuperview().offset(Dimension.smallMargin)
+            make.top.equalTo(billTitleLabel.snp.bottom).offset(Dimension.smallMargin)
+            make.trailing.equalToSuperview().inset(statusImageViewSize + Dimension.smallMargin)
         }
         billStatus.snp.makeConstraints { make in
-            make.top.equalTo(billSubjectLabel.snp.bottom).offset(5)
-            make.leading.bottom.equalToSuperview().inset(5)
-            make.trailing.equalToSuperview().inset(statusImageViewSize + 2)
+            make.top.equalTo(billSubjectLabel.snp.bottom).offset(Dimension.smallMargin)
+            make.leading.bottom.equalToSuperview().inset(Dimension.smallMargin)
+            make.trailing.equalToSuperview().inset(statusImageViewSize + Dimension.smallMargin)
         }
         statusImageView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-5)
+            make.trailing.equalToSuperview().offset(-Dimension.smallMargin)
             make.centerY.equalToSuperview()
             make.height.width.equalTo(statusImageViewSize)
         }

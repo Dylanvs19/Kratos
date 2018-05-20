@@ -12,7 +12,7 @@ import RxSwift
 import RxDataSources
 import SnapKit
 
-class RepInfoView: UIView, CurtainPresenter {
+class RepInfoView: UIView {
     
     // MARK: - Enums -
     enum State: Int, Equatable {
@@ -57,9 +57,8 @@ class RepInfoView: UIView, CurtainPresenter {
     var selectedBill = PublishSubject<Bill>()
     var selectedState = PublishSubject<State>()
     
-    fileprivate var viewModel: RepInfoViewModel?
+    fileprivate var viewModel: RepInfoViewModel
     fileprivate let disposeBag = DisposeBag()
-    var curtain: Curtain = Curtain()
     
     fileprivate let managerView = UIView()
     fileprivate let slideView = UIView()
@@ -82,13 +81,9 @@ class RepInfoView: UIView, CurtainPresenter {
     fileprivate let buttons = State.allValues.map{ $0.button }
     
     // MARK: - Initializers -
-    convenience init(with client: Client) {
-        self.init(frame: .zero)
+    init(client: CongressService) {
         self.viewModel = RepInfoViewModel(with: client)
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+        super.init(frame: .zero)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -96,26 +91,22 @@ class RepInfoView: UIView, CurtainPresenter {
     }
     
     func update(with rep: Person) {
-        self.viewModel?.update(with: rep)
-    }
-    
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-        addCurtain()
+        self.viewModel.update(with: rep)
     }
     
     // MARK: - Helpers -
     func build() {
         styleViews()
         addSubviews()
-        constrainViews()
+        layoutIfNeeded()
         
         bioView.build()
-        bind()
         
         configureTermsTableView()
         configureBillsTableView()
         configureVotesTableView()
+        
+        bind()
     }
     
     // MARK: - Configuration -
@@ -234,93 +225,131 @@ extension RepInfoView: UITableViewDelegate {
 
 // MARK - ViewBuilder -
 extension RepInfoView: ViewBuilder {
-    func addSubviews() {        
-
-        addSubview(managerView)
-        buttons.forEach { managerView.addSubview($0) }
-        managerView.addSubview(slideView)
-        
-        addSubview(scrollView)
-        scrollView.addSubview(stackView)
-
-        stackView.addArrangedSubview(bioScrollView)
-        bioScrollView.addSubview(bioViewView)
-        bioViewView.addSubview(bioView)
-        bioViewView.addSubview(termsTableView)
-        
-        stackView.addArrangedSubview(votesTableView)
-        stackView.addArrangedSubview(billsTableView)
-
+    func styleViews() {}
+    
+    func addSubviews() {
+        addManagerView()
+        addManagerButtons()
+        addSlideView()
+        addMainScrollView()
+        addMainStackView()
+        addBioScrollView()
+        addBioViewView()
+        addBioView()
+        addTermsTableView()
+        addVotesTableView()
+        addBillsTableView()
+        layoutSubviews()
     }
-    func constrainViews() {
+    
+    private func addManagerView() {
+        addSubview(managerView)
+        managerView.backgroundColor = .white
+
         managerView.snp.remakeConstraints { make in
             make.leading.top.trailing.equalToSuperview()
             make.height.equalTo(45)
         }
-        managerView.layoutIfNeeded()
+    }
+    
+    private func addManagerButtons() {
         buttons.forEach { button in
+            managerView.addSubview(button)
+
             let count = CGFloat(State.allValues.count)
-            let width = managerView.frame.width/count
             button.snp.makeConstraints { make in
-                make.leading.equalTo(width * CGFloat(button.tag))
+                switch button.tag {
+                case 0: make.leading.equalToSuperview()
+                case 1: make.centerX.equalToSuperview()
+                default: make.trailing.equalToSuperview()
+                }
                 make.top.bottom.equalToSuperview()
                 make.width.equalToSuperview().dividedBy(count)
                 make.height.equalTo(Dimension.tabButtonHeight)
             }
         }
+    }
+    
+    private func addSlideView() {
+        managerView.addSubview(slideView)
+        slideView.backgroundColor = .kratosRed
+        managerView.bringSubview(toFront: slideView)
+
         slideView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.width.equalToSuperview().dividedBy(CGFloat(State.allValues.count))
             make.height.equalTo(2)
             make.leading.equalToSuperview().offset(0)
         }
-        
+    }
+    
+    private func addMainScrollView() {
+        addSubview(scrollView)
+        scrollView.isScrollEnabled = false
+
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(self.managerView.snp.bottom).offset(5)
             make.leading.trailing.bottom.equalToSuperview()
         }
-        scrollView.layoutIfNeeded()
+    }
+    
+    private func addMainStackView() {
+        scrollView.addSubview(stackView)
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
 
         stackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        stackView.layoutIfNeeded()
+    }
+    
+    private func addBioScrollView() {
+        stackView.addArrangedSubview(bioScrollView)
+        bioScrollView.showsVerticalScrollIndicator = false
 
         bioScrollView.snp.makeConstraints { make in
-            make.width.height.equalTo(self.scrollView)
+            make.height.equalTo(self.scrollView)
+            make.width.equalTo(self.frame.width)
         }
         bioScrollView.layoutIfNeeded()
-        
+    }
+    
+    private func addBioViewView() {
+        bioScrollView.addSubview(bioViewView)
+
         bioViewView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    
+    private func addBioView() {
+        bioViewView.addSubview(bioView)
+
         bioView.snp.makeConstraints { make in
             make.width.equalTo(self.frame.width)
             make.top.leading.trailing.equalToSuperview()
         }
+    }
+    private func addTermsTableView() {
+        bioViewView.addSubview(termsTableView)
+        termsTableView.isScrollEnabled = false
+
         termsTableView.snp.makeConstraints { make in
             make.width.equalTo(self.frame.width)
             make.top.equalTo(bioView.snp.bottom).offset(10)
             make.leading.trailing.bottom.equalToSuperview()
-            make.height.greaterThanOrEqualTo(5)
-            make.height.equalTo(termsTableView.contentSize.height).priority(999)
+            make.height.equalTo(100)
         }
-        
-        layoutIfNeeded()
     }
-
-    func styleViews() {
-        managerView.style(with: .backgroundColor(.white))
-        slideView.style(with: .backgroundColor(.kratosRed))
-        managerView.bringSubview(toFront: slideView)
-
-        stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.distribution = .fillEqually
+    
+    private func addVotesTableView() {
+        stackView.addArrangedSubview(votesTableView)
         
-        scrollView.isScrollEnabled = false
-        
-        bioScrollView.showsVerticalScrollIndicator = false
+    }
+    
+    private func addBillsTableView() {
+        stackView.addArrangedSubview(billsTableView)
     }
 }
 
@@ -335,8 +364,6 @@ extension RepInfoView: RxBinder {
     }
     
     func bindManagerView() {
-        guard  let viewModel = viewModel else { return }
-        
         buttons.forEach { button in
             button.rx.tap
                 .map { _ in State(rawValue: button.tag) }
@@ -354,6 +381,7 @@ extension RepInfoView: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
+        
         viewModel.state
             .asObservable()
             .bind(to: selectedState)
@@ -361,26 +389,14 @@ extension RepInfoView: RxBinder {
     }
     
     func bindMainScrollView() {
-        guard  let viewModel = viewModel else { return }
-        
         viewModel.state
             .asObservable()
             .distinctUntilChanged()
-            .subscribe(
-                onNext: { [weak self] state in
-                    self?.updateScrollView(with: state)
-                }
-            )
-            .disposed(by: disposeBag)
-        viewModel.loadStatus
-            .asObservable()
-            .bind(to: curtain.loadStatus)
+            .subscribe(onNext: { [unowned self] in self.updateScrollView(with: $0) })
             .disposed(by: disposeBag)
     }
     
     func bindBioView() {
-        guard let viewModel = viewModel else { return }
-        
         viewModel.bio
             .asObservable()
             .subscribe(
@@ -395,19 +411,20 @@ extension RepInfoView: RxBinder {
             .map { [SectionModel(model: localize(.repInfoViewTermsSectionTitle), items: $0)] }
             .bind(to: termsTableView.rx.items(dataSource: termsDataSource))
             .disposed(by: disposeBag)
-        viewModel.terms
-            .asObservable()
-            .delay(0.01, scheduler: MainScheduler.instance)
+        
+        termsTableView.rx.observe(CGSize.self, "contentSize")
+            .filterNil()
             .subscribe(
-                onNext: { [weak self] _ in
-                    self?.constrainViews()
+                onNext: { [unowned self] size in
+                    self.termsTableView.snp.updateConstraints{ make in
+                        make.height.equalTo(1).offset(size.height)
+                    }
                 }
             )
             .disposed(by: disposeBag)
     }
     
     func bindBillsView() {
-        guard let viewModel = viewModel else { return }
         viewModel.formattedBills.asObservable()
             .map { [SectionModel(model: "", items: $0)] }
             .bind(to: billsTableView.rx.items(dataSource: billsDataSource))
@@ -428,7 +445,6 @@ extension RepInfoView: RxBinder {
     }
     
     func bindVotesView() {
-        guard let viewModel = viewModel else { return }
         viewModel.formattedTallies
             .asObservable()
             .map { arrays in

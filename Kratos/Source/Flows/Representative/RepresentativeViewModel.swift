@@ -13,7 +13,7 @@ import RxCocoa
 
 class RepresentativeViewModel {
     
-    let client: Client
+    let client: CongressService & AnalyticsService
     let disposeBag = DisposeBag()
     let loadStatus = Variable<LoadStatus>(.none)
     
@@ -35,13 +35,13 @@ class RepresentativeViewModel {
     var bio = Variable<String>("")
     var terms = Variable<[Term]>([])
     
-    init(client: Client, representative: Person) {
+    init(client: CongressService & AnalyticsService, representative: Person) {
         self.client = client
         self.representative.value = representative
         bind()
     }
     
-    init(client: Client, representative: LightPerson) {
+    init(client: CongressService & AnalyticsService, representative: LightPerson) {
         self.client = client
         self.lightRep.value = representative
         loadStatus.value = .loading
@@ -87,18 +87,21 @@ extension RepresentativeViewModel: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
+        
         representative
             .asObservable()
             .filterNil()
             .map { $0.fullName }
             .bind(to: title)
             .disposed(by: disposeBag)
+        
         representative
             .asObservable()
             .filterNil()
             .map { "\($0.currentChamber.representativeType.short()). \($0.currentState.fullName)" }
             .bind(to: repTypeState)
             .disposed(by: disposeBag)
+        
         representative
             .asObservable()
             .filterNil()
@@ -106,12 +109,14 @@ extension RepresentativeViewModel: RxBinder {
             .filterNil()
             .bind(to: party)
             .disposed(by: disposeBag)
+        
         representative
             .asObservable()
             .filterNil()
             .map { $0.currentState }
             .bind(to: state)
             .disposed(by: disposeBag)
+        
         representative
             .asObservable()
             .filterNil()
@@ -119,6 +124,7 @@ extension RepresentativeViewModel: RxBinder {
             .filterNil()
             .bind(to: bio)
             .disposed(by: disposeBag)
+        
         representative
             .asObservable()
             .filterNil()
@@ -126,11 +132,13 @@ extension RepresentativeViewModel: RxBinder {
             .filterNil()
             .bind(to: terms)
             .disposed(by: disposeBag)
+        
         representative
             .asObservable()
             .map { $0?.imageURL }
             .bind(to: url)
             .disposed(by: disposeBag)
+        
         representative
             .asObservable()
             .filterNil()
@@ -140,7 +148,6 @@ extension RepresentativeViewModel: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
-        
     }
     
     func bindContactVariables() {

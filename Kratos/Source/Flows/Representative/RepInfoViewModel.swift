@@ -16,7 +16,7 @@ import SwiftDate
 class RepInfoViewModel {
     
     // MARK - Variables -
-    let client: Client
+    let client: CongressService
     let loadStatus = Variable<LoadStatus>(.loading)
     let disposeBag = DisposeBag()
 
@@ -44,7 +44,7 @@ class RepInfoViewModel {
     let contentOffset = Variable<CGFloat>(0)
     
     // MARK - Initialization -
-    init(with client: Client) {
+    init(with client: CongressService) {
         self.client = client
         bind()
     }
