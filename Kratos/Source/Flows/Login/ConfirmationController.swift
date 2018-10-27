@@ -14,19 +14,18 @@ import RxSwift
 class ConfirmationController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     
     // MARK: - Properties -
-    var client: Client
     let viewModel: ConfirmationViewModel
     let disposeBag = DisposeBag()
     
     //UI Elements
     let kratosImageView = UIImageView(image: #imageLiteral(resourceName: "KratosLogo"))
     let titleLabel = UILabel()
-    let textView = UITextView()
-    let textField = TextField(style: .confirmation,
-                                          type: .confirmation,
-                                          placeholder: localize(.textFieldConfirmationTitle))
-    let resendConfirmationButton = UIButton()
-    let submitButton = UIButton()
+    let detailLabel = UILabel()
+    let textField = TextField(style: .standard,
+                              type: .confirmation,
+                              placeholder: localize(.textFieldConfirmationTitle))
+    let resendConfirmationButton = Button(style: .b2)
+    let submitButton = ActivityButton(style: .cta)
     
     var curtain: Curtain = Curtain()
     
@@ -35,7 +34,6 @@ class ConfirmationController: UIViewController, CurtainPresenter, AnalyticsEnabl
     
     // MARK: - Initialization -
     init(client: Client, email: String, password: String) {
-        self.client = client
         self.viewModel = ConfirmationViewModel(client: client, email: email, password: password)
         super.init(nibName: nil, bundle: nil)
     }
@@ -50,7 +48,6 @@ class ConfirmationController: UIViewController, CurtainPresenter, AnalyticsEnabl
         styleViews()
         addSubviews()
         
-        constrainViews()
         bind()
         localizeStrings()
         dismissKeyboardOnTap()
@@ -71,62 +68,83 @@ class ConfirmationController: UIViewController, CurtainPresenter, AnalyticsEnabl
 
 // MARK: - ViewBuilder -
 extension ConfirmationController: ViewBuilder {
-    func addSubviews() {
-        view.addSubview(kratosImageView)
-        view.addSubview(titleLabel)
-        view.addSubview(textView)
-        view.addSubview(textField)
-        view.addSubview(resendConfirmationButton)
-        view.addSubview(submitButton)
+    func styleViews() {
+        view.backgroundColor = .white
     }
     
-    func constrainViews() {
+    func addSubviews() {
+        addImageView()
+        addTitleLabel()
+        addTextView()
+        addTextField()
+        addResendConfirmationButton()
+        addSubmitButton()
+    }
+    
+    private func addImageView() {
+        view.addSubview(kratosImageView)
+
         kratosImageView.snp.makeConstraints { make in
             make.height.equalTo(kratosImageView.snp.width)
             make.height.equalTo(90)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.3)
         }
+    }
+    
+    private func addTitleLabel() {
+        view.addSubview(titleLabel)
+        titleLabel.font = .h2
+        titleLabel.textColor = .gray
+        titleLabel.textAlignment = .center
+
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(kratosImageView.snp.bottom).offset(15)
-            make.centerX.equalToSuperview()
-        }
-        self.view.layoutIfNeeded()
-        textView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(15)
             make.leading.trailing.equalToSuperview().inset(20)
-        }
-        self.view.layoutIfNeeded()
-        textField.snp.remakeConstraints { (make) in
-            make.top.equalTo(textView.snp.bottom).offset(15)
-            make.centerX.equalTo(view)
-            make.width.equalTo(0)
-        }
-        resendConfirmationButton.snp.makeConstraints { make in
-            make.bottom.equalTo(submitButton.snp.top).offset(-20)
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview().offset(-20)
-        }
-        submitButton.snp.remakeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(submitButtonHeight)
         }
     }
     
-    func styleViews() {
-        view.style(with: .backgroundColor(.white))
-        titleLabel.style(with: [.font(.h2),
-                                .titleColor(.gray),
-                                .textAlignment(.center)])
-        textView.style(with: [.font(.body),
-                              .textAlignment(.center)])
-        resendConfirmationButton.style(with: [.font(.body),
-                                .titleColor(.gray)])
-        submitButton.style(with: [.backgroundColor(.gray),
-                                .font(.h1),
-                                .titleColor(.white),
-                                .highlightedTitleColor(.red)])
-        textView.isScrollEnabled = false
+    private func addTextView() {
+        view.addSubview(detailLabel)
+        detailLabel.font = .bodyFont
+        detailLabel.textAlignment = .center
+        detailLabel.numberOfLines = 0
+        
+        detailLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(15)
+            make.leading.trailing.equalToSuperview().inset(20)
+        }
+    }
+    
+    private func addTextField() {
+        view.addSubview(textField)
+
+        textField.snp.remakeConstraints { (make) in
+            make.top.equalTo(detailLabel.snp.bottom).offset(15)
+            make.centerX.equalTo(view)
+        }
+    }
+    
+    private func addResendConfirmationButton() {
+        view.addSubview(resendConfirmationButton)
+        resendConfirmationButton.titleLabel?.font = .bodyFont
+        resendConfirmationButton.setTitleColor(.gray, for: .normal)
+
+        resendConfirmationButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().offset(-20)
+        }
+    }
+    
+    private func addSubmitButton() {
+        view.addSubview(submitButton)
+        
+        submitButton.snp.makeConstraints { (make) in
+            make.leading.trailing.equalToSuperview().inset(Dimension.mediumMargin)
+            make.top.greaterThanOrEqualTo(resendConfirmationButton.snp.bottom).offset(Dimension.defaultMargin)
+            make.bottom.equalTo(view.snp.bottomMargin).offset(-Dimension.iPhoneXMargin)
+            make.height.equalTo(Dimension.largeButtonHeight)
+        }
     }
 }
 
@@ -136,7 +154,7 @@ extension ConfirmationController: Localizer {
         titleLabel.text = localize(.confirmationTitle)
         resendConfirmationButton.setTitle(localize(.confirmationResendConfirmationButtonTitle), for: .normal)
         submitButton.setTitle(localize(.submit), for: .normal)
-        textView.text = localize(.confirmationExplainationText)
+        detailLabel.text = localize(.confirmationExplainationText)
     }
 }
 
@@ -148,6 +166,7 @@ extension ConfirmationController: RxBinder {
             .filterNil()
             .bind(to: viewModel.confirmation)
             .disposed(by: disposeBag)
+        
         resendConfirmationButton.rx.tap
             .subscribe(
                 onNext: { [weak self] in
@@ -155,6 +174,7 @@ extension ConfirmationController: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
+        
         submitButton.rx.tap
             .subscribe(
                 onNext: { [unowned self] in
@@ -163,10 +183,12 @@ extension ConfirmationController: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
+        
         viewModel.loadStatus
             .asObservable()
             .bind(to: curtain.loadStatus)
             .disposed(by: disposeBag)
+        
         viewModel.loadStatus
             .asObservable()
             .onError(
@@ -176,19 +198,24 @@ extension ConfirmationController: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
+        
         viewModel.loadStatus
             .asObservable()
             .onSuccess { [unowned self] in
-                let vc = NotificationsRegistrationViewController(client: self.client)
+                let vc = NotificationsRegistrationViewController(client: Client.provider())
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             .disposed(by: disposeBag)
+        
         viewModel.resendEmailLoadStatus
             .asObservable()
             .onSuccess { [weak self] in
-               self?.presentMessageAlert(title: "Email Resent", message: "A confirmation code has been resent to your email address.", buttonOneTitle: "OK")
+               self?.presentMessageAlert(title: "Email Resent",
+                                         message: "A confirmation code has been resent to your email address.",
+                                         buttonOneTitle: "OK")
             }
             .disposed(by: disposeBag)
+        
         viewModel.isValid
             .asObservable()
             .do(

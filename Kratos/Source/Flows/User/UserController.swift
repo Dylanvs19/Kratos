@@ -68,8 +68,7 @@ class UserController: UIViewController, CurtainPresenter {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        view.layoutIfNeeded()
-
+        localizeStrings()
         viewModel.fetchTrackedSubjects()
     }
     
@@ -146,7 +145,7 @@ fileprivate extension Dimension {
 // MARK: - View Builder -
 extension UserController: Localizer {
     func localizeStrings() {
-        self.title = localize(.userTitle)
+        navigationItem.title = localize(.userTitle)
     }
 }
 
@@ -154,16 +153,7 @@ extension UserController: Localizer {
 extension UserController: ViewBuilder {
     func styleViews() {
         edgesForExtendedLayout = [.top, .right, .left]
-        view.backgroundColor = Color.slate.value
-        
-        tableView.style(with: .backgroundColor(.white))
-        header.style(with: .backgroundColor(.white))
-        clearSelectedSubjectButton.style(with: .backgroundColor(.white))
-        
-        emptyStateLabel.style(with: [.font(.h3),
-                                     .titleColor(.gray),
-                                     .numberOfLines(4),
-                                     .textAlignment(.center)])
+        view.backgroundColor = .slate
     }
     
     func addSubviews() {
@@ -179,6 +169,7 @@ extension UserController: ViewBuilder {
     
     private func addHeader() {
         view.addSubview(header)
+        header.backgroundColor = .white
 
         header.snp.remakeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
@@ -190,9 +181,9 @@ extension UserController: ViewBuilder {
         view.addSubview(topView)
         
         topView.snp.remakeConstraints { make in
-            make.top.equalTo(header.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(10)
-            make.height.equalTo(44)
+            make.top.equalTo(header.snp.bottom).offset(Dimension.smallMargin)
+            make.leading.trailing.equalToSuperview().inset(Dimension.smallMargin)
+            make.height.equalTo(Dimension.tabButtonHeight)
         }
     }
     
@@ -200,6 +191,8 @@ extension UserController: ViewBuilder {
         topView.addSubview(clearSelectedSubjectButton)
         let image = #imageLiteral(resourceName: "redClearIcon").af_imageScaled(to: CGSize(width: 15, height: 15))
         clearSelectedSubjectButton.setImage(image, for: .normal)
+        clearSelectedSubjectButton.backgroundColor = .white
+
         
         clearSelectedSubjectButton.snp.remakeConstraints { make in
             make.top.bottom.leading.equalToSuperview()
@@ -232,14 +225,15 @@ extension UserController: ViewBuilder {
         view.addSubview(tableViewView)
 
         tableViewView.snp.remakeConstraints { make in
-            make.top.equalTo(topView.snp.bottom).offset(10)
-            make.trailing.leading.equalToSuperview().inset(10)
-            make.bottom.equalTo(view.snp.bottomMargin).offset(-10)
+            make.top.equalTo(topView.snp.bottom).offset(Dimension.smallMargin)
+            make.trailing.leading.equalToSuperview().inset(Dimension.smallMargin)
+            make.bottom.equalTo(view.snp.bottomMargin).offset(-Dimension.smallMargin)
         }
     }
     
     private func addTableView() {
         tableViewView.addSubview(tableView)
+        tableView.backgroundColor = .white
 
         tableView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
@@ -248,10 +242,12 @@ extension UserController: ViewBuilder {
     
     private func addEmptyStateLabel() {
         tableViewView.addSubview(emptyStateLabel)
+        emptyStateLabel.numberOfLines = 4
+        emptyStateLabel.textAlignment = .center
 
         emptyStateLabel.snp.remakeConstraints { make in
             make.centerX.centerY.equalToSuperview()
-            make.width.equalToSuperview().offset(-40)
+            make.width.equalToSuperview().offset(-Dimension.tabButtonHeight)
         }
     }
 }
@@ -267,9 +263,6 @@ extension UserController: RxBinder {
             .disposed(by: disposeBag)
         viewModel.presentedBills
             .asObservable()
-//            .do(onNext: { (bills) in
-//                print("Presented Bills - \(bills.count)")
-//            })
             .bind(to: tableView.rx.items(cellIdentifier: BillCell.identifier, cellType: BillCell.self)) { row, data, cell in
                 cell.configure(with: data)
             }

@@ -11,6 +11,14 @@ import UIKit
 extension UIScreen {
     
     static var isIPhoneX: Bool {
-        return UIScreen.main.bounds.size.height == 812
+        return UIDevice.current.userInterfaceIdiom == .phone && UIScreen.main.bounds.size.height == 812
+    }
+    
+    static var isIPhoneXSMax: Bool {
+        return UIDevice.current.userInterfaceIdiom == .phone && UIScreen.main.bounds.size.height == 896
+    }
+    
+    static var shouldElevateBottomMargin: Bool {
+        return isIPhoneX || isIPhoneXSMax
     }
 }

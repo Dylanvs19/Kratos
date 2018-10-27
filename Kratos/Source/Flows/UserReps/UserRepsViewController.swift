@@ -67,7 +67,7 @@ class UserRepsViewController: UIViewController, CurtainPresenter {
     
     // MARK: - Configuration -
     func configureTableView() {
-        let rowHeightOffset: CGFloat = UIScreen.isIPhoneX ? 30 : 20
+        let rowHeightOffset: CGFloat = UIScreen.shouldElevateBottomMargin ? 30 : 20
         view.backgroundColor = Color.slate.value
         tableView.backgroundColor = .clear
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 5))

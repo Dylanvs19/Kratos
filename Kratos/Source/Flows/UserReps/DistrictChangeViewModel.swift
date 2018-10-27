@@ -51,10 +51,12 @@ class DistrictChangeViewModel {
     
     func update(for district: District) {
         client.update(visitingDistrict: district)
+        shouldReturn.onNext(())
     }
     
     func clearVisitingDistrict() {
         client.clearVisitingDistrict()
+        shouldReturn.onNext(())
     }
 }
 // MARK: - RxBinder -

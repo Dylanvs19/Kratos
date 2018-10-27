@@ -97,7 +97,7 @@ class BillController: UIViewController, AnalyticsEnabled {
 
 extension Dimension {
     static var titleToTop: CGFloat {
-        return UIScreen.isIPhoneX ? 50.0 : 30.0
+        return UIScreen.shouldElevateBottomMargin ? 50.0 : 30.0
     }
 }
 

@@ -203,7 +203,7 @@ extension DistrictChangeController: ViewBuilder {
 
         tableView.snp.makeConstraints { make in
             make.top.equalTo(searchField.snp.bottom).offset(Dimension.defaultMargin * 2)
-            make.leading.trailing.bottom.equalToSuperview().inset(Dimension.defaultMargin)
+            make.leading.trailing.equalToSuperview().inset(Dimension.defaultMargin)
             make.bottom.equalTo(self.view.snp.bottomMargin).offset(-Dimension.iPhoneXMargin)
         }
     }
@@ -226,6 +226,9 @@ extension DistrictChangeController: RxBinder {
         viewModel.showReturnHomeButton
             .asObservable()
             .subscribe(onNext: { [unowned self] in self.updateReturnHomeButton(with: $0) })
+            .disposed(by: disposeBag)
+        viewModel.shouldReturn
+            .subscribe(onNext: { [unowned self] in self.dismiss(animated: true, completion: nil) })
             .disposed(by: disposeBag)
     }
     

@@ -101,6 +101,7 @@ extension WelcomeController: RxBinder {
                 }
             )
             .disposed(by: disposeBag)
+        
         signInButton.rx.tap
             .subscribe(
                 onNext: { [unowned self] in

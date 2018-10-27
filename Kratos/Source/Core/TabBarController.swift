@@ -143,10 +143,9 @@ extension TabBarController: ViewBuilder {
 extension TabBarController: RxBinder {
     func bind() {
         client.isLoggedIn
-            .asObservable()
             .filter { $0 == false }
-            .subscribe(onNext: { next in
-                let navVC = UINavigationController(rootViewController: LoginController(client: Client.provider()))
+            .subscribe(onNext: { _ in
+                let navVC = UINavigationController(rootViewController: WelcomeController())
                 ApplicationLauncher.rootTransition(to: navVC)
             })
             .disposed(by: disposeBag)

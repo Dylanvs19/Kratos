@@ -114,7 +114,7 @@ class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        view.layoutIfNeeded()
+        navigationItem.title = localize(.exploreTitle)
         log(event: .exploreController)
     }
     
@@ -130,7 +130,6 @@ class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
     
     // MARK: - Configuration -
     func configureRightBarButton(with user: User) {
-        self.navigationItem.title = localize(.userTitle)
         var rightBarButtonItems: [UIBarButtonItem] = []
         
         let button = UIButton()

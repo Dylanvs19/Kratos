@@ -18,7 +18,6 @@ struct ApplicationLauncher {
         
         let splash = SplashViewController()
         splash.onAnimationCompletion = {
-            let hasInstalled: String? = Store.fetch("has_installed")
             let token: String? = Store.fetch("token")
             
             // Override point for customization after application launch.
@@ -37,15 +36,10 @@ struct ApplicationLauncher {
                 if #available(iOS 10.0, *) {
                     Client.setupMessaging()
                 }
-                if hasInstalled != nil {
-                    vc = UINavigationController(rootViewController: LoginController(client: Client.provider()))
-                } else {
-                    Store.shelve("true", key: "has_installed")
-                    let viewController = WelcomeController()
-                    viewController.setDefaultNavVC()
-                    vc = UINavigationController(rootViewController: viewController)
-                }
                 
+                let viewController = WelcomeController()
+                viewController.setDefaultNavVC()
+                vc = UINavigationController(rootViewController: viewController)
             }
             rootTransition(to: vc)
         }

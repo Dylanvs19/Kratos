@@ -19,7 +19,7 @@ class NotificationsRegistrationViewController: UIViewController, AnalyticsEnable
     
     let kratosImageView = UIImageView(image: #imageLiteral(resourceName: "KratosLogo"))
     let titleLabel = UILabel()
-    let textView = UITextView()
+    let detailsLabel = UILabel()
     let confirmationButton = UIButton()
     let skipButton = UIButton()
     
@@ -34,10 +34,11 @@ class NotificationsRegistrationViewController: UIViewController, AnalyticsEnable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        localizeStrings()
-        addSubviews()
-        constrainViews()
+        
         styleViews()
+        addSubviews()
+        
+        localizeStrings()
         bind()
     }
     
@@ -47,66 +48,87 @@ class NotificationsRegistrationViewController: UIViewController, AnalyticsEnable
     }
 }
 
+extension NotificationsRegistrationViewController: Localizer {
+    func localizeStrings() {
+        skipButton.setTitle(localize(.notificationSkipButtonTitle), for: .normal)
+        confirmationButton.setTitle(localize(.register), for: .normal)
+        detailsLabel.text = localize(.notificationExplanationText)
+        titleLabel.text = localize(.notificationTitle)
+    }
+}
+
 extension NotificationsRegistrationViewController: ViewBuilder {
-    func addSubviews() {
-        self.view.addSubview(kratosImageView)
-        self.view.addSubview(titleLabel)
-        self.view.addSubview(textView)
-        self.view.addSubview(confirmationButton)
-        self.view.addSubview(skipButton)
+    func styleViews() {
+        view.backgroundColor = .white
     }
     
-    func constrainViews() {
+    func addSubviews() {
+        addImageView()
+        addTitleLabel()
+        addDetailsLabel()
+        addConfirmationButton()
+        addSkipButton()
+    }
+    
+    private func addImageView() {
+        self.view.addSubview(kratosImageView)
+        
         kratosImageView.snp.makeConstraints { make in
             make.height.equalTo(kratosImageView.snp.width)
             make.height.equalTo(90)
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.3)
         }
+    }
+    
+    private func addTitleLabel() {
+        self.view.addSubview(titleLabel)
+        titleLabel.font = .h2
+        titleLabel.textColor = .gray
+       
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(kratosImageView.snp.bottom).offset(15)
             make.centerX.equalToSuperview()
         }
-        textView.snp.makeConstraints { make in
+    }
+    
+    private func addDetailsLabel() {
+        self.view.addSubview(detailsLabel)
+        detailsLabel.font = .bodyFont
+        detailsLabel.textAlignment = .center
+        detailsLabel.numberOfLines = 0
+       
+        detailsLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(15)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().inset(40)
         }
+    }
+    
+    private func addConfirmationButton() {
+        self.view.addSubview(confirmationButton)
+        confirmationButton.backgroundColor = .slate
+        confirmationButton.titleLabel?.font = .h4
+        confirmationButton.setTitleColor(.kratosRed, for: .normal)
+        confirmationButton.setTitleColor(.red, for: .highlighted)
+       
         confirmationButton.snp.makeConstraints { make in
-            make.top.equalTo(textView.snp.bottom).offset(40)
+            make.top.equalTo(detailsLabel.snp.bottom).offset(40)
             make.leading.trailing.equalToSuperview()
-        }
-        skipButton.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
-    func styleViews() {
-        view.style(with: .backgroundColor(.white))
-        titleLabel.style(with: [.font(.h2),
-                                .titleColor(.gray)])
-        textView.style(with: [.font(.body),
-                              .textAlignment(.center)])
-        
-        confirmationButton.style(with: [.backgroundColor(.slate),
-                                        .font(.h4),
-                                        .titleColor(.kratosRed),
-                                        .highlightedTitleColor(.red)])
-        skipButton.style(with: [.backgroundColor(.slate),
-                                        .font(.h4),
-                                        .titleColor(.gray),
-                                        .highlightedTitleColor(.slate)])
-        textView.isScrollEnabled = false
+    private func addSkipButton() {
+        self.view.addSubview(skipButton)
+        skipButton.backgroundColor = .slate
+        skipButton.titleLabel?.font = .h4
+        skipButton.setTitleColor(.gray, for: .normal)
+        skipButton.setTitleColor(.slate, for: .highlighted)
 
-    }
-}
-
-extension NotificationsRegistrationViewController: Localizer {
-    func localizeStrings() {
-        skipButton.setTitle(localize(.notificationSkipButtonTitle), for: .normal)
-        confirmationButton.setTitle(localize(.register), for: .normal)
-        textView.text = localize(.notificationExplanationText)
-        titleLabel.text = localize(.notificationTitle)
+        skipButton.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().inset(Dimension.iPhoneXBottomMargin)
+        }
     }
 }
 

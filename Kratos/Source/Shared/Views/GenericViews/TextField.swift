@@ -45,8 +45,6 @@ struct TextFieldStyle {
     }
     
     static let standard = TextFieldStyle(height: Dimension.textfieldHeight, font: .h5)
-    
-    static let confirmation = TextFieldStyle(height: Dimension.textfieldHeight, font: .h1)
 }
 
 struct TextFieldStateStyle {
@@ -77,10 +75,9 @@ enum TextFieldType {
     var replaceCharacters: ((_ textField: UITextField, _ newString: String, _ replacement: String) -> Bool) {
         switch self {
         case .state: return { (textField, newString, string) -> Bool in
-            guard !string.containsCharacters(in: CharacterSet.englishLetters.inverted),
-            newString.count <= 2,
-            !string.isEmpty else { return false }
-            return true 
+            guard !string.containsCharacters(in: CharacterSet.englishLetters.inverted) else { return false }
+            textField.text = newString.uppercased()
+            return false
             }
         case .zipcode: return { _, newString, string in
             return !string.containsCharacters(in: CharacterSet.decimalDigits.inverted) && newString.count <= 5

@@ -39,7 +39,6 @@ struct KratosClient {
 extension KratosClient: MicroClient {
     func buildRequest(_ target: KratosTarget) -> Observable<Data> {
         let url = self.baseURL(for: target) + target.path
-        print("req --> \(url)")
         return Observable.create { observer in
             let request = Alamofire.request(
                 url,

@@ -38,7 +38,6 @@ class FeedbackController: UIViewController, CurtainPresenter {
         styleViews()
         addSubviews()
         view.layoutIfNeeded()
-        print(view.frame.size)
         bind()
         adjustForKeyboard()
         localizeStrings()

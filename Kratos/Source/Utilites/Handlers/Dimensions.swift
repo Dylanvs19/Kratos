@@ -14,9 +14,13 @@ struct Dimension {
     static let smallMargin: CGFloat = 8
     /// 16pt
     static let defaultMargin: CGFloat = 16
+    /// if iphonex 24px, else 0px
+    static var iPhoneXBottomMargin: CGFloat {
+        return UIScreen.shouldElevateBottomMargin ? mediumMargin : 0
+    }
     /// if iphonex 0px, else 24px
     static var iPhoneXMargin: CGFloat {
-        return UIScreen.isIPhoneX ? 0 : mediumMargin
+        return UIScreen.shouldElevateBottomMargin ? 0 : mediumMargin
     }
     /// 24pt
     static let mediumMargin: CGFloat = 24
@@ -34,9 +38,9 @@ struct Dimension {
     static let largeImageViewHeight: CGFloat = 200
     /// 64px, 84 if iPhoneX
     static var topMargin: CGFloat {
-        return UIScreen.isIPhoneX ? 84 : 64
+        return UIScreen.shouldElevateBottomMargin ? 84 : 64
     }
     static var topTitlePosition: CGFloat {
-        return UIScreen.isIPhoneX ? 54 : 34
+        return UIScreen.shouldElevateBottomMargin ? 54 : 34
     }
 }

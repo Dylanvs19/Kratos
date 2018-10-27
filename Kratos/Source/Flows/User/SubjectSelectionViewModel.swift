@@ -56,6 +56,7 @@ class SubjectSelectionViewModel: AnalyticsEnabled {
             )
             .disposed(by: disposeBag)
     }
+    
     fileprivate func fetchSubjects() {
         loadStatus.value = .loading
         client.fetchAllSubjects(onlyActive: true)
@@ -70,6 +71,7 @@ class SubjectSelectionViewModel: AnalyticsEnabled {
             )
             .disposed(by: disposeBag)
     }
+    
     fileprivate func fetchTrackedSubjects() {
         loadStatus.value = .loading
         client.fetchTrackedSubjects()

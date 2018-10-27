@@ -70,7 +70,7 @@ enum Constant: String {
     
     //ConfirmationVC
     case confirmationTitle = "Confirmation"
-    case confirmationResendConfirmationButtonTitle = "RESEND CONFIRMATION"
+    case confirmationResendConfirmationButtonTitle = "Resend Confirmation"
     case confirmationExplainationText = "A confirmation code has just been sent to your email address. Enter it here:"
     
     // NotificationVC
