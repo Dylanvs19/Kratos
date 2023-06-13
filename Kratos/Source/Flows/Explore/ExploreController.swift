@@ -152,7 +152,7 @@ class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
         senateTableView.backgroundColor = .clear
         senateTableView.register(BillCell.self, forCellReuseIdentifier: BillCell.identifier)
         senateTableView.estimatedRowHeight = 200
-        senateTableView.rowHeight = UITableViewAutomaticDimension
+        senateTableView.rowHeight = UITableView.automaticDimension
         senateTableView.allowsSelection = true
         senateTableView.tableFooterView = UIView()
         senateTableView.showsVerticalScrollIndicator = false
@@ -162,7 +162,7 @@ class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
         houseTableView.backgroundColor = .clear
         houseTableView.register(BillCell.self, forCellReuseIdentifier: BillCell.identifier)
         houseTableView.estimatedRowHeight = 200
-        houseTableView.rowHeight = UITableViewAutomaticDimension
+        houseTableView.rowHeight = UITableView.automaticDimension
         houseTableView.allowsSelection = true
         houseTableView.tableFooterView = UIView()
         houseTableView.showsVerticalScrollIndicator = false
@@ -172,7 +172,7 @@ class ExploreController: UIViewController, CurtainPresenter, AnalyticsEnabled {
         trendingTableView.backgroundColor = .clear
         trendingTableView.register(BillCell.self, forCellReuseIdentifier: BillCell.identifier)
         trendingTableView.estimatedRowHeight = 200
-        trendingTableView.rowHeight = UITableViewAutomaticDimension
+        trendingTableView.rowHeight = UITableView.automaticDimension
         trendingTableView.allowsSelection = true
         trendingTableView.tableFooterView = UIView()
         trendingTableView.showsVerticalScrollIndicator = false

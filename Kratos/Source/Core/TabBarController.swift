@@ -53,18 +53,18 @@ class TabBarController: UITabBarController {
                 let vc = ExploreController(client: Client.provider())
                 vc.title = localize(.exploreTitle)
                 vc.tabBarItem = tabBarItem
-                vc.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
+                vc.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
                 return vc
             case .main:
                 let vc = UserRepsViewController(client: Client.provider())
                 vc.tabBarItem = tabBarItem
-                vc.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
+                vc.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
                 return vc
             case .user:
                 let vc = UserController(client: Client.provider())
                 vc.title = localize(.userTitle)
                 vc.tabBarItem = tabBarItem
-                vc.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
+                vc.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
                 return vc
             }
         }

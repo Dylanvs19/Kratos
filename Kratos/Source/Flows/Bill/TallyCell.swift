@@ -31,7 +31,7 @@ class TallyCell: UITableViewCell {
     let pieChartHeight: CGFloat = 75
     
     // MARK: - Initializer -
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         bind()
         addSubviews()

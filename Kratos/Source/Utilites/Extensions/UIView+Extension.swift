@@ -13,12 +13,12 @@ extension UIView {
     func addBlurEffect(front: Bool = true, animate: Bool = true ) {
         
         let blurEffectView = UIVisualEffectView(frame: bounds)
-        blurEffectView.effect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        blurEffectView.effect = UIBlurEffect(style: .dark)
         self.addSubview(blurEffectView)
         if front {
-            self.bringSubview(toFront: blurEffectView)
+            self.bringSubviewToFront(blurEffectView)
         } else {
-            self.sendSubview(toBack: blurEffectView)
+            self.sendSubviewToBack(blurEffectView)
         }
         
         UIView.animate(withDuration: 0.4) {

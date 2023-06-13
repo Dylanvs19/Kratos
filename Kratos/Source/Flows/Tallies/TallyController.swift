@@ -121,7 +121,7 @@ class TallyController: UIViewController, AnalyticsEnabled {
     fileprivate func configureVotesTableView() {
         votesTableView.register(RepresentativeCell.self, forCellReuseIdentifier: RepresentativeCell.identifier)
         votesTableView.estimatedRowHeight = 100
-        votesTableView.rowHeight = UITableViewAutomaticDimension
+        votesTableView.rowHeight = UITableView.automaticDimension
         votesTableView.separatorInset = .zero
         votesTableView.tableFooterView = UIView()
         votesTableView.backgroundColor = .clear
@@ -130,7 +130,7 @@ class TallyController: UIViewController, AnalyticsEnabled {
     fileprivate func configureDetailsTableView() {
         detailsTableView.register(DetailCell.self, forCellReuseIdentifier: DetailCell.identifier)
         detailsTableView.estimatedRowHeight = 100
-        detailsTableView.rowHeight = UITableViewAutomaticDimension
+        detailsTableView.rowHeight = UITableView.automaticDimension
         detailsTableView.separatorInset = .zero
         detailsTableView.tableFooterView = UIView()
         detailsTableView.backgroundColor = .clear

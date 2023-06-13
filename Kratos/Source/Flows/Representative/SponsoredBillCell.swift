@@ -16,7 +16,7 @@ class SponsoredBillCell: UITableViewCell {
     var topTermLabel = UILabel()
     var statusLabel = UILabel()
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubviews()
         constrainViews()

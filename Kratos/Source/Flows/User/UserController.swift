@@ -42,7 +42,7 @@ class UserController: UIViewController, CurtainPresenter {
         flowLayout.scrollDirection = .horizontal
         flowLayout.minimumLineSpacing = 4
         flowLayout.minimumInteritemSpacing = 4
-        flowLayout.sectionInset = UIEdgeInsetsMake(2, 5, 2, 0)
+        flowLayout.sectionInset = UIEdgeInsets(top: 2, left: 5, bottom: 2, right: 0)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         self.collectionView = collectionView
         self.viewModel = UserViewModel(client: client)
@@ -112,7 +112,7 @@ class UserController: UIViewController, CurtainPresenter {
         tableView.register(BillCell.self, forCellReuseIdentifier: BillCell.identifier)
         tableView.estimatedRowHeight = 100
         tableView.tableHeaderView = nil
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.allowsSelection = true
         tableView.tableFooterView = UIView()
         tableView.showsVerticalScrollIndicator = false

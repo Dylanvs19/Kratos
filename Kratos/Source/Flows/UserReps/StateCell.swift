@@ -17,7 +17,7 @@ class StateCell: UITableViewCell {
     static let identifier = String(describing: StateCell.self)
     
     // MARK: - Initializer -
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         styleViews() 
     }

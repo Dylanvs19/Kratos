@@ -118,7 +118,7 @@ extension BillController: ViewBuilder {
         statusDateLabel.style(with: [.font(.body),
                                      .titleColor(.lightGray)
             ])
-        trackButton.contentEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5)
+        trackButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         trackButton.style(with: [.font(.tab),
                                  .cornerRadius(4)])
     }

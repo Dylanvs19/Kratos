@@ -133,13 +133,13 @@ class RepInfoView: UIView {
     func configureVotesTableView() {
         votesTableView.register(RepVoteCell.self, forCellReuseIdentifier: RepVoteCell.identifier)
         votesTableView.estimatedRowHeight = 500
-        votesTableView.rowHeight = UITableViewAutomaticDimension
+        votesTableView.rowHeight = UITableView.automaticDimension
         votesTableView.separatorInset = .zero
         votesTableView.tableFooterView = UIView()
         votesTableView.backgroundColor = .clear
         votesTableView.showsVerticalScrollIndicator = false
         votesTableView.sectionHeaderHeight = 40
-        votesTableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0)
+        votesTableView.contentInset = UIEdgeInsets(top: -36, left: 0, bottom: 0, right: 0)
 
         votesDataSource.configureCell = { dataSource, tableView, indexPath, item in
             let basicCell = tableView.dequeueReusableCell(withIdentifier: RepVoteCell.identifier, for: indexPath)
@@ -155,12 +155,12 @@ class RepInfoView: UIView {
     func configureBillsTableView() {
         billsTableView.register(SponsoredBillCell.self, forCellReuseIdentifier: SponsoredBillCell.identifier)
         billsTableView.estimatedRowHeight = 45
-        billsTableView.rowHeight = UITableViewAutomaticDimension
+        billsTableView.rowHeight = UITableView.automaticDimension
         billsTableView.separatorInset = .zero
         billsTableView.tableFooterView = UIView()
         billsTableView.backgroundColor = .clear
         billsTableView.showsVerticalScrollIndicator = false
-        billsTableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0)
+        billsTableView.contentInset = UIEdgeInsets(top: -36, left: 0, bottom: 0, right: 0)
 
         billsDataSource.configureCell = { dataSource, tableView, indexPath, item in
             let basicCell = tableView.dequeueReusableCell(withIdentifier: SponsoredBillCell.identifier, for: indexPath)
@@ -273,7 +273,7 @@ extension RepInfoView: ViewBuilder {
     private func addSlideView() {
         managerView.addSubview(slideView)
         slideView.backgroundColor = .kratosRed
-        managerView.bringSubview(toFront: slideView)
+        managerView.bringSubviewToFront(slideView)
 
         slideView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()

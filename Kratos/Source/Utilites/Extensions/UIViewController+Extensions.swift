@@ -100,7 +100,7 @@ extension UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.backItem?.title = ""
         navigationController?.navigationBar.tintColor = Color.lightGray.value
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: Font.h3.value]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: Font.h3.value]
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
@@ -122,14 +122,14 @@ extension UIViewController {
     /// A sequence of CGFloat values for the endHeight of a UIKeyboard's height.
     var keyboardHeight: ControlEvent<CGFloat> {
         let frameheight = NotificationCenter.default.rx
-                            .notification(NSNotification.Name.UIKeyboardWillChangeFrame)
+            .notification(UIResponder.keyboardWillChangeFrameNotification)
                             .map { notification -> CGFloat? in
-                                guard let frame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else { return nil }
+                                guard let frame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return nil }
                                 return frame.cgRectValue.height
                             }
                             .filterNil()
         let hideHeight = NotificationCenter.default.rx
-                            .notification(NSNotification.Name.UIKeyboardWillHide)
+            .notification(UIResponder.keyboardWillHideNotification)
                             .map { _ in CGFloat(0) }
         return ControlEvent(events: Observable.of(frameheight, hideHeight).merge())
     }

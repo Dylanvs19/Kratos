@@ -12,7 +12,7 @@ public class LoadMoreSpinnerView: UIView {
     
     lazy var spinner: UIActivityIndicatorView  = {
         let tmpAct = UIActivityIndicatorView()
-        tmpAct.activityIndicatorViewStyle = .gray
+        tmpAct.style = .gray
         return tmpAct
     }()
     

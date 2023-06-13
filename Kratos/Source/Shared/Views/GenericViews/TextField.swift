@@ -212,7 +212,7 @@ class TextField: UIView {
     }
     
     private func configureTextField() {
-        bringSubview(toFront: textField)
+        bringSubviewToFront(textField)
         textField.delegate = self
         textField.font = style.font.value
         textField.keyboardType = type.keyboardType
@@ -223,7 +223,7 @@ class TextField: UIView {
     }
     
     private func configurePlaceholder() {
-        sendSubview(toBack: placeholderLabel)
+        sendSubviewToBack(placeholderLabel)
         placeholderLabel.font = style.font.value
         placeholderLabel.text = placeholder
         placeholderLabel.textAlignment = .center

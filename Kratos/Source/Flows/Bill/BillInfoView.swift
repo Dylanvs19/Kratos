@@ -147,7 +147,7 @@ class BillInfoView: UIView, CurtainPresenter {
     fileprivate func configureVotesTableView() {
         votesTableView.register(TallyCell.self, forCellReuseIdentifier: TallyCell.identifier)
         votesTableView.estimatedRowHeight = 150
-        votesTableView.rowHeight = UITableViewAutomaticDimension
+        votesTableView.rowHeight = UITableView.automaticDimension
         votesTableView.separatorInset = .zero
         votesTableView.tableFooterView = UIView()
         votesTableView.backgroundColor = .clear
@@ -168,7 +168,7 @@ class BillInfoView: UIView, CurtainPresenter {
     fileprivate func configureSponsorsTableView() {
         sponsorsTableView.register(RepresentativeCell.self, forCellReuseIdentifier: RepresentativeCell.identifier)
         sponsorsTableView.estimatedRowHeight = 100
-        sponsorsTableView.rowHeight = UITableViewAutomaticDimension
+        sponsorsTableView.rowHeight = UITableView.automaticDimension
         sponsorsTableView.separatorInset = .zero
         sponsorsTableView.tableFooterView = UIView()
         sponsorsTableView.backgroundColor = .clear
@@ -184,7 +184,7 @@ class BillInfoView: UIView, CurtainPresenter {
     fileprivate func configureDetailsTableView() {
         detailsTableView.register(DetailCell.self, forCellReuseIdentifier: DetailCell.identifier)
         detailsTableView.estimatedRowHeight = 100
-        detailsTableView.rowHeight = UITableViewAutomaticDimension
+        detailsTableView.rowHeight = UITableView.automaticDimension
         detailsTableView.separatorInset = .zero
         detailsTableView.tableFooterView = UIView()
         detailsTableView.backgroundColor = .clear
@@ -322,7 +322,7 @@ extension BillInfoView: ViewBuilder {
     func styleViews() {
         managerView.style(with: .backgroundColor(.white))
         slideView.style(with: .backgroundColor(.kratosRed))
-        managerView.bringSubview(toFront: slideView)
+        managerView.bringSubviewToFront(slideView)
         votesEmptyLabel.style(with: [.font(.h3),
                                      .titleColor(.kratosRed),
                                      .numberOfLines(3),

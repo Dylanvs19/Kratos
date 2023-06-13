@@ -46,7 +46,7 @@ class RepresentativeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         }
         
         containerView.addSubview(toView)
-        containerView.bringSubview(toFront: toView)
+        containerView.bringSubviewToFront(toView)
         UIView.animate(withDuration: duration, delay:0.0,
                        usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0,
                        animations: {

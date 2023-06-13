@@ -84,7 +84,7 @@ class SubjectSelectionController: UIViewController, CurtainPresenter, AnalyticsE
         tableView.register(SubjectSelectionCell.self, forCellReuseIdentifier: SubjectSelectionCell.identifier)
         tableView.estimatedRowHeight = 100
         tableView.tableHeaderView = nil
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.allowsMultipleSelection = true
         tableView.tableFooterView = UIView()
         tableView.showsVerticalScrollIndicator = false

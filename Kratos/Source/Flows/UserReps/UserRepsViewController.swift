@@ -157,7 +157,7 @@ extension UserRepsViewController: ViewBuilder {
     
     private func addStateButton() {
         view.addSubview(stateButton)
-        stateButton.contentEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5)
+        stateButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         stateButton.style(with: [.font(.tab),
                                  .cornerRadius(4),
                                  .backgroundColor(.kratosGreen)])

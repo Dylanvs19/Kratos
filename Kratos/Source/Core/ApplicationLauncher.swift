@@ -50,7 +50,7 @@ struct ApplicationLauncher {
     
     static func rootTransition(to viewController: UIViewController,
                                duration: TimeInterval = 1.0,
-                               animationOptions: UIViewAnimationOptions = .transitionCrossDissolve,
+                               animationOptions: UIView.AnimationOptions = .transitionCrossDissolve,
                                completion: ((Bool) -> Void)? = nil) {
         guard case .some(.some(let window)) = UIApplication.shared.delegate?.window else {
             fatalError("Could not unwrap application window")

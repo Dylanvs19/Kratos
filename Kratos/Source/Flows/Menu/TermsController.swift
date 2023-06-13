@@ -22,7 +22,7 @@ class TermsController: UIViewController , WKNavigationDelegate, CurtainPresenter
         let request = URLRequest(url: url)
         webView.load(request)
         self.view.addSubview(webView)
-        self.view.sendSubview(toBack: webView)
+        self.view.sendSubviewToBack(webView)
         self.addCurtain()
     }
     

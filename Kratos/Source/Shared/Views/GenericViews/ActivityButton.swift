@@ -13,7 +13,7 @@ class ActivityButton: UIButton {
     // MARK: - properties -
     private let disposeBag = DisposeBag()
     let active = BehaviorSubject(value: false)
-    private let spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
+    private let spinner = UIActivityIndicatorView(style: .white)
     private let style: ButtonStyle
     
     // MARK: - initialization -
